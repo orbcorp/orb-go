@@ -1,0 +1,414 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package orb
+
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"net/url"
+	"time"
+
+	"github.com/orbcorp/orb-go/internal/apijson"
+	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/param"
+	"github.com/orbcorp/orb-go/internal/requestconfig"
+	"github.com/orbcorp/orb-go/internal/shared"
+	"github.com/orbcorp/orb-go/option"
+)
+
+// MetricService contains methods and other services that help with interacting
+// with the orb API. Note, unlike clients, this service does not read variables
+// from the environment automatically. You should not instantiate this service
+// directly, and instead use the [NewMetricService] method instead.
+type MetricService struct {
+	Options []option.RequestOption
+}
+
+// NewMetricService generates a new service that applies the given options to each
+// request. These options are applied after the parent client's options (if there
+// is one), and before any request-specific options.
+func NewMetricService(opts ...option.RequestOption) (r *MetricService) {
+	r = &MetricService{}
+	r.Options = opts
+	return
+}
+
+// This endpoint is used to create a [metric](../guides/concepts##metric) using a
+// SQL string. See
+// [SQL support](../guides/extensibility/advanced-metrics#sql-support) for a
+// description of constructing SQL queries with examples.
+func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...option.RequestOption) (res *MetricNewResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "metrics"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// This endpoint is used to fetch [metric](../guides/concepts#metric) details given
+// a metric identifier. It returns information about the metrics including its
+// name, description, and item.
+func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *shared.Page[MetricListResponse], err error) {
+	var raw *http.Response
+	opts = append(r.Options, opts...)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	path := "metrics"
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// This endpoint is used to fetch [metric](../guides/concepts#metric) details given
+// a metric identifier. It returns information about the metrics including its
+// name, description, and item.
+func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *shared.PageAutoPager[MetricListResponse] {
+	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+}
+
+// This endpoint is used to list [metrics](../guides/concepts##metric). It returns
+// information about the metrics including its name, description, and item.
+func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *MetricFetchResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("metrics/%s", metricID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// The Metric resource represents a calculation of a quantity based on events.
+// Metrics are defined by the query that transforms raw usage events into
+// meaningful values for your customers.
+type MetricNewResponse struct {
+	ID          string `json:"id,required"`
+	Description string `json:"description,required,nullable"`
+	// The Item resource represents a sellable product or good. Items are associated
+	// with all line items, billable metrics, and prices and are used for defining
+	// external sync behavior for invoices and tax calculation purposes.
+	Item     MetricNewResponseItem   `json:"item,required"`
+	Metadata map[string]string       `json:"metadata,required"`
+	Name     string                  `json:"name,required"`
+	Status   MetricNewResponseStatus `json:"status,required"`
+	JSON     metricNewResponseJSON
+}
+
+// metricNewResponseJSON contains the JSON metadata for the struct
+// [MetricNewResponse]
+type metricNewResponseJSON struct {
+	ID          apijson.Field
+	Description apijson.Field
+	Item        apijson.Field
+	Metadata    apijson.Field
+	Name        apijson.Field
+	Status      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MetricNewResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The Item resource represents a sellable product or good. Items are associated
+// with all line items, billable metrics, and prices and are used for defining
+// external sync behavior for invoices and tax calculation purposes.
+type MetricNewResponseItem struct {
+	ID                  string                                    `json:"id,required"`
+	CreatedAt           time.Time                                 `json:"created_at,required" format:"date-time"`
+	ExternalConnections []MetricNewResponseItemExternalConnection `json:"external_connections,required"`
+	Name                string                                    `json:"name,required"`
+	JSON                metricNewResponseItemJSON
+}
+
+// metricNewResponseItemJSON contains the JSON metadata for the struct
+// [MetricNewResponseItem]
+type metricNewResponseItemJSON struct {
+	ID                  apijson.Field
+	CreatedAt           apijson.Field
+	ExternalConnections apijson.Field
+	Name                apijson.Field
+	raw                 string
+	ExtraFields         map[string]apijson.Field
+}
+
+func (r *MetricNewResponseItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type MetricNewResponseItemExternalConnection struct {
+	ExternalConnectionName MetricNewResponseItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
+	ExternalEntityID       string                                                         `json:"external_entity_id,required"`
+	JSON                   metricNewResponseItemExternalConnectionJSON
+}
+
+// metricNewResponseItemExternalConnectionJSON contains the JSON metadata for the
+// struct [MetricNewResponseItemExternalConnection]
+type metricNewResponseItemExternalConnectionJSON struct {
+	ExternalConnectionName apijson.Field
+	ExternalEntityID       apijson.Field
+	raw                    string
+	ExtraFields            map[string]apijson.Field
+}
+
+func (r *MetricNewResponseItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type MetricNewResponseItemExternalConnectionsExternalConnectionName string
+
+const (
+	MetricNewResponseItemExternalConnectionsExternalConnectionNameStripe     MetricNewResponseItemExternalConnectionsExternalConnectionName = "stripe"
+	MetricNewResponseItemExternalConnectionsExternalConnectionNameQuickbooks MetricNewResponseItemExternalConnectionsExternalConnectionName = "quickbooks"
+	MetricNewResponseItemExternalConnectionsExternalConnectionNameBillCom    MetricNewResponseItemExternalConnectionsExternalConnectionName = "bill.com"
+	MetricNewResponseItemExternalConnectionsExternalConnectionNameNetsuite   MetricNewResponseItemExternalConnectionsExternalConnectionName = "netsuite"
+	MetricNewResponseItemExternalConnectionsExternalConnectionNameTaxjar     MetricNewResponseItemExternalConnectionsExternalConnectionName = "taxjar"
+	MetricNewResponseItemExternalConnectionsExternalConnectionNameAvalara    MetricNewResponseItemExternalConnectionsExternalConnectionName = "avalara"
+	MetricNewResponseItemExternalConnectionsExternalConnectionNameAnrok      MetricNewResponseItemExternalConnectionsExternalConnectionName = "anrok"
+)
+
+type MetricNewResponseStatus string
+
+const (
+	MetricNewResponseStatusActive   MetricNewResponseStatus = "active"
+	MetricNewResponseStatusDraft    MetricNewResponseStatus = "draft"
+	MetricNewResponseStatusArchived MetricNewResponseStatus = "archived"
+)
+
+// The Metric resource represents a calculation of a quantity based on events.
+// Metrics are defined by the query that transforms raw usage events into
+// meaningful values for your customers.
+type MetricListResponse struct {
+	ID          string `json:"id,required"`
+	Description string `json:"description,required,nullable"`
+	// The Item resource represents a sellable product or good. Items are associated
+	// with all line items, billable metrics, and prices and are used for defining
+	// external sync behavior for invoices and tax calculation purposes.
+	Item     MetricListResponseItem   `json:"item,required"`
+	Metadata map[string]string        `json:"metadata,required"`
+	Name     string                   `json:"name,required"`
+	Status   MetricListResponseStatus `json:"status,required"`
+	JSON     metricListResponseJSON
+}
+
+// metricListResponseJSON contains the JSON metadata for the struct
+// [MetricListResponse]
+type metricListResponseJSON struct {
+	ID          apijson.Field
+	Description apijson.Field
+	Item        apijson.Field
+	Metadata    apijson.Field
+	Name        apijson.Field
+	Status      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MetricListResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The Item resource represents a sellable product or good. Items are associated
+// with all line items, billable metrics, and prices and are used for defining
+// external sync behavior for invoices and tax calculation purposes.
+type MetricListResponseItem struct {
+	ID                  string                                     `json:"id,required"`
+	CreatedAt           time.Time                                  `json:"created_at,required" format:"date-time"`
+	ExternalConnections []MetricListResponseItemExternalConnection `json:"external_connections,required"`
+	Name                string                                     `json:"name,required"`
+	JSON                metricListResponseItemJSON
+}
+
+// metricListResponseItemJSON contains the JSON metadata for the struct
+// [MetricListResponseItem]
+type metricListResponseItemJSON struct {
+	ID                  apijson.Field
+	CreatedAt           apijson.Field
+	ExternalConnections apijson.Field
+	Name                apijson.Field
+	raw                 string
+	ExtraFields         map[string]apijson.Field
+}
+
+func (r *MetricListResponseItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type MetricListResponseItemExternalConnection struct {
+	ExternalConnectionName MetricListResponseItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
+	ExternalEntityID       string                                                          `json:"external_entity_id,required"`
+	JSON                   metricListResponseItemExternalConnectionJSON
+}
+
+// metricListResponseItemExternalConnectionJSON contains the JSON metadata for the
+// struct [MetricListResponseItemExternalConnection]
+type metricListResponseItemExternalConnectionJSON struct {
+	ExternalConnectionName apijson.Field
+	ExternalEntityID       apijson.Field
+	raw                    string
+	ExtraFields            map[string]apijson.Field
+}
+
+func (r *MetricListResponseItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type MetricListResponseItemExternalConnectionsExternalConnectionName string
+
+const (
+	MetricListResponseItemExternalConnectionsExternalConnectionNameStripe     MetricListResponseItemExternalConnectionsExternalConnectionName = "stripe"
+	MetricListResponseItemExternalConnectionsExternalConnectionNameQuickbooks MetricListResponseItemExternalConnectionsExternalConnectionName = "quickbooks"
+	MetricListResponseItemExternalConnectionsExternalConnectionNameBillCom    MetricListResponseItemExternalConnectionsExternalConnectionName = "bill.com"
+	MetricListResponseItemExternalConnectionsExternalConnectionNameNetsuite   MetricListResponseItemExternalConnectionsExternalConnectionName = "netsuite"
+	MetricListResponseItemExternalConnectionsExternalConnectionNameTaxjar     MetricListResponseItemExternalConnectionsExternalConnectionName = "taxjar"
+	MetricListResponseItemExternalConnectionsExternalConnectionNameAvalara    MetricListResponseItemExternalConnectionsExternalConnectionName = "avalara"
+	MetricListResponseItemExternalConnectionsExternalConnectionNameAnrok      MetricListResponseItemExternalConnectionsExternalConnectionName = "anrok"
+)
+
+type MetricListResponseStatus string
+
+const (
+	MetricListResponseStatusActive   MetricListResponseStatus = "active"
+	MetricListResponseStatusDraft    MetricListResponseStatus = "draft"
+	MetricListResponseStatusArchived MetricListResponseStatus = "archived"
+)
+
+// The Metric resource represents a calculation of a quantity based on events.
+// Metrics are defined by the query that transforms raw usage events into
+// meaningful values for your customers.
+type MetricFetchResponse struct {
+	ID          string `json:"id,required"`
+	Description string `json:"description,required,nullable"`
+	// The Item resource represents a sellable product or good. Items are associated
+	// with all line items, billable metrics, and prices and are used for defining
+	// external sync behavior for invoices and tax calculation purposes.
+	Item     MetricFetchResponseItem   `json:"item,required"`
+	Metadata map[string]string         `json:"metadata,required"`
+	Name     string                    `json:"name,required"`
+	Status   MetricFetchResponseStatus `json:"status,required"`
+	JSON     metricFetchResponseJSON
+}
+
+// metricFetchResponseJSON contains the JSON metadata for the struct
+// [MetricFetchResponse]
+type metricFetchResponseJSON struct {
+	ID          apijson.Field
+	Description apijson.Field
+	Item        apijson.Field
+	Metadata    apijson.Field
+	Name        apijson.Field
+	Status      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MetricFetchResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The Item resource represents a sellable product or good. Items are associated
+// with all line items, billable metrics, and prices and are used for defining
+// external sync behavior for invoices and tax calculation purposes.
+type MetricFetchResponseItem struct {
+	ID                  string                                      `json:"id,required"`
+	CreatedAt           time.Time                                   `json:"created_at,required" format:"date-time"`
+	ExternalConnections []MetricFetchResponseItemExternalConnection `json:"external_connections,required"`
+	Name                string                                      `json:"name,required"`
+	JSON                metricFetchResponseItemJSON
+}
+
+// metricFetchResponseItemJSON contains the JSON metadata for the struct
+// [MetricFetchResponseItem]
+type metricFetchResponseItemJSON struct {
+	ID                  apijson.Field
+	CreatedAt           apijson.Field
+	ExternalConnections apijson.Field
+	Name                apijson.Field
+	raw                 string
+	ExtraFields         map[string]apijson.Field
+}
+
+func (r *MetricFetchResponseItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type MetricFetchResponseItemExternalConnection struct {
+	ExternalConnectionName MetricFetchResponseItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
+	ExternalEntityID       string                                                           `json:"external_entity_id,required"`
+	JSON                   metricFetchResponseItemExternalConnectionJSON
+}
+
+// metricFetchResponseItemExternalConnectionJSON contains the JSON metadata for the
+// struct [MetricFetchResponseItemExternalConnection]
+type metricFetchResponseItemExternalConnectionJSON struct {
+	ExternalConnectionName apijson.Field
+	ExternalEntityID       apijson.Field
+	raw                    string
+	ExtraFields            map[string]apijson.Field
+}
+
+func (r *MetricFetchResponseItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type MetricFetchResponseItemExternalConnectionsExternalConnectionName string
+
+const (
+	MetricFetchResponseItemExternalConnectionsExternalConnectionNameStripe     MetricFetchResponseItemExternalConnectionsExternalConnectionName = "stripe"
+	MetricFetchResponseItemExternalConnectionsExternalConnectionNameQuickbooks MetricFetchResponseItemExternalConnectionsExternalConnectionName = "quickbooks"
+	MetricFetchResponseItemExternalConnectionsExternalConnectionNameBillCom    MetricFetchResponseItemExternalConnectionsExternalConnectionName = "bill.com"
+	MetricFetchResponseItemExternalConnectionsExternalConnectionNameNetsuite   MetricFetchResponseItemExternalConnectionsExternalConnectionName = "netsuite"
+	MetricFetchResponseItemExternalConnectionsExternalConnectionNameTaxjar     MetricFetchResponseItemExternalConnectionsExternalConnectionName = "taxjar"
+	MetricFetchResponseItemExternalConnectionsExternalConnectionNameAvalara    MetricFetchResponseItemExternalConnectionsExternalConnectionName = "avalara"
+	MetricFetchResponseItemExternalConnectionsExternalConnectionNameAnrok      MetricFetchResponseItemExternalConnectionsExternalConnectionName = "anrok"
+)
+
+type MetricFetchResponseStatus string
+
+const (
+	MetricFetchResponseStatusActive   MetricFetchResponseStatus = "active"
+	MetricFetchResponseStatusDraft    MetricFetchResponseStatus = "draft"
+	MetricFetchResponseStatusArchived MetricFetchResponseStatus = "archived"
+)
+
+type MetricNewParams struct {
+	// A description of the metric.
+	Description param.Field[string] `json:"description,required"`
+	// The id of the item
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The name of the metric.
+	Name param.Field[string] `json:"name,required"`
+	// A sql string defining the metric.
+	Sql param.Field[string] `json:"sql,required"`
+	// User-specified key value pairs, often useful for referencing internal resources
+	// or IDs. Returned as-is in the metric resource.
+	Metadata param.Field[interface{}] `json:"metadata"`
+}
+
+func (r MetricNewParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type MetricListParams struct {
+	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
+	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
+	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
+	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
+	// Cursor for pagination. This can be populated by the `next_cursor` value returned
+	// from the initial request.
+	Cursor param.Field[string] `query:"cursor"`
+	// The number of items to fetch. Defaults to 20.
+	Limit param.Field[int64] `query:"limit"`
+}
+
+// URLQuery serializes [MetricListParams]'s query parameters as `url.Values`.
+func (r MetricListParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
