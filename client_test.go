@@ -30,8 +30,8 @@ func TestContextCancel(t *testing.T) {
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
 	res, err := client.Customers.New(cancelCtx, orb.CustomerNewParams{
-		Email: orb.F("string"),
-		Name:  orb.F("string"),
+		Email: orb.F("example-customer@withorb.com"),
+		Name:  orb.F("My Customer"),
 	})
 	if err == nil || res != nil {
 		t.Error("Expected there to be a cancel error and for the response to be nil")
@@ -65,8 +65,8 @@ func TestContextCancelDelay(t *testing.T) {
 		cancel()
 	}()
 	res, err := client.Customers.New(cancelCtx, orb.CustomerNewParams{
-		Email: orb.F("string"),
-		Name:  orb.F("string"),
+		Email: orb.F("example-customer@withorb.com"),
+		Name:  orb.F("My Customer"),
 	})
 	if err == nil || res != nil {
 		t.Error("expected there to be a cancel error and for the response to be nil")
@@ -96,8 +96,8 @@ func TestContextDeadline(t *testing.T) {
 			option.WithHTTPClient(&http.Client{Transport: &neverTransport{}}),
 		)
 		res, err := client.Customers.New(deadlineCtx, orb.CustomerNewParams{
-			Email: orb.F("string"),
-			Name:  orb.F("string"),
+			Email: orb.F("example-customer@withorb.com"),
+			Name:  orb.F("My Customer"),
 		})
 		if err == nil || res != nil {
 			t.Error("expected there to be a deadline error and for the response to be nil")

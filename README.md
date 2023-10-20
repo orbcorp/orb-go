@@ -42,8 +42,8 @@ func main() {
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("ORB_API_KEY")
 	)
 	customer, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
-		Email: orb.F("string"),
-		Name:  orb.F("string"),
+		Email: orb.F("example-customer@withorb.com"),
+		Name:  orb.F("My Customer"),
 	})
 	if err != nil {
 		panic(err.Error())
@@ -192,8 +192,8 @@ To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
 _, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
-	Email: orb.F("string"),
-	Name:  orb.F("string"),
+	Email: orb.F("example-customer@withorb.com"),
+	Name:  orb.F("My Customer"),
 })
 if err != nil {
 	var apierr *orb.Error
@@ -222,8 +222,8 @@ defer cancel()
 client.Customers.New(
 	ctx,
 	orb.CustomerNewParams{
-		Email: orb.F("string"),
-		Name:  orb.F("string"),
+		Email: orb.F("example-customer@withorb.com"),
+		Name:  orb.F("My Customer"),
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -248,8 +248,8 @@ client := orb.NewClient(
 client.Customers.New(
 	context.TODO(),
 	orb.CustomerNewParams{
-		Email: orb.F("string"),
-		Name:  orb.F("string"),
+		Email: orb.F("example-customer@withorb.com"),
+		Name:  orb.F("My Customer"),
 	},
 	option.WithMaxRetries(5),
 )

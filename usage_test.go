@@ -25,8 +25,8 @@ func TestUsage(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	customer, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
-		Email: orb.F("string"),
-		Name:  orb.F("string"),
+		Email: orb.F("example-customer@withorb.com"),
+		Name:  orb.F("My Customer"),
 	})
 	if err != nil {
 		t.Error(err)
