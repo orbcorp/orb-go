@@ -7,17 +7,25 @@ API](https://www.withorb.com/https://docs.withorb.com/reference/api-reference) f
 
 ## Installation
 
+<!-- x-release-please-start-version -->
+
 ```go
 import (
 	"github.com/orbcorp/orb-go" // imported as orb
 )
 ```
 
+<!-- x-release-please-end -->
+
 Or to pin the version:
+
+<!-- x-release-please-start-version -->
 
 ```sh
 go get -u 'github.com/orbcorp/orb-go@v0.0.1'
 ```
+
+<!-- x-release-please-end -->
 
 ## Requirements
 
