@@ -26,7 +26,12 @@ func TestCouponNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Coupons.New(context.TODO(), orb.CouponNewParams{
-		Discount:         orb.F[any](map[string]interface{}{}),
+		Discount: orb.F[orb.CouponNewParamsDiscount](orb.CouponNewParamsDiscountPercentageDiscount(orb.CouponNewParamsDiscountPercentageDiscount{
+			DiscountType:       orb.F(orb.CouponNewParamsDiscountPercentageDiscountDiscountTypePercentage),
+			AppliesToPriceIDs:  orb.F([]string{"h74gfhdjvn7ujokd", "7hfgtgjnbvc3ujkl"}),
+			Reason:             orb.F("string"),
+			PercentageDiscount: orb.F(0.150000),
+		})),
 		RedemptionCode:   orb.F("HALFOFF"),
 		DurationInMonths: orb.F(int64(12)),
 		MaxRedemptions:   orb.F(int64(0)),

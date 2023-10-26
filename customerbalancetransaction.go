@@ -167,9 +167,14 @@ func (r *CustomerBalanceTransactionNewResponse) UnmarshalJSON(data []byte) (err 
 type CustomerBalanceTransactionNewResponseAction string
 
 const (
-	CustomerBalanceTransactionNewResponseActionAppliedToInvoice CustomerBalanceTransactionNewResponseAction = "applied_to_invoice"
-	CustomerBalanceTransactionNewResponseActionProratedRefund   CustomerBalanceTransactionNewResponseAction = "prorated_refund"
-	CustomerBalanceTransactionNewResponseActionManualAdjustment CustomerBalanceTransactionNewResponseAction = "manual_adjustment"
+	CustomerBalanceTransactionNewResponseActionAppliedToInvoice     CustomerBalanceTransactionNewResponseAction = "applied_to_invoice"
+	CustomerBalanceTransactionNewResponseActionManualAdjustment     CustomerBalanceTransactionNewResponseAction = "manual_adjustment"
+	CustomerBalanceTransactionNewResponseActionProratedRefund       CustomerBalanceTransactionNewResponseAction = "prorated_refund"
+	CustomerBalanceTransactionNewResponseActionRevertProratedRefund CustomerBalanceTransactionNewResponseAction = "revert_prorated_refund"
+	CustomerBalanceTransactionNewResponseActionReturnFromVoiding    CustomerBalanceTransactionNewResponseAction = "return_from_voiding"
+	CustomerBalanceTransactionNewResponseActionCreditNoteApplied    CustomerBalanceTransactionNewResponseAction = "credit_note_applied"
+	CustomerBalanceTransactionNewResponseActionCreditNoteVoided     CustomerBalanceTransactionNewResponseAction = "credit_note_voided"
+	CustomerBalanceTransactionNewResponseActionOverpaymentRefund    CustomerBalanceTransactionNewResponseAction = "overpayment_refund"
 )
 
 type CustomerBalanceTransactionNewResponseCreditNote struct {
@@ -261,9 +266,14 @@ func (r *CustomerBalanceTransactionListResponse) UnmarshalJSON(data []byte) (err
 type CustomerBalanceTransactionListResponseAction string
 
 const (
-	CustomerBalanceTransactionListResponseActionAppliedToInvoice CustomerBalanceTransactionListResponseAction = "applied_to_invoice"
-	CustomerBalanceTransactionListResponseActionProratedRefund   CustomerBalanceTransactionListResponseAction = "prorated_refund"
-	CustomerBalanceTransactionListResponseActionManualAdjustment CustomerBalanceTransactionListResponseAction = "manual_adjustment"
+	CustomerBalanceTransactionListResponseActionAppliedToInvoice     CustomerBalanceTransactionListResponseAction = "applied_to_invoice"
+	CustomerBalanceTransactionListResponseActionManualAdjustment     CustomerBalanceTransactionListResponseAction = "manual_adjustment"
+	CustomerBalanceTransactionListResponseActionProratedRefund       CustomerBalanceTransactionListResponseAction = "prorated_refund"
+	CustomerBalanceTransactionListResponseActionRevertProratedRefund CustomerBalanceTransactionListResponseAction = "revert_prorated_refund"
+	CustomerBalanceTransactionListResponseActionReturnFromVoiding    CustomerBalanceTransactionListResponseAction = "return_from_voiding"
+	CustomerBalanceTransactionListResponseActionCreditNoteApplied    CustomerBalanceTransactionListResponseAction = "credit_note_applied"
+	CustomerBalanceTransactionListResponseActionCreditNoteVoided     CustomerBalanceTransactionListResponseAction = "credit_note_voided"
+	CustomerBalanceTransactionListResponseActionOverpaymentRefund    CustomerBalanceTransactionListResponseAction = "overpayment_refund"
 )
 
 type CustomerBalanceTransactionListResponseCreditNote struct {
