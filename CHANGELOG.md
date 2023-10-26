@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 (2023-10-26)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/orbcorp/orb-go/compare/v0.2.0...v0.2.1)
+
+### Bug Fixes
+
+* rename customer.credits.ledger.create_entry_by_exteral_id and RequestValidationErrors ([#7](https://github.com/orbcorp/orb-go/issues/7)) ([778f476](https://github.com/orbcorp/orb-go/commit/778f4766e6a730ead8840915e71c16a30a8f347d))
+
 ## 0.2.0 (2023-10-26)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/orbcorp/orb-go/compare/v0.1.0...v0.2.0)
