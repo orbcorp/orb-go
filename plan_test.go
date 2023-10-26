@@ -27,9 +27,23 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Plans.New(context.TODO(), orb.PlanNewParams{
-		Currency:           orb.F("string"),
-		Name:               orb.F("string"),
-		Prices:             orb.F([]interface{}{map[string]interface{}{}}),
+		Currency: orb.F("string"),
+		Name:     orb.F("string"),
+		Prices: orb.F([]orb.PlanNewParamsPrice{orb.PlanNewParamsPricesNewPlanUnitPrice(orb.PlanNewParamsPricesNewPlanUnitPrice{
+			ExternalPriceID:    orb.F("string"),
+			Name:               orb.F("Annual fee"),
+			BillableMetricID:   orb.F("string"),
+			ItemID:             orb.F("string"),
+			BilledInAdvance:    orb.F(true),
+			FixedPriceQuantity: orb.F(0.000000),
+			InvoiceGroupingKey: orb.F("string"),
+			Cadence:            orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceCadenceAnnual),
+			ModelType:          orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceModelTypeUnit),
+			UnitConfig: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceUnitConfig{
+				UnitAmount:    orb.F("string"),
+				ScalingFactor: orb.F(0.000000),
+			}),
+		})}),
 		DefaultInvoiceMemo: orb.F("string"),
 		ExternalPlanID:     orb.F("string"),
 		Metadata:           orb.F[any](map[string]interface{}{}),

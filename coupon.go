@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"reflect"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -15,6 +16,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/tidwall/gjson"
 )
 
 // CouponService contains methods and other services that help with interacting
@@ -111,8 +113,8 @@ type Coupon struct {
 	ID string `json:"id,required"`
 	// An archived coupon can no longer be redeemed. Active coupons will have a value
 	// of null for `archived_at`; this field will be non-null for archived coupons.
-	ArchivedAt time.Time   `json:"archived_at,required,nullable" format:"date-time"`
-	Discount   interface{} `json:"discount,required"`
+	ArchivedAt time.Time      `json:"archived_at,required,nullable" format:"date-time"`
+	Discount   CouponDiscount `json:"discount,required"`
 	// This allows for a coupon's discount to apply for a limited time (determined in
 	// months); a `null` value here means "unlimited time".
 	DurationInMonths int64 `json:"duration_in_months,required,nullable"`
@@ -143,8 +145,100 @@ func (r *Coupon) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Union satisfied by [CouponDiscountPercentageDiscount] or
+// [CouponDiscountAmountDiscount].
+type CouponDiscount interface {
+	implementsCouponDiscount()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*CouponDiscount)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			DiscriminatorValue: "\"percentage\"",
+			Type:               reflect.TypeOf(CouponDiscountPercentageDiscount{}),
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			DiscriminatorValue: "\"amount\"",
+			Type:               reflect.TypeOf(CouponDiscountAmountDiscount{}),
+		},
+	)
+}
+
+type CouponDiscountPercentageDiscount struct {
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string                                     `json:"applies_to_price_ids,required"`
+	DiscountType      CouponDiscountPercentageDiscountDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	Reason             string  `json:"reason,nullable"`
+	JSON               couponDiscountPercentageDiscountJSON
+}
+
+// couponDiscountPercentageDiscountJSON contains the JSON metadata for the struct
+// [CouponDiscountPercentageDiscount]
+type couponDiscountPercentageDiscountJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	DiscountType       apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CouponDiscountPercentageDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r CouponDiscountPercentageDiscount) implementsCouponDiscount() {}
+
+type CouponDiscountPercentageDiscountDiscountType string
+
+const (
+	CouponDiscountPercentageDiscountDiscountTypePercentage CouponDiscountPercentageDiscountDiscountType = "percentage"
+)
+
+type CouponDiscountAmountDiscount struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string                                 `json:"applies_to_price_ids,required"`
+	DiscountType      CouponDiscountAmountDiscountDiscountType `json:"discount_type,required"`
+	Reason            string                                   `json:"reason,nullable"`
+	JSON              couponDiscountAmountDiscountJSON
+}
+
+// couponDiscountAmountDiscountJSON contains the JSON metadata for the struct
+// [CouponDiscountAmountDiscount]
+type couponDiscountAmountDiscountJSON struct {
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	DiscountType      apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *CouponDiscountAmountDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r CouponDiscountAmountDiscount) implementsCouponDiscount() {}
+
+type CouponDiscountAmountDiscountDiscountType string
+
+const (
+	CouponDiscountAmountDiscountDiscountTypeAmount CouponDiscountAmountDiscountDiscountType = "amount"
+)
+
 type CouponNewParams struct {
-	Discount param.Field[interface{}] `json:"discount,required"`
+	Discount param.Field[CouponNewParamsDiscount] `json:"discount,required"`
 	// This string can be used to redeem this coupon for a given subscription.
 	RedemptionCode param.Field[string] `json:"redemption_code,required"`
 	// This allows for a coupon's discount to apply for a limited time (determined in
@@ -158,6 +252,57 @@ type CouponNewParams struct {
 func (r CouponNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
+
+// Satisfied by [CouponNewParamsDiscountPercentageDiscount],
+// [CouponNewParamsDiscountAmountDiscount].
+type CouponNewParamsDiscount interface {
+	implementsCouponNewParamsDiscount()
+}
+
+type CouponNewParamsDiscountPercentageDiscount struct {
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string]                                              `json:"applies_to_price_ids,required"`
+	DiscountType      param.Field[CouponNewParamsDiscountPercentageDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount,required"`
+	Reason             param.Field[string]  `json:"reason"`
+}
+
+func (r CouponNewParamsDiscountPercentageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CouponNewParamsDiscountPercentageDiscount) implementsCouponNewParamsDiscount() {}
+
+type CouponNewParamsDiscountPercentageDiscountDiscountType string
+
+const (
+	CouponNewParamsDiscountPercentageDiscountDiscountTypePercentage CouponNewParamsDiscountPercentageDiscountDiscountType = "percentage"
+)
+
+type CouponNewParamsDiscountAmountDiscount struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount,required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string]                                          `json:"applies_to_price_ids,required"`
+	DiscountType      param.Field[CouponNewParamsDiscountAmountDiscountDiscountType] `json:"discount_type,required"`
+	Reason            param.Field[string]                                            `json:"reason"`
+}
+
+func (r CouponNewParamsDiscountAmountDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CouponNewParamsDiscountAmountDiscount) implementsCouponNewParamsDiscount() {}
+
+type CouponNewParamsDiscountAmountDiscountDiscountType string
+
+const (
+	CouponNewParamsDiscountAmountDiscountDiscountTypeAmount CouponNewParamsDiscountAmountDiscountDiscountType = "amount"
+)
 
 type CouponListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned

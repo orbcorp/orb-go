@@ -11,6 +11,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
+	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/tidwall/gjson"
 )
@@ -47,7 +48,7 @@ type InvoiceLineItemNewResponse struct {
 	ID string `json:"id,required"`
 	// The final amount after any discounts or minimums.
 	Amount   string          `json:"amount,required"`
-	Discount InvoiceDiscount `json:"discount,required,nullable"`
+	Discount shared.Discount `json:"discount,required,nullable"`
 	// The end date of the range of time applied for this line item's price.
 	EndDate time.Time `json:"end_date,required" format:"date-time"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will

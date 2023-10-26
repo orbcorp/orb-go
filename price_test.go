@@ -25,13 +25,13 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Prices.New(context.TODO(), orb.PriceNewParamsNewUnitPrice{
-		Cadence:   orb.F(orb.PriceNewParamsNewUnitPriceCadenceAnnual),
+	_, err := client.Prices.New(context.TODO(), orb.PriceNewParamsNewFloatingUnitPrice{
+		Cadence:   orb.F(orb.PriceNewParamsNewFloatingUnitPriceCadenceAnnual),
 		Currency:  orb.F("string"),
 		ItemID:    orb.F("string"),
-		ModelType: orb.F(orb.PriceNewParamsNewUnitPriceModelTypeUnit),
+		ModelType: orb.F(orb.PriceNewParamsNewFloatingUnitPriceModelTypeUnit),
 		Name:      orb.F("Annual fee"),
-		UnitConfig: orb.F(orb.PriceNewParamsNewUnitPriceUnitConfig{
+		UnitConfig: orb.F(orb.PriceNewParamsNewFloatingUnitPriceUnitConfig{
 			UnitAmount:    orb.F("string"),
 			ScalingFactor: orb.F(0.000000),
 		}),

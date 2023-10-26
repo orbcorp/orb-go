@@ -37,7 +37,7 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 // an active subscription.
 //
 // This endpoint will mark _all_ existing events within
-// `[timeframe_start, timeframe_end)` as _ignored_ for billing purpo ses, and Orb
+// `[timeframe_start, timeframe_end)` as _ignored_ for billing purposes, and Orb
 // will only use the _new_ events passed in the body of this request as the source
 // of truth for that timeframe moving forwards. Note that a given time period can
 // be amended any number of times, so events can be overwritten in subsequent calls
@@ -51,7 +51,7 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 //
 //   - account for gaps from your usage reporting mechanism
 //
-//   - make point-in-time fixes for specific event records, while ret aining the
+//   - make point-in-time fixes for specific event records, while retaining the
 //     original time of usage and associated metadata. This amendment API is designed
 //     with two explicit goals:
 //
@@ -59,10 +59,10 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 //     original events in the timeframe, though they will be ignored for billing
 //     calculations. For auditing a nd data fidelity purposes, Orb never overwrites
 //     or permanently deletes ingested usage data.
-//     2. Amendments always preser ve data **consistency**. In other words, either an
-//     amendment is fully processed by the system (and the new events for th e
+//     2. Amendments always preserve data **consistency**. In other words, either an
+//     amendment is fully processed by the system (and the new events for the
 //     timeframe are honored rather than the existing ones) or the amendment request
-//     fails. To maintain this important proper ty, Orb prevents _partial event
+//     fails. To maintain this important property, Orb prevents _partial event
 //     ingestion_ on this endpoint.
 //
 // ## Response semantics
@@ -74,12 +74,12 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 //     also not deprecate existing events in the time period.
 //   - You can assume that the amendment is successful on receipt of a `2xx`
 //     response.While a successful response from this endpoint indicates that the new
-//     events have been ingested, updati ng usage totals happens asynchronously and
+//     events have been ingested, updating usage totals happens asynchronously and
 //     may be delayed by a few minutes.
 //
 // As emphasized above, Orb will never show an inconsistent state (e.g. in invoice
 // previews or dashboards); either it will show the existing state (before the
-// amend ment) or the new state (with new events in the requested timeframe).
+// amendment) or the new state (with new events in the requested timeframe).
 //
 // ## Sample request body
 //
@@ -145,7 +145,7 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 // an active subscription.
 //
 // This endpoint will mark _all_ existing events within
-// `[timeframe_start, timeframe_end)` as _ignored_ for billing purpo ses, and Orb
+// `[timeframe_start, timeframe_end)` as _ignored_ for billing purposes, and Orb
 // will only use the _new_ events passed in the body of this request as the source
 // of truth for that timeframe moving forwards. Note that a given time period can
 // be amended any number of times, so events can be overwritten in subsequent calls
@@ -159,7 +159,7 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 //
 //   - account for gaps from your usage reporting mechanism
 //
-//   - make point-in-time fixes for specific event records, while ret aining the
+//   - make point-in-time fixes for specific event records, while retaining the
 //     original time of usage and associated metadata. This amendment API is designed
 //     with two explicit goals:
 //
@@ -167,10 +167,10 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 //     original events in the timeframe, though they will be ignored for billing
 //     calculations. For auditing a nd data fidelity purposes, Orb never overwrites
 //     or permanently deletes ingested usage data.
-//     2. Amendments always preser ve data **consistency**. In other words, either an
-//     amendment is fully processed by the system (and the new events for th e
+//     2. Amendments always preserve data **consistency**. In other words, either an
+//     amendment is fully processed by the system (and the new events for the
 //     timeframe are honored rather than the existing ones) or the amendment request
-//     fails. To maintain this important proper ty, Orb prevents _partial event
+//     fails. To maintain this important property, Orb prevents _partial event
 //     ingestion_ on this endpoint.
 //
 // ## Response semantics
@@ -182,12 +182,12 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 //     also not deprecate existing events in the time period.
 //   - You can assume that the amendment is successful on receipt of a `2xx`
 //     response.While a successful response from this endpoint indicates that the new
-//     events have been ingested, updati ng usage totals happens asynchronously and
+//     events have been ingested, updating usage totals happens asynchronously and
 //     may be delayed by a few minutes.
 //
 // As emphasized above, Orb will never show an inconsistent state (e.g. in invoice
 // previews or dashboards); either it will show the existing state (before the
-// amend ment) or the new state (with new events in the requested timeframe).
+// amendment) or the new state (with new events in the requested timeframe).
 //
 // ## Sample request body
 //
@@ -296,25 +296,13 @@ func (r *CustomerUsageUpdateByExternalIDResponse) UnmarshalJSON(data []byte) (er
 }
 
 type CustomerUsageUpdateParams struct {
-	// A name to meaningfully identify the action or event type.
-	EventName param.Field[string] `json:"event_name,required"`
-	// A dictionary of custom properties. Values in this dictionary must be numeric,
-	// boolean, or strings. Nested dictionaries are disallowed.
-	Properties param.Field[interface{}] `json:"properties,required"`
-	// An ISO 8601 format date with no timezone offset (i.e. UTC). This should
-	// represent the time that usage was recorded, and is particularly important to
-	// attribute usage to a given billing period.
-	Timestamp param.Field[time.Time] `json:"timestamp,required" format:"date-time"`
+	// Events to update
+	Events param.Field[[]CustomerUsageUpdateParamsEvent] `json:"events,required"`
 	// This bound is exclusive (i.e. events before this timestamp will be updated)
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
 	// This bound is inclusive (i.e. events with this timestamp onward, inclusive will
 	// be updated)
 	TimeframeStart param.Field[time.Time] `query:"timeframe_start" format:"date-time"`
-	// The Orb Customer identifier
-	CustomerID param.Field[string] `json:"customer_id"`
-	// An alias for the Orb customer, whose mapping is specified when creating the
-	// customer
-	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
 }
 
 func (r CustomerUsageUpdateParams) MarshalJSON() (data []byte, err error) {
@@ -330,7 +318,7 @@ func (r CustomerUsageUpdateParams) URLQuery() (v url.Values) {
 	})
 }
 
-type CustomerUsageUpdateByExternalIDParams struct {
+type CustomerUsageUpdateParamsEvent struct {
 	// A name to meaningfully identify the action or event type.
 	EventName param.Field[string] `json:"event_name,required"`
 	// A dictionary of custom properties. Values in this dictionary must be numeric,
@@ -340,16 +328,25 @@ type CustomerUsageUpdateByExternalIDParams struct {
 	// represent the time that usage was recorded, and is particularly important to
 	// attribute usage to a given billing period.
 	Timestamp param.Field[time.Time] `json:"timestamp,required" format:"date-time"`
-	// This bound is exclusive (i.e. events before this timestamp will be updated)
-	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
-	// This bound is inclusive (i.e. events with this timestamp onward, inclusive will
-	// be updated)
-	TimeframeStart param.Field[time.Time] `query:"timeframe_start" format:"date-time"`
 	// The Orb Customer identifier
 	CustomerID param.Field[string] `json:"customer_id"`
 	// An alias for the Orb customer, whose mapping is specified when creating the
 	// customer
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
+}
+
+func (r CustomerUsageUpdateParamsEvent) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type CustomerUsageUpdateByExternalIDParams struct {
+	// Events to update
+	Events param.Field[[]CustomerUsageUpdateByExternalIDParamsEvent] `json:"events,required"`
+	// This bound is exclusive (i.e. events before this timestamp will be updated)
+	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
+	// This bound is inclusive (i.e. events with this timestamp onward, inclusive will
+	// be updated)
+	TimeframeStart param.Field[time.Time] `query:"timeframe_start" format:"date-time"`
 }
 
 func (r CustomerUsageUpdateByExternalIDParams) MarshalJSON() (data []byte, err error) {
@@ -363,4 +360,25 @@ func (r CustomerUsageUpdateByExternalIDParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type CustomerUsageUpdateByExternalIDParamsEvent struct {
+	// A name to meaningfully identify the action or event type.
+	EventName param.Field[string] `json:"event_name,required"`
+	// A dictionary of custom properties. Values in this dictionary must be numeric,
+	// boolean, or strings. Nested dictionaries are disallowed.
+	Properties param.Field[interface{}] `json:"properties,required"`
+	// An ISO 8601 format date with no timezone offset (i.e. UTC). This should
+	// represent the time that usage was recorded, and is particularly important to
+	// attribute usage to a given billing period.
+	Timestamp param.Field[time.Time] `json:"timestamp,required" format:"date-time"`
+	// The Orb Customer identifier
+	CustomerID param.Field[string] `json:"customer_id"`
+	// An alias for the Orb customer, whose mapping is specified when creating the
+	// customer
+	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
+}
+
+func (r CustomerUsageUpdateByExternalIDParamsEvent) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }

@@ -70,8 +70,8 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 			Country:    orb.F("string"),
 		}),
 		TaxID: orb.F(orb.CustomerNewParamsTaxID{
-			Country: orb.F("string"),
-			Type:    orb.F("string"),
+			Country: orb.F(orb.CustomerNewParamsTaxIDCountryAe),
+			Type:    orb.F(orb.CustomerNewParamsTaxIDTypeAeTrn),
 			Value:   orb.F("string"),
 		}),
 		Timezone: orb.F("string"),
@@ -144,8 +144,8 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 				Country:    orb.F("string"),
 			}),
 			TaxID: orb.F(orb.CustomerUpdateParamsTaxID{
-				Country: orb.F("string"),
-				Type:    orb.F("string"),
+				Country: orb.F(orb.CustomerUpdateParamsTaxIDCountryAe),
+				Type:    orb.F(orb.CustomerUpdateParamsTaxIDTypeAeTrn),
 				Value:   orb.F("string"),
 			}),
 		},
@@ -313,8 +313,8 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 				Country:    orb.F("string"),
 			}),
 			TaxID: orb.F(orb.CustomerUpdateByExternalIDParamsTaxID{
-				Country: orb.F("string"),
-				Type:    orb.F("string"),
+				Country: orb.F(orb.CustomerUpdateByExternalIDParamsTaxIDCountryAe),
+				Type:    orb.F(orb.CustomerUpdateByExternalIDParamsTaxIDTypeAeTrn),
 				Value:   orb.F("string"),
 			}),
 		},

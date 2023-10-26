@@ -89,15 +89,17 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // With unit pricing, each unit costs a fixed amount.
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "unit",
-// "unit_config": {
-// "unit_amount": "0.50"
-// }
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "unit",
+//	  "unit_config": {
+//	    "unit_amount": "0.50"
+//	  }
+//	  ...
+//	}
+//
 // ```
 //
 // ### Tiered pricing
@@ -109,26 +111,28 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // new values for `first_unit`, `last_unit`, or `unit_amount`.
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "tiered",
-// "tiered_config": {
-// "tiers": [
-// {
-// "first_unit":"1",
-// "last_unit": "10",
-// "unit_amount": "0.50"
-// },
-// {
-// "first_unit": "10",
-// "last_unit": null,
-// "unit_amount": "0.10"
-// }
-// ]
-// }
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "tiered",
+//	  "tiered_config": {
+//	    "tiers": [
+//	      {
+//	        "first_unit":"1",
+//	        "last_unit": "10",
+//	        "unit_amount": "0.50"
+//	      },
+//	      {
+//	        "first_unit": "10",
+//	        "last_unit": null,
+//	        "unit_amount": "0.10"
+//	      }
+//	    ]
+//	  }
+//	  ...
+//	}
+//
 // ```
 //
 // ### Bulk pricing
@@ -141,24 +145,26 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // `unit_amount`.
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "bulk",
-// "bulk_config": {
-// "tiers": [
-// {
-// "maximum_units": "10",
-// "unit_amount": "0.50"
-// },
-// {
-// "maximum_units": "1000",
-// "unit_amount": "0.40"
-// }
-// ]
-// }
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "bulk",
+//	  "bulk_config": {
+//	    "tiers": [
+//	      {
+//	        "maximum_units": "10",
+//	        "unit_amount": "0.50"
+//	      },
+//	      {
+//	        "maximum_units": "1000",
+//	        "unit_amount": "0.40"
+//	      }
+//	    ]
+//	  }
+//	  ...
+//	}
+//
 // ```
 //
 // ### Package pricing
@@ -168,16 +174,18 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // and 6 units will be billed at 10.
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "package",
-// "package_config": {
-// "package_amount": "0.80",
-// "package_size": 10
-// }
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "package",
+//	  "package_config": {
+//	    "package_amount": "0.80",
+//	    "package_size": 10
+//	  }
+//	  ...
+//	}
+//
 // ```
 //
 // ### BPS pricing
@@ -188,16 +196,18 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // payment you process, with a maximum charge of $25 per payment.
 //
 // ```json
-// {
-// ...
-// "id": "price_id"
-// "model_type": "bps",
-// "bps_config": {
-// "bps": 125,
-// "per_event_cap": "11.00"
-// }
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id"
+//	  "model_type": "bps",
+//	  "bps_config": {
+//	    "bps": 125,
+//	    "per_event_cap": "11.00"
+//	  }
+//	  ...
+//	}
+//
 // ```
 //
 // ### Bulk BPS pricing
@@ -210,26 +220,28 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // smaller take-rate.
 //
 // ```json
-// {
-// ...
-// "id": "price_id"
-// "model_type": "bulk_bps",
-// "bulk_bps_config": {
-// "tiers": [
-// {
-// "minimum_amount": "0.00",
-// "maximum_amount": "1000000.00",
-// "bps": 125,
-// "per_event_cap": "19.00"
-// },
-// {
-// "minimum_amount":"1000000.00",
-// "maximum_amount": null,
-// "bps": 115,
-// "per_event_cap": "4.00"
-// }
-// ]
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id"
+//	  "model_type": "bulk_bps",
+//	  "bulk_bps_config": {
+//	    "tiers": [
+//	      {
+//	        "minimum_amount": "0.00",
+//	        "maximum_amount": "1000000.00",
+//	        "bps": 125,
+//	        "per_event_cap": "19.00"
+//	      },
+//	      {
+//	        "minimum_amount":"1000000.00",
+//	        "maximum_amount": null,
+//	        "bps": 115,
+//	        "per_event_cap": "4.00"
+//	      }
+//	    ]
+//	  }
+//
 // ...
 // }
 // ```
@@ -245,28 +257,30 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // 0.5 BPS each.
 //
 // ```json
-// {
-// ...
-// "id": "price_id"
-// "model_type": "tiered_bps",
-// "tiered_bps_config": {
-// "tiers": [
-// {
-// "minimum_amount": "0.00",
-// "maximum_amount": "1000000.00",
-// "bps": 125,
-// "per_event_cap": "19.00"
-// },
-// {
-// "minimum_amount":"1000000",
-// "maximum_amount": null,
-// "bps": 115,
-// "per_event_cap": "4.00"
-// }
-// ]
-// }
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id"
+//	  "model_type": "tiered_bps",
+//	  "tiered_bps_config": {
+//	    "tiers": [
+//	      {
+//	        "minimum_amount": "0.00",
+//	        "maximum_amount": "1000000.00",
+//	        "bps": 125,
+//	        "per_event_cap": "19.00"
+//	      },
+//	      {
+//	        "minimum_amount":"1000000",
+//	        "maximum_amount": null,
+//	        "bps": 115,
+//	        "per_event_cap": "4.00"
+//	      }
+//	    ]
+//	  }
+//	  ...
+//	}
+//
 // ```
 //
 // ### Matrix pricing
@@ -281,26 +295,29 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // `default_unit_amount`.
 //
 // ```json
-// ...
-// "model_type": "matrix"
-// "matrix_config": {
-// "default_unit_amount": "3.00",
-// "dimensions": [
-// "cluster_name",
-// "region"
-// ],
-// "matrix_values": [
-// {
-// "dimension_values": [
-// "alpha",
-// "west"
-// ],
-// "unit_amount": "2.00"
-// },
-// ...
-// ]
-// }
-// ...
+//
+//	{
+//	  ...
+//	  "model_type": "matrix",
+//	  "matrix_config": {
+//	    "default_unit_amount": "3.00",
+//	    "dimensions": [
+//	      "cluster_name",
+//	      "region"
+//	    ],
+//	    "matrix_values": [
+//	      {
+//	        "dimension_values": [
+//	          "alpha",
+//	          "west"
+//	        ],
+//	        "unit_amount": "2.00"
+//	      },
+//	      ...
+//	    ]
+//	  }
+//	}
+//
 // ```
 //
 // ### Fixed fees
@@ -310,16 +327,18 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // applied for a subscription. This parameter defaults to 1.
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "unit",
-// "unit_config": {
-// "unit_amount": "2.00"
-// },
-// "fixed_price_quantity": 3.0
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "unit",
+//	  "unit_config": {
+//	    "unit_amount": "2.00"
+//	  },
+//	  "fixed_price_quantity": 3.0
+//	  ...
+//	}
+//
 // ```
 //
 // ## Maximums and Minimums
@@ -342,31 +361,35 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // Price minimum override example:
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "unit",
-// "unit_config": {
-// "unit_amount": "0.50"
-// },
-// "minimum_amount": "100.00"
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "unit",
+//	  "unit_config": {
+//	    "unit_amount": "0.50"
+//	  },
+//	  "minimum_amount": "100.00"
+//	  ...
+//	}
+//
 // ```
 //
 // # Removing an existing minimum example
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "unit",
-// "unit_config": {
-// "unit_amount": "0.50"
-// },
-// "minimum_amount": null
-// ...
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "unit",
+//	  "unit_config": {
+//	    "unit_amount": "0.50"
+//	  },
+//	  "minimum_amount": null
+//	  ...
+//	}
+//
 // ```
 //
 // ## Discounts
@@ -380,13 +403,15 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // To add a discount for a specific price, add `discount` to the price in the
 // `price_overrides` object. Discount should be a dictionary of the format:
 //
-// ```json
-// {
-// "discount_type": "amount" | "percentage" | "usage",
-// "amount_discount": string,
-// "percentage_discount": string,
-// "usage_discount": string
-// }
+// ```ts
+//
+//	{
+//	  "discount_type": "amount" | "percentage" | "usage",
+//	  "amount_discount": string,
+//	  "percentage_discount": string,
+//	  "usage_discount": string
+//	}
+//
 // ```
 //
 // where either `amount_discount`, `percentage_discount`, or `usage_discount` is
@@ -395,27 +420,31 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // # Price discount example
 //
 // ```json
-// {
-// ...
-// "id": "price_id",
-// "model_type": "unit",
-// "unit_config": {
-// "unit_amount": "0.50"
-// },
-// "discount": {"discount_type": "amount", "amount_discount": "175"},
-// }
+//
+//	{
+//	  ...
+//	  "id": "price_id",
+//	  "model_type": "unit",
+//	  "unit_config": {
+//	    "unit_amount": "0.50"
+//	  },
+//	  "discount": {"discount_type": "amount", "amount_discount": "175"},
+//	}
+//
 // ```
 //
 // # Removing an existing discount example
 //
 // ```json
-// {
-// "customer_id": "customer_id",
-// "plan_id": "plan_id",
-// "discount": null,
-// "price_overrides": [ ... ]
-// ...
-// }
+//
+//	{
+//	  "customer_id": "customer_id",
+//	  "plan_id": "plan_id",
+//	  "discount": null,
+//	  "price_overrides": [ ... ]
+//	  ...
+//	}
+//
 // ```
 //
 // ## Threshold Billing
@@ -1640,7 +1669,7 @@ func (r *SubscriptionPriceInterval) UnmarshalJSON(data []byte) (err error) {
 }
 
 type SubscriptionPriceIntervalsFixedFeeQuantityTransition struct {
-	EffectiveDate time.Time `json:"effective_date,required" format:"date"`
+	EffectiveDate time.Time `json:"effective_date,required" format:"date-time"`
 	PriceID       string    `json:"price_id,required"`
 	Quantity      int64     `json:"quantity,required"`
 	JSON          subscriptionPriceIntervalsFixedFeeQuantityTransitionJSON
@@ -1703,43 +1732,6 @@ type subscriptionTrialInfoJSON struct {
 }
 
 func (r *SubscriptionTrialInfo) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type Subscriptions struct {
-	Data               []Subscription                  `json:"data,required"`
-	PaginationMetadata SubscriptionsPaginationMetadata `json:"pagination_metadata,required"`
-	JSON               subscriptionsJSON
-}
-
-// subscriptionsJSON contains the JSON metadata for the struct [Subscriptions]
-type subscriptionsJSON struct {
-	Data               apijson.Field
-	PaginationMetadata apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *Subscriptions) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type SubscriptionsPaginationMetadata struct {
-	HasMore    bool   `json:"has_more,required"`
-	NextCursor string `json:"next_cursor,required,nullable"`
-	JSON       subscriptionsPaginationMetadataJSON
-}
-
-// subscriptionsPaginationMetadataJSON contains the JSON metadata for the struct
-// [SubscriptionsPaginationMetadata]
-type subscriptionsPaginationMetadataJSON struct {
-	HasMore     apijson.Field
-	NextCursor  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *SubscriptionsPaginationMetadata) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1970,6 +1962,43 @@ type subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON struct {
 }
 
 func (r *SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type Subscriptions struct {
+	Data               []Subscription                  `json:"data,required"`
+	PaginationMetadata SubscriptionsPaginationMetadata `json:"pagination_metadata,required"`
+	JSON               subscriptionsJSON
+}
+
+// subscriptionsJSON contains the JSON metadata for the struct [Subscriptions]
+type subscriptionsJSON struct {
+	Data               apijson.Field
+	PaginationMetadata apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *Subscriptions) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SubscriptionsPaginationMetadata struct {
+	HasMore    bool   `json:"has_more,required"`
+	NextCursor string `json:"next_cursor,required,nullable"`
+	JSON       subscriptionsPaginationMetadataJSON
+}
+
+// subscriptionsPaginationMetadataJSON contains the JSON metadata for the struct
+// [SubscriptionsPaginationMetadata]
+type subscriptionsPaginationMetadataJSON struct {
+	HasMore     apijson.Field
+	NextCursor  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionsPaginationMetadata) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -2434,7 +2463,7 @@ type SubscriptionNewParamsPriceOverridesOverrideUnitPrice struct {
 	ModelType  param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelType]  `json:"model_type,required"`
 	UnitConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig] `json:"unit_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2467,12 +2496,43 @@ func (r SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig) MarshalJ
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverridePackagePrice struct {
 	ID            param.Field[string]                                                               `json:"id,required"`
 	ModelType     param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePriceModelType]     `json:"model_type,required"`
 	PackageConfig param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePricePackageConfig] `json:"package_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2506,12 +2566,43 @@ func (r SubscriptionNewParamsPriceOverridesOverridePackagePricePackageConfig) Ma
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideMatrixPrice struct {
 	ID           param.Field[string]                                                             `json:"id,required"`
 	MatrixConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelType]    `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2564,12 +2655,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelTypeMatrix SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelType = "matrix"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredPrice struct {
 	ID           param.Field[string]                                                             `json:"id,required"`
 	ModelType    param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelType]    `json:"model_type,required"`
 	TieredConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceTieredConfig] `json:"tiered_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2613,12 +2735,43 @@ func (r SubscriptionNewParamsPriceOverridesOverrideTieredPriceTieredConfigTier) 
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPrice struct {
 	ID              param.Field[string]                                                                   `json:"id,required"`
 	ModelType       param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelType]       `json:"model_type,required"`
 	TieredBpsConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2665,12 +2818,43 @@ func (r SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceTieredBpsConfig
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideBpsPrice struct {
 	ID        param.Field[string]                                                       `json:"id,required"`
 	BpsConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceBpsConfig] `json:"bps_config,required"`
 	ModelType param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelType] `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2703,12 +2887,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelTypeBps SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelType = "bps"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPrice struct {
 	ID            param.Field[string]                                                               `json:"id,required"`
 	BulkBpsConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	ModelType     param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelType]     `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2753,12 +2968,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelTypeBulkBps SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelType = "bulk_bps"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideBulkPrice struct {
 	ID         param.Field[string]                                                         `json:"id,required"`
 	BulkConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceBulkConfig] `json:"bulk_config,required"`
 	ModelType  param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelType]  `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2800,12 +3046,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelTypeBulk SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelType = "bulk"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPrice struct {
 	ID                       param.Field[string]                                                                      `json:"id,required"`
 	ModelType                param.Field[SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceModelType] `json:"model_type,required"`
 	TestRatingFunctionConfig param.Field[map[string]interface{}]                                                      `json:"test_rating_function_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2827,12 +3104,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceModelTypeTestRatingFunction SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceModelType = "test_rating_function"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePrice struct {
 	ID                    param.Field[string]                                                                   `json:"id,required"`
 	FivetranExampleConfig param.Field[map[string]interface{}]                                                   `json:"fivetran_example_config,required"`
 	ModelType             param.Field[SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceModelType] `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2854,12 +3162,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceModelTypeFivetranExample SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceModelType = "fivetran_example"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice struct {
 	ID                         param.Field[string]                                                                        `json:"id,required"`
 	ModelType                  param.Field[SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	ThresholdTotalAmountConfig param.Field[map[string]interface{}]                                                        `json:"threshold_total_amount_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2881,12 +3220,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice struct {
 	ID                  param.Field[string]                                                                 `json:"id,required"`
 	ModelType           param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType] `json:"model_type,required"`
 	TieredPackageConfig param.Field[map[string]interface{}]                                                 `json:"tiered_package_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2908,12 +3278,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelTypeTieredPackage SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType = "tiered_package"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice struct {
 	ID                      param.Field[string]                                                                     `json:"id,required"`
 	ModelType               param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	TieredWithMinimumConfig param.Field[map[string]interface{}]                                                     `json:"tiered_with_minimum_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2935,12 +3336,43 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPrice struct {
 	ID                          param.Field[string]                                                                         `json:"id,required"`
 	ModelType                   param.Field[SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelType] `json:"model_type,required"`
 	PackageWithAllocationConfig param.Field[map[string]interface{}]                                                         `json:"package_with_allocation_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -2960,6 +3392,37 @@ type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelT
 
 const (
 	SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "amount"
 )
 
 type SubscriptionListParams struct {
@@ -3267,7 +3730,7 @@ const (
 
 type SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
-	EffectiveDate param.Field[time.Time] `json:"effective_date,required" format:"date"`
+	EffectiveDate param.Field[time.Time] `json:"effective_date,required" format:"date-time"`
 	// The quantity of the fixed fee quantity transition.
 	Quantity param.Field[int64] `json:"quantity,required"`
 }
@@ -3278,33 +3741,33 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 
 // The definition of a new price to create and add to the subscription.
 //
-// Satisfied by [SubscriptionPriceIntervalsParamsAddPriceNewUnitPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewPackagePrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewMatrixPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewTieredPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewBpsPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewBulkPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPrice].
+// Satisfied by [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice].
 type SubscriptionPriceIntervalsParamsAddPrice interface {
 	implementsSubscriptionPriceIntervalsParamsAddPrice()
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewUnitPrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                        `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name       param.Field[string]                                                         `json:"name,required"`
-	UnitConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceUnitConfig] `json:"unit_config,required"`
+	Name       param.Field[string]                                                                 `json:"name,required"`
+	UnitConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig] `json:"unit_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3320,50 +3783,51 @@ type SubscriptionPriceIntervalsParamsAddPriceNewUnitPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewUnitPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewUnitPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceModelTypeUnit SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceModelType = "unit"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType = "unit"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceUnitConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 	// Multiplier to scale rated quantity by
 	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewPackagePrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                           `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name          param.Field[string]                                                               `json:"name,required"`
-	PackageConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewPackagePricePackageConfig] `json:"package_config,required"`
+	Name          param.Field[string]                                                                       `json:"name,required"`
+	PackageConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePricePackageConfig] `json:"package_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3379,29 +3843,30 @@ type SubscriptionPriceIntervalsParamsAddPriceNewPackagePrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceModelTypePackage SubscriptionPriceIntervalsParamsAddPriceNewPackagePriceModelType = "package"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelTypePackage SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelType = "package"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewPackagePricePackageConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePricePackageConfig struct {
 	// A currency amount to rate usage by
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
@@ -3409,19 +3874,19 @@ type SubscriptionPriceIntervalsParamsAddPriceNewPackagePricePackageConfig struct
 	PackageSize param.Field[int64] `json:"package_size"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewMatrixPrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID       param.Field[string]                                                             `json:"item_id,required"`
-	MatrixConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceMatrixConfig] `json:"matrix_config,required"`
-	ModelType    param.Field[SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceModelType]    `json:"model_type,required"`
+	ItemID       param.Field[string]                                                                     `json:"item_id,required"`
+	MatrixConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfig] `json:"matrix_config,required"`
+	ModelType    param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType]    `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3439,39 +3904,40 @@ type SubscriptionPriceIntervalsParamsAddPriceNewMatrixPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewMatrixPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewMatrixPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceMatrixConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfig struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
 	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
 	// One or two event property values to evaluate matrix groups by
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
-	MatrixValues param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
+	MatrixValues param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
 	// Default optional multiplier to scale rated quantities that fall into the default
 	// bucket by
 	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceMatrixConfigMatrixValue struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfigMatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by. For example,
 	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
 	// instance tier.
@@ -3482,27 +3948,27 @@ type SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceMatrixConfigMatrixVal
 	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceModelTypeMatrix SubscriptionPriceIntervalsParamsAddPriceNewMatrixPriceModelType = "matrix"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelTypeMatrix SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType = "matrix"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                          `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name         param.Field[string]                                                             `json:"name,required"`
-	TieredConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceTieredConfig] `json:"tiered_config,required"`
+	Name         param.Field[string]                                                                     `json:"name,required"`
+	TieredConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfig] `json:"tiered_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3518,38 +3984,39 @@ type SubscriptionPriceIntervalsParamsAddPriceNewTieredPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceModelTypeTiered SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceModelType = "tiered"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelTypeTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelType = "tiered"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceTieredConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceTieredConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfigTier] `json:"tiers,required"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceTieredConfigTier struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfigTier struct {
 	// Inclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
@@ -3558,21 +4025,21 @@ type SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceTieredConfigTier stru
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                             `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                     `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name            param.Field[string]                                                                   `json:"name,required"`
-	TieredBpsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
+	Name            param.Field[string]                                                                           `json:"name,required"`
+	TieredBpsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3588,39 +4055,40 @@ type SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceModelTypeTieredBps SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceModelType = "tiered_bps"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelTypeTieredBps SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelType = "tiered_bps"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceTieredBpsConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
 	// tiers
-	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceTieredBpsConfigTier struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
 	// Inclusive tier starting value
@@ -3631,19 +4099,19 @@ type SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceTieredBpsConfigTie
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBpsPrice struct {
-	BpsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceBpsConfig] `json:"bps_config,required"`
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice struct {
+	BpsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                       `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                               `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3661,48 +4129,49 @@ type SubscriptionPriceIntervalsParamsAddPriceNewBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceBpsConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceBpsConfig struct {
 	// Basis point take rate per event
 	Bps param.Field[float64] `json:"bps,required"`
 	// Optional currency amount maximum to cap spend per event
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceModelTypeBps SubscriptionPriceIntervalsParamsAddPriceNewBpsPriceModelType = "bps"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelTypeBps SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelType = "bps"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPrice struct {
-	BulkBpsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice struct {
+	BulkBpsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                           `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3720,24 +4189,24 @@ type SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceBulkBpsConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfig struct {
 	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
 	// tier based on total volume
-	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceBulkBpsConfigTier struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfigTier struct {
 	// Basis points to rate on
 	Bps param.Field[float64] `json:"bps,required"`
 	// Upper bound for tier
@@ -3746,34 +4215,35 @@ type SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceBulkBpsConfigTier st
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceModelTypeBulkBps SubscriptionPriceIntervalsParamsAddPriceNewBulkBpsPriceModelType = "bulk_bps"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelTypeBulkBps SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelType = "bulk_bps"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkPrice struct {
-	BulkConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceBulkConfig] `json:"bulk_config,required"`
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice struct {
+	BulkConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                        `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3791,56 +4261,57 @@ type SubscriptionPriceIntervalsParamsAddPriceNewBulkPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceBulkConfig struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfig struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceBulkConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfigTier] `json:"tiers,required"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceBulkConfigTier struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfigTier struct {
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 	// Upper bound for this tier
 	MaximumUnits param.Field[float64] `json:"maximum_units"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceModelTypeBulk SubscriptionPriceIntervalsParamsAddPriceNewBulkPriceModelType = "bulk"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelTypeBulk SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelType = "bulk"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                                        `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                       param.Field[string]                 `json:"name,required"`
 	ThresholdTotalAmountConfig param.Field[map[string]interface{}] `json:"threshold_total_amount_config,required"`
@@ -3859,36 +4330,37 @@ type SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPrice struct
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionPriceIntervalsParamsAddPriceNewThresholdTotalAmountPriceModelType = "threshold_total_amount"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                                 `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                         `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                param.Field[string]                 `json:"name,required"`
 	TieredPackageConfig param.Field[map[string]interface{}] `json:"tiered_package_config,required"`
@@ -3907,36 +4379,37 @@ type SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceModelTypeTieredPackage SubscriptionPriceIntervalsParamsAddPriceNewTieredPackagePriceModelType = "tiered_package"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelTypeTieredPackage SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType = "tiered_package"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                                     `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                    param.Field[string]                 `json:"name,required"`
 	TieredWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_with_minimum_config,required"`
@@ -3955,36 +4428,37 @@ type SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionPriceIntervalsParamsAddPriceNewTieredWithMinimumPriceModelType = "tiered_with_minimum"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPrice struct {
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                                                         `json:"item_id,required"`
-	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                        param.Field[string]                 `json:"name,required"`
 	PackageWithAllocationConfig param.Field[map[string]interface{}] `json:"package_with_allocation_config,required"`
@@ -4003,31 +4477,36 @@ type SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPrice struc
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
 }
 
 // The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadence string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence = "one_time"
 )
 
-type SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceModelType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionPriceIntervalsParamsAddPriceNewPackageWithAllocationPriceModelType = "package_with_allocation"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelType = "package_with_allocation"
 )
 
 type SubscriptionPriceIntervalsParamsEdit struct {
 	// The id of the price interval to edit.
 	PriceIntervalID param.Field[string] `json:"price_interval_id,required"`
+	// The updated billing cycle day for this price interval. If not specified, the
+	// billing cycle day will not be updated. Note that overlapping price intervals
+	// must have the same billing cycle day.
+	BillingCycleDay param.Field[int64] `json:"billing_cycle_day"`
 	// The updated end date of this price interval. If not specified, the start date
 	// will not be updated.
 	EndDate param.Field[SubscriptionPriceIntervalsParamsEditEndDate] `json:"end_date" format:"date-time"`
@@ -4062,7 +4541,7 @@ const (
 
 type SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
-	EffectiveDate param.Field[time.Time] `json:"effective_date,required" format:"date"`
+	EffectiveDate param.Field[time.Time] `json:"effective_date,required" format:"date-time"`
 	// The quantity of the fixed fee quantity transition.
 	Quantity param.Field[int64] `json:"quantity,required"`
 }
@@ -4168,7 +4647,7 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice struct 
 	ModelType  param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelType]  `json:"model_type,required"`
 	UnitConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig] `json:"unit_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4201,12 +4680,43 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitC
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePrice struct {
 	ID            param.Field[string]                                                                              `json:"id,required"`
 	ModelType     param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelType]     `json:"model_type,required"`
 	PackageConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePricePackageConfig] `json:"package_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4240,12 +4750,43 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePricePa
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPrice struct {
 	ID           param.Field[string]                                                                            `json:"id,required"`
 	MatrixConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelType]    `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4298,12 +4839,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelTypeMatrix SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelType = "matrix"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPrice struct {
 	ID           param.Field[string]                                                                            `json:"id,required"`
 	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelType]    `json:"model_type,required"`
 	TieredConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceTieredConfig] `json:"tiered_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4347,12 +4919,43 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceTie
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPrice struct {
 	ID              param.Field[string]                                                                                  `json:"id,required"`
 	ModelType       param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelType]       `json:"model_type,required"`
 	TieredBpsConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4399,12 +5002,43 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPrice
 	return apijson.MarshalRoot(r)
 }
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPrice struct {
 	ID        param.Field[string]                                                                      `json:"id,required"`
 	BpsConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceBpsConfig] `json:"bps_config,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelType] `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4437,12 +5071,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelTypeBps SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelType = "bps"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPrice struct {
 	ID            param.Field[string]                                                                              `json:"id,required"`
 	BulkBpsConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	ModelType     param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelType]     `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4487,12 +5152,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelTypeBulkBps SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelType = "bulk_bps"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPrice struct {
 	ID         param.Field[string]                                                                        `json:"id,required"`
 	BulkConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceBulkConfig] `json:"bulk_config,required"`
 	ModelType  param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelType]  `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4534,12 +5230,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelTypeBulk SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelType = "bulk"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPrice struct {
 	ID                       param.Field[string]                                                                                     `json:"id,required"`
 	ModelType                param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceModelType] `json:"model_type,required"`
 	TestRatingFunctionConfig param.Field[map[string]interface{}]                                                                     `json:"test_rating_function_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4561,12 +5288,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceModelTypeTestRatingFunction SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceModelType = "test_rating_function"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePrice struct {
 	ID                    param.Field[string]                                                                                  `json:"id,required"`
 	FivetranExampleConfig param.Field[map[string]interface{}]                                                                  `json:"fivetran_example_config,required"`
 	ModelType             param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceModelType] `json:"model_type,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4588,12 +5346,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceModelTypeFivetranExample SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceModelType = "fivetran_example"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPrice struct {
 	ID                         param.Field[string]                                                                                       `json:"id,required"`
 	ModelType                  param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	ThresholdTotalAmountConfig param.Field[map[string]interface{}]                                                                       `json:"threshold_total_amount_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4615,12 +5404,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePrice struct {
 	ID                  param.Field[string]                                                                                `json:"id,required"`
 	ModelType           param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelType] `json:"model_type,required"`
 	TieredPackageConfig param.Field[map[string]interface{}]                                                                `json:"tiered_package_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4642,12 +5462,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelTypeTieredPackage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelType = "tiered_package"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPrice struct {
 	ID                      param.Field[string]                                                                                    `json:"id,required"`
 	ModelType               param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	TieredWithMinimumConfig param.Field[map[string]interface{}]                                                                    `json:"tiered_with_minimum_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4669,12 +5520,43 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
 
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "amount"
+)
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPrice struct {
 	ID                          param.Field[string]                                                                                        `json:"id,required"`
 	ModelType                   param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelType] `json:"model_type,required"`
 	PackageWithAllocationConfig param.Field[map[string]interface{}]                                                                        `json:"package_with_allocation_config,required"`
 	// The subscription's override discount for the plan.
-	Discount param.Field[DiscountParam] `json:"discount"`
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The subscription's override maximum amount for the plan.
@@ -4694,6 +5576,37 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAlloca
 
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "amount"
 )
 
 type SubscriptionTriggerPhaseParams struct {
