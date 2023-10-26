@@ -457,7 +457,7 @@ func (r *CustomerCreditLedgerService) NewEntry(ctx context.Context, customerID s
 // type `amendment`. For this entry, `block_id` is required to identify the block
 // that was originally decremented from, and `amount` indicates how many credits to
 // return to the customer, up to the block's initial balance.
-func (r *CustomerCreditLedgerService) NewEntryByExteralID(ctx context.Context, externalCustomerID string, body CustomerCreditLedgerNewEntryByExteralIDParams, opts ...option.RequestOption) (res *CustomerCreditLedgerNewEntryByExteralIDResponse, err error) {
+func (r *CustomerCreditLedgerService) NewEntryByExternalID(ctx context.Context, externalCustomerID string, body CustomerCreditLedgerNewEntryByExternalIDParams, opts ...option.RequestOption) (res *CustomerCreditLedgerNewEntryByExternalIDResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/ledger_entry", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
@@ -2166,79 +2166,79 @@ const (
 // prepaid credits within Orb.
 //
 // Union satisfied by
-// [CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntry],
-// [CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntry],
-// [CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntry],
-// [CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry],
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntry],
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntry] or
-// [CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntry].
-type CustomerCreditLedgerNewEntryByExteralIDResponse interface {
-	implementsCustomerCreditLedgerNewEntryByExteralIDResponse()
+// [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry],
+// [CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry],
+// [CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry],
+// [CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry],
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry],
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry] or
+// [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry].
+type CustomerCreditLedgerNewEntryByExternalIDResponse interface {
+	implementsCustomerCreditLedgerNewEntryByExternalIDResponse()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*CustomerCreditLedgerNewEntryByExteralIDResponse)(nil)).Elem(),
+		reflect.TypeOf((*CustomerCreditLedgerNewEntryByExternalIDResponse)(nil)).Elem(),
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
 			DiscriminatorValue: "\"increment\"",
-			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntry{}),
+			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry{}),
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
 			DiscriminatorValue: "\"decrement\"",
-			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntry{}),
+			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry{}),
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
 			DiscriminatorValue: "\"expiration_change\"",
-			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntry{}),
+			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry{}),
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
 			DiscriminatorValue: "\"credit_block_expiry\"",
-			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry{}),
+			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry{}),
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
 			DiscriminatorValue: "\"void\"",
-			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntry{}),
+			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry{}),
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
 			DiscriminatorValue: "\"void_initiated\"",
-			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntry{}),
+			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry{}),
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
 			DiscriminatorValue: "\"amendment\"",
-			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntry{}),
+			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry{}),
 		},
 	)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntry struct {
-	ID                   string                                                                         `json:"id,required"`
-	Amount               float64                                                                        `json:"amount,required"`
-	CreatedAt            time.Time                                                                      `json:"created_at,required" format:"date-time"`
-	CreditBlock          CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBlock `json:"credit_block,required"`
-	Customer             CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCustomer    `json:"customer,required"`
-	Description          string                                                                         `json:"description,required,nullable"`
-	EndingBalance        float64                                                                        `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                                          `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                              `json:"metadata,required"`
-	StartingBalance      float64                                                                        `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryJSON
+type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry struct {
+	ID                   string                                                                          `json:"id,required"`
+	Amount               float64                                                                         `json:"amount,required"`
+	CreatedAt            time.Time                                                                       `json:"created_at,required" format:"date-time"`
+	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer    `json:"customer,required"`
+	Description          string                                                                          `json:"description,required,nullable"`
+	EndingBalance        float64                                                                         `json:"ending_balance,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
+	Metadata             map[string]string                                                               `json:"metadata,required"`
+	StartingBalance      float64                                                                         `json:"starting_balance,required"`
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryJSON contains
-// the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntry]
-type customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryJSON struct {
+// customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON
+// contains the JSON metadata for the struct
+// [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry]
+type customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON struct {
 	ID                   apijson.Field
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
@@ -2255,24 +2255,24 @@ type customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryJSON str
 	ExtraFields          map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntry) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntry) implementsCustomerCreditLedgerNewEntryByExteralIDResponse() {
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBlock struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlock struct {
 	ID               string    `json:"id,required"`
 	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBlockJSON
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlockJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBlockJSON
+// customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlockJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBlock]
-type customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBlockJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlock]
+type customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlockJSON struct {
 	ID               apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
@@ -2280,66 +2280,66 @@ type customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBl
 	ExtraFields      map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCustomer struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer struct {
 	ID                 string `json:"id,required"`
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCustomerJSON
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomerJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCustomerJSON
+// customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomerJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCustomer]
-type customerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCustomerJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer]
+type customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomerJSON struct {
 	ID                 apijson.Field
 	ExternalCustomerID apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryStatus string
+type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryStatus = "committed"
-	CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryStatus = "pending"
+	CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus = "pending"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryTypeIncrement CustomerCreditLedgerNewEntryByExteralIDResponseIncrementLedgerEntryEntryType = "increment"
+	CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryTypeIncrement CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType = "increment"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntry struct {
-	ID                   string                                                                         `json:"id,required"`
-	Amount               float64                                                                        `json:"amount,required"`
-	CreatedAt            time.Time                                                                      `json:"created_at,required" format:"date-time"`
-	CreditBlock          CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBlock `json:"credit_block,required"`
-	Customer             CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCustomer    `json:"customer,required"`
-	Description          string                                                                         `json:"description,required,nullable"`
-	EndingBalance        float64                                                                        `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                                          `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                              `json:"metadata,required"`
-	StartingBalance      float64                                                                        `json:"starting_balance,required"`
-	EventID              string                                                                         `json:"event_id,nullable"`
-	InvoiceID            string                                                                         `json:"invoice_id,nullable"`
-	PriceID              string                                                                         `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryJSON
+type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry struct {
+	ID                   string                                                                          `json:"id,required"`
+	Amount               float64                                                                         `json:"amount,required"`
+	CreatedAt            time.Time                                                                       `json:"created_at,required" format:"date-time"`
+	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer    `json:"customer,required"`
+	Description          string                                                                          `json:"description,required,nullable"`
+	EndingBalance        float64                                                                         `json:"ending_balance,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
+	Metadata             map[string]string                                                               `json:"metadata,required"`
+	StartingBalance      float64                                                                         `json:"starting_balance,required"`
+	EventID              string                                                                          `json:"event_id,nullable"`
+	InvoiceID            string                                                                          `json:"invoice_id,nullable"`
+	PriceID              string                                                                          `json:"price_id,nullable"`
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryJSON contains
-// the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntry]
-type customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryJSON struct {
+// customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON
+// contains the JSON metadata for the struct
+// [CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry]
+type customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON struct {
 	ID                   apijson.Field
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
@@ -2359,24 +2359,24 @@ type customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryJSON str
 	ExtraFields          map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntry) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntry) implementsCustomerCreditLedgerNewEntryByExteralIDResponse() {
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBlock struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlock struct {
 	ID               string    `json:"id,required"`
 	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBlockJSON
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlockJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBlockJSON
+// customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlockJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBlock]
-type customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBlockJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlock]
+type customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlockJSON struct {
 	ID               apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
@@ -2384,163 +2384,163 @@ type customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBl
 	ExtraFields      map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCustomer struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer struct {
 	ID                 string `json:"id,required"`
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCustomerJSON
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomerJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCustomerJSON
+// customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomerJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCustomer]
-type customerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCustomerJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer]
+type customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomerJSON struct {
 	ID                 apijson.Field
 	ExternalCustomerID apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryStatus string
+type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryStatus = "committed"
-	CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryStatus = "pending"
+	CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus = "pending"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryTypeDecrement CustomerCreditLedgerNewEntryByExteralIDResponseDecrementLedgerEntryEntryType = "decrement"
+	CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryTypeDecrement CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType = "decrement"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntry struct {
-	ID                   string                                                                                `json:"id,required"`
-	Amount               float64                                                                               `json:"amount,required"`
-	CreatedAt            time.Time                                                                             `json:"created_at,required" format:"date-time"`
-	CreditBlock          CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCreditBlock `json:"credit_block,required"`
-	Customer             CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCustomer    `json:"customer,required"`
-	Description          string                                                                                `json:"description,required,nullable"`
-	EndingBalance        float64                                                                               `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                                                 `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                                     `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                                             `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                               `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryJSON
-}
-
-// customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryJSON
-// contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntry]
-type customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryJSON struct {
-	ID                   apijson.Field
-	Amount               apijson.Field
-	CreatedAt            apijson.Field
-	CreditBlock          apijson.Field
-	Customer             apijson.Field
-	Description          apijson.Field
-	EndingBalance        apijson.Field
-	EntryStatus          apijson.Field
-	EntryType            apijson.Field
-	LedgerSequenceNumber apijson.Field
-	Metadata             apijson.Field
-	NewBlockExpiryDate   apijson.Field
-	StartingBalance      apijson.Field
-	raw                  string
-	ExtraFields          map[string]apijson.Field
-}
-
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntry) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntry) implementsCustomerCreditLedgerNewEntryByExteralIDResponse() {
-}
-
-type CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCreditBlockJSON
-}
-
-// customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCreditBlockJSON
-// contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCreditBlock]
-type customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCreditBlockJSON struct {
-	ID               apijson.Field
-	ExpiryDate       apijson.Field
-	PerUnitCostBasis apijson.Field
-	raw              string
-	ExtraFields      map[string]apijson.Field
-}
-
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCustomerJSON
-}
-
-// customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCustomerJSON
-// contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCustomer]
-type customerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCustomerJSON struct {
-	ID                 apijson.Field
-	ExternalCustomerID apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryStatus string
-
-const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryStatus = "committed"
-	CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryStatus = "pending"
-)
-
-type CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryType string
-
-const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryTypeExpirationChange CustomerCreditLedgerNewEntryByExteralIDResponseExpirationChangeLedgerEntryEntryType = "expiration_change"
-)
-
-type CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry struct {
 	ID                   string                                                                                 `json:"id,required"`
 	Amount               float64                                                                                `json:"amount,required"`
 	CreatedAt            time.Time                                                                              `json:"created_at,required" format:"date-time"`
-	CreditBlock          CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCreditBlock `json:"credit_block,required"`
-	Customer             CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCustomer    `json:"customer,required"`
+	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlock `json:"credit_block,required"`
+	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                                 `json:"description,required,nullable"`
 	EndingBalance        float64                                                                                `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                                  `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                                      `json:"metadata,required"`
+	NewBlockExpiryDate   time.Time                                                                              `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance      float64                                                                                `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryJSON
+// customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry]
-type customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry]
+type customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON struct {
+	ID                   apijson.Field
+	Amount               apijson.Field
+	CreatedAt            apijson.Field
+	CreditBlock          apijson.Field
+	Customer             apijson.Field
+	Description          apijson.Field
+	EndingBalance        apijson.Field
+	EntryStatus          apijson.Field
+	EntryType            apijson.Field
+	LedgerSequenceNumber apijson.Field
+	Metadata             apijson.Field
+	NewBlockExpiryDate   apijson.Field
+	StartingBalance      apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
+}
+
+type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlock struct {
+	ID               string    `json:"id,required"`
+	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON
+}
+
+// customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON
+// contains the JSON metadata for the struct
+// [CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlock]
+type customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON struct {
+	ID               apijson.Field
+	ExpiryDate       apijson.Field
+	PerUnitCostBasis apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer struct {
+	ID                 string `json:"id,required"`
+	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON
+}
+
+// customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON
+// contains the JSON metadata for the struct
+// [CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer]
+type customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON struct {
+	ID                 apijson.Field
+	ExternalCustomerID apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus string
+
+const (
+	CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus = "pending"
+)
+
+type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType string
+
+const (
+	CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryTypeExpirationChange CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType = "expiration_change"
+)
+
+type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry struct {
+	ID                   string                                                                                  `json:"id,required"`
+	Amount               float64                                                                                 `json:"amount,required"`
+	CreatedAt            time.Time                                                                               `json:"created_at,required" format:"date-time"`
+	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock `json:"credit_block,required"`
+	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer    `json:"customer,required"`
+	Description          string                                                                                  `json:"description,required,nullable"`
+	EndingBalance        float64                                                                                 `json:"ending_balance,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                                                   `json:"ledger_sequence_number,required"`
+	Metadata             map[string]string                                                                       `json:"metadata,required"`
+	StartingBalance      float64                                                                                 `json:"starting_balance,required"`
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
+}
+
+// customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
+// contains the JSON metadata for the struct
+// [CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry]
+type customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON struct {
 	ID                   apijson.Field
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
@@ -2557,24 +2557,24 @@ type customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry
 	ExtraFields          map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry) implementsCustomerCreditLedgerNewEntryByExteralIDResponse() {
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCreditBlock struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock struct {
 	ID               string    `json:"id,required"`
 	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
+// customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCreditBlock]
-type customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock]
+type customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON struct {
 	ID               apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
@@ -2582,65 +2582,65 @@ type customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntry
 	ExtraFields      map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCustomer struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer struct {
 	ID                 string `json:"id,required"`
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
+// customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCustomer]
-type customerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCustomerJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer]
+type customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON struct {
 	ID                 apijson.Field
 	ExternalCustomerID apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryStatus string
+type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryStatus = "committed"
-	CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryStatus = "pending"
+	CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus = "pending"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry CustomerCreditLedgerNewEntryByExteralIDResponseCreditBlockExpiryLedgerEntryEntryType = "credit_block_expiry"
+	CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType = "credit_block_expiry"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntry struct {
-	ID                   string                                                                    `json:"id,required"`
-	Amount               float64                                                                   `json:"amount,required"`
-	CreatedAt            time.Time                                                                 `json:"created_at,required" format:"date-time"`
-	CreditBlock          CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlock `json:"credit_block,required"`
-	Customer             CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCustomer    `json:"customer,required"`
-	Description          string                                                                    `json:"description,required,nullable"`
-	EndingBalance        float64                                                                   `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                                     `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                         `json:"metadata,required"`
-	StartingBalance      float64                                                                   `json:"starting_balance,required"`
-	VoidAmount           float64                                                                   `json:"void_amount,required"`
-	VoidReason           string                                                                    `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryJSON
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry struct {
+	ID                   string                                                                     `json:"id,required"`
+	Amount               float64                                                                    `json:"amount,required"`
+	CreatedAt            time.Time                                                                  `json:"created_at,required" format:"date-time"`
+	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlock `json:"credit_block,required"`
+	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer    `json:"customer,required"`
+	Description          string                                                                     `json:"description,required,nullable"`
+	EndingBalance        float64                                                                    `json:"ending_balance,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                                      `json:"ledger_sequence_number,required"`
+	Metadata             map[string]string                                                          `json:"metadata,required"`
+	StartingBalance      float64                                                                    `json:"starting_balance,required"`
+	VoidAmount           float64                                                                    `json:"void_amount,required"`
+	VoidReason           string                                                                     `json:"void_reason,required,nullable"`
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryJSON contains the
+// customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON contains the
 // JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntry]
-type customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry]
+type customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON struct {
 	ID                   apijson.Field
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
@@ -2659,24 +2659,24 @@ type customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryJSON struct {
 	ExtraFields          map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntry) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntry) implementsCustomerCreditLedgerNewEntryByExteralIDResponse() {
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlock struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlock struct {
 	ID               string    `json:"id,required"`
 	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlockJSON
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlockJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlockJSON
+// customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlockJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlock]
-type customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlockJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlock]
+type customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlockJSON struct {
 	ID               apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
@@ -2684,66 +2684,66 @@ type customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlockJS
 	ExtraFields      map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCustomer struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer struct {
 	ID                 string `json:"id,required"`
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCustomerJSON
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCustomerJSON
+// customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCustomer]
-type customerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCustomerJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer]
+type customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON struct {
 	ID                 apijson.Field
 	ExternalCustomerID apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryStatus string
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryStatus = "committed"
-	CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryStatus = "pending"
+	CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus = "pending"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryTypeVoid CustomerCreditLedgerNewEntryByExteralIDResponseVoidLedgerEntryEntryType = "void"
+	CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryTypeVoid CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType = "void"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntry struct {
-	ID                   string                                                                             `json:"id,required"`
-	Amount               float64                                                                            `json:"amount,required"`
-	CreatedAt            time.Time                                                                          `json:"created_at,required" format:"date-time"`
-	CreditBlock          CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCreditBlock `json:"credit_block,required"`
-	Customer             CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCustomer    `json:"customer,required"`
-	Description          string                                                                             `json:"description,required,nullable"`
-	EndingBalance        float64                                                                            `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                                              `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                                  `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                                          `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                            `json:"starting_balance,required"`
-	VoidAmount           float64                                                                            `json:"void_amount,required"`
-	VoidReason           string                                                                             `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryJSON
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry struct {
+	ID                   string                                                                              `json:"id,required"`
+	Amount               float64                                                                             `json:"amount,required"`
+	CreatedAt            time.Time                                                                           `json:"created_at,required" format:"date-time"`
+	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock `json:"credit_block,required"`
+	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer    `json:"customer,required"`
+	Description          string                                                                              `json:"description,required,nullable"`
+	EndingBalance        float64                                                                             `json:"ending_balance,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                                               `json:"ledger_sequence_number,required"`
+	Metadata             map[string]string                                                                   `json:"metadata,required"`
+	NewBlockExpiryDate   time.Time                                                                           `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance      float64                                                                             `json:"starting_balance,required"`
+	VoidAmount           float64                                                                             `json:"void_amount,required"`
+	VoidReason           string                                                                              `json:"void_reason,required,nullable"`
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryJSON
+// customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntry]
-type customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry]
+type customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON struct {
 	ID                   apijson.Field
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
@@ -2763,24 +2763,24 @@ type customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryJSON
 	ExtraFields          map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntry) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntry) implementsCustomerCreditLedgerNewEntryByExteralIDResponse() {
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCreditBlock struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock struct {
 	ID               string    `json:"id,required"`
 	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
+// customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCreditBlock]
-type customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCreditBlockJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock]
+type customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON struct {
 	ID               apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
@@ -2788,63 +2788,63 @@ type customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCred
 	ExtraFields      map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCustomer struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer struct {
 	ID                 string `json:"id,required"`
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCustomerJSON
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCustomerJSON
+// customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCustomer]
-type customerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCustomerJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer]
+type customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON struct {
 	ID                 apijson.Field
 	ExternalCustomerID apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryStatus string
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryStatus = "committed"
-	CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryStatus = "pending"
+	CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus = "pending"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated CustomerCreditLedgerNewEntryByExteralIDResponseVoidInitiatedLedgerEntryEntryType = "void_initiated"
+	CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType = "void_initiated"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntry struct {
-	ID                   string                                                                         `json:"id,required"`
-	Amount               float64                                                                        `json:"amount,required"`
-	CreatedAt            time.Time                                                                      `json:"created_at,required" format:"date-time"`
-	CreditBlock          CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBlock `json:"credit_block,required"`
-	Customer             CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCustomer    `json:"customer,required"`
-	Description          string                                                                         `json:"description,required,nullable"`
-	EndingBalance        float64                                                                        `json:"ending_balance,required"`
-	EntryStatus          CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
-	EntryType            CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
-	LedgerSequenceNumber int64                                                                          `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                              `json:"metadata,required"`
-	StartingBalance      float64                                                                        `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryJSON
+type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry struct {
+	ID                   string                                                                          `json:"id,required"`
+	Amount               float64                                                                         `json:"amount,required"`
+	CreatedAt            time.Time                                                                       `json:"created_at,required" format:"date-time"`
+	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlock `json:"credit_block,required"`
+	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer    `json:"customer,required"`
+	Description          string                                                                          `json:"description,required,nullable"`
+	EndingBalance        float64                                                                         `json:"ending_balance,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
+	Metadata             map[string]string                                                               `json:"metadata,required"`
+	StartingBalance      float64                                                                         `json:"starting_balance,required"`
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryJSON contains
-// the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntry]
-type customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryJSON struct {
+// customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON
+// contains the JSON metadata for the struct
+// [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry]
+type customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON struct {
 	ID                   apijson.Field
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
@@ -2861,24 +2861,24 @@ type customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryJSON str
 	ExtraFields          map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntry) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntry) implementsCustomerCreditLedgerNewEntryByExteralIDResponse() {
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBlock struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlock struct {
 	ID               string    `json:"id,required"`
 	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBlockJSON
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBlockJSON
+// customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBlock]
-type customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBlockJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlock]
+type customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON struct {
 	ID               apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
@@ -2886,41 +2886,41 @@ type customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBl
 	ExtraFields      map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlock) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCustomer struct {
+type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer struct {
 	ID                 string `json:"id,required"`
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCustomerJSON
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomerJSON
 }
 
-// customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCustomerJSON
+// customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomerJSON
 // contains the JSON metadata for the struct
-// [CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCustomer]
-type customerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCustomerJSON struct {
+// [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer]
+type customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomerJSON struct {
 	ID                 apijson.Field
 	ExternalCustomerID apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
 
-func (r *CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryStatus string
+type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryStatus = "committed"
-	CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryStatus = "pending"
+	CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus = "pending"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryTypeAmendment CustomerCreditLedgerNewEntryByExteralIDResponseAmendmentLedgerEntryEntryType = "amendment"
+	CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryTypeAmendment CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType = "amendment"
 )
 
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
@@ -3931,20 +3931,20 @@ const (
 )
 
 // This interface is a union satisfied by one of the following:
-// [CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParams],
-// [CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParams],
-// [CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParams],
-// [CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParams],
-// [CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParams].
-type CustomerCreditLedgerNewEntryByExteralIDParams interface {
-	ImplementsCustomerCreditLedgerNewEntryByExteralIDParams()
+// [CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams],
+// [CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParams],
+// [CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams],
+// [CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParams],
+// [CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParams].
+type CustomerCreditLedgerNewEntryByExternalIDParams interface {
+	ImplementsCustomerCreditLedgerNewEntryByExternalIDParams()
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParams struct {
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount    param.Field[float64]                                                                                          `json:"amount,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	Amount    param.Field[float64]                                                                                           `json:"amount,required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -3959,7 +3959,7 @@ type CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryR
 	// added credits. If `invoice_settings` is passed, you must specify
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
 	// basis.
-	InvoiceSettings param.Field[CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings] `json:"invoice_settings"`
+	InvoiceSettings param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings] `json:"invoice_settings"`
 	// User-specified key/value pairs for the ledger entry resource.
 	Metadata param.Field[interface{}] `json:"metadata"`
 	// Can only be specified when entry_type=increment. How much, in USD, a customer
@@ -3967,25 +3967,25 @@ type CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryR
 	PerUnitCostBasis param.Field[string] `json:"per_unit_cost_basis"`
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExteralIDParams() {
+func (CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExternalIDParams() {
 
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType = "increment"
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType = "increment"
 )
 
 // Passing `invoice_settings` automatically generates an invoice for the newly
 // added credits. If `invoice_settings` is passed, you must specify
 // per_unit_cost_basis, as the calculation of the invoice total is done on that
 // basis.
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings struct {
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings struct {
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
 	AutoCollection param.Field[bool] `json:"auto_collection,required"`
@@ -3997,15 +3997,15 @@ type CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryR
 	Memo param.Field[string] `json:"memo"`
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParams struct {
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
-	Amount    param.Field[float64]                                                                                          `json:"amount,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	Amount    param.Field[float64]                                                                                           `json:"amount,required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4014,22 +4014,22 @@ type CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryR
 	Metadata param.Field[interface{}] `json:"metadata"`
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExteralIDParams() {
+func (CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExternalIDParams() {
 
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryTypeDecrement CustomerCreditLedgerNewEntryByExteralIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType = "decrement"
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryTypeDecrement CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType = "decrement"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
 	// A future date (specified in YYYY-MM-DD format) that identifies the origination
 	// credit block to expire
 	ExpiryDate param.Field[time.Time] `json:"expiry_date,required" format:"date"`
@@ -4051,27 +4051,27 @@ type CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedge
 	Metadata param.Field[interface{}] `json:"metadata"`
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExteralIDParams() {
+func (CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExternalIDParams() {
 
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryTypeExpirationChange CustomerCreditLedgerNewEntryByExteralIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType = "expiration_change"
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryTypeExpirationChange CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType = "expiration_change"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParams struct {
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
 	Amount param.Field[float64] `json:"amount,required"`
 	// The ID of the block to void.
-	BlockID   param.Field[string]                                                                                      `json:"block_id,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	BlockID   param.Field[string]                                                                                       `json:"block_id,required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4079,37 +4079,37 @@ type CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryReques
 	// User-specified key/value pairs for the ledger entry resource.
 	Metadata param.Field[interface{}] `json:"metadata"`
 	// Can only be specified when `entry_type=void`. The reason for the void.
-	VoidReason param.Field[CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason] `json:"void_reason"`
+	VoidReason param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason] `json:"void_reason"`
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExteralIDParams() {
+func (CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExternalIDParams() {
 
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsEntryTypeVoid CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType = "void"
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryTypeVoid CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType = "void"
 )
 
 // Can only be specified when `entry_type=void`. The reason for the void.
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason string
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReasonRefund CustomerCreditLedgerNewEntryByExteralIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason = "refund"
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReasonRefund CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason = "refund"
 )
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParams struct {
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement or void operations.
 	Amount param.Field[float64] `json:"amount,required"`
 	// The ID of the block to reverse a decrement from.
-	BlockID   param.Field[string]                                                                                           `json:"block_id,required"`
-	EntryType param.Field[CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	BlockID   param.Field[string]                                                                                            `json:"block_id,required"`
+	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4118,18 +4118,18 @@ type CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryR
 	Metadata param.Field[interface{}] `json:"metadata"`
 }
 
-func (r CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExteralIDParams() {
+func (CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParams) ImplementsCustomerCreditLedgerNewEntryByExternalIDParams() {
 
 }
 
-type CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType string
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType string
 
 const (
-	CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryTypeAmendment CustomerCreditLedgerNewEntryByExteralIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType = "amendment"
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryTypeAmendment CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType = "amendment"
 )
 
 type CustomerCreditLedgerListByExternalIDParams struct {

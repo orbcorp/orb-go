@@ -90,7 +90,7 @@ func TestCustomerCreditLedgerNewEntryWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestCustomerCreditLedgerNewEntryByExteralIDWithOptionalParams(t *testing.T) {
+func TestCustomerCreditLedgerNewEntryByExternalIDWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -102,16 +102,16 @@ func TestCustomerCreditLedgerNewEntryByExteralIDWithOptionalParams(t *testing.T)
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Customers.Credits.Ledger.NewEntryByExteralID(
+	_, err := client.Customers.Credits.Ledger.NewEntryByExternalID(
 		context.TODO(),
 		"string",
-		orb.CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParams{
+		orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams{
 			Amount:        orb.F(0.000000),
-			EntryType:     orb.F(orb.CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement),
+			EntryType:     orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement),
 			Description:   orb.F("string"),
 			EffectiveDate: orb.F(time.Now()),
 			ExpiryDate:    orb.F(time.Now()),
-			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryByExteralIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
+			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
 				AutoCollection: orb.F(true),
 				NetTerms:       orb.F(int64(0)),
 				Memo:           orb.F("string"),
