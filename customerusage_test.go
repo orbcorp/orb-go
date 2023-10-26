@@ -30,13 +30,27 @@ func TestCustomerUsageUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"string",
 		orb.CustomerUsageUpdateParams{
-			EventName:          orb.F("string"),
-			Properties:         orb.F[any](map[string]interface{}{}),
-			Timestamp:          orb.F(time.Now()),
-			TimeframeEnd:       orb.F(time.Now()),
-			TimeframeStart:     orb.F(time.Now()),
-			CustomerID:         orb.F("string"),
-			ExternalCustomerID: orb.F("string"),
+			Events: orb.F([]orb.CustomerUsageUpdateParamsEvent{{
+				CustomerID:         orb.F("string"),
+				ExternalCustomerID: orb.F("string"),
+				EventName:          orb.F("string"),
+				Timestamp:          orb.F(time.Now()),
+				Properties:         orb.F[any](map[string]interface{}{}),
+			}, {
+				CustomerID:         orb.F("string"),
+				ExternalCustomerID: orb.F("string"),
+				EventName:          orb.F("string"),
+				Timestamp:          orb.F(time.Now()),
+				Properties:         orb.F[any](map[string]interface{}{}),
+			}, {
+				CustomerID:         orb.F("string"),
+				ExternalCustomerID: orb.F("string"),
+				EventName:          orb.F("string"),
+				Timestamp:          orb.F(time.Now()),
+				Properties:         orb.F[any](map[string]interface{}{}),
+			}}),
+			TimeframeEnd:   orb.F(time.Now()),
+			TimeframeStart: orb.F(time.Now()),
 		},
 	)
 	if err != nil {
@@ -64,13 +78,27 @@ func TestCustomerUsageUpdateByExternalIDWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"string",
 		orb.CustomerUsageUpdateByExternalIDParams{
-			EventName:          orb.F("string"),
-			Properties:         orb.F[any](map[string]interface{}{}),
-			Timestamp:          orb.F(time.Now()),
-			TimeframeEnd:       orb.F(time.Now()),
-			TimeframeStart:     orb.F(time.Now()),
-			CustomerID:         orb.F("string"),
-			ExternalCustomerID: orb.F("string"),
+			Events: orb.F([]orb.CustomerUsageUpdateByExternalIDParamsEvent{{
+				CustomerID:         orb.F("string"),
+				ExternalCustomerID: orb.F("string"),
+				EventName:          orb.F("string"),
+				Timestamp:          orb.F(time.Now()),
+				Properties:         orb.F[any](map[string]interface{}{}),
+			}, {
+				CustomerID:         orb.F("string"),
+				ExternalCustomerID: orb.F("string"),
+				EventName:          orb.F("string"),
+				Timestamp:          orb.F(time.Now()),
+				Properties:         orb.F[any](map[string]interface{}{}),
+			}, {
+				CustomerID:         orb.F("string"),
+				ExternalCustomerID: orb.F("string"),
+				EventName:          orb.F("string"),
+				Timestamp:          orb.F(time.Now()),
+				Properties:         orb.F[any](map[string]interface{}{}),
+			}}),
+			TimeframeEnd:   orb.F(time.Now()),
+			TimeframeStart: orb.F(time.Now()),
 		},
 	)
 	if err != nil {

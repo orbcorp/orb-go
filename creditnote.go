@@ -83,18 +83,18 @@ type CreditNote struct {
 	CreditNotePdf string             `json:"credit_note_pdf,required,nullable"`
 	Customer      CreditNoteCustomer `json:"customer,required"`
 	// Any discounts applied on the original invoice.
-	Discounts []interface{} `json:"discounts,required"`
+	Discounts []CreditNoteDiscount `json:"discounts,required"`
 	// The id of the invoice resource that this credit note is applied to.
 	InvoiceID string `json:"invoice_id,required"`
 	// All of the line items associated with this credit note.
 	LineItems []CreditNoteLineItem `json:"line_items,required"`
 	// The maximum amount applied on the original invoice
-	MaximumAmountAdjustment interface{} `json:"maximum_amount_adjustment,required,nullable"`
+	MaximumAmountAdjustment CreditNoteMaximumAmountAdjustment `json:"maximum_amount_adjustment,required,nullable"`
 	// An optional memo supplied on the credit note.
 	Memo string `json:"memo,required,nullable"`
 	// Any credited amount from the applied minimum on the invoice.
 	MinimumAmountRefunded string           `json:"minimum_amount_refunded,required,nullable"`
-	Reason                CreditNoteReason `json:"reason,required"`
+	Reason                CreditNoteReason `json:"reason,required,nullable"`
 	// The total prior to any creditable invoice-level discounts or minimums.
 	Subtotal string `json:"subtotal,required"`
 	// The total including creditable invoice-level discounts or minimums, and tax.
@@ -150,13 +150,63 @@ func (r *CreditNoteCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type CreditNoteDiscount struct {
+	AmountApplied      string                              `json:"amount_applied,required"`
+	DiscountType       CreditNoteDiscountsDiscountType     `json:"discount_type,required"`
+	PercentageDiscount float64                             `json:"percentage_discount,required"`
+	AppliesToPrices    []CreditNoteDiscountsAppliesToPrice `json:"applies_to_prices,nullable"`
+	Reason             string                              `json:"reason,nullable"`
+	JSON               creditNoteDiscountJSON
+}
+
+// creditNoteDiscountJSON contains the JSON metadata for the struct
+// [CreditNoteDiscount]
+type creditNoteDiscountJSON struct {
+	AmountApplied      apijson.Field
+	DiscountType       apijson.Field
+	PercentageDiscount apijson.Field
+	AppliesToPrices    apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CreditNoteDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CreditNoteDiscountsDiscountType string
+
+const (
+	CreditNoteDiscountsDiscountTypePercentage CreditNoteDiscountsDiscountType = "percentage"
+)
+
+type CreditNoteDiscountsAppliesToPrice struct {
+	ID   string `json:"id,required"`
+	Name string `json:"name,required"`
+	JSON creditNoteDiscountsAppliesToPriceJSON
+}
+
+// creditNoteDiscountsAppliesToPriceJSON contains the JSON metadata for the struct
+// [CreditNoteDiscountsAppliesToPrice]
+type creditNoteDiscountsAppliesToPriceJSON struct {
+	ID          apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CreditNoteDiscountsAppliesToPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type CreditNoteLineItem struct {
 	// The Orb id of this resource.
 	ID string `json:"id,required"`
 	// The amount of the line item, including any line item minimums and discounts.
 	Amount string `json:"amount,required"`
 	// Any line items discounts from the invoice's line item.
-	Discounts []interface{} `json:"discounts,required"`
+	Discounts []CreditNoteLineItemsDiscount `json:"discounts,required"`
 	// The name of the corresponding invoice line item.
 	Name string `json:"name,required"`
 	// An optional quantity credited.
@@ -166,7 +216,7 @@ type CreditNoteLineItem struct {
 	// The amount of the line item, excluding any line item minimums and discounts.
 	Subtotal string `json:"subtotal,required"`
 	// Any tax amounts applied onto the line item.
-	TaxAmounts []interface{} `json:"tax_amounts,required"`
+	TaxAmounts []CreditNoteLineItemsTaxAmount `json:"tax_amounts,required"`
 	JSON       creditNoteLineItemJSON
 }
 
@@ -189,6 +239,42 @@ func (r *CreditNoteLineItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type CreditNoteLineItemsDiscount struct {
+	ID                 string                                   `json:"id,required"`
+	AmountApplied      string                                   `json:"amount_applied,required"`
+	AppliesToPriceIDs  []string                                 `json:"applies_to_price_ids,required"`
+	DiscountType       CreditNoteLineItemsDiscountsDiscountType `json:"discount_type,required"`
+	PercentageDiscount float64                                  `json:"percentage_discount,required"`
+	AmountDiscount     string                                   `json:"amount_discount,nullable"`
+	Reason             string                                   `json:"reason,nullable"`
+	JSON               creditNoteLineItemsDiscountJSON
+}
+
+// creditNoteLineItemsDiscountJSON contains the JSON metadata for the struct
+// [CreditNoteLineItemsDiscount]
+type creditNoteLineItemsDiscountJSON struct {
+	ID                 apijson.Field
+	AmountApplied      apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	DiscountType       apijson.Field
+	PercentageDiscount apijson.Field
+	AmountDiscount     apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CreditNoteLineItemsDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CreditNoteLineItemsDiscountsDiscountType string
+
+const (
+	CreditNoteLineItemsDiscountsDiscountTypePercentage CreditNoteLineItemsDiscountsDiscountType = "percentage"
+	CreditNoteLineItemsDiscountsDiscountTypeAmount     CreditNoteLineItemsDiscountsDiscountType = "amount"
+)
+
 type CreditNoteLineItemsSubLineItem struct {
 	Amount   string  `json:"amount,required"`
 	Name     string  `json:"name,required"`
@@ -207,6 +293,81 @@ type creditNoteLineItemsSubLineItemJSON struct {
 }
 
 func (r *CreditNoteLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CreditNoteLineItemsTaxAmount struct {
+	// The amount of additional tax incurred by this tax rate.
+	Amount string `json:"amount,required"`
+	// The human-readable description of the applied tax rate.
+	TaxRateDescription string `json:"tax_rate_description,required"`
+	// The tax rate percentage, out of 100.
+	TaxRatePercentage string `json:"tax_rate_percentage,required,nullable"`
+	JSON              creditNoteLineItemsTaxAmountJSON
+}
+
+// creditNoteLineItemsTaxAmountJSON contains the JSON metadata for the struct
+// [CreditNoteLineItemsTaxAmount]
+type creditNoteLineItemsTaxAmountJSON struct {
+	Amount             apijson.Field
+	TaxRateDescription apijson.Field
+	TaxRatePercentage  apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CreditNoteLineItemsTaxAmount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The maximum amount applied on the original invoice
+type CreditNoteMaximumAmountAdjustment struct {
+	AmountApplied      string                                            `json:"amount_applied,required"`
+	DiscountType       CreditNoteMaximumAmountAdjustmentDiscountType     `json:"discount_type,required"`
+	PercentageDiscount float64                                           `json:"percentage_discount,required"`
+	AppliesToPrices    []CreditNoteMaximumAmountAdjustmentAppliesToPrice `json:"applies_to_prices,nullable"`
+	Reason             string                                            `json:"reason,nullable"`
+	JSON               creditNoteMaximumAmountAdjustmentJSON
+}
+
+// creditNoteMaximumAmountAdjustmentJSON contains the JSON metadata for the struct
+// [CreditNoteMaximumAmountAdjustment]
+type creditNoteMaximumAmountAdjustmentJSON struct {
+	AmountApplied      apijson.Field
+	DiscountType       apijson.Field
+	PercentageDiscount apijson.Field
+	AppliesToPrices    apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CreditNoteMaximumAmountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CreditNoteMaximumAmountAdjustmentDiscountType string
+
+const (
+	CreditNoteMaximumAmountAdjustmentDiscountTypePercentage CreditNoteMaximumAmountAdjustmentDiscountType = "percentage"
+)
+
+type CreditNoteMaximumAmountAdjustmentAppliesToPrice struct {
+	ID   string `json:"id,required"`
+	Name string `json:"name,required"`
+	JSON creditNoteMaximumAmountAdjustmentAppliesToPriceJSON
+}
+
+// creditNoteMaximumAmountAdjustmentAppliesToPriceJSON contains the JSON metadata
+// for the struct [CreditNoteMaximumAmountAdjustmentAppliesToPrice]
+type creditNoteMaximumAmountAdjustmentAppliesToPriceJSON struct {
+	ID          apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CreditNoteMaximumAmountAdjustmentAppliesToPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 

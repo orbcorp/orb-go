@@ -88,36 +88,6 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 	return
 }
 
-type DiscountParam struct {
-	DiscountType param.Field[DiscountDiscountType] `json:"discount_type,required"`
-	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
-	// Only available if discount_type is `usage`. Number of usage units that this
-	// discount is for
-	UsageDiscount param.Field[float64] `json:"usage_discount"`
-}
-
-func (r DiscountParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type DiscountDiscountType string
-
-const (
-	DiscountDiscountTypePercentage DiscountDiscountType = "percentage"
-	DiscountDiscountTypeTrial      DiscountDiscountType = "trial"
-	DiscountDiscountTypeUsage      DiscountDiscountType = "usage"
-	DiscountDiscountTypeAmount     DiscountDiscountType = "amount"
-)
-
 // The Price resource represents a price that can be billed on a subscription,
 // resulting in a charge on an invoice in the form of an invoice line item. Prices
 // take a quantity and determine an amount to bill.
@@ -468,7 +438,7 @@ type PriceUnitPrice struct {
 	PlanPhaseOrder     int64                        `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceUnitPricePriceType      `json:"price_type,required"`
 	UnitConfig         PriceUnitPriceUnitConfig     `json:"unit_config,required"`
-	Discount           InvoiceDiscount              `json:"discount,nullable"`
+	Discount           shared.Discount              `json:"discount,nullable"`
 	Maximum            PriceUnitPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount      string                       `json:"maximum_amount,nullable"`
 	Minimum            PriceUnitPriceMinimum        `json:"minimum,nullable"`
@@ -643,7 +613,7 @@ type PricePackagePrice struct {
 	PackageConfig      PricePackagePricePackageConfig  `json:"package_config,required"`
 	PlanPhaseOrder     int64                           `json:"plan_phase_order,required,nullable"`
 	PriceType          PricePackagePricePriceType      `json:"price_type,required"`
-	Discount           InvoiceDiscount                 `json:"discount,nullable"`
+	Discount           shared.Discount                 `json:"discount,nullable"`
 	Maximum            PricePackagePriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount      string                          `json:"maximum_amount,nullable"`
 	Minimum            PricePackagePriceMinimum        `json:"minimum,nullable"`
@@ -820,7 +790,7 @@ type PriceMatrixPrice struct {
 	Name               string                         `json:"name,required"`
 	PlanPhaseOrder     int64                          `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceMatrixPricePriceType      `json:"price_type,required"`
-	Discount           InvoiceDiscount                `json:"discount,nullable"`
+	Discount           shared.Discount                `json:"discount,nullable"`
 	Maximum            PriceMatrixPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount      string                         `json:"maximum_amount,nullable"`
 	Minimum            PriceMatrixPriceMinimum        `json:"minimum,nullable"`
@@ -1029,7 +999,7 @@ type PriceTieredPrice struct {
 	PlanPhaseOrder     int64                          `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceTieredPricePriceType      `json:"price_type,required"`
 	TieredConfig       PriceTieredPriceTieredConfig   `json:"tiered_config,required"`
-	Discount           InvoiceDiscount                `json:"discount,nullable"`
+	Discount           shared.Discount                `json:"discount,nullable"`
 	Maximum            PriceTieredPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount      string                         `json:"maximum_amount,nullable"`
 	Minimum            PriceTieredPriceMinimum        `json:"minimum,nullable"`
@@ -1226,7 +1196,7 @@ type PriceTieredBpsPrice struct {
 	PlanPhaseOrder     int64                              `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceTieredBpsPricePriceType       `json:"price_type,required"`
 	TieredBpsConfig    PriceTieredBpsPriceTieredBpsConfig `json:"tiered_bps_config,required"`
-	Discount           InvoiceDiscount                    `json:"discount,nullable"`
+	Discount           shared.Discount                    `json:"discount,nullable"`
 	Maximum            PriceTieredBpsPriceMaximum         `json:"maximum,nullable"`
 	MaximumAmount      string                             `json:"maximum_amount,nullable"`
 	Minimum            PriceTieredBpsPriceMinimum         `json:"minimum,nullable"`
@@ -1427,7 +1397,7 @@ type PriceBpsPrice struct {
 	Name               string                      `json:"name,required"`
 	PlanPhaseOrder     int64                       `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBpsPricePriceType      `json:"price_type,required"`
-	Discount           InvoiceDiscount             `json:"discount,nullable"`
+	Discount           shared.Discount             `json:"discount,nullable"`
 	Maximum            PriceBpsPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount      string                      `json:"maximum_amount,nullable"`
 	Minimum            PriceBpsPriceMinimum        `json:"minimum,nullable"`
@@ -1602,7 +1572,7 @@ type PriceBulkBpsPrice struct {
 	Name               string                          `json:"name,required"`
 	PlanPhaseOrder     int64                           `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBulkBpsPricePriceType      `json:"price_type,required"`
-	Discount           InvoiceDiscount                 `json:"discount,nullable"`
+	Discount           shared.Discount                 `json:"discount,nullable"`
 	Maximum            PriceBulkBpsPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount      string                          `json:"maximum_amount,nullable"`
 	Minimum            PriceBulkBpsPriceMinimum        `json:"minimum,nullable"`
@@ -1800,7 +1770,7 @@ type PriceBulkPrice struct {
 	Name               string                       `json:"name,required"`
 	PlanPhaseOrder     int64                        `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBulkPricePriceType      `json:"price_type,required"`
-	Discount           InvoiceDiscount              `json:"discount,nullable"`
+	Discount           shared.Discount              `json:"discount,nullable"`
 	Maximum            PriceBulkPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount      string                       `json:"maximum_amount,nullable"`
 	Minimum            PriceBulkPriceMinimum        `json:"minimum,nullable"`
@@ -1993,7 +1963,7 @@ type PriceTestRatingFunctionPrice struct {
 	PlanPhaseOrder           int64                                      `json:"plan_phase_order,required,nullable"`
 	PriceType                PriceTestRatingFunctionPricePriceType      `json:"price_type,required"`
 	TestRatingFunctionConfig map[string]interface{}                     `json:"test_rating_function_config,required"`
-	Discount                 InvoiceDiscount                            `json:"discount,nullable"`
+	Discount                 shared.Discount                            `json:"discount,nullable"`
 	Maximum                  PriceTestRatingFunctionPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount            string                                     `json:"maximum_amount,nullable"`
 	Minimum                  PriceTestRatingFunctionPriceMinimum        `json:"minimum,nullable"`
@@ -2148,7 +2118,7 @@ type PriceFivetranExamplePrice struct {
 	Name                  string                                  `json:"name,required"`
 	PlanPhaseOrder        int64                                   `json:"plan_phase_order,required,nullable"`
 	PriceType             PriceFivetranExamplePricePriceType      `json:"price_type,required"`
-	Discount              InvoiceDiscount                         `json:"discount,nullable"`
+	Discount              shared.Discount                         `json:"discount,nullable"`
 	Maximum               PriceFivetranExamplePriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount         string                                  `json:"maximum_amount,nullable"`
 	Minimum               PriceFivetranExamplePriceMinimum        `json:"minimum,nullable"`
@@ -2303,7 +2273,7 @@ type PriceThresholdTotalAmountPrice struct {
 	PlanPhaseOrder             int64                                        `json:"plan_phase_order,required,nullable"`
 	PriceType                  PriceThresholdTotalAmountPricePriceType      `json:"price_type,required"`
 	ThresholdTotalAmountConfig map[string]interface{}                       `json:"threshold_total_amount_config,required"`
-	Discount                   InvoiceDiscount                              `json:"discount,nullable"`
+	Discount                   shared.Discount                              `json:"discount,nullable"`
 	Maximum                    PriceThresholdTotalAmountPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount              string                                       `json:"maximum_amount,nullable"`
 	Minimum                    PriceThresholdTotalAmountPriceMinimum        `json:"minimum,nullable"`
@@ -2458,7 +2428,7 @@ type PriceTieredPackagePrice struct {
 	PlanPhaseOrder      int64                                 `json:"plan_phase_order,required,nullable"`
 	PriceType           PriceTieredPackagePricePriceType      `json:"price_type,required"`
 	TieredPackageConfig map[string]interface{}                `json:"tiered_package_config,required"`
-	Discount            InvoiceDiscount                       `json:"discount,nullable"`
+	Discount            shared.Discount                       `json:"discount,nullable"`
 	Maximum             PriceTieredPackagePriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount       string                                `json:"maximum_amount,nullable"`
 	Minimum             PriceTieredPackagePriceMinimum        `json:"minimum,nullable"`
@@ -2613,7 +2583,7 @@ type PriceTieredWithMinimumPrice struct {
 	PlanPhaseOrder          int64                                     `json:"plan_phase_order,required,nullable"`
 	PriceType               PriceTieredWithMinimumPricePriceType      `json:"price_type,required"`
 	TieredWithMinimumConfig map[string]interface{}                    `json:"tiered_with_minimum_config,required"`
-	Discount                InvoiceDiscount                           `json:"discount,nullable"`
+	Discount                shared.Discount                           `json:"discount,nullable"`
 	Maximum                 PriceTieredWithMinimumPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount           string                                    `json:"maximum_amount,nullable"`
 	Minimum                 PriceTieredWithMinimumPriceMinimum        `json:"minimum,nullable"`
@@ -2768,7 +2738,7 @@ type PricePackageWithAllocationPrice struct {
 	PackageWithAllocationConfig map[string]interface{}                        `json:"package_with_allocation_config,required"`
 	PlanPhaseOrder              int64                                         `json:"plan_phase_order,required,nullable"`
 	PriceType                   PricePackageWithAllocationPricePriceType      `json:"price_type,required"`
-	Discount                    InvoiceDiscount                               `json:"discount,nullable"`
+	Discount                    shared.Discount                               `json:"discount,nullable"`
 	Maximum                     PricePackageWithAllocationPriceMaximum        `json:"maximum,nullable"`
 	MaximumAmount               string                                        `json:"maximum_amount,nullable"`
 	Minimum                     PricePackageWithAllocationPriceMinimum        `json:"minimum,nullable"`
@@ -2910,29 +2880,29 @@ func (r *PricePackageWithAllocationPriceMinimum) UnmarshalJSON(data []byte) (err
 }
 
 // This interface is a union satisfied by one of the following:
-// [PriceNewParamsNewUnitPrice], [PriceNewParamsNewPackagePrice],
-// [PriceNewParamsNewMatrixPrice], [PriceNewParamsNewTieredPrice],
-// [PriceNewParamsNewTieredBpsPrice], [PriceNewParamsNewBpsPrice],
-// [PriceNewParamsNewBulkBpsPrice], [PriceNewParamsNewBulkPrice],
-// [PriceNewParamsNewThresholdTotalAmountPrice],
-// [PriceNewParamsNewTieredPackagePrice],
-// [PriceNewParamsNewTieredWithMinimumPrice],
-// [PriceNewParamsNewPackageWithAllocationPrice].
+// [PriceNewParamsNewFloatingUnitPrice], [PriceNewParamsNewFloatingPackagePrice],
+// [PriceNewParamsNewFloatingMatrixPrice], [PriceNewParamsNewFloatingTieredPrice],
+// [PriceNewParamsNewFloatingTieredBpsPrice], [PriceNewParamsNewFloatingBpsPrice],
+// [PriceNewParamsNewFloatingBulkBpsPrice], [PriceNewParamsNewFloatingBulkPrice],
+// [PriceNewParamsNewFloatingThresholdTotalAmountPrice],
+// [PriceNewParamsNewFloatingTieredPackagePrice],
+// [PriceNewParamsNewFloatingTieredWithMinimumPrice],
+// [PriceNewParamsNewFloatingPackageWithAllocationPrice].
 type PriceNewParams interface {
 	ImplementsPriceNewParams()
 }
 
-type PriceNewParamsNewUnitPrice struct {
+type PriceNewParamsNewFloatingUnitPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewUnitPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingUnitPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                              `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewUnitPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                      `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name       param.Field[string]                               `json:"name,required"`
-	UnitConfig param.Field[PriceNewParamsNewUnitPriceUnitConfig] `json:"unit_config,required"`
+	Name       param.Field[string]                                       `json:"name,required"`
+	UnitConfig param.Field[PriceNewParamsNewFloatingUnitPriceUnitConfig] `json:"unit_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -2948,51 +2918,52 @@ type PriceNewParamsNewUnitPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewUnitPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingUnitPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewUnitPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingUnitPrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewUnitPriceCadence string
+type PriceNewParamsNewFloatingUnitPriceCadence string
 
 const (
-	PriceNewParamsNewUnitPriceCadenceAnnual    PriceNewParamsNewUnitPriceCadence = "annual"
-	PriceNewParamsNewUnitPriceCadenceMonthly   PriceNewParamsNewUnitPriceCadence = "monthly"
-	PriceNewParamsNewUnitPriceCadenceQuarterly PriceNewParamsNewUnitPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingUnitPriceCadenceAnnual    PriceNewParamsNewFloatingUnitPriceCadence = "annual"
+	PriceNewParamsNewFloatingUnitPriceCadenceMonthly   PriceNewParamsNewFloatingUnitPriceCadence = "monthly"
+	PriceNewParamsNewFloatingUnitPriceCadenceQuarterly PriceNewParamsNewFloatingUnitPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingUnitPriceCadenceOneTime   PriceNewParamsNewFloatingUnitPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewUnitPriceModelType string
+type PriceNewParamsNewFloatingUnitPriceModelType string
 
 const (
-	PriceNewParamsNewUnitPriceModelTypeUnit PriceNewParamsNewUnitPriceModelType = "unit"
+	PriceNewParamsNewFloatingUnitPriceModelTypeUnit PriceNewParamsNewFloatingUnitPriceModelType = "unit"
 )
 
-type PriceNewParamsNewUnitPriceUnitConfig struct {
+type PriceNewParamsNewFloatingUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 	// Multiplier to scale rated quantity by
 	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
-func (r PriceNewParamsNewUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewPackagePrice struct {
+type PriceNewParamsNewFloatingPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                 `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewPackagePriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                         `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name          param.Field[string]                                     `json:"name,required"`
-	PackageConfig param.Field[PriceNewParamsNewPackagePricePackageConfig] `json:"package_config,required"`
+	Name          param.Field[string]                                             `json:"name,required"`
+	PackageConfig param.Field[PriceNewParamsNewFloatingPackagePricePackageConfig] `json:"package_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3008,30 +2979,31 @@ type PriceNewParamsNewPackagePrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewPackagePrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingPackagePrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewPackagePriceCadence string
+type PriceNewParamsNewFloatingPackagePriceCadence string
 
 const (
-	PriceNewParamsNewPackagePriceCadenceAnnual    PriceNewParamsNewPackagePriceCadence = "annual"
-	PriceNewParamsNewPackagePriceCadenceMonthly   PriceNewParamsNewPackagePriceCadence = "monthly"
-	PriceNewParamsNewPackagePriceCadenceQuarterly PriceNewParamsNewPackagePriceCadence = "quarterly"
+	PriceNewParamsNewFloatingPackagePriceCadenceAnnual    PriceNewParamsNewFloatingPackagePriceCadence = "annual"
+	PriceNewParamsNewFloatingPackagePriceCadenceMonthly   PriceNewParamsNewFloatingPackagePriceCadence = "monthly"
+	PriceNewParamsNewFloatingPackagePriceCadenceQuarterly PriceNewParamsNewFloatingPackagePriceCadence = "quarterly"
+	PriceNewParamsNewFloatingPackagePriceCadenceOneTime   PriceNewParamsNewFloatingPackagePriceCadence = "one_time"
 )
 
-type PriceNewParamsNewPackagePriceModelType string
+type PriceNewParamsNewFloatingPackagePriceModelType string
 
 const (
-	PriceNewParamsNewPackagePriceModelTypePackage PriceNewParamsNewPackagePriceModelType = "package"
+	PriceNewParamsNewFloatingPackagePriceModelTypePackage PriceNewParamsNewFloatingPackagePriceModelType = "package"
 )
 
-type PriceNewParamsNewPackagePricePackageConfig struct {
+type PriceNewParamsNewFloatingPackagePricePackageConfig struct {
 	// A currency amount to rate usage by
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
@@ -3039,19 +3011,19 @@ type PriceNewParamsNewPackagePricePackageConfig struct {
 	PackageSize param.Field[int64] `json:"package_size"`
 }
 
-func (r PriceNewParamsNewPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewMatrixPrice struct {
+type PriceNewParamsNewFloatingMatrixPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewMatrixPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingMatrixPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID       param.Field[string]                                   `json:"item_id,required"`
-	MatrixConfig param.Field[PriceNewParamsNewMatrixPriceMatrixConfig] `json:"matrix_config,required"`
-	ModelType    param.Field[PriceNewParamsNewMatrixPriceModelType]    `json:"model_type,required"`
+	ItemID       param.Field[string]                                           `json:"item_id,required"`
+	MatrixConfig param.Field[PriceNewParamsNewFloatingMatrixPriceMatrixConfig] `json:"matrix_config,required"`
+	ModelType    param.Field[PriceNewParamsNewFloatingMatrixPriceModelType]    `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3069,40 +3041,41 @@ type PriceNewParamsNewMatrixPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewMatrixPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingMatrixPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewMatrixPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingMatrixPrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewMatrixPriceCadence string
+type PriceNewParamsNewFloatingMatrixPriceCadence string
 
 const (
-	PriceNewParamsNewMatrixPriceCadenceAnnual    PriceNewParamsNewMatrixPriceCadence = "annual"
-	PriceNewParamsNewMatrixPriceCadenceMonthly   PriceNewParamsNewMatrixPriceCadence = "monthly"
-	PriceNewParamsNewMatrixPriceCadenceQuarterly PriceNewParamsNewMatrixPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingMatrixPriceCadenceAnnual    PriceNewParamsNewFloatingMatrixPriceCadence = "annual"
+	PriceNewParamsNewFloatingMatrixPriceCadenceMonthly   PriceNewParamsNewFloatingMatrixPriceCadence = "monthly"
+	PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly PriceNewParamsNewFloatingMatrixPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingMatrixPriceCadenceOneTime   PriceNewParamsNewFloatingMatrixPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewMatrixPriceMatrixConfig struct {
+type PriceNewParamsNewFloatingMatrixPriceMatrixConfig struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
 	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
 	// One or two event property values to evaluate matrix groups by
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
-	MatrixValues param.Field[[]PriceNewParamsNewMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
+	MatrixValues param.Field[[]PriceNewParamsNewFloatingMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
 	// Default optional multiplier to scale rated quantities that fall into the default
 	// bucket by
 	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
-func (r PriceNewParamsNewMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewMatrixPriceMatrixConfigMatrixValue struct {
+type PriceNewParamsNewFloatingMatrixPriceMatrixConfigMatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by. For example,
 	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
 	// instance tier.
@@ -3113,27 +3086,27 @@ type PriceNewParamsNewMatrixPriceMatrixConfigMatrixValue struct {
 	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
-func (r PriceNewParamsNewMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewMatrixPriceModelType string
+type PriceNewParamsNewFloatingMatrixPriceModelType string
 
 const (
-	PriceNewParamsNewMatrixPriceModelTypeMatrix PriceNewParamsNewMatrixPriceModelType = "matrix"
+	PriceNewParamsNewFloatingMatrixPriceModelTypeMatrix PriceNewParamsNewFloatingMatrixPriceModelType = "matrix"
 )
 
-type PriceNewParamsNewTieredPrice struct {
+type PriceNewParamsNewFloatingTieredPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewTieredPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                        `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name         param.Field[string]                                   `json:"name,required"`
-	TieredConfig param.Field[PriceNewParamsNewTieredPriceTieredConfig] `json:"tiered_config,required"`
+	Name         param.Field[string]                                           `json:"name,required"`
+	TieredConfig param.Field[PriceNewParamsNewFloatingTieredPriceTieredConfig] `json:"tiered_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3149,39 +3122,40 @@ type PriceNewParamsNewTieredPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewTieredPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewTieredPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingTieredPrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewTieredPriceCadence string
+type PriceNewParamsNewFloatingTieredPriceCadence string
 
 const (
-	PriceNewParamsNewTieredPriceCadenceAnnual    PriceNewParamsNewTieredPriceCadence = "annual"
-	PriceNewParamsNewTieredPriceCadenceMonthly   PriceNewParamsNewTieredPriceCadence = "monthly"
-	PriceNewParamsNewTieredPriceCadenceQuarterly PriceNewParamsNewTieredPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPriceCadenceAnnual    PriceNewParamsNewFloatingTieredPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredPriceCadenceMonthly   PriceNewParamsNewFloatingTieredPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredPriceCadenceQuarterly PriceNewParamsNewFloatingTieredPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPriceCadenceOneTime   PriceNewParamsNewFloatingTieredPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewTieredPriceModelType string
+type PriceNewParamsNewFloatingTieredPriceModelType string
 
 const (
-	PriceNewParamsNewTieredPriceModelTypeTiered PriceNewParamsNewTieredPriceModelType = "tiered"
+	PriceNewParamsNewFloatingTieredPriceModelTypeTiered PriceNewParamsNewFloatingTieredPriceModelType = "tiered"
 )
 
-type PriceNewParamsNewTieredPriceTieredConfig struct {
+type PriceNewParamsNewFloatingTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]PriceNewParamsNewTieredPriceTieredConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingTieredPriceTieredConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceNewParamsNewTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewTieredPriceTieredConfigTier struct {
+type PriceNewParamsNewFloatingTieredPriceTieredConfigTier struct {
 	// Inclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
@@ -3190,21 +3164,21 @@ type PriceNewParamsNewTieredPriceTieredConfigTier struct {
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
-func (r PriceNewParamsNewTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewTieredBpsPrice struct {
+type PriceNewParamsNewFloatingTieredBpsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewTieredBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                   `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewTieredBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                           `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name            param.Field[string]                                         `json:"name,required"`
-	TieredBpsConfig param.Field[PriceNewParamsNewTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
+	Name            param.Field[string]                                                 `json:"name,required"`
+	TieredBpsConfig param.Field[PriceNewParamsNewFloatingTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3220,40 +3194,41 @@ type PriceNewParamsNewTieredBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewTieredBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewTieredBpsPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingTieredBpsPrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewTieredBpsPriceCadence string
+type PriceNewParamsNewFloatingTieredBpsPriceCadence string
 
 const (
-	PriceNewParamsNewTieredBpsPriceCadenceAnnual    PriceNewParamsNewTieredBpsPriceCadence = "annual"
-	PriceNewParamsNewTieredBpsPriceCadenceMonthly   PriceNewParamsNewTieredBpsPriceCadence = "monthly"
-	PriceNewParamsNewTieredBpsPriceCadenceQuarterly PriceNewParamsNewTieredBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual    PriceNewParamsNewFloatingTieredBpsPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly   PriceNewParamsNewFloatingTieredBpsPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly PriceNewParamsNewFloatingTieredBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime   PriceNewParamsNewFloatingTieredBpsPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewTieredBpsPriceModelType string
+type PriceNewParamsNewFloatingTieredBpsPriceModelType string
 
 const (
-	PriceNewParamsNewTieredBpsPriceModelTypeTieredBps PriceNewParamsNewTieredBpsPriceModelType = "tiered_bps"
+	PriceNewParamsNewFloatingTieredBpsPriceModelTypeTieredBps PriceNewParamsNewFloatingTieredBpsPriceModelType = "tiered_bps"
 )
 
-type PriceNewParamsNewTieredBpsPriceTieredBpsConfig struct {
+type PriceNewParamsNewFloatingTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
 	// tiers
-	Tiers param.Field[[]PriceNewParamsNewTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceNewParamsNewTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewTieredBpsPriceTieredBpsConfigTier struct {
+type PriceNewParamsNewFloatingTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
 	// Inclusive tier starting value
@@ -3264,19 +3239,19 @@ type PriceNewParamsNewTieredBpsPriceTieredBpsConfigTier struct {
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r PriceNewParamsNewTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewBpsPrice struct {
-	BpsConfig param.Field[PriceNewParamsNewBpsPriceBpsConfig] `json:"bps_config,required"`
+type PriceNewParamsNewFloatingBpsPrice struct {
+	BpsConfig param.Field[PriceNewParamsNewFloatingBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                             `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                     `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3294,49 +3269,50 @@ type PriceNewParamsNewBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewBpsPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingBpsPrice) ImplementsPriceNewParams() {
 
 }
 
-type PriceNewParamsNewBpsPriceBpsConfig struct {
+type PriceNewParamsNewFloatingBpsPriceBpsConfig struct {
 	// Basis point take rate per event
 	Bps param.Field[float64] `json:"bps,required"`
 	// Optional currency amount maximum to cap spend per event
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r PriceNewParamsNewBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewBpsPriceCadence string
+type PriceNewParamsNewFloatingBpsPriceCadence string
 
 const (
-	PriceNewParamsNewBpsPriceCadenceAnnual    PriceNewParamsNewBpsPriceCadence = "annual"
-	PriceNewParamsNewBpsPriceCadenceMonthly   PriceNewParamsNewBpsPriceCadence = "monthly"
-	PriceNewParamsNewBpsPriceCadenceQuarterly PriceNewParamsNewBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBpsPriceCadenceAnnual    PriceNewParamsNewFloatingBpsPriceCadence = "annual"
+	PriceNewParamsNewFloatingBpsPriceCadenceMonthly   PriceNewParamsNewFloatingBpsPriceCadence = "monthly"
+	PriceNewParamsNewFloatingBpsPriceCadenceQuarterly PriceNewParamsNewFloatingBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBpsPriceCadenceOneTime   PriceNewParamsNewFloatingBpsPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewBpsPriceModelType string
+type PriceNewParamsNewFloatingBpsPriceModelType string
 
 const (
-	PriceNewParamsNewBpsPriceModelTypeBps PriceNewParamsNewBpsPriceModelType = "bps"
+	PriceNewParamsNewFloatingBpsPriceModelTypeBps PriceNewParamsNewFloatingBpsPriceModelType = "bps"
 )
 
-type PriceNewParamsNewBulkBpsPrice struct {
-	BulkBpsConfig param.Field[PriceNewParamsNewBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
+type PriceNewParamsNewFloatingBulkBpsPrice struct {
+	BulkBpsConfig param.Field[PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewBulkBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingBulkBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                 `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewBulkBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                         `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3354,25 +3330,25 @@ type PriceNewParamsNewBulkBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewBulkBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBulkBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewBulkBpsPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingBulkBpsPrice) ImplementsPriceNewParams() {
 
 }
 
-type PriceNewParamsNewBulkBpsPriceBulkBpsConfig struct {
+type PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfig struct {
 	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
 	// tier based on total volume
-	Tiers param.Field[[]PriceNewParamsNewBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceNewParamsNewBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewBulkBpsPriceBulkBpsConfigTier struct {
+type PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfigTier struct {
 	// Basis points to rate on
 	Bps param.Field[float64] `json:"bps,required"`
 	// Upper bound for tier
@@ -3381,34 +3357,35 @@ type PriceNewParamsNewBulkBpsPriceBulkBpsConfigTier struct {
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r PriceNewParamsNewBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewBulkBpsPriceCadence string
+type PriceNewParamsNewFloatingBulkBpsPriceCadence string
 
 const (
-	PriceNewParamsNewBulkBpsPriceCadenceAnnual    PriceNewParamsNewBulkBpsPriceCadence = "annual"
-	PriceNewParamsNewBulkBpsPriceCadenceMonthly   PriceNewParamsNewBulkBpsPriceCadence = "monthly"
-	PriceNewParamsNewBulkBpsPriceCadenceQuarterly PriceNewParamsNewBulkBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual    PriceNewParamsNewFloatingBulkBpsPriceCadence = "annual"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly   PriceNewParamsNewFloatingBulkBpsPriceCadence = "monthly"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly PriceNewParamsNewFloatingBulkBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime   PriceNewParamsNewFloatingBulkBpsPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewBulkBpsPriceModelType string
+type PriceNewParamsNewFloatingBulkBpsPriceModelType string
 
 const (
-	PriceNewParamsNewBulkBpsPriceModelTypeBulkBps PriceNewParamsNewBulkBpsPriceModelType = "bulk_bps"
+	PriceNewParamsNewFloatingBulkBpsPriceModelTypeBulkBps PriceNewParamsNewFloatingBulkBpsPriceModelType = "bulk_bps"
 )
 
-type PriceNewParamsNewBulkPrice struct {
-	BulkConfig param.Field[PriceNewParamsNewBulkPriceBulkConfig] `json:"bulk_config,required"`
+type PriceNewParamsNewFloatingBulkPrice struct {
+	BulkConfig param.Field[PriceNewParamsNewFloatingBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingBulkPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                              `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewBulkPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                      `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -3426,57 +3403,58 @@ type PriceNewParamsNewBulkPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewBulkPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBulkPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewBulkPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingBulkPrice) ImplementsPriceNewParams() {
 
 }
 
-type PriceNewParamsNewBulkPriceBulkConfig struct {
+type PriceNewParamsNewFloatingBulkPriceBulkConfig struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]PriceNewParamsNewBulkPriceBulkConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceNewParamsNewFloatingBulkPriceBulkConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceNewParamsNewBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceNewParamsNewBulkPriceBulkConfigTier struct {
+type PriceNewParamsNewFloatingBulkPriceBulkConfigTier struct {
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 	// Upper bound for this tier
 	MaximumUnits param.Field[float64] `json:"maximum_units"`
 }
 
-func (r PriceNewParamsNewBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewBulkPriceCadence string
+type PriceNewParamsNewFloatingBulkPriceCadence string
 
 const (
-	PriceNewParamsNewBulkPriceCadenceAnnual    PriceNewParamsNewBulkPriceCadence = "annual"
-	PriceNewParamsNewBulkPriceCadenceMonthly   PriceNewParamsNewBulkPriceCadence = "monthly"
-	PriceNewParamsNewBulkPriceCadenceQuarterly PriceNewParamsNewBulkPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBulkPriceCadenceAnnual    PriceNewParamsNewFloatingBulkPriceCadence = "annual"
+	PriceNewParamsNewFloatingBulkPriceCadenceMonthly   PriceNewParamsNewFloatingBulkPriceCadence = "monthly"
+	PriceNewParamsNewFloatingBulkPriceCadenceQuarterly PriceNewParamsNewFloatingBulkPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBulkPriceCadenceOneTime   PriceNewParamsNewFloatingBulkPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewBulkPriceModelType string
+type PriceNewParamsNewFloatingBulkPriceModelType string
 
 const (
-	PriceNewParamsNewBulkPriceModelTypeBulk PriceNewParamsNewBulkPriceModelType = "bulk"
+	PriceNewParamsNewFloatingBulkPriceModelTypeBulk PriceNewParamsNewFloatingBulkPriceModelType = "bulk"
 )
 
-type PriceNewParamsNewThresholdTotalAmountPrice struct {
+type PriceNewParamsNewFloatingThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                              `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                      `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                       param.Field[string]                 `json:"name,required"`
 	ThresholdTotalAmountConfig param.Field[map[string]interface{}] `json:"threshold_total_amount_config,required"`
@@ -3495,37 +3473,38 @@ type PriceNewParamsNewThresholdTotalAmountPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewThresholdTotalAmountPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingThresholdTotalAmountPrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewThresholdTotalAmountPriceCadence string
+type PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence string
 
 const (
-	PriceNewParamsNewThresholdTotalAmountPriceCadenceAnnual    PriceNewParamsNewThresholdTotalAmountPriceCadence = "annual"
-	PriceNewParamsNewThresholdTotalAmountPriceCadenceMonthly   PriceNewParamsNewThresholdTotalAmountPriceCadence = "monthly"
-	PriceNewParamsNewThresholdTotalAmountPriceCadenceQuarterly PriceNewParamsNewThresholdTotalAmountPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual    PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "annual"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly   PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "monthly"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime   PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewThresholdTotalAmountPriceModelType string
+type PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType string
 
 const (
-	PriceNewParamsNewThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceNewParamsNewThresholdTotalAmountPriceModelType = "threshold_total_amount"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
 
-type PriceNewParamsNewTieredPackagePrice struct {
+type PriceNewParamsNewFloatingTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                       `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewTieredPackagePriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                               `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                param.Field[string]                 `json:"name,required"`
 	TieredPackageConfig param.Field[map[string]interface{}] `json:"tiered_package_config,required"`
@@ -3544,37 +3523,38 @@ type PriceNewParamsNewTieredPackagePrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewTieredPackagePrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingTieredPackagePrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewTieredPackagePriceCadence string
+type PriceNewParamsNewFloatingTieredPackagePriceCadence string
 
 const (
-	PriceNewParamsNewTieredPackagePriceCadenceAnnual    PriceNewParamsNewTieredPackagePriceCadence = "annual"
-	PriceNewParamsNewTieredPackagePriceCadenceMonthly   PriceNewParamsNewTieredPackagePriceCadence = "monthly"
-	PriceNewParamsNewTieredPackagePriceCadenceQuarterly PriceNewParamsNewTieredPackagePriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual    PriceNewParamsNewFloatingTieredPackagePriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly   PriceNewParamsNewFloatingTieredPackagePriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly PriceNewParamsNewFloatingTieredPackagePriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime   PriceNewParamsNewFloatingTieredPackagePriceCadence = "one_time"
 )
 
-type PriceNewParamsNewTieredPackagePriceModelType string
+type PriceNewParamsNewFloatingTieredPackagePriceModelType string
 
 const (
-	PriceNewParamsNewTieredPackagePriceModelTypeTieredPackage PriceNewParamsNewTieredPackagePriceModelType = "tiered_package"
+	PriceNewParamsNewFloatingTieredPackagePriceModelTypeTieredPackage PriceNewParamsNewFloatingTieredPackagePriceModelType = "tiered_package"
 )
 
-type PriceNewParamsNewTieredWithMinimumPrice struct {
+type PriceNewParamsNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                           `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                   `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                    param.Field[string]                 `json:"name,required"`
 	TieredWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_with_minimum_config,required"`
@@ -3593,37 +3573,38 @@ type PriceNewParamsNewTieredWithMinimumPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewTieredWithMinimumPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingTieredWithMinimumPrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewTieredWithMinimumPriceCadence string
+type PriceNewParamsNewFloatingTieredWithMinimumPriceCadence string
 
 const (
-	PriceNewParamsNewTieredWithMinimumPriceCadenceAnnual    PriceNewParamsNewTieredWithMinimumPriceCadence = "annual"
-	PriceNewParamsNewTieredWithMinimumPriceCadenceMonthly   PriceNewParamsNewTieredWithMinimumPriceCadence = "monthly"
-	PriceNewParamsNewTieredWithMinimumPriceCadenceQuarterly PriceNewParamsNewTieredWithMinimumPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual    PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly   PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime   PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewTieredWithMinimumPriceModelType string
+type PriceNewParamsNewFloatingTieredWithMinimumPriceModelType string
 
 const (
-	PriceNewParamsNewTieredWithMinimumPriceModelTypeTieredWithMinimum PriceNewParamsNewTieredWithMinimumPriceModelType = "tiered_with_minimum"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum PriceNewParamsNewFloatingTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
 
-type PriceNewParamsNewPackageWithAllocationPrice struct {
+type PriceNewParamsNewFloatingPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID    param.Field[string]                                               `json:"item_id,required"`
-	ModelType param.Field[PriceNewParamsNewPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                       `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                        param.Field[string]                 `json:"name,required"`
 	PackageWithAllocationConfig param.Field[map[string]interface{}] `json:"package_with_allocation_config,required"`
@@ -3642,27 +3623,28 @@ type PriceNewParamsNewPackageWithAllocationPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 }
 
-func (r PriceNewParamsNewPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceNewParamsNewFloatingPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (PriceNewParamsNewPackageWithAllocationPrice) ImplementsPriceNewParams() {
+func (PriceNewParamsNewFloatingPackageWithAllocationPrice) ImplementsPriceNewParams() {
 
 }
 
 // The cadence to bill for this price on.
-type PriceNewParamsNewPackageWithAllocationPriceCadence string
+type PriceNewParamsNewFloatingPackageWithAllocationPriceCadence string
 
 const (
-	PriceNewParamsNewPackageWithAllocationPriceCadenceAnnual    PriceNewParamsNewPackageWithAllocationPriceCadence = "annual"
-	PriceNewParamsNewPackageWithAllocationPriceCadenceMonthly   PriceNewParamsNewPackageWithAllocationPriceCadence = "monthly"
-	PriceNewParamsNewPackageWithAllocationPriceCadenceQuarterly PriceNewParamsNewPackageWithAllocationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual    PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "annual"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly   PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "monthly"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime   PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "one_time"
 )
 
-type PriceNewParamsNewPackageWithAllocationPriceModelType string
+type PriceNewParamsNewFloatingPackageWithAllocationPriceModelType string
 
 const (
-	PriceNewParamsNewPackageWithAllocationPriceModelTypePackageWithAllocation PriceNewParamsNewPackageWithAllocationPriceModelType = "package_with_allocation"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation PriceNewParamsNewFloatingPackageWithAllocationPriceModelType = "package_with_allocation"
 )
 
 type PriceListParams struct {
