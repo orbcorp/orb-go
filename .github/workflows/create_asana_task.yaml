@@ -17,4 +17,8 @@ jobs:
           asana-workspace-id: ${{ secrets.ASANA_WORKSPACE_ID }}
           asana-task-name: ${{ github.event.issue.title }}
           asana-task-description: ${{ github.event.issue.body }}
-          asana-custom-fields: '{ "1205809189288915": "1205809189288918" }'
+          asana-custom-fields: |-
+            {
+              "1205809189288915": "1205809189288918",
+              "1205809189288927": "${{ github.event.issue.url }}"
+            }
