@@ -90,7 +90,7 @@ type MetricNewResponse struct {
 	// The Item resource represents a sellable product or good. Items are associated
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
-	Item     MetricNewResponseItem   `json:"item,required"`
+	Item     Item                    `json:"item,required"`
 	Metadata map[string]string       `json:"metadata,required"`
 	Name     string                  `json:"name,required"`
 	Status   MetricNewResponseStatus `json:"status,required"`
@@ -114,63 +114,6 @@ func (r *MetricNewResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The Item resource represents a sellable product or good. Items are associated
-// with all line items, billable metrics, and prices and are used for defining
-// external sync behavior for invoices and tax calculation purposes.
-type MetricNewResponseItem struct {
-	ID                  string                                    `json:"id,required"`
-	CreatedAt           time.Time                                 `json:"created_at,required" format:"date-time"`
-	ExternalConnections []MetricNewResponseItemExternalConnection `json:"external_connections,required"`
-	Name                string                                    `json:"name,required"`
-	JSON                metricNewResponseItemJSON
-}
-
-// metricNewResponseItemJSON contains the JSON metadata for the struct
-// [MetricNewResponseItem]
-type metricNewResponseItemJSON struct {
-	ID                  apijson.Field
-	CreatedAt           apijson.Field
-	ExternalConnections apijson.Field
-	Name                apijson.Field
-	raw                 string
-	ExtraFields         map[string]apijson.Field
-}
-
-func (r *MetricNewResponseItem) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type MetricNewResponseItemExternalConnection struct {
-	ExternalConnectionName MetricNewResponseItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
-	ExternalEntityID       string                                                         `json:"external_entity_id,required"`
-	JSON                   metricNewResponseItemExternalConnectionJSON
-}
-
-// metricNewResponseItemExternalConnectionJSON contains the JSON metadata for the
-// struct [MetricNewResponseItemExternalConnection]
-type metricNewResponseItemExternalConnectionJSON struct {
-	ExternalConnectionName apijson.Field
-	ExternalEntityID       apijson.Field
-	raw                    string
-	ExtraFields            map[string]apijson.Field
-}
-
-func (r *MetricNewResponseItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type MetricNewResponseItemExternalConnectionsExternalConnectionName string
-
-const (
-	MetricNewResponseItemExternalConnectionsExternalConnectionNameStripe     MetricNewResponseItemExternalConnectionsExternalConnectionName = "stripe"
-	MetricNewResponseItemExternalConnectionsExternalConnectionNameQuickbooks MetricNewResponseItemExternalConnectionsExternalConnectionName = "quickbooks"
-	MetricNewResponseItemExternalConnectionsExternalConnectionNameBillCom    MetricNewResponseItemExternalConnectionsExternalConnectionName = "bill.com"
-	MetricNewResponseItemExternalConnectionsExternalConnectionNameNetsuite   MetricNewResponseItemExternalConnectionsExternalConnectionName = "netsuite"
-	MetricNewResponseItemExternalConnectionsExternalConnectionNameTaxjar     MetricNewResponseItemExternalConnectionsExternalConnectionName = "taxjar"
-	MetricNewResponseItemExternalConnectionsExternalConnectionNameAvalara    MetricNewResponseItemExternalConnectionsExternalConnectionName = "avalara"
-	MetricNewResponseItemExternalConnectionsExternalConnectionNameAnrok      MetricNewResponseItemExternalConnectionsExternalConnectionName = "anrok"
-)
-
 type MetricNewResponseStatus string
 
 const (
@@ -188,7 +131,7 @@ type MetricListResponse struct {
 	// The Item resource represents a sellable product or good. Items are associated
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
-	Item     MetricListResponseItem   `json:"item,required"`
+	Item     Item                     `json:"item,required"`
 	Metadata map[string]string        `json:"metadata,required"`
 	Name     string                   `json:"name,required"`
 	Status   MetricListResponseStatus `json:"status,required"`
@@ -212,63 +155,6 @@ func (r *MetricListResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The Item resource represents a sellable product or good. Items are associated
-// with all line items, billable metrics, and prices and are used for defining
-// external sync behavior for invoices and tax calculation purposes.
-type MetricListResponseItem struct {
-	ID                  string                                     `json:"id,required"`
-	CreatedAt           time.Time                                  `json:"created_at,required" format:"date-time"`
-	ExternalConnections []MetricListResponseItemExternalConnection `json:"external_connections,required"`
-	Name                string                                     `json:"name,required"`
-	JSON                metricListResponseItemJSON
-}
-
-// metricListResponseItemJSON contains the JSON metadata for the struct
-// [MetricListResponseItem]
-type metricListResponseItemJSON struct {
-	ID                  apijson.Field
-	CreatedAt           apijson.Field
-	ExternalConnections apijson.Field
-	Name                apijson.Field
-	raw                 string
-	ExtraFields         map[string]apijson.Field
-}
-
-func (r *MetricListResponseItem) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type MetricListResponseItemExternalConnection struct {
-	ExternalConnectionName MetricListResponseItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
-	ExternalEntityID       string                                                          `json:"external_entity_id,required"`
-	JSON                   metricListResponseItemExternalConnectionJSON
-}
-
-// metricListResponseItemExternalConnectionJSON contains the JSON metadata for the
-// struct [MetricListResponseItemExternalConnection]
-type metricListResponseItemExternalConnectionJSON struct {
-	ExternalConnectionName apijson.Field
-	ExternalEntityID       apijson.Field
-	raw                    string
-	ExtraFields            map[string]apijson.Field
-}
-
-func (r *MetricListResponseItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type MetricListResponseItemExternalConnectionsExternalConnectionName string
-
-const (
-	MetricListResponseItemExternalConnectionsExternalConnectionNameStripe     MetricListResponseItemExternalConnectionsExternalConnectionName = "stripe"
-	MetricListResponseItemExternalConnectionsExternalConnectionNameQuickbooks MetricListResponseItemExternalConnectionsExternalConnectionName = "quickbooks"
-	MetricListResponseItemExternalConnectionsExternalConnectionNameBillCom    MetricListResponseItemExternalConnectionsExternalConnectionName = "bill.com"
-	MetricListResponseItemExternalConnectionsExternalConnectionNameNetsuite   MetricListResponseItemExternalConnectionsExternalConnectionName = "netsuite"
-	MetricListResponseItemExternalConnectionsExternalConnectionNameTaxjar     MetricListResponseItemExternalConnectionsExternalConnectionName = "taxjar"
-	MetricListResponseItemExternalConnectionsExternalConnectionNameAvalara    MetricListResponseItemExternalConnectionsExternalConnectionName = "avalara"
-	MetricListResponseItemExternalConnectionsExternalConnectionNameAnrok      MetricListResponseItemExternalConnectionsExternalConnectionName = "anrok"
-)
-
 type MetricListResponseStatus string
 
 const (
@@ -286,7 +172,7 @@ type MetricFetchResponse struct {
 	// The Item resource represents a sellable product or good. Items are associated
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
-	Item     MetricFetchResponseItem   `json:"item,required"`
+	Item     Item                      `json:"item,required"`
 	Metadata map[string]string         `json:"metadata,required"`
 	Name     string                    `json:"name,required"`
 	Status   MetricFetchResponseStatus `json:"status,required"`
@@ -309,63 +195,6 @@ type metricFetchResponseJSON struct {
 func (r *MetricFetchResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-// The Item resource represents a sellable product or good. Items are associated
-// with all line items, billable metrics, and prices and are used for defining
-// external sync behavior for invoices and tax calculation purposes.
-type MetricFetchResponseItem struct {
-	ID                  string                                      `json:"id,required"`
-	CreatedAt           time.Time                                   `json:"created_at,required" format:"date-time"`
-	ExternalConnections []MetricFetchResponseItemExternalConnection `json:"external_connections,required"`
-	Name                string                                      `json:"name,required"`
-	JSON                metricFetchResponseItemJSON
-}
-
-// metricFetchResponseItemJSON contains the JSON metadata for the struct
-// [MetricFetchResponseItem]
-type metricFetchResponseItemJSON struct {
-	ID                  apijson.Field
-	CreatedAt           apijson.Field
-	ExternalConnections apijson.Field
-	Name                apijson.Field
-	raw                 string
-	ExtraFields         map[string]apijson.Field
-}
-
-func (r *MetricFetchResponseItem) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type MetricFetchResponseItemExternalConnection struct {
-	ExternalConnectionName MetricFetchResponseItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
-	ExternalEntityID       string                                                           `json:"external_entity_id,required"`
-	JSON                   metricFetchResponseItemExternalConnectionJSON
-}
-
-// metricFetchResponseItemExternalConnectionJSON contains the JSON metadata for the
-// struct [MetricFetchResponseItemExternalConnection]
-type metricFetchResponseItemExternalConnectionJSON struct {
-	ExternalConnectionName apijson.Field
-	ExternalEntityID       apijson.Field
-	raw                    string
-	ExtraFields            map[string]apijson.Field
-}
-
-func (r *MetricFetchResponseItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type MetricFetchResponseItemExternalConnectionsExternalConnectionName string
-
-const (
-	MetricFetchResponseItemExternalConnectionsExternalConnectionNameStripe     MetricFetchResponseItemExternalConnectionsExternalConnectionName = "stripe"
-	MetricFetchResponseItemExternalConnectionsExternalConnectionNameQuickbooks MetricFetchResponseItemExternalConnectionsExternalConnectionName = "quickbooks"
-	MetricFetchResponseItemExternalConnectionsExternalConnectionNameBillCom    MetricFetchResponseItemExternalConnectionsExternalConnectionName = "bill.com"
-	MetricFetchResponseItemExternalConnectionsExternalConnectionNameNetsuite   MetricFetchResponseItemExternalConnectionsExternalConnectionName = "netsuite"
-	MetricFetchResponseItemExternalConnectionsExternalConnectionNameTaxjar     MetricFetchResponseItemExternalConnectionsExternalConnectionName = "taxjar"
-	MetricFetchResponseItemExternalConnectionsExternalConnectionNameAvalara    MetricFetchResponseItemExternalConnectionsExternalConnectionName = "avalara"
-	MetricFetchResponseItemExternalConnectionsExternalConnectionNameAnrok      MetricFetchResponseItemExternalConnectionsExternalConnectionName = "anrok"
-)
 
 type MetricFetchResponseStatus string
 
