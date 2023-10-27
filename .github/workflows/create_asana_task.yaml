@@ -20,5 +20,5 @@ jobs:
           asana-custom-fields: |-
             {
               "1205809189288915": "1205809189288918",
-              "1205809189288927": "${{ github.event.issue.url }}"
+              "1205809189288926": "${{ github.event.issue.html_url }}"
             }
