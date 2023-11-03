@@ -260,6 +260,7 @@ func TestSubscriptionFetchScheduleWithOptionalParams(t *testing.T) {
 }
 
 func TestSubscriptionFetchUsageWithOptionalParams(t *testing.T) {
+	t.Skip("Incorrect example breaks Prism")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -267,7 +268,6 @@ func TestSubscriptionFetchUsageWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	t.Skip("Incorrect example breaks Prism")
 	client := orb.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
@@ -300,6 +300,7 @@ func TestSubscriptionFetchUsageWithOptionalParams(t *testing.T) {
 }
 
 func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
+	t.Skip("Incorrect example breaks Prism")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -307,7 +308,6 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	t.Skip("Incorrect example breaks Prism")
 	client := orb.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
