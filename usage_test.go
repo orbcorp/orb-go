@@ -31,5 +31,5 @@ func TestUsage(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Logf("%+v\n", customer)
+	t.Logf("%+v\n", customer.ID)
 }

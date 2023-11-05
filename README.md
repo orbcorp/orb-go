@@ -56,7 +56,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", customer)
+	fmt.Printf("%+v\n", customer.ID)
 }
 
 ```
