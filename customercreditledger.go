@@ -75,7 +75,7 @@ func NewCustomerCreditLedgerService(opts ...option.RequestOption) (r *CustomerCr
 // deductions take place from a non-expiring credit block.
 //
 // If there are multiple blocks with the same expiration date, Orb will deduct from
-// the block with the _lower cost basis_ first (ex. trial credits with a $0 cost
+// the block with the _lower cost basis_ first (e.g. trial credits with a $0 cost
 // basis before paid credits with a $5.00 cost basis).
 //
 // It's also possible for a single usage event's deduction to _span_ credit blocks.
@@ -173,7 +173,7 @@ func (r *CustomerCreditLedgerService) List(ctx context.Context, customerID strin
 // deductions take place from a non-expiring credit block.
 //
 // If there are multiple blocks with the same expiration date, Orb will deduct from
-// the block with the _lower cost basis_ first (ex. trial credits with a $0 cost
+// the block with the _lower cost basis_ first (e.g. trial credits with a $0 cost
 // basis before paid credits with a $5.00 cost basis).
 //
 // It's also possible for a single usage event's deduction to _span_ credit blocks.
@@ -502,7 +502,7 @@ func (r *CustomerCreditLedgerService) NewEntryByExternalID(ctx context.Context, 
 // deductions take place from a non-expiring credit block.
 //
 // If there are multiple blocks with the same expiration date, Orb will deduct from
-// the block with the _lower cost basis_ first (ex. trial credits with a $0 cost
+// the block with the _lower cost basis_ first (e.g. trial credits with a $0 cost
 // basis before paid credits with a $5.00 cost basis).
 //
 // It's also possible for a single usage event's deduction to _span_ credit blocks.
@@ -600,7 +600,7 @@ func (r *CustomerCreditLedgerService) ListByExternalID(ctx context.Context, exte
 // deductions take place from a non-expiring credit block.
 //
 // If there are multiple blocks with the same expiration date, Orb will deduct from
-// the block with the _lower cost basis_ first (ex. trial credits with a $0 cost
+// the block with the _lower cost basis_ first (e.g. trial credits with a $0 cost
 // basis before paid credits with a $5.00 cost basis).
 //
 // It's also possible for a single usage event's deduction to _span_ credit blocks.

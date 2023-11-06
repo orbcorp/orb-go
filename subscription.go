@@ -452,7 +452,7 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // Orb supports invoicing for a subscription when a preconfigured usage threshold
 // is hit. To enable threshold billing, pass in an `invoicing_threshold`, which is
 // specified in the subscription's invoicing currency, when creating a
-// subscription. Ex. pass in `10.00` to issue an invoice when usage amounts hit
+// subscription. E.g. pass in `10.00` to issue an invoice when usage amounts hit
 // $10.00 for a subscription that invoices in USD.
 func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)

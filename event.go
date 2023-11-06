@@ -51,7 +51,7 @@ func NewEventService(opts ...option.RequestOption) (r *EventService) {
 // event in cases where you need to:
 //
 //   - update an event with new metadata as you iterate on your pricing model
-//   - update an event based on the result of an external API call (ex. call to a
+//   - update an event based on the result of an external API call (e.g. call to a
 //     payment gateway succeeded or failed)
 //
 // This amendment API is always audit-safe. The process will still retain the
@@ -96,7 +96,7 @@ func (r *EventService) Update(ctx context.Context, eventID string, body EventUpd
 // event in cases where you need to:
 //
 //   - no longer bill for an event that was improperly reported
-//   - no longer bill for an event based on the result of an external API call (ex.
+//   - no longer bill for an event based on the result of an external API call (e.g.
 //     call to a payment gateway failed and the user should not be billed)
 //
 // If you want to only change specific properties of an event, but keep the event
@@ -352,19 +352,15 @@ func (r *EventService) Ingest(ctx context.Context, params EventIngestParams, opt
 //
 //   - `event_ids`: This is an explicit array of IDs to filter by. Note that an
 //     event's ID is the `idempotency_key` that was originally used for ingestion.
-//   - `invoice_id`: This is an issued Orb invoice ID (see also
-//     [List Invoices](list-invoices)). Orb will fetch all events that were used to
-//     calculate the invoice. In the common case, this will be a list of events whose
-//     `timestamp` property falls within the billing period specified by the invoice.
 //
 // By default, Orb does not return _deprecated_ events in this endpoint.
 //
 // By default, Orb will not throw a `404` if no events matched, Orb will return an
 // empty array for `data` instead.
-func (r *EventService) Search(ctx context.Context, params EventSearchParams, opts ...option.RequestOption) (res *EventSearchResponse, err error) {
+func (r *EventService) Search(ctx context.Context, body EventSearchParams, opts ...option.RequestOption) (res *EventSearchResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "events/search"
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -471,18 +467,16 @@ func (r *EventIngestResponseDebug) UnmarshalJSON(data []byte) (err error) {
 }
 
 type EventSearchResponse struct {
-	Data               []EventSearchResponseData             `json:"data,required"`
-	PaginationMetadata EventSearchResponsePaginationMetadata `json:"pagination_metadata,required"`
-	JSON               eventSearchResponseJSON
+	Data []EventSearchResponseData `json:"data,required"`
+	JSON eventSearchResponseJSON
 }
 
 // eventSearchResponseJSON contains the JSON metadata for the struct
 // [EventSearchResponse]
 type eventSearchResponseJSON struct {
-	Data               apijson.Field
-	PaginationMetadata apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	Data        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
 }
 
 func (r *EventSearchResponse) UnmarshalJSON(data []byte) (err error) {
@@ -529,25 +523,6 @@ type eventSearchResponseDataJSON struct {
 }
 
 func (r *EventSearchResponseData) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type EventSearchResponsePaginationMetadata struct {
-	HasMore    bool   `json:"has_more,required"`
-	NextCursor string `json:"next_cursor,required,nullable"`
-	JSON       eventSearchResponsePaginationMetadataJSON
-}
-
-// eventSearchResponsePaginationMetadataJSON contains the JSON metadata for the
-// struct [EventSearchResponsePaginationMetadata]
-type eventSearchResponsePaginationMetadataJSON struct {
-	HasMore     apijson.Field
-	NextCursor  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *EventSearchResponsePaginationMetadata) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -619,34 +594,12 @@ func (r EventIngestParamsEvent) MarshalJSON() (data []byte, err error) {
 }
 
 type EventSearchParams struct {
-	// Cursor for pagination. This can be populated by the `next_cursor` value returned
-	// from the initial request.
-	Cursor param.Field[string] `query:"cursor"`
-	// The number of items to fetch. Defaults to 20.
-	Limit        param.Field[int64]     `query:"limit"`
-	TimestampGt  param.Field[time.Time] `query:"timestamp[gt]" format:"date-time"`
-	TimestampGte param.Field[time.Time] `query:"timestamp[gte]" format:"date-time"`
-	TimestampLt  param.Field[time.Time] `query:"timestamp[lt]" format:"date-time"`
-	TimestampLte param.Field[time.Time] `query:"timestamp[lte]" format:"date-time"`
 	// This is an explicit array of IDs to filter by. Note that an event's ID is the
 	// idempotency_key that was originally used for ingestion. Values in this array
 	// will be treated case sensitively.
-	EventIDs param.Field[[]string] `json:"event_ids"`
-	// This is an issued Orb invoice ID (see also List Invoices). Orb will fetch all
-	// events that were used to calculate the invoice. In the common case, this will be
-	// a list of events whose timestamp property falls within the billing period
-	// specified by the invoice.
-	InvoiceID param.Field[string] `json:"invoice_id"`
+	EventIDs param.Field[[]string] `json:"event_ids,required"`
 }
 
 func (r EventSearchParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
-}
-
-// URLQuery serializes [EventSearchParams]'s query parameters as `url.Values`.
-func (r EventSearchParams) URLQuery() (v url.Values) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
 }
