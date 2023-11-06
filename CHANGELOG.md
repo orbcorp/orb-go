@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0 (2023-11-06)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/orbcorp/orb-go/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** remove unsupported params ([#21](https://github.com/orbcorp/orb-go/issues/21)) ([ae0cb79](https://github.com/orbcorp/orb-go/commit/ae0cb792d7f9c7484714d22d977ac858f5303e1e))
+* **client:** allow binary returns ([#19](https://github.com/orbcorp/orb-go/issues/19)) ([c70fbf8](https://github.com/orbcorp/orb-go/commit/c70fbf8ffef8cdc3d2a53113710c8cee7091be6e))
+* **github:** include a devcontainer setup ([#18](https://github.com/orbcorp/orb-go/issues/18)) ([c2efbd4](https://github.com/orbcorp/orb-go/commit/c2efbd43c0a1a5e67c404375bdfd4f00eabe47ff))
+* type alias enum values from shared in package root ([#16](https://github.com/orbcorp/orb-go/issues/16)) ([8f4a8ae](https://github.com/orbcorp/orb-go/commit/8f4a8aeb3ffc9b342c6797475ea6af2d27b5db29))
+
+
+### Documentation
+
+* **readme:** improve example snippets ([#20](https://github.com/orbcorp/orb-go/issues/20)) ([33a83b3](https://github.com/orbcorp/orb-go/commit/33a83b310946d5863777967ae01f3adea37bd263))
+
 ## 0.3.0 (2023-10-27)
 
 Full Changelog: [v0.2.1...v0.3.0](https://github.com/orbcorp/orb-go/compare/v0.2.1...v0.3.0)
