@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 (2023-11-08)
+
+Full Changelog: [v0.4.0...v0.4.1](https://github.com/orbcorp/orb-go/compare/v0.4.0...v0.4.1)
+
+### Bug Fixes
+
+* make options.WithHeader utils case-insensitive ([#22](https://github.com/orbcorp/orb-go/issues/22)) ([cf9e4db](https://github.com/orbcorp/orb-go/commit/cf9e4db374fc4f8555a541a24e69598d8f69c1f5))
+
 ## 0.4.0 (2023-11-06)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/orbcorp/orb-go/compare/v0.3.0...v0.4.0)
