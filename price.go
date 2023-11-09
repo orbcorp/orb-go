@@ -430,19 +430,19 @@ type PriceUnitPrice struct {
 	Cadence            PriceUnitPriceCadence        `json:"cadence,required"`
 	CreatedAt          time.Time                    `json:"created_at,required" format:"date-time"`
 	Currency           string                       `json:"currency,required"`
+	Discount           shared.Discount              `json:"discount,required,nullable"`
 	ExternalPriceID    string                       `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                      `json:"fixed_price_quantity,required,nullable"`
 	Item               PriceUnitPriceItem           `json:"item,required"`
+	Maximum            PriceUnitPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount      string                       `json:"maximum_amount,required,nullable"`
+	Minimum            PriceUnitPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount      string                       `json:"minimum_amount,required,nullable"`
 	ModelType          PriceUnitPriceModelType      `json:"model_type,required"`
 	Name               string                       `json:"name,required"`
 	PlanPhaseOrder     int64                        `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceUnitPricePriceType      `json:"price_type,required"`
 	UnitConfig         PriceUnitPriceUnitConfig     `json:"unit_config,required"`
-	Discount           shared.Discount              `json:"discount,nullable"`
-	Maximum            PriceUnitPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount      string                       `json:"maximum_amount,nullable"`
-	Minimum            PriceUnitPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount      string                       `json:"minimum_amount,nullable"`
 	JSON               priceUnitPriceJSON
 }
 
@@ -453,19 +453,19 @@ type priceUnitPriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
+	Maximum            apijson.Field
+	MaximumAmount      apijson.Field
+	Minimum            apijson.Field
+	MinimumAmount      apijson.Field
 	ModelType          apijson.Field
 	Name               apijson.Field
 	PlanPhaseOrder     apijson.Field
 	PriceType          apijson.Field
 	UnitConfig         apijson.Field
-	Discount           apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -521,40 +521,6 @@ func (r *PriceUnitPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceUnitPriceModelType string
-
-const (
-	PriceUnitPriceModelTypeUnit PriceUnitPriceModelType = "unit"
-)
-
-type PriceUnitPricePriceType string
-
-const (
-	PriceUnitPricePriceTypeUsagePrice PriceUnitPricePriceType = "usage_price"
-	PriceUnitPricePriceTypeFixedPrice PriceUnitPricePriceType = "fixed_price"
-)
-
-type PriceUnitPriceUnitConfig struct {
-	// Rate per unit of usage
-	UnitAmount string `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor float64 `json:"scaling_factor,nullable"`
-	JSON          priceUnitPriceUnitConfigJSON
-}
-
-// priceUnitPriceUnitConfigJSON contains the JSON metadata for the struct
-// [PriceUnitPriceUnitConfig]
-type priceUnitPriceUnitConfigJSON struct {
-	UnitAmount    apijson.Field
-	ScalingFactor apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
-}
-
-func (r *PriceUnitPriceUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 type PriceUnitPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -599,25 +565,59 @@ func (r *PriceUnitPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceUnitPriceModelType string
+
+const (
+	PriceUnitPriceModelTypeUnit PriceUnitPriceModelType = "unit"
+)
+
+type PriceUnitPricePriceType string
+
+const (
+	PriceUnitPricePriceTypeUsagePrice PriceUnitPricePriceType = "usage_price"
+	PriceUnitPricePriceTypeFixedPrice PriceUnitPricePriceType = "fixed_price"
+)
+
+type PriceUnitPriceUnitConfig struct {
+	// Rate per unit of usage
+	UnitAmount string `json:"unit_amount,required"`
+	// Multiplier to scale rated quantity by
+	ScalingFactor float64 `json:"scaling_factor,nullable"`
+	JSON          priceUnitPriceUnitConfigJSON
+}
+
+// priceUnitPriceUnitConfigJSON contains the JSON metadata for the struct
+// [PriceUnitPriceUnitConfig]
+type priceUnitPriceUnitConfigJSON struct {
+	UnitAmount    apijson.Field
+	ScalingFactor apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *PriceUnitPriceUnitConfig) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type PricePackagePrice struct {
 	ID                 string                          `json:"id,required"`
 	BillableMetric     PricePackagePriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence            PricePackagePriceCadence        `json:"cadence,required"`
 	CreatedAt          time.Time                       `json:"created_at,required" format:"date-time"`
 	Currency           string                          `json:"currency,required"`
+	Discount           shared.Discount                 `json:"discount,required,nullable"`
 	ExternalPriceID    string                          `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                         `json:"fixed_price_quantity,required,nullable"`
 	Item               PricePackagePriceItem           `json:"item,required"`
+	Maximum            PricePackagePriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount      string                          `json:"maximum_amount,required,nullable"`
+	Minimum            PricePackagePriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount      string                          `json:"minimum_amount,required,nullable"`
 	ModelType          PricePackagePriceModelType      `json:"model_type,required"`
 	Name               string                          `json:"name,required"`
 	PackageConfig      PricePackagePricePackageConfig  `json:"package_config,required"`
 	PlanPhaseOrder     int64                           `json:"plan_phase_order,required,nullable"`
 	PriceType          PricePackagePricePriceType      `json:"price_type,required"`
-	Discount           shared.Discount                 `json:"discount,nullable"`
-	Maximum            PricePackagePriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount      string                          `json:"maximum_amount,nullable"`
-	Minimum            PricePackagePriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount      string                          `json:"minimum_amount,nullable"`
 	JSON               pricePackagePriceJSON
 }
 
@@ -629,19 +629,19 @@ type pricePackagePriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
+	Maximum            apijson.Field
+	MaximumAmount      apijson.Field
+	Minimum            apijson.Field
+	MinimumAmount      apijson.Field
 	ModelType          apijson.Field
 	Name               apijson.Field
 	PackageConfig      apijson.Field
 	PlanPhaseOrder     apijson.Field
 	PriceType          apijson.Field
-	Discount           apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -697,41 +697,6 @@ func (r *PricePackagePriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PricePackagePriceModelType string
-
-const (
-	PricePackagePriceModelTypePackage PricePackagePriceModelType = "package"
-)
-
-type PricePackagePricePackageConfig struct {
-	// A currency amount to rate usage by
-	PackageAmount string `json:"package_amount,required"`
-	// An integer amount to represent package size. For example, 1000 here would divide
-	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize int64 `json:"package_size,nullable"`
-	JSON        pricePackagePricePackageConfigJSON
-}
-
-// pricePackagePricePackageConfigJSON contains the JSON metadata for the struct
-// [PricePackagePricePackageConfig]
-type pricePackagePricePackageConfigJSON struct {
-	PackageAmount apijson.Field
-	PackageSize   apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
-}
-
-func (r *PricePackagePricePackageConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type PricePackagePricePriceType string
-
-const (
-	PricePackagePricePriceTypeUsagePrice PricePackagePricePriceType = "usage_price"
-	PricePackagePricePriceTypeFixedPrice PricePackagePricePriceType = "fixed_price"
-)
-
 type PricePackagePriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -776,25 +741,60 @@ func (r *PricePackagePriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PricePackagePriceModelType string
+
+const (
+	PricePackagePriceModelTypePackage PricePackagePriceModelType = "package"
+)
+
+type PricePackagePricePackageConfig struct {
+	// A currency amount to rate usage by
+	PackageAmount string `json:"package_amount,required"`
+	// An integer amount to represent package size. For example, 1000 here would divide
+	// usage by 1000 before multiplying by package_amount in rating
+	PackageSize int64 `json:"package_size,nullable"`
+	JSON        pricePackagePricePackageConfigJSON
+}
+
+// pricePackagePricePackageConfigJSON contains the JSON metadata for the struct
+// [PricePackagePricePackageConfig]
+type pricePackagePricePackageConfigJSON struct {
+	PackageAmount apijson.Field
+	PackageSize   apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *PricePackagePricePackageConfig) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PricePackagePricePriceType string
+
+const (
+	PricePackagePricePriceTypeUsagePrice PricePackagePricePriceType = "usage_price"
+	PricePackagePricePriceTypeFixedPrice PricePackagePricePriceType = "fixed_price"
+)
+
 type PriceMatrixPrice struct {
 	ID                 string                         `json:"id,required"`
 	BillableMetric     PriceMatrixPriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence            PriceMatrixPriceCadence        `json:"cadence,required"`
 	CreatedAt          time.Time                      `json:"created_at,required" format:"date-time"`
 	Currency           string                         `json:"currency,required"`
+	Discount           shared.Discount                `json:"discount,required,nullable"`
 	ExternalPriceID    string                         `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                        `json:"fixed_price_quantity,required,nullable"`
 	Item               PriceMatrixPriceItem           `json:"item,required"`
 	MatrixConfig       PriceMatrixPriceMatrixConfig   `json:"matrix_config,required"`
+	Maximum            PriceMatrixPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount      string                         `json:"maximum_amount,required,nullable"`
+	Minimum            PriceMatrixPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount      string                         `json:"minimum_amount,required,nullable"`
 	ModelType          PriceMatrixPriceModelType      `json:"model_type,required"`
 	Name               string                         `json:"name,required"`
 	PlanPhaseOrder     int64                          `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceMatrixPricePriceType      `json:"price_type,required"`
-	Discount           shared.Discount                `json:"discount,nullable"`
-	Maximum            PriceMatrixPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount      string                         `json:"maximum_amount,nullable"`
-	Minimum            PriceMatrixPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount      string                         `json:"minimum_amount,nullable"`
 	JSON               priceMatrixPriceJSON
 }
 
@@ -806,19 +806,19 @@ type priceMatrixPriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
 	MatrixConfig       apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	Discount           apijson.Field
 	Maximum            apijson.Field
 	MaximumAmount      apijson.Field
 	Minimum            apijson.Field
 	MinimumAmount      apijson.Field
+	ModelType          apijson.Field
+	Name               apijson.Field
+	PlanPhaseOrder     apijson.Field
+	PriceType          apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -928,19 +928,6 @@ func (r *PriceMatrixPriceMatrixConfigMatrixValue) UnmarshalJSON(data []byte) (er
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceMatrixPriceModelType string
-
-const (
-	PriceMatrixPriceModelTypeMatrix PriceMatrixPriceModelType = "matrix"
-)
-
-type PriceMatrixPricePriceType string
-
-const (
-	PriceMatrixPricePriceTypeUsagePrice PriceMatrixPricePriceType = "usage_price"
-	PriceMatrixPricePriceTypeFixedPrice PriceMatrixPricePriceType = "fixed_price"
-)
-
 type PriceMatrixPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -985,25 +972,38 @@ func (r *PriceMatrixPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceMatrixPriceModelType string
+
+const (
+	PriceMatrixPriceModelTypeMatrix PriceMatrixPriceModelType = "matrix"
+)
+
+type PriceMatrixPricePriceType string
+
+const (
+	PriceMatrixPricePriceTypeUsagePrice PriceMatrixPricePriceType = "usage_price"
+	PriceMatrixPricePriceTypeFixedPrice PriceMatrixPricePriceType = "fixed_price"
+)
+
 type PriceTieredPrice struct {
 	ID                 string                         `json:"id,required"`
 	BillableMetric     PriceTieredPriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence            PriceTieredPriceCadence        `json:"cadence,required"`
 	CreatedAt          time.Time                      `json:"created_at,required" format:"date-time"`
 	Currency           string                         `json:"currency,required"`
+	Discount           shared.Discount                `json:"discount,required,nullable"`
 	ExternalPriceID    string                         `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                        `json:"fixed_price_quantity,required,nullable"`
 	Item               PriceTieredPriceItem           `json:"item,required"`
+	Maximum            PriceTieredPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount      string                         `json:"maximum_amount,required,nullable"`
+	Minimum            PriceTieredPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount      string                         `json:"minimum_amount,required,nullable"`
 	ModelType          PriceTieredPriceModelType      `json:"model_type,required"`
 	Name               string                         `json:"name,required"`
 	PlanPhaseOrder     int64                          `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceTieredPricePriceType      `json:"price_type,required"`
 	TieredConfig       PriceTieredPriceTieredConfig   `json:"tiered_config,required"`
-	Discount           shared.Discount                `json:"discount,nullable"`
-	Maximum            PriceTieredPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount      string                         `json:"maximum_amount,nullable"`
-	Minimum            PriceTieredPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount      string                         `json:"minimum_amount,nullable"`
 	JSON               priceTieredPriceJSON
 }
 
@@ -1015,19 +1015,19 @@ type priceTieredPriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
+	Maximum            apijson.Field
+	MaximumAmount      apijson.Field
+	Minimum            apijson.Field
+	MinimumAmount      apijson.Field
 	ModelType          apijson.Field
 	Name               apijson.Field
 	PlanPhaseOrder     apijson.Field
 	PriceType          apijson.Field
 	TieredConfig       apijson.Field
-	Discount           apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -1080,6 +1080,50 @@ type priceTieredPriceItemJSON struct {
 }
 
 func (r *PriceTieredPriceItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PriceTieredPriceMaximum struct {
+	// List of price_ids that this maximum amount applies to. For plan/plan phase
+	// maximums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Maximum amount applied
+	MaximumAmount string `json:"maximum_amount,required"`
+	JSON          priceTieredPriceMaximumJSON
+}
+
+// priceTieredPriceMaximumJSON contains the JSON metadata for the struct
+// [PriceTieredPriceMaximum]
+type priceTieredPriceMaximumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceTieredPriceMaximum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PriceTieredPriceMinimum struct {
+	// List of price_ids that this minimum amount applies to. For plan/plan phase
+	// minimums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Minimum amount applied
+	MinimumAmount string `json:"minimum_amount,required"`
+	JSON          priceTieredPriceMinimumJSON
+}
+
+// priceTieredPriceMinimumJSON contains the JSON metadata for the struct
+// [PriceTieredPriceMinimum]
+type priceTieredPriceMinimumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MinimumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceTieredPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1138,69 +1182,25 @@ func (r *PriceTieredPriceTieredConfigTier) UnmarshalJSON(data []byte) (err error
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceTieredPriceMaximum struct {
-	// List of price_ids that this maximum amount applies to. For plan/plan phase
-	// maximums, this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
-	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceTieredPriceMaximumJSON
-}
-
-// priceTieredPriceMaximumJSON contains the JSON metadata for the struct
-// [PriceTieredPriceMaximum]
-type priceTieredPriceMaximumJSON struct {
-	AppliesToPriceIDs apijson.Field
-	MaximumAmount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
-}
-
-func (r *PriceTieredPriceMaximum) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type PriceTieredPriceMinimum struct {
-	// List of price_ids that this minimum amount applies to. For plan/plan phase
-	// minimums, this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
-	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceTieredPriceMinimumJSON
-}
-
-// priceTieredPriceMinimumJSON contains the JSON metadata for the struct
-// [PriceTieredPriceMinimum]
-type priceTieredPriceMinimumJSON struct {
-	AppliesToPriceIDs apijson.Field
-	MinimumAmount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
-}
-
-func (r *PriceTieredPriceMinimum) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 type PriceTieredBpsPrice struct {
 	ID                 string                             `json:"id,required"`
 	BillableMetric     PriceTieredBpsPriceBillableMetric  `json:"billable_metric,required,nullable"`
 	Cadence            PriceTieredBpsPriceCadence         `json:"cadence,required"`
 	CreatedAt          time.Time                          `json:"created_at,required" format:"date-time"`
 	Currency           string                             `json:"currency,required"`
+	Discount           shared.Discount                    `json:"discount,required,nullable"`
 	ExternalPriceID    string                             `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                            `json:"fixed_price_quantity,required,nullable"`
 	Item               PriceTieredBpsPriceItem            `json:"item,required"`
+	Maximum            PriceTieredBpsPriceMaximum         `json:"maximum,required,nullable"`
+	MaximumAmount      string                             `json:"maximum_amount,required,nullable"`
+	Minimum            PriceTieredBpsPriceMinimum         `json:"minimum,required,nullable"`
+	MinimumAmount      string                             `json:"minimum_amount,required,nullable"`
 	ModelType          PriceTieredBpsPriceModelType       `json:"model_type,required"`
 	Name               string                             `json:"name,required"`
 	PlanPhaseOrder     int64                              `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceTieredBpsPricePriceType       `json:"price_type,required"`
 	TieredBpsConfig    PriceTieredBpsPriceTieredBpsConfig `json:"tiered_bps_config,required"`
-	Discount           shared.Discount                    `json:"discount,nullable"`
-	Maximum            PriceTieredBpsPriceMaximum         `json:"maximum,nullable"`
-	MaximumAmount      string                             `json:"maximum_amount,nullable"`
-	Minimum            PriceTieredBpsPriceMinimum         `json:"minimum,nullable"`
-	MinimumAmount      string                             `json:"minimum_amount,nullable"`
 	JSON               priceTieredBpsPriceJSON
 }
 
@@ -1212,19 +1212,19 @@ type priceTieredBpsPriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
+	Maximum            apijson.Field
+	MaximumAmount      apijson.Field
+	Minimum            apijson.Field
+	MinimumAmount      apijson.Field
 	ModelType          apijson.Field
 	Name               apijson.Field
 	PlanPhaseOrder     apijson.Field
 	PriceType          apijson.Field
 	TieredBpsConfig    apijson.Field
-	Discount           apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -1277,6 +1277,50 @@ type priceTieredBpsPriceItemJSON struct {
 }
 
 func (r *PriceTieredBpsPriceItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PriceTieredBpsPriceMaximum struct {
+	// List of price_ids that this maximum amount applies to. For plan/plan phase
+	// maximums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Maximum amount applied
+	MaximumAmount string `json:"maximum_amount,required"`
+	JSON          priceTieredBpsPriceMaximumJSON
+}
+
+// priceTieredBpsPriceMaximumJSON contains the JSON metadata for the struct
+// [PriceTieredBpsPriceMaximum]
+type priceTieredBpsPriceMaximumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceTieredBpsPriceMaximum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PriceTieredBpsPriceMinimum struct {
+	// List of price_ids that this minimum amount applies to. For plan/plan phase
+	// minimums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Minimum amount applied
+	MinimumAmount string `json:"minimum_amount,required"`
+	JSON          priceTieredBpsPriceMinimumJSON
+}
+
+// priceTieredBpsPriceMinimumJSON contains the JSON metadata for the struct
+// [PriceTieredBpsPriceMinimum]
+type priceTieredBpsPriceMinimumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MinimumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceTieredBpsPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1339,50 +1383,6 @@ func (r *PriceTieredBpsPriceTieredBpsConfigTier) UnmarshalJSON(data []byte) (err
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceTieredBpsPriceMaximum struct {
-	// List of price_ids that this maximum amount applies to. For plan/plan phase
-	// maximums, this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
-	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceTieredBpsPriceMaximumJSON
-}
-
-// priceTieredBpsPriceMaximumJSON contains the JSON metadata for the struct
-// [PriceTieredBpsPriceMaximum]
-type priceTieredBpsPriceMaximumJSON struct {
-	AppliesToPriceIDs apijson.Field
-	MaximumAmount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
-}
-
-func (r *PriceTieredBpsPriceMaximum) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type PriceTieredBpsPriceMinimum struct {
-	// List of price_ids that this minimum amount applies to. For plan/plan phase
-	// minimums, this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
-	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceTieredBpsPriceMinimumJSON
-}
-
-// priceTieredBpsPriceMinimumJSON contains the JSON metadata for the struct
-// [PriceTieredBpsPriceMinimum]
-type priceTieredBpsPriceMinimumJSON struct {
-	AppliesToPriceIDs apijson.Field
-	MinimumAmount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
-}
-
-func (r *PriceTieredBpsPriceMinimum) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
 type PriceBpsPrice struct {
 	ID                 string                      `json:"id,required"`
 	BillableMetric     PriceBpsPriceBillableMetric `json:"billable_metric,required,nullable"`
@@ -1390,18 +1390,18 @@ type PriceBpsPrice struct {
 	Cadence            PriceBpsPriceCadence        `json:"cadence,required"`
 	CreatedAt          time.Time                   `json:"created_at,required" format:"date-time"`
 	Currency           string                      `json:"currency,required"`
+	Discount           shared.Discount             `json:"discount,required,nullable"`
 	ExternalPriceID    string                      `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                     `json:"fixed_price_quantity,required,nullable"`
 	Item               PriceBpsPriceItem           `json:"item,required"`
+	Maximum            PriceBpsPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount      string                      `json:"maximum_amount,required,nullable"`
+	Minimum            PriceBpsPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount      string                      `json:"minimum_amount,required,nullable"`
 	ModelType          PriceBpsPriceModelType      `json:"model_type,required"`
 	Name               string                      `json:"name,required"`
 	PlanPhaseOrder     int64                       `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBpsPricePriceType      `json:"price_type,required"`
-	Discount           shared.Discount             `json:"discount,nullable"`
-	Maximum            PriceBpsPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount      string                      `json:"maximum_amount,nullable"`
-	Minimum            PriceBpsPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount      string                      `json:"minimum_amount,nullable"`
 	JSON               priceBpsPriceJSON
 }
 
@@ -1413,18 +1413,18 @@ type priceBpsPriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	Discount           apijson.Field
 	Maximum            apijson.Field
 	MaximumAmount      apijson.Field
 	Minimum            apijson.Field
 	MinimumAmount      apijson.Field
+	ModelType          apijson.Field
+	Name               apijson.Field
+	PlanPhaseOrder     apijson.Field
+	PriceType          apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -1501,19 +1501,6 @@ func (r *PriceBpsPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceBpsPriceModelType string
-
-const (
-	PriceBpsPriceModelTypeBps PriceBpsPriceModelType = "bps"
-)
-
-type PriceBpsPricePriceType string
-
-const (
-	PriceBpsPricePriceTypeUsagePrice PriceBpsPricePriceType = "usage_price"
-	PriceBpsPricePriceTypeFixedPrice PriceBpsPricePriceType = "fixed_price"
-)
-
 type PriceBpsPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1558,6 +1545,19 @@ func (r *PriceBpsPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceBpsPriceModelType string
+
+const (
+	PriceBpsPriceModelTypeBps PriceBpsPriceModelType = "bps"
+)
+
+type PriceBpsPricePriceType string
+
+const (
+	PriceBpsPricePriceTypeUsagePrice PriceBpsPricePriceType = "usage_price"
+	PriceBpsPricePriceTypeFixedPrice PriceBpsPricePriceType = "fixed_price"
+)
+
 type PriceBulkBpsPrice struct {
 	ID                 string                          `json:"id,required"`
 	BillableMetric     PriceBulkBpsPriceBillableMetric `json:"billable_metric,required,nullable"`
@@ -1565,18 +1565,18 @@ type PriceBulkBpsPrice struct {
 	Cadence            PriceBulkBpsPriceCadence        `json:"cadence,required"`
 	CreatedAt          time.Time                       `json:"created_at,required" format:"date-time"`
 	Currency           string                          `json:"currency,required"`
+	Discount           shared.Discount                 `json:"discount,required,nullable"`
 	ExternalPriceID    string                          `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                         `json:"fixed_price_quantity,required,nullable"`
 	Item               PriceBulkBpsPriceItem           `json:"item,required"`
+	Maximum            PriceBulkBpsPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount      string                          `json:"maximum_amount,required,nullable"`
+	Minimum            PriceBulkBpsPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount      string                          `json:"minimum_amount,required,nullable"`
 	ModelType          PriceBulkBpsPriceModelType      `json:"model_type,required"`
 	Name               string                          `json:"name,required"`
 	PlanPhaseOrder     int64                           `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBulkBpsPricePriceType      `json:"price_type,required"`
-	Discount           shared.Discount                 `json:"discount,nullable"`
-	Maximum            PriceBulkBpsPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount      string                          `json:"maximum_amount,nullable"`
-	Minimum            PriceBulkBpsPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount      string                          `json:"minimum_amount,nullable"`
 	JSON               priceBulkBpsPriceJSON
 }
 
@@ -1589,18 +1589,18 @@ type priceBulkBpsPriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	Discount           apijson.Field
 	Maximum            apijson.Field
 	MaximumAmount      apijson.Field
 	Minimum            apijson.Field
 	MinimumAmount      apijson.Field
+	ModelType          apijson.Field
+	Name               apijson.Field
+	PlanPhaseOrder     apijson.Field
+	PriceType          apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -1699,19 +1699,6 @@ func (r *PriceBulkBpsPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceBulkBpsPriceModelType string
-
-const (
-	PriceBulkBpsPriceModelTypeBulkBps PriceBulkBpsPriceModelType = "bulk_bps"
-)
-
-type PriceBulkBpsPricePriceType string
-
-const (
-	PriceBulkBpsPricePriceTypeUsagePrice PriceBulkBpsPricePriceType = "usage_price"
-	PriceBulkBpsPricePriceTypeFixedPrice PriceBulkBpsPricePriceType = "fixed_price"
-)
-
 type PriceBulkBpsPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1756,6 +1743,19 @@ func (r *PriceBulkBpsPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceBulkBpsPriceModelType string
+
+const (
+	PriceBulkBpsPriceModelTypeBulkBps PriceBulkBpsPriceModelType = "bulk_bps"
+)
+
+type PriceBulkBpsPricePriceType string
+
+const (
+	PriceBulkBpsPricePriceTypeUsagePrice PriceBulkBpsPricePriceType = "usage_price"
+	PriceBulkBpsPricePriceTypeFixedPrice PriceBulkBpsPricePriceType = "fixed_price"
+)
+
 type PriceBulkPrice struct {
 	ID                 string                       `json:"id,required"`
 	BillableMetric     PriceBulkPriceBillableMetric `json:"billable_metric,required,nullable"`
@@ -1763,18 +1763,18 @@ type PriceBulkPrice struct {
 	Cadence            PriceBulkPriceCadence        `json:"cadence,required"`
 	CreatedAt          time.Time                    `json:"created_at,required" format:"date-time"`
 	Currency           string                       `json:"currency,required"`
+	Discount           shared.Discount              `json:"discount,required,nullable"`
 	ExternalPriceID    string                       `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity float64                      `json:"fixed_price_quantity,required,nullable"`
 	Item               PriceBulkPriceItem           `json:"item,required"`
+	Maximum            PriceBulkPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount      string                       `json:"maximum_amount,required,nullable"`
+	Minimum            PriceBulkPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount      string                       `json:"minimum_amount,required,nullable"`
 	ModelType          PriceBulkPriceModelType      `json:"model_type,required"`
 	Name               string                       `json:"name,required"`
 	PlanPhaseOrder     int64                        `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBulkPricePriceType      `json:"price_type,required"`
-	Discount           shared.Discount              `json:"discount,nullable"`
-	Maximum            PriceBulkPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount      string                       `json:"maximum_amount,nullable"`
-	Minimum            PriceBulkPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount      string                       `json:"minimum_amount,nullable"`
 	JSON               priceBulkPriceJSON
 }
 
@@ -1786,18 +1786,18 @@ type priceBulkPriceJSON struct {
 	Cadence            apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
+	Discount           apijson.Field
 	ExternalPriceID    apijson.Field
 	FixedPriceQuantity apijson.Field
 	Item               apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	Discount           apijson.Field
 	Maximum            apijson.Field
 	MaximumAmount      apijson.Field
 	Minimum            apijson.Field
 	MinimumAmount      apijson.Field
+	ModelType          apijson.Field
+	Name               apijson.Field
+	PlanPhaseOrder     apijson.Field
+	PriceType          apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -1892,19 +1892,6 @@ func (r *PriceBulkPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceBulkPriceModelType string
-
-const (
-	PriceBulkPriceModelTypeBulk PriceBulkPriceModelType = "bulk"
-)
-
-type PriceBulkPricePriceType string
-
-const (
-	PriceBulkPricePriceTypeUsagePrice PriceBulkPricePriceType = "usage_price"
-	PriceBulkPricePriceTypeFixedPrice PriceBulkPricePriceType = "fixed_price"
-)
-
 type PriceBulkPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1949,25 +1936,38 @@ func (r *PriceBulkPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceBulkPriceModelType string
+
+const (
+	PriceBulkPriceModelTypeBulk PriceBulkPriceModelType = "bulk"
+)
+
+type PriceBulkPricePriceType string
+
+const (
+	PriceBulkPricePriceTypeUsagePrice PriceBulkPricePriceType = "usage_price"
+	PriceBulkPricePriceTypeFixedPrice PriceBulkPricePriceType = "fixed_price"
+)
+
 type PriceTestRatingFunctionPrice struct {
 	ID                       string                                     `json:"id,required"`
 	BillableMetric           PriceTestRatingFunctionPriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence                  PriceTestRatingFunctionPriceCadence        `json:"cadence,required"`
 	CreatedAt                time.Time                                  `json:"created_at,required" format:"date-time"`
 	Currency                 string                                     `json:"currency,required"`
+	Discount                 shared.Discount                            `json:"discount,required,nullable"`
 	ExternalPriceID          string                                     `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity       float64                                    `json:"fixed_price_quantity,required,nullable"`
 	Item                     PriceTestRatingFunctionPriceItem           `json:"item,required"`
+	Maximum                  PriceTestRatingFunctionPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount            string                                     `json:"maximum_amount,required,nullable"`
+	Minimum                  PriceTestRatingFunctionPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount            string                                     `json:"minimum_amount,required,nullable"`
 	ModelType                PriceTestRatingFunctionPriceModelType      `json:"model_type,required"`
 	Name                     string                                     `json:"name,required"`
 	PlanPhaseOrder           int64                                      `json:"plan_phase_order,required,nullable"`
 	PriceType                PriceTestRatingFunctionPricePriceType      `json:"price_type,required"`
 	TestRatingFunctionConfig map[string]interface{}                     `json:"test_rating_function_config,required"`
-	Discount                 shared.Discount                            `json:"discount,nullable"`
-	Maximum                  PriceTestRatingFunctionPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount            string                                     `json:"maximum_amount,nullable"`
-	Minimum                  PriceTestRatingFunctionPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount            string                                     `json:"minimum_amount,nullable"`
 	JSON                     priceTestRatingFunctionPriceJSON
 }
 
@@ -1979,19 +1979,19 @@ type priceTestRatingFunctionPriceJSON struct {
 	Cadence                  apijson.Field
 	CreatedAt                apijson.Field
 	Currency                 apijson.Field
+	Discount                 apijson.Field
 	ExternalPriceID          apijson.Field
 	FixedPriceQuantity       apijson.Field
 	Item                     apijson.Field
+	Maximum                  apijson.Field
+	MaximumAmount            apijson.Field
+	Minimum                  apijson.Field
+	MinimumAmount            apijson.Field
 	ModelType                apijson.Field
 	Name                     apijson.Field
 	PlanPhaseOrder           apijson.Field
 	PriceType                apijson.Field
 	TestRatingFunctionConfig apijson.Field
-	Discount                 apijson.Field
-	Maximum                  apijson.Field
-	MaximumAmount            apijson.Field
-	Minimum                  apijson.Field
-	MinimumAmount            apijson.Field
 	raw                      string
 	ExtraFields              map[string]apijson.Field
 }
@@ -2047,19 +2047,6 @@ func (r *PriceTestRatingFunctionPriceItem) UnmarshalJSON(data []byte) (err error
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceTestRatingFunctionPriceModelType string
-
-const (
-	PriceTestRatingFunctionPriceModelTypeTestRatingFunction PriceTestRatingFunctionPriceModelType = "test_rating_function"
-)
-
-type PriceTestRatingFunctionPricePriceType string
-
-const (
-	PriceTestRatingFunctionPricePriceTypeUsagePrice PriceTestRatingFunctionPricePriceType = "usage_price"
-	PriceTestRatingFunctionPricePriceTypeFixedPrice PriceTestRatingFunctionPricePriceType = "fixed_price"
-)
-
 type PriceTestRatingFunctionPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2104,25 +2091,38 @@ func (r *PriceTestRatingFunctionPriceMinimum) UnmarshalJSON(data []byte) (err er
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceTestRatingFunctionPriceModelType string
+
+const (
+	PriceTestRatingFunctionPriceModelTypeTestRatingFunction PriceTestRatingFunctionPriceModelType = "test_rating_function"
+)
+
+type PriceTestRatingFunctionPricePriceType string
+
+const (
+	PriceTestRatingFunctionPricePriceTypeUsagePrice PriceTestRatingFunctionPricePriceType = "usage_price"
+	PriceTestRatingFunctionPricePriceTypeFixedPrice PriceTestRatingFunctionPricePriceType = "fixed_price"
+)
+
 type PriceFivetranExamplePrice struct {
 	ID                    string                                  `json:"id,required"`
 	BillableMetric        PriceFivetranExamplePriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence               PriceFivetranExamplePriceCadence        `json:"cadence,required"`
 	CreatedAt             time.Time                               `json:"created_at,required" format:"date-time"`
 	Currency              string                                  `json:"currency,required"`
+	Discount              shared.Discount                         `json:"discount,required,nullable"`
 	ExternalPriceID       string                                  `json:"external_price_id,required,nullable"`
 	FivetranExampleConfig map[string]interface{}                  `json:"fivetran_example_config,required"`
 	FixedPriceQuantity    float64                                 `json:"fixed_price_quantity,required,nullable"`
 	Item                  PriceFivetranExamplePriceItem           `json:"item,required"`
+	Maximum               PriceFivetranExamplePriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount         string                                  `json:"maximum_amount,required,nullable"`
+	Minimum               PriceFivetranExamplePriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount         string                                  `json:"minimum_amount,required,nullable"`
 	ModelType             PriceFivetranExamplePriceModelType      `json:"model_type,required"`
 	Name                  string                                  `json:"name,required"`
 	PlanPhaseOrder        int64                                   `json:"plan_phase_order,required,nullable"`
 	PriceType             PriceFivetranExamplePricePriceType      `json:"price_type,required"`
-	Discount              shared.Discount                         `json:"discount,nullable"`
-	Maximum               PriceFivetranExamplePriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount         string                                  `json:"maximum_amount,nullable"`
-	Minimum               PriceFivetranExamplePriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount         string                                  `json:"minimum_amount,nullable"`
 	JSON                  priceFivetranExamplePriceJSON
 }
 
@@ -2134,19 +2134,19 @@ type priceFivetranExamplePriceJSON struct {
 	Cadence               apijson.Field
 	CreatedAt             apijson.Field
 	Currency              apijson.Field
+	Discount              apijson.Field
 	ExternalPriceID       apijson.Field
 	FivetranExampleConfig apijson.Field
 	FixedPriceQuantity    apijson.Field
 	Item                  apijson.Field
-	ModelType             apijson.Field
-	Name                  apijson.Field
-	PlanPhaseOrder        apijson.Field
-	PriceType             apijson.Field
-	Discount              apijson.Field
 	Maximum               apijson.Field
 	MaximumAmount         apijson.Field
 	Minimum               apijson.Field
 	MinimumAmount         apijson.Field
+	ModelType             apijson.Field
+	Name                  apijson.Field
+	PlanPhaseOrder        apijson.Field
+	PriceType             apijson.Field
 	raw                   string
 	ExtraFields           map[string]apijson.Field
 }
@@ -2202,19 +2202,6 @@ func (r *PriceFivetranExamplePriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceFivetranExamplePriceModelType string
-
-const (
-	PriceFivetranExamplePriceModelTypeFivetranExample PriceFivetranExamplePriceModelType = "fivetran_example"
-)
-
-type PriceFivetranExamplePricePriceType string
-
-const (
-	PriceFivetranExamplePricePriceTypeUsagePrice PriceFivetranExamplePricePriceType = "usage_price"
-	PriceFivetranExamplePricePriceTypeFixedPrice PriceFivetranExamplePricePriceType = "fixed_price"
-)
-
 type PriceFivetranExamplePriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2259,25 +2246,38 @@ func (r *PriceFivetranExamplePriceMinimum) UnmarshalJSON(data []byte) (err error
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceFivetranExamplePriceModelType string
+
+const (
+	PriceFivetranExamplePriceModelTypeFivetranExample PriceFivetranExamplePriceModelType = "fivetran_example"
+)
+
+type PriceFivetranExamplePricePriceType string
+
+const (
+	PriceFivetranExamplePricePriceTypeUsagePrice PriceFivetranExamplePricePriceType = "usage_price"
+	PriceFivetranExamplePricePriceTypeFixedPrice PriceFivetranExamplePricePriceType = "fixed_price"
+)
+
 type PriceThresholdTotalAmountPrice struct {
 	ID                         string                                       `json:"id,required"`
 	BillableMetric             PriceThresholdTotalAmountPriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence                    PriceThresholdTotalAmountPriceCadence        `json:"cadence,required"`
 	CreatedAt                  time.Time                                    `json:"created_at,required" format:"date-time"`
 	Currency                   string                                       `json:"currency,required"`
+	Discount                   shared.Discount                              `json:"discount,required,nullable"`
 	ExternalPriceID            string                                       `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity         float64                                      `json:"fixed_price_quantity,required,nullable"`
 	Item                       PriceThresholdTotalAmountPriceItem           `json:"item,required"`
+	Maximum                    PriceThresholdTotalAmountPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount              string                                       `json:"maximum_amount,required,nullable"`
+	Minimum                    PriceThresholdTotalAmountPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount              string                                       `json:"minimum_amount,required,nullable"`
 	ModelType                  PriceThresholdTotalAmountPriceModelType      `json:"model_type,required"`
 	Name                       string                                       `json:"name,required"`
 	PlanPhaseOrder             int64                                        `json:"plan_phase_order,required,nullable"`
 	PriceType                  PriceThresholdTotalAmountPricePriceType      `json:"price_type,required"`
 	ThresholdTotalAmountConfig map[string]interface{}                       `json:"threshold_total_amount_config,required"`
-	Discount                   shared.Discount                              `json:"discount,nullable"`
-	Maximum                    PriceThresholdTotalAmountPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount              string                                       `json:"maximum_amount,nullable"`
-	Minimum                    PriceThresholdTotalAmountPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount              string                                       `json:"minimum_amount,nullable"`
 	JSON                       priceThresholdTotalAmountPriceJSON
 }
 
@@ -2289,19 +2289,19 @@ type priceThresholdTotalAmountPriceJSON struct {
 	Cadence                    apijson.Field
 	CreatedAt                  apijson.Field
 	Currency                   apijson.Field
+	Discount                   apijson.Field
 	ExternalPriceID            apijson.Field
 	FixedPriceQuantity         apijson.Field
 	Item                       apijson.Field
+	Maximum                    apijson.Field
+	MaximumAmount              apijson.Field
+	Minimum                    apijson.Field
+	MinimumAmount              apijson.Field
 	ModelType                  apijson.Field
 	Name                       apijson.Field
 	PlanPhaseOrder             apijson.Field
 	PriceType                  apijson.Field
 	ThresholdTotalAmountConfig apijson.Field
-	Discount                   apijson.Field
-	Maximum                    apijson.Field
-	MaximumAmount              apijson.Field
-	Minimum                    apijson.Field
-	MinimumAmount              apijson.Field
 	raw                        string
 	ExtraFields                map[string]apijson.Field
 }
@@ -2357,19 +2357,6 @@ func (r *PriceThresholdTotalAmountPriceItem) UnmarshalJSON(data []byte) (err err
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceThresholdTotalAmountPriceModelType string
-
-const (
-	PriceThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceThresholdTotalAmountPriceModelType = "threshold_total_amount"
-)
-
-type PriceThresholdTotalAmountPricePriceType string
-
-const (
-	PriceThresholdTotalAmountPricePriceTypeUsagePrice PriceThresholdTotalAmountPricePriceType = "usage_price"
-	PriceThresholdTotalAmountPricePriceTypeFixedPrice PriceThresholdTotalAmountPricePriceType = "fixed_price"
-)
-
 type PriceThresholdTotalAmountPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2414,25 +2401,38 @@ func (r *PriceThresholdTotalAmountPriceMinimum) UnmarshalJSON(data []byte) (err 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceThresholdTotalAmountPriceModelType string
+
+const (
+	PriceThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceThresholdTotalAmountPriceModelType = "threshold_total_amount"
+)
+
+type PriceThresholdTotalAmountPricePriceType string
+
+const (
+	PriceThresholdTotalAmountPricePriceTypeUsagePrice PriceThresholdTotalAmountPricePriceType = "usage_price"
+	PriceThresholdTotalAmountPricePriceTypeFixedPrice PriceThresholdTotalAmountPricePriceType = "fixed_price"
+)
+
 type PriceTieredPackagePrice struct {
 	ID                  string                                `json:"id,required"`
 	BillableMetric      PriceTieredPackagePriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence             PriceTieredPackagePriceCadence        `json:"cadence,required"`
 	CreatedAt           time.Time                             `json:"created_at,required" format:"date-time"`
 	Currency            string                                `json:"currency,required"`
+	Discount            shared.Discount                       `json:"discount,required,nullable"`
 	ExternalPriceID     string                                `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity  float64                               `json:"fixed_price_quantity,required,nullable"`
 	Item                PriceTieredPackagePriceItem           `json:"item,required"`
+	Maximum             PriceTieredPackagePriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount       string                                `json:"maximum_amount,required,nullable"`
+	Minimum             PriceTieredPackagePriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount       string                                `json:"minimum_amount,required,nullable"`
 	ModelType           PriceTieredPackagePriceModelType      `json:"model_type,required"`
 	Name                string                                `json:"name,required"`
 	PlanPhaseOrder      int64                                 `json:"plan_phase_order,required,nullable"`
 	PriceType           PriceTieredPackagePricePriceType      `json:"price_type,required"`
 	TieredPackageConfig map[string]interface{}                `json:"tiered_package_config,required"`
-	Discount            shared.Discount                       `json:"discount,nullable"`
-	Maximum             PriceTieredPackagePriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount       string                                `json:"maximum_amount,nullable"`
-	Minimum             PriceTieredPackagePriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount       string                                `json:"minimum_amount,nullable"`
 	JSON                priceTieredPackagePriceJSON
 }
 
@@ -2444,19 +2444,19 @@ type priceTieredPackagePriceJSON struct {
 	Cadence             apijson.Field
 	CreatedAt           apijson.Field
 	Currency            apijson.Field
+	Discount            apijson.Field
 	ExternalPriceID     apijson.Field
 	FixedPriceQuantity  apijson.Field
 	Item                apijson.Field
+	Maximum             apijson.Field
+	MaximumAmount       apijson.Field
+	Minimum             apijson.Field
+	MinimumAmount       apijson.Field
 	ModelType           apijson.Field
 	Name                apijson.Field
 	PlanPhaseOrder      apijson.Field
 	PriceType           apijson.Field
 	TieredPackageConfig apijson.Field
-	Discount            apijson.Field
-	Maximum             apijson.Field
-	MaximumAmount       apijson.Field
-	Minimum             apijson.Field
-	MinimumAmount       apijson.Field
 	raw                 string
 	ExtraFields         map[string]apijson.Field
 }
@@ -2512,19 +2512,6 @@ func (r *PriceTieredPackagePriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceTieredPackagePriceModelType string
-
-const (
-	PriceTieredPackagePriceModelTypeTieredPackage PriceTieredPackagePriceModelType = "tiered_package"
-)
-
-type PriceTieredPackagePricePriceType string
-
-const (
-	PriceTieredPackagePricePriceTypeUsagePrice PriceTieredPackagePricePriceType = "usage_price"
-	PriceTieredPackagePricePriceTypeFixedPrice PriceTieredPackagePricePriceType = "fixed_price"
-)
-
 type PriceTieredPackagePriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2569,25 +2556,38 @@ func (r *PriceTieredPackagePriceMinimum) UnmarshalJSON(data []byte) (err error) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceTieredPackagePriceModelType string
+
+const (
+	PriceTieredPackagePriceModelTypeTieredPackage PriceTieredPackagePriceModelType = "tiered_package"
+)
+
+type PriceTieredPackagePricePriceType string
+
+const (
+	PriceTieredPackagePricePriceTypeUsagePrice PriceTieredPackagePricePriceType = "usage_price"
+	PriceTieredPackagePricePriceTypeFixedPrice PriceTieredPackagePricePriceType = "fixed_price"
+)
+
 type PriceTieredWithMinimumPrice struct {
 	ID                      string                                    `json:"id,required"`
 	BillableMetric          PriceTieredWithMinimumPriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence                 PriceTieredWithMinimumPriceCadence        `json:"cadence,required"`
 	CreatedAt               time.Time                                 `json:"created_at,required" format:"date-time"`
 	Currency                string                                    `json:"currency,required"`
+	Discount                shared.Discount                           `json:"discount,required,nullable"`
 	ExternalPriceID         string                                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity      float64                                   `json:"fixed_price_quantity,required,nullable"`
 	Item                    PriceTieredWithMinimumPriceItem           `json:"item,required"`
+	Maximum                 PriceTieredWithMinimumPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount           string                                    `json:"maximum_amount,required,nullable"`
+	Minimum                 PriceTieredWithMinimumPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount           string                                    `json:"minimum_amount,required,nullable"`
 	ModelType               PriceTieredWithMinimumPriceModelType      `json:"model_type,required"`
 	Name                    string                                    `json:"name,required"`
 	PlanPhaseOrder          int64                                     `json:"plan_phase_order,required,nullable"`
 	PriceType               PriceTieredWithMinimumPricePriceType      `json:"price_type,required"`
 	TieredWithMinimumConfig map[string]interface{}                    `json:"tiered_with_minimum_config,required"`
-	Discount                shared.Discount                           `json:"discount,nullable"`
-	Maximum                 PriceTieredWithMinimumPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount           string                                    `json:"maximum_amount,nullable"`
-	Minimum                 PriceTieredWithMinimumPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount           string                                    `json:"minimum_amount,nullable"`
 	JSON                    priceTieredWithMinimumPriceJSON
 }
 
@@ -2599,19 +2599,19 @@ type priceTieredWithMinimumPriceJSON struct {
 	Cadence                 apijson.Field
 	CreatedAt               apijson.Field
 	Currency                apijson.Field
+	Discount                apijson.Field
 	ExternalPriceID         apijson.Field
 	FixedPriceQuantity      apijson.Field
 	Item                    apijson.Field
+	Maximum                 apijson.Field
+	MaximumAmount           apijson.Field
+	Minimum                 apijson.Field
+	MinimumAmount           apijson.Field
 	ModelType               apijson.Field
 	Name                    apijson.Field
 	PlanPhaseOrder          apijson.Field
 	PriceType               apijson.Field
 	TieredWithMinimumConfig apijson.Field
-	Discount                apijson.Field
-	Maximum                 apijson.Field
-	MaximumAmount           apijson.Field
-	Minimum                 apijson.Field
-	MinimumAmount           apijson.Field
 	raw                     string
 	ExtraFields             map[string]apijson.Field
 }
@@ -2667,19 +2667,6 @@ func (r *PriceTieredWithMinimumPriceItem) UnmarshalJSON(data []byte) (err error)
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PriceTieredWithMinimumPriceModelType string
-
-const (
-	PriceTieredWithMinimumPriceModelTypeTieredWithMinimum PriceTieredWithMinimumPriceModelType = "tiered_with_minimum"
-)
-
-type PriceTieredWithMinimumPricePriceType string
-
-const (
-	PriceTieredWithMinimumPricePriceTypeUsagePrice PriceTieredWithMinimumPricePriceType = "usage_price"
-	PriceTieredWithMinimumPricePriceTypeFixedPrice PriceTieredWithMinimumPricePriceType = "fixed_price"
-)
-
 type PriceTieredWithMinimumPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2724,25 +2711,38 @@ func (r *PriceTieredWithMinimumPriceMinimum) UnmarshalJSON(data []byte) (err err
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type PriceTieredWithMinimumPriceModelType string
+
+const (
+	PriceTieredWithMinimumPriceModelTypeTieredWithMinimum PriceTieredWithMinimumPriceModelType = "tiered_with_minimum"
+)
+
+type PriceTieredWithMinimumPricePriceType string
+
+const (
+	PriceTieredWithMinimumPricePriceTypeUsagePrice PriceTieredWithMinimumPricePriceType = "usage_price"
+	PriceTieredWithMinimumPricePriceTypeFixedPrice PriceTieredWithMinimumPricePriceType = "fixed_price"
+)
+
 type PricePackageWithAllocationPrice struct {
 	ID                          string                                        `json:"id,required"`
 	BillableMetric              PricePackageWithAllocationPriceBillableMetric `json:"billable_metric,required,nullable"`
 	Cadence                     PricePackageWithAllocationPriceCadence        `json:"cadence,required"`
 	CreatedAt                   time.Time                                     `json:"created_at,required" format:"date-time"`
 	Currency                    string                                        `json:"currency,required"`
+	Discount                    shared.Discount                               `json:"discount,required,nullable"`
 	ExternalPriceID             string                                        `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                                       `json:"fixed_price_quantity,required,nullable"`
 	Item                        PricePackageWithAllocationPriceItem           `json:"item,required"`
+	Maximum                     PricePackageWithAllocationPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount               string                                        `json:"maximum_amount,required,nullable"`
+	Minimum                     PricePackageWithAllocationPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount               string                                        `json:"minimum_amount,required,nullable"`
 	ModelType                   PricePackageWithAllocationPriceModelType      `json:"model_type,required"`
 	Name                        string                                        `json:"name,required"`
 	PackageWithAllocationConfig map[string]interface{}                        `json:"package_with_allocation_config,required"`
 	PlanPhaseOrder              int64                                         `json:"plan_phase_order,required,nullable"`
 	PriceType                   PricePackageWithAllocationPricePriceType      `json:"price_type,required"`
-	Discount                    shared.Discount                               `json:"discount,nullable"`
-	Maximum                     PricePackageWithAllocationPriceMaximum        `json:"maximum,nullable"`
-	MaximumAmount               string                                        `json:"maximum_amount,nullable"`
-	Minimum                     PricePackageWithAllocationPriceMinimum        `json:"minimum,nullable"`
-	MinimumAmount               string                                        `json:"minimum_amount,nullable"`
 	JSON                        pricePackageWithAllocationPriceJSON
 }
 
@@ -2754,19 +2754,19 @@ type pricePackageWithAllocationPriceJSON struct {
 	Cadence                     apijson.Field
 	CreatedAt                   apijson.Field
 	Currency                    apijson.Field
+	Discount                    apijson.Field
 	ExternalPriceID             apijson.Field
 	FixedPriceQuantity          apijson.Field
 	Item                        apijson.Field
+	Maximum                     apijson.Field
+	MaximumAmount               apijson.Field
+	Minimum                     apijson.Field
+	MinimumAmount               apijson.Field
 	ModelType                   apijson.Field
 	Name                        apijson.Field
 	PackageWithAllocationConfig apijson.Field
 	PlanPhaseOrder              apijson.Field
 	PriceType                   apijson.Field
-	Discount                    apijson.Field
-	Maximum                     apijson.Field
-	MaximumAmount               apijson.Field
-	Minimum                     apijson.Field
-	MinimumAmount               apijson.Field
 	raw                         string
 	ExtraFields                 map[string]apijson.Field
 }
@@ -2822,19 +2822,6 @@ func (r *PricePackageWithAllocationPriceItem) UnmarshalJSON(data []byte) (err er
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type PricePackageWithAllocationPriceModelType string
-
-const (
-	PricePackageWithAllocationPriceModelTypePackageWithAllocation PricePackageWithAllocationPriceModelType = "package_with_allocation"
-)
-
-type PricePackageWithAllocationPricePriceType string
-
-const (
-	PricePackageWithAllocationPricePriceTypeUsagePrice PricePackageWithAllocationPricePriceType = "usage_price"
-	PricePackageWithAllocationPricePriceTypeFixedPrice PricePackageWithAllocationPricePriceType = "fixed_price"
-)
-
 type PricePackageWithAllocationPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2878,6 +2865,19 @@ type pricePackageWithAllocationPriceMinimumJSON struct {
 func (r *PricePackageWithAllocationPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type PricePackageWithAllocationPriceModelType string
+
+const (
+	PricePackageWithAllocationPriceModelTypePackageWithAllocation PricePackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+type PricePackageWithAllocationPricePriceType string
+
+const (
+	PricePackageWithAllocationPricePriceTypeUsagePrice PricePackageWithAllocationPricePriceType = "usage_price"
+	PricePackageWithAllocationPricePriceTypeFixedPrice PricePackageWithAllocationPricePriceType = "fixed_price"
+)
 
 // This interface is a union satisfied by one of the following:
 // [PriceNewParamsNewFloatingUnitPrice], [PriceNewParamsNewFloatingPackagePrice],
