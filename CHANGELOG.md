@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0 (2023-11-16)
+
+Full Changelog: [v0.5.0...v0.6.0](https://github.com/orbcorp/orb-go/compare/v0.5.0...v0.6.0)
+
+### Features
+
+* **api:** updates ([#28](https://github.com/orbcorp/orb-go/issues/28)) ([1dce8d6](https://github.com/orbcorp/orb-go/commit/1dce8d6b3d7830bf33339844f78edff8f3c84ef4))
+
+
+### Refactors
+
+* do not include `JSON` fields when serialising back to json ([#26](https://github.com/orbcorp/orb-go/issues/26)) ([b6f991c](https://github.com/orbcorp/orb-go/commit/b6f991c4c492e60e1c8132cca7f92b2d456ac24d))
+
 ## 0.5.0 (2023-11-09)
 
 Full Changelog: [v0.4.1...v0.5.0](https://github.com/orbcorp/orb-go/compare/v0.4.1...v0.5.0)
