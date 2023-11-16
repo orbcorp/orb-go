@@ -304,7 +304,7 @@ type Customer struct {
 	Timezone                    string                              `json:"timezone,required"`
 	AccountingSyncConfiguration CustomerAccountingSyncConfiguration `json:"accounting_sync_configuration,nullable"`
 	ReportingConfiguration      CustomerReportingConfiguration      `json:"reporting_configuration,nullable"`
-	JSON                        customerJSON
+	JSON                        customerJSON                        `json:"-"`
 }
 
 // customerJSON contains the JSON metadata for the struct [Customer]
@@ -338,13 +338,13 @@ func (r *Customer) UnmarshalJSON(data []byte) (err error) {
 }
 
 type CustomerBillingAddress struct {
-	City       string `json:"city,required,nullable"`
-	Country    string `json:"country,required,nullable"`
-	Line1      string `json:"line1,required,nullable"`
-	Line2      string `json:"line2,required,nullable"`
-	PostalCode string `json:"postal_code,required,nullable"`
-	State      string `json:"state,required,nullable"`
-	JSON       customerBillingAddressJSON
+	City       string                     `json:"city,required,nullable"`
+	Country    string                     `json:"country,required,nullable"`
+	Line1      string                     `json:"line1,required,nullable"`
+	Line2      string                     `json:"line2,required,nullable"`
+	PostalCode string                     `json:"postal_code,required,nullable"`
+	State      string                     `json:"state,required,nullable"`
+	JSON       customerBillingAddressJSON `json:"-"`
 }
 
 // customerBillingAddressJSON contains the JSON metadata for the struct
@@ -378,13 +378,13 @@ const (
 )
 
 type CustomerShippingAddress struct {
-	City       string `json:"city,required,nullable"`
-	Country    string `json:"country,required,nullable"`
-	Line1      string `json:"line1,required,nullable"`
-	Line2      string `json:"line2,required,nullable"`
-	PostalCode string `json:"postal_code,required,nullable"`
-	State      string `json:"state,required,nullable"`
-	JSON       customerShippingAddressJSON
+	City       string                      `json:"city,required,nullable"`
+	Country    string                      `json:"country,required,nullable"`
+	Line1      string                      `json:"line1,required,nullable"`
+	Line2      string                      `json:"line2,required,nullable"`
+	PostalCode string                      `json:"postal_code,required,nullable"`
+	State      string                      `json:"state,required,nullable"`
+	JSON       customerShippingAddressJSON `json:"-"`
 }
 
 // customerShippingAddressJSON contains the JSON metadata for the struct
@@ -492,7 +492,7 @@ type CustomerTaxID struct {
 	Country CustomerTaxIDCountry `json:"country,required"`
 	Type    CustomerTaxIDType    `json:"type,required"`
 	Value   string               `json:"value,required"`
-	JSON    customerTaxIDJSON
+	JSON    customerTaxIDJSON    `json:"-"`
 }
 
 // customerTaxIDJSON contains the JSON metadata for the struct [CustomerTaxID]
@@ -632,7 +632,7 @@ const (
 type CustomerAccountingSyncConfiguration struct {
 	AccountingProviders []CustomerAccountingSyncConfigurationAccountingProvider `json:"accounting_providers,required"`
 	Excluded            bool                                                    `json:"excluded,required"`
-	JSON                customerAccountingSyncConfigurationJSON
+	JSON                customerAccountingSyncConfigurationJSON                 `json:"-"`
 }
 
 // customerAccountingSyncConfigurationJSON contains the JSON metadata for the
@@ -651,7 +651,7 @@ func (r *CustomerAccountingSyncConfiguration) UnmarshalJSON(data []byte) (err er
 type CustomerAccountingSyncConfigurationAccountingProvider struct {
 	ExternalProviderID string                                                             `json:"external_provider_id,required,nullable"`
 	ProviderType       CustomerAccountingSyncConfigurationAccountingProvidersProviderType `json:"provider_type,required"`
-	JSON               customerAccountingSyncConfigurationAccountingProviderJSON
+	JSON               customerAccountingSyncConfigurationAccountingProviderJSON          `json:"-"`
 }
 
 // customerAccountingSyncConfigurationAccountingProviderJSON contains the JSON
@@ -675,8 +675,8 @@ const (
 )
 
 type CustomerReportingConfiguration struct {
-	Exempt bool `json:"exempt,required"`
-	JSON   customerReportingConfigurationJSON
+	Exempt bool                               `json:"exempt,required"`
+	JSON   customerReportingConfigurationJSON `json:"-"`
 }
 
 // customerReportingConfigurationJSON contains the JSON metadata for the struct

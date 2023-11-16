@@ -11,9 +11,9 @@ import (
 )
 
 type PagePaginationMetadata struct {
-	HasMore    bool   `json:"has_more,required"`
-	NextCursor string `json:"next_cursor,required,nullable"`
-	JSON       pagePaginationMetadataJSON
+	HasMore    bool                       `json:"has_more,required"`
+	NextCursor string                     `json:"next_cursor,required,nullable"`
+	JSON       pagePaginationMetadataJSON `json:"-"`
 }
 
 // pagePaginationMetadataJSON contains the JSON metadata for the struct
@@ -32,7 +32,7 @@ func (r *PagePaginationMetadata) UnmarshalJSON(data []byte) (err error) {
 type Page[T any] struct {
 	Data               []T                    `json:"data,required"`
 	PaginationMetadata PagePaginationMetadata `json:"pagination_metadata,required"`
-	JSON               pageJSON
+	JSON               pageJSON               `json:"-"`
 	cfg                *requestconfig.RequestConfig
 	res                *http.Response
 }

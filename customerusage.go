@@ -255,8 +255,8 @@ type CustomerUsageUpdateResponse struct {
 	Duplicate []string `json:"duplicate,required"`
 	// An array of strings, corresponding to idempotency_key's which were successfully
 	// ingested.
-	Ingested []string `json:"ingested,required"`
-	JSON     customerUsageUpdateResponseJSON
+	Ingested []string                        `json:"ingested,required"`
+	JSON     customerUsageUpdateResponseJSON `json:"-"`
 }
 
 // customerUsageUpdateResponseJSON contains the JSON metadata for the struct
@@ -278,8 +278,8 @@ type CustomerUsageUpdateByExternalIDResponse struct {
 	Duplicate []string `json:"duplicate,required"`
 	// An array of strings, corresponding to idempotency_key's which were successfully
 	// ingested.
-	Ingested []string `json:"ingested,required"`
-	JSON     customerUsageUpdateByExternalIDResponseJSON
+	Ingested []string                                    `json:"ingested,required"`
+	JSON     customerUsageUpdateByExternalIDResponseJSON `json:"-"`
 }
 
 // customerUsageUpdateByExternalIDResponseJSON contains the JSON metadata for the

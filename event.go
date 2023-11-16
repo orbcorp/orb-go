@@ -366,8 +366,8 @@ func (r *EventService) Search(ctx context.Context, body EventSearchParams, opts 
 
 type EventUpdateResponse struct {
 	// event_id of the amended event, if successfully ingested
-	Amended string `json:"amended,required"`
-	JSON    eventUpdateResponseJSON
+	Amended string                  `json:"amended,required"`
+	JSON    eventUpdateResponseJSON `json:"-"`
 }
 
 // eventUpdateResponseJSON contains the JSON metadata for the struct
@@ -384,8 +384,8 @@ func (r *EventUpdateResponse) UnmarshalJSON(data []byte) (err error) {
 
 type EventDeprecateResponse struct {
 	// event_id of the deprecated event, if successfully updated
-	Deprecated string `json:"deprecated,required"`
-	JSON       eventDeprecateResponseJSON
+	Deprecated string                     `json:"deprecated,required"`
+	JSON       eventDeprecateResponseJSON `json:"-"`
 }
 
 // eventDeprecateResponseJSON contains the JSON metadata for the struct
@@ -407,7 +407,7 @@ type EventIngestResponse struct {
 	// Optional debug information (only present when debug=true is passed to the
 	// endpoint). Contains ingested and duplicate event idempotency keys.
 	Debug EventIngestResponseDebug `json:"debug,nullable"`
-	JSON  eventIngestResponseJSON
+	JSON  eventIngestResponseJSON  `json:"-"`
 }
 
 // eventIngestResponseJSON contains the JSON metadata for the struct
@@ -428,8 +428,8 @@ type EventIngestResponseValidationFailed struct {
 	IdempotencyKey string `json:"idempotency_key,required"`
 	// An array of strings corresponding to validation failures for this
 	// idempotency_key.
-	ValidationErrors []string `json:"validation_errors,required"`
-	JSON             eventIngestResponseValidationFailedJSON
+	ValidationErrors []string                                `json:"validation_errors,required"`
+	JSON             eventIngestResponseValidationFailedJSON `json:"-"`
 }
 
 // eventIngestResponseValidationFailedJSON contains the JSON metadata for the
@@ -448,9 +448,9 @@ func (r *EventIngestResponseValidationFailed) UnmarshalJSON(data []byte) (err er
 // Optional debug information (only present when debug=true is passed to the
 // endpoint). Contains ingested and duplicate event idempotency keys.
 type EventIngestResponseDebug struct {
-	Duplicate []string `json:"duplicate,required"`
-	Ingested  []string `json:"ingested,required"`
-	JSON      eventIngestResponseDebugJSON
+	Duplicate []string                     `json:"duplicate,required"`
+	Ingested  []string                     `json:"ingested,required"`
+	JSON      eventIngestResponseDebugJSON `json:"-"`
 }
 
 // eventIngestResponseDebugJSON contains the JSON metadata for the struct
@@ -468,7 +468,7 @@ func (r *EventIngestResponseDebug) UnmarshalJSON(data []byte) (err error) {
 
 type EventSearchResponse struct {
 	Data []EventSearchResponseData `json:"data,required"`
-	JSON eventSearchResponseJSON
+	JSON eventSearchResponseJSON   `json:"-"`
 }
 
 // eventSearchResponseJSON contains the JSON metadata for the struct
@@ -505,8 +505,8 @@ type EventSearchResponseData struct {
 	// An ISO 8601 format date with no timezone offset (i.e. UTC). This should
 	// represent the time that usage was recorded, and is particularly important to
 	// attribute usage to a given billing period.
-	Timestamp time.Time `json:"timestamp,required" format:"date-time"`
-	JSON      eventSearchResponseDataJSON
+	Timestamp time.Time                   `json:"timestamp,required" format:"date-time"`
+	JSON      eventSearchResponseDataJSON `json:"-"`
 }
 
 // eventSearchResponseDataJSON contains the JSON metadata for the struct

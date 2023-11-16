@@ -83,7 +83,7 @@ type Item struct {
 	CreatedAt           time.Time                `json:"created_at,required" format:"date-time"`
 	ExternalConnections []ItemExternalConnection `json:"external_connections,required"`
 	Name                string                   `json:"name,required"`
-	JSON                itemJSON
+	JSON                itemJSON                 `json:"-"`
 }
 
 // itemJSON contains the JSON metadata for the struct [Item]
@@ -103,7 +103,7 @@ func (r *Item) UnmarshalJSON(data []byte) (err error) {
 type ItemExternalConnection struct {
 	ExternalConnectionName ItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
 	ExternalEntityID       string                                        `json:"external_entity_id,required"`
-	JSON                   itemExternalConnectionJSON
+	JSON                   itemExternalConnectionJSON                    `json:"-"`
 }
 
 // itemExternalConnectionJSON contains the JSON metadata for the struct

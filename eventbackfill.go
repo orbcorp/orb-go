@@ -151,7 +151,7 @@ type EventBackfillNewResponse struct {
 	Status         EventBackfillNewResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                      `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                      `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillNewResponseJSON
+	JSON           eventBackfillNewResponseJSON   `json:"-"`
 }
 
 // eventBackfillNewResponseJSON contains the JSON metadata for the struct
@@ -200,7 +200,7 @@ type EventBackfillListResponse struct {
 	Status         EventBackfillListResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                       `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                       `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillListResponseJSON
+	JSON           eventBackfillListResponseJSON   `json:"-"`
 }
 
 // eventBackfillListResponseJSON contains the JSON metadata for the struct
@@ -249,7 +249,7 @@ type EventBackfillCloseResponse struct {
 	Status         EventBackfillCloseResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillCloseResponseJSON
+	JSON           eventBackfillCloseResponseJSON   `json:"-"`
 }
 
 // eventBackfillCloseResponseJSON contains the JSON metadata for the struct
@@ -298,7 +298,7 @@ type EventBackfillFetchResponse struct {
 	Status         EventBackfillFetchResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillFetchResponseJSON
+	JSON           eventBackfillFetchResponseJSON   `json:"-"`
 }
 
 // eventBackfillFetchResponseJSON contains the JSON metadata for the struct
@@ -347,7 +347,7 @@ type EventBackfillRevertResponse struct {
 	Status         EventBackfillRevertResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                         `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                         `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillRevertResponseJSON
+	JSON           eventBackfillRevertResponseJSON   `json:"-"`
 }
 
 // eventBackfillRevertResponseJSON contains the JSON metadata for the struct
