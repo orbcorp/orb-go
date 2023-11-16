@@ -49,9 +49,9 @@ type DiscountPercentageDiscount struct {
 	DiscountType      DiscountPercentageDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount float64 `json:"percentage_discount,required"`
-	Reason             string  `json:"reason,nullable"`
-	JSON               discountPercentageDiscountJSON
+	PercentageDiscount float64                        `json:"percentage_discount,required"`
+	Reason             string                         `json:"reason,nullable"`
+	JSON               discountPercentageDiscountJSON `json:"-"`
 }
 
 // discountPercentageDiscountJSON contains the JSON metadata for the struct
@@ -86,8 +86,8 @@ type DiscountTrialDiscount struct {
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
 	// Only available if discount_type is `trial`
-	TrialPercentageDiscount float64 `json:"trial_percentage_discount,nullable"`
-	JSON                    discountTrialDiscountJSON
+	TrialPercentageDiscount float64                   `json:"trial_percentage_discount,nullable"`
+	JSON                    discountTrialDiscountJSON `json:"-"`
 }
 
 // discountTrialDiscountJSON contains the JSON metadata for the struct
@@ -121,9 +121,9 @@ type DiscountUsageDiscount struct {
 	DiscountType      DiscountUsageDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
-	UsageDiscount float64 `json:"usage_discount,required"`
-	Reason        string  `json:"reason,nullable"`
-	JSON          discountUsageDiscountJSON
+	UsageDiscount float64                   `json:"usage_discount,required"`
+	Reason        string                    `json:"reason,nullable"`
+	JSON          discountUsageDiscountJSON `json:"-"`
 }
 
 // discountUsageDiscountJSON contains the JSON metadata for the struct
@@ -157,7 +157,7 @@ type DiscountAmountDiscount struct {
 	AppliesToPriceIDs []string                           `json:"applies_to_price_ids,required"`
 	DiscountType      DiscountAmountDiscountDiscountType `json:"discount_type,required"`
 	Reason            string                             `json:"reason,nullable"`
-	JSON              discountAmountDiscountJSON
+	JSON              discountAmountDiscountJSON         `json:"-"`
 }
 
 // discountAmountDiscountJSON contains the JSON metadata for the struct

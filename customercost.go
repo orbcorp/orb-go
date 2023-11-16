@@ -317,7 +317,7 @@ func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCust
 
 type CustomerCostListResponse struct {
 	Data []CustomerCostListResponseData `json:"data,required"`
-	JSON customerCostListResponseJSON
+	JSON customerCostListResponseJSON   `json:"-"`
 }
 
 // customerCostListResponseJSON contains the JSON metadata for the struct
@@ -339,8 +339,8 @@ type CustomerCostListResponseData struct {
 	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
 	// Total costs for the timeframe, including any minimums and discounts.
-	Total string `json:"total,required"`
-	JSON  customerCostListResponseDataJSON
+	Total string                           `json:"total,required"`
+	JSON  customerCostListResponseDataJSON `json:"-"`
 }
 
 // customerCostListResponseDataJSON contains the JSON metadata for the struct
@@ -618,8 +618,8 @@ type CustomerCostListResponseDataPerPriceCost struct {
 	// `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`.
 	PriceGroups []CustomerCostListResponseDataPerPriceCostsPriceGroup `json:"price_groups,nullable"`
 	// The price's quantity for the timeframe
-	Quantity float64 `json:"quantity,nullable"`
-	JSON     customerCostListResponseDataPerPriceCostJSON
+	Quantity float64                                      `json:"quantity,nullable"`
+	JSON     customerCostListResponseDataPerPriceCostJSON `json:"-"`
 }
 
 // customerCostListResponseDataPerPriceCostJSON contains the JSON metadata for the
@@ -647,8 +647,8 @@ type CustomerCostListResponseDataPerPriceCostsPriceGroup struct {
 	SecondaryGroupingValue string `json:"secondary_grouping_value,required,nullable"`
 	// Total costs for this group for the timeframe. Note that this does not account
 	// for any minimums or discounts.
-	Total string `json:"total,required"`
-	JSON  customerCostListResponseDataPerPriceCostsPriceGroupJSON
+	Total string                                                  `json:"total,required"`
+	JSON  customerCostListResponseDataPerPriceCostsPriceGroupJSON `json:"-"`
 }
 
 // customerCostListResponseDataPerPriceCostsPriceGroupJSON contains the JSON
@@ -669,7 +669,7 @@ func (r *CustomerCostListResponseDataPerPriceCostsPriceGroup) UnmarshalJSON(data
 
 type CustomerCostListByExternalIDResponse struct {
 	Data []CustomerCostListByExternalIDResponseData `json:"data,required"`
-	JSON customerCostListByExternalIDResponseJSON
+	JSON customerCostListByExternalIDResponseJSON   `json:"-"`
 }
 
 // customerCostListByExternalIDResponseJSON contains the JSON metadata for the
@@ -691,8 +691,8 @@ type CustomerCostListByExternalIDResponseData struct {
 	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
 	// Total costs for the timeframe, including any minimums and discounts.
-	Total string `json:"total,required"`
-	JSON  customerCostListByExternalIDResponseDataJSON
+	Total string                                       `json:"total,required"`
+	JSON  customerCostListByExternalIDResponseDataJSON `json:"-"`
 }
 
 // customerCostListByExternalIDResponseDataJSON contains the JSON metadata for the
@@ -970,8 +970,8 @@ type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
 	// `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`.
 	PriceGroups []CustomerCostListByExternalIDResponseDataPerPriceCostsPriceGroup `json:"price_groups,nullable"`
 	// The price's quantity for the timeframe
-	Quantity float64 `json:"quantity,nullable"`
-	JSON     customerCostListByExternalIDResponseDataPerPriceCostJSON
+	Quantity float64                                                  `json:"quantity,nullable"`
+	JSON     customerCostListByExternalIDResponseDataPerPriceCostJSON `json:"-"`
 }
 
 // customerCostListByExternalIDResponseDataPerPriceCostJSON contains the JSON
@@ -999,8 +999,8 @@ type CustomerCostListByExternalIDResponseDataPerPriceCostsPriceGroup struct {
 	SecondaryGroupingValue string `json:"secondary_grouping_value,required,nullable"`
 	// Total costs for this group for the timeframe. Note that this does not account
 	// for any minimums or discounts.
-	Total string `json:"total,required"`
-	JSON  customerCostListByExternalIDResponseDataPerPriceCostsPriceGroupJSON
+	Total string                                                              `json:"total,required"`
+	JSON  customerCostListByExternalIDResponseDataPerPriceCostsPriceGroupJSON `json:"-"`
 }
 
 // customerCostListByExternalIDResponseDataPerPriceCostsPriceGroupJSON contains the

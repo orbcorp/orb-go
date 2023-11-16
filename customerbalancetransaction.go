@@ -140,7 +140,7 @@ type CustomerBalanceTransactionNewResponse struct {
 	// customer's currency.
 	StartingBalance string                                    `json:"starting_balance,required"`
 	Type            CustomerBalanceTransactionNewResponseType `json:"type,required"`
-	JSON            customerBalanceTransactionNewResponseJSON
+	JSON            customerBalanceTransactionNewResponseJSON `json:"-"`
 }
 
 // customerBalanceTransactionNewResponseJSON contains the JSON metadata for the
@@ -179,8 +179,8 @@ const (
 
 type CustomerBalanceTransactionNewResponseCreditNote struct {
 	// The id of the Credit note
-	ID   string `json:"id,required"`
-	JSON customerBalanceTransactionNewResponseCreditNoteJSON
+	ID   string                                              `json:"id,required"`
+	JSON customerBalanceTransactionNewResponseCreditNoteJSON `json:"-"`
 }
 
 // customerBalanceTransactionNewResponseCreditNoteJSON contains the JSON metadata
@@ -197,8 +197,8 @@ func (r *CustomerBalanceTransactionNewResponseCreditNote) UnmarshalJSON(data []b
 
 type CustomerBalanceTransactionNewResponseInvoice struct {
 	// The Invoice id
-	ID   string `json:"id,required"`
-	JSON customerBalanceTransactionNewResponseInvoiceJSON
+	ID   string                                           `json:"id,required"`
+	JSON customerBalanceTransactionNewResponseInvoiceJSON `json:"-"`
 }
 
 // customerBalanceTransactionNewResponseInvoiceJSON contains the JSON metadata for
@@ -239,7 +239,7 @@ type CustomerBalanceTransactionListResponse struct {
 	// customer's currency.
 	StartingBalance string                                     `json:"starting_balance,required"`
 	Type            CustomerBalanceTransactionListResponseType `json:"type,required"`
-	JSON            customerBalanceTransactionListResponseJSON
+	JSON            customerBalanceTransactionListResponseJSON `json:"-"`
 }
 
 // customerBalanceTransactionListResponseJSON contains the JSON metadata for the
@@ -278,8 +278,8 @@ const (
 
 type CustomerBalanceTransactionListResponseCreditNote struct {
 	// The id of the Credit note
-	ID   string `json:"id,required"`
-	JSON customerBalanceTransactionListResponseCreditNoteJSON
+	ID   string                                               `json:"id,required"`
+	JSON customerBalanceTransactionListResponseCreditNoteJSON `json:"-"`
 }
 
 // customerBalanceTransactionListResponseCreditNoteJSON contains the JSON metadata
@@ -296,8 +296,8 @@ func (r *CustomerBalanceTransactionListResponseCreditNote) UnmarshalJSON(data []
 
 type CustomerBalanceTransactionListResponseInvoice struct {
 	// The Invoice id
-	ID   string `json:"id,required"`
-	JSON customerBalanceTransactionListResponseInvoiceJSON
+	ID   string                                            `json:"id,required"`
+	JSON customerBalanceTransactionListResponseInvoiceJSON `json:"-"`
 }
 
 // customerBalanceTransactionListResponseInvoiceJSON contains the JSON metadata for

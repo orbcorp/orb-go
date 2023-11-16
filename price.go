@@ -443,7 +443,7 @@ type PriceUnitPrice struct {
 	PlanPhaseOrder     int64                        `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceUnitPricePriceType      `json:"price_type,required"`
 	UnitConfig         PriceUnitPriceUnitConfig     `json:"unit_config,required"`
-	JSON               priceUnitPriceJSON
+	JSON               priceUnitPriceJSON           `json:"-"`
 }
 
 // priceUnitPriceJSON contains the JSON metadata for the struct [PriceUnitPrice]
@@ -477,8 +477,8 @@ func (r *PriceUnitPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceUnitPrice) implementsPrice() {}
 
 type PriceUnitPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceUnitPriceBillableMetricJSON
+	ID   string                           `json:"id,required"`
+	JSON priceUnitPriceBillableMetricJSON `json:"-"`
 }
 
 // priceUnitPriceBillableMetricJSON contains the JSON metadata for the struct
@@ -503,9 +503,9 @@ const (
 )
 
 type PriceUnitPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceUnitPriceItemJSON
+	ID   string                 `json:"id,required"`
+	Name string                 `json:"name,required"`
+	JSON priceUnitPriceItemJSON `json:"-"`
 }
 
 // priceUnitPriceItemJSON contains the JSON metadata for the struct
@@ -526,8 +526,8 @@ type PriceUnitPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceUnitPriceMaximumJSON
+	MaximumAmount string                    `json:"maximum_amount,required"`
+	JSON          priceUnitPriceMaximumJSON `json:"-"`
 }
 
 // priceUnitPriceMaximumJSON contains the JSON metadata for the struct
@@ -548,8 +548,8 @@ type PriceUnitPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceUnitPriceMinimumJSON
+	MinimumAmount string                    `json:"minimum_amount,required"`
+	JSON          priceUnitPriceMinimumJSON `json:"-"`
 }
 
 // priceUnitPriceMinimumJSON contains the JSON metadata for the struct
@@ -582,8 +582,8 @@ type PriceUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount string `json:"unit_amount,required"`
 	// Multiplier to scale rated quantity by
-	ScalingFactor float64 `json:"scaling_factor,nullable"`
-	JSON          priceUnitPriceUnitConfigJSON
+	ScalingFactor float64                      `json:"scaling_factor,nullable"`
+	JSON          priceUnitPriceUnitConfigJSON `json:"-"`
 }
 
 // priceUnitPriceUnitConfigJSON contains the JSON metadata for the struct
@@ -618,7 +618,7 @@ type PricePackagePrice struct {
 	PackageConfig      PricePackagePricePackageConfig  `json:"package_config,required"`
 	PlanPhaseOrder     int64                           `json:"plan_phase_order,required,nullable"`
 	PriceType          PricePackagePricePriceType      `json:"price_type,required"`
-	JSON               pricePackagePriceJSON
+	JSON               pricePackagePriceJSON           `json:"-"`
 }
 
 // pricePackagePriceJSON contains the JSON metadata for the struct
@@ -653,8 +653,8 @@ func (r *PricePackagePrice) UnmarshalJSON(data []byte) (err error) {
 func (r PricePackagePrice) implementsPrice() {}
 
 type PricePackagePriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON pricePackagePriceBillableMetricJSON
+	ID   string                              `json:"id,required"`
+	JSON pricePackagePriceBillableMetricJSON `json:"-"`
 }
 
 // pricePackagePriceBillableMetricJSON contains the JSON metadata for the struct
@@ -679,9 +679,9 @@ const (
 )
 
 type PricePackagePriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON pricePackagePriceItemJSON
+	ID   string                    `json:"id,required"`
+	Name string                    `json:"name,required"`
+	JSON pricePackagePriceItemJSON `json:"-"`
 }
 
 // pricePackagePriceItemJSON contains the JSON metadata for the struct
@@ -702,8 +702,8 @@ type PricePackagePriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          pricePackagePriceMaximumJSON
+	MaximumAmount string                       `json:"maximum_amount,required"`
+	JSON          pricePackagePriceMaximumJSON `json:"-"`
 }
 
 // pricePackagePriceMaximumJSON contains the JSON metadata for the struct
@@ -724,8 +724,8 @@ type PricePackagePriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          pricePackagePriceMinimumJSON
+	MinimumAmount string                       `json:"minimum_amount,required"`
+	JSON          pricePackagePriceMinimumJSON `json:"-"`
 }
 
 // pricePackagePriceMinimumJSON contains the JSON metadata for the struct
@@ -752,8 +752,8 @@ type PricePackagePricePackageConfig struct {
 	PackageAmount string `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize int64 `json:"package_size,nullable"`
-	JSON        pricePackagePricePackageConfigJSON
+	PackageSize int64                              `json:"package_size,nullable"`
+	JSON        pricePackagePricePackageConfigJSON `json:"-"`
 }
 
 // pricePackagePricePackageConfigJSON contains the JSON metadata for the struct
@@ -795,7 +795,7 @@ type PriceMatrixPrice struct {
 	Name               string                         `json:"name,required"`
 	PlanPhaseOrder     int64                          `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceMatrixPricePriceType      `json:"price_type,required"`
-	JSON               priceMatrixPriceJSON
+	JSON               priceMatrixPriceJSON           `json:"-"`
 }
 
 // priceMatrixPriceJSON contains the JSON metadata for the struct
@@ -830,8 +830,8 @@ func (r *PriceMatrixPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceMatrixPrice) implementsPrice() {}
 
 type PriceMatrixPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceMatrixPriceBillableMetricJSON
+	ID   string                             `json:"id,required"`
+	JSON priceMatrixPriceBillableMetricJSON `json:"-"`
 }
 
 // priceMatrixPriceBillableMetricJSON contains the JSON metadata for the struct
@@ -856,9 +856,9 @@ const (
 )
 
 type PriceMatrixPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceMatrixPriceItemJSON
+	ID   string                   `json:"id,required"`
+	Name string                   `json:"name,required"`
+	JSON priceMatrixPriceItemJSON `json:"-"`
 }
 
 // priceMatrixPriceItemJSON contains the JSON metadata for the struct
@@ -883,8 +883,8 @@ type PriceMatrixPriceMatrixConfig struct {
 	MatrixValues []PriceMatrixPriceMatrixConfigMatrixValue `json:"matrix_values,required"`
 	// Default optional multiplier to scale rated quantities that fall into the default
 	// bucket by
-	ScalingFactor float64 `json:"scaling_factor,nullable"`
-	JSON          priceMatrixPriceMatrixConfigJSON
+	ScalingFactor float64                          `json:"scaling_factor,nullable"`
+	JSON          priceMatrixPriceMatrixConfigJSON `json:"-"`
 }
 
 // priceMatrixPriceMatrixConfigJSON contains the JSON metadata for the struct
@@ -910,8 +910,8 @@ type PriceMatrixPriceMatrixConfigMatrixValue struct {
 	// Unit price for the specified dimension_values
 	UnitAmount string `json:"unit_amount,required"`
 	// Optional multiplier to scale rated quantities by
-	ScalingFactor float64 `json:"scaling_factor,nullable"`
-	JSON          priceMatrixPriceMatrixConfigMatrixValueJSON
+	ScalingFactor float64                                     `json:"scaling_factor,nullable"`
+	JSON          priceMatrixPriceMatrixConfigMatrixValueJSON `json:"-"`
 }
 
 // priceMatrixPriceMatrixConfigMatrixValueJSON contains the JSON metadata for the
@@ -933,8 +933,8 @@ type PriceMatrixPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceMatrixPriceMaximumJSON
+	MaximumAmount string                      `json:"maximum_amount,required"`
+	JSON          priceMatrixPriceMaximumJSON `json:"-"`
 }
 
 // priceMatrixPriceMaximumJSON contains the JSON metadata for the struct
@@ -955,8 +955,8 @@ type PriceMatrixPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceMatrixPriceMinimumJSON
+	MinimumAmount string                      `json:"minimum_amount,required"`
+	JSON          priceMatrixPriceMinimumJSON `json:"-"`
 }
 
 // priceMatrixPriceMinimumJSON contains the JSON metadata for the struct
@@ -1004,7 +1004,7 @@ type PriceTieredPrice struct {
 	PlanPhaseOrder     int64                          `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceTieredPricePriceType      `json:"price_type,required"`
 	TieredConfig       PriceTieredPriceTieredConfig   `json:"tiered_config,required"`
-	JSON               priceTieredPriceJSON
+	JSON               priceTieredPriceJSON           `json:"-"`
 }
 
 // priceTieredPriceJSON contains the JSON metadata for the struct
@@ -1039,8 +1039,8 @@ func (r *PriceTieredPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceTieredPrice) implementsPrice() {}
 
 type PriceTieredPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceTieredPriceBillableMetricJSON
+	ID   string                             `json:"id,required"`
+	JSON priceTieredPriceBillableMetricJSON `json:"-"`
 }
 
 // priceTieredPriceBillableMetricJSON contains the JSON metadata for the struct
@@ -1065,9 +1065,9 @@ const (
 )
 
 type PriceTieredPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceTieredPriceItemJSON
+	ID   string                   `json:"id,required"`
+	Name string                   `json:"name,required"`
+	JSON priceTieredPriceItemJSON `json:"-"`
 }
 
 // priceTieredPriceItemJSON contains the JSON metadata for the struct
@@ -1088,8 +1088,8 @@ type PriceTieredPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceTieredPriceMaximumJSON
+	MaximumAmount string                      `json:"maximum_amount,required"`
+	JSON          priceTieredPriceMaximumJSON `json:"-"`
 }
 
 // priceTieredPriceMaximumJSON contains the JSON metadata for the struct
@@ -1110,8 +1110,8 @@ type PriceTieredPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceTieredPriceMinimumJSON
+	MinimumAmount string                      `json:"minimum_amount,required"`
+	JSON          priceTieredPriceMinimumJSON `json:"-"`
 }
 
 // priceTieredPriceMinimumJSON contains the JSON metadata for the struct
@@ -1143,7 +1143,7 @@ const (
 type PriceTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
 	Tiers []PriceTieredPriceTieredConfigTier `json:"tiers,required"`
-	JSON  priceTieredPriceTieredConfigJSON
+	JSON  priceTieredPriceTieredConfigJSON   `json:"-"`
 }
 
 // priceTieredPriceTieredConfigJSON contains the JSON metadata for the struct
@@ -1164,8 +1164,8 @@ type PriceTieredPriceTieredConfigTier struct {
 	// Amount per unit
 	UnitAmount string `json:"unit_amount,required"`
 	// Exclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64 `json:"last_unit,nullable"`
-	JSON     priceTieredPriceTieredConfigTierJSON
+	LastUnit float64                              `json:"last_unit,nullable"`
+	JSON     priceTieredPriceTieredConfigTierJSON `json:"-"`
 }
 
 // priceTieredPriceTieredConfigTierJSON contains the JSON metadata for the struct
@@ -1201,7 +1201,7 @@ type PriceTieredBpsPrice struct {
 	PlanPhaseOrder     int64                              `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceTieredBpsPricePriceType       `json:"price_type,required"`
 	TieredBpsConfig    PriceTieredBpsPriceTieredBpsConfig `json:"tiered_bps_config,required"`
-	JSON               priceTieredBpsPriceJSON
+	JSON               priceTieredBpsPriceJSON            `json:"-"`
 }
 
 // priceTieredBpsPriceJSON contains the JSON metadata for the struct
@@ -1236,8 +1236,8 @@ func (r *PriceTieredBpsPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceTieredBpsPrice) implementsPrice() {}
 
 type PriceTieredBpsPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceTieredBpsPriceBillableMetricJSON
+	ID   string                                `json:"id,required"`
+	JSON priceTieredBpsPriceBillableMetricJSON `json:"-"`
 }
 
 // priceTieredBpsPriceBillableMetricJSON contains the JSON metadata for the struct
@@ -1262,9 +1262,9 @@ const (
 )
 
 type PriceTieredBpsPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceTieredBpsPriceItemJSON
+	ID   string                      `json:"id,required"`
+	Name string                      `json:"name,required"`
+	JSON priceTieredBpsPriceItemJSON `json:"-"`
 }
 
 // priceTieredBpsPriceItemJSON contains the JSON metadata for the struct
@@ -1285,8 +1285,8 @@ type PriceTieredBpsPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceTieredBpsPriceMaximumJSON
+	MaximumAmount string                         `json:"maximum_amount,required"`
+	JSON          priceTieredBpsPriceMaximumJSON `json:"-"`
 }
 
 // priceTieredBpsPriceMaximumJSON contains the JSON metadata for the struct
@@ -1307,8 +1307,8 @@ type PriceTieredBpsPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceTieredBpsPriceMinimumJSON
+	MinimumAmount string                         `json:"minimum_amount,required"`
+	JSON          priceTieredBpsPriceMinimumJSON `json:"-"`
 }
 
 // priceTieredBpsPriceMinimumJSON contains the JSON metadata for the struct
@@ -1341,7 +1341,7 @@ type PriceTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
 	// tiers
 	Tiers []PriceTieredBpsPriceTieredBpsConfigTier `json:"tiers,required"`
-	JSON  priceTieredBpsPriceTieredBpsConfigJSON
+	JSON  priceTieredBpsPriceTieredBpsConfigJSON   `json:"-"`
 }
 
 // priceTieredBpsPriceTieredBpsConfigJSON contains the JSON metadata for the struct
@@ -1364,8 +1364,8 @@ type PriceTieredBpsPriceTieredBpsConfigTier struct {
 	// Exclusive tier ending value
 	MaximumAmount string `json:"maximum_amount,nullable"`
 	// Per unit maximum to charge
-	PerUnitMaximum string `json:"per_unit_maximum,nullable"`
-	JSON           priceTieredBpsPriceTieredBpsConfigTierJSON
+	PerUnitMaximum string                                     `json:"per_unit_maximum,nullable"`
+	JSON           priceTieredBpsPriceTieredBpsConfigTierJSON `json:"-"`
 }
 
 // priceTieredBpsPriceTieredBpsConfigTierJSON contains the JSON metadata for the
@@ -1402,7 +1402,7 @@ type PriceBpsPrice struct {
 	Name               string                      `json:"name,required"`
 	PlanPhaseOrder     int64                       `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBpsPricePriceType      `json:"price_type,required"`
-	JSON               priceBpsPriceJSON
+	JSON               priceBpsPriceJSON           `json:"-"`
 }
 
 // priceBpsPriceJSON contains the JSON metadata for the struct [PriceBpsPrice]
@@ -1436,8 +1436,8 @@ func (r *PriceBpsPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceBpsPrice) implementsPrice() {}
 
 type PriceBpsPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceBpsPriceBillableMetricJSON
+	ID   string                          `json:"id,required"`
+	JSON priceBpsPriceBillableMetricJSON `json:"-"`
 }
 
 // priceBpsPriceBillableMetricJSON contains the JSON metadata for the struct
@@ -1456,8 +1456,8 @@ type PriceBpsPriceBpsConfig struct {
 	// Basis point take rate per event
 	Bps float64 `json:"bps,required"`
 	// Optional currency amount maximum to cap spend per event
-	PerUnitMaximum string `json:"per_unit_maximum,nullable"`
-	JSON           priceBpsPriceBpsConfigJSON
+	PerUnitMaximum string                     `json:"per_unit_maximum,nullable"`
+	JSON           priceBpsPriceBpsConfigJSON `json:"-"`
 }
 
 // priceBpsPriceBpsConfigJSON contains the JSON metadata for the struct
@@ -1483,9 +1483,9 @@ const (
 )
 
 type PriceBpsPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceBpsPriceItemJSON
+	ID   string                `json:"id,required"`
+	Name string                `json:"name,required"`
+	JSON priceBpsPriceItemJSON `json:"-"`
 }
 
 // priceBpsPriceItemJSON contains the JSON metadata for the struct
@@ -1506,8 +1506,8 @@ type PriceBpsPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceBpsPriceMaximumJSON
+	MaximumAmount string                   `json:"maximum_amount,required"`
+	JSON          priceBpsPriceMaximumJSON `json:"-"`
 }
 
 // priceBpsPriceMaximumJSON contains the JSON metadata for the struct
@@ -1528,8 +1528,8 @@ type PriceBpsPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceBpsPriceMinimumJSON
+	MinimumAmount string                   `json:"minimum_amount,required"`
+	JSON          priceBpsPriceMinimumJSON `json:"-"`
 }
 
 // priceBpsPriceMinimumJSON contains the JSON metadata for the struct
@@ -1577,7 +1577,7 @@ type PriceBulkBpsPrice struct {
 	Name               string                          `json:"name,required"`
 	PlanPhaseOrder     int64                           `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBulkBpsPricePriceType      `json:"price_type,required"`
-	JSON               priceBulkBpsPriceJSON
+	JSON               priceBulkBpsPriceJSON           `json:"-"`
 }
 
 // priceBulkBpsPriceJSON contains the JSON metadata for the struct
@@ -1612,8 +1612,8 @@ func (r *PriceBulkBpsPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceBulkBpsPrice) implementsPrice() {}
 
 type PriceBulkBpsPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceBulkBpsPriceBillableMetricJSON
+	ID   string                              `json:"id,required"`
+	JSON priceBulkBpsPriceBillableMetricJSON `json:"-"`
 }
 
 // priceBulkBpsPriceBillableMetricJSON contains the JSON metadata for the struct
@@ -1632,7 +1632,7 @@ type PriceBulkBpsPriceBulkBpsConfig struct {
 	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
 	// tier based on total volume
 	Tiers []PriceBulkBpsPriceBulkBpsConfigTier `json:"tiers,required"`
-	JSON  priceBulkBpsPriceBulkBpsConfigJSON
+	JSON  priceBulkBpsPriceBulkBpsConfigJSON   `json:"-"`
 }
 
 // priceBulkBpsPriceBulkBpsConfigJSON contains the JSON metadata for the struct
@@ -1653,8 +1653,8 @@ type PriceBulkBpsPriceBulkBpsConfigTier struct {
 	// Upper bound for tier
 	MaximumAmount string `json:"maximum_amount,nullable"`
 	// The maximum amount to charge for any one event
-	PerUnitMaximum string `json:"per_unit_maximum,nullable"`
-	JSON           priceBulkBpsPriceBulkBpsConfigTierJSON
+	PerUnitMaximum string                                 `json:"per_unit_maximum,nullable"`
+	JSON           priceBulkBpsPriceBulkBpsConfigTierJSON `json:"-"`
 }
 
 // priceBulkBpsPriceBulkBpsConfigTierJSON contains the JSON metadata for the struct
@@ -1681,9 +1681,9 @@ const (
 )
 
 type PriceBulkBpsPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceBulkBpsPriceItemJSON
+	ID   string                    `json:"id,required"`
+	Name string                    `json:"name,required"`
+	JSON priceBulkBpsPriceItemJSON `json:"-"`
 }
 
 // priceBulkBpsPriceItemJSON contains the JSON metadata for the struct
@@ -1704,8 +1704,8 @@ type PriceBulkBpsPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceBulkBpsPriceMaximumJSON
+	MaximumAmount string                       `json:"maximum_amount,required"`
+	JSON          priceBulkBpsPriceMaximumJSON `json:"-"`
 }
 
 // priceBulkBpsPriceMaximumJSON contains the JSON metadata for the struct
@@ -1726,8 +1726,8 @@ type PriceBulkBpsPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceBulkBpsPriceMinimumJSON
+	MinimumAmount string                       `json:"minimum_amount,required"`
+	JSON          priceBulkBpsPriceMinimumJSON `json:"-"`
 }
 
 // priceBulkBpsPriceMinimumJSON contains the JSON metadata for the struct
@@ -1775,7 +1775,7 @@ type PriceBulkPrice struct {
 	Name               string                       `json:"name,required"`
 	PlanPhaseOrder     int64                        `json:"plan_phase_order,required,nullable"`
 	PriceType          PriceBulkPricePriceType      `json:"price_type,required"`
-	JSON               priceBulkPriceJSON
+	JSON               priceBulkPriceJSON           `json:"-"`
 }
 
 // priceBulkPriceJSON contains the JSON metadata for the struct [PriceBulkPrice]
@@ -1809,8 +1809,8 @@ func (r *PriceBulkPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceBulkPrice) implementsPrice() {}
 
 type PriceBulkPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceBulkPriceBillableMetricJSON
+	ID   string                           `json:"id,required"`
+	JSON priceBulkPriceBillableMetricJSON `json:"-"`
 }
 
 // priceBulkPriceBillableMetricJSON contains the JSON metadata for the struct
@@ -1828,7 +1828,7 @@ func (r *PriceBulkPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 type PriceBulkPriceBulkConfig struct {
 	// Bulk tiers for rating based on total usage volume
 	Tiers []PriceBulkPriceBulkConfigTier `json:"tiers,required"`
-	JSON  priceBulkPriceBulkConfigJSON
+	JSON  priceBulkPriceBulkConfigJSON   `json:"-"`
 }
 
 // priceBulkPriceBulkConfigJSON contains the JSON metadata for the struct
@@ -1847,8 +1847,8 @@ type PriceBulkPriceBulkConfigTier struct {
 	// Amount per unit
 	UnitAmount string `json:"unit_amount,required"`
 	// Upper bound for this tier
-	MaximumUnits float64 `json:"maximum_units,nullable"`
-	JSON         priceBulkPriceBulkConfigTierJSON
+	MaximumUnits float64                          `json:"maximum_units,nullable"`
+	JSON         priceBulkPriceBulkConfigTierJSON `json:"-"`
 }
 
 // priceBulkPriceBulkConfigTierJSON contains the JSON metadata for the struct
@@ -1874,9 +1874,9 @@ const (
 )
 
 type PriceBulkPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceBulkPriceItemJSON
+	ID   string                 `json:"id,required"`
+	Name string                 `json:"name,required"`
+	JSON priceBulkPriceItemJSON `json:"-"`
 }
 
 // priceBulkPriceItemJSON contains the JSON metadata for the struct
@@ -1897,8 +1897,8 @@ type PriceBulkPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceBulkPriceMaximumJSON
+	MaximumAmount string                    `json:"maximum_amount,required"`
+	JSON          priceBulkPriceMaximumJSON `json:"-"`
 }
 
 // priceBulkPriceMaximumJSON contains the JSON metadata for the struct
@@ -1919,8 +1919,8 @@ type PriceBulkPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceBulkPriceMinimumJSON
+	MinimumAmount string                    `json:"minimum_amount,required"`
+	JSON          priceBulkPriceMinimumJSON `json:"-"`
 }
 
 // priceBulkPriceMinimumJSON contains the JSON metadata for the struct
@@ -1968,7 +1968,7 @@ type PriceTestRatingFunctionPrice struct {
 	PlanPhaseOrder           int64                                      `json:"plan_phase_order,required,nullable"`
 	PriceType                PriceTestRatingFunctionPricePriceType      `json:"price_type,required"`
 	TestRatingFunctionConfig map[string]interface{}                     `json:"test_rating_function_config,required"`
-	JSON                     priceTestRatingFunctionPriceJSON
+	JSON                     priceTestRatingFunctionPriceJSON           `json:"-"`
 }
 
 // priceTestRatingFunctionPriceJSON contains the JSON metadata for the struct
@@ -2003,8 +2003,8 @@ func (r *PriceTestRatingFunctionPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceTestRatingFunctionPrice) implementsPrice() {}
 
 type PriceTestRatingFunctionPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceTestRatingFunctionPriceBillableMetricJSON
+	ID   string                                         `json:"id,required"`
+	JSON priceTestRatingFunctionPriceBillableMetricJSON `json:"-"`
 }
 
 // priceTestRatingFunctionPriceBillableMetricJSON contains the JSON metadata for
@@ -2029,9 +2029,9 @@ const (
 )
 
 type PriceTestRatingFunctionPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceTestRatingFunctionPriceItemJSON
+	ID   string                               `json:"id,required"`
+	Name string                               `json:"name,required"`
+	JSON priceTestRatingFunctionPriceItemJSON `json:"-"`
 }
 
 // priceTestRatingFunctionPriceItemJSON contains the JSON metadata for the struct
@@ -2052,8 +2052,8 @@ type PriceTestRatingFunctionPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceTestRatingFunctionPriceMaximumJSON
+	MaximumAmount string                                  `json:"maximum_amount,required"`
+	JSON          priceTestRatingFunctionPriceMaximumJSON `json:"-"`
 }
 
 // priceTestRatingFunctionPriceMaximumJSON contains the JSON metadata for the
@@ -2074,8 +2074,8 @@ type PriceTestRatingFunctionPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceTestRatingFunctionPriceMinimumJSON
+	MinimumAmount string                                  `json:"minimum_amount,required"`
+	JSON          priceTestRatingFunctionPriceMinimumJSON `json:"-"`
 }
 
 // priceTestRatingFunctionPriceMinimumJSON contains the JSON metadata for the
@@ -2123,7 +2123,7 @@ type PriceFivetranExamplePrice struct {
 	Name                  string                                  `json:"name,required"`
 	PlanPhaseOrder        int64                                   `json:"plan_phase_order,required,nullable"`
 	PriceType             PriceFivetranExamplePricePriceType      `json:"price_type,required"`
-	JSON                  priceFivetranExamplePriceJSON
+	JSON                  priceFivetranExamplePriceJSON           `json:"-"`
 }
 
 // priceFivetranExamplePriceJSON contains the JSON metadata for the struct
@@ -2158,8 +2158,8 @@ func (r *PriceFivetranExamplePrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceFivetranExamplePrice) implementsPrice() {}
 
 type PriceFivetranExamplePriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceFivetranExamplePriceBillableMetricJSON
+	ID   string                                      `json:"id,required"`
+	JSON priceFivetranExamplePriceBillableMetricJSON `json:"-"`
 }
 
 // priceFivetranExamplePriceBillableMetricJSON contains the JSON metadata for the
@@ -2184,9 +2184,9 @@ const (
 )
 
 type PriceFivetranExamplePriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceFivetranExamplePriceItemJSON
+	ID   string                            `json:"id,required"`
+	Name string                            `json:"name,required"`
+	JSON priceFivetranExamplePriceItemJSON `json:"-"`
 }
 
 // priceFivetranExamplePriceItemJSON contains the JSON metadata for the struct
@@ -2207,8 +2207,8 @@ type PriceFivetranExamplePriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceFivetranExamplePriceMaximumJSON
+	MaximumAmount string                               `json:"maximum_amount,required"`
+	JSON          priceFivetranExamplePriceMaximumJSON `json:"-"`
 }
 
 // priceFivetranExamplePriceMaximumJSON contains the JSON metadata for the struct
@@ -2229,8 +2229,8 @@ type PriceFivetranExamplePriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceFivetranExamplePriceMinimumJSON
+	MinimumAmount string                               `json:"minimum_amount,required"`
+	JSON          priceFivetranExamplePriceMinimumJSON `json:"-"`
 }
 
 // priceFivetranExamplePriceMinimumJSON contains the JSON metadata for the struct
@@ -2278,7 +2278,7 @@ type PriceThresholdTotalAmountPrice struct {
 	PlanPhaseOrder             int64                                        `json:"plan_phase_order,required,nullable"`
 	PriceType                  PriceThresholdTotalAmountPricePriceType      `json:"price_type,required"`
 	ThresholdTotalAmountConfig map[string]interface{}                       `json:"threshold_total_amount_config,required"`
-	JSON                       priceThresholdTotalAmountPriceJSON
+	JSON                       priceThresholdTotalAmountPriceJSON           `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceJSON contains the JSON metadata for the struct
@@ -2313,8 +2313,8 @@ func (r *PriceThresholdTotalAmountPrice) UnmarshalJSON(data []byte) (err error) 
 func (r PriceThresholdTotalAmountPrice) implementsPrice() {}
 
 type PriceThresholdTotalAmountPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceThresholdTotalAmountPriceBillableMetricJSON
+	ID   string                                           `json:"id,required"`
+	JSON priceThresholdTotalAmountPriceBillableMetricJSON `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceBillableMetricJSON contains the JSON metadata for
@@ -2339,9 +2339,9 @@ const (
 )
 
 type PriceThresholdTotalAmountPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceThresholdTotalAmountPriceItemJSON
+	ID   string                                 `json:"id,required"`
+	Name string                                 `json:"name,required"`
+	JSON priceThresholdTotalAmountPriceItemJSON `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceItemJSON contains the JSON metadata for the struct
@@ -2362,8 +2362,8 @@ type PriceThresholdTotalAmountPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceThresholdTotalAmountPriceMaximumJSON
+	MaximumAmount string                                    `json:"maximum_amount,required"`
+	JSON          priceThresholdTotalAmountPriceMaximumJSON `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceMaximumJSON contains the JSON metadata for the
@@ -2384,8 +2384,8 @@ type PriceThresholdTotalAmountPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceThresholdTotalAmountPriceMinimumJSON
+	MinimumAmount string                                    `json:"minimum_amount,required"`
+	JSON          priceThresholdTotalAmountPriceMinimumJSON `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceMinimumJSON contains the JSON metadata for the
@@ -2433,7 +2433,7 @@ type PriceTieredPackagePrice struct {
 	PlanPhaseOrder      int64                                 `json:"plan_phase_order,required,nullable"`
 	PriceType           PriceTieredPackagePricePriceType      `json:"price_type,required"`
 	TieredPackageConfig map[string]interface{}                `json:"tiered_package_config,required"`
-	JSON                priceTieredPackagePriceJSON
+	JSON                priceTieredPackagePriceJSON           `json:"-"`
 }
 
 // priceTieredPackagePriceJSON contains the JSON metadata for the struct
@@ -2468,8 +2468,8 @@ func (r *PriceTieredPackagePrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceTieredPackagePrice) implementsPrice() {}
 
 type PriceTieredPackagePriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceTieredPackagePriceBillableMetricJSON
+	ID   string                                    `json:"id,required"`
+	JSON priceTieredPackagePriceBillableMetricJSON `json:"-"`
 }
 
 // priceTieredPackagePriceBillableMetricJSON contains the JSON metadata for the
@@ -2494,9 +2494,9 @@ const (
 )
 
 type PriceTieredPackagePriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceTieredPackagePriceItemJSON
+	ID   string                          `json:"id,required"`
+	Name string                          `json:"name,required"`
+	JSON priceTieredPackagePriceItemJSON `json:"-"`
 }
 
 // priceTieredPackagePriceItemJSON contains the JSON metadata for the struct
@@ -2517,8 +2517,8 @@ type PriceTieredPackagePriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceTieredPackagePriceMaximumJSON
+	MaximumAmount string                             `json:"maximum_amount,required"`
+	JSON          priceTieredPackagePriceMaximumJSON `json:"-"`
 }
 
 // priceTieredPackagePriceMaximumJSON contains the JSON metadata for the struct
@@ -2539,8 +2539,8 @@ type PriceTieredPackagePriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceTieredPackagePriceMinimumJSON
+	MinimumAmount string                             `json:"minimum_amount,required"`
+	JSON          priceTieredPackagePriceMinimumJSON `json:"-"`
 }
 
 // priceTieredPackagePriceMinimumJSON contains the JSON metadata for the struct
@@ -2588,7 +2588,7 @@ type PriceTieredWithMinimumPrice struct {
 	PlanPhaseOrder          int64                                     `json:"plan_phase_order,required,nullable"`
 	PriceType               PriceTieredWithMinimumPricePriceType      `json:"price_type,required"`
 	TieredWithMinimumConfig map[string]interface{}                    `json:"tiered_with_minimum_config,required"`
-	JSON                    priceTieredWithMinimumPriceJSON
+	JSON                    priceTieredWithMinimumPriceJSON           `json:"-"`
 }
 
 // priceTieredWithMinimumPriceJSON contains the JSON metadata for the struct
@@ -2623,8 +2623,8 @@ func (r *PriceTieredWithMinimumPrice) UnmarshalJSON(data []byte) (err error) {
 func (r PriceTieredWithMinimumPrice) implementsPrice() {}
 
 type PriceTieredWithMinimumPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON priceTieredWithMinimumPriceBillableMetricJSON
+	ID   string                                        `json:"id,required"`
+	JSON priceTieredWithMinimumPriceBillableMetricJSON `json:"-"`
 }
 
 // priceTieredWithMinimumPriceBillableMetricJSON contains the JSON metadata for the
@@ -2649,9 +2649,9 @@ const (
 )
 
 type PriceTieredWithMinimumPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON priceTieredWithMinimumPriceItemJSON
+	ID   string                              `json:"id,required"`
+	Name string                              `json:"name,required"`
+	JSON priceTieredWithMinimumPriceItemJSON `json:"-"`
 }
 
 // priceTieredWithMinimumPriceItemJSON contains the JSON metadata for the struct
@@ -2672,8 +2672,8 @@ type PriceTieredWithMinimumPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          priceTieredWithMinimumPriceMaximumJSON
+	MaximumAmount string                                 `json:"maximum_amount,required"`
+	JSON          priceTieredWithMinimumPriceMaximumJSON `json:"-"`
 }
 
 // priceTieredWithMinimumPriceMaximumJSON contains the JSON metadata for the struct
@@ -2694,8 +2694,8 @@ type PriceTieredWithMinimumPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          priceTieredWithMinimumPriceMinimumJSON
+	MinimumAmount string                                 `json:"minimum_amount,required"`
+	JSON          priceTieredWithMinimumPriceMinimumJSON `json:"-"`
 }
 
 // priceTieredWithMinimumPriceMinimumJSON contains the JSON metadata for the struct
@@ -2743,7 +2743,7 @@ type PricePackageWithAllocationPrice struct {
 	PackageWithAllocationConfig map[string]interface{}                        `json:"package_with_allocation_config,required"`
 	PlanPhaseOrder              int64                                         `json:"plan_phase_order,required,nullable"`
 	PriceType                   PricePackageWithAllocationPricePriceType      `json:"price_type,required"`
-	JSON                        pricePackageWithAllocationPriceJSON
+	JSON                        pricePackageWithAllocationPriceJSON           `json:"-"`
 }
 
 // pricePackageWithAllocationPriceJSON contains the JSON metadata for the struct
@@ -2778,8 +2778,8 @@ func (r *PricePackageWithAllocationPrice) UnmarshalJSON(data []byte) (err error)
 func (r PricePackageWithAllocationPrice) implementsPrice() {}
 
 type PricePackageWithAllocationPriceBillableMetric struct {
-	ID   string `json:"id,required"`
-	JSON pricePackageWithAllocationPriceBillableMetricJSON
+	ID   string                                            `json:"id,required"`
+	JSON pricePackageWithAllocationPriceBillableMetricJSON `json:"-"`
 }
 
 // pricePackageWithAllocationPriceBillableMetricJSON contains the JSON metadata for
@@ -2804,9 +2804,9 @@ const (
 )
 
 type PricePackageWithAllocationPriceItem struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON pricePackageWithAllocationPriceItemJSON
+	ID   string                                  `json:"id,required"`
+	Name string                                  `json:"name,required"`
+	JSON pricePackageWithAllocationPriceItemJSON `json:"-"`
 }
 
 // pricePackageWithAllocationPriceItemJSON contains the JSON metadata for the
@@ -2827,8 +2827,8 @@ type PricePackageWithAllocationPriceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          pricePackageWithAllocationPriceMaximumJSON
+	MaximumAmount string                                     `json:"maximum_amount,required"`
+	JSON          pricePackageWithAllocationPriceMaximumJSON `json:"-"`
 }
 
 // pricePackageWithAllocationPriceMaximumJSON contains the JSON metadata for the
@@ -2849,8 +2849,8 @@ type PricePackageWithAllocationPriceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          pricePackageWithAllocationPriceMinimumJSON
+	MinimumAmount string                                     `json:"minimum_amount,required"`
+	JSON          pricePackageWithAllocationPriceMinimumJSON `json:"-"`
 }
 
 // pricePackageWithAllocationPriceMinimumJSON contains the JSON metadata for the

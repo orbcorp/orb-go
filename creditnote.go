@@ -101,8 +101,8 @@ type CreditNote struct {
 	Total string         `json:"total,required"`
 	Type  CreditNoteType `json:"type,required"`
 	// The time at which the credit note was voided in Orb, if applicable.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
-	JSON     creditNoteJSON
+	VoidedAt time.Time      `json:"voided_at,required,nullable" format:"date-time"`
+	JSON     creditNoteJSON `json:"-"`
 }
 
 // creditNoteJSON contains the JSON metadata for the struct [CreditNote]
@@ -132,9 +132,9 @@ func (r *CreditNote) UnmarshalJSON(data []byte) (err error) {
 }
 
 type CreditNoteCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               creditNoteCustomerJSON
+	ID                 string                 `json:"id,required"`
+	ExternalCustomerID string                 `json:"external_customer_id,required,nullable"`
+	JSON               creditNoteCustomerJSON `json:"-"`
 }
 
 // creditNoteCustomerJSON contains the JSON metadata for the struct
@@ -156,7 +156,7 @@ type CreditNoteDiscount struct {
 	PercentageDiscount float64                             `json:"percentage_discount,required"`
 	AppliesToPrices    []CreditNoteDiscountsAppliesToPrice `json:"applies_to_prices,nullable"`
 	Reason             string                              `json:"reason,nullable"`
-	JSON               creditNoteDiscountJSON
+	JSON               creditNoteDiscountJSON              `json:"-"`
 }
 
 // creditNoteDiscountJSON contains the JSON metadata for the struct
@@ -182,9 +182,9 @@ const (
 )
 
 type CreditNoteDiscountsAppliesToPrice struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON creditNoteDiscountsAppliesToPriceJSON
+	ID   string                                `json:"id,required"`
+	Name string                                `json:"name,required"`
+	JSON creditNoteDiscountsAppliesToPriceJSON `json:"-"`
 }
 
 // creditNoteDiscountsAppliesToPriceJSON contains the JSON metadata for the struct
@@ -217,7 +217,7 @@ type CreditNoteLineItem struct {
 	Subtotal string `json:"subtotal,required"`
 	// Any tax amounts applied onto the line item.
 	TaxAmounts []CreditNoteLineItemsTaxAmount `json:"tax_amounts,required"`
-	JSON       creditNoteLineItemJSON
+	JSON       creditNoteLineItemJSON         `json:"-"`
 }
 
 // creditNoteLineItemJSON contains the JSON metadata for the struct
@@ -247,7 +247,7 @@ type CreditNoteLineItemsDiscount struct {
 	PercentageDiscount float64                                  `json:"percentage_discount,required"`
 	AmountDiscount     string                                   `json:"amount_discount,nullable"`
 	Reason             string                                   `json:"reason,nullable"`
-	JSON               creditNoteLineItemsDiscountJSON
+	JSON               creditNoteLineItemsDiscountJSON          `json:"-"`
 }
 
 // creditNoteLineItemsDiscountJSON contains the JSON metadata for the struct
@@ -276,10 +276,10 @@ const (
 )
 
 type CreditNoteLineItemsSubLineItem struct {
-	Amount   string  `json:"amount,required"`
-	Name     string  `json:"name,required"`
-	Quantity float64 `json:"quantity,required,nullable"`
-	JSON     creditNoteLineItemsSubLineItemJSON
+	Amount   string                             `json:"amount,required"`
+	Name     string                             `json:"name,required"`
+	Quantity float64                            `json:"quantity,required,nullable"`
+	JSON     creditNoteLineItemsSubLineItemJSON `json:"-"`
 }
 
 // creditNoteLineItemsSubLineItemJSON contains the JSON metadata for the struct
@@ -302,8 +302,8 @@ type CreditNoteLineItemsTaxAmount struct {
 	// The human-readable description of the applied tax rate.
 	TaxRateDescription string `json:"tax_rate_description,required"`
 	// The tax rate percentage, out of 100.
-	TaxRatePercentage string `json:"tax_rate_percentage,required,nullable"`
-	JSON              creditNoteLineItemsTaxAmountJSON
+	TaxRatePercentage string                           `json:"tax_rate_percentage,required,nullable"`
+	JSON              creditNoteLineItemsTaxAmountJSON `json:"-"`
 }
 
 // creditNoteLineItemsTaxAmountJSON contains the JSON metadata for the struct
@@ -327,7 +327,7 @@ type CreditNoteMaximumAmountAdjustment struct {
 	PercentageDiscount float64                                           `json:"percentage_discount,required"`
 	AppliesToPrices    []CreditNoteMaximumAmountAdjustmentAppliesToPrice `json:"applies_to_prices,nullable"`
 	Reason             string                                            `json:"reason,nullable"`
-	JSON               creditNoteMaximumAmountAdjustmentJSON
+	JSON               creditNoteMaximumAmountAdjustmentJSON             `json:"-"`
 }
 
 // creditNoteMaximumAmountAdjustmentJSON contains the JSON metadata for the struct
@@ -353,9 +353,9 @@ const (
 )
 
 type CreditNoteMaximumAmountAdjustmentAppliesToPrice struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON creditNoteMaximumAmountAdjustmentAppliesToPriceJSON
+	ID   string                                              `json:"id,required"`
+	Name string                                              `json:"name,required"`
+	JSON creditNoteMaximumAmountAdjustmentAppliesToPriceJSON `json:"-"`
 }
 
 // creditNoteMaximumAmountAdjustmentAppliesToPriceJSON contains the JSON metadata

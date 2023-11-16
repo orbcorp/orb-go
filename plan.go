@@ -155,7 +155,7 @@ type Plan struct {
 	Product     PlanProduct     `json:"product,required"`
 	Status      PlanStatus      `json:"status,required"`
 	TrialConfig PlanTrialConfig `json:"trial_config,required"`
-	JSON        planJSON
+	JSON        planJSON        `json:"-"`
 }
 
 // planJSON contains the JSON metadata for the struct [Plan]
@@ -195,9 +195,9 @@ type PlanBasePlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string `json:"external_plan_id,required,nullable"`
-	Name           string `json:"name,required,nullable"`
-	JSON           planBasePlanJSON
+	ExternalPlanID string           `json:"external_plan_id,required,nullable"`
+	Name           string           `json:"name,required,nullable"`
+	JSON           planBasePlanJSON `json:"-"`
 }
 
 // planBasePlanJSON contains the JSON metadata for the struct [PlanBasePlan]
@@ -218,8 +218,8 @@ type PlanMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          planMaximumJSON
+	MaximumAmount string          `json:"maximum_amount,required"`
+	JSON          planMaximumJSON `json:"-"`
 }
 
 // planMaximumJSON contains the JSON metadata for the struct [PlanMaximum]
@@ -239,8 +239,8 @@ type PlanMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          planMinimumJSON
+	MinimumAmount string          `json:"minimum_amount,required"`
+	JSON          planMinimumJSON `json:"-"`
 }
 
 // planMinimumJSON contains the JSON metadata for the struct [PlanMinimum]
@@ -269,8 +269,8 @@ type PlanPlanPhase struct {
 	MinimumAmount string                     `json:"minimum_amount,required,nullable"`
 	Name          string                     `json:"name,required"`
 	// Determines the ordering of the phase in a plan's lifecycle. 1 = first phase.
-	Order int64 `json:"order,required"`
-	JSON  planPlanPhaseJSON
+	Order int64             `json:"order,required"`
+	JSON  planPlanPhaseJSON `json:"-"`
 }
 
 // planPlanPhaseJSON contains the JSON metadata for the struct [PlanPlanPhase]
@@ -308,8 +308,8 @@ type PlanPlanPhasesMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          planPlanPhasesMaximumJSON
+	MaximumAmount string                    `json:"maximum_amount,required"`
+	JSON          planPlanPhasesMaximumJSON `json:"-"`
 }
 
 // planPlanPhasesMaximumJSON contains the JSON metadata for the struct
@@ -330,8 +330,8 @@ type PlanPlanPhasesMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          planPlanPhasesMinimumJSON
+	MinimumAmount string                    `json:"minimum_amount,required"`
+	JSON          planPlanPhasesMinimumJSON `json:"-"`
 }
 
 // planPlanPhasesMinimumJSON contains the JSON metadata for the struct
@@ -348,10 +348,10 @@ func (r *PlanPlanPhasesMinimum) UnmarshalJSON(data []byte) (err error) {
 }
 
 type PlanProduct struct {
-	ID        string    `json:"id,required"`
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
-	Name      string    `json:"name,required"`
-	JSON      planProductJSON
+	ID        string          `json:"id,required"`
+	CreatedAt time.Time       `json:"created_at,required" format:"date-time"`
+	Name      string          `json:"name,required"`
+	JSON      planProductJSON `json:"-"`
 }
 
 // planProductJSON contains the JSON metadata for the struct [PlanProduct]
@@ -378,7 +378,7 @@ const (
 type PlanTrialConfig struct {
 	TrialPeriod     int64                          `json:"trial_period,required,nullable"`
 	TrialPeriodUnit PlanTrialConfigTrialPeriodUnit `json:"trial_period_unit,required"`
-	JSON            planTrialConfigJSON
+	JSON            planTrialConfigJSON            `json:"-"`
 }
 
 // planTrialConfigJSON contains the JSON metadata for the struct [PlanTrialConfig]

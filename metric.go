@@ -94,7 +94,7 @@ type MetricNewResponse struct {
 	Metadata map[string]string       `json:"metadata,required"`
 	Name     string                  `json:"name,required"`
 	Status   MetricNewResponseStatus `json:"status,required"`
-	JSON     metricNewResponseJSON
+	JSON     metricNewResponseJSON   `json:"-"`
 }
 
 // metricNewResponseJSON contains the JSON metadata for the struct
@@ -135,7 +135,7 @@ type MetricListResponse struct {
 	Metadata map[string]string        `json:"metadata,required"`
 	Name     string                   `json:"name,required"`
 	Status   MetricListResponseStatus `json:"status,required"`
-	JSON     metricListResponseJSON
+	JSON     metricListResponseJSON   `json:"-"`
 }
 
 // metricListResponseJSON contains the JSON metadata for the struct
@@ -176,7 +176,7 @@ type MetricFetchResponse struct {
 	Metadata map[string]string         `json:"metadata,required"`
 	Name     string                    `json:"name,required"`
 	Status   MetricFetchResponseStatus `json:"status,required"`
-	JSON     metricFetchResponseJSON
+	JSON     metricFetchResponseJSON   `json:"-"`
 }
 
 // metricFetchResponseJSON contains the JSON metadata for the struct
