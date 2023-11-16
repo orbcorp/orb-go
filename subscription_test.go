@@ -42,10 +42,12 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		ExternalPlanID:                        orb.F("ZMwNQefe7J3ecf7W"),
 		InitialPhaseOrder:                     orb.F(int64(0)),
 		InvoicingThreshold:                    orb.F("string"),
-		Metadata:                              orb.F[any](map[string]interface{}{}),
-		NetTerms:                              orb.F(int64(0)),
-		PerCreditOverageAmount:                orb.F("string"),
-		PlanID:                                orb.F("ZMwNQefe7J3ecf7W"),
+		Metadata: orb.F(map[string]string{
+			"foo": "string",
+		}),
+		NetTerms:               orb.F(int64(0)),
+		PerCreditOverageAmount: orb.F("string"),
+		PlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
 		PriceOverrides: orb.F([]orb.SubscriptionNewParamsPriceOverride{orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:            orb.F("string"),
 			ModelType:     orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelTypeUnit),

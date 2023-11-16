@@ -77,7 +77,9 @@ func TestCustomerCreditLedgerNewEntryWithOptionalParams(t *testing.T) {
 				NetTerms:       orb.F(int64(0)),
 				Memo:           orb.F("string"),
 			}),
-			Metadata:         orb.F[any](map[string]interface{}{}),
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
 			PerUnitCostBasis: orb.F("string"),
 		},
 	)
@@ -116,7 +118,9 @@ func TestCustomerCreditLedgerNewEntryByExternalIDWithOptionalParams(t *testing.T
 				NetTerms:       orb.F(int64(0)),
 				Memo:           orb.F("string"),
 			}),
-			Metadata:         orb.F[any](map[string]interface{}{}),
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
 			PerUnitCostBasis: orb.F("string"),
 		},
 	)

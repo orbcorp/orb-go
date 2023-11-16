@@ -90,7 +90,9 @@ type MetricNewResponse struct {
 	// The Item resource represents a sellable product or good. Items are associated
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
-	Item     Item                    `json:"item,required"`
+	Item Item `json:"item,required"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
 	Metadata map[string]string       `json:"metadata,required"`
 	Name     string                  `json:"name,required"`
 	Status   MetricNewResponseStatus `json:"status,required"`
@@ -131,7 +133,9 @@ type MetricListResponse struct {
 	// The Item resource represents a sellable product or good. Items are associated
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
-	Item     Item                     `json:"item,required"`
+	Item Item `json:"item,required"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
 	Metadata map[string]string        `json:"metadata,required"`
 	Name     string                   `json:"name,required"`
 	Status   MetricListResponseStatus `json:"status,required"`
@@ -172,7 +176,9 @@ type MetricFetchResponse struct {
 	// The Item resource represents a sellable product or good. Items are associated
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
-	Item     Item                      `json:"item,required"`
+	Item Item `json:"item,required"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
 	Metadata map[string]string         `json:"metadata,required"`
 	Name     string                    `json:"name,required"`
 	Status   MetricFetchResponseStatus `json:"status,required"`
@@ -213,9 +219,8 @@ type MetricNewParams struct {
 	Name param.Field[string] `json:"name,required"`
 	// A sql string defining the metric.
 	Sql param.Field[string] `json:"sql,required"`
-	// User-specified key value pairs, often useful for referencing internal resources
-	// or IDs. Returned as-is in the metric resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r MetricNewParams) MarshalJSON() (data []byte, err error) {

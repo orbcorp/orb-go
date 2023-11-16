@@ -46,8 +46,10 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 		})}),
 		DefaultInvoiceMemo: orb.F("string"),
 		ExternalPlanID:     orb.F("string"),
-		Metadata:           orb.F[any](map[string]interface{}{}),
-		NetTerms:           orb.F(int64(0)),
+		Metadata: orb.F(map[string]string{
+			"foo": "string",
+		}),
+		NetTerms: orb.F(int64(0)),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -75,7 +77,9 @@ func TestPlanUpdateWithOptionalParams(t *testing.T) {
 		"string",
 		orb.PlanUpdateParams{
 			ExternalPlanID: orb.F("string"),
-			Metadata:       orb.F[any](map[string]interface{}{}),
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
 		},
 	)
 	if err != nil {
