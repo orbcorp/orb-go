@@ -1096,7 +1096,7 @@ type Subscription struct {
 	StartDate time.Time             `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionStatus    `json:"status,required"`
 	TrialInfo SubscriptionTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionJSON
+	JSON      subscriptionJSON      `json:"-"`
 }
 
 // subscriptionJSON contains the JSON metadata for the struct [Subscription]
@@ -1172,8 +1172,8 @@ type SubscriptionDiscountIntervalsAmountDiscountInterval struct {
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionDiscountIntervalsAmountDiscountIntervalJSON
+	StartDate time.Time                                               `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
 }
 
 // subscriptionDiscountIntervalsAmountDiscountIntervalJSON contains the JSON
@@ -1214,8 +1214,8 @@ type SubscriptionDiscountIntervalsPercentageDiscountInterval struct {
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
 	// The start date of the discount interval.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionDiscountIntervalsPercentageDiscountIntervalJSON
+	StartDate time.Time                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
 }
 
 // subscriptionDiscountIntervalsPercentageDiscountIntervalJSON contains the JSON
@@ -1257,8 +1257,8 @@ type SubscriptionDiscountIntervalsUsageDiscountInterval struct {
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
-	UsageDiscount float64 `json:"usage_discount,required"`
-	JSON          subscriptionDiscountIntervalsUsageDiscountIntervalJSON
+	UsageDiscount float64                                                `json:"usage_discount,required"`
+	JSON          subscriptionDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
 }
 
 // subscriptionDiscountIntervalsUsageDiscountIntervalJSON contains the JSON
@@ -1288,11 +1288,11 @@ const (
 )
 
 type SubscriptionFixedFeeQuantitySchedule struct {
-	EndDate   time.Time `json:"end_date,required,nullable" format:"date-time"`
-	PriceID   string    `json:"price_id,required"`
-	Quantity  float64   `json:"quantity,required"`
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionFixedFeeQuantityScheduleJSON
+	EndDate   time.Time                                `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                   `json:"price_id,required"`
+	Quantity  float64                                  `json:"quantity,required"`
+	StartDate time.Time                                `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionFixedFeeQuantityScheduleJSON `json:"-"`
 }
 
 // subscriptionFixedFeeQuantityScheduleJSON contains the JSON metadata for the
@@ -1321,8 +1321,8 @@ type SubscriptionMaximumInterval struct {
 	// this transform applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
 	// The start date of the maximum interval.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionMaximumIntervalJSON
+	StartDate time.Time                       `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionMaximumIntervalJSON `json:"-"`
 }
 
 // subscriptionMaximumIntervalJSON contains the JSON metadata for the struct
@@ -1352,8 +1352,8 @@ type SubscriptionMinimumInterval struct {
 	// this minimum applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
 	// The start date of the minimum interval.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionMinimumIntervalJSON
+	StartDate time.Time                       `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionMinimumIntervalJSON `json:"-"`
 }
 
 // subscriptionMinimumIntervalJSON contains the JSON metadata for the struct
@@ -1645,8 +1645,8 @@ type SubscriptionPriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionPriceIntervalJSON
+	StartDate time.Time                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalJSON `json:"-"`
 }
 
 // subscriptionPriceIntervalJSON contains the JSON metadata for the struct
@@ -1669,10 +1669,10 @@ func (r *SubscriptionPriceInterval) UnmarshalJSON(data []byte) (err error) {
 }
 
 type SubscriptionPriceIntervalsFixedFeeQuantityTransition struct {
-	EffectiveDate time.Time `json:"effective_date,required" format:"date-time"`
-	PriceID       string    `json:"price_id,required"`
-	Quantity      int64     `json:"quantity,required"`
-	JSON          subscriptionPriceIntervalsFixedFeeQuantityTransitionJSON
+	EffectiveDate time.Time                                                `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                   `json:"price_id,required"`
+	Quantity      int64                                                    `json:"quantity,required"`
+	JSON          subscriptionPriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
 }
 
 // subscriptionPriceIntervalsFixedFeeQuantityTransitionJSON contains the JSON
@@ -1690,10 +1690,10 @@ func (r *SubscriptionPriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(dat
 }
 
 type SubscriptionRedeemedCoupon struct {
-	CouponID  string    `json:"coupon_id,required"`
-	EndDate   time.Time `json:"end_date,required,nullable" format:"date-time"`
-	StartDate time.Time `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionRedeemedCouponJSON
+	CouponID  string                         `json:"coupon_id,required"`
+	EndDate   time.Time                      `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                      `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemedCouponJSON `json:"-"`
 }
 
 // subscriptionRedeemedCouponJSON contains the JSON metadata for the struct
@@ -1719,8 +1719,8 @@ const (
 )
 
 type SubscriptionTrialInfo struct {
-	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
-	JSON    subscriptionTrialInfoJSON
+	EndDate time.Time                 `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionTrialInfoJSON `json:"-"`
 }
 
 // subscriptionTrialInfoJSON contains the JSON metadata for the struct
@@ -1747,7 +1747,7 @@ func init() {
 
 type SubscriptionUsageUngroupedSubscriptionUsage struct {
 	Data []SubscriptionUsageUngroupedSubscriptionUsageData `json:"data,required"`
-	JSON subscriptionUsageUngroupedSubscriptionUsageJSON
+	JSON subscriptionUsageUngroupedSubscriptionUsageJSON   `json:"-"`
 }
 
 // subscriptionUsageUngroupedSubscriptionUsageJSON contains the JSON metadata for
@@ -1768,7 +1768,7 @@ type SubscriptionUsageUngroupedSubscriptionUsageData struct {
 	BillableMetric SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric `json:"billable_metric,required"`
 	Usage          []SubscriptionUsageUngroupedSubscriptionUsageDataUsage        `json:"usage,required"`
 	ViewMode       SubscriptionUsageUngroupedSubscriptionUsageDataViewMode       `json:"view_mode,required"`
-	JSON           subscriptionUsageUngroupedSubscriptionUsageDataJSON
+	JSON           subscriptionUsageUngroupedSubscriptionUsageDataJSON           `json:"-"`
 }
 
 // subscriptionUsageUngroupedSubscriptionUsageDataJSON contains the JSON metadata
@@ -1786,9 +1786,9 @@ func (r *SubscriptionUsageUngroupedSubscriptionUsageData) UnmarshalJSON(data []b
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON subscriptionUsageUngroupedSubscriptionUsageDataBillableMetricJSON
+	ID   string                                                            `json:"id,required"`
+	Name string                                                            `json:"name,required"`
+	JSON subscriptionUsageUngroupedSubscriptionUsageDataBillableMetricJSON `json:"-"`
 }
 
 // subscriptionUsageUngroupedSubscriptionUsageDataBillableMetricJSON contains the
@@ -1806,10 +1806,10 @@ func (r *SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric) Unmarsha
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsageDataUsage struct {
-	Quantity       float64   `json:"quantity,required"`
-	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
-	JSON           subscriptionUsageUngroupedSubscriptionUsageDataUsageJSON
+	Quantity       float64                                                  `json:"quantity,required"`
+	TimeframeEnd   time.Time                                                `json:"timeframe_end,required" format:"date-time"`
+	TimeframeStart time.Time                                                `json:"timeframe_start,required" format:"date-time"`
+	JSON           subscriptionUsageUngroupedSubscriptionUsageDataUsageJSON `json:"-"`
 }
 
 // subscriptionUsageUngroupedSubscriptionUsageDataUsageJSON contains the JSON
@@ -1836,7 +1836,7 @@ const (
 type SubscriptionUsageGroupedSubscriptionUsage struct {
 	Data               []SubscriptionUsageGroupedSubscriptionUsageData             `json:"data,required"`
 	PaginationMetadata SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata `json:"pagination_metadata,nullable"`
-	JSON               subscriptionUsageGroupedSubscriptionUsageJSON
+	JSON               subscriptionUsageGroupedSubscriptionUsageJSON               `json:"-"`
 }
 
 // subscriptionUsageGroupedSubscriptionUsageJSON contains the JSON metadata for the
@@ -1859,7 +1859,7 @@ type SubscriptionUsageGroupedSubscriptionUsageData struct {
 	MetricGroup    SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup    `json:"metric_group,required"`
 	Usage          []SubscriptionUsageGroupedSubscriptionUsageDataUsage        `json:"usage,required"`
 	ViewMode       SubscriptionUsageGroupedSubscriptionUsageDataViewMode       `json:"view_mode,required"`
-	JSON           subscriptionUsageGroupedSubscriptionUsageDataJSON
+	JSON           subscriptionUsageGroupedSubscriptionUsageDataJSON           `json:"-"`
 }
 
 // subscriptionUsageGroupedSubscriptionUsageDataJSON contains the JSON metadata for
@@ -1878,9 +1878,9 @@ func (r *SubscriptionUsageGroupedSubscriptionUsageData) UnmarshalJSON(data []byt
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataBillableMetric struct {
-	ID   string `json:"id,required"`
-	Name string `json:"name,required"`
-	JSON subscriptionUsageGroupedSubscriptionUsageDataBillableMetricJSON
+	ID   string                                                          `json:"id,required"`
+	Name string                                                          `json:"name,required"`
+	JSON subscriptionUsageGroupedSubscriptionUsageDataBillableMetricJSON `json:"-"`
 }
 
 // subscriptionUsageGroupedSubscriptionUsageDataBillableMetricJSON contains the
@@ -1898,9 +1898,9 @@ func (r *SubscriptionUsageGroupedSubscriptionUsageDataBillableMetric) UnmarshalJ
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup struct {
-	PropertyKey   string `json:"property_key,required"`
-	PropertyValue string `json:"property_value,required"`
-	JSON          subscriptionUsageGroupedSubscriptionUsageDataMetricGroupJSON
+	PropertyKey   string                                                       `json:"property_key,required"`
+	PropertyValue string                                                       `json:"property_value,required"`
+	JSON          subscriptionUsageGroupedSubscriptionUsageDataMetricGroupJSON `json:"-"`
 }
 
 // subscriptionUsageGroupedSubscriptionUsageDataMetricGroupJSON contains the JSON
@@ -1918,10 +1918,10 @@ func (r *SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup) UnmarshalJSON
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataUsage struct {
-	Quantity       float64   `json:"quantity,required"`
-	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
-	JSON           subscriptionUsageGroupedSubscriptionUsageDataUsageJSON
+	Quantity       float64                                                `json:"quantity,required"`
+	TimeframeEnd   time.Time                                              `json:"timeframe_end,required" format:"date-time"`
+	TimeframeStart time.Time                                              `json:"timeframe_start,required" format:"date-time"`
+	JSON           subscriptionUsageGroupedSubscriptionUsageDataUsageJSON `json:"-"`
 }
 
 // subscriptionUsageGroupedSubscriptionUsageDataUsageJSON contains the JSON
@@ -1946,9 +1946,9 @@ const (
 )
 
 type SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata struct {
-	HasMore    bool   `json:"has_more,required"`
-	NextCursor string `json:"next_cursor,required,nullable"`
-	JSON       subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON
+	HasMore    bool                                                            `json:"has_more,required"`
+	NextCursor string                                                          `json:"next_cursor,required,nullable"`
+	JSON       subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON `json:"-"`
 }
 
 // subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON contains the
@@ -1968,7 +1968,7 @@ func (r *SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata) UnmarshalJ
 type Subscriptions struct {
 	Data               []Subscription                  `json:"data,required"`
 	PaginationMetadata SubscriptionsPaginationMetadata `json:"pagination_metadata,required"`
-	JSON               subscriptionsJSON
+	JSON               subscriptionsJSON               `json:"-"`
 }
 
 // subscriptionsJSON contains the JSON metadata for the struct [Subscriptions]
@@ -1984,9 +1984,9 @@ func (r *Subscriptions) UnmarshalJSON(data []byte) (err error) {
 }
 
 type SubscriptionsPaginationMetadata struct {
-	HasMore    bool   `json:"has_more,required"`
-	NextCursor string `json:"next_cursor,required,nullable"`
-	JSON       subscriptionsPaginationMetadataJSON
+	HasMore    bool                                `json:"has_more,required"`
+	NextCursor string                              `json:"next_cursor,required,nullable"`
+	JSON       subscriptionsPaginationMetadataJSON `json:"-"`
 }
 
 // subscriptionsPaginationMetadataJSON contains the JSON metadata for the struct
@@ -2004,7 +2004,7 @@ func (r *SubscriptionsPaginationMetadata) UnmarshalJSON(data []byte) (err error)
 
 type SubscriptionFetchCostsResponse struct {
 	Data []SubscriptionFetchCostsResponseData `json:"data,required"`
-	JSON subscriptionFetchCostsResponseJSON
+	JSON subscriptionFetchCostsResponseJSON   `json:"-"`
 }
 
 // subscriptionFetchCostsResponseJSON contains the JSON metadata for the struct
@@ -2026,8 +2026,8 @@ type SubscriptionFetchCostsResponseData struct {
 	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
 	// Total costs for the timeframe, including any minimums and discounts.
-	Total string `json:"total,required"`
-	JSON  subscriptionFetchCostsResponseDataJSON
+	Total string                                 `json:"total,required"`
+	JSON  subscriptionFetchCostsResponseDataJSON `json:"-"`
 }
 
 // subscriptionFetchCostsResponseDataJSON contains the JSON metadata for the struct
@@ -2305,8 +2305,8 @@ type SubscriptionFetchCostsResponseDataPerPriceCost struct {
 	// `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`.
 	PriceGroups []SubscriptionFetchCostsResponseDataPerPriceCostsPriceGroup `json:"price_groups,nullable"`
 	// The price's quantity for the timeframe
-	Quantity float64 `json:"quantity,nullable"`
-	JSON     subscriptionFetchCostsResponseDataPerPriceCostJSON
+	Quantity float64                                            `json:"quantity,nullable"`
+	JSON     subscriptionFetchCostsResponseDataPerPriceCostJSON `json:"-"`
 }
 
 // subscriptionFetchCostsResponseDataPerPriceCostJSON contains the JSON metadata
@@ -2334,8 +2334,8 @@ type SubscriptionFetchCostsResponseDataPerPriceCostsPriceGroup struct {
 	SecondaryGroupingValue string `json:"secondary_grouping_value,required,nullable"`
 	// Total costs for this group for the timeframe. Note that this does not account
 	// for any minimums or discounts.
-	Total string `json:"total,required"`
-	JSON  subscriptionFetchCostsResponseDataPerPriceCostsPriceGroupJSON
+	Total string                                                        `json:"total,required"`
+	JSON  subscriptionFetchCostsResponseDataPerPriceCostsPriceGroupJSON `json:"-"`
 }
 
 // subscriptionFetchCostsResponseDataPerPriceCostsPriceGroupJSON contains the JSON
@@ -2359,7 +2359,7 @@ type SubscriptionFetchScheduleResponse struct {
 	EndDate   time.Time                             `json:"end_date,required,nullable" format:"date-time"`
 	Plan      SubscriptionFetchScheduleResponsePlan `json:"plan,required"`
 	StartDate time.Time                             `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionFetchScheduleResponseJSON
+	JSON      subscriptionFetchScheduleResponseJSON `json:"-"`
 }
 
 // subscriptionFetchScheduleResponseJSON contains the JSON metadata for the struct
@@ -2381,9 +2381,9 @@ type SubscriptionFetchScheduleResponsePlan struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID string `json:"external_plan_id,required,nullable"`
-	Name           string `json:"name,required,nullable"`
-	JSON           subscriptionFetchScheduleResponsePlanJSON
+	ExternalPlanID string                                    `json:"external_plan_id,required,nullable"`
+	Name           string                                    `json:"name,required,nullable"`
+	JSON           subscriptionFetchScheduleResponsePlanJSON `json:"-"`
 }
 
 // subscriptionFetchScheduleResponsePlanJSON contains the JSON metadata for the

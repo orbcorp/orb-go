@@ -42,8 +42,8 @@ func (r *TopLevelService) Ping(ctx context.Context, opts ...option.RequestOption
 }
 
 type TopLevelPingResponse struct {
-	Response string `json:"response,required"`
-	JSON     topLevelPingResponseJSON
+	Response string                   `json:"response,required"`
+	JSON     topLevelPingResponseJSON `json:"-"`
 }
 
 // topLevelPingResponseJSON contains the JSON metadata for the struct

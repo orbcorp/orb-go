@@ -20,7 +20,7 @@ type Error struct {
 	Type             ErrorType     `json:"type,required"`
 	ValidationErrors []interface{} `json:"validation_errors,required"`
 	Detail           string        `json:"detail,nullable"`
-	JSON             errorJSON
+	JSON             errorJSON     `json:"-"`
 	StatusCode       int
 	Request          *http.Request
 	Response         *http.Response

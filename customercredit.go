@@ -83,11 +83,11 @@ func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, 
 }
 
 type CustomerCreditListResponse struct {
-	ID               string    `json:"id,required"`
-	Balance          float64   `json:"balance,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditListResponseJSON
+	ID               string                         `json:"id,required"`
+	Balance          float64                        `json:"balance,required"`
+	ExpiryDate       time.Time                      `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                         `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditListResponseJSON `json:"-"`
 }
 
 // customerCreditListResponseJSON contains the JSON metadata for the struct
@@ -106,11 +106,11 @@ func (r *CustomerCreditListResponse) UnmarshalJSON(data []byte) (err error) {
 }
 
 type CustomerCreditListByExternalIDResponse struct {
-	ID               string    `json:"id,required"`
-	Balance          float64   `json:"balance,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditListByExternalIDResponseJSON
+	ID               string                                     `json:"id,required"`
+	Balance          float64                                    `json:"balance,required"`
+	ExpiryDate       time.Time                                  `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                     `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditListByExternalIDResponseJSON `json:"-"`
 }
 
 // customerCreditListByExternalIDResponseJSON contains the JSON metadata for the

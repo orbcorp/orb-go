@@ -124,8 +124,8 @@ type Coupon struct {
 	// This string can be used to redeem this coupon for a given subscription.
 	RedemptionCode string `json:"redemption_code,required"`
 	// The number of times this coupon has been redeemed.
-	TimesRedeemed int64 `json:"times_redeemed,required"`
-	JSON          couponJSON
+	TimesRedeemed int64      `json:"times_redeemed,required"`
+	JSON          couponJSON `json:"-"`
 }
 
 // couponJSON contains the JSON metadata for the struct [Coupon]
@@ -175,9 +175,9 @@ type CouponDiscountPercentageDiscount struct {
 	DiscountType      CouponDiscountPercentageDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount float64 `json:"percentage_discount,required"`
-	Reason             string  `json:"reason,nullable"`
-	JSON               couponDiscountPercentageDiscountJSON
+	PercentageDiscount float64                              `json:"percentage_discount,required"`
+	Reason             string                               `json:"reason,nullable"`
+	JSON               couponDiscountPercentageDiscountJSON `json:"-"`
 }
 
 // couponDiscountPercentageDiscountJSON contains the JSON metadata for the struct
@@ -211,7 +211,7 @@ type CouponDiscountAmountDiscount struct {
 	AppliesToPriceIDs []string                                 `json:"applies_to_price_ids,required"`
 	DiscountType      CouponDiscountAmountDiscountDiscountType `json:"discount_type,required"`
 	Reason            string                                   `json:"reason,nullable"`
-	JSON              couponDiscountAmountDiscountJSON
+	JSON              couponDiscountAmountDiscountJSON         `json:"-"`
 }
 
 // couponDiscountAmountDiscountJSON contains the JSON metadata for the struct

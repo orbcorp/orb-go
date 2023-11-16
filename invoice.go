@@ -305,8 +305,8 @@ type Invoice struct {
 	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
 	// This is true if the invoice will be automatically issued in the future, and
 	// false otherwise.
-	WillAutoIssue bool `json:"will_auto_issue,required"`
-	JSON          invoiceJSON
+	WillAutoIssue bool        `json:"will_auto_issue,required"`
+	JSON          invoiceJSON `json:"-"`
 }
 
 // invoiceJSON contains the JSON metadata for the struct [Invoice]
@@ -371,8 +371,8 @@ type InvoiceAutoCollection struct {
 	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
 	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
 	// `next_attempt_time` is null).
-	PreviouslyAttemptedAt time.Time `json:"previously_attempted_at,required,nullable" format:"date-time"`
-	JSON                  invoiceAutoCollectionJSON
+	PreviouslyAttemptedAt time.Time                 `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	JSON                  invoiceAutoCollectionJSON `json:"-"`
 }
 
 // invoiceAutoCollectionJSON contains the JSON metadata for the struct
@@ -390,13 +390,13 @@ func (r *InvoiceAutoCollection) UnmarshalJSON(data []byte) (err error) {
 }
 
 type InvoiceBillingAddress struct {
-	City       string `json:"city,required,nullable"`
-	Country    string `json:"country,required,nullable"`
-	Line1      string `json:"line1,required,nullable"`
-	Line2      string `json:"line2,required,nullable"`
-	PostalCode string `json:"postal_code,required,nullable"`
-	State      string `json:"state,required,nullable"`
-	JSON       invoiceBillingAddressJSON
+	City       string                    `json:"city,required,nullable"`
+	Country    string                    `json:"country,required,nullable"`
+	Line1      string                    `json:"line1,required,nullable"`
+	Line2      string                    `json:"line2,required,nullable"`
+	PostalCode string                    `json:"postal_code,required,nullable"`
+	State      string                    `json:"state,required,nullable"`
+	JSON       invoiceBillingAddressJSON `json:"-"`
 }
 
 // invoiceBillingAddressJSON contains the JSON metadata for the struct
@@ -424,8 +424,8 @@ type InvoiceCreditNote struct {
 	Type             string `json:"type,required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
-	JSON     invoiceCreditNoteJSON
+	VoidedAt time.Time             `json:"voided_at,required,nullable" format:"date-time"`
+	JSON     invoiceCreditNoteJSON `json:"-"`
 }
 
 // invoiceCreditNoteJSON contains the JSON metadata for the struct
@@ -446,9 +446,9 @@ func (r *InvoiceCreditNote) UnmarshalJSON(data []byte) (err error) {
 }
 
 type InvoiceCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               invoiceCustomerJSON
+	ID                 string              `json:"id,required"`
+	ExternalCustomerID string              `json:"external_customer_id,required,nullable"`
+	JSON               invoiceCustomerJSON `json:"-"`
 }
 
 // invoiceCustomerJSON contains the JSON metadata for the struct [InvoiceCustomer]
@@ -482,7 +482,7 @@ type InvoiceCustomerBalanceTransaction struct {
 	// customer's currency.
 	StartingBalance string                                 `json:"starting_balance,required"`
 	Type            InvoiceCustomerBalanceTransactionsType `json:"type,required"`
-	JSON            invoiceCustomerBalanceTransactionJSON
+	JSON            invoiceCustomerBalanceTransactionJSON  `json:"-"`
 }
 
 // invoiceCustomerBalanceTransactionJSON contains the JSON metadata for the struct
@@ -521,8 +521,8 @@ const (
 
 type InvoiceCustomerBalanceTransactionsCreditNote struct {
 	// The id of the Credit note
-	ID   string `json:"id,required"`
-	JSON invoiceCustomerBalanceTransactionsCreditNoteJSON
+	ID   string                                           `json:"id,required"`
+	JSON invoiceCustomerBalanceTransactionsCreditNoteJSON `json:"-"`
 }
 
 // invoiceCustomerBalanceTransactionsCreditNoteJSON contains the JSON metadata for
@@ -539,8 +539,8 @@ func (r *InvoiceCustomerBalanceTransactionsCreditNote) UnmarshalJSON(data []byte
 
 type InvoiceCustomerBalanceTransactionsInvoice struct {
 	// The Invoice id
-	ID   string `json:"id,required"`
-	JSON invoiceCustomerBalanceTransactionsInvoiceJSON
+	ID   string                                        `json:"id,required"`
+	JSON invoiceCustomerBalanceTransactionsInvoiceJSON `json:"-"`
 }
 
 // invoiceCustomerBalanceTransactionsInvoiceJSON contains the JSON metadata for the
@@ -650,7 +650,7 @@ type InvoiceCustomerTaxID struct {
 	Country InvoiceCustomerTaxIDCountry `json:"country,required"`
 	Type    InvoiceCustomerTaxIDType    `json:"type,required"`
 	Value   string                      `json:"value,required"`
-	JSON    invoiceCustomerTaxIDJSON
+	JSON    invoiceCustomerTaxIDJSON    `json:"-"`
 }
 
 // invoiceCustomerTaxIDJSON contains the JSON metadata for the struct
@@ -1067,7 +1067,7 @@ type InvoiceLineItem struct {
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
 	TaxAmounts []InvoiceLineItemsTaxAmount `json:"tax_amounts,required"`
-	JSON       invoiceLineItemJSON
+	JSON       invoiceLineItemJSON         `json:"-"`
 }
 
 // invoiceLineItemJSON contains the JSON metadata for the struct [InvoiceLineItem]
@@ -1101,8 +1101,8 @@ type InvoiceLineItemsMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          invoiceLineItemsMaximumJSON
+	MaximumAmount string                      `json:"maximum_amount,required"`
+	JSON          invoiceLineItemsMaximumJSON `json:"-"`
 }
 
 // invoiceLineItemsMaximumJSON contains the JSON metadata for the struct
@@ -1123,8 +1123,8 @@ type InvoiceLineItemsMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          invoiceLineItemsMinimumJSON
+	MinimumAmount string                      `json:"minimum_amount,required"`
+	JSON          invoiceLineItemsMinimumJSON `json:"-"`
 }
 
 // invoiceLineItemsMinimumJSON contains the JSON metadata for the struct
@@ -1177,7 +1177,7 @@ type InvoiceLineItemsSubLineItemsMatrixSubLineItem struct {
 	Name         string                                                    `json:"name,required"`
 	Quantity     float64                                                   `json:"quantity,required"`
 	Type         InvoiceLineItemsSubLineItemsMatrixSubLineItemType         `json:"type,required"`
-	JSON         invoiceLineItemsSubLineItemsMatrixSubLineItemJSON
+	JSON         invoiceLineItemsSubLineItemsMatrixSubLineItemJSON         `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsMatrixSubLineItemJSON contains the JSON metadata for
@@ -1202,8 +1202,8 @@ func (r InvoiceLineItemsSubLineItemsMatrixSubLineItem) implementsInvoiceLineItem
 type InvoiceLineItemsSubLineItemsMatrixSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceLineItemsSubLineItemsMatrixSubLineItemGroupingJSON
+	Value string                                                    `json:"value,required,nullable"`
+	JSON  invoiceLineItemsSubLineItemsMatrixSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsMatrixSubLineItemGroupingJSON contains the JSON
@@ -1221,8 +1221,8 @@ func (r *InvoiceLineItemsSubLineItemsMatrixSubLineItemGrouping) UnmarshalJSON(da
 
 type InvoiceLineItemsSubLineItemsMatrixSubLineItemMatrixConfig struct {
 	// The ordered dimension values for this line item.
-	DimensionValues []string `json:"dimension_values,required"`
-	JSON            invoiceLineItemsSubLineItemsMatrixSubLineItemMatrixConfigJSON
+	DimensionValues []string                                                      `json:"dimension_values,required"`
+	JSON            invoiceLineItemsSubLineItemsMatrixSubLineItemMatrixConfigJSON `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsMatrixSubLineItemMatrixConfigJSON contains the JSON
@@ -1252,7 +1252,7 @@ type InvoiceLineItemsSubLineItemsTierSubLineItem struct {
 	Quantity   float64                                               `json:"quantity,required"`
 	TierConfig InvoiceLineItemsSubLineItemsTierSubLineItemTierConfig `json:"tier_config,required"`
 	Type       InvoiceLineItemsSubLineItemsTierSubLineItemType       `json:"type,required"`
-	JSON       invoiceLineItemsSubLineItemsTierSubLineItemJSON
+	JSON       invoiceLineItemsSubLineItemsTierSubLineItemJSON       `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsTierSubLineItemJSON contains the JSON metadata for
@@ -1277,8 +1277,8 @@ func (r InvoiceLineItemsSubLineItemsTierSubLineItem) implementsInvoiceLineItemsS
 type InvoiceLineItemsSubLineItemsTierSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceLineItemsSubLineItemsTierSubLineItemGroupingJSON
+	Value string                                                  `json:"value,required,nullable"`
+	JSON  invoiceLineItemsSubLineItemsTierSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsTierSubLineItemGroupingJSON contains the JSON
@@ -1295,10 +1295,10 @@ func (r *InvoiceLineItemsSubLineItemsTierSubLineItemGrouping) UnmarshalJSON(data
 }
 
 type InvoiceLineItemsSubLineItemsTierSubLineItemTierConfig struct {
-	FirstUnit  float64 `json:"first_unit,required"`
-	LastUnit   float64 `json:"last_unit,required,nullable"`
-	UnitAmount string  `json:"unit_amount,required"`
-	JSON       invoiceLineItemsSubLineItemsTierSubLineItemTierConfigJSON
+	FirstUnit  float64                                                   `json:"first_unit,required"`
+	LastUnit   float64                                                   `json:"last_unit,required,nullable"`
+	UnitAmount string                                                    `json:"unit_amount,required"`
+	JSON       invoiceLineItemsSubLineItemsTierSubLineItemTierConfigJSON `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsTierSubLineItemTierConfigJSON contains the JSON
@@ -1328,7 +1328,7 @@ type InvoiceLineItemsSubLineItemsOtherSubLineItem struct {
 	Name     string                                               `json:"name,required"`
 	Quantity float64                                              `json:"quantity,required"`
 	Type     InvoiceLineItemsSubLineItemsOtherSubLineItemType     `json:"type,required"`
-	JSON     invoiceLineItemsSubLineItemsOtherSubLineItemJSON
+	JSON     invoiceLineItemsSubLineItemsOtherSubLineItemJSON     `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsOtherSubLineItemJSON contains the JSON metadata for
@@ -1352,8 +1352,8 @@ func (r InvoiceLineItemsSubLineItemsOtherSubLineItem) implementsInvoiceLineItems
 type InvoiceLineItemsSubLineItemsOtherSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceLineItemsSubLineItemsOtherSubLineItemGroupingJSON
+	Value string                                                   `json:"value,required,nullable"`
+	JSON  invoiceLineItemsSubLineItemsOtherSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceLineItemsSubLineItemsOtherSubLineItemGroupingJSON contains the JSON
@@ -1381,8 +1381,8 @@ type InvoiceLineItemsTaxAmount struct {
 	// The human-readable description of the applied tax rate.
 	TaxRateDescription string `json:"tax_rate_description,required"`
 	// The tax rate percentage, out of 100.
-	TaxRatePercentage string `json:"tax_rate_percentage,required,nullable"`
-	JSON              invoiceLineItemsTaxAmountJSON
+	TaxRatePercentage string                        `json:"tax_rate_percentage,required,nullable"`
+	JSON              invoiceLineItemsTaxAmountJSON `json:"-"`
 }
 
 // invoiceLineItemsTaxAmountJSON contains the JSON metadata for the struct
@@ -1404,8 +1404,8 @@ type InvoiceMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          invoiceMaximumJSON
+	MaximumAmount string             `json:"maximum_amount,required"`
+	JSON          invoiceMaximumJSON `json:"-"`
 }
 
 // invoiceMaximumJSON contains the JSON metadata for the struct [InvoiceMaximum]
@@ -1425,8 +1425,8 @@ type InvoiceMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          invoiceMinimumJSON
+	MinimumAmount string             `json:"minimum_amount,required"`
+	JSON          invoiceMinimumJSON `json:"-"`
 }
 
 // invoiceMinimumJSON contains the JSON metadata for the struct [InvoiceMinimum]
@@ -1442,13 +1442,13 @@ func (r *InvoiceMinimum) UnmarshalJSON(data []byte) (err error) {
 }
 
 type InvoiceShippingAddress struct {
-	City       string `json:"city,required,nullable"`
-	Country    string `json:"country,required,nullable"`
-	Line1      string `json:"line1,required,nullable"`
-	Line2      string `json:"line2,required,nullable"`
-	PostalCode string `json:"postal_code,required,nullable"`
-	State      string `json:"state,required,nullable"`
-	JSON       invoiceShippingAddressJSON
+	City       string                     `json:"city,required,nullable"`
+	Country    string                     `json:"country,required,nullable"`
+	Line1      string                     `json:"line1,required,nullable"`
+	Line2      string                     `json:"line2,required,nullable"`
+	PostalCode string                     `json:"postal_code,required,nullable"`
+	State      string                     `json:"state,required,nullable"`
+	JSON       invoiceShippingAddressJSON `json:"-"`
 }
 
 // invoiceShippingAddressJSON contains the JSON metadata for the struct
@@ -1479,8 +1479,8 @@ const (
 )
 
 type InvoiceSubscription struct {
-	ID   string `json:"id,required"`
-	JSON invoiceSubscriptionJSON
+	ID   string                  `json:"id,required"`
+	JSON invoiceSubscriptionJSON `json:"-"`
 }
 
 // invoiceSubscriptionJSON contains the JSON metadata for the struct
@@ -1657,8 +1657,8 @@ type InvoiceFetchUpcomingResponse struct {
 	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
 	// This is true if the invoice will be automatically issued in the future, and
 	// false otherwise.
-	WillAutoIssue bool `json:"will_auto_issue,required"`
-	JSON          invoiceFetchUpcomingResponseJSON
+	WillAutoIssue bool                             `json:"will_auto_issue,required"`
+	JSON          invoiceFetchUpcomingResponseJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseJSON contains the JSON metadata for the struct
@@ -1724,8 +1724,8 @@ type InvoiceFetchUpcomingResponseAutoCollection struct {
 	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
 	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
 	// `next_attempt_time` is null).
-	PreviouslyAttemptedAt time.Time `json:"previously_attempted_at,required,nullable" format:"date-time"`
-	JSON                  invoiceFetchUpcomingResponseAutoCollectionJSON
+	PreviouslyAttemptedAt time.Time                                      `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	JSON                  invoiceFetchUpcomingResponseAutoCollectionJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseAutoCollectionJSON contains the JSON metadata for
@@ -1743,13 +1743,13 @@ func (r *InvoiceFetchUpcomingResponseAutoCollection) UnmarshalJSON(data []byte) 
 }
 
 type InvoiceFetchUpcomingResponseBillingAddress struct {
-	City       string `json:"city,required,nullable"`
-	Country    string `json:"country,required,nullable"`
-	Line1      string `json:"line1,required,nullable"`
-	Line2      string `json:"line2,required,nullable"`
-	PostalCode string `json:"postal_code,required,nullable"`
-	State      string `json:"state,required,nullable"`
-	JSON       invoiceFetchUpcomingResponseBillingAddressJSON
+	City       string                                         `json:"city,required,nullable"`
+	Country    string                                         `json:"country,required,nullable"`
+	Line1      string                                         `json:"line1,required,nullable"`
+	Line2      string                                         `json:"line2,required,nullable"`
+	PostalCode string                                         `json:"postal_code,required,nullable"`
+	State      string                                         `json:"state,required,nullable"`
+	JSON       invoiceFetchUpcomingResponseBillingAddressJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseBillingAddressJSON contains the JSON metadata for
@@ -1777,8 +1777,8 @@ type InvoiceFetchUpcomingResponseCreditNote struct {
 	Type             string `json:"type,required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
-	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
-	JSON     invoiceFetchUpcomingResponseCreditNoteJSON
+	VoidedAt time.Time                                  `json:"voided_at,required,nullable" format:"date-time"`
+	JSON     invoiceFetchUpcomingResponseCreditNoteJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseCreditNoteJSON contains the JSON metadata for the
@@ -1799,9 +1799,9 @@ func (r *InvoiceFetchUpcomingResponseCreditNote) UnmarshalJSON(data []byte) (err
 }
 
 type InvoiceFetchUpcomingResponseCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               invoiceFetchUpcomingResponseCustomerJSON
+	ID                 string                                   `json:"id,required"`
+	ExternalCustomerID string                                   `json:"external_customer_id,required,nullable"`
+	JSON               invoiceFetchUpcomingResponseCustomerJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseCustomerJSON contains the JSON metadata for the
@@ -1836,7 +1836,7 @@ type InvoiceFetchUpcomingResponseCustomerBalanceTransaction struct {
 	// customer's currency.
 	StartingBalance string                                                      `json:"starting_balance,required"`
 	Type            InvoiceFetchUpcomingResponseCustomerBalanceTransactionsType `json:"type,required"`
-	JSON            invoiceFetchUpcomingResponseCustomerBalanceTransactionJSON
+	JSON            invoiceFetchUpcomingResponseCustomerBalanceTransactionJSON  `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseCustomerBalanceTransactionJSON contains the JSON
@@ -1875,8 +1875,8 @@ const (
 
 type InvoiceFetchUpcomingResponseCustomerBalanceTransactionsCreditNote struct {
 	// The id of the Credit note
-	ID   string `json:"id,required"`
-	JSON invoiceFetchUpcomingResponseCustomerBalanceTransactionsCreditNoteJSON
+	ID   string                                                                `json:"id,required"`
+	JSON invoiceFetchUpcomingResponseCustomerBalanceTransactionsCreditNoteJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseCustomerBalanceTransactionsCreditNoteJSON contains
@@ -1894,8 +1894,8 @@ func (r *InvoiceFetchUpcomingResponseCustomerBalanceTransactionsCreditNote) Unma
 
 type InvoiceFetchUpcomingResponseCustomerBalanceTransactionsInvoice struct {
 	// The Invoice id
-	ID   string `json:"id,required"`
-	JSON invoiceFetchUpcomingResponseCustomerBalanceTransactionsInvoiceJSON
+	ID   string                                                             `json:"id,required"`
+	JSON invoiceFetchUpcomingResponseCustomerBalanceTransactionsInvoiceJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseCustomerBalanceTransactionsInvoiceJSON contains the
@@ -2006,7 +2006,7 @@ type InvoiceFetchUpcomingResponseCustomerTaxID struct {
 	Country InvoiceFetchUpcomingResponseCustomerTaxIDCountry `json:"country,required"`
 	Type    InvoiceFetchUpcomingResponseCustomerTaxIDType    `json:"type,required"`
 	Value   string                                           `json:"value,required"`
-	JSON    invoiceFetchUpcomingResponseCustomerTaxIDJSON
+	JSON    invoiceFetchUpcomingResponseCustomerTaxIDJSON    `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseCustomerTaxIDJSON contains the JSON metadata for the
@@ -2423,7 +2423,7 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
 	TaxAmounts []InvoiceFetchUpcomingResponseLineItemsTaxAmount `json:"tax_amounts,required"`
-	JSON       invoiceFetchUpcomingResponseLineItemJSON
+	JSON       invoiceFetchUpcomingResponseLineItemJSON         `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemJSON contains the JSON metadata for the
@@ -2458,8 +2458,8 @@ type InvoiceFetchUpcomingResponseLineItemsMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          invoiceFetchUpcomingResponseLineItemsMaximumJSON
+	MaximumAmount string                                           `json:"maximum_amount,required"`
+	JSON          invoiceFetchUpcomingResponseLineItemsMaximumJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsMaximumJSON contains the JSON metadata for
@@ -2480,8 +2480,8 @@ type InvoiceFetchUpcomingResponseLineItemsMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          invoiceFetchUpcomingResponseLineItemsMinimumJSON
+	MinimumAmount string                                           `json:"minimum_amount,required"`
+	JSON          invoiceFetchUpcomingResponseLineItemsMinimumJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsMinimumJSON contains the JSON metadata for
@@ -2535,7 +2535,7 @@ type InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItem struct {
 	Name         string                                                                         `json:"name,required"`
 	Quantity     float64                                                                        `json:"quantity,required"`
 	Type         InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemType         `json:"type,required"`
-	JSON         invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemJSON
+	JSON         invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemJSON         `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemJSON contains
@@ -2562,8 +2562,8 @@ func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItem) impl
 type InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemGroupingJSON
+	Value string                                                                         `json:"value,required,nullable"`
+	JSON  invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemGroupingJSON
@@ -2582,8 +2582,8 @@ func (r *InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemGroup
 
 type InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemMatrixConfig struct {
 	// The ordered dimension values for this line item.
-	DimensionValues []string `json:"dimension_values,required"`
-	JSON            invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemMatrixConfigJSON
+	DimensionValues []string                                                                           `json:"dimension_values,required"`
+	JSON            invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemMatrixConfigJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemMatrixConfigJSON
@@ -2613,7 +2613,7 @@ type InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItem struct {
 	Quantity   float64                                                                    `json:"quantity,required"`
 	TierConfig InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTierConfig `json:"tier_config,required"`
 	Type       InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemType       `json:"type,required"`
-	JSON       invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemJSON
+	JSON       invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemJSON       `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemJSON contains
@@ -2640,8 +2640,8 @@ func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItem) implem
 type InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemGroupingJSON
+	Value string                                                                       `json:"value,required,nullable"`
+	JSON  invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemGroupingJSON
@@ -2659,10 +2659,10 @@ func (r *InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemGroupin
 }
 
 type InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTierConfig struct {
-	FirstUnit  float64 `json:"first_unit,required"`
-	LastUnit   float64 `json:"last_unit,required,nullable"`
-	UnitAmount string  `json:"unit_amount,required"`
-	JSON       invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTierConfigJSON
+	FirstUnit  float64                                                                        `json:"first_unit,required"`
+	LastUnit   float64                                                                        `json:"last_unit,required,nullable"`
+	UnitAmount string                                                                         `json:"unit_amount,required"`
+	JSON       invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTierConfigJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTierConfigJSON
@@ -2693,7 +2693,7 @@ type InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItem struct {
 	Name     string                                                                    `json:"name,required"`
 	Quantity float64                                                                   `json:"quantity,required"`
 	Type     InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemType     `json:"type,required"`
-	JSON     invoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemJSON
+	JSON     invoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemJSON     `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemJSON contains
@@ -2719,8 +2719,8 @@ func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItem) imple
 type InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemGroupingJSON
+	Value string                                                                        `json:"value,required,nullable"`
+	JSON  invoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemGroupingJSON
@@ -2749,8 +2749,8 @@ type InvoiceFetchUpcomingResponseLineItemsTaxAmount struct {
 	// The human-readable description of the applied tax rate.
 	TaxRateDescription string `json:"tax_rate_description,required"`
 	// The tax rate percentage, out of 100.
-	TaxRatePercentage string `json:"tax_rate_percentage,required,nullable"`
-	JSON              invoiceFetchUpcomingResponseLineItemsTaxAmountJSON
+	TaxRatePercentage string                                             `json:"tax_rate_percentage,required,nullable"`
+	JSON              invoiceFetchUpcomingResponseLineItemsTaxAmountJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemsTaxAmountJSON contains the JSON metadata
@@ -2772,8 +2772,8 @@ type InvoiceFetchUpcomingResponseMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          invoiceFetchUpcomingResponseMaximumJSON
+	MaximumAmount string                                  `json:"maximum_amount,required"`
+	JSON          invoiceFetchUpcomingResponseMaximumJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseMaximumJSON contains the JSON metadata for the
@@ -2794,8 +2794,8 @@ type InvoiceFetchUpcomingResponseMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          invoiceFetchUpcomingResponseMinimumJSON
+	MinimumAmount string                                  `json:"minimum_amount,required"`
+	JSON          invoiceFetchUpcomingResponseMinimumJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseMinimumJSON contains the JSON metadata for the
@@ -2812,13 +2812,13 @@ func (r *InvoiceFetchUpcomingResponseMinimum) UnmarshalJSON(data []byte) (err er
 }
 
 type InvoiceFetchUpcomingResponseShippingAddress struct {
-	City       string `json:"city,required,nullable"`
-	Country    string `json:"country,required,nullable"`
-	Line1      string `json:"line1,required,nullable"`
-	Line2      string `json:"line2,required,nullable"`
-	PostalCode string `json:"postal_code,required,nullable"`
-	State      string `json:"state,required,nullable"`
-	JSON       invoiceFetchUpcomingResponseShippingAddressJSON
+	City       string                                          `json:"city,required,nullable"`
+	Country    string                                          `json:"country,required,nullable"`
+	Line1      string                                          `json:"line1,required,nullable"`
+	Line2      string                                          `json:"line2,required,nullable"`
+	PostalCode string                                          `json:"postal_code,required,nullable"`
+	State      string                                          `json:"state,required,nullable"`
+	JSON       invoiceFetchUpcomingResponseShippingAddressJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseShippingAddressJSON contains the JSON metadata for
@@ -2849,8 +2849,8 @@ const (
 )
 
 type InvoiceFetchUpcomingResponseSubscription struct {
-	ID   string `json:"id,required"`
-	JSON invoiceFetchUpcomingResponseSubscriptionJSON
+	ID   string                                       `json:"id,required"`
+	JSON invoiceFetchUpcomingResponseSubscriptionJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseSubscriptionJSON contains the JSON metadata for the

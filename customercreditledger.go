@@ -716,7 +716,7 @@ type CustomerCreditLedgerListResponseIncrementLedgerEntry struct {
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                               `json:"metadata,required"`
 	StartingBalance      float64                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseIncrementLedgerEntryJSON
+	JSON                 customerCreditLedgerListResponseIncrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListResponseIncrementLedgerEntryJSON contains the JSON
@@ -746,10 +746,10 @@ func (r CustomerCreditLedgerListResponseIncrementLedgerEntry) implementsCustomer
 }
 
 type CustomerCreditLedgerListResponseIncrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListResponseIncrementLedgerEntryCreditBlockJSON
+	ID               string                                                              `json:"id,required"`
+	ExpiryDate       time.Time                                                           `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                              `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListResponseIncrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseIncrementLedgerEntryCreditBlockJSON contains the
@@ -768,9 +768,9 @@ func (r *CustomerCreditLedgerListResponseIncrementLedgerEntryCreditBlock) Unmars
 }
 
 type CustomerCreditLedgerListResponseIncrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListResponseIncrementLedgerEntryCustomerJSON
+	ID                 string                                                           `json:"id,required"`
+	ExternalCustomerID string                                                           `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListResponseIncrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseIncrementLedgerEntryCustomerJSON contains the
@@ -816,7 +816,7 @@ type CustomerCreditLedgerListResponseDecrementLedgerEntry struct {
 	EventID              string                                                          `json:"event_id,nullable"`
 	InvoiceID            string                                                          `json:"invoice_id,nullable"`
 	PriceID              string                                                          `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerListResponseDecrementLedgerEntryJSON
+	JSON                 customerCreditLedgerListResponseDecrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListResponseDecrementLedgerEntryJSON contains the JSON
@@ -849,10 +849,10 @@ func (r CustomerCreditLedgerListResponseDecrementLedgerEntry) implementsCustomer
 }
 
 type CustomerCreditLedgerListResponseDecrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListResponseDecrementLedgerEntryCreditBlockJSON
+	ID               string                                                              `json:"id,required"`
+	ExpiryDate       time.Time                                                           `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                              `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListResponseDecrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseDecrementLedgerEntryCreditBlockJSON contains the
@@ -871,9 +871,9 @@ func (r *CustomerCreditLedgerListResponseDecrementLedgerEntryCreditBlock) Unmars
 }
 
 type CustomerCreditLedgerListResponseDecrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListResponseDecrementLedgerEntryCustomerJSON
+	ID                 string                                                           `json:"id,required"`
+	ExternalCustomerID string                                                           `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListResponseDecrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseDecrementLedgerEntryCustomerJSON contains the
@@ -917,7 +917,7 @@ type CustomerCreditLedgerListResponseExpirationChangeLedgerEntry struct {
 	Metadata             map[string]string                                                      `json:"metadata,required"`
 	NewBlockExpiryDate   time.Time                                                              `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance      float64                                                                `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON
+	JSON                 customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON contains the
@@ -949,10 +949,10 @@ func (r CustomerCreditLedgerListResponseExpirationChangeLedgerEntry) implementsC
 }
 
 type CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlockJSON
+	ID               string                                                                     `json:"id,required"`
+	ExpiryDate       time.Time                                                                  `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                     `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlockJSON
@@ -971,9 +971,9 @@ func (r *CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlock)
 }
 
 type CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListResponseExpirationChangeLedgerEntryCustomerJSON
+	ID                 string                                                                  `json:"id,required"`
+	ExternalCustomerID string                                                                  `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListResponseExpirationChangeLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseExpirationChangeLedgerEntryCustomerJSON contains
@@ -1016,7 +1016,7 @@ type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry struct {
 	LedgerSequenceNumber int64                                                                   `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                       `json:"metadata,required"`
 	StartingBalance      float64                                                                 `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON
+	JSON                 customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON contains the
@@ -1047,10 +1047,10 @@ func (r CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry) implements
 }
 
 type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
+	ID               string                                                                      `json:"id,required"`
+	ExpiryDate       time.Time                                                                   `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                      `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
@@ -1069,9 +1069,9 @@ func (r *CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlock
 }
 
 type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomerJSON
+	ID                 string                                                                   `json:"id,required"`
+	ExternalCustomerID string                                                                   `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomerJSON
@@ -1116,7 +1116,7 @@ type CustomerCreditLedgerListResponseVoidLedgerEntry struct {
 	StartingBalance      float64                                                    `json:"starting_balance,required"`
 	VoidAmount           float64                                                    `json:"void_amount,required"`
 	VoidReason           string                                                     `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListResponseVoidLedgerEntryJSON
+	JSON                 customerCreditLedgerListResponseVoidLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidLedgerEntryJSON contains the JSON metadata
@@ -1148,10 +1148,10 @@ func (r CustomerCreditLedgerListResponseVoidLedgerEntry) implementsCustomerCredi
 }
 
 type CustomerCreditLedgerListResponseVoidLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListResponseVoidLedgerEntryCreditBlockJSON
+	ID               string                                                         `json:"id,required"`
+	ExpiryDate       time.Time                                                      `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                         `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListResponseVoidLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidLedgerEntryCreditBlockJSON contains the JSON
@@ -1170,9 +1170,9 @@ func (r *CustomerCreditLedgerListResponseVoidLedgerEntryCreditBlock) UnmarshalJS
 }
 
 type CustomerCreditLedgerListResponseVoidLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListResponseVoidLedgerEntryCustomerJSON
+	ID                 string                                                      `json:"id,required"`
+	ExternalCustomerID string                                                      `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListResponseVoidLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidLedgerEntryCustomerJSON contains the JSON
@@ -1218,7 +1218,7 @@ type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry struct {
 	StartingBalance      float64                                                             `json:"starting_balance,required"`
 	VoidAmount           float64                                                             `json:"void_amount,required"`
 	VoidReason           string                                                              `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON
+	JSON                 customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON contains the JSON
@@ -1252,10 +1252,10 @@ func (r CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry) implementsCust
 }
 
 type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlockJSON
+	ID               string                                                                  `json:"id,required"`
+	ExpiryDate       time.Time                                                               `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                  `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlockJSON contains
@@ -1274,9 +1274,9 @@ func (r *CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlock) Un
 }
 
 type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomerJSON
+	ID                 string                                                               `json:"id,required"`
+	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomerJSON contains
@@ -1319,7 +1319,7 @@ type CustomerCreditLedgerListResponseAmendmentLedgerEntry struct {
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                               `json:"metadata,required"`
 	StartingBalance      float64                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseAmendmentLedgerEntryJSON
+	JSON                 customerCreditLedgerListResponseAmendmentLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListResponseAmendmentLedgerEntryJSON contains the JSON
@@ -1349,10 +1349,10 @@ func (r CustomerCreditLedgerListResponseAmendmentLedgerEntry) implementsCustomer
 }
 
 type CustomerCreditLedgerListResponseAmendmentLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListResponseAmendmentLedgerEntryCreditBlockJSON
+	ID               string                                                              `json:"id,required"`
+	ExpiryDate       time.Time                                                           `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                              `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListResponseAmendmentLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseAmendmentLedgerEntryCreditBlockJSON contains the
@@ -1371,9 +1371,9 @@ func (r *CustomerCreditLedgerListResponseAmendmentLedgerEntryCreditBlock) Unmars
 }
 
 type CustomerCreditLedgerListResponseAmendmentLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListResponseAmendmentLedgerEntryCustomerJSON
+	ID                 string                                                           `json:"id,required"`
+	ExternalCustomerID string                                                           `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListResponseAmendmentLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseAmendmentLedgerEntryCustomerJSON contains the
@@ -1472,7 +1472,7 @@ type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry struct {
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                   `json:"metadata,required"`
 	StartingBalance      float64                                                             `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON contains the JSON
@@ -1503,10 +1503,10 @@ func (r CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry) implementsCust
 }
 
 type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlockJSON
+	ID               string                                                                  `json:"id,required"`
+	ExpiryDate       time.Time                                                               `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                  `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlockJSON contains
@@ -1525,9 +1525,9 @@ func (r *CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlock) Un
 }
 
 type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomerJSON
+	ID                 string                                                               `json:"id,required"`
+	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomerJSON contains
@@ -1573,7 +1573,7 @@ type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry struct {
 	EventID              string                                                              `json:"event_id,nullable"`
 	InvoiceID            string                                                              `json:"invoice_id,nullable"`
 	PriceID              string                                                              `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON contains the JSON
@@ -1607,10 +1607,10 @@ func (r CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry) implementsCust
 }
 
 type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlockJSON
+	ID               string                                                                  `json:"id,required"`
+	ExpiryDate       time.Time                                                               `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                  `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlockJSON contains
@@ -1629,9 +1629,9 @@ func (r *CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlock) Un
 }
 
 type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomerJSON
+	ID                 string                                                               `json:"id,required"`
+	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomerJSON contains
@@ -1675,7 +1675,7 @@ type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry struct {
 	Metadata             map[string]string                                                          `json:"metadata,required"`
 	NewBlockExpiryDate   time.Time                                                                  `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance      float64                                                                    `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON contains the
@@ -1707,10 +1707,10 @@ func (r CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry) impleme
 }
 
 type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBlockJSON
+	ID               string                                                                         `json:"id,required"`
+	ExpiryDate       time.Time                                                                      `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                         `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBlockJSON
@@ -1729,9 +1729,9 @@ func (r *CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBl
 }
 
 type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomerJSON
+	ID                 string                                                                      `json:"id,required"`
+	ExternalCustomerID string                                                                      `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomerJSON
@@ -1774,7 +1774,7 @@ type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry struct {
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                           `json:"metadata,required"`
 	StartingBalance      float64                                                                     `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON contains
@@ -1805,10 +1805,10 @@ func (r CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry) implem
 }
 
 type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
+	ID               string                                                                          `json:"id,required"`
+	ExpiryDate       time.Time                                                                       `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                          `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
@@ -1827,9 +1827,9 @@ func (r *CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditB
 }
 
 type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomerJSON
+	ID                 string                                                                       `json:"id,required"`
+	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomerJSON
@@ -1874,7 +1874,7 @@ type CustomerCreditLedgerNewEntryResponseVoidLedgerEntry struct {
 	StartingBalance      float64                                                        `json:"starting_balance,required"`
 	VoidAmount           float64                                                        `json:"void_amount,required"`
 	VoidReason           string                                                         `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON contains the JSON
@@ -1906,10 +1906,10 @@ func (r CustomerCreditLedgerNewEntryResponseVoidLedgerEntry) implementsCustomerC
 }
 
 type CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlockJSON
+	ID               string                                                             `json:"id,required"`
+	ExpiryDate       time.Time                                                          `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                             `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlockJSON contains the
@@ -1928,9 +1928,9 @@ func (r *CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlock) Unmarsh
 }
 
 type CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryResponseVoidLedgerEntryCustomerJSON
+	ID                 string                                                          `json:"id,required"`
+	ExternalCustomerID string                                                          `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseVoidLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidLedgerEntryCustomerJSON contains the
@@ -1976,7 +1976,7 @@ type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry struct {
 	StartingBalance      float64                                                                 `json:"starting_balance,required"`
 	VoidAmount           float64                                                                 `json:"void_amount,required"`
 	VoidReason           string                                                                  `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON contains the
@@ -2010,10 +2010,10 @@ func (r CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry) implements
 }
 
 type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlockJSON
+	ID               string                                                                      `json:"id,required"`
+	ExpiryDate       time.Time                                                                   `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                      `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlockJSON
@@ -2032,9 +2032,9 @@ func (r *CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlock
 }
 
 type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomerJSON
+	ID                 string                                                                   `json:"id,required"`
+	ExternalCustomerID string                                                                   `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomerJSON
@@ -2077,7 +2077,7 @@ type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry struct {
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                   `json:"metadata,required"`
 	StartingBalance      float64                                                             `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON contains the JSON
@@ -2108,10 +2108,10 @@ func (r CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry) implementsCust
 }
 
 type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlockJSON
+	ID               string                                                                  `json:"id,required"`
+	ExpiryDate       time.Time                                                               `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                  `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlockJSON contains
@@ -2130,9 +2130,9 @@ func (r *CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlock) Un
 }
 
 type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomerJSON
+	ID                 string                                                               `json:"id,required"`
+	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomerJSON contains
@@ -2232,7 +2232,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry struct
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                               `json:"metadata,required"`
 	StartingBalance      float64                                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON
@@ -2263,10 +2263,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry) im
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlockJSON
+	ID               string                                                                              `json:"id,required"`
+	ExpiryDate       time.Time                                                                           `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                              `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlockJSON
@@ -2285,9 +2285,9 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCre
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomerJSON
+	ID                 string                                                                           `json:"id,required"`
+	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomerJSON
@@ -2333,7 +2333,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry struct
 	EventID              string                                                                          `json:"event_id,nullable"`
 	InvoiceID            string                                                                          `json:"invoice_id,nullable"`
 	PriceID              string                                                                          `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON
@@ -2367,10 +2367,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry) im
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlockJSON
+	ID               string                                                                              `json:"id,required"`
+	ExpiryDate       time.Time                                                                           `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                              `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlockJSON
@@ -2389,9 +2389,9 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCre
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomerJSON
+	ID                 string                                                                           `json:"id,required"`
+	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomerJSON
@@ -2435,7 +2435,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry
 	Metadata             map[string]string                                                                      `json:"metadata,required"`
 	NewBlockExpiryDate   time.Time                                                                              `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance      float64                                                                                `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON
@@ -2467,10 +2467,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEn
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON
+	ID               string                                                                                     `json:"id,required"`
+	ExpiryDate       time.Time                                                                                  `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                                     `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON
@@ -2489,9 +2489,9 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerE
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON
+	ID                 string                                                                                  `json:"id,required"`
+	ExternalCustomerID string                                                                                  `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON
@@ -2534,7 +2534,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntr
 	LedgerSequenceNumber int64                                                                                   `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                                       `json:"metadata,required"`
 	StartingBalance      float64                                                                                 `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
@@ -2565,10 +2565,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerE
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
+	ID               string                                                                                      `json:"id,required"`
+	ExpiryDate       time.Time                                                                                   `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                                      `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
@@ -2587,9 +2587,9 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedger
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
+	ID                 string                                                                                   `json:"id,required"`
+	ExternalCustomerID string                                                                                   `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
@@ -2634,7 +2634,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry struct {
 	StartingBalance      float64                                                                    `json:"starting_balance,required"`
 	VoidAmount           float64                                                                    `json:"void_amount,required"`
 	VoidReason           string                                                                     `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON contains the
@@ -2667,10 +2667,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry) impleme
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlockJSON
+	ID               string                                                                         `json:"id,required"`
+	ExpiryDate       time.Time                                                                      `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                         `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlockJSON
@@ -2689,9 +2689,9 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBl
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON
+	ID                 string                                                                      `json:"id,required"`
+	ExternalCustomerID string                                                                      `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON
@@ -2737,7 +2737,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry st
 	StartingBalance      float64                                                                             `json:"starting_balance,required"`
 	VoidAmount           float64                                                                             `json:"void_amount,required"`
 	VoidReason           string                                                                              `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON
@@ -2771,10 +2771,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
+	ID               string                                                                                  `json:"id,required"`
+	ExpiryDate       time.Time                                                                               `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                                  `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
@@ -2793,9 +2793,9 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntr
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON
+	ID                 string                                                                               `json:"id,required"`
+	ExternalCustomerID string                                                                               `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON
@@ -2838,7 +2838,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry struct
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                               `json:"metadata,required"`
 	StartingBalance      float64                                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON
@@ -2869,10 +2869,10 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry) im
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON
+	ID               string                                                                              `json:"id,required"`
+	ExpiryDate       time.Time                                                                           `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                              `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON
@@ -2891,9 +2891,9 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCre
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomerJSON
+	ID                 string                                                                           `json:"id,required"`
+	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomerJSON
@@ -2993,7 +2993,7 @@ type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry struct {
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                           `json:"metadata,required"`
 	StartingBalance      float64                                                                     `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON
+	JSON                 customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON contains
@@ -3024,10 +3024,10 @@ func (r CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry) implem
 }
 
 type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditBlockJSON
+	ID               string                                                                          `json:"id,required"`
+	ExpiryDate       time.Time                                                                       `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                          `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditBlockJSON
@@ -3046,9 +3046,9 @@ func (r *CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditB
 }
 
 type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomerJSON
+	ID                 string                                                                       `json:"id,required"`
+	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomerJSON
@@ -3094,7 +3094,7 @@ type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry struct {
 	EventID              string                                                                      `json:"event_id,nullable"`
 	InvoiceID            string                                                                      `json:"invoice_id,nullable"`
 	PriceID              string                                                                      `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON
+	JSON                 customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON contains
@@ -3128,10 +3128,10 @@ func (r CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry) implem
 }
 
 type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditBlockJSON
+	ID               string                                                                          `json:"id,required"`
+	ExpiryDate       time.Time                                                                       `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                          `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditBlockJSON
@@ -3150,9 +3150,9 @@ func (r *CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditB
 }
 
 type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomerJSON
+	ID                 string                                                                       `json:"id,required"`
+	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomerJSON
@@ -3196,7 +3196,7 @@ type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry str
 	Metadata             map[string]string                                                                  `json:"metadata,required"`
 	NewBlockExpiryDate   time.Time                                                                          `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance      float64                                                                            `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON
+	JSON                 customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON
@@ -3228,10 +3228,10 @@ func (r CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry)
 }
 
 type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON
+	ID               string                                                                                 `json:"id,required"`
+	ExpiryDate       time.Time                                                                              `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                                 `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON
@@ -3250,9 +3250,9 @@ func (r *CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry
 }
 
 type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON
+	ID                 string                                                                              `json:"id,required"`
+	ExternalCustomerID string                                                                              `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON
@@ -3295,7 +3295,7 @@ type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry st
 	LedgerSequenceNumber int64                                                                               `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                                   `json:"metadata,required"`
 	StartingBalance      float64                                                                             `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
+	JSON                 customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
@@ -3326,10 +3326,10 @@ func (r CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry
 }
 
 type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
+	ID               string                                                                                  `json:"id,required"`
+	ExpiryDate       time.Time                                                                               `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                                  `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON
@@ -3348,9 +3348,9 @@ func (r *CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntr
 }
 
 type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
+	ID                 string                                                                               `json:"id,required"`
+	ExternalCustomerID string                                                                               `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON
@@ -3395,7 +3395,7 @@ type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry struct {
 	StartingBalance      float64                                                                `json:"starting_balance,required"`
 	VoidAmount           float64                                                                `json:"void_amount,required"`
 	VoidReason           string                                                                 `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON
+	JSON                 customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON contains the
@@ -3428,10 +3428,10 @@ func (r CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry) implementsC
 }
 
 type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlockJSON
+	ID               string                                                                     `json:"id,required"`
+	ExpiryDate       time.Time                                                                  `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                     `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlockJSON
@@ -3450,9 +3450,9 @@ func (r *CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlock)
 }
 
 type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomerJSON
+	ID                 string                                                                  `json:"id,required"`
+	ExternalCustomerID string                                                                  `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomerJSON contains
@@ -3498,7 +3498,7 @@ type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry struct
 	StartingBalance      float64                                                                         `json:"starting_balance,required"`
 	VoidAmount           float64                                                                         `json:"void_amount,required"`
 	VoidReason           string                                                                          `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON
+	JSON                 customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON
@@ -3532,10 +3532,10 @@ func (r CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry) im
 }
 
 type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
+	ID               string                                                                              `json:"id,required"`
+	ExpiryDate       time.Time                                                                           `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                              `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON
@@ -3554,9 +3554,9 @@ func (r *CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCre
 }
 
 type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON
+	ID                 string                                                                           `json:"id,required"`
+	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON
@@ -3599,7 +3599,7 @@ type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry struct {
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
 	Metadata             map[string]string                                                           `json:"metadata,required"`
 	StartingBalance      float64                                                                     `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON
+	JSON                 customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON        `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON contains
@@ -3630,10 +3630,10 @@ func (r CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry) implem
 }
 
 type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditBlock struct {
-	ID               string    `json:"id,required"`
-	ExpiryDate       time.Time `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string    `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON
+	ID               string                                                                          `json:"id,required"`
+	ExpiryDate       time.Time                                                                       `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                                                          `json:"per_unit_cost_basis,required,nullable"`
+	JSON             customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON
@@ -3652,9 +3652,9 @@ func (r *CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditB
 }
 
 type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomer struct {
-	ID                 string `json:"id,required"`
-	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	JSON               customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomerJSON
+	ID                 string                                                                       `json:"id,required"`
+	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomerJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomerJSON

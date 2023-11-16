@@ -322,7 +322,7 @@ type InvoiceLineItemNewResponse struct {
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
 	TaxAmounts []InvoiceLineItemNewResponseTaxAmount `json:"tax_amounts,required"`
-	JSON       invoiceLineItemNewResponseJSON
+	JSON       invoiceLineItemNewResponseJSON        `json:"-"`
 }
 
 // invoiceLineItemNewResponseJSON contains the JSON metadata for the struct
@@ -357,8 +357,8 @@ type InvoiceLineItemNewResponseMaximum struct {
 	// maximums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Maximum amount applied
-	MaximumAmount string `json:"maximum_amount,required"`
-	JSON          invoiceLineItemNewResponseMaximumJSON
+	MaximumAmount string                                `json:"maximum_amount,required"`
+	JSON          invoiceLineItemNewResponseMaximumJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseMaximumJSON contains the JSON metadata for the struct
@@ -379,8 +379,8 @@ type InvoiceLineItemNewResponseMinimum struct {
 	// minimums, this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// Minimum amount applied
-	MinimumAmount string `json:"minimum_amount,required"`
-	JSON          invoiceLineItemNewResponseMinimumJSON
+	MinimumAmount string                                `json:"minimum_amount,required"`
+	JSON          invoiceLineItemNewResponseMinimumJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseMinimumJSON contains the JSON metadata for the struct
@@ -433,7 +433,7 @@ type InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem struct {
 	Name         string                                                              `json:"name,required"`
 	Quantity     float64                                                             `json:"quantity,required"`
 	Type         InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemType         `json:"type,required"`
-	JSON         invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemJSON
+	JSON         invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemJSON         `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemJSON contains the JSON
@@ -460,8 +460,8 @@ func (r InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem) implementsInvoi
 type InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGroupingJSON
+	Value string                                                              `json:"value,required,nullable"`
+	JSON  invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGroupingJSON contains the
@@ -480,8 +480,8 @@ func (r *InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGrouping) Unmars
 
 type InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfig struct {
 	// The ordered dimension values for this line item.
-	DimensionValues []string `json:"dimension_values,required"`
-	JSON            invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfigJSON
+	DimensionValues []string                                                                `json:"dimension_values,required"`
+	JSON            invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfigJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfigJSON contains
@@ -511,7 +511,7 @@ type InvoiceLineItemNewResponseSubLineItemsTierSubLineItem struct {
 	Quantity   float64                                                         `json:"quantity,required"`
 	TierConfig InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfig `json:"tier_config,required"`
 	Type       InvoiceLineItemNewResponseSubLineItemsTierSubLineItemType       `json:"type,required"`
-	JSON       invoiceLineItemNewResponseSubLineItemsTierSubLineItemJSON
+	JSON       invoiceLineItemNewResponseSubLineItemsTierSubLineItemJSON       `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsTierSubLineItemJSON contains the JSON
@@ -537,8 +537,8 @@ func (r InvoiceLineItemNewResponseSubLineItemsTierSubLineItem) implementsInvoice
 type InvoiceLineItemNewResponseSubLineItemsTierSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceLineItemNewResponseSubLineItemsTierSubLineItemGroupingJSON
+	Value string                                                            `json:"value,required,nullable"`
+	JSON  invoiceLineItemNewResponseSubLineItemsTierSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsTierSubLineItemGroupingJSON contains the
@@ -556,10 +556,10 @@ func (r *InvoiceLineItemNewResponseSubLineItemsTierSubLineItemGrouping) Unmarsha
 }
 
 type InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfig struct {
-	FirstUnit  float64 `json:"first_unit,required"`
-	LastUnit   float64 `json:"last_unit,required,nullable"`
-	UnitAmount string  `json:"unit_amount,required"`
-	JSON       invoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfigJSON
+	FirstUnit  float64                                                             `json:"first_unit,required"`
+	LastUnit   float64                                                             `json:"last_unit,required,nullable"`
+	UnitAmount string                                                              `json:"unit_amount,required"`
+	JSON       invoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfigJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfigJSON contains the
@@ -590,7 +590,7 @@ type InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem struct {
 	Name     string                                                         `json:"name,required"`
 	Quantity float64                                                        `json:"quantity,required"`
 	Type     InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemType     `json:"type,required"`
-	JSON     invoiceLineItemNewResponseSubLineItemsOtherSubLineItemJSON
+	JSON     invoiceLineItemNewResponseSubLineItemsOtherSubLineItemJSON     `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsOtherSubLineItemJSON contains the JSON
@@ -615,8 +615,8 @@ func (r InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem) implementsInvoic
 type InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemGrouping struct {
 	Key string `json:"key,required"`
 	// No value indicates the default group
-	Value string `json:"value,required,nullable"`
-	JSON  invoiceLineItemNewResponseSubLineItemsOtherSubLineItemGroupingJSON
+	Value string                                                             `json:"value,required,nullable"`
+	JSON  invoiceLineItemNewResponseSubLineItemsOtherSubLineItemGroupingJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseSubLineItemsOtherSubLineItemGroupingJSON contains the
@@ -645,8 +645,8 @@ type InvoiceLineItemNewResponseTaxAmount struct {
 	// The human-readable description of the applied tax rate.
 	TaxRateDescription string `json:"tax_rate_description,required"`
 	// The tax rate percentage, out of 100.
-	TaxRatePercentage string `json:"tax_rate_percentage,required,nullable"`
-	JSON              invoiceLineItemNewResponseTaxAmountJSON
+	TaxRatePercentage string                                  `json:"tax_rate_percentage,required,nullable"`
+	JSON              invoiceLineItemNewResponseTaxAmountJSON `json:"-"`
 }
 
 // invoiceLineItemNewResponseTaxAmountJSON contains the JSON metadata for the
