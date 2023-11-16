@@ -272,10 +272,12 @@ type Invoice struct {
 	Maximum       InvoiceMaximum    `json:"maximum,required,nullable"`
 	MaximumAmount string            `json:"maximum_amount,required,nullable"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	Memo          string         `json:"memo,required,nullable"`
-	Metadata      interface{}    `json:"metadata,required"`
-	Minimum       InvoiceMinimum `json:"minimum,required,nullable"`
-	MinimumAmount string         `json:"minimum_amount,required,nullable"`
+	Memo string `json:"memo,required,nullable"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata      map[string]string `json:"metadata,required"`
+	Minimum       InvoiceMinimum    `json:"minimum,required,nullable"`
+	MinimumAmount string            `json:"minimum_amount,required,nullable"`
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
 	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
@@ -1622,8 +1624,10 @@ type InvoiceFetchUpcomingResponse struct {
 	Maximum       InvoiceFetchUpcomingResponseMaximum    `json:"maximum,required,nullable"`
 	MaximumAmount string                                 `json:"maximum_amount,required,nullable"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	Memo          string                              `json:"memo,required,nullable"`
-	Metadata      interface{}                         `json:"metadata,required"`
+	Memo string `json:"memo,required,nullable"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata      map[string]string                   `json:"metadata,required"`
 	Minimum       InvoiceFetchUpcomingResponseMinimum `json:"minimum,required,nullable"`
 	MinimumAmount string                              `json:"minimum_amount,required,nullable"`
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice

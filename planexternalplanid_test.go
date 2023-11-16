@@ -30,7 +30,9 @@ func TestPlanExternalPlanIDUpdateWithOptionalParams(t *testing.T) {
 		"string",
 		orb.PlanExternalPlanIDUpdateParams{
 			ExternalPlanID: orb.F("string"),
-			Metadata:       orb.F[any](map[string]interface{}{}),
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
 		},
 	)
 	if err != nil {

@@ -200,8 +200,10 @@ type Customer struct {
 	// An optional user-defined ID for this customer resource, used throughout the
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
-	ExternalCustomerID string            `json:"external_customer_id,required,nullable"`
-	Metadata           map[string]string `json:"metadata,required"`
+	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata map[string]string `json:"metadata,required"`
 	// The full name of the customer
 	Name string `json:"name,required"`
 	// This is used for creating charges or invoices in an external system via Orb.
@@ -715,9 +717,8 @@ type CustomerNewParams struct {
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
-	// User-specified key value pairs, often useful for referencing internal resources
-	// or IDs. Returned as-is in the customer resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// This is used for creating charges or invoices in an external system via Orb.
 	// When not in test mode, the connection must first be configured in the Orb
 	// webapp.
@@ -1118,9 +1119,8 @@ type CustomerUpdateParams struct {
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
-	// User-specified key value pairs, often useful for referencing internal resources
-	// or IDs. Returned as-is in the customer resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The full name of the customer
 	Name param.Field[string] `json:"name"`
 	// This is used for creating charges or invoices in an external system via Orb.
@@ -1547,9 +1547,8 @@ type CustomerUpdateByExternalIDParams struct {
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
-	// User-specified key value pairs, often useful for referencing internal resources
-	// or IDs. Returned as-is in the customer resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The full name of the customer
 	Name param.Field[string] `json:"name"`
 	// This is used for creating charges or invoices in an external system via Orb.
