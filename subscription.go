@@ -1074,9 +1074,9 @@ type Subscription struct {
 	InvoicingThreshold       string                                 `json:"invoicing_threshold,required,nullable"`
 	// The maximum intervals for this subscription.
 	MaximumIntervals []SubscriptionMaximumInterval `json:"maximum_intervals,required"`
-	// User specified key-value pairs. If no metadata was specified at subscription
-	// creation time, this defaults to an empty dictionary.
-	Metadata interface{} `json:"metadata,required"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata map[string]string `json:"metadata,required"`
 	// The minimum intervals for this subscription.
 	MinimumIntervals []SubscriptionMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
@@ -2414,12 +2414,13 @@ type SubscriptionNewParams struct {
 	ExternalMarketplaceReportingID        param.Field[string]                                   `json:"external_marketplace_reporting_id"`
 	// The external_plan_id of the plan that the given subscription should be switched
 	// to. Note that either this property or `plan_id` must be specified.
-	ExternalPlanID         param.Field[string]      `json:"external_plan_id"`
-	InitialPhaseOrder      param.Field[int64]       `json:"initial_phase_order"`
-	InvoicingThreshold     param.Field[string]      `json:"invoicing_threshold"`
-	Metadata               param.Field[interface{}] `json:"metadata"`
-	NetTerms               param.Field[int64]       `json:"net_terms"`
-	PerCreditOverageAmount param.Field[string]      `json:"per_credit_overage_amount"`
+	ExternalPlanID     param.Field[string] `json:"external_plan_id"`
+	InitialPhaseOrder  param.Field[int64]  `json:"initial_phase_order"`
+	InvoicingThreshold param.Field[string] `json:"invoicing_threshold"`
+	// User-specified key/value pairs for the resource.
+	Metadata               param.Field[map[string]string] `json:"metadata"`
+	NetTerms               param.Field[int64]             `json:"net_terms"`
+	PerCreditOverageAmount param.Field[string]            `json:"per_credit_overage_amount"`
 	// The plan that the given subscription should be switched to. Note that either
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`

@@ -714,9 +714,11 @@ type CustomerCreditLedgerListResponseIncrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                               `json:"metadata,required"`
-	StartingBalance      float64                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseIncrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                        `json:"metadata,required"`
+	StartingBalance float64                                                  `json:"starting_balance,required"`
+	JSON            customerCreditLedgerListResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseIncrementLedgerEntryJSON contains the JSON
@@ -811,12 +813,14 @@ type CustomerCreditLedgerListResponseDecrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                               `json:"metadata,required"`
-	StartingBalance      float64                                                         `json:"starting_balance,required"`
-	EventID              string                                                          `json:"event_id,nullable"`
-	InvoiceID            string                                                          `json:"invoice_id,nullable"`
-	PriceID              string                                                          `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerListResponseDecrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                        `json:"metadata,required"`
+	StartingBalance float64                                                  `json:"starting_balance,required"`
+	EventID         string                                                   `json:"event_id,nullable"`
+	InvoiceID       string                                                   `json:"invoice_id,nullable"`
+	PriceID         string                                                   `json:"price_id,nullable"`
+	JSON            customerCreditLedgerListResponseDecrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseDecrementLedgerEntryJSON contains the JSON
@@ -914,10 +918,12 @@ type CustomerCreditLedgerListResponseExpirationChangeLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                  `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                      `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                              `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                               `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                       `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                         `json:"starting_balance,required"`
+	JSON               customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON contains the
@@ -1014,9 +1020,11 @@ type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                   `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                       `json:"metadata,required"`
-	StartingBalance      float64                                                                 `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                `json:"metadata,required"`
+	StartingBalance float64                                                          `json:"starting_balance,required"`
+	JSON            customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON contains the
@@ -1112,11 +1120,13 @@ type CustomerCreditLedgerListResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                      `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                          `json:"metadata,required"`
-	StartingBalance      float64                                                    `json:"starting_balance,required"`
-	VoidAmount           float64                                                    `json:"void_amount,required"`
-	VoidReason           string                                                     `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListResponseVoidLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                   `json:"metadata,required"`
+	StartingBalance float64                                             `json:"starting_balance,required"`
+	VoidAmount      float64                                             `json:"void_amount,required"`
+	VoidReason      string                                              `json:"void_reason,required,nullable"`
+	JSON            customerCreditLedgerListResponseVoidLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidLedgerEntryJSON contains the JSON metadata
@@ -1213,12 +1223,14 @@ type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                   `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                           `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                             `json:"starting_balance,required"`
-	VoidAmount           float64                                                             `json:"void_amount,required"`
-	VoidReason           string                                                              `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                            `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                    `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                      `json:"starting_balance,required"`
+	VoidAmount         float64                                                      `json:"void_amount,required"`
+	VoidReason         string                                                       `json:"void_reason,required,nullable"`
+	JSON               customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON contains the JSON
@@ -1317,9 +1329,11 @@ type CustomerCreditLedgerListResponseAmendmentLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                               `json:"metadata,required"`
-	StartingBalance      float64                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListResponseAmendmentLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                        `json:"metadata,required"`
+	StartingBalance float64                                                  `json:"starting_balance,required"`
+	JSON            customerCreditLedgerListResponseAmendmentLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListResponseAmendmentLedgerEntryJSON contains the JSON
@@ -1470,9 +1484,11 @@ type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                   `json:"metadata,required"`
-	StartingBalance      float64                                                             `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                            `json:"metadata,required"`
+	StartingBalance float64                                                      `json:"starting_balance,required"`
+	JSON            customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON contains the JSON
@@ -1568,12 +1584,14 @@ type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                   `json:"metadata,required"`
-	StartingBalance      float64                                                             `json:"starting_balance,required"`
-	EventID              string                                                              `json:"event_id,nullable"`
-	InvoiceID            string                                                              `json:"invoice_id,nullable"`
-	PriceID              string                                                              `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                            `json:"metadata,required"`
+	StartingBalance float64                                                      `json:"starting_balance,required"`
+	EventID         string                                                       `json:"event_id,nullable"`
+	InvoiceID       string                                                       `json:"invoice_id,nullable"`
+	PriceID         string                                                       `json:"price_id,nullable"`
+	JSON            customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON contains the JSON
@@ -1672,10 +1690,12 @@ type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                      `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                          `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                                  `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                    `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                                   `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                           `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                             `json:"starting_balance,required"`
+	JSON               customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON contains the
@@ -1772,9 +1792,11 @@ type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                           `json:"metadata,required"`
-	StartingBalance      float64                                                                     `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                    `json:"metadata,required"`
+	StartingBalance float64                                                              `json:"starting_balance,required"`
+	JSON            customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON contains
@@ -1870,11 +1892,13 @@ type CustomerCreditLedgerNewEntryResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                          `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                              `json:"metadata,required"`
-	StartingBalance      float64                                                        `json:"starting_balance,required"`
-	VoidAmount           float64                                                        `json:"void_amount,required"`
-	VoidReason           string                                                         `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                       `json:"metadata,required"`
+	StartingBalance float64                                                 `json:"starting_balance,required"`
+	VoidAmount      float64                                                 `json:"void_amount,required"`
+	VoidReason      string                                                  `json:"void_reason,required,nullable"`
+	JSON            customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON contains the JSON
@@ -1971,12 +1995,14 @@ type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                   `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                       `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                               `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                 `json:"starting_balance,required"`
-	VoidAmount           float64                                                                 `json:"void_amount,required"`
-	VoidReason           string                                                                  `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                                `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                        `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                          `json:"starting_balance,required"`
+	VoidAmount         float64                                                          `json:"void_amount,required"`
+	VoidReason         string                                                           `json:"void_reason,required,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON contains the
@@ -2075,9 +2101,11 @@ type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                   `json:"metadata,required"`
-	StartingBalance      float64                                                             `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                            `json:"metadata,required"`
+	StartingBalance float64                                                      `json:"starting_balance,required"`
+	JSON            customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON contains the JSON
@@ -2230,9 +2258,11 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                               `json:"metadata,required"`
-	StartingBalance      float64                                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                        `json:"metadata,required"`
+	StartingBalance float64                                                                  `json:"starting_balance,required"`
+	JSON            customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON
@@ -2328,12 +2358,14 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                               `json:"metadata,required"`
-	StartingBalance      float64                                                                         `json:"starting_balance,required"`
-	EventID              string                                                                          `json:"event_id,nullable"`
-	InvoiceID            string                                                                          `json:"invoice_id,nullable"`
-	PriceID              string                                                                          `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                        `json:"metadata,required"`
+	StartingBalance float64                                                                  `json:"starting_balance,required"`
+	EventID         string                                                                   `json:"event_id,nullable"`
+	InvoiceID       string                                                                   `json:"invoice_id,nullable"`
+	PriceID         string                                                                   `json:"price_id,nullable"`
+	JSON            customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON
@@ -2432,10 +2464,12 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                                  `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                                      `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                                              `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                                `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                                               `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                                       `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                                         `json:"starting_balance,required"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON
@@ -2532,9 +2566,11 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntr
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                                   `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                                       `json:"metadata,required"`
-	StartingBalance      float64                                                                                 `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                                `json:"metadata,required"`
+	StartingBalance float64                                                                          `json:"starting_balance,required"`
+	JSON            customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
@@ -2630,11 +2666,13 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                      `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                          `json:"metadata,required"`
-	StartingBalance      float64                                                                    `json:"starting_balance,required"`
-	VoidAmount           float64                                                                    `json:"void_amount,required"`
-	VoidReason           string                                                                     `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                   `json:"metadata,required"`
+	StartingBalance float64                                                             `json:"starting_balance,required"`
+	VoidAmount      float64                                                             `json:"void_amount,required"`
+	VoidReason      string                                                              `json:"void_reason,required,nullable"`
+	JSON            customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON contains the
@@ -2732,12 +2770,14 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry st
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                               `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                                   `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                                           `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                             `json:"starting_balance,required"`
-	VoidAmount           float64                                                                             `json:"void_amount,required"`
-	VoidReason           string                                                                              `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                                            `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                                    `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                                      `json:"starting_balance,required"`
+	VoidAmount         float64                                                                      `json:"void_amount,required"`
+	VoidReason         string                                                                       `json:"void_reason,required,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON
@@ -2836,9 +2876,11 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                               `json:"metadata,required"`
-	StartingBalance      float64                                                                         `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                        `json:"metadata,required"`
+	StartingBalance float64                                                                  `json:"starting_balance,required"`
+	JSON            customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON
@@ -2991,9 +3033,11 @@ type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                           `json:"metadata,required"`
-	StartingBalance      float64                                                                     `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                    `json:"metadata,required"`
+	StartingBalance float64                                                              `json:"starting_balance,required"`
+	JSON            customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON contains
@@ -3089,12 +3133,14 @@ type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                           `json:"metadata,required"`
-	StartingBalance      float64                                                                     `json:"starting_balance,required"`
-	EventID              string                                                                      `json:"event_id,nullable"`
-	InvoiceID            string                                                                      `json:"invoice_id,nullable"`
-	PriceID              string                                                                      `json:"price_id,nullable"`
-	JSON                 customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                    `json:"metadata,required"`
+	StartingBalance float64                                                              `json:"starting_balance,required"`
+	EventID         string                                                               `json:"event_id,nullable"`
+	InvoiceID       string                                                               `json:"invoice_id,nullable"`
+	PriceID         string                                                               `json:"price_id,nullable"`
+	JSON            customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON contains
@@ -3193,10 +3239,12 @@ type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry str
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                              `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                                  `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                                          `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                            `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                                           `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                                   `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                                     `json:"starting_balance,required"`
+	JSON               customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON
@@ -3293,9 +3341,11 @@ type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry st
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                               `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                                   `json:"metadata,required"`
-	StartingBalance      float64                                                                             `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                            `json:"metadata,required"`
+	StartingBalance float64                                                                      `json:"starting_balance,required"`
+	JSON            customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON
@@ -3391,11 +3441,13 @@ type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                  `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                      `json:"metadata,required"`
-	StartingBalance      float64                                                                `json:"starting_balance,required"`
-	VoidAmount           float64                                                                `json:"void_amount,required"`
-	VoidReason           string                                                                 `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                               `json:"metadata,required"`
+	StartingBalance float64                                                         `json:"starting_balance,required"`
+	VoidAmount      float64                                                         `json:"void_amount,required"`
+	VoidReason      string                                                          `json:"void_reason,required,nullable"`
+	JSON            customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON contains the
@@ -3493,12 +3545,14 @@ type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                               `json:"metadata,required"`
-	NewBlockExpiryDate   time.Time                                                                       `json:"new_block_expiry_date,required" format:"date-time"`
-	StartingBalance      float64                                                                         `json:"starting_balance,required"`
-	VoidAmount           float64                                                                         `json:"void_amount,required"`
-	VoidReason           string                                                                          `json:"void_reason,required,nullable"`
-	JSON                 customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata           map[string]string                                                        `json:"metadata,required"`
+	NewBlockExpiryDate time.Time                                                                `json:"new_block_expiry_date,required" format:"date-time"`
+	StartingBalance    float64                                                                  `json:"starting_balance,required"`
+	VoidAmount         float64                                                                  `json:"void_amount,required"`
+	VoidReason         string                                                                   `json:"void_reason,required,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON
@@ -3597,9 +3651,11 @@ type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	Metadata             map[string]string                                                           `json:"metadata,required"`
-	StartingBalance      float64                                                                     `json:"starting_balance,required"`
-	JSON                 customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON        `json:"-"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata        map[string]string                                                    `json:"metadata,required"`
+	StartingBalance float64                                                              `json:"starting_balance,required"`
+	JSON            customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON `json:"-"`
 }
 
 // customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON contains
@@ -3758,8 +3814,8 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
 	// basis.
 	InvoiceSettings param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings] `json:"invoice_settings"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when entry_type=increment. How much, in USD, a customer
 	// paid for a single credit in this block
 	PerUnitCostBasis param.Field[string] `json:"per_unit_cost_basis"`
@@ -3808,8 +3864,8 @@ type CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParam
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
@@ -3845,8 +3901,8 @@ type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryReque
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
@@ -3874,8 +3930,8 @@ type CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParams str
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when `entry_type=void`. The reason for the void.
 	VoidReason param.Field[CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsVoidReason] `json:"void_reason"`
 }
@@ -3912,8 +3968,8 @@ type CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParam
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
@@ -3960,8 +4016,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
 	// basis.
 	InvoiceSettings param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings] `json:"invoice_settings"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when entry_type=increment. How much, in USD, a customer
 	// paid for a single credit in this block
 	PerUnitCostBasis param.Field[string] `json:"per_unit_cost_basis"`
@@ -4010,8 +4066,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntry
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
@@ -4047,8 +4103,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedg
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {
@@ -4076,8 +4132,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryReque
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when `entry_type=void`. The reason for the void.
 	VoidReason param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason] `json:"void_reason"`
 }
@@ -4114,8 +4170,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntry
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the ledger entry resource.
-	Metadata param.Field[interface{}] `json:"metadata"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParams) MarshalJSON() (data []byte, err error) {

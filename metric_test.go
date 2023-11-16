@@ -31,8 +31,8 @@ func TestMetricNewWithOptionalParams(t *testing.T) {
 		ItemID:      orb.F("string"),
 		Name:        orb.F("Bytes downloaded"),
 		Sql:         orb.F("SELECT sum(bytes_downloaded) FROM events WHERE download_speed = 'fast'"),
-		Metadata: orb.F[any](map[string]interface{}{
-			"category": "compute",
+		Metadata: orb.F(map[string]string{
+			"foo": "string",
 		}),
 	})
 	if err != nil {

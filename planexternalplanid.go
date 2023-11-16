@@ -73,8 +73,9 @@ type PlanExternalPlanIDUpdateParams struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID param.Field[string]      `json:"external_plan_id"`
-	Metadata       param.Field[interface{}] `json:"metadata"`
+	ExternalPlanID param.Field[string] `json:"external_plan_id"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanExternalPlanIDUpdateParams) MarshalJSON() (data []byte, err error) {

@@ -138,10 +138,12 @@ type Plan struct {
 	InvoicingCurrency string      `json:"invoicing_currency,required"`
 	Maximum           PlanMaximum `json:"maximum,required,nullable"`
 	MaximumAmount     string      `json:"maximum_amount,required,nullable"`
-	Metadata          interface{} `json:"metadata,required"`
-	Minimum           PlanMinimum `json:"minimum,required,nullable"`
-	MinimumAmount     string      `json:"minimum_amount,required,nullable"`
-	Name              string      `json:"name,required"`
+	// User specified key-value pairs. If not provided, this defaults to an empty
+	// dictionary.
+	Metadata      map[string]string `json:"metadata,required"`
+	Minimum       PlanMinimum       `json:"minimum,required,nullable"`
+	MinimumAmount string            `json:"minimum_amount,required,nullable"`
+	Name          string            `json:"name,required"`
 	// Determines the difference between the invoice issue date and the due date. A
 	// value of "0" here signifies that invoices are due on issue, whereas a value of
 	// "30" means that the customer has a month to pay the invoice before its overdue.
@@ -408,9 +410,10 @@ type PlanNewParams struct {
 	// phases of the plan.
 	Prices param.Field[[]PlanNewParamsPrice] `json:"prices,required"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
-	DefaultInvoiceMemo param.Field[string]      `json:"default_invoice_memo"`
-	ExternalPlanID     param.Field[string]      `json:"external_plan_id"`
-	Metadata           param.Field[interface{}] `json:"metadata"`
+	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
+	ExternalPlanID     param.Field[string] `json:"external_plan_id"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The net terms determines the difference between the invoice date and the issue
 	// date for the invoice. If you intend the invoice to be due on issue, set this
 	// to 0.
@@ -1147,8 +1150,9 @@ type PlanUpdateParams struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
-	ExternalPlanID param.Field[string]      `json:"external_plan_id"`
-	Metadata       param.Field[interface{}] `json:"metadata"`
+	ExternalPlanID param.Field[string] `json:"external_plan_id"`
+	// User-specified key/value pairs for the resource.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanUpdateParams) MarshalJSON() (data []byte, err error) {
