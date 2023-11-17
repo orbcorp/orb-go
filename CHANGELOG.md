@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.1 (2023-11-17)
+
+Full Changelog: [v0.6.0...v0.6.1](https://github.com/orbcorp/orb-go/compare/v0.6.0...v0.6.1)
+
+### Bug Fixes
+
+* stop sending default idempotency headers with GET requests ([#31](https://github.com/orbcorp/orb-go/issues/31)) ([ef9e67d](https://github.com/orbcorp/orb-go/commit/ef9e67dcfb2ae27fd7f5c8f2fe21ccf445c3614c))
+
+
+### Documentation
+
+* **readme:** fix link to docs website ([#29](https://github.com/orbcorp/orb-go/issues/29)) ([b9b2a06](https://github.com/orbcorp/orb-go/commit/b9b2a06209f119de878316acce52bd49a5db6a7a))
+
 ## 0.6.0 (2023-11-16)
 
 Full Changelog: [v0.5.0...v0.6.0](https://github.com/orbcorp/orb-go/compare/v0.5.0...v0.6.0)
