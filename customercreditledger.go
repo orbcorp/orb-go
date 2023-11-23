@@ -714,8 +714,10 @@ type CustomerCreditLedgerListResponseIncrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                        `json:"metadata,required"`
 	StartingBalance float64                                                  `json:"starting_balance,required"`
 	JSON            customerCreditLedgerListResponseIncrementLedgerEntryJSON `json:"-"`
@@ -813,8 +815,10 @@ type CustomerCreditLedgerListResponseDecrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                        `json:"metadata,required"`
 	StartingBalance float64                                                  `json:"starting_balance,required"`
 	EventID         string                                                   `json:"event_id,nullable"`
@@ -918,8 +922,10 @@ type CustomerCreditLedgerListResponseExpirationChangeLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                  `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                               `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                       `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                         `json:"starting_balance,required"`
@@ -1020,8 +1026,10 @@ type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                   `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                `json:"metadata,required"`
 	StartingBalance float64                                                          `json:"starting_balance,required"`
 	JSON            customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
@@ -1120,8 +1128,10 @@ type CustomerCreditLedgerListResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                      `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                   `json:"metadata,required"`
 	StartingBalance float64                                             `json:"starting_balance,required"`
 	VoidAmount      float64                                             `json:"void_amount,required"`
@@ -1223,8 +1233,10 @@ type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                            `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                    `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                      `json:"starting_balance,required"`
@@ -1329,8 +1341,10 @@ type CustomerCreditLedgerListResponseAmendmentLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                           `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                        `json:"metadata,required"`
 	StartingBalance float64                                                  `json:"starting_balance,required"`
 	JSON            customerCreditLedgerListResponseAmendmentLedgerEntryJSON `json:"-"`
@@ -1484,8 +1498,10 @@ type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                            `json:"metadata,required"`
 	StartingBalance float64                                                      `json:"starting_balance,required"`
 	JSON            customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON `json:"-"`
@@ -1584,8 +1600,10 @@ type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                            `json:"metadata,required"`
 	StartingBalance float64                                                      `json:"starting_balance,required"`
 	EventID         string                                                       `json:"event_id,nullable"`
@@ -1690,8 +1708,10 @@ type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                      `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                                   `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                           `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                             `json:"starting_balance,required"`
@@ -1792,8 +1812,10 @@ type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                    `json:"metadata,required"`
 	StartingBalance float64                                                              `json:"starting_balance,required"`
 	JSON            customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
@@ -1892,8 +1914,10 @@ type CustomerCreditLedgerNewEntryResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                          `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                       `json:"metadata,required"`
 	StartingBalance float64                                                 `json:"starting_balance,required"`
 	VoidAmount      float64                                                 `json:"void_amount,required"`
@@ -1995,8 +2019,10 @@ type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                   `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                                `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                        `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                          `json:"starting_balance,required"`
@@ -2101,8 +2127,10 @@ type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                               `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                            `json:"metadata,required"`
 	StartingBalance float64                                                      `json:"starting_balance,required"`
 	JSON            customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON `json:"-"`
@@ -2258,8 +2286,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                        `json:"metadata,required"`
 	StartingBalance float64                                                                  `json:"starting_balance,required"`
 	JSON            customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON `json:"-"`
@@ -2358,8 +2388,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                        `json:"metadata,required"`
 	StartingBalance float64                                                                  `json:"starting_balance,required"`
 	EventID         string                                                                   `json:"event_id,nullable"`
@@ -2464,8 +2496,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                                  `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                                               `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                                       `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                                         `json:"starting_balance,required"`
@@ -2566,8 +2600,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntr
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                                   `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                                `json:"metadata,required"`
 	StartingBalance float64                                                                          `json:"starting_balance,required"`
 	JSON            customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
@@ -2666,8 +2702,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                      `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                   `json:"metadata,required"`
 	StartingBalance float64                                                             `json:"starting_balance,required"`
 	VoidAmount      float64                                                             `json:"void_amount,required"`
@@ -2770,8 +2808,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry st
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                               `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                                            `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                                    `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                                      `json:"starting_balance,required"`
@@ -2876,8 +2916,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                        `json:"metadata,required"`
 	StartingBalance float64                                                                  `json:"starting_balance,required"`
 	JSON            customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON `json:"-"`
@@ -3033,8 +3075,10 @@ type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                    `json:"metadata,required"`
 	StartingBalance float64                                                              `json:"starting_balance,required"`
 	JSON            customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON `json:"-"`
@@ -3133,8 +3177,10 @@ type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                    `json:"metadata,required"`
 	StartingBalance float64                                                              `json:"starting_balance,required"`
 	EventID         string                                                               `json:"event_id,nullable"`
@@ -3239,8 +3285,10 @@ type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry str
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                              `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                                           `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                                   `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                                     `json:"starting_balance,required"`
@@ -3341,8 +3389,10 @@ type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry st
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                               `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                            `json:"metadata,required"`
 	StartingBalance float64                                                                      `json:"starting_balance,required"`
 	JSON            customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON `json:"-"`
@@ -3441,8 +3491,10 @@ type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                  `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                               `json:"metadata,required"`
 	StartingBalance float64                                                         `json:"starting_balance,required"`
 	VoidAmount      float64                                                         `json:"void_amount,required"`
@@ -3545,8 +3597,10 @@ type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry struct
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                           `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata           map[string]string                                                        `json:"metadata,required"`
 	NewBlockExpiryDate time.Time                                                                `json:"new_block_expiry_date,required" format:"date-time"`
 	StartingBalance    float64                                                                  `json:"starting_balance,required"`
@@ -3651,8 +3705,10 @@ type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry struct {
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatus `json:"entry_status,required"`
 	EntryType            CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                                       `json:"ledger_sequence_number,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata        map[string]string                                                    `json:"metadata,required"`
 	StartingBalance float64                                                              `json:"starting_balance,required"`
 	JSON            customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON `json:"-"`
@@ -3814,7 +3870,9 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
 	// basis.
 	InvoiceSettings param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings] `json:"invoice_settings"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when entry_type=increment. How much, in USD, a customer
 	// paid for a single credit in this block
@@ -3864,7 +3922,9 @@ type CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParam
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
@@ -3901,7 +3961,9 @@ type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryReque
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
@@ -3930,7 +3992,9 @@ type CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParams str
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when `entry_type=void`. The reason for the void.
 	VoidReason param.Field[CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsVoidReason] `json:"void_reason"`
@@ -3968,7 +4032,9 @@ type CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParam
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
@@ -4016,7 +4082,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
 	// basis.
 	InvoiceSettings param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings] `json:"invoice_settings"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when entry_type=increment. How much, in USD, a customer
 	// paid for a single credit in this block
@@ -4066,7 +4134,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntry
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
@@ -4103,7 +4173,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedg
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
@@ -4132,7 +4204,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryReque
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// Can only be specified when `entry_type=void`. The reason for the void.
 	VoidReason param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason] `json:"void_reason"`
@@ -4170,7 +4244,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntry
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 

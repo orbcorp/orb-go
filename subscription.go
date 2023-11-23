@@ -1074,8 +1074,10 @@ type Subscription struct {
 	InvoicingThreshold       string                                 `json:"invoicing_threshold,required,nullable"`
 	// The maximum intervals for this subscription.
 	MaximumIntervals []SubscriptionMaximumInterval `json:"maximum_intervals,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
 	// The minimum intervals for this subscription.
 	MinimumIntervals []SubscriptionMinimumInterval `json:"minimum_intervals,required"`
@@ -2417,7 +2419,9 @@ type SubscriptionNewParams struct {
 	ExternalPlanID     param.Field[string] `json:"external_plan_id"`
 	InitialPhaseOrder  param.Field[int64]  `json:"initial_phase_order"`
 	InvoicingThreshold param.Field[string] `json:"invoicing_threshold"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata               param.Field[map[string]string] `json:"metadata"`
 	NetTerms               param.Field[int64]             `json:"net_terms"`
 	PerCreditOverageAmount param.Field[string]            `json:"per_credit_overage_amount"`

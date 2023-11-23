@@ -74,7 +74,9 @@ type PlanExternalPlanIDUpdateParams struct {
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
 	ExternalPlanID param.Field[string] `json:"external_plan_id"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 

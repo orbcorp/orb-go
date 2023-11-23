@@ -273,8 +273,10 @@ type Invoice struct {
 	MaximumAmount string            `json:"maximum_amount,required,nullable"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
 	Memo string `json:"memo,required,nullable"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata      map[string]string `json:"metadata,required"`
 	Minimum       InvoiceMinimum    `json:"minimum,required,nullable"`
 	MinimumAmount string            `json:"minimum_amount,required,nullable"`
@@ -1625,8 +1627,10 @@ type InvoiceFetchUpcomingResponse struct {
 	MaximumAmount string                                 `json:"maximum_amount,required,nullable"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
 	Memo string `json:"memo,required,nullable"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata      map[string]string                   `json:"metadata,required"`
 	Minimum       InvoiceFetchUpcomingResponseMinimum `json:"minimum,required,nullable"`
 	MinimumAmount string                              `json:"minimum_amount,required,nullable"`
