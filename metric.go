@@ -91,8 +91,10 @@ type MetricNewResponse struct {
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
 	Item Item `json:"item,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata map[string]string       `json:"metadata,required"`
 	Name     string                  `json:"name,required"`
 	Status   MetricNewResponseStatus `json:"status,required"`
@@ -134,8 +136,10 @@ type MetricListResponse struct {
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
 	Item Item `json:"item,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata map[string]string        `json:"metadata,required"`
 	Name     string                   `json:"name,required"`
 	Status   MetricListResponseStatus `json:"status,required"`
@@ -177,8 +181,10 @@ type MetricFetchResponse struct {
 	// with all line items, billable metrics, and prices and are used for defining
 	// external sync behavior for invoices and tax calculation purposes.
 	Item Item `json:"item,required"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata map[string]string         `json:"metadata,required"`
 	Name     string                    `json:"name,required"`
 	Status   MetricFetchResponseStatus `json:"status,required"`
@@ -219,7 +225,9 @@ type MetricNewParams struct {
 	Name param.Field[string] `json:"name,required"`
 	// A sql string defining the metric.
 	Sql param.Field[string] `json:"sql,required"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
