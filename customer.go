@@ -201,8 +201,10 @@ type Customer struct {
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
-	// User specified key-value pairs. If not provided, this defaults to an empty
-	// dictionary.
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
 	// The full name of the customer
 	Name string `json:"name,required"`
@@ -717,7 +719,9 @@ type CustomerNewParams struct {
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// This is used for creating charges or invoices in an external system via Orb.
 	// When not in test mode, the connection must first be configured in the Orb
@@ -1119,7 +1123,9 @@ type CustomerUpdateParams struct {
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The full name of the customer
 	Name param.Field[string] `json:"name"`
@@ -1547,7 +1553,9 @@ type CustomerUpdateByExternalIDParams struct {
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
-	// User-specified key/value pairs for the resource.
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The full name of the customer
 	Name param.Field[string] `json:"name"`
