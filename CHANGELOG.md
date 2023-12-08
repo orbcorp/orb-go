@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 (2023-12-08)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/orbcorp/orb-go/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** remove unsupported field ([#38](https://github.com/orbcorp/orb-go/issues/38)) ([f724da3](https://github.com/orbcorp/orb-go/commit/f724da3326ff0f51342f85449920a252e1afc10c))
+
 ## 0.7.0 (2023-11-28)
 
 Full Changelog: [v0.6.1...v0.7.0](https://github.com/orbcorp/orb-go/compare/v0.6.1...v0.7.0)
