@@ -115,7 +115,7 @@ func TestEventIngestWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestEventSearch(t *testing.T) {
+func TestEventSearchWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -128,7 +128,9 @@ func TestEventSearch(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Events.Search(context.TODO(), orb.EventSearchParams{
-		EventIDs: orb.F([]string{"string", "string", "string"}),
+		EventIDs:       orb.F([]string{"string"}),
+		TimeframeEnd:   orb.F(time.Now()),
+		TimeframeStart: orb.F(time.Now()),
 	})
 	if err != nil {
 		var apierr *orb.Error

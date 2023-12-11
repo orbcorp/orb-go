@@ -493,7 +493,7 @@ type EventSearchResponseData struct {
 	// for safe request retries.
 	ID string `json:"id,required"`
 	// The Orb Customer identifier
-	CustomerID string `json:"customer_id,required"`
+	CustomerID string `json:"customer_id,required,nullable"`
 	// A name to meaningfully identify the action or event type.
 	EventName string `json:"event_name,required"`
 	// An alias for the Orb customer, whose mapping is specified when creating the
@@ -595,9 +595,16 @@ func (r EventIngestParamsEvent) MarshalJSON() (data []byte, err error) {
 
 type EventSearchParams struct {
 	// This is an explicit array of IDs to filter by. Note that an event's ID is the
-	// idempotency_key that was originally used for ingestion. Values in this array
-	// will be treated case sensitively.
+	// idempotency_key that was originally used for ingestion, and this only supports
+	// events that have not been amended. Values in this array will be treated case
+	// sensitively.
 	EventIDs param.Field[[]string] `json:"event_ids,required"`
+	// The end of the timeframe, exclusive, in which to search events. If not
+	// specified, the current time is used.
+	TimeframeEnd param.Field[time.Time] `json:"timeframe_end" format:"date-time"`
+	// The start of the timeframe, inclusive, in which to search events. If not
+	// specified, the one week ago is used.
+	TimeframeStart param.Field[time.Time] `json:"timeframe_start" format:"date-time"`
 }
 
 func (r EventSearchParams) MarshalJSON() (data []byte, err error) {
