@@ -353,8 +353,6 @@ func (r *EventService) Ingest(ctx context.Context, params EventIngestParams, opt
 //   - `event_ids`: This is an explicit array of IDs to filter by. Note that an
 //     event's ID is the `idempotency_key` that was originally used for ingestion.
 //
-// By default, Orb does not return _deprecated_ events in this endpoint.
-//
 // By default, Orb will not throw a `404` if no events matched, Orb will return an
 // empty array for `data` instead.
 func (r *EventService) Search(ctx context.Context, body EventSearchParams, opts ...option.RequestOption) (res *EventSearchResponse, err error) {
