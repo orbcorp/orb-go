@@ -3816,7 +3816,7 @@ type CustomerCreditLedgerListParams struct {
 // `url.Values`.
 func (r CustomerCreditLedgerListParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -4284,7 +4284,7 @@ type CustomerCreditLedgerListByExternalIDParams struct {
 // parameters as `url.Values`.
 func (r CustomerCreditLedgerListByExternalIDParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }

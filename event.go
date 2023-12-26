@@ -561,7 +561,7 @@ func (r EventIngestParams) MarshalJSON() (data []byte, err error) {
 // URLQuery serializes [EventIngestParams]'s query parameters as `url.Values`.
 func (r EventIngestParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }

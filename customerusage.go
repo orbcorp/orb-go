@@ -313,7 +313,7 @@ func (r CustomerUsageUpdateParams) MarshalJSON() (data []byte, err error) {
 // `url.Values`.
 func (r CustomerUsageUpdateParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -357,7 +357,7 @@ func (r CustomerUsageUpdateByExternalIDParams) MarshalJSON() (data []byte, err e
 // as `url.Values`.
 func (r CustomerUsageUpdateByExternalIDParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
