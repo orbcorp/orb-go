@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.10.0 (2023-12-26)
+
+Full Changelog: [v0.9.0...v0.10.0](https://github.com/orbcorp/orb-go/compare/v0.9.0...v0.10.0)
+
+### Features
+
+* **internal:** fallback to json serialization if no serialization methods are defined ([#41](https://github.com/orbcorp/orb-go/issues/41)) ([2d282c0](https://github.com/orbcorp/orb-go/commit/2d282c0e4550c0b51f575b99c852a9634df5176b))
+
+
+### Bug Fixes
+
+* use brackets instead of commas for array query params ([#47](https://github.com/orbcorp/orb-go/issues/47)) ([9aafd58](https://github.com/orbcorp/orb-go/commit/9aafd58ae040bf36fae103fc8b3f7efe4178e491))
+
+
+### Chores
+
+* **ci:** run release workflow once per day ([#44](https://github.com/orbcorp/orb-go/issues/44)) ([61c34a3](https://github.com/orbcorp/orb-go/commit/61c34a3ae53d1123ea6230c23505f28b610df046))
+
+
+### Documentation
+
+* **api:** updates ([#46](https://github.com/orbcorp/orb-go/issues/46)) ([2ef33b3](https://github.com/orbcorp/orb-go/commit/2ef33b31c98515320387680b13b48dc45e6de0df))
+* avoid normalizing trailing space ([#43](https://github.com/orbcorp/orb-go/issues/43)) ([cd88196](https://github.com/orbcorp/orb-go/commit/cd8819666864839993edbcf58265effe587e4aba))
+* **options:** fix link to readme ([#45](https://github.com/orbcorp/orb-go/issues/45)) ([af3e4d5](https://github.com/orbcorp/orb-go/commit/af3e4d53252338a35e30cbb84365186ae146c5cd))
+
 ## 0.9.0 (2023-12-11)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/orbcorp/orb-go/compare/v0.8.0...v0.9.0)
