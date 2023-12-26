@@ -2966,7 +2966,7 @@ type InvoiceListParams struct {
 // URLQuery serializes [InvoiceListParams]'s query parameters as `url.Values`.
 func (r InvoiceListParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -2996,7 +2996,7 @@ type InvoiceFetchUpcomingParams struct {
 // `url.Values`.
 func (r InvoiceFetchUpcomingParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
