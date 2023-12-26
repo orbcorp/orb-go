@@ -3448,7 +3448,7 @@ type SubscriptionListParams struct {
 // URLQuery serializes [SubscriptionListParams]'s query parameters as `url.Values`.
 func (r SubscriptionListParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -3500,7 +3500,7 @@ type SubscriptionFetchCostsParams struct {
 // `url.Values`.
 func (r SubscriptionFetchCostsParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -3532,7 +3532,7 @@ type SubscriptionFetchScheduleParams struct {
 // `url.Values`.
 func (r SubscriptionFetchScheduleParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -3571,7 +3571,7 @@ type SubscriptionFetchUsageParams struct {
 // `url.Values`.
 func (r SubscriptionFetchUsageParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }

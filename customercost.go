@@ -1037,7 +1037,7 @@ type CustomerCostListParams struct {
 // URLQuery serializes [CustomerCostListParams]'s query parameters as `url.Values`.
 func (r CustomerCostListParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -1071,7 +1071,7 @@ type CustomerCostListByExternalIDParams struct {
 // `url.Values`.
 func (r CustomerCostListByExternalIDParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
