@@ -708,6 +708,7 @@ type CustomerCreditLedgerListResponseIncrementLedgerEntry struct {
 	Amount               float64                                                         `json:"amount,required"`
 	CreatedAt            time.Time                                                       `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListResponseIncrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                          `json:"currency,required"`
 	Customer             CustomerCreditLedgerListResponseIncrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                          `json:"description,required,nullable"`
 	EndingBalance        float64                                                         `json:"ending_balance,required"`
@@ -730,6 +731,7 @@ type customerCreditLedgerListResponseIncrementLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -809,6 +811,7 @@ type CustomerCreditLedgerListResponseDecrementLedgerEntry struct {
 	Amount               float64                                                         `json:"amount,required"`
 	CreatedAt            time.Time                                                       `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListResponseDecrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                          `json:"currency,required"`
 	Customer             CustomerCreditLedgerListResponseDecrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                          `json:"description,required,nullable"`
 	EndingBalance        float64                                                         `json:"ending_balance,required"`
@@ -834,6 +837,7 @@ type customerCreditLedgerListResponseDecrementLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -916,6 +920,7 @@ type CustomerCreditLedgerListResponseExpirationChangeLedgerEntry struct {
 	Amount               float64                                                                `json:"amount,required"`
 	CreatedAt            time.Time                                                              `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                 `json:"currency,required"`
 	Customer             CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                 `json:"description,required,nullable"`
 	EndingBalance        float64                                                                `json:"ending_balance,required"`
@@ -940,6 +945,7 @@ type customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1020,6 +1026,7 @@ type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry struct {
 	Amount               float64                                                                 `json:"amount,required"`
 	CreatedAt            time.Time                                                               `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                  `json:"currency,required"`
 	Customer             CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                  `json:"description,required,nullable"`
 	EndingBalance        float64                                                                 `json:"ending_balance,required"`
@@ -1043,6 +1050,7 @@ type customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1122,6 +1130,7 @@ type CustomerCreditLedgerListResponseVoidLedgerEntry struct {
 	Amount               float64                                                    `json:"amount,required"`
 	CreatedAt            time.Time                                                  `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListResponseVoidLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                     `json:"currency,required"`
 	Customer             CustomerCreditLedgerListResponseVoidLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                     `json:"description,required,nullable"`
 	EndingBalance        float64                                                    `json:"ending_balance,required"`
@@ -1146,6 +1155,7 @@ type customerCreditLedgerListResponseVoidLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1227,6 +1237,7 @@ type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry struct {
 	Amount               float64                                                             `json:"amount,required"`
 	CreatedAt            time.Time                                                           `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                              `json:"currency,required"`
 	Customer             CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                              `json:"description,required,nullable"`
 	EndingBalance        float64                                                             `json:"ending_balance,required"`
@@ -1253,6 +1264,7 @@ type customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1335,6 +1347,7 @@ type CustomerCreditLedgerListResponseAmendmentLedgerEntry struct {
 	Amount               float64                                                         `json:"amount,required"`
 	CreatedAt            time.Time                                                       `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListResponseAmendmentLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                          `json:"currency,required"`
 	Customer             CustomerCreditLedgerListResponseAmendmentLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                          `json:"description,required,nullable"`
 	EndingBalance        float64                                                         `json:"ending_balance,required"`
@@ -1357,6 +1370,7 @@ type customerCreditLedgerListResponseAmendmentLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1492,6 +1506,7 @@ type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry struct {
 	Amount               float64                                                             `json:"amount,required"`
 	CreatedAt            time.Time                                                           `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                              `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                              `json:"description,required,nullable"`
 	EndingBalance        float64                                                             `json:"ending_balance,required"`
@@ -1515,6 +1530,7 @@ type customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1594,6 +1610,7 @@ type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry struct {
 	Amount               float64                                                             `json:"amount,required"`
 	CreatedAt            time.Time                                                           `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                              `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                              `json:"description,required,nullable"`
 	EndingBalance        float64                                                             `json:"ending_balance,required"`
@@ -1620,6 +1637,7 @@ type customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1702,6 +1720,7 @@ type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry struct {
 	Amount               float64                                                                    `json:"amount,required"`
 	CreatedAt            time.Time                                                                  `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                     `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                     `json:"description,required,nullable"`
 	EndingBalance        float64                                                                    `json:"ending_balance,required"`
@@ -1726,6 +1745,7 @@ type customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON struct 
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1806,6 +1826,7 @@ type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry struct {
 	Amount               float64                                                                     `json:"amount,required"`
 	CreatedAt            time.Time                                                                   `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                      `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                      `json:"description,required,nullable"`
 	EndingBalance        float64                                                                     `json:"ending_balance,required"`
@@ -1829,6 +1850,7 @@ type customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON struct
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -1908,6 +1930,7 @@ type CustomerCreditLedgerNewEntryResponseVoidLedgerEntry struct {
 	Amount               float64                                                        `json:"amount,required"`
 	CreatedAt            time.Time                                                      `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                         `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                         `json:"description,required,nullable"`
 	EndingBalance        float64                                                        `json:"ending_balance,required"`
@@ -1932,6 +1955,7 @@ type customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2013,6 +2037,7 @@ type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry struct {
 	Amount               float64                                                                 `json:"amount,required"`
 	CreatedAt            time.Time                                                               `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                  `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                  `json:"description,required,nullable"`
 	EndingBalance        float64                                                                 `json:"ending_balance,required"`
@@ -2039,6 +2064,7 @@ type customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2121,6 +2147,7 @@ type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry struct {
 	Amount               float64                                                             `json:"amount,required"`
 	CreatedAt            time.Time                                                           `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                              `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                              `json:"description,required,nullable"`
 	EndingBalance        float64                                                             `json:"ending_balance,required"`
@@ -2144,6 +2171,7 @@ type customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2280,6 +2308,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry struct
 	Amount               float64                                                                         `json:"amount,required"`
 	CreatedAt            time.Time                                                                       `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                          `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                          `json:"description,required,nullable"`
 	EndingBalance        float64                                                                         `json:"ending_balance,required"`
@@ -2303,6 +2332,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON st
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2382,6 +2412,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry struct
 	Amount               float64                                                                         `json:"amount,required"`
 	CreatedAt            time.Time                                                                       `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                          `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                          `json:"description,required,nullable"`
 	EndingBalance        float64                                                                         `json:"ending_balance,required"`
@@ -2408,6 +2439,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON st
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2490,6 +2522,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry
 	Amount               float64                                                                                `json:"amount,required"`
 	CreatedAt            time.Time                                                                              `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                                 `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                                 `json:"description,required,nullable"`
 	EndingBalance        float64                                                                                `json:"ending_balance,required"`
@@ -2514,6 +2547,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2594,6 +2628,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntr
 	Amount               float64                                                                                 `json:"amount,required"`
 	CreatedAt            time.Time                                                                               `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                                  `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                                  `json:"description,required,nullable"`
 	EndingBalance        float64                                                                                 `json:"ending_balance,required"`
@@ -2617,6 +2652,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntr
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2696,6 +2732,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry struct {
 	Amount               float64                                                                    `json:"amount,required"`
 	CreatedAt            time.Time                                                                  `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                     `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                     `json:"description,required,nullable"`
 	EndingBalance        float64                                                                    `json:"ending_balance,required"`
@@ -2721,6 +2758,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON struct 
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2802,6 +2840,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry st
 	Amount               float64                                                                             `json:"amount,required"`
 	CreatedAt            time.Time                                                                           `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                              `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                              `json:"description,required,nullable"`
 	EndingBalance        float64                                                                             `json:"ending_balance,required"`
@@ -2828,6 +2867,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSO
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -2910,6 +2950,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry struct
 	Amount               float64                                                                         `json:"amount,required"`
 	CreatedAt            time.Time                                                                       `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                          `json:"currency,required"`
 	Customer             CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                          `json:"description,required,nullable"`
 	EndingBalance        float64                                                                         `json:"ending_balance,required"`
@@ -2933,6 +2974,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON st
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3069,6 +3111,7 @@ type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry struct {
 	Amount               float64                                                                     `json:"amount,required"`
 	CreatedAt            time.Time                                                                   `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                      `json:"currency,required"`
 	Customer             CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                      `json:"description,required,nullable"`
 	EndingBalance        float64                                                                     `json:"ending_balance,required"`
@@ -3092,6 +3135,7 @@ type customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON struct
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3171,6 +3215,7 @@ type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry struct {
 	Amount               float64                                                                     `json:"amount,required"`
 	CreatedAt            time.Time                                                                   `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                      `json:"currency,required"`
 	Customer             CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                      `json:"description,required,nullable"`
 	EndingBalance        float64                                                                     `json:"ending_balance,required"`
@@ -3197,6 +3242,7 @@ type customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON struct
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3279,6 +3325,7 @@ type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry str
 	Amount               float64                                                                            `json:"amount,required"`
 	CreatedAt            time.Time                                                                          `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                             `json:"currency,required"`
 	Customer             CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                             `json:"description,required,nullable"`
 	EndingBalance        float64                                                                            `json:"ending_balance,required"`
@@ -3303,6 +3350,7 @@ type customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3383,6 +3431,7 @@ type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry st
 	Amount               float64                                                                             `json:"amount,required"`
 	CreatedAt            time.Time                                                                           `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                              `json:"currency,required"`
 	Customer             CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                              `json:"description,required,nullable"`
 	EndingBalance        float64                                                                             `json:"ending_balance,required"`
@@ -3406,6 +3455,7 @@ type customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSO
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3485,6 +3535,7 @@ type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry struct {
 	Amount               float64                                                                `json:"amount,required"`
 	CreatedAt            time.Time                                                              `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                 `json:"currency,required"`
 	Customer             CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                 `json:"description,required,nullable"`
 	EndingBalance        float64                                                                `json:"ending_balance,required"`
@@ -3510,6 +3561,7 @@ type customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON struct {
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3591,6 +3643,7 @@ type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry struct
 	Amount               float64                                                                         `json:"amount,required"`
 	CreatedAt            time.Time                                                                       `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                          `json:"currency,required"`
 	Customer             CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                          `json:"description,required,nullable"`
 	EndingBalance        float64                                                                         `json:"ending_balance,required"`
@@ -3617,6 +3670,7 @@ type customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON st
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3699,6 +3753,7 @@ type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry struct {
 	Amount               float64                                                                     `json:"amount,required"`
 	CreatedAt            time.Time                                                                   `json:"created_at,required" format:"date-time"`
 	CreditBlock          CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditBlock `json:"credit_block,required"`
+	Currency             string                                                                      `json:"currency,required"`
 	Customer             CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomer    `json:"customer,required"`
 	Description          string                                                                      `json:"description,required,nullable"`
 	EndingBalance        float64                                                                     `json:"ending_balance,required"`
@@ -3722,6 +3777,7 @@ type customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON struct
 	Amount               apijson.Field
 	CreatedAt            apijson.Field
 	CreditBlock          apijson.Field
+	Currency             apijson.Field
 	Customer             apijson.Field
 	Description          apijson.Field
 	EndingBalance        apijson.Field
@@ -3801,7 +3857,8 @@ type CustomerCreditLedgerListParams struct {
 	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
 	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
 	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
-	Currency     param.Field[string]    `query:"currency"`
+	// The ledger currency or custom pricing unit to use.
+	Currency param.Field[string] `query:"currency"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor      param.Field[string]                                    `query:"cursor"`
@@ -3855,6 +3912,9 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// decrement, void, or undo operations.
 	Amount    param.Field[float64]                                                                               `json:"amount,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -3918,6 +3978,9 @@ type CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParam
 	// decrement, void, or undo operations.
 	Amount    param.Field[float64]                                                                               `json:"amount,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -3957,6 +4020,9 @@ type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryReque
 	// The ID of the block affected by an expiration_change, used to differentiate
 	// between multiple blocks with the same `expiry_date`.
 	BlockID param.Field[string] `json:"block_id"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -3988,6 +4054,9 @@ type CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParams str
 	// The ID of the block to void.
 	BlockID   param.Field[string]                                                                           `json:"block_id,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4028,6 +4097,9 @@ type CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParam
 	// The ID of the block to reverse a decrement from.
 	BlockID   param.Field[string]                                                                                `json:"block_id,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4067,6 +4139,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// decrement, void, or undo operations.
 	Amount    param.Field[float64]                                                                                           `json:"amount,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4130,6 +4205,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntry
 	// decrement, void, or undo operations.
 	Amount    param.Field[float64]                                                                                           `json:"amount,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4169,6 +4247,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedg
 	// The ID of the block affected by an expiration_change, used to differentiate
 	// between multiple blocks with the same `expiry_date`.
 	BlockID param.Field[string] `json:"block_id"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4200,6 +4281,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryReque
 	// The ID of the block to void.
 	BlockID   param.Field[string]                                                                                       `json:"block_id,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4240,6 +4324,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntry
 	// The ID of the block to reverse a decrement from.
 	BlockID   param.Field[string]                                                                                            `json:"block_id,required"`
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
+	// The currency or custom pricing unit to use for this ledger entry. If this is a
+	// real-world currency, it must match the customer's invoicing currency.
+	Currency param.Field[string] `json:"currency"`
 	// Optional metadata that can be specified when adding ledger results via the API.
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
@@ -4269,7 +4356,8 @@ type CustomerCreditLedgerListByExternalIDParams struct {
 	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
 	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
 	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
-	Currency     param.Field[string]    `query:"currency"`
+	// The ledger currency or custom pricing unit to use.
+	Currency param.Field[string] `query:"currency"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor      param.Field[string]                                                `query:"cursor"`
