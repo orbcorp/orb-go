@@ -224,6 +224,7 @@ type Customer struct {
 	//
 	// | Country              | Type         | Description                                                                                             |
 	// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 	// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 	// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 	// | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -415,6 +416,7 @@ func (r *CustomerShippingAddress) UnmarshalJSON(data []byte) (err error) {
 //
 // | Country              | Type         | Description                                                                                             |
 // | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 // | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 // | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 // | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -515,6 +517,7 @@ func (r *CustomerTaxID) UnmarshalJSON(data []byte) (err error) {
 type CustomerTaxIDCountry string
 
 const (
+	CustomerTaxIDCountryAd CustomerTaxIDCountry = "AD"
 	CustomerTaxIDCountryAe CustomerTaxIDCountry = "AE"
 	CustomerTaxIDCountryAt CustomerTaxIDCountry = "AT"
 	CustomerTaxIDCountryAu CustomerTaxIDCountry = "AU"
@@ -580,6 +583,7 @@ const (
 type CustomerTaxIDType string
 
 const (
+	CustomerTaxIDTypeAdNrt    CustomerTaxIDType = "ad_nrt"
 	CustomerTaxIDTypeAeTrn    CustomerTaxIDType = "ae_trn"
 	CustomerTaxIDTypeEuVat    CustomerTaxIDType = "eu_vat"
 	CustomerTaxIDTypeAuAbn    CustomerTaxIDType = "au_abn"
@@ -739,6 +743,7 @@ type CustomerNewParams struct {
 	//
 	// | Country              | Type         | Description                                                                                             |
 	// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 	// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 	// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 	// | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -899,6 +904,7 @@ func (r CustomerNewParamsShippingAddress) MarshalJSON() (data []byte, err error)
 //
 // | Country              | Type         | Description                                                                                             |
 // | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 // | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 // | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 // | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -989,6 +995,7 @@ func (r CustomerNewParamsTaxID) MarshalJSON() (data []byte, err error) {
 type CustomerNewParamsTaxIDCountry string
 
 const (
+	CustomerNewParamsTaxIDCountryAd CustomerNewParamsTaxIDCountry = "AD"
 	CustomerNewParamsTaxIDCountryAe CustomerNewParamsTaxIDCountry = "AE"
 	CustomerNewParamsTaxIDCountryAt CustomerNewParamsTaxIDCountry = "AT"
 	CustomerNewParamsTaxIDCountryAu CustomerNewParamsTaxIDCountry = "AU"
@@ -1054,6 +1061,7 @@ const (
 type CustomerNewParamsTaxIDType string
 
 const (
+	CustomerNewParamsTaxIDTypeAdNrt    CustomerNewParamsTaxIDType = "ad_nrt"
 	CustomerNewParamsTaxIDTypeAeTrn    CustomerNewParamsTaxIDType = "ae_trn"
 	CustomerNewParamsTaxIDTypeEuVat    CustomerNewParamsTaxIDType = "eu_vat"
 	CustomerNewParamsTaxIDTypeAuAbn    CustomerNewParamsTaxIDType = "au_abn"
@@ -1149,6 +1157,7 @@ type CustomerUpdateParams struct {
 	//
 	// | Country              | Type         | Description                                                                                             |
 	// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 	// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 	// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 	// | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -1309,6 +1318,7 @@ func (r CustomerUpdateParamsShippingAddress) MarshalJSON() (data []byte, err err
 //
 // | Country              | Type         | Description                                                                                             |
 // | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 // | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 // | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 // | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -1399,6 +1409,7 @@ func (r CustomerUpdateParamsTaxID) MarshalJSON() (data []byte, err error) {
 type CustomerUpdateParamsTaxIDCountry string
 
 const (
+	CustomerUpdateParamsTaxIDCountryAd CustomerUpdateParamsTaxIDCountry = "AD"
 	CustomerUpdateParamsTaxIDCountryAe CustomerUpdateParamsTaxIDCountry = "AE"
 	CustomerUpdateParamsTaxIDCountryAt CustomerUpdateParamsTaxIDCountry = "AT"
 	CustomerUpdateParamsTaxIDCountryAu CustomerUpdateParamsTaxIDCountry = "AU"
@@ -1464,6 +1475,7 @@ const (
 type CustomerUpdateParamsTaxIDType string
 
 const (
+	CustomerUpdateParamsTaxIDTypeAdNrt    CustomerUpdateParamsTaxIDType = "ad_nrt"
 	CustomerUpdateParamsTaxIDTypeAeTrn    CustomerUpdateParamsTaxIDType = "ae_trn"
 	CustomerUpdateParamsTaxIDTypeEuVat    CustomerUpdateParamsTaxIDType = "eu_vat"
 	CustomerUpdateParamsTaxIDTypeAuAbn    CustomerUpdateParamsTaxIDType = "au_abn"
@@ -1579,6 +1591,7 @@ type CustomerUpdateByExternalIDParams struct {
 	//
 	// | Country              | Type         | Description                                                                                             |
 	// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 	// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 	// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 	// | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -1739,6 +1752,7 @@ func (r CustomerUpdateByExternalIDParamsShippingAddress) MarshalJSON() (data []b
 //
 // | Country              | Type         | Description                                                                                             |
 // | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 // | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 // | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 // | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -1829,6 +1843,7 @@ func (r CustomerUpdateByExternalIDParamsTaxID) MarshalJSON() (data []byte, err e
 type CustomerUpdateByExternalIDParamsTaxIDCountry string
 
 const (
+	CustomerUpdateByExternalIDParamsTaxIDCountryAd CustomerUpdateByExternalIDParamsTaxIDCountry = "AD"
 	CustomerUpdateByExternalIDParamsTaxIDCountryAe CustomerUpdateByExternalIDParamsTaxIDCountry = "AE"
 	CustomerUpdateByExternalIDParamsTaxIDCountryAt CustomerUpdateByExternalIDParamsTaxIDCountry = "AT"
 	CustomerUpdateByExternalIDParamsTaxIDCountryAu CustomerUpdateByExternalIDParamsTaxIDCountry = "AU"
@@ -1894,6 +1909,7 @@ const (
 type CustomerUpdateByExternalIDParamsTaxIDType string
 
 const (
+	CustomerUpdateByExternalIDParamsTaxIDTypeAdNrt    CustomerUpdateByExternalIDParamsTaxIDType = "ad_nrt"
 	CustomerUpdateByExternalIDParamsTaxIDTypeAeTrn    CustomerUpdateByExternalIDParamsTaxIDType = "ae_trn"
 	CustomerUpdateByExternalIDParamsTaxIDTypeEuVat    CustomerUpdateByExternalIDParamsTaxIDType = "eu_vat"
 	CustomerUpdateByExternalIDParamsTaxIDTypeAuAbn    CustomerUpdateByExternalIDParamsTaxIDType = "au_abn"
