@@ -165,6 +165,7 @@ type Invoice struct {
 	//
 	// | Country              | Type         | Description                                                                                             |
 	// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 	// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 	// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 	// | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -573,6 +574,7 @@ const (
 //
 // | Country              | Type         | Description                                                                                             |
 // | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 // | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 // | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 // | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -674,6 +676,7 @@ func (r *InvoiceCustomerTaxID) UnmarshalJSON(data []byte) (err error) {
 type InvoiceCustomerTaxIDCountry string
 
 const (
+	InvoiceCustomerTaxIDCountryAd InvoiceCustomerTaxIDCountry = "AD"
 	InvoiceCustomerTaxIDCountryAe InvoiceCustomerTaxIDCountry = "AE"
 	InvoiceCustomerTaxIDCountryAt InvoiceCustomerTaxIDCountry = "AT"
 	InvoiceCustomerTaxIDCountryAu InvoiceCustomerTaxIDCountry = "AU"
@@ -739,6 +742,7 @@ const (
 type InvoiceCustomerTaxIDType string
 
 const (
+	InvoiceCustomerTaxIDTypeAdNrt    InvoiceCustomerTaxIDType = "ad_nrt"
 	InvoiceCustomerTaxIDTypeAeTrn    InvoiceCustomerTaxIDType = "ae_trn"
 	InvoiceCustomerTaxIDTypeEuVat    InvoiceCustomerTaxIDType = "eu_vat"
 	InvoiceCustomerTaxIDTypeAuAbn    InvoiceCustomerTaxIDType = "au_abn"
@@ -1521,6 +1525,7 @@ type InvoiceFetchUpcomingResponse struct {
 	//
 	// | Country              | Type         | Description                                                                                             |
 	// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 	// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 	// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 	// | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -1933,6 +1938,7 @@ const (
 //
 // | Country              | Type         | Description                                                                                             |
 // | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+// | Andorra              | `ad_nrt`     | Andorran NRT number                                                                                     |
 // | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
 // | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
 // | Austria              | `eu_vat`     | European VAT number                                                                                     |
@@ -2034,6 +2040,7 @@ func (r *InvoiceFetchUpcomingResponseCustomerTaxID) UnmarshalJSON(data []byte) (
 type InvoiceFetchUpcomingResponseCustomerTaxIDCountry string
 
 const (
+	InvoiceFetchUpcomingResponseCustomerTaxIDCountryAd InvoiceFetchUpcomingResponseCustomerTaxIDCountry = "AD"
 	InvoiceFetchUpcomingResponseCustomerTaxIDCountryAe InvoiceFetchUpcomingResponseCustomerTaxIDCountry = "AE"
 	InvoiceFetchUpcomingResponseCustomerTaxIDCountryAt InvoiceFetchUpcomingResponseCustomerTaxIDCountry = "AT"
 	InvoiceFetchUpcomingResponseCustomerTaxIDCountryAu InvoiceFetchUpcomingResponseCustomerTaxIDCountry = "AU"
@@ -2099,6 +2106,7 @@ const (
 type InvoiceFetchUpcomingResponseCustomerTaxIDType string
 
 const (
+	InvoiceFetchUpcomingResponseCustomerTaxIDTypeAdNrt    InvoiceFetchUpcomingResponseCustomerTaxIDType = "ad_nrt"
 	InvoiceFetchUpcomingResponseCustomerTaxIDTypeAeTrn    InvoiceFetchUpcomingResponseCustomerTaxIDType = "ae_trn"
 	InvoiceFetchUpcomingResponseCustomerTaxIDTypeEuVat    InvoiceFetchUpcomingResponseCustomerTaxIDType = "eu_vat"
 	InvoiceFetchUpcomingResponseCustomerTaxIDTypeAuAbn    InvoiceFetchUpcomingResponseCustomerTaxIDType = "au_abn"

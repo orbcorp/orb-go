@@ -129,6 +129,8 @@ func (r *CustomerCreditListByExternalIDResponse) UnmarshalJSON(data []byte) (err
 }
 
 type CustomerCreditListParams struct {
+	// The ledger currency or custom pricing unit to use.
+	Currency param.Field[string] `query:"currency"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`
@@ -146,6 +148,8 @@ func (r CustomerCreditListParams) URLQuery() (v url.Values) {
 }
 
 type CustomerCreditListByExternalIDParams struct {
+	// The ledger currency or custom pricing unit to use.
+	Currency param.Field[string] `query:"currency"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`

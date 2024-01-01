@@ -29,8 +29,9 @@ func TestCustomerCreditListWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"string",
 		orb.CustomerCreditListParams{
-			Cursor: orb.F("string"),
-			Limit:  orb.F(int64(0)),
+			Currency: orb.F("string"),
+			Cursor:   orb.F("string"),
+			Limit:    orb.F(int64(0)),
 		},
 	)
 	if err != nil {
@@ -58,8 +59,9 @@ func TestCustomerCreditListByExternalIDWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"string",
 		orb.CustomerCreditListByExternalIDParams{
-			Cursor: orb.F("string"),
-			Limit:  orb.F(int64(0)),
+			Currency: orb.F("string"),
+			Cursor:   orb.F("string"),
+			Limit:    orb.F(int64(0)),
 		},
 	)
 	if err != nil {

@@ -69,6 +69,7 @@ func TestCustomerCreditLedgerNewEntryWithOptionalParams(t *testing.T) {
 		orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParams{
 			Amount:        orb.F(0.000000),
 			EntryType:     orb.F(orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement),
+			Currency:      orb.F("string"),
 			Description:   orb.F("string"),
 			EffectiveDate: orb.F(time.Now()),
 			ExpiryDate:    orb.F(time.Now()),
@@ -110,6 +111,7 @@ func TestCustomerCreditLedgerNewEntryByExternalIDWithOptionalParams(t *testing.T
 		orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams{
 			Amount:        orb.F(0.000000),
 			EntryType:     orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement),
+			Currency:      orb.F("string"),
 			Description:   orb.F("string"),
 			EffectiveDate: orb.F(time.Now()),
 			ExpiryDate:    orb.F(time.Now()),
