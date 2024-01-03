@@ -30,7 +30,7 @@ func (r *PagePaginationMetadata) UnmarshalJSON(data []byte) (err error) {
 }
 
 type Page[T any] struct {
-	Data               []T                    `json:"data,required"`
+	Data               []T                    `json:"data"`
 	PaginationMetadata PagePaginationMetadata `json:"pagination_metadata,required"`
 	JSON               pageJSON               `json:"-"`
 	cfg                *requestconfig.RequestConfig
