@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.1 (2024-01-08)
+
+Full Changelog: [v0.11.0...v0.11.1](https://github.com/orbcorp/orb-go/compare/v0.11.0...v0.11.1)
+
+### Chores
+
+* **internal:** minor updates to pagination ([#50](https://github.com/orbcorp/orb-go/issues/50)) ([9df26bf](https://github.com/orbcorp/orb-go/commit/9df26bf86604a530c74de6c4363ff01bf33fdf55))
+
 ## 0.11.0 (2024-01-01)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/orbcorp/orb-go/compare/v0.10.0...v0.11.0)
