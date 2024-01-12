@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.12.0 (2024-01-12)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/orbcorp/orb-go/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **api:** add beta evaluate price endpoint ([#54](https://github.com/orbcorp/orb-go/issues/54)) ([725a916](https://github.com/orbcorp/orb-go/commit/725a9160f6ae76bb1ef3ed5912f969dd47aa1ee7))
+
+
+### Chores
+
+* add .keep files for examples and custom code directories ([#52](https://github.com/orbcorp/orb-go/issues/52)) ([cead4f2](https://github.com/orbcorp/orb-go/commit/cead4f2d8656de487ab6cae31434ca114ebf1547))
+* **internal:** minor updates to pagination ([#50](https://github.com/orbcorp/orb-go/issues/50)) ([9df26bf](https://github.com/orbcorp/orb-go/commit/9df26bf86604a530c74de6c4363ff01bf33fdf55))
+
+
+### Documentation
+
+* **readme:** improve api reference ([#53](https://github.com/orbcorp/orb-go/issues/53)) ([8f49f03](https://github.com/orbcorp/orb-go/commit/8f49f03d846a0b724baea013f8d415fac1affc54))
+
 ## 0.11.0 (2024-01-01)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/orbcorp/orb-go/compare/v0.10.0...v0.11.0)
