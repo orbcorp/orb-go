@@ -2453,8 +2453,6 @@ const (
 // [SubscriptionNewParamsPriceOverridesOverrideBpsPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideBulkBpsPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideBulkPrice],
-// [SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPrice],
-// [SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePrice],
 // [SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice],
 // [SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice],
@@ -3080,122 +3078,6 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "trial"
 	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "usage"
 	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "amount"
-)
-
-type SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPrice struct {
-	ID                       param.Field[string]                                                                      `json:"id,required"`
-	ModelType                param.Field[SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceModelType] `json:"model_type,required"`
-	TestRatingFunctionConfig param.Field[map[string]interface{}]                                                      `json:"test_rating_function_config,required"`
-	// The subscription's override discount for the plan.
-	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount] `json:"discount"`
-	// The starting quantity of the price, if the price is a fixed price.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The subscription's override maximum amount for the plan.
-	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's override minimum amount for the plan.
-	MinimumAmount param.Field[string] `json:"minimum_amount"`
-}
-
-func (r SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPrice) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPrice) implementsSubscriptionNewParamsPriceOverride() {
-}
-
-type SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceModelType string
-
-const (
-	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceModelTypeTestRatingFunction SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceModelType = "test_rating_function"
-)
-
-// The subscription's override discount for the plan.
-type SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount struct {
-	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType] `json:"discount_type,required"`
-	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
-	// Only available if discount_type is `usage`. Number of usage units that this
-	// discount is for
-	UsageDiscount param.Field[float64] `json:"usage_discount"`
-}
-
-func (r SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType string
-
-const (
-	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "percentage"
-	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "trial"
-	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "usage"
-	SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "amount"
-)
-
-type SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePrice struct {
-	ID                    param.Field[string]                                                                   `json:"id,required"`
-	FivetranExampleConfig param.Field[map[string]interface{}]                                                   `json:"fivetran_example_config,required"`
-	ModelType             param.Field[SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceModelType] `json:"model_type,required"`
-	// The subscription's override discount for the plan.
-	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscount] `json:"discount"`
-	// The starting quantity of the price, if the price is a fixed price.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The subscription's override maximum amount for the plan.
-	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's override minimum amount for the plan.
-	MinimumAmount param.Field[string] `json:"minimum_amount"`
-}
-
-func (r SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePrice) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePrice) implementsSubscriptionNewParamsPriceOverride() {
-}
-
-type SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceModelType string
-
-const (
-	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceModelTypeFivetranExample SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceModelType = "fivetran_example"
-)
-
-// The subscription's override discount for the plan.
-type SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscount struct {
-	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType] `json:"discount_type,required"`
-	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
-	// Only available if discount_type is `usage`. Number of usage units that this
-	// discount is for
-	UsageDiscount param.Field[float64] `json:"usage_discount"`
-}
-
-func (r SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscount) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType string
-
-const (
-	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "percentage"
-	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "trial"
-	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "usage"
-	SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "amount"
 )
 
 type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice struct {
@@ -4637,8 +4519,6 @@ const (
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPrice],
-// [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPrice],
-// [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPrice],
@@ -5264,122 +5144,6 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "trial"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "usage"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "amount"
-)
-
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPrice struct {
-	ID                       param.Field[string]                                                                                     `json:"id,required"`
-	ModelType                param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceModelType] `json:"model_type,required"`
-	TestRatingFunctionConfig param.Field[map[string]interface{}]                                                                     `json:"test_rating_function_config,required"`
-	// The subscription's override discount for the plan.
-	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount] `json:"discount"`
-	// The starting quantity of the price, if the price is a fixed price.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The subscription's override maximum amount for the plan.
-	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's override minimum amount for the plan.
-	MinimumAmount param.Field[string] `json:"minimum_amount"`
-}
-
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPrice) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
-}
-
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceModelType string
-
-const (
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceModelTypeTestRatingFunction SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceModelType = "test_rating_function"
-)
-
-// The subscription's override discount for the plan.
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount struct {
-	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType] `json:"discount_type,required"`
-	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
-	// Only available if discount_type is `usage`. Number of usage units that this
-	// discount is for
-	UsageDiscount param.Field[float64] `json:"usage_discount"`
-}
-
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscount) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType string
-
-const (
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "percentage"
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "trial"
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "usage"
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTestRatingFunctionPriceDiscountDiscountType = "amount"
-)
-
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePrice struct {
-	ID                    param.Field[string]                                                                                  `json:"id,required"`
-	FivetranExampleConfig param.Field[map[string]interface{}]                                                                  `json:"fivetran_example_config,required"`
-	ModelType             param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceModelType] `json:"model_type,required"`
-	// The subscription's override discount for the plan.
-	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscount] `json:"discount"`
-	// The starting quantity of the price, if the price is a fixed price.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The subscription's override maximum amount for the plan.
-	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's override minimum amount for the plan.
-	MinimumAmount param.Field[string] `json:"minimum_amount"`
-}
-
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePrice) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
-}
-
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceModelType string
-
-const (
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceModelTypeFivetranExample SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceModelType = "fivetran_example"
-)
-
-// The subscription's override discount for the plan.
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscount struct {
-	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType] `json:"discount_type,required"`
-	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
-	// Only available if discount_type is `usage`. Number of usage units that this
-	// discount is for
-	UsageDiscount param.Field[float64] `json:"usage_discount"`
-}
-
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscount) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType string
-
-const (
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "percentage"
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "trial"
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "usage"
-	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideFivetranExamplePriceDiscountDiscountType = "amount"
 )
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPrice struct {
