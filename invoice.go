@@ -218,7 +218,7 @@ type Invoice struct {
 	// | Netherlands          | `eu_vat`     | European VAT number                                                                                     |
 	// | New Zealand          | `nz_gst`     | New Zealand GST number                                                                                  |
 	// | Norway               | `no_vat`     | Norwegian VAT number                                                                                    |
-	// | Philippines          | `ph_tin   `  | Philippines Tax Identification Number                                                                   |
+	// | Philippines          | `ph_tin `    | Philippines Tax Identification Number                                                                   |
 	// | Poland               | `eu_vat`     | European VAT number                                                                                     |
 	// | Portugal             | `eu_vat`     | European VAT number                                                                                     |
 	// | Romania              | `eu_vat`     | European VAT number                                                                                     |
@@ -627,7 +627,7 @@ const (
 // | Netherlands          | `eu_vat`     | European VAT number                                                                                     |
 // | New Zealand          | `nz_gst`     | New Zealand GST number                                                                                  |
 // | Norway               | `no_vat`     | Norwegian VAT number                                                                                    |
-// | Philippines          | `ph_tin   `  | Philippines Tax Identification Number                                                                   |
+// | Philippines          | `ph_tin `    | Philippines Tax Identification Number                                                                   |
 // | Poland               | `eu_vat`     | European VAT number                                                                                     |
 // | Portugal             | `eu_vat`     | European VAT number                                                                                     |
 // | Romania              | `eu_vat`     | European VAT number                                                                                     |
@@ -1578,7 +1578,7 @@ type InvoiceFetchUpcomingResponse struct {
 	// | Netherlands          | `eu_vat`     | European VAT number                                                                                     |
 	// | New Zealand          | `nz_gst`     | New Zealand GST number                                                                                  |
 	// | Norway               | `no_vat`     | Norwegian VAT number                                                                                    |
-	// | Philippines          | `ph_tin   `  | Philippines Tax Identification Number                                                                   |
+	// | Philippines          | `ph_tin `    | Philippines Tax Identification Number                                                                   |
 	// | Poland               | `eu_vat`     | European VAT number                                                                                     |
 	// | Portugal             | `eu_vat`     | European VAT number                                                                                     |
 	// | Romania              | `eu_vat`     | European VAT number                                                                                     |
@@ -1991,7 +1991,7 @@ const (
 // | Netherlands          | `eu_vat`     | European VAT number                                                                                     |
 // | New Zealand          | `nz_gst`     | New Zealand GST number                                                                                  |
 // | Norway               | `no_vat`     | Norwegian VAT number                                                                                    |
-// | Philippines          | `ph_tin   `  | Philippines Tax Identification Number                                                                   |
+// | Philippines          | `ph_tin `    | Philippines Tax Identification Number                                                                   |
 // | Poland               | `eu_vat`     | European VAT number                                                                                     |
 // | Portugal             | `eu_vat`     | European VAT number                                                                                     |
 // | Romania              | `eu_vat`     | European VAT number                                                                                     |
