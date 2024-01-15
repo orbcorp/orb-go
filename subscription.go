@@ -2358,6 +2358,7 @@ func (r *SubscriptionFetchCostsResponseDataPerPriceCostsPriceGroup) UnmarshalJSO
 }
 
 type SubscriptionFetchScheduleResponse struct {
+	CreatedAt time.Time                             `json:"created_at,required" format:"date-time"`
 	EndDate   time.Time                             `json:"end_date,required,nullable" format:"date-time"`
 	Plan      SubscriptionFetchScheduleResponsePlan `json:"plan,required"`
 	StartDate time.Time                             `json:"start_date,required" format:"date-time"`
@@ -2367,6 +2368,7 @@ type SubscriptionFetchScheduleResponse struct {
 // subscriptionFetchScheduleResponseJSON contains the JSON metadata for the struct
 // [SubscriptionFetchScheduleResponse]
 type subscriptionFetchScheduleResponseJSON struct {
+	CreatedAt   apijson.Field
 	EndDate     apijson.Field
 	Plan        apijson.Field
 	StartDate   apijson.Field
