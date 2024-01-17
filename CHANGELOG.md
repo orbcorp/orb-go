@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.14.1 (2024-01-17)
+
+Full Changelog: [v0.14.0...v0.14.1](https://github.com/orbcorp/orb-go/compare/v0.14.0...v0.14.1)
+
+### Bug Fixes
+
+* **test:** avoid test failures when SKIP_MOCK_TESTS is not set ([#62](https://github.com/orbcorp/orb-go/issues/62)) ([191baab](https://github.com/orbcorp/orb-go/commit/191baab152ab720eebd5778a2ac8efa0e4f8cfbf))
+
+
+### Chores
+
+* **internal:** speculative retry-after-ms support ([#60](https://github.com/orbcorp/orb-go/issues/60)) ([c1d6958](https://github.com/orbcorp/orb-go/commit/c1d6958ed48e1cd1bbd1c766361693cd518a4855))
+
 ## 0.14.0 (2024-01-17)
 
 Full Changelog: [v0.13.0...v0.14.0](https://github.com/orbcorp/orb-go/compare/v0.13.0...v0.14.0)
