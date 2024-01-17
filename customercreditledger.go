@@ -3919,12 +3919,11 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// A future date (specified in YYYY-MM-DD format) that denotes when this credit
-	// balance should become available for use.
-	EffectiveDate param.Field[time.Time] `json:"effective_date" format:"date"`
-	// A future date (specified in YYYY-MM-DD format) that denotes when this credit
-	// balance should expire.
-	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date"`
+	// An ISO 8601 format date that denotes when this credit balance should become
+	// available for use.
+	EffectiveDate param.Field[time.Time] `json:"effective_date" format:"date-time"`
+	// An ISO 8601 format date that denotes when this credit balance should expire.
+	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date-time"`
 	// Passing `invoice_settings` automatically generates an invoice for the newly
 	// added credits. If `invoice_settings` is passed, you must specify
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
@@ -4007,9 +4006,8 @@ const (
 
 type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
-	// A future date (specified in YYYY-MM-DD format) that identifies the origination
-	// credit block to expire
-	ExpiryDate param.Field[time.Time] `json:"expiry_date,required" format:"date"`
+	// An ISO 8601 format date that identifies the origination credit block to expire
+	ExpiryDate param.Field[time.Time] `json:"expiry_date,required" format:"date-time"`
 	// A future date (specified in YYYY-MM-DD format) used for expiration change,
 	// denoting when credits transferred (as part of a partial block expiration) should
 	// expire.
@@ -4146,12 +4144,11 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
-	// A future date (specified in YYYY-MM-DD format) that denotes when this credit
-	// balance should become available for use.
-	EffectiveDate param.Field[time.Time] `json:"effective_date" format:"date"`
-	// A future date (specified in YYYY-MM-DD format) that denotes when this credit
-	// balance should expire.
-	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date"`
+	// An ISO 8601 format date that denotes when this credit balance should become
+	// available for use.
+	EffectiveDate param.Field[time.Time] `json:"effective_date" format:"date-time"`
+	// An ISO 8601 format date that denotes when this credit balance should expire.
+	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date-time"`
 	// Passing `invoice_settings` automatically generates an invoice for the newly
 	// added credits. If `invoice_settings` is passed, you must specify
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
@@ -4234,9 +4231,8 @@ const (
 
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
-	// A future date (specified in YYYY-MM-DD format) that identifies the origination
-	// credit block to expire
-	ExpiryDate param.Field[time.Time] `json:"expiry_date,required" format:"date"`
+	// An ISO 8601 format date that identifies the origination credit block to expire
+	ExpiryDate param.Field[time.Time] `json:"expiry_date,required" format:"date-time"`
 	// A future date (specified in YYYY-MM-DD format) used for expiration change,
 	// denoting when credits transferred (as part of a partial block expiration) should
 	// expire.
