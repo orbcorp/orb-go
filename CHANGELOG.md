@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.2 (2024-01-18)
+
+Full Changelog: [v0.14.1...v0.14.2](https://github.com/orbcorp/orb-go/compare/v0.14.1...v0.14.2)
+
+### Bug Fixes
+
+* **ci:** ignore stainless-app edits to release PR title ([#63](https://github.com/orbcorp/orb-go/issues/63)) ([a0c58ce](https://github.com/orbcorp/orb-go/commit/a0c58ceee640711d431b9a82c649417fc384d1af))
+
 ## 0.14.1 (2024-01-17)
 
 Full Changelog: [v0.14.0...v0.14.1](https://github.com/orbcorp/orb-go/compare/v0.14.0...v0.14.1)
