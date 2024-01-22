@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.0 (2024-01-22)
+
+Full Changelog: [v0.14.2...v0.15.0](https://github.com/orbcorp/orb-go/compare/v0.14.2...v0.15.0)
+
+### Features
+
+* **api:** introduce per-price cost v2, credit top-ups ([#65](https://github.com/orbcorp/orb-go/issues/65)) ([718e39d](https://github.com/orbcorp/orb-go/commit/718e39d321a574257a4ed660a25e469d5759ce04))
+
 ## 0.14.2 (2024-01-18)
 
 Full Changelog: [v0.14.1...v0.14.2](https://github.com/orbcorp/orb-go/compare/v0.14.1...v0.14.2)
