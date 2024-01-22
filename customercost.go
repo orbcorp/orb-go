@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"reflect"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -359,7 +360,17 @@ func (r *CustomerCostListResponseData) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCostListResponseDataPerPriceCost struct {
+// Union satisfied by [CustomerCostListResponseDataPerPriceCostsPerPriceCost] or
+// [CustomerCostListResponseDataPerPriceCostsPerPriceCostV2].
+type CustomerCostListResponseDataPerPriceCost interface {
+	implementsCustomerCostListResponseDataPerPriceCost()
+}
+
+func init() {
+	apijson.RegisterUnion(reflect.TypeOf((*CustomerCostListResponseDataPerPriceCost)(nil)).Elem(), "")
+}
+
+type CustomerCostListResponseDataPerPriceCostsPerPriceCost struct {
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -616,15 +627,15 @@ type CustomerCostListResponseDataPerPriceCost struct {
 	Total string `json:"total,required"`
 	// If a `group_by` attribute is passed in, array of costs per `grouping_key`,
 	// `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`.
-	PriceGroups []CustomerCostListResponseDataPerPriceCostsPriceGroup `json:"price_groups,nullable"`
+	PriceGroups []CustomerCostListResponseDataPerPriceCostsPerPriceCostPriceGroup `json:"price_groups,nullable"`
 	// The price's quantity for the timeframe
-	Quantity float64                                      `json:"quantity,nullable"`
-	JSON     customerCostListResponseDataPerPriceCostJSON `json:"-"`
+	Quantity float64                                                   `json:"quantity,nullable"`
+	JSON     customerCostListResponseDataPerPriceCostsPerPriceCostJSON `json:"-"`
 }
 
-// customerCostListResponseDataPerPriceCostJSON contains the JSON metadata for the
-// struct [CustomerCostListResponseDataPerPriceCost]
-type customerCostListResponseDataPerPriceCostJSON struct {
+// customerCostListResponseDataPerPriceCostsPerPriceCostJSON contains the JSON
+// metadata for the struct [CustomerCostListResponseDataPerPriceCostsPerPriceCost]
+type customerCostListResponseDataPerPriceCostsPerPriceCostJSON struct {
 	Price       apijson.Field
 	Subtotal    apijson.Field
 	Total       apijson.Field
@@ -634,11 +645,14 @@ type customerCostListResponseDataPerPriceCostJSON struct {
 	ExtraFields map[string]apijson.Field
 }
 
-func (r *CustomerCostListResponseDataPerPriceCost) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCostListResponseDataPerPriceCostsPerPriceCost) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCostListResponseDataPerPriceCostsPriceGroup struct {
+func (r CustomerCostListResponseDataPerPriceCostsPerPriceCost) implementsCustomerCostListResponseDataPerPriceCost() {
+}
+
+type CustomerCostListResponseDataPerPriceCostsPerPriceCostPriceGroup struct {
 	// Grouping key to break down a single price's costs
 	GroupingKey   string `json:"grouping_key,required"`
 	GroupingValue string `json:"grouping_value,required,nullable"`
@@ -647,13 +661,14 @@ type CustomerCostListResponseDataPerPriceCostsPriceGroup struct {
 	SecondaryGroupingValue string `json:"secondary_grouping_value,required,nullable"`
 	// Total costs for this group for the timeframe. Note that this does not account
 	// for any minimums or discounts.
-	Total string                                                  `json:"total,required"`
-	JSON  customerCostListResponseDataPerPriceCostsPriceGroupJSON `json:"-"`
+	Total string                                                              `json:"total,required"`
+	JSON  customerCostListResponseDataPerPriceCostsPerPriceCostPriceGroupJSON `json:"-"`
 }
 
-// customerCostListResponseDataPerPriceCostsPriceGroupJSON contains the JSON
-// metadata for the struct [CustomerCostListResponseDataPerPriceCostsPriceGroup]
-type customerCostListResponseDataPerPriceCostsPriceGroupJSON struct {
+// customerCostListResponseDataPerPriceCostsPerPriceCostPriceGroupJSON contains the
+// JSON metadata for the struct
+// [CustomerCostListResponseDataPerPriceCostsPerPriceCostPriceGroup]
+type customerCostListResponseDataPerPriceCostsPerPriceCostPriceGroupJSON struct {
 	GroupingKey            apijson.Field
 	GroupingValue          apijson.Field
 	SecondaryGroupingKey   apijson.Field
@@ -663,7 +678,320 @@ type customerCostListResponseDataPerPriceCostsPriceGroupJSON struct {
 	ExtraFields            map[string]apijson.Field
 }
 
-func (r *CustomerCostListResponseDataPerPriceCostsPriceGroup) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCostListResponseDataPerPriceCostsPerPriceCostPriceGroup) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CustomerCostListResponseDataPerPriceCostsPerPriceCostV2 struct {
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ### Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// Price's contributions for the timeframe, excluding any minimums and discounts.
+	Subtotal string `json:"subtotal,required"`
+	// Price's contributions for the timeframe, including minimums and discounts.
+	Total string `json:"total,required"`
+	// If a `group_by` attribute is passed in, array of costs per `grouping_key`,
+	// `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`.
+	PriceGroups []CustomerCostListResponseDataPerPriceCostsPerPriceCostV2PriceGroup `json:"price_groups,nullable"`
+	// The price's quantity for the timeframe
+	Quantity float64                                                     `json:"quantity,nullable"`
+	JSON     customerCostListResponseDataPerPriceCostsPerPriceCostV2JSON `json:"-"`
+}
+
+// customerCostListResponseDataPerPriceCostsPerPriceCostV2JSON contains the JSON
+// metadata for the struct
+// [CustomerCostListResponseDataPerPriceCostsPerPriceCostV2]
+type customerCostListResponseDataPerPriceCostsPerPriceCostV2JSON struct {
+	Price       apijson.Field
+	Subtotal    apijson.Field
+	Total       apijson.Field
+	PriceGroups apijson.Field
+	Quantity    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCostListResponseDataPerPriceCostsPerPriceCostV2) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r CustomerCostListResponseDataPerPriceCostsPerPriceCostV2) implementsCustomerCostListResponseDataPerPriceCost() {
+}
+
+type CustomerCostListResponseDataPerPriceCostsPerPriceCostV2PriceGroup struct {
+	// Grouping key to break down a single price's costs
+	GroupingKey   string `json:"grouping_key,required"`
+	GroupingValue string `json:"grouping_value,required,nullable"`
+	// If the price is a matrix price, this is the second dimension key
+	SecondaryGroupingKey   string `json:"secondary_grouping_key,required,nullable"`
+	SecondaryGroupingValue string `json:"secondary_grouping_value,required,nullable"`
+	// Total costs for this group for the timeframe. Note that this does not account
+	// for any minimums or discounts.
+	Total string                                                                `json:"total,required"`
+	JSON  customerCostListResponseDataPerPriceCostsPerPriceCostV2PriceGroupJSON `json:"-"`
+}
+
+// customerCostListResponseDataPerPriceCostsPerPriceCostV2PriceGroupJSON contains
+// the JSON metadata for the struct
+// [CustomerCostListResponseDataPerPriceCostsPerPriceCostV2PriceGroup]
+type customerCostListResponseDataPerPriceCostsPerPriceCostV2PriceGroupJSON struct {
+	GroupingKey            apijson.Field
+	GroupingValue          apijson.Field
+	SecondaryGroupingKey   apijson.Field
+	SecondaryGroupingValue apijson.Field
+	Total                  apijson.Field
+	raw                    string
+	ExtraFields            map[string]apijson.Field
+}
+
+func (r *CustomerCostListResponseDataPerPriceCostsPerPriceCostV2PriceGroup) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -711,7 +1039,18 @@ func (r *CustomerCostListByExternalIDResponseData) UnmarshalJSON(data []byte) (e
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
+// Union satisfied by
+// [CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCost] or
+// [CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2].
+type CustomerCostListByExternalIDResponseDataPerPriceCost interface {
+	implementsCustomerCostListByExternalIDResponseDataPerPriceCost()
+}
+
+func init() {
+	apijson.RegisterUnion(reflect.TypeOf((*CustomerCostListByExternalIDResponseDataPerPriceCost)(nil)).Elem(), "")
+}
+
+type CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCost struct {
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -968,15 +1307,16 @@ type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
 	Total string `json:"total,required"`
 	// If a `group_by` attribute is passed in, array of costs per `grouping_key`,
 	// `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`.
-	PriceGroups []CustomerCostListByExternalIDResponseDataPerPriceCostsPriceGroup `json:"price_groups,nullable"`
+	PriceGroups []CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostPriceGroup `json:"price_groups,nullable"`
 	// The price's quantity for the timeframe
-	Quantity float64                                                  `json:"quantity,nullable"`
-	JSON     customerCostListByExternalIDResponseDataPerPriceCostJSON `json:"-"`
+	Quantity float64                                                               `json:"quantity,nullable"`
+	JSON     customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostJSON `json:"-"`
 }
 
-// customerCostListByExternalIDResponseDataPerPriceCostJSON contains the JSON
-// metadata for the struct [CustomerCostListByExternalIDResponseDataPerPriceCost]
-type customerCostListByExternalIDResponseDataPerPriceCostJSON struct {
+// customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostJSON contains
+// the JSON metadata for the struct
+// [CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCost]
+type customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostJSON struct {
 	Price       apijson.Field
 	Subtotal    apijson.Field
 	Total       apijson.Field
@@ -986,11 +1326,14 @@ type customerCostListByExternalIDResponseDataPerPriceCostJSON struct {
 	ExtraFields map[string]apijson.Field
 }
 
-func (r *CustomerCostListByExternalIDResponseDataPerPriceCost) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCost) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type CustomerCostListByExternalIDResponseDataPerPriceCostsPriceGroup struct {
+func (r CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCost) implementsCustomerCostListByExternalIDResponseDataPerPriceCost() {
+}
+
+type CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostPriceGroup struct {
 	// Grouping key to break down a single price's costs
 	GroupingKey   string `json:"grouping_key,required"`
 	GroupingValue string `json:"grouping_value,required,nullable"`
@@ -999,14 +1342,14 @@ type CustomerCostListByExternalIDResponseDataPerPriceCostsPriceGroup struct {
 	SecondaryGroupingValue string `json:"secondary_grouping_value,required,nullable"`
 	// Total costs for this group for the timeframe. Note that this does not account
 	// for any minimums or discounts.
-	Total string                                                              `json:"total,required"`
-	JSON  customerCostListByExternalIDResponseDataPerPriceCostsPriceGroupJSON `json:"-"`
+	Total string                                                                          `json:"total,required"`
+	JSON  customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostPriceGroupJSON `json:"-"`
 }
 
-// customerCostListByExternalIDResponseDataPerPriceCostsPriceGroupJSON contains the
-// JSON metadata for the struct
-// [CustomerCostListByExternalIDResponseDataPerPriceCostsPriceGroup]
-type customerCostListByExternalIDResponseDataPerPriceCostsPriceGroupJSON struct {
+// customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostPriceGroupJSON
+// contains the JSON metadata for the struct
+// [CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostPriceGroup]
+type customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostPriceGroupJSON struct {
 	GroupingKey            apijson.Field
 	GroupingValue          apijson.Field
 	SecondaryGroupingKey   apijson.Field
@@ -1016,13 +1359,324 @@ type customerCostListByExternalIDResponseDataPerPriceCostsPriceGroupJSON struct 
 	ExtraFields            map[string]apijson.Field
 }
 
-func (r *CustomerCostListByExternalIDResponseDataPerPriceCostsPriceGroup) UnmarshalJSON(data []byte) (err error) {
+func (r *CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostPriceGroup) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2 struct {
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ### Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// Price's contributions for the timeframe, excluding any minimums and discounts.
+	Subtotal string `json:"subtotal,required"`
+	// Price's contributions for the timeframe, including minimums and discounts.
+	Total string `json:"total,required"`
+	// If a `group_by` attribute is passed in, array of costs per `grouping_key`,
+	// `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`.
+	PriceGroups []CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2PriceGroup `json:"price_groups,nullable"`
+	// The price's quantity for the timeframe
+	Quantity float64                                                                 `json:"quantity,nullable"`
+	JSON     customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2JSON `json:"-"`
+}
+
+// customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2JSON contains
+// the JSON metadata for the struct
+// [CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2]
+type customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2JSON struct {
+	Price       apijson.Field
+	Subtotal    apijson.Field
+	Total       apijson.Field
+	PriceGroups apijson.Field
+	Quantity    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2) implementsCustomerCostListByExternalIDResponseDataPerPriceCost() {
+}
+
+type CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2PriceGroup struct {
+	// Grouping key to break down a single price's costs
+	GroupingKey   string `json:"grouping_key,required"`
+	GroupingValue string `json:"grouping_value,required,nullable"`
+	// If the price is a matrix price, this is the second dimension key
+	SecondaryGroupingKey   string `json:"secondary_grouping_key,required,nullable"`
+	SecondaryGroupingValue string `json:"secondary_grouping_value,required,nullable"`
+	// Total costs for this group for the timeframe. Note that this does not account
+	// for any minimums or discounts.
+	Total string                                                                            `json:"total,required"`
+	JSON  customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2PriceGroupJSON `json:"-"`
+}
+
+// customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2PriceGroupJSON
+// contains the JSON metadata for the struct
+// [CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2PriceGroup]
+type customerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2PriceGroupJSON struct {
+	GroupingKey            apijson.Field
+	GroupingValue          apijson.Field
+	SecondaryGroupingKey   apijson.Field
+	SecondaryGroupingValue apijson.Field
+	Total                  apijson.Field
+	raw                    string
+	ExtraFields            map[string]apijson.Field
+}
+
+func (r *CustomerCostListByExternalIDResponseDataPerPriceCostsPerPriceCostV2PriceGroup) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
 type CustomerCostListParams struct {
-	// Groups per-price costs by the key provided.
-	GroupBy param.Field[string] `query:"group_by"`
 	// Costs returned are exclusive of `timeframe_end`.
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
 	// Costs returned are inclusive of `timeframe_start`.
@@ -1054,8 +1708,6 @@ const (
 )
 
 type CustomerCostListByExternalIDParams struct {
-	// Groups per-price costs by the key provided.
-	GroupBy param.Field[string] `query:"group_by"`
 	// Costs returned are exclusive of `timeframe_end`.
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
 	// Costs returned are inclusive of `timeframe_start`.

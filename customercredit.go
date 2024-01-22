@@ -24,6 +24,7 @@ import (
 type CustomerCreditService struct {
 	Options []option.RequestOption
 	Ledger  *CustomerCreditLedgerService
+	TopUps  *CustomerCreditTopUpService
 }
 
 // NewCustomerCreditService generates a new service that applies the given options
@@ -33,6 +34,7 @@ func NewCustomerCreditService(opts ...option.RequestOption) (r *CustomerCreditSe
 	r = &CustomerCreditService{}
 	r.Options = opts
 	r.Ledger = NewCustomerCreditLedgerService(opts...)
+	r.TopUps = NewCustomerCreditTopUpService(opts...)
 	return
 }
 

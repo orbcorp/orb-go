@@ -213,7 +213,6 @@ func TestSubscriptionFetchCostsWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"string",
 		orb.SubscriptionFetchCostsParams{
-			GroupBy:        orb.F("string"),
 			TimeframeEnd:   orb.F(time.Now()),
 			TimeframeStart: orb.F(time.Now()),
 			ViewMode:       orb.F(orb.SubscriptionFetchCostsParamsViewModePeriodic),
