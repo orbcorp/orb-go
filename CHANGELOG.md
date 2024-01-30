@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.17.0 (2024-01-30)
+
+Full Changelog: [v0.16.0...v0.17.0](https://github.com/orbcorp/orb-go/compare/v0.16.0...v0.17.0)
+
+### Features
+
+* **api:** price schema updates ([#70](https://github.com/orbcorp/orb-go/issues/70)) ([faaf9bc](https://github.com/orbcorp/orb-go/commit/faaf9bc254f2a12103b15a7632f885d48af31d5b))
+
 ## 0.16.0 (2024-01-30)
 
 Full Changelog: [v0.15.0...v0.16.0](https://github.com/orbcorp/orb-go/compare/v0.15.0...v0.16.0)
