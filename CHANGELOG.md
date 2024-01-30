@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.16.0 (2024-01-30)
+
+Full Changelog: [v0.15.0...v0.16.0](https://github.com/orbcorp/orb-go/compare/v0.15.0...v0.16.0)
+
+### Features
+
+* **api:** add `external_customer_id` ([#69](https://github.com/orbcorp/orb-go/issues/69)) ([f220ce4](https://github.com/orbcorp/orb-go/commit/f220ce44b0ecab7da0bd286a053fe05e11ef0173))
+
+
+### Chores
+
+* **internal:** parse date-time strings more leniently ([#67](https://github.com/orbcorp/orb-go/issues/67)) ([41e0d63](https://github.com/orbcorp/orb-go/commit/41e0d63fe5cda972c2db39b2c6ccd91d32fc1e66))
+
 ## 0.15.0 (2024-01-22)
 
 Full Changelog: [v0.14.2...v0.15.0](https://github.com/orbcorp/orb-go/compare/v0.14.2...v0.15.0)
