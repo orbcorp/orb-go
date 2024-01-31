@@ -409,18 +409,18 @@ func init() {
 		"type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"matrix\"",
 			Type:               reflect.TypeOf(InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem{}),
+			DiscriminatorValue: "matrix",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"tier\"",
 			Type:               reflect.TypeOf(InvoiceLineItemNewResponseSubLineItemsTierSubLineItem{}),
+			DiscriminatorValue: "tier",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"'null'\"",
 			Type:               reflect.TypeOf(InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem{}),
+			DiscriminatorValue: "'null'",
 		},
 	)
 }
