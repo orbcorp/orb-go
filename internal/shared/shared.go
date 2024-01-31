@@ -21,23 +21,23 @@ func init() {
 		"discount_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"percentage\"",
 			Type:               reflect.TypeOf(DiscountPercentageDiscount{}),
+			DiscriminatorValue: "percentage",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"trial\"",
 			Type:               reflect.TypeOf(DiscountTrialDiscount{}),
+			DiscriminatorValue: "trial",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"usage\"",
 			Type:               reflect.TypeOf(DiscountUsageDiscount{}),
+			DiscriminatorValue: "usage",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"amount\"",
 			Type:               reflect.TypeOf(DiscountAmountDiscount{}),
+			DiscriminatorValue: "amount",
 		},
 	)
 }

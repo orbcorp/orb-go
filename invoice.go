@@ -1161,18 +1161,18 @@ func init() {
 		"type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"matrix\"",
 			Type:               reflect.TypeOf(InvoiceLineItemsSubLineItemsMatrixSubLineItem{}),
+			DiscriminatorValue: "matrix",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"tier\"",
 			Type:               reflect.TypeOf(InvoiceLineItemsSubLineItemsTierSubLineItem{}),
+			DiscriminatorValue: "tier",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"'null'\"",
 			Type:               reflect.TypeOf(InvoiceLineItemsSubLineItemsOtherSubLineItem{}),
+			DiscriminatorValue: "'null'",
 		},
 	)
 }
@@ -2527,18 +2527,18 @@ func init() {
 		"type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"matrix\"",
 			Type:               reflect.TypeOf(InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItem{}),
+			DiscriminatorValue: "matrix",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"tier\"",
 			Type:               reflect.TypeOf(InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItem{}),
+			DiscriminatorValue: "tier",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"'null'\"",
 			Type:               reflect.TypeOf(InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItem{}),
+			DiscriminatorValue: "'null'",
 		},
 	)
 }

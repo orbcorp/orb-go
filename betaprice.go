@@ -97,24 +97,20 @@ func init() {
 		reflect.TypeOf((*EvaluatePriceGroupGroupingValue)(nil)).Elem(),
 		"",
 		apijson.UnionVariant{
-			TypeFilter:         gjson.String,
-			DiscriminatorValue: "",
-			Type:               reflect.TypeOf(shared.UnionString("")),
+			TypeFilter: gjson.String,
+			Type:       reflect.TypeOf(shared.UnionString("")),
 		},
 		apijson.UnionVariant{
-			TypeFilter:         gjson.Number,
-			DiscriminatorValue: "",
-			Type:               reflect.TypeOf(shared.UnionFloat(0)),
+			TypeFilter: gjson.Number,
+			Type:       reflect.TypeOf(shared.UnionFloat(0)),
 		},
 		apijson.UnionVariant{
-			TypeFilter:         gjson.True,
-			DiscriminatorValue: "",
-			Type:               reflect.TypeOf(shared.UnionBool(false)),
+			TypeFilter: gjson.True,
+			Type:       reflect.TypeOf(shared.UnionBool(false)),
 		},
 		apijson.UnionVariant{
-			TypeFilter:         gjson.False,
-			DiscriminatorValue: "",
-			Type:               reflect.TypeOf(shared.UnionBool(false)),
+			TypeFilter: gjson.False,
+			Type:       reflect.TypeOf(shared.UnionBool(false)),
 		},
 	)
 }
