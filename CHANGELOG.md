@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.17.1 (2024-01-31)
+
+Full Changelog: [v0.17.0...v0.17.1](https://github.com/orbcorp/orb-go/compare/v0.17.0...v0.17.1)
+
+### Bug Fixes
+
+* properly register discriminated unions ([#74](https://github.com/orbcorp/orb-go/issues/74)) ([adaf56d](https://github.com/orbcorp/orb-go/commit/adaf56dcc7dc9a986ad2b7c79a7e034b5902ee9d))
+
+
+### Chores
+
+* **internal:** support pre-release versioning ([#72](https://github.com/orbcorp/orb-go/issues/72)) ([7d2a140](https://github.com/orbcorp/orb-go/commit/7d2a140b0bc8ee0cb1bd71e255a0b3653e391975))
+
 ## 0.17.0 (2024-01-30)
 
 Full Changelog: [v0.16.0...v0.17.0](https://github.com/orbcorp/orb-go/compare/v0.16.0...v0.17.0)
