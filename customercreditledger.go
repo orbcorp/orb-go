@@ -667,38 +667,38 @@ func init() {
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"increment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListResponseIncrementLedgerEntry{}),
+			DiscriminatorValue: "increment",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"decrement\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListResponseDecrementLedgerEntry{}),
+			DiscriminatorValue: "decrement",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"expiration_change\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListResponseExpirationChangeLedgerEntry{}),
+			DiscriminatorValue: "expiration_change",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"credit_block_expiry\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry{}),
+			DiscriminatorValue: "credit_block_expiry",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListResponseVoidLedgerEntry{}),
+			DiscriminatorValue: "void",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void_initiated\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry{}),
+			DiscriminatorValue: "void_initiated",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"amendment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListResponseAmendmentLedgerEntry{}),
+			DiscriminatorValue: "amendment",
 		},
 	)
 }
@@ -1465,38 +1465,38 @@ func init() {
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"increment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry{}),
+			DiscriminatorValue: "increment",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"decrement\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry{}),
+			DiscriminatorValue: "decrement",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"expiration_change\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry{}),
+			DiscriminatorValue: "expiration_change",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"credit_block_expiry\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry{}),
+			DiscriminatorValue: "credit_block_expiry",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryResponseVoidLedgerEntry{}),
+			DiscriminatorValue: "void",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void_initiated\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry{}),
+			DiscriminatorValue: "void_initiated",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"amendment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry{}),
+			DiscriminatorValue: "amendment",
 		},
 	)
 }
@@ -2267,38 +2267,38 @@ func init() {
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"increment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry{}),
+			DiscriminatorValue: "increment",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"decrement\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry{}),
+			DiscriminatorValue: "decrement",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"expiration_change\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry{}),
+			DiscriminatorValue: "expiration_change",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"credit_block_expiry\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry{}),
+			DiscriminatorValue: "credit_block_expiry",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry{}),
+			DiscriminatorValue: "void",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void_initiated\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry{}),
+			DiscriminatorValue: "void_initiated",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"amendment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry{}),
+			DiscriminatorValue: "amendment",
 		},
 	)
 }
@@ -3070,38 +3070,38 @@ func init() {
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"increment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry{}),
+			DiscriminatorValue: "increment",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"decrement\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry{}),
+			DiscriminatorValue: "decrement",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"expiration_change\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry{}),
+			DiscriminatorValue: "expiration_change",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"credit_block_expiry\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry{}),
+			DiscriminatorValue: "credit_block_expiry",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry{}),
+			DiscriminatorValue: "void",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"void_initiated\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry{}),
+			DiscriminatorValue: "void_initiated",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"amendment\"",
 			Type:               reflect.TypeOf(CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry{}),
+			DiscriminatorValue: "amendment",
 		},
 	)
 }

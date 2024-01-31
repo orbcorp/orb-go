@@ -352,63 +352,63 @@ func init() {
 		"model_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"unit\"",
 			Type:               reflect.TypeOf(PriceUnitPrice{}),
+			DiscriminatorValue: "unit",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"package\"",
 			Type:               reflect.TypeOf(PricePackagePrice{}),
+			DiscriminatorValue: "package",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"matrix\"",
 			Type:               reflect.TypeOf(PriceMatrixPrice{}),
+			DiscriminatorValue: "matrix",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"tiered\"",
 			Type:               reflect.TypeOf(PriceTieredPrice{}),
+			DiscriminatorValue: "tiered",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"tiered_bps\"",
 			Type:               reflect.TypeOf(PriceTieredBpsPrice{}),
+			DiscriminatorValue: "tiered_bps",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"bps\"",
 			Type:               reflect.TypeOf(PriceBpsPrice{}),
+			DiscriminatorValue: "bps",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"bulk_bps\"",
 			Type:               reflect.TypeOf(PriceBulkBpsPrice{}),
+			DiscriminatorValue: "bulk_bps",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"bulk\"",
 			Type:               reflect.TypeOf(PriceBulkPrice{}),
+			DiscriminatorValue: "bulk",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"threshold_total_amount\"",
 			Type:               reflect.TypeOf(PriceThresholdTotalAmountPrice{}),
+			DiscriminatorValue: "threshold_total_amount",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"tiered_package\"",
 			Type:               reflect.TypeOf(PriceTieredPackagePrice{}),
+			DiscriminatorValue: "tiered_package",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"tiered_with_minimum\"",
 			Type:               reflect.TypeOf(PriceTieredWithMinimumPrice{}),
+			DiscriminatorValue: "tiered_with_minimum",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			DiscriminatorValue: "\"package_with_allocation\"",
 			Type:               reflect.TypeOf(PricePackageWithAllocationPrice{}),
+			DiscriminatorValue: "package_with_allocation",
 		},
 	)
 }
