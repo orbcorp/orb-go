@@ -159,6 +159,7 @@ type Plan struct {
 	Product     PlanProduct     `json:"product,required"`
 	Status      PlanStatus      `json:"status,required"`
 	TrialConfig PlanTrialConfig `json:"trial_config,required"`
+	Version     int64           `json:"version,required"`
 	JSON        planJSON        `json:"-"`
 }
 
@@ -186,6 +187,7 @@ type planJSON struct {
 	Product            apijson.Field
 	Status             apijson.Field
 	TrialConfig        apijson.Field
+	Version            apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
