@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.18.0 (2024-02-01)
+
+Full Changelog: [v0.17.1...v0.18.0](https://github.com/orbcorp/orb-go/compare/v0.17.1...v0.18.0)
+
+### Features
+
+* **api:** add `version` to plan ([#75](https://github.com/orbcorp/orb-go/issues/75)) ([d3ff4de](https://github.com/orbcorp/orb-go/commit/d3ff4de20191cb973137fbffffa85b872f652644))
+
 ## 0.17.1 (2024-01-31)
 
 Full Changelog: [v0.17.0...v0.17.1](https://github.com/orbcorp/orb-go/compare/v0.17.0...v0.17.1)
