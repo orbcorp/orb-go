@@ -3,7 +3,7 @@
 <a href="https://pkg.go.dev/github.com/orbcorp/orb-go"><img src="https://pkg.go.dev/badge/github.com/orbcorp/orb-go.svg" alt="Go Reference"></a>
 
 The Orb Go library provides convenient access to [the Orb REST
-API](https://docs.withorb.com/reference/api-reference) from applications written in Go. The full API of this library can be found in [api.md](https://www.github.com/orbcorp/orb-go/blob/main/api.md).
+API](https://docs.withorb.com/reference/api-reference) from applications written in Go. The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -33,7 +33,7 @@ This library requires Go 1.18+.
 
 ## Usage
 
-The full API of this library can be found in [api.md](https://www.github.com/orbcorp/orb-go/blob/main/api.md).
+The full API of this library can be found in [api.md](api.md).
 
 ```go
 package main
