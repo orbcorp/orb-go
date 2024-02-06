@@ -48,18 +48,16 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 //
 //   - decrease historical usage consumption because of degraded service availability
 //     in your systems
-//
 //   - account for gaps from your usage reporting mechanism
-//
 //   - make point-in-time fixes for specific event records, while retaining the
 //     original time of usage and associated metadata. This amendment API is designed
 //     with two explicit goals:
 //
-//     1. Amendments are **always audit-safe**. The amendment process will still retain
+//  1. Amendments are **always audit-safe**. The amendment process will still retain
 //     original events in the timeframe, though they will be ignored for billing
 //     calculations. For auditing a nd data fidelity purposes, Orb never overwrites
 //     or permanently deletes ingested usage data.
-//     2. Amendments always preserve data **consistency**. In other words, either an
+//  2. Amendments always preserve data **consistency**. In other words, either an
 //     amendment is fully processed by the system (and the new events for the
 //     timeframe are honored rather than the existing ones) or the amendment request
 //     fails. To maintain this important property, Orb prevents _partial event
@@ -111,7 +109,6 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 //   - The `timestamp` of each event reported must fall within the bounds of
 //     `timeframe_start` and `timeframe_end`. As with ingestion, all timesta mps must
 //     be sent in ISO8601 format with UTC timezone offset.
-//
 //   - Orb **does not accept an `idempotency_key`** with each event in this endpoint,
 //     since the entirety of the event list must be ingested to ensure consistency.
 //     On retryable errors , you should retry the request in its entirety, and assume
@@ -156,18 +153,16 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 //
 //   - decrease historical usage consumption because of degraded service availability
 //     in your systems
-//
 //   - account for gaps from your usage reporting mechanism
-//
 //   - make point-in-time fixes for specific event records, while retaining the
 //     original time of usage and associated metadata. This amendment API is designed
 //     with two explicit goals:
 //
-//     1. Amendments are **always audit-safe**. The amendment process will still retain
+//  1. Amendments are **always audit-safe**. The amendment process will still retain
 //     original events in the timeframe, though they will be ignored for billing
 //     calculations. For auditing a nd data fidelity purposes, Orb never overwrites
 //     or permanently deletes ingested usage data.
-//     2. Amendments always preserve data **consistency**. In other words, either an
+//  2. Amendments always preserve data **consistency**. In other words, either an
 //     amendment is fully processed by the system (and the new events for the
 //     timeframe are honored rather than the existing ones) or the amendment request
 //     fails. To maintain this important property, Orb prevents _partial event
@@ -219,7 +214,6 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 //   - The `timestamp` of each event reported must fall within the bounds of
 //     `timeframe_start` and `timeframe_end`. As with ingestion, all timesta mps must
 //     be sent in ISO8601 format with UTC timezone offset.
-//
 //   - Orb **does not accept an `idempotency_key`** with each event in this endpoint,
 //     since the entirety of the event list must be ingested to ensure consistency.
 //     On retryable errors , you should retry the request in its entirety, and assume

@@ -9,8 +9,9 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-// Union satisfied by [DiscountPercentageDiscount], [DiscountTrialDiscount],
-// [DiscountUsageDiscount] or [DiscountAmountDiscount].
+// Union satisfied by [shared.DiscountPercentageDiscount],
+// [shared.DiscountTrialDiscount], [shared.DiscountUsageDiscount] or
+// [shared.DiscountAmountDiscount].
 type Discount interface {
 	implementsSharedDiscount()
 }
