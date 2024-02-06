@@ -2,7 +2,9 @@
 
 package shared
 
-import "time"
+import (
+	"time"
+)
 
 type UnionTime time.Time
 
