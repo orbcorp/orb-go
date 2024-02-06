@@ -41,6 +41,7 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/option"
 )
