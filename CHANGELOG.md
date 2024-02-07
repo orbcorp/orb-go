@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.18.1 (2024-02-07)
+
+Full Changelog: [v0.18.0...v0.18.1](https://github.com/orbcorp/orb-go/compare/v0.18.0...v0.18.1)
+
+### Bug Fixes
+
+* change status serialization behavior ([#80](https://github.com/orbcorp/orb-go/issues/80)) ([3d52b74](https://github.com/orbcorp/orb-go/commit/3d52b741f0b97bdac1f438954d5d1aa1ec6499f2))
+
+
+### Chores
+
+* **interal:** make link to api.md relative ([#77](https://github.com/orbcorp/orb-go/issues/77)) ([14c8dad](https://github.com/orbcorp/orb-go/commit/14c8dad60679a5dabc7b3f63f1da9d06c127d57f))
+* **internal:** adjust formatting ([#79](https://github.com/orbcorp/orb-go/issues/79)) ([1abb53e](https://github.com/orbcorp/orb-go/commit/1abb53e52f6c480b4161cc775f65842077130ef9))
+
 ## 0.18.0 (2024-02-01)
 
 Full Changelog: [v0.17.1...v0.18.0](https://github.com/orbcorp/orb-go/compare/v0.17.1...v0.18.0)
