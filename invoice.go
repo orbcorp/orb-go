@@ -2967,7 +2967,7 @@ type InvoiceListParams struct {
 	IsRecurring        param.Field[bool]                      `query:"is_recurring"`
 	// The number of items to fetch. Defaults to 20.
 	Limit          param.Field[int64]                     `query:"limit"`
-	Status         param.Field[[]InvoiceListParamsStatus] `query:"status[]"`
+	Status         param.Field[[]InvoiceListParamsStatus] `query:"status"`
 	SubscriptionID param.Field[string]                    `query:"subscription_id"`
 }
 
