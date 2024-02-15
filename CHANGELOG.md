@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.0.1 (2024-02-15)
+
+Full Changelog: [...abc-v0.0.1](https://github.com/orbcorp/orb-go/compare/...abc-v0.0.1)
+
+### Features
+
+* **api:** add `external_customer_id` ([#69](https://github.com/orbcorp/orb-go/issues/69)) ([c6291e7](https://github.com/orbcorp/orb-go/commit/c6291e72513f02fc0c96896efb769301f431b385))
+* **api:** add `version` to plan ([#75](https://github.com/orbcorp/orb-go/issues/75)) ([c34137d](https://github.com/orbcorp/orb-go/commit/c34137df0ca31411d51ebd772c7deca8cfb8e6c0))
+* **api:** add beta evaluate price endpoint ([#54](https://github.com/orbcorp/orb-go/issues/54)) ([b9dfffe](https://github.com/orbcorp/orb-go/commit/b9dfffe57eaba2d7e7614704c7307f2e8399504a))
+* **api:** add currency fields ([#48](https://github.com/orbcorp/orb-go/issues/48)) ([e9b9331](https://github.com/orbcorp/orb-go/commit/e9b933140182f1a6959f8dbb829831723b40b2ad))
+* **api:** introduce per-price cost v2, credit top-ups ([#65](https://github.com/orbcorp/orb-go/issues/65)) ([06c0941](https://github.com/orbcorp/orb-go/commit/06c09411f71b3ef7922bfe9c18018d99d2860c02))
+* **api:** price schema updates ([#70](https://github.com/orbcorp/orb-go/issues/70)) ([de8e0b2](https://github.com/orbcorp/orb-go/commit/de8e0b25713a4299b202d39311b45aa28ca689c0))
+* **api:** remove unsupported field ([#38](https://github.com/orbcorp/orb-go/issues/38)) ([30f2e9c](https://github.com/orbcorp/orb-go/commit/30f2e9c93d7bbbe315cf599f9abc0c54c84bc311))
+* **api:** remove unsupported params ([#21](https://github.com/orbcorp/orb-go/issues/21)) ([871d9dc](https://github.com/orbcorp/orb-go/commit/871d9dc16fbdd8d810b652d6a483f689d7c33ba1))
+* **api:** updates ([#24](https://github.com/orbcorp/orb-go/issues/24)) ([a51a4a1](https://github.com/orbcorp/orb-go/commit/a51a4a166b3382ef9f23c836d4da1a579b653303))
+* **api:** updates ([#28](https://github.com/orbcorp/orb-go/issues/28)) ([91641a7](https://github.com/orbcorp/orb-go/commit/91641a7980728fa16b27be17b994e497d7b83da2))
+* **api:** updates ([#34](https://github.com/orbcorp/orb-go/issues/34)) ([0827662](https://github.com/orbcorp/orb-go/commit/08276624382966ef154ee19ca8d4a7525b2ea9a7))
+* **api:** updates ([#39](https://github.com/orbcorp/orb-go/issues/39)) ([65af26c](https://github.com/orbcorp/orb-go/commit/65af26c46122a4960fe1ea1ee5095f32a175af0a))
+* **api:** updates ([#57](https://github.com/orbcorp/orb-go/issues/57)) ([26324dc](https://github.com/orbcorp/orb-go/commit/26324dcca3d2b191246eb6bc10ec4bf6a5dcbf27))
+* **api:** updates ([#58](https://github.com/orbcorp/orb-go/issues/58)) ([5babc2d](https://github.com/orbcorp/orb-go/commit/5babc2da21302b416861aeb00e2edb04a1853ad1))
+* **api:** updates ([#6](https://github.com/orbcorp/orb-go/issues/6)) ([018f7b6](https://github.com/orbcorp/orb-go/commit/018f7b67a08e74d64f37c4a17f6ab23efc85f35f))
+* **api:** updates ([#9](https://github.com/orbcorp/orb-go/issues/9)) ([7909ee5](https://github.com/orbcorp/orb-go/commit/7909ee53faad9187c9aee6a61209f562fb84ba44))
+* **client:** adjust retry behavior ([#3](https://github.com/orbcorp/orb-go/issues/3)) ([689fc35](https://github.com/orbcorp/orb-go/commit/689fc35ca3fb7daf35570aaf8f2cf22aa282969c))
+* **client:** allow binary returns ([#19](https://github.com/orbcorp/orb-go/issues/19)) ([b65919b](https://github.com/orbcorp/orb-go/commit/b65919b7a3a1f27302fa8badd9c6e869a3820293))
+* **github:** include a devcontainer setup ([#18](https://github.com/orbcorp/orb-go/issues/18)) ([87c093b](https://github.com/orbcorp/orb-go/commit/87c093bcce0fb62effbc1c23cc832b9000e76db5))
+* **init:** initial commit ([a6b37c9](https://github.com/orbcorp/orb-go/commit/a6b37c951e4d9607aad5f4b1bab7a3711dcc7805))
+* **internal:** fallback to json serialization if no serialization methods are defined ([#41](https://github.com/orbcorp/orb-go/issues/41)) ([64281ba](https://github.com/orbcorp/orb-go/commit/64281bafb6199f9031296240255d93846b476e66))
+* type alias enum values from shared in package root ([#16](https://github.com/orbcorp/orb-go/issues/16)) ([6a4efe0](https://github.com/orbcorp/orb-go/commit/6a4efe07b8ae1359432e310c03d40faaefb9daf6))
+
+
+### Bug Fixes
+
+* change status serialization behavior ([#80](https://github.com/orbcorp/orb-go/issues/80)) ([80b4475](https://github.com/orbcorp/orb-go/commit/80b447548e3e58a7a11878f9f9e61b963d99b593))
+* **ci:** ignore stainless-app edits to release PR title ([#63](https://github.com/orbcorp/orb-go/issues/63)) ([881023f](https://github.com/orbcorp/orb-go/commit/881023ff945df58f365e5b733cb2c6d3cb3d747b))
+* make options.WithHeader utils case-insensitive ([#22](https://github.com/orbcorp/orb-go/issues/22)) ([d7b32ac](https://github.com/orbcorp/orb-go/commit/d7b32ac3e3b2ffe9e5cb22ab8f69071e8c2aaefd))
+* properly register discriminated unions ([#74](https://github.com/orbcorp/orb-go/issues/74)) ([9a856b6](https://github.com/orbcorp/orb-go/commit/9a856b6969f493dd883a5ac2530e040d8d03c552))
+* rename customer.credits.ledger.create_entry_by_exteral_id and RequestValidationErrors ([#7](https://github.com/orbcorp/orb-go/issues/7)) ([5b1636b](https://github.com/orbcorp/orb-go/commit/5b1636ba1e476aa887d37a22a617e0d710afaabc))
+* stop sending default idempotency headers with GET requests ([#31](https://github.com/orbcorp/orb-go/issues/31)) ([9f902fc](https://github.com/orbcorp/orb-go/commit/9f902fc2d552e8c27a0f03410105c5a386d72a52))
+* **test:** avoid test failures when SKIP_MOCK_TESTS is not set ([#62](https://github.com/orbcorp/orb-go/issues/62)) ([bf5735b](https://github.com/orbcorp/orb-go/commit/bf5735bcebfa90371a8a72f13a1a1a53ecc58758))
+* use brackets instead of commas for array query params ([#47](https://github.com/orbcorp/orb-go/issues/47)) ([dda3342](https://github.com/orbcorp/orb-go/commit/dda334237db8a99bc3bf05b98d488a57770e8a3d))
+
 ## 0.18.1 (2024-02-07)
 
 Full Changelog: [v0.18.0...v0.18.1](https://github.com/orbcorp/orb-go/compare/v0.18.0...v0.18.1)
