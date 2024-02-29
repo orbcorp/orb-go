@@ -154,7 +154,7 @@ client.Customers.New(context.TODO(), ...,
 )
 ```
 
-The full list of request options is [here](https://pkg.go.dev/github.com/orbcorp/orb-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/orbcorp/orb-go/option).
 
 ### Pagination
 
