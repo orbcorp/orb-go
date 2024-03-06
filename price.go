@@ -463,6 +463,10 @@ func (r *PriceUnitPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceUnitPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceUnitPrice) implementsPrice() {}
 
 type PriceUnitPriceBillableMetric struct {
@@ -480,6 +484,10 @@ type priceUnitPriceBillableMetricJSON struct {
 
 func (r *PriceUnitPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceUnitPriceCadence string
@@ -510,6 +518,10 @@ func (r *PriceUnitPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceUnitPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceUnitPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -532,6 +544,10 @@ func (r *PriceUnitPriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceUnitPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceUnitPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -552,6 +568,10 @@ type priceUnitPriceMinimumJSON struct {
 
 func (r *PriceUnitPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceUnitPriceModelType string
@@ -586,6 +606,10 @@ type priceUnitPriceUnitConfigJSON struct {
 
 func (r *PriceUnitPriceUnitConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitPriceUnitConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type PricePackagePrice struct {
@@ -639,6 +663,10 @@ func (r *PricePackagePrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r pricePackagePriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PricePackagePrice) implementsPrice() {}
 
 type PricePackagePriceBillableMetric struct {
@@ -656,6 +684,10 @@ type pricePackagePriceBillableMetricJSON struct {
 
 func (r *PricePackagePriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackagePriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PricePackagePriceCadence string
@@ -686,6 +718,10 @@ func (r *PricePackagePriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r pricePackagePriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PricePackagePriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -708,6 +744,10 @@ func (r *PricePackagePriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r pricePackagePriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PricePackagePriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -728,6 +768,10 @@ type pricePackagePriceMinimumJSON struct {
 
 func (r *PricePackagePriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackagePriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PricePackagePriceModelType string
@@ -756,6 +800,10 @@ type pricePackagePricePackageConfigJSON struct {
 
 func (r *PricePackagePricePackageConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackagePricePackageConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type PricePackagePricePriceType string
@@ -816,6 +864,10 @@ func (r *PriceMatrixPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceMatrixPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceMatrixPrice) implementsPrice() {}
 
 type PriceMatrixPriceBillableMetric struct {
@@ -833,6 +885,10 @@ type priceMatrixPriceBillableMetricJSON struct {
 
 func (r *PriceMatrixPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceMatrixPriceCadence string
@@ -863,6 +919,10 @@ func (r *PriceMatrixPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceMatrixPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMatrixPriceMatrixConfig struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
 	DefaultUnitAmount string `json:"default_unit_amount,required"`
@@ -891,6 +951,10 @@ func (r *PriceMatrixPriceMatrixConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceMatrixPriceMatrixConfigJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMatrixPriceMatrixConfigMatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by. For example,
 	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
@@ -917,6 +981,10 @@ func (r *PriceMatrixPriceMatrixConfigMatrixValue) UnmarshalJSON(data []byte) (er
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceMatrixPriceMatrixConfigMatrixValueJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMatrixPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -939,6 +1007,10 @@ func (r *PriceMatrixPriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceMatrixPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceMatrixPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -959,6 +1031,10 @@ type priceMatrixPriceMinimumJSON struct {
 
 func (r *PriceMatrixPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceMatrixPriceModelType string
@@ -1025,6 +1101,10 @@ func (r *PriceTieredPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceTieredPrice) implementsPrice() {}
 
 type PriceTieredPriceBillableMetric struct {
@@ -1042,6 +1122,10 @@ type priceTieredPriceBillableMetricJSON struct {
 
 func (r *PriceTieredPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredPriceCadence string
@@ -1072,6 +1156,10 @@ func (r *PriceTieredPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1094,6 +1182,10 @@ func (r *PriceTieredPriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -1114,6 +1206,10 @@ type priceTieredPriceMinimumJSON struct {
 
 func (r *PriceTieredPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredPriceModelType string
@@ -1147,6 +1243,10 @@ func (r *PriceTieredPriceTieredConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredPriceTieredConfigJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPriceTieredConfigTier struct {
 	// Inclusive tier starting value
 	FirstUnit float64 `json:"first_unit,required"`
@@ -1169,6 +1269,10 @@ type priceTieredPriceTieredConfigTierJSON struct {
 
 func (r *PriceTieredPriceTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPriceTieredConfigTierJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredBpsPrice struct {
@@ -1222,6 +1326,10 @@ func (r *PriceTieredBpsPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredBpsPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceTieredBpsPrice) implementsPrice() {}
 
 type PriceTieredBpsPriceBillableMetric struct {
@@ -1239,6 +1347,10 @@ type priceTieredBpsPriceBillableMetricJSON struct {
 
 func (r *PriceTieredBpsPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredBpsPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredBpsPriceCadence string
@@ -1269,6 +1381,10 @@ func (r *PriceTieredBpsPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredBpsPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredBpsPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1291,6 +1407,10 @@ func (r *PriceTieredBpsPriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredBpsPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredBpsPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -1311,6 +1431,10 @@ type priceTieredBpsPriceMinimumJSON struct {
 
 func (r *PriceTieredBpsPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredBpsPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredBpsPriceModelType string
@@ -1345,6 +1469,10 @@ func (r *PriceTieredBpsPriceTieredBpsConfig) UnmarshalJSON(data []byte) (err err
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredBpsPriceTieredBpsConfigJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps float64 `json:"bps,required"`
@@ -1370,6 +1498,10 @@ type priceTieredBpsPriceTieredBpsConfigTierJSON struct {
 
 func (r *PriceTieredBpsPriceTieredBpsConfigTier) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredBpsPriceTieredBpsConfigTierJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBpsPrice struct {
@@ -1422,6 +1554,10 @@ func (r *PriceBpsPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBpsPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceBpsPrice) implementsPrice() {}
 
 type PriceBpsPriceBillableMetric struct {
@@ -1439,6 +1575,10 @@ type priceBpsPriceBillableMetricJSON struct {
 
 func (r *PriceBpsPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBpsPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBpsPriceBpsConfig struct {
@@ -1460,6 +1600,10 @@ type priceBpsPriceBpsConfigJSON struct {
 
 func (r *PriceBpsPriceBpsConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBpsPriceBpsConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBpsPriceCadence string
@@ -1490,6 +1634,10 @@ func (r *PriceBpsPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBpsPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBpsPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1512,6 +1660,10 @@ func (r *PriceBpsPriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBpsPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBpsPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -1532,6 +1684,10 @@ type priceBpsPriceMinimumJSON struct {
 
 func (r *PriceBpsPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBpsPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBpsPriceModelType string
@@ -1598,6 +1754,10 @@ func (r *PriceBulkBpsPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkBpsPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceBulkBpsPrice) implementsPrice() {}
 
 type PriceBulkBpsPriceBillableMetric struct {
@@ -1617,6 +1777,10 @@ func (r *PriceBulkBpsPriceBillableMetric) UnmarshalJSON(data []byte) (err error)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkBpsPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkBpsPriceBulkBpsConfig struct {
 	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
 	// tier based on total volume
@@ -1634,6 +1798,10 @@ type priceBulkBpsPriceBulkBpsConfigJSON struct {
 
 func (r *PriceBulkBpsPriceBulkBpsConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkBpsPriceBulkBpsConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBulkBpsPriceBulkBpsConfigTier struct {
@@ -1658,6 +1826,10 @@ type priceBulkBpsPriceBulkBpsConfigTierJSON struct {
 
 func (r *PriceBulkBpsPriceBulkBpsConfigTier) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkBpsPriceBulkBpsConfigTierJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBulkBpsPriceCadence string
@@ -1688,6 +1860,10 @@ func (r *PriceBulkBpsPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkBpsPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkBpsPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1710,6 +1886,10 @@ func (r *PriceBulkBpsPriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkBpsPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkBpsPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -1730,6 +1910,10 @@ type priceBulkBpsPriceMinimumJSON struct {
 
 func (r *PriceBulkBpsPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkBpsPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBulkBpsPriceModelType string
@@ -1795,6 +1979,10 @@ func (r *PriceBulkPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceBulkPrice) implementsPrice() {}
 
 type PriceBulkPriceBillableMetric struct {
@@ -1814,6 +2002,10 @@ func (r *PriceBulkPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkPriceBulkConfig struct {
 	// Bulk tiers for rating based on total usage volume
 	Tiers []PriceBulkPriceBulkConfigTier `json:"tiers,required"`
@@ -1830,6 +2022,10 @@ type priceBulkPriceBulkConfigJSON struct {
 
 func (r *PriceBulkPriceBulkConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkPriceBulkConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBulkPriceBulkConfigTier struct {
@@ -1851,6 +2047,10 @@ type priceBulkPriceBulkConfigTierJSON struct {
 
 func (r *PriceBulkPriceBulkConfigTier) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkPriceBulkConfigTierJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBulkPriceCadence string
@@ -1881,6 +2081,10 @@ func (r *PriceBulkPriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -1903,6 +2107,10 @@ func (r *PriceBulkPriceMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceBulkPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceBulkPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -1923,6 +2131,10 @@ type priceBulkPriceMinimumJSON struct {
 
 func (r *PriceBulkPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceBulkPriceModelType string
@@ -1989,6 +2201,10 @@ func (r *PriceThresholdTotalAmountPrice) UnmarshalJSON(data []byte) (err error) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceThresholdTotalAmountPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceThresholdTotalAmountPrice) implementsPrice() {}
 
 type PriceThresholdTotalAmountPriceBillableMetric struct {
@@ -2006,6 +2222,10 @@ type priceThresholdTotalAmountPriceBillableMetricJSON struct {
 
 func (r *PriceThresholdTotalAmountPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceThresholdTotalAmountPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceThresholdTotalAmountPriceCadence string
@@ -2036,6 +2256,10 @@ func (r *PriceThresholdTotalAmountPriceItem) UnmarshalJSON(data []byte) (err err
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceThresholdTotalAmountPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceThresholdTotalAmountPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2058,6 +2282,10 @@ func (r *PriceThresholdTotalAmountPriceMaximum) UnmarshalJSON(data []byte) (err 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceThresholdTotalAmountPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceThresholdTotalAmountPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -2078,6 +2306,10 @@ type priceThresholdTotalAmountPriceMinimumJSON struct {
 
 func (r *PriceThresholdTotalAmountPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceThresholdTotalAmountPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceThresholdTotalAmountPriceModelType string
@@ -2144,6 +2376,10 @@ func (r *PriceTieredPackagePrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredPackagePriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceTieredPackagePrice) implementsPrice() {}
 
 type PriceTieredPackagePriceBillableMetric struct {
@@ -2161,6 +2397,10 @@ type priceTieredPackagePriceBillableMetricJSON struct {
 
 func (r *PriceTieredPackagePriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackagePriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredPackagePriceCadence string
@@ -2191,6 +2431,10 @@ func (r *PriceTieredPackagePriceItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredPackagePriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPackagePriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2213,6 +2457,10 @@ func (r *PriceTieredPackagePriceMaximum) UnmarshalJSON(data []byte) (err error) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredPackagePriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredPackagePriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -2233,6 +2481,10 @@ type priceTieredPackagePriceMinimumJSON struct {
 
 func (r *PriceTieredPackagePriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackagePriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredPackagePriceModelType string
@@ -2299,6 +2551,10 @@ func (r *PriceTieredWithMinimumPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredWithMinimumPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PriceTieredWithMinimumPrice) implementsPrice() {}
 
 type PriceTieredWithMinimumPriceBillableMetric struct {
@@ -2316,6 +2572,10 @@ type priceTieredWithMinimumPriceBillableMetricJSON struct {
 
 func (r *PriceTieredWithMinimumPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithMinimumPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredWithMinimumPriceCadence string
@@ -2346,6 +2606,10 @@ func (r *PriceTieredWithMinimumPriceItem) UnmarshalJSON(data []byte) (err error)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredWithMinimumPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredWithMinimumPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2368,6 +2632,10 @@ func (r *PriceTieredWithMinimumPriceMaximum) UnmarshalJSON(data []byte) (err err
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r priceTieredWithMinimumPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PriceTieredWithMinimumPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -2388,6 +2656,10 @@ type priceTieredWithMinimumPriceMinimumJSON struct {
 
 func (r *PriceTieredWithMinimumPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithMinimumPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PriceTieredWithMinimumPriceModelType string
@@ -2454,6 +2726,10 @@ func (r *PricePackageWithAllocationPrice) UnmarshalJSON(data []byte) (err error)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r pricePackageWithAllocationPriceJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r PricePackageWithAllocationPrice) implementsPrice() {}
 
 type PricePackageWithAllocationPriceBillableMetric struct {
@@ -2471,6 +2747,10 @@ type pricePackageWithAllocationPriceBillableMetricJSON struct {
 
 func (r *PricePackageWithAllocationPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackageWithAllocationPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type PricePackageWithAllocationPriceCadence string
@@ -2501,6 +2781,10 @@ func (r *PricePackageWithAllocationPriceItem) UnmarshalJSON(data []byte) (err er
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r pricePackageWithAllocationPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type PricePackageWithAllocationPriceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -2523,6 +2807,10 @@ func (r *PricePackageWithAllocationPriceMaximum) UnmarshalJSON(data []byte) (err
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r pricePackageWithAllocationPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PricePackageWithAllocationPriceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -2543,6 +2831,10 @@ type pricePackageWithAllocationPriceMinimumJSON struct {
 
 func (r *PricePackageWithAllocationPriceMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackageWithAllocationPriceMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PricePackageWithAllocationPriceModelType string

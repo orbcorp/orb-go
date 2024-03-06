@@ -100,6 +100,10 @@ func (r *Item) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r itemJSON) RawJSON() string {
+	return r.raw
+}
+
 type ItemExternalConnection struct {
 	ExternalConnectionName ItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
 	ExternalEntityID       string                                        `json:"external_entity_id,required"`
@@ -117,6 +121,10 @@ type itemExternalConnectionJSON struct {
 
 func (r *ItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r itemExternalConnectionJSON) RawJSON() string {
+	return r.raw
 }
 
 type ItemExternalConnectionsExternalConnectionName string

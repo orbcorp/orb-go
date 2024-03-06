@@ -131,6 +131,10 @@ func (r *CreditNote) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r creditNoteJSON) RawJSON() string {
+	return r.raw
+}
+
 type CreditNoteCustomer struct {
 	ID                 string                 `json:"id,required"`
 	ExternalCustomerID string                 `json:"external_customer_id,required,nullable"`
@@ -148,6 +152,10 @@ type creditNoteCustomerJSON struct {
 
 func (r *CreditNoteCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditNoteCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CreditNoteDiscount struct {
@@ -175,6 +183,10 @@ func (r *CreditNoteDiscount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r creditNoteDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
 type CreditNoteDiscountsDiscountType string
 
 const (
@@ -198,6 +210,10 @@ type creditNoteDiscountsAppliesToPriceJSON struct {
 
 func (r *CreditNoteDiscountsAppliesToPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditNoteDiscountsAppliesToPriceJSON) RawJSON() string {
+	return r.raw
 }
 
 type CreditNoteLineItem struct {
@@ -239,6 +255,10 @@ func (r *CreditNoteLineItem) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r creditNoteLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type CreditNoteLineItemsDiscount struct {
 	ID                 string                                   `json:"id,required"`
 	AmountApplied      string                                   `json:"amount_applied,required"`
@@ -266,6 +286,10 @@ type creditNoteLineItemsDiscountJSON struct {
 
 func (r *CreditNoteLineItemsDiscount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditNoteLineItemsDiscountJSON) RawJSON() string {
+	return r.raw
 }
 
 type CreditNoteLineItemsDiscountsDiscountType string
@@ -296,6 +320,10 @@ func (r *CreditNoteLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r creditNoteLineItemsSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
 type CreditNoteLineItemsTaxAmount struct {
 	// The amount of additional tax incurred by this tax rate.
 	Amount string `json:"amount,required"`
@@ -318,6 +346,10 @@ type creditNoteLineItemsTaxAmountJSON struct {
 
 func (r *CreditNoteLineItemsTaxAmount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditNoteLineItemsTaxAmountJSON) RawJSON() string {
+	return r.raw
 }
 
 // The maximum amount applied on the original invoice
@@ -346,6 +378,10 @@ func (r *CreditNoteMaximumAmountAdjustment) UnmarshalJSON(data []byte) (err erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r creditNoteMaximumAmountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
 type CreditNoteMaximumAmountAdjustmentDiscountType string
 
 const (
@@ -369,6 +405,10 @@ type creditNoteMaximumAmountAdjustmentAppliesToPriceJSON struct {
 
 func (r *CreditNoteMaximumAmountAdjustmentAppliesToPrice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r creditNoteMaximumAmountAdjustmentAppliesToPriceJSON) RawJSON() string {
+	return r.raw
 }
 
 type CreditNoteReason string

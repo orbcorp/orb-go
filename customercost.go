@@ -332,6 +332,10 @@ func (r *CustomerCostListResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCostListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCostListResponseData struct {
 	PerPriceCosts []CustomerCostListResponseDataPerPriceCost `json:"per_price_costs,required"`
 	// Total costs for the timeframe, excluding any minimums and discounts.
@@ -357,6 +361,10 @@ type customerCostListResponseDataJSON struct {
 
 func (r *CustomerCostListResponseData) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListResponseDataJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCostListResponseDataPerPriceCost struct {
@@ -634,6 +642,10 @@ func (r *CustomerCostListResponseDataPerPriceCost) UnmarshalJSON(data []byte) (e
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCostListResponseDataPerPriceCostJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCostListByExternalIDResponse struct {
 	Data []CustomerCostListByExternalIDResponseData `json:"data,required"`
 	JSON customerCostListByExternalIDResponseJSON   `json:"-"`
@@ -649,6 +661,10 @@ type customerCostListByExternalIDResponseJSON struct {
 
 func (r *CustomerCostListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCostListByExternalIDResponseData struct {
@@ -676,6 +692,10 @@ type customerCostListByExternalIDResponseDataJSON struct {
 
 func (r *CustomerCostListByExternalIDResponseData) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListByExternalIDResponseDataJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
@@ -951,6 +971,10 @@ type customerCostListByExternalIDResponseDataPerPriceCostJSON struct {
 
 func (r *CustomerCostListByExternalIDResponseDataPerPriceCost) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListByExternalIDResponseDataPerPriceCostJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCostListParams struct {
