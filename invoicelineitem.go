@@ -352,6 +352,10 @@ func (r *InvoiceLineItemNewResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r invoiceLineItemNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type InvoiceLineItemNewResponseMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -374,6 +378,10 @@ func (r *InvoiceLineItemNewResponseMaximum) UnmarshalJSON(data []byte) (err erro
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r invoiceLineItemNewResponseMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type InvoiceLineItemNewResponseMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -394,6 +402,10 @@ type invoiceLineItemNewResponseMinimumJSON struct {
 
 func (r *InvoiceLineItemNewResponseMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 // Union satisfied by [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem],
@@ -454,6 +466,10 @@ func (r *InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem) UnmarshalJSON(
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem) implementsInvoiceLineItemNewResponseSubLineItem() {
 }
 
@@ -478,6 +494,10 @@ func (r *InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGrouping) Unmars
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGroupingJSON) RawJSON() string {
+	return r.raw
+}
+
 type InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfig struct {
 	// The ordered dimension values for this line item.
 	DimensionValues []string                                                                `json:"dimension_values,required"`
@@ -495,6 +515,10 @@ type invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfigJSON str
 
 func (r *InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemType string
@@ -531,6 +555,10 @@ func (r *InvoiceLineItemNewResponseSubLineItemsTierSubLineItem) UnmarshalJSON(da
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r invoiceLineItemNewResponseSubLineItemsTierSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r InvoiceLineItemNewResponseSubLineItemsTierSubLineItem) implementsInvoiceLineItemNewResponseSubLineItem() {
 }
 
@@ -555,6 +583,10 @@ func (r *InvoiceLineItemNewResponseSubLineItemsTierSubLineItemGrouping) Unmarsha
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r invoiceLineItemNewResponseSubLineItemsTierSubLineItemGroupingJSON) RawJSON() string {
+	return r.raw
+}
+
 type InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfig struct {
 	FirstUnit  float64                                                             `json:"first_unit,required"`
 	LastUnit   float64                                                             `json:"last_unit,required,nullable"`
@@ -575,6 +607,10 @@ type invoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfigJSON struct 
 
 func (r *InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type InvoiceLineItemNewResponseSubLineItemsTierSubLineItemType string
@@ -609,6 +645,10 @@ func (r *InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem) UnmarshalJSON(d
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r invoiceLineItemNewResponseSubLineItemsOtherSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem) implementsInvoiceLineItemNewResponseSubLineItem() {
 }
 
@@ -631,6 +671,10 @@ type invoiceLineItemNewResponseSubLineItemsOtherSubLineItemGroupingJSON struct {
 
 func (r *InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemGrouping) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseSubLineItemsOtherSubLineItemGroupingJSON) RawJSON() string {
+	return r.raw
 }
 
 type InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemType string
@@ -661,6 +705,10 @@ type invoiceLineItemNewResponseTaxAmountJSON struct {
 
 func (r *InvoiceLineItemNewResponseTaxAmount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseTaxAmountJSON) RawJSON() string {
+	return r.raw
 }
 
 type InvoiceLineItemNewParams struct {

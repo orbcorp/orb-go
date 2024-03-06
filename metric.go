@@ -118,6 +118,10 @@ func (r *MetricNewResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r metricNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type MetricNewResponseStatus string
 
 const (
@@ -163,6 +167,10 @@ func (r *MetricListResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r metricListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type MetricListResponseStatus string
 
 const (
@@ -206,6 +214,10 @@ type metricFetchResponseJSON struct {
 
 func (r *MetricFetchResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r metricFetchResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type MetricFetchResponseStatus string

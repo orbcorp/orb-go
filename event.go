@@ -380,6 +380,10 @@ func (r *EventUpdateResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r eventUpdateResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type EventDeprecateResponse struct {
 	// event_id of the deprecated event, if successfully updated
 	Deprecated string                     `json:"deprecated,required"`
@@ -396,6 +400,10 @@ type eventDeprecateResponseJSON struct {
 
 func (r *EventDeprecateResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r eventDeprecateResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type EventIngestResponse struct {
@@ -421,6 +429,10 @@ func (r *EventIngestResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r eventIngestResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type EventIngestResponseValidationFailed struct {
 	// The passed idempotency_key corresponding to the validation_errors
 	IdempotencyKey string `json:"idempotency_key,required"`
@@ -441,6 +453,10 @@ type eventIngestResponseValidationFailedJSON struct {
 
 func (r *EventIngestResponseValidationFailed) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r eventIngestResponseValidationFailedJSON) RawJSON() string {
+	return r.raw
 }
 
 // Optional debug information (only present when debug=true is passed to the
@@ -464,6 +480,10 @@ func (r *EventIngestResponseDebug) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r eventIngestResponseDebugJSON) RawJSON() string {
+	return r.raw
+}
+
 type EventSearchResponse struct {
 	Data []EventSearchResponseData `json:"data,required"`
 	JSON eventSearchResponseJSON   `json:"-"`
@@ -479,6 +499,10 @@ type eventSearchResponseJSON struct {
 
 func (r *EventSearchResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r eventSearchResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 // The [Event](../guides/core-concepts.mdx#event) resource represents a usage event
@@ -522,6 +546,10 @@ type eventSearchResponseDataJSON struct {
 
 func (r *EventSearchResponseData) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r eventSearchResponseDataJSON) RawJSON() string {
+	return r.raw
 }
 
 type EventUpdateParams struct {

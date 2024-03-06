@@ -70,6 +70,10 @@ func (r *DiscountPercentageDiscount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r discountPercentageDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r DiscountPercentageDiscount) implementsSharedDiscount() {}
 
 type DiscountPercentageDiscountDiscountType string
@@ -107,6 +111,10 @@ func (r *DiscountTrialDiscount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r discountTrialDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r DiscountTrialDiscount) implementsSharedDiscount() {}
 
 type DiscountTrialDiscountDiscountType string
@@ -142,6 +150,10 @@ func (r *DiscountUsageDiscount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r discountUsageDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r DiscountUsageDiscount) implementsSharedDiscount() {}
 
 type DiscountUsageDiscountDiscountType string
@@ -174,6 +186,10 @@ type discountAmountDiscountJSON struct {
 
 func (r *DiscountAmountDiscount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r discountAmountDiscountJSON) RawJSON() string {
+	return r.raw
 }
 
 func (r DiscountAmountDiscount) implementsSharedDiscount() {}

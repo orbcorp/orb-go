@@ -145,6 +145,10 @@ func (r *Coupon) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r couponJSON) RawJSON() string {
+	return r.raw
+}
+
 // Union satisfied by [CouponDiscountPercentageDiscount] or
 // [CouponDiscountAmountDiscount].
 type CouponDiscount interface {
@@ -195,6 +199,10 @@ func (r *CouponDiscountPercentageDiscount) UnmarshalJSON(data []byte) (err error
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r couponDiscountPercentageDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CouponDiscountPercentageDiscount) implementsCouponDiscount() {}
 
 type CouponDiscountPercentageDiscountDiscountType string
@@ -227,6 +235,10 @@ type couponDiscountAmountDiscountJSON struct {
 
 func (r *CouponDiscountAmountDiscount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r couponDiscountAmountDiscountJSON) RawJSON() string {
+	return r.raw
 }
 
 func (r CouponDiscountAmountDiscount) implementsCouponDiscount() {}

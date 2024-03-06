@@ -196,6 +196,10 @@ func (r *Plan) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r planJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanBasePlan struct {
 	ID string `json:"id,required,nullable"`
 	// An optional user-defined ID for this plan resource, used throughout the system
@@ -219,6 +223,10 @@ func (r *PlanBasePlan) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r planBasePlanJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -240,6 +248,10 @@ func (r *PlanMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r planMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -259,6 +271,10 @@ type planMinimumJSON struct {
 
 func (r *PlanMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planMinimumJSON) RawJSON() string {
+	return r.raw
 }
 
 type PlanPlanPhase struct {
@@ -300,6 +316,10 @@ func (r *PlanPlanPhase) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r planPlanPhaseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanPlanPhasesDurationUnit string
 
 const (
@@ -331,6 +351,10 @@ func (r *PlanPlanPhasesMaximum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r planPlanPhasesMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanPlanPhasesMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -353,6 +377,10 @@ func (r *PlanPlanPhasesMinimum) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r planPlanPhasesMinimumJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanProduct struct {
 	ID        string          `json:"id,required"`
 	CreatedAt time.Time       `json:"created_at,required" format:"date-time"`
@@ -371,6 +399,10 @@ type planProductJSON struct {
 
 func (r *PlanProduct) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planProductJSON) RawJSON() string {
+	return r.raw
 }
 
 type PlanStatus string
@@ -397,6 +429,10 @@ type planTrialConfigJSON struct {
 
 func (r *PlanTrialConfig) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planTrialConfigJSON) RawJSON() string {
+	return r.raw
 }
 
 type PlanTrialConfigTrialPeriodUnit string

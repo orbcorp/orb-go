@@ -164,6 +164,10 @@ func (r *CustomerBalanceTransactionNewResponse) UnmarshalJSON(data []byte) (err 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerBalanceTransactionNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerBalanceTransactionNewResponseAction string
 
 const (
@@ -195,6 +199,10 @@ func (r *CustomerBalanceTransactionNewResponseCreditNote) UnmarshalJSON(data []b
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerBalanceTransactionNewResponseCreditNoteJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerBalanceTransactionNewResponseInvoice struct {
 	// The Invoice id
 	ID   string                                           `json:"id,required"`
@@ -211,6 +219,10 @@ type customerBalanceTransactionNewResponseInvoiceJSON struct {
 
 func (r *CustomerBalanceTransactionNewResponseInvoice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionNewResponseInvoiceJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerBalanceTransactionNewResponseType string
@@ -263,6 +275,10 @@ func (r *CustomerBalanceTransactionListResponse) UnmarshalJSON(data []byte) (err
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerBalanceTransactionListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerBalanceTransactionListResponseAction string
 
 const (
@@ -294,6 +310,10 @@ func (r *CustomerBalanceTransactionListResponseCreditNote) UnmarshalJSON(data []
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerBalanceTransactionListResponseCreditNoteJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerBalanceTransactionListResponseInvoice struct {
 	// The Invoice id
 	ID   string                                            `json:"id,required"`
@@ -310,6 +330,10 @@ type customerBalanceTransactionListResponseInvoiceJSON struct {
 
 func (r *CustomerBalanceTransactionListResponseInvoice) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionListResponseInvoiceJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerBalanceTransactionListResponseType string

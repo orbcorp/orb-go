@@ -57,3 +57,7 @@ type topLevelPingResponseJSON struct {
 func (r *TopLevelPingResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+func (r topLevelPingResponseJSON) RawJSON() string {
+	return r.raw
+}
