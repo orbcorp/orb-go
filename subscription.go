@@ -1788,7 +1788,18 @@ type SubscriptionUsage interface {
 }
 
 func init() {
-	apijson.RegisterUnion(reflect.TypeOf((*SubscriptionUsage)(nil)).Elem(), "")
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUsage)(nil)).Elem(),
+		"",
+		apijson.UnionVariant{
+			TypeFilter: gjson.JSON,
+			Type:       reflect.TypeOf(SubscriptionUsageUngroupedSubscriptionUsage{}),
+		},
+		apijson.UnionVariant{
+			TypeFilter: gjson.JSON,
+			Type:       reflect.TypeOf(SubscriptionUsageGroupedSubscriptionUsage{}),
+		},
+	)
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsage struct {
