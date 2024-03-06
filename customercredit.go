@@ -107,6 +107,10 @@ func (r *CustomerCreditListResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditListByExternalIDResponse struct {
 	ID               string                                     `json:"id,required"`
 	Balance          float64                                    `json:"balance,required"`
@@ -128,6 +132,10 @@ type customerCreditListByExternalIDResponseJSON struct {
 
 func (r *CustomerCreditListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditListParams struct {

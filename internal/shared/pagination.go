@@ -29,6 +29,10 @@ func (r *PagePaginationMetadata) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r pagePaginationMetadataJSON) RawJSON() string {
+	return r.raw
+}
+
 type Page[T any] struct {
 	Data               []T                    `json:"data"`
 	PaginationMetadata PagePaginationMetadata `json:"pagination_metadata,required"`
@@ -47,6 +51,10 @@ type pageJSON struct {
 
 func (r *Page[T]) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pageJSON) RawJSON() string {
+	return r.raw
 }
 
 // NextPage returns the next page as defined by this pagination style. When there

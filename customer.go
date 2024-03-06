@@ -342,6 +342,10 @@ func (r *Customer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerBillingAddress struct {
 	City       string                     `json:"city,required,nullable"`
 	Country    string                     `json:"country,required,nullable"`
@@ -367,6 +371,10 @@ type customerBillingAddressJSON struct {
 
 func (r *CustomerBillingAddress) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBillingAddressJSON) RawJSON() string {
+	return r.raw
 }
 
 // This is used for creating charges or invoices in an external system via Orb.
@@ -407,6 +415,10 @@ type customerShippingAddressJSON struct {
 
 func (r *CustomerShippingAddress) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerShippingAddressJSON) RawJSON() string {
+	return r.raw
 }
 
 // Tax IDs are commonly required to be displayed on customer invoices, which are
@@ -512,6 +524,10 @@ type customerTaxIDJSON struct {
 
 func (r *CustomerTaxID) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerTaxIDJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerTaxIDCountry string
@@ -656,6 +672,10 @@ func (r *CustomerAccountingSyncConfiguration) UnmarshalJSON(data []byte) (err er
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerAccountingSyncConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerAccountingSyncConfigurationAccountingProvider struct {
 	ExternalProviderID string                                                             `json:"external_provider_id,required,nullable"`
 	ProviderType       CustomerAccountingSyncConfigurationAccountingProvidersProviderType `json:"provider_type,required"`
@@ -673,6 +693,10 @@ type customerAccountingSyncConfigurationAccountingProviderJSON struct {
 
 func (r *CustomerAccountingSyncConfigurationAccountingProvider) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerAccountingSyncConfigurationAccountingProviderJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerAccountingSyncConfigurationAccountingProvidersProviderType string
@@ -697,6 +721,10 @@ type customerReportingConfigurationJSON struct {
 
 func (r *CustomerReportingConfiguration) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerReportingConfigurationJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerNewParams struct {

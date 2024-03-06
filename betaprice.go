@@ -86,6 +86,10 @@ func (r *EvaluatePriceGroup) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r evaluatePriceGroupJSON) RawJSON() string {
+	return r.raw
+}
+
 // Union satisfied by [shared.UnionString], [shared.UnionFloat] or
 // [shared.UnionBool].
 type EvaluatePriceGroupGroupingValue interface {
@@ -130,6 +134,10 @@ type betaPriceEvaluateResponseJSON struct {
 
 func (r *BetaPriceEvaluateResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r betaPriceEvaluateResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type BetaPriceEvaluateParams struct {

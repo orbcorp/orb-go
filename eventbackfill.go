@@ -173,6 +173,10 @@ func (r *EventBackfillNewResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r eventBackfillNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 // The status of the backfill.
 type EventBackfillNewResponseStatus string
 
@@ -220,6 +224,10 @@ type eventBackfillListResponseJSON struct {
 
 func (r *EventBackfillListResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r eventBackfillListResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 // The status of the backfill.
@@ -271,6 +279,10 @@ func (r *EventBackfillCloseResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r eventBackfillCloseResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 // The status of the backfill.
 type EventBackfillCloseResponseStatus string
 
@@ -320,6 +332,10 @@ func (r *EventBackfillFetchResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r eventBackfillFetchResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 // The status of the backfill.
 type EventBackfillFetchResponseStatus string
 
@@ -367,6 +383,10 @@ type eventBackfillRevertResponseJSON struct {
 
 func (r *EventBackfillRevertResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r eventBackfillRevertResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 // The status of the backfill.

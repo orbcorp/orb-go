@@ -1134,6 +1134,10 @@ func (r *Subscription) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionJSON) RawJSON() string {
+	return r.raw
+}
+
 // Union satisfied by [SubscriptionDiscountIntervalsAmountDiscountInterval],
 // [SubscriptionDiscountIntervalsPercentageDiscountInterval] or
 // [SubscriptionDiscountIntervalsUsageDiscountInterval].
@@ -1195,6 +1199,10 @@ func (r *SubscriptionDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r SubscriptionDiscountIntervalsAmountDiscountInterval) implementsSubscriptionDiscountInterval() {
 }
 
@@ -1236,6 +1244,10 @@ type subscriptionDiscountIntervalsPercentageDiscountIntervalJSON struct {
 
 func (r *SubscriptionDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
 }
 
 func (r SubscriptionDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionDiscountInterval() {
@@ -1280,6 +1292,10 @@ func (r *SubscriptionDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data 
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r SubscriptionDiscountIntervalsUsageDiscountInterval) implementsSubscriptionDiscountInterval() {
 }
 
@@ -1310,6 +1326,10 @@ type subscriptionFixedFeeQuantityScheduleJSON struct {
 
 func (r *SubscriptionFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionMaximumInterval struct {
@@ -1343,6 +1363,10 @@ func (r *SubscriptionMaximumInterval) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionMinimumInterval struct {
 	// The price ids that this minimum interval applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
@@ -1372,6 +1396,10 @@ type subscriptionMinimumIntervalJSON struct {
 
 func (r *SubscriptionMinimumInterval) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionMinimumIntervalJSON) RawJSON() string {
+	return r.raw
 }
 
 // The Price Interval resource represents a period of time for which a price will
@@ -1670,6 +1698,10 @@ func (r *SubscriptionPriceInterval) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionPriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionPriceIntervalsFixedFeeQuantityTransition struct {
 	EffectiveDate time.Time                                                `json:"effective_date,required" format:"date-time"`
 	PriceID       string                                                   `json:"price_id,required"`
@@ -1691,6 +1723,10 @@ func (r *SubscriptionPriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(dat
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionPriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionRedeemedCoupon struct {
 	CouponID  string                         `json:"coupon_id,required"`
 	EndDate   time.Time                      `json:"end_date,required,nullable" format:"date-time"`
@@ -1710,6 +1746,10 @@ type subscriptionRedeemedCouponJSON struct {
 
 func (r *SubscriptionRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemedCouponJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionStatus string
@@ -1735,6 +1775,10 @@ type subscriptionTrialInfoJSON struct {
 
 func (r *SubscriptionTrialInfo) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTrialInfoJSON) RawJSON() string {
+	return r.raw
 }
 
 // Union satisfied by [SubscriptionUsageUngroupedSubscriptionUsage] or
@@ -1764,6 +1808,10 @@ func (r *SubscriptionUsageUngroupedSubscriptionUsage) UnmarshalJSON(data []byte)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionUsageUngroupedSubscriptionUsageJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r SubscriptionUsageUngroupedSubscriptionUsage) implementsSubscriptionUsage() {}
 
 type SubscriptionUsageUngroupedSubscriptionUsageData struct {
@@ -1787,6 +1835,10 @@ func (r *SubscriptionUsageUngroupedSubscriptionUsageData) UnmarshalJSON(data []b
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionUsageUngroupedSubscriptionUsageDataJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric struct {
 	ID   string                                                            `json:"id,required"`
 	Name string                                                            `json:"name,required"`
@@ -1805,6 +1857,10 @@ type subscriptionUsageUngroupedSubscriptionUsageDataBillableMetricJSON struct {
 
 func (r *SubscriptionUsageUngroupedSubscriptionUsageDataBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUsageUngroupedSubscriptionUsageDataBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsageDataUsage struct {
@@ -1826,6 +1882,10 @@ type subscriptionUsageUngroupedSubscriptionUsageDataUsageJSON struct {
 
 func (r *SubscriptionUsageUngroupedSubscriptionUsageDataUsage) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUsageUngroupedSubscriptionUsageDataUsageJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionUsageUngroupedSubscriptionUsageDataViewMode string
@@ -1854,6 +1914,10 @@ func (r *SubscriptionUsageGroupedSubscriptionUsage) UnmarshalJSON(data []byte) (
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionUsageGroupedSubscriptionUsageJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r SubscriptionUsageGroupedSubscriptionUsage) implementsSubscriptionUsage() {}
 
 type SubscriptionUsageGroupedSubscriptionUsageData struct {
@@ -1879,6 +1943,10 @@ func (r *SubscriptionUsageGroupedSubscriptionUsageData) UnmarshalJSON(data []byt
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionUsageGroupedSubscriptionUsageDataJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUsageGroupedSubscriptionUsageDataBillableMetric struct {
 	ID   string                                                          `json:"id,required"`
 	Name string                                                          `json:"name,required"`
@@ -1897,6 +1965,10 @@ type subscriptionUsageGroupedSubscriptionUsageDataBillableMetricJSON struct {
 
 func (r *SubscriptionUsageGroupedSubscriptionUsageDataBillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUsageGroupedSubscriptionUsageDataBillableMetricJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup struct {
@@ -1919,6 +1991,10 @@ func (r *SubscriptionUsageGroupedSubscriptionUsageDataMetricGroup) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionUsageGroupedSubscriptionUsageDataMetricGroupJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUsageGroupedSubscriptionUsageDataUsage struct {
 	Quantity       float64                                                `json:"quantity,required"`
 	TimeframeEnd   time.Time                                              `json:"timeframe_end,required" format:"date-time"`
@@ -1938,6 +2014,10 @@ type subscriptionUsageGroupedSubscriptionUsageDataUsageJSON struct {
 
 func (r *SubscriptionUsageGroupedSubscriptionUsageDataUsage) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUsageGroupedSubscriptionUsageDataUsageJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionUsageGroupedSubscriptionUsageDataViewMode string
@@ -1967,6 +2047,10 @@ func (r *SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata) UnmarshalJ
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON) RawJSON() string {
+	return r.raw
+}
+
 type Subscriptions struct {
 	Data               []Subscription                  `json:"data,required"`
 	PaginationMetadata SubscriptionsPaginationMetadata `json:"pagination_metadata,required"`
@@ -1983,6 +2067,10 @@ type subscriptionsJSON struct {
 
 func (r *Subscriptions) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionsJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionsPaginationMetadata struct {
@@ -2004,6 +2092,10 @@ func (r *SubscriptionsPaginationMetadata) UnmarshalJSON(data []byte) (err error)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionsPaginationMetadataJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionFetchCostsResponse struct {
 	Data []SubscriptionFetchCostsResponseData `json:"data,required"`
 	JSON subscriptionFetchCostsResponseJSON   `json:"-"`
@@ -2019,6 +2111,10 @@ type subscriptionFetchCostsResponseJSON struct {
 
 func (r *SubscriptionFetchCostsResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionFetchCostsResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionFetchCostsResponseData struct {
@@ -2046,6 +2142,10 @@ type subscriptionFetchCostsResponseDataJSON struct {
 
 func (r *SubscriptionFetchCostsResponseData) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionFetchCostsResponseDataJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionFetchCostsResponseDataPerPriceCost struct {
@@ -2323,6 +2423,10 @@ func (r *SubscriptionFetchCostsResponseDataPerPriceCost) UnmarshalJSON(data []by
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r subscriptionFetchCostsResponseDataPerPriceCostJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionFetchScheduleResponse struct {
 	CreatedAt time.Time                             `json:"created_at,required" format:"date-time"`
 	EndDate   time.Time                             `json:"end_date,required,nullable" format:"date-time"`
@@ -2344,6 +2448,10 @@ type subscriptionFetchScheduleResponseJSON struct {
 
 func (r *SubscriptionFetchScheduleResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionFetchScheduleResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionFetchScheduleResponsePlan struct {
@@ -2368,6 +2476,10 @@ type subscriptionFetchScheduleResponsePlanJSON struct {
 
 func (r *SubscriptionFetchScheduleResponsePlan) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionFetchScheduleResponsePlanJSON) RawJSON() string {
+	return r.raw
 }
 
 type SubscriptionNewParams struct {

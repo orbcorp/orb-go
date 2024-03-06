@@ -266,6 +266,10 @@ func (r *CustomerUsageUpdateResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerUsageUpdateResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerUsageUpdateByExternalIDResponse struct {
 	// An array of strings, corresponding to idempotency_key's marked as duplicates
 	// (previously ingested)
@@ -287,6 +291,10 @@ type customerUsageUpdateByExternalIDResponseJSON struct {
 
 func (r *CustomerUsageUpdateByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerUsageUpdateByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerUsageUpdateParams struct {

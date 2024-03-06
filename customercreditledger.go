@@ -748,6 +748,10 @@ func (r *CustomerCreditLedgerListResponseIncrementLedgerEntry) UnmarshalJSON(dat
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseIncrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListResponseIncrementLedgerEntry) implementsCustomerCreditLedgerListResponse() {
 }
 
@@ -773,6 +777,10 @@ func (r *CustomerCreditLedgerListResponseIncrementLedgerEntryCreditBlock) Unmars
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseIncrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListResponseIncrementLedgerEntryCustomer struct {
 	ID                 string                                                           `json:"id,required"`
 	ExternalCustomerID string                                                           `json:"external_customer_id,required,nullable"`
@@ -791,6 +799,10 @@ type customerCreditLedgerListResponseIncrementLedgerEntryCustomerJSON struct {
 
 func (r *CustomerCreditLedgerListResponseIncrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListResponseIncrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatus string
@@ -857,6 +869,10 @@ func (r *CustomerCreditLedgerListResponseDecrementLedgerEntry) UnmarshalJSON(dat
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseDecrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListResponseDecrementLedgerEntry) implementsCustomerCreditLedgerListResponse() {
 }
 
@@ -882,6 +898,10 @@ func (r *CustomerCreditLedgerListResponseDecrementLedgerEntryCreditBlock) Unmars
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseDecrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListResponseDecrementLedgerEntryCustomer struct {
 	ID                 string                                                           `json:"id,required"`
 	ExternalCustomerID string                                                           `json:"external_customer_id,required,nullable"`
@@ -900,6 +920,10 @@ type customerCreditLedgerListResponseDecrementLedgerEntryCustomerJSON struct {
 
 func (r *CustomerCreditLedgerListResponseDecrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListResponseDecrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatus string
@@ -963,6 +987,10 @@ func (r *CustomerCreditLedgerListResponseExpirationChangeLedgerEntry) UnmarshalJ
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListResponseExpirationChangeLedgerEntry) implementsCustomerCreditLedgerListResponse() {
 }
 
@@ -988,6 +1016,10 @@ func (r *CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlock)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseExpirationChangeLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCustomer struct {
 	ID                 string                                                                  `json:"id,required"`
 	ExternalCustomerID string                                                                  `json:"external_customer_id,required,nullable"`
@@ -1006,6 +1038,10 @@ type customerCreditLedgerListResponseExpirationChangeLedgerEntryCustomerJSON str
 
 func (r *CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListResponseExpirationChangeLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatus string
@@ -1067,6 +1103,10 @@ func (r *CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry) Unmarshal
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry) implementsCustomerCreditLedgerListResponse() {
 }
 
@@ -1092,6 +1132,10 @@ func (r *CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlock
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomer struct {
 	ID                 string                                                                   `json:"id,required"`
 	ExternalCustomerID string                                                                   `json:"external_customer_id,required,nullable"`
@@ -1110,6 +1154,10 @@ type customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomerJSON st
 
 func (r *CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatus string
@@ -1174,6 +1222,10 @@ func (r *CustomerCreditLedgerListResponseVoidLedgerEntry) UnmarshalJSON(data []b
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseVoidLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListResponseVoidLedgerEntry) implementsCustomerCreditLedgerListResponse() {
 }
 
@@ -1199,6 +1251,10 @@ func (r *CustomerCreditLedgerListResponseVoidLedgerEntryCreditBlock) UnmarshalJS
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseVoidLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListResponseVoidLedgerEntryCustomer struct {
 	ID                 string                                                      `json:"id,required"`
 	ExternalCustomerID string                                                      `json:"external_customer_id,required,nullable"`
@@ -1217,6 +1273,10 @@ type customerCreditLedgerListResponseVoidLedgerEntryCustomerJSON struct {
 
 func (r *CustomerCreditLedgerListResponseVoidLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListResponseVoidLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatus string
@@ -1284,6 +1344,10 @@ func (r *CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseVoidInitiatedLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry) implementsCustomerCreditLedgerListResponse() {
 }
 
@@ -1309,6 +1373,10 @@ func (r *CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlock) Un
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomer struct {
 	ID                 string                                                               `json:"id,required"`
 	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
@@ -1327,6 +1395,10 @@ type customerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomerJSON struct
 
 func (r *CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatus string
@@ -1387,6 +1459,10 @@ func (r *CustomerCreditLedgerListResponseAmendmentLedgerEntry) UnmarshalJSON(dat
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseAmendmentLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListResponseAmendmentLedgerEntry) implementsCustomerCreditLedgerListResponse() {
 }
 
@@ -1412,6 +1488,10 @@ func (r *CustomerCreditLedgerListResponseAmendmentLedgerEntryCreditBlock) Unmars
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListResponseAmendmentLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListResponseAmendmentLedgerEntryCustomer struct {
 	ID                 string                                                           `json:"id,required"`
 	ExternalCustomerID string                                                           `json:"external_customer_id,required,nullable"`
@@ -1430,6 +1510,10 @@ type customerCreditLedgerListResponseAmendmentLedgerEntryCustomerJSON struct {
 
 func (r *CustomerCreditLedgerListResponseAmendmentLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListResponseAmendmentLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatus string
@@ -1547,6 +1631,10 @@ func (r *CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry) implementsCustomerCreditLedgerNewEntryResponse() {
 }
 
@@ -1572,6 +1660,10 @@ func (r *CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlock) Un
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomer struct {
 	ID                 string                                                               `json:"id,required"`
 	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
@@ -1590,6 +1682,10 @@ type customerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomerJSON struct
 
 func (r *CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatus string
@@ -1657,6 +1753,10 @@ func (r *CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseDecrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry) implementsCustomerCreditLedgerNewEntryResponse() {
 }
 
@@ -1682,6 +1782,10 @@ func (r *CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlock) Un
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomer struct {
 	ID                 string                                                               `json:"id,required"`
 	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
@@ -1700,6 +1804,10 @@ type customerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomerJSON struct
 
 func (r *CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatus string
@@ -1763,6 +1871,10 @@ func (r *CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry) Unmars
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry) implementsCustomerCreditLedgerNewEntryResponse() {
 }
 
@@ -1788,6 +1900,10 @@ func (r *CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBl
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomer struct {
 	ID                 string                                                                      `json:"id,required"`
 	ExternalCustomerID string                                                                      `json:"external_customer_id,required,nullable"`
@@ -1806,6 +1922,10 @@ type customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomerJSON
 
 func (r *CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatus string
@@ -1867,6 +1987,10 @@ func (r *CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry) Unmar
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry) implementsCustomerCreditLedgerNewEntryResponse() {
 }
 
@@ -1892,6 +2016,10 @@ func (r *CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditB
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomer struct {
 	ID                 string                                                                       `json:"id,required"`
 	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
@@ -1910,6 +2038,10 @@ type customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomerJSO
 
 func (r *CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatus string
@@ -1974,6 +2106,10 @@ func (r *CustomerCreditLedgerNewEntryResponseVoidLedgerEntry) UnmarshalJSON(data
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseVoidLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryResponseVoidLedgerEntry) implementsCustomerCreditLedgerNewEntryResponse() {
 }
 
@@ -1999,6 +2135,10 @@ func (r *CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlock) Unmarsh
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCustomer struct {
 	ID                 string                                                          `json:"id,required"`
 	ExternalCustomerID string                                                          `json:"external_customer_id,required,nullable"`
@@ -2017,6 +2157,10 @@ type customerCreditLedgerNewEntryResponseVoidLedgerEntryCustomerJSON struct {
 
 func (r *CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryResponseVoidLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatus string
@@ -2084,6 +2228,10 @@ func (r *CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry) Unmarshal
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry) implementsCustomerCreditLedgerNewEntryResponse() {
 }
 
@@ -2109,6 +2257,10 @@ func (r *CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlock
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomer struct {
 	ID                 string                                                                   `json:"id,required"`
 	ExternalCustomerID string                                                                   `json:"external_customer_id,required,nullable"`
@@ -2127,6 +2279,10 @@ type customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomerJSON st
 
 func (r *CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatus string
@@ -2188,6 +2344,10 @@ func (r *CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseAmendmentLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry) implementsCustomerCreditLedgerNewEntryResponse() {
 }
 
@@ -2213,6 +2373,10 @@ func (r *CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlock) Un
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomer struct {
 	ID                 string                                                               `json:"id,required"`
 	ExternalCustomerID string                                                               `json:"external_customer_id,required,nullable"`
@@ -2231,6 +2395,10 @@ type customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomerJSON struct
 
 func (r *CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatus string
@@ -2349,6 +2517,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry) U
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
@@ -2374,6 +2546,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCre
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer struct {
 	ID                 string                                                                           `json:"id,required"`
 	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
@@ -2392,6 +2568,10 @@ type customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustome
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus string
@@ -2459,6 +2639,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry) U
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
@@ -2484,6 +2668,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCre
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer struct {
 	ID                 string                                                                           `json:"id,required"`
 	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
@@ -2502,6 +2690,10 @@ type customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustome
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus string
@@ -2565,6 +2757,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerE
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
@@ -2590,6 +2786,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerE
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer struct {
 	ID                 string                                                                                  `json:"id,required"`
 	ExternalCustomerID string                                                                                  `json:"external_customer_id,required,nullable"`
@@ -2608,6 +2808,10 @@ type customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus string
@@ -2669,6 +2873,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedger
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
@@ -2694,6 +2902,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedger
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer struct {
 	ID                 string                                                                                   `json:"id,required"`
 	ExternalCustomerID string                                                                                   `json:"external_customer_id,required,nullable"`
@@ -2712,6 +2924,10 @@ type customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntr
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus string
@@ -2777,6 +2993,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry) Unmars
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
@@ -2802,6 +3022,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBl
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer struct {
 	ID                 string                                                                      `json:"id,required"`
 	ExternalCustomerID string                                                                      `json:"external_customer_id,required,nullable"`
@@ -2820,6 +3044,10 @@ type customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus string
@@ -2887,6 +3115,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntr
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
@@ -2912,6 +3144,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntr
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer struct {
 	ID                 string                                                                               `json:"id,required"`
 	ExternalCustomerID string                                                                               `json:"external_customer_id,required,nullable"`
@@ -2930,6 +3166,10 @@ type customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCus
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus string
@@ -2991,6 +3231,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry) U
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry) implementsCustomerCreditLedgerNewEntryByExternalIDResponse() {
 }
 
@@ -3016,6 +3260,10 @@ func (r *CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCre
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer struct {
 	ID                 string                                                                           `json:"id,required"`
 	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
@@ -3034,6 +3282,10 @@ type customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustome
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus string
@@ -3152,6 +3404,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry) Unmar
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry) implementsCustomerCreditLedgerListByExternalIDResponse() {
 }
 
@@ -3177,6 +3433,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditB
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomer struct {
 	ID                 string                                                                       `json:"id,required"`
 	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
@@ -3195,6 +3455,10 @@ type customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomerJSO
 
 func (r *CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatus string
@@ -3262,6 +3526,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry) Unmar
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry) implementsCustomerCreditLedgerListByExternalIDResponse() {
 }
 
@@ -3287,6 +3555,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditB
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomer struct {
 	ID                 string                                                                       `json:"id,required"`
 	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
@@ -3305,6 +3577,10 @@ type customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomerJSO
 
 func (r *CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatus string
@@ -3368,6 +3644,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry) implementsCustomerCreditLedgerListByExternalIDResponse() {
 }
 
@@ -3393,6 +3673,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomer struct {
 	ID                 string                                                                              `json:"id,required"`
 	ExternalCustomerID string                                                                              `json:"external_customer_id,required,nullable"`
@@ -3411,6 +3695,10 @@ type customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCust
 
 func (r *CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatus string
@@ -3472,6 +3760,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntr
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry) implementsCustomerCreditLedgerListByExternalIDResponse() {
 }
 
@@ -3497,6 +3789,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntr
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer struct {
 	ID                 string                                                                               `json:"id,required"`
 	ExternalCustomerID string                                                                               `json:"external_customer_id,required,nullable"`
@@ -3515,6 +3811,10 @@ type customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCus
 
 func (r *CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus string
@@ -3580,6 +3880,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry) UnmarshalJ
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseVoidLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry) implementsCustomerCreditLedgerListByExternalIDResponse() {
 }
 
@@ -3605,6 +3909,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlock)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomer struct {
 	ID                 string                                                                  `json:"id,required"`
 	ExternalCustomerID string                                                                  `json:"external_customer_id,required,nullable"`
@@ -3623,6 +3931,10 @@ type customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomerJSON str
 
 func (r *CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatus string
@@ -3690,6 +4002,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry) U
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry) implementsCustomerCreditLedgerListByExternalIDResponse() {
 }
 
@@ -3715,6 +4031,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCre
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomer struct {
 	ID                 string                                                                           `json:"id,required"`
 	ExternalCustomerID string                                                                           `json:"external_customer_id,required,nullable"`
@@ -3733,6 +4053,10 @@ type customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustome
 
 func (r *CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus string
@@ -3794,6 +4118,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry) Unmar
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryJSON) RawJSON() string {
+	return r.raw
+}
+
 func (r CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry) implementsCustomerCreditLedgerListByExternalIDResponse() {
 }
 
@@ -3819,6 +4147,10 @@ func (r *CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditB
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func (r customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditBlockJSON) RawJSON() string {
+	return r.raw
+}
+
 type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomer struct {
 	ID                 string                                                                       `json:"id,required"`
 	ExternalCustomerID string                                                                       `json:"external_customer_id,required,nullable"`
@@ -3837,6 +4169,10 @@ type customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomerJSO
 
 func (r *CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomer) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomerJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatus string
