@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.19.1 (2024-03-07)
+
+Full Changelog: [v0.19.0...v0.19.1](https://github.com/orbcorp/orb-go/compare/v0.19.0...v0.19.1)
+
+### Bug Fixes
+
+* fix Price and Ledger union deserialization ([#90](https://github.com/orbcorp/orb-go/issues/90)) ([384fd44](https://github.com/orbcorp/orb-go/commit/384fd44a8138a776092918e17bee2462d592d2b8))
+
 ## 0.19.0 (2024-03-07)
 
 Full Changelog: [v0.18.1...v0.19.0](https://github.com/orbcorp/orb-go/compare/v0.18.1...v0.19.0)
