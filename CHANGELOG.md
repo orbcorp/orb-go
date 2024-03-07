@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.19.0 (2024-03-07)
+
+Full Changelog: [v0.18.1...v0.19.0](https://github.com/orbcorp/orb-go/compare/v0.18.1...v0.19.0)
+
+### Features
+
+* implement public RawJSON of response structs ([#88](https://github.com/orbcorp/orb-go/issues/88)) ([05bfb4b](https://github.com/orbcorp/orb-go/commit/05bfb4b860dd4fc79578f7f65ba6e1118fd4ad45))
+
+
+### Bug Fixes
+
+* fix union deserialization for multiple objects ([#89](https://github.com/orbcorp/orb-go/issues/89)) ([896ac1e](https://github.com/orbcorp/orb-go/commit/896ac1e70ef476c9750eb727cb0b83e3bb2528ad))
+
+
+### Chores
+
+* **ci:** uses Stainless GitHub App for releases ([#83](https://github.com/orbcorp/orb-go/issues/83)) ([c0fb3d0](https://github.com/orbcorp/orb-go/commit/c0fb3d0a21294b287e76c81b7a591d597f443e57))
+* **internal:** bump timeout threshold in tests ([#81](https://github.com/orbcorp/orb-go/issues/81)) ([69709ef](https://github.com/orbcorp/orb-go/commit/69709efb1df345372e301f7da269322d64493053))
+* **internal:** refactor release environment script ([#84](https://github.com/orbcorp/orb-go/issues/84)) ([edbfe98](https://github.com/orbcorp/orb-go/commit/edbfe98064b97f8038b63ea56654b5fa496619ac))
+* **internal:** update deps ([#86](https://github.com/orbcorp/orb-go/issues/86)) ([c746c73](https://github.com/orbcorp/orb-go/commit/c746c73574700de853ecfb8a0257c0ee073d1aa3))
+
+
+### Documentation
+
+* **readme:** improve wording ([#87](https://github.com/orbcorp/orb-go/issues/87)) ([83f9d09](https://github.com/orbcorp/orb-go/commit/83f9d09e1cc0d693aa1b10377ff3b3fb5eb460be))
+
 ## 0.18.1 (2024-02-07)
 
 Full Changelog: [v0.18.0...v0.18.1](https://github.com/orbcorp/orb-go/compare/v0.18.0...v0.18.1)
