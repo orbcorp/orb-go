@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.20.0 (2024-03-08)
+
+Full Changelog: [v0.19.1...v0.20.0](https://github.com/orbcorp/orb-go/compare/v0.19.1...v0.20.0)
+
+### Features
+
+* **api:** updates ([#94](https://github.com/orbcorp/orb-go/issues/94)) ([81eafc8](https://github.com/orbcorp/orb-go/commit/81eafc8004ceb7ce84ee7c25a983cff5c82b6f29))
+
+
+### Documentation
+
+* **contributing:** add a CONTRIBUTING.md ([#92](https://github.com/orbcorp/orb-go/issues/92)) ([7240de0](https://github.com/orbcorp/orb-go/commit/7240de0827f83cd5960dc6bf2cf2bfe50d74a309))
+
 ## 0.19.1 (2024-03-07)
 
 Full Changelog: [v0.19.0...v0.19.1](https://github.com/orbcorp/orb-go/compare/v0.19.0...v0.19.1)
