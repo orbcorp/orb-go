@@ -476,6 +476,7 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 // [PlanNewParamsPricesNewPlanThresholdTotalAmountPrice],
 // [PlanNewParamsPricesNewPlanTieredPackagePrice],
 // [PlanNewParamsPricesNewPlanTieredWithMinimumPrice],
+// [PlanNewParamsPricesNewPlanUnitWithPercentPrice],
 // [PlanNewParamsPricesNewPlanPackageWithAllocationPrice].
 type PlanNewParamsPrice interface {
 	implementsPlanNewParamsPrice()
@@ -1140,6 +1141,52 @@ type PlanNewParamsPricesNewPlanTieredWithMinimumPriceModelType string
 
 const (
 	PlanNewParamsPricesNewPlanTieredWithMinimumPriceModelTypeTieredWithMinimum PlanNewParamsPricesNewPlanTieredWithMinimumPriceModelType = "tiered_with_minimum"
+)
+
+type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                  `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                  param.Field[string]                 `json:"name,required"`
+	UnitWithPercentConfig param.Field[map[string]interface{}] `json:"unit_with_percent_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPrice) implementsPlanNewParamsPrice() {}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceCadenceAnnual    PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence = "annual"
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceCadenceMonthly   PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceCadenceQuarterly PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceCadenceOneTime   PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence = "one_time"
+)
+
+type PlanNewParamsPricesNewPlanUnitWithPercentPriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceModelTypeUnitWithPercent PlanNewParamsPricesNewPlanUnitWithPercentPriceModelType = "unit_with_percent"
 )
 
 type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
