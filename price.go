@@ -341,7 +341,8 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 // Union satisfied by [PriceUnitPrice], [PricePackagePrice], [PriceMatrixPrice],
 // [PriceTieredPrice], [PriceTieredBpsPrice], [PriceBpsPrice], [PriceBulkBpsPrice],
 // [PriceBulkPrice], [PriceThresholdTotalAmountPrice], [PriceTieredPackagePrice],
-// [PriceTieredWithMinimumPrice] or [PricePackageWithAllocationPrice].
+// [PriceTieredWithMinimumPrice], [PricePackageWithAllocationPrice] or
+// [PriceUnitWithPercentPrice].
 type Price interface {
 	implementsPrice()
 }
@@ -409,6 +410,11 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PricePackageWithAllocationPrice{}),
 			DiscriminatorValue: "package_with_allocation",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceUnitWithPercentPrice{}),
+			DiscriminatorValue: "unit_with_percent",
 		},
 	)
 }
@@ -2850,6 +2856,181 @@ const (
 	PricePackageWithAllocationPricePriceTypeFixedPrice PricePackageWithAllocationPricePriceType = "fixed_price"
 )
 
+type PriceUnitWithPercentPrice struct {
+	ID                    string                                  `json:"id,required"`
+	BillableMetric        PriceUnitWithPercentPriceBillableMetric `json:"billable_metric,required,nullable"`
+	Cadence               PriceUnitWithPercentPriceCadence        `json:"cadence,required"`
+	CreatedAt             time.Time                               `json:"created_at,required" format:"date-time"`
+	Currency              string                                  `json:"currency,required"`
+	Discount              shared.Discount                         `json:"discount,required,nullable"`
+	ExternalPriceID       string                                  `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity    float64                                 `json:"fixed_price_quantity,required,nullable"`
+	Item                  PriceUnitWithPercentPriceItem           `json:"item,required"`
+	Maximum               PriceUnitWithPercentPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount         string                                  `json:"maximum_amount,required,nullable"`
+	Minimum               PriceUnitWithPercentPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount         string                                  `json:"minimum_amount,required,nullable"`
+	ModelType             PriceUnitWithPercentPriceModelType      `json:"model_type,required"`
+	Name                  string                                  `json:"name,required"`
+	PlanPhaseOrder        int64                                   `json:"plan_phase_order,required,nullable"`
+	PriceType             PriceUnitWithPercentPricePriceType      `json:"price_type,required"`
+	UnitWithPercentConfig map[string]interface{}                  `json:"unit_with_percent_config,required"`
+	JSON                  priceUnitWithPercentPriceJSON           `json:"-"`
+}
+
+// priceUnitWithPercentPriceJSON contains the JSON metadata for the struct
+// [PriceUnitWithPercentPrice]
+type priceUnitWithPercentPriceJSON struct {
+	ID                    apijson.Field
+	BillableMetric        apijson.Field
+	Cadence               apijson.Field
+	CreatedAt             apijson.Field
+	Currency              apijson.Field
+	Discount              apijson.Field
+	ExternalPriceID       apijson.Field
+	FixedPriceQuantity    apijson.Field
+	Item                  apijson.Field
+	Maximum               apijson.Field
+	MaximumAmount         apijson.Field
+	Minimum               apijson.Field
+	MinimumAmount         apijson.Field
+	ModelType             apijson.Field
+	Name                  apijson.Field
+	PlanPhaseOrder        apijson.Field
+	PriceType             apijson.Field
+	UnitWithPercentConfig apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceUnitWithPercentPrice) implementsPrice() {}
+
+type PriceUnitWithPercentPriceBillableMetric struct {
+	ID   string                                      `json:"id,required"`
+	JSON priceUnitWithPercentPriceBillableMetricJSON `json:"-"`
+}
+
+// priceUnitWithPercentPriceBillableMetricJSON contains the JSON metadata for the
+// struct [PriceUnitWithPercentPriceBillableMetric]
+type priceUnitWithPercentPriceBillableMetricJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithPercentPriceCadence string
+
+const (
+	PriceUnitWithPercentPriceCadenceOneTime   PriceUnitWithPercentPriceCadence = "one_time"
+	PriceUnitWithPercentPriceCadenceMonthly   PriceUnitWithPercentPriceCadence = "monthly"
+	PriceUnitWithPercentPriceCadenceQuarterly PriceUnitWithPercentPriceCadence = "quarterly"
+	PriceUnitWithPercentPriceCadenceAnnual    PriceUnitWithPercentPriceCadence = "annual"
+)
+
+type PriceUnitWithPercentPriceItem struct {
+	ID   string                            `json:"id,required"`
+	Name string                            `json:"name,required"`
+	JSON priceUnitWithPercentPriceItemJSON `json:"-"`
+}
+
+// priceUnitWithPercentPriceItemJSON contains the JSON metadata for the struct
+// [PriceUnitWithPercentPriceItem]
+type priceUnitWithPercentPriceItemJSON struct {
+	ID          apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithPercentPriceMaximum struct {
+	// List of price_ids that this maximum amount applies to. For plan/plan phase
+	// maximums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Maximum amount applied
+	MaximumAmount string                               `json:"maximum_amount,required"`
+	JSON          priceUnitWithPercentPriceMaximumJSON `json:"-"`
+}
+
+// priceUnitWithPercentPriceMaximumJSON contains the JSON metadata for the struct
+// [PriceUnitWithPercentPriceMaximum]
+type priceUnitWithPercentPriceMaximumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceMaximum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithPercentPriceMinimum struct {
+	// List of price_ids that this minimum amount applies to. For plan/plan phase
+	// minimums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Minimum amount applied
+	MinimumAmount string                               `json:"minimum_amount,required"`
+	JSON          priceUnitWithPercentPriceMinimumJSON `json:"-"`
+}
+
+// priceUnitWithPercentPriceMinimumJSON contains the JSON metadata for the struct
+// [PriceUnitWithPercentPriceMinimum]
+type priceUnitWithPercentPriceMinimumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MinimumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceMinimum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceMinimumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithPercentPriceModelType string
+
+const (
+	PriceUnitWithPercentPriceModelTypeUnitWithPercent PriceUnitWithPercentPriceModelType = "unit_with_percent"
+)
+
+type PriceUnitWithPercentPricePriceType string
+
+const (
+	PriceUnitWithPercentPricePriceTypeUsagePrice PriceUnitWithPercentPricePriceType = "usage_price"
+	PriceUnitWithPercentPricePriceTypeFixedPrice PriceUnitWithPercentPricePriceType = "fixed_price"
+)
+
 // This interface is a union satisfied by one of the following:
 // [PriceNewParamsNewFloatingUnitPrice], [PriceNewParamsNewFloatingPackagePrice],
 // [PriceNewParamsNewFloatingMatrixPrice], [PriceNewParamsNewFloatingTieredPrice],
@@ -2858,7 +3039,9 @@ const (
 // [PriceNewParamsNewFloatingThresholdTotalAmountPrice],
 // [PriceNewParamsNewFloatingTieredPackagePrice],
 // [PriceNewParamsNewFloatingTieredWithMinimumPrice],
-// [PriceNewParamsNewFloatingPackageWithAllocationPrice].
+// [PriceNewParamsNewFloatingPackageWithAllocationPrice],
+// [PriceNewParamsNewFloatingTieredPackageWithMinimumPrice],
+// [PriceNewParamsNewFloatingUnitWithPercentPrice].
 type PriceNewParams interface {
 	ImplementsPriceNewParams()
 }
@@ -3616,6 +3799,106 @@ type PriceNewParamsNewFloatingPackageWithAllocationPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation PriceNewParamsNewFloatingPackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+type PriceNewParamsNewFloatingTieredPackageWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                          `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                           param.Field[string]                 `json:"name,required"`
+	TieredPackageWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_package_with_minimum_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (PriceNewParamsNewFloatingTieredPackageWithMinimumPrice) ImplementsPriceNewParams() {
+
+}
+
+// The cadence to bill for this price on.
+type PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence string
+
+const (
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual    PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly   PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime   PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
+)
+
+type PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType string
+
+const (
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
+)
+
+type PriceNewParamsNewFloatingUnitWithPercentPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                 `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                  param.Field[string]                 `json:"name,required"`
+	UnitWithPercentConfig param.Field[map[string]interface{}] `json:"unit_with_percent_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r PriceNewParamsNewFloatingUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (PriceNewParamsNewFloatingUnitWithPercentPrice) ImplementsPriceNewParams() {
+
+}
+
+// The cadence to bill for this price on.
+type PriceNewParamsNewFloatingUnitWithPercentPriceCadence string
+
+const (
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual    PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "annual"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly   PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "monthly"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime   PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "one_time"
+)
+
+type PriceNewParamsNewFloatingUnitWithPercentPriceModelType string
+
+const (
+	PriceNewParamsNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent PriceNewParamsNewFloatingUnitWithPercentPriceModelType = "unit_with_percent"
 )
 
 type PriceListParams struct {
