@@ -85,6 +85,9 @@ func (r *InvoiceService) ListAutoPaging(ctx context.Context, query InvoiceListPa
 
 // This endpoint is used to fetch an [`Invoice`](../guides/concepts#invoice) given
 // an identifier.
+//
+// This endpoint supports returning ApiCachedUsageData (see
+// api/cache_control_utils.py)
 func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *Invoice, err error) {
 	opts = append(r.Options[:], opts...)
 	path := fmt.Sprintf("invoices/%s", invoiceID)
@@ -95,6 +98,9 @@ func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, opts ...op
 // This endpoint can be used to fetch the upcoming
 // [invoice](../guides/concepts#invoice) for the current billing period given a
 // subscription.
+//
+// This endpoint supports returning ApiCachedUsageData (see
+// api/cache_control_utils.py)
 func (r *InvoiceService) FetchUpcoming(ctx context.Context, query InvoiceFetchUpcomingParams, opts ...option.RequestOption) (res *InvoiceFetchUpcomingResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "invoices/upcoming"
