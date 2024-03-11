@@ -227,8 +227,6 @@ type CreditNoteLineItem struct {
 	Name string `json:"name,required"`
 	// An optional quantity credited.
 	Quantity float64 `json:"quantity,required,nullable"`
-	// Any sub line items that may be credited.
-	SubLineItems []CreditNoteLineItemsSubLineItem `json:"sub_line_items,required"`
 	// The amount of the line item, excluding any line item minimums and discounts.
 	Subtotal string `json:"subtotal,required"`
 	// Any tax amounts applied onto the line item.
@@ -239,16 +237,15 @@ type CreditNoteLineItem struct {
 // creditNoteLineItemJSON contains the JSON metadata for the struct
 // [CreditNoteLineItem]
 type creditNoteLineItemJSON struct {
-	ID           apijson.Field
-	Amount       apijson.Field
-	Discounts    apijson.Field
-	Name         apijson.Field
-	Quantity     apijson.Field
-	SubLineItems apijson.Field
-	Subtotal     apijson.Field
-	TaxAmounts   apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
+	ID          apijson.Field
+	Amount      apijson.Field
+	Discounts   apijson.Field
+	Name        apijson.Field
+	Quantity    apijson.Field
+	Subtotal    apijson.Field
+	TaxAmounts  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
 }
 
 func (r *CreditNoteLineItem) UnmarshalJSON(data []byte) (err error) {
@@ -298,31 +295,6 @@ const (
 	CreditNoteLineItemsDiscountsDiscountTypePercentage CreditNoteLineItemsDiscountsDiscountType = "percentage"
 	CreditNoteLineItemsDiscountsDiscountTypeAmount     CreditNoteLineItemsDiscountsDiscountType = "amount"
 )
-
-type CreditNoteLineItemsSubLineItem struct {
-	Amount   string                             `json:"amount,required"`
-	Name     string                             `json:"name,required"`
-	Quantity float64                            `json:"quantity,required,nullable"`
-	JSON     creditNoteLineItemsSubLineItemJSON `json:"-"`
-}
-
-// creditNoteLineItemsSubLineItemJSON contains the JSON metadata for the struct
-// [CreditNoteLineItemsSubLineItem]
-type creditNoteLineItemsSubLineItemJSON struct {
-	Amount      apijson.Field
-	Name        apijson.Field
-	Quantity    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *CreditNoteLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r creditNoteLineItemsSubLineItemJSON) RawJSON() string {
-	return r.raw
-}
 
 type CreditNoteLineItemsTaxAmount struct {
 	// The amount of additional tax incurred by this tax rate.
