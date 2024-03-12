@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.1 (2024-03-12)
+
+Full Changelog: [v0.21.0...v0.21.1](https://github.com/orbcorp/orb-go/compare/v0.21.0...v0.21.1)
+
+### Bug Fixes
+
+* fix String() behavior of param.Field ([#97](https://github.com/orbcorp/orb-go/issues/97)) ([3f3e715](https://github.com/orbcorp/orb-go/commit/3f3e71588321bec0707f1a33ab68d93a7db57f92))
+
 ## 0.21.0 (2024-03-11)
 
 Full Changelog: [v0.20.0...v0.21.0](https://github.com/orbcorp/orb-go/compare/v0.20.0...v0.21.0)
