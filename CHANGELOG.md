@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.2 (2024-03-12)
+
+Full Changelog: [v0.21.1...v0.21.2](https://github.com/orbcorp/orb-go/compare/v0.21.1...v0.21.2)
+
+### Bug Fixes
+
+* **client:** don't include ? in path unless necessary ([#99](https://github.com/orbcorp/orb-go/issues/99)) ([1449fb4](https://github.com/orbcorp/orb-go/commit/1449fb4be288821ebba2c4e41efb774f312041a8))
+
 ## 0.21.1 (2024-03-12)
 
 Full Changelog: [v0.21.0...v0.21.1](https://github.com/orbcorp/orb-go/compare/v0.21.0...v0.21.1)
