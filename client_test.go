@@ -4,11 +4,13 @@ package orb_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"testing"
 	"time"
 
 	"github.com/orbcorp/orb-go"
+	"github.com/orbcorp/orb-go/internal"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -18,6 +20,29 @@ type closureTransport struct {
 
 func (t *closureTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	return t.fn(req)
+}
+
+func TestUserAgentHeader(t *testing.T) {
+	var userAgent string
+	client := orb.NewClient(
+		option.WithHTTPClient(&http.Client{
+			Transport: &closureTransport{
+				fn: func(req *http.Request) (*http.Response, error) {
+					userAgent = req.Header.Get("User-Agent")
+					return &http.Response{
+						StatusCode: http.StatusOK,
+					}, nil
+				},
+			},
+		}),
+	)
+	client.Customers.New(context.Background(), orb.CustomerNewParams{
+		Email: orb.F("example-customer@withorb.com"),
+		Name:  orb.F("My Customer"),
+	})
+	if userAgent != fmt.Sprintf("Orb/Go %s", internal.PackageVersion) {
+		t.Errorf("Expected User-Agent to be correct, but got: %#v", userAgent)
+	}
 }
 
 func TestRetryAfter(t *testing.T) {
