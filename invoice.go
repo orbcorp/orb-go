@@ -442,9 +442,11 @@ func (r invoiceBillingAddressJSON) RawJSON() string {
 type InvoiceCreditNote struct {
 	ID               string `json:"id,required"`
 	CreditNoteNumber string `json:"credit_note_number,required"`
-	Reason           string `json:"reason,required"`
-	Total            string `json:"total,required"`
-	Type             string `json:"type,required"`
+	// An optional memo supplied on the credit note.
+	Memo   string `json:"memo,required,nullable"`
+	Reason string `json:"reason,required"`
+	Total  string `json:"total,required"`
+	Type   string `json:"type,required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
 	VoidedAt time.Time             `json:"voided_at,required,nullable" format:"date-time"`
@@ -456,6 +458,7 @@ type InvoiceCreditNote struct {
 type invoiceCreditNoteJSON struct {
 	ID               apijson.Field
 	CreditNoteNumber apijson.Field
+	Memo             apijson.Field
 	Reason           apijson.Field
 	Total            apijson.Field
 	Type             apijson.Field
@@ -1903,9 +1906,11 @@ func (r invoiceFetchUpcomingResponseBillingAddressJSON) RawJSON() string {
 type InvoiceFetchUpcomingResponseCreditNote struct {
 	ID               string `json:"id,required"`
 	CreditNoteNumber string `json:"credit_note_number,required"`
-	Reason           string `json:"reason,required"`
-	Total            string `json:"total,required"`
-	Type             string `json:"type,required"`
+	// An optional memo supplied on the credit note.
+	Memo   string `json:"memo,required,nullable"`
+	Reason string `json:"reason,required"`
+	Total  string `json:"total,required"`
+	Type   string `json:"type,required"`
 	// If the credit note has a status of `void`, this gives a timestamp when the
 	// credit note was voided.
 	VoidedAt time.Time                                  `json:"voided_at,required,nullable" format:"date-time"`
@@ -1917,6 +1922,7 @@ type InvoiceFetchUpcomingResponseCreditNote struct {
 type invoiceFetchUpcomingResponseCreditNoteJSON struct {
 	ID               apijson.Field
 	CreditNoteNumber apijson.Field
+	Memo             apijson.Field
 	Reason           apijson.Field
 	Total            apijson.Field
 	Type             apijson.Field

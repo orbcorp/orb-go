@@ -3779,6 +3779,7 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 // Satisfied by [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice],
@@ -3993,6 +3994,88 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType str
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelTypeMatrix SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType = "matrix"
+)
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the plan will be associated with.
+	ItemID                     param.Field[string]                                                                                                 `json:"item_id,required"`
+	MatrixWithAllocationConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig] `json:"matrix_with_allocation_config,required"`
+	ModelType                  param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelType]                  `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence = "one_time"
+)
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
+	// Allocation to be used to calculate the price
+	Allocation param.Field[float64] `json:"allocation,required"`
+	// Default per unit rate for any usage not bucketed into a specified matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions,required"`
+	// Matrix values for specified matrix grouping keys
+	MatrixValues param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue] `json:"matrix_values,required"`
+	// Default optional multiplier to scale rated quantities that fall into the default
+	// bucket by
+	ScalingFactor param.Field[float64] `json:"scaling_factor"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this Matrix value by. For example,
+	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
+	// instance tier.
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// Unit price for the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// Optional multiplier to scale rated quantities by
+	ScalingFactor param.Field[float64] `json:"scaling_factor"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelType = "matrix_with_allocation"
 )
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice struct {
