@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.22.0 (2024-03-14)
+
+Full Changelog: [v0.21.2...v0.22.0](https://github.com/orbcorp/orb-go/compare/v0.21.2...v0.22.0)
+
+### Features
+
+* **api:** add matrix with allocation price ([#103](https://github.com/orbcorp/orb-go/issues/103)) ([e819aad](https://github.com/orbcorp/orb-go/commit/e819aad807bd126774e7b3011ffbd5b87de31283))
+* set user-agent header by default when making requests ([#101](https://github.com/orbcorp/orb-go/issues/101)) ([cd92451](https://github.com/orbcorp/orb-go/commit/cd92451f97743eb75297e6f246f6d4222842fbfc))
+
 ## 0.21.2 (2024-03-12)
 
 Full Changelog: [v0.21.1...v0.21.2](https://github.com/orbcorp/orb-go/compare/v0.21.1...v0.21.2)
