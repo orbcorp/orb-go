@@ -341,8 +341,8 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 // Union satisfied by [PriceUnitPrice], [PricePackagePrice], [PriceMatrixPrice],
 // [PriceTieredPrice], [PriceTieredBpsPrice], [PriceBpsPrice], [PriceBulkBpsPrice],
 // [PriceBulkPrice], [PriceThresholdTotalAmountPrice], [PriceTieredPackagePrice],
-// [PriceTieredWithMinimumPrice], [PricePackageWithAllocationPrice] or
-// [PriceUnitWithPercentPrice].
+// [PriceTieredWithMinimumPrice], [PricePackageWithAllocationPrice],
+// [PriceUnitWithPercentPrice] or [PriceMatrixWithAllocationPrice].
 type Price interface {
 	implementsPrice()
 }
@@ -415,6 +415,11 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceUnitWithPercentPrice{}),
 			DiscriminatorValue: "unit_with_percent",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceMatrixWithAllocationPrice{}),
+			DiscriminatorValue: "matrix_with_allocation",
 		},
 	)
 }
@@ -3031,9 +3036,253 @@ const (
 	PriceUnitWithPercentPricePriceTypeFixedPrice PriceUnitWithPercentPricePriceType = "fixed_price"
 )
 
+type PriceMatrixWithAllocationPrice struct {
+	ID                         string                                                   `json:"id,required"`
+	BillableMetric             PriceMatrixWithAllocationPriceBillableMetric             `json:"billable_metric,required,nullable"`
+	Cadence                    PriceMatrixWithAllocationPriceCadence                    `json:"cadence,required"`
+	CreatedAt                  time.Time                                                `json:"created_at,required" format:"date-time"`
+	Currency                   string                                                   `json:"currency,required"`
+	Discount                   shared.Discount                                          `json:"discount,required,nullable"`
+	ExternalPriceID            string                                                   `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity         float64                                                  `json:"fixed_price_quantity,required,nullable"`
+	Item                       PriceMatrixWithAllocationPriceItem                       `json:"item,required"`
+	MatrixWithAllocationConfig PriceMatrixWithAllocationPriceMatrixWithAllocationConfig `json:"matrix_with_allocation_config,required"`
+	Maximum                    PriceMatrixWithAllocationPriceMaximum                    `json:"maximum,required,nullable"`
+	MaximumAmount              string                                                   `json:"maximum_amount,required,nullable"`
+	Minimum                    PriceMatrixWithAllocationPriceMinimum                    `json:"minimum,required,nullable"`
+	MinimumAmount              string                                                   `json:"minimum_amount,required,nullable"`
+	ModelType                  PriceMatrixWithAllocationPriceModelType                  `json:"model_type,required"`
+	Name                       string                                                   `json:"name,required"`
+	PlanPhaseOrder             int64                                                    `json:"plan_phase_order,required,nullable"`
+	PriceType                  PriceMatrixWithAllocationPricePriceType                  `json:"price_type,required"`
+	JSON                       priceMatrixWithAllocationPriceJSON                       `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceJSON contains the JSON metadata for the struct
+// [PriceMatrixWithAllocationPrice]
+type priceMatrixWithAllocationPriceJSON struct {
+	ID                         apijson.Field
+	BillableMetric             apijson.Field
+	Cadence                    apijson.Field
+	CreatedAt                  apijson.Field
+	Currency                   apijson.Field
+	Discount                   apijson.Field
+	ExternalPriceID            apijson.Field
+	FixedPriceQuantity         apijson.Field
+	Item                       apijson.Field
+	MatrixWithAllocationConfig apijson.Field
+	Maximum                    apijson.Field
+	MaximumAmount              apijson.Field
+	Minimum                    apijson.Field
+	MinimumAmount              apijson.Field
+	ModelType                  apijson.Field
+	Name                       apijson.Field
+	PlanPhaseOrder             apijson.Field
+	PriceType                  apijson.Field
+	raw                        string
+	ExtraFields                map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceMatrixWithAllocationPrice) implementsPrice() {}
+
+type PriceMatrixWithAllocationPriceBillableMetric struct {
+	ID   string                                           `json:"id,required"`
+	JSON priceMatrixWithAllocationPriceBillableMetricJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceBillableMetricJSON contains the JSON metadata for
+// the struct [PriceMatrixWithAllocationPriceBillableMetric]
+type priceMatrixWithAllocationPriceBillableMetricJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceCadence string
+
+const (
+	PriceMatrixWithAllocationPriceCadenceOneTime   PriceMatrixWithAllocationPriceCadence = "one_time"
+	PriceMatrixWithAllocationPriceCadenceMonthly   PriceMatrixWithAllocationPriceCadence = "monthly"
+	PriceMatrixWithAllocationPriceCadenceQuarterly PriceMatrixWithAllocationPriceCadence = "quarterly"
+	PriceMatrixWithAllocationPriceCadenceAnnual    PriceMatrixWithAllocationPriceCadence = "annual"
+)
+
+type PriceMatrixWithAllocationPriceItem struct {
+	ID   string                                 `json:"id,required"`
+	Name string                                 `json:"name,required"`
+	JSON priceMatrixWithAllocationPriceItemJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceItemJSON contains the JSON metadata for the struct
+// [PriceMatrixWithAllocationPriceItem]
+type priceMatrixWithAllocationPriceItemJSON struct {
+	ID          apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
+	// Allocation to be used to calculate the price
+	Allocation float64 `json:"allocation,required"`
+	// Default per unit rate for any usage not bucketed into a specified matrix_value
+	DefaultUnitAmount string `json:"default_unit_amount,required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions []string `json:"dimensions,required"`
+	// Matrix values for specified matrix grouping keys
+	MatrixValues []PriceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue `json:"matrix_values,required"`
+	// Default optional multiplier to scale rated quantities that fall into the default
+	// bucket by
+	ScalingFactor float64                                                      `json:"scaling_factor,nullable"`
+	JSON          priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON contains the JSON
+// metadata for the struct
+// [PriceMatrixWithAllocationPriceMatrixWithAllocationConfig]
+type priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON struct {
+	Allocation        apijson.Field
+	DefaultUnitAmount apijson.Field
+	Dimensions        apijson.Field
+	MatrixValues      apijson.Field
+	ScalingFactor     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceMatrixWithAllocationConfig) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this Matrix value by. For example,
+	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
+	// instance tier.
+	DimensionValues []string `json:"dimension_values,required"`
+	// Unit price for the specified dimension_values
+	UnitAmount string `json:"unit_amount,required"`
+	// Optional multiplier to scale rated quantities by
+	ScalingFactor float64                                                                 `json:"scaling_factor,nullable"`
+	JSON          priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON contains
+// the JSON metadata for the struct
+// [PriceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue]
+type priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON struct {
+	DimensionValues apijson.Field
+	UnitAmount      apijson.Field
+	ScalingFactor   apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceMaximum struct {
+	// List of price_ids that this maximum amount applies to. For plan/plan phase
+	// maximums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Maximum amount applied
+	MaximumAmount string                                    `json:"maximum_amount,required"`
+	JSON          priceMatrixWithAllocationPriceMaximumJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceMaximumJSON contains the JSON metadata for the
+// struct [PriceMatrixWithAllocationPriceMaximum]
+type priceMatrixWithAllocationPriceMaximumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceMaximum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceMinimum struct {
+	// List of price_ids that this minimum amount applies to. For plan/plan phase
+	// minimums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Minimum amount applied
+	MinimumAmount string                                    `json:"minimum_amount,required"`
+	JSON          priceMatrixWithAllocationPriceMinimumJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceMinimumJSON contains the JSON metadata for the
+// struct [PriceMatrixWithAllocationPriceMinimum]
+type priceMatrixWithAllocationPriceMinimumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MinimumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceMinimum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceMinimumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceModelType string
+
+const (
+	PriceMatrixWithAllocationPriceModelTypeMatrixWithAllocation PriceMatrixWithAllocationPriceModelType = "matrix_with_allocation"
+)
+
+type PriceMatrixWithAllocationPricePriceType string
+
+const (
+	PriceMatrixWithAllocationPricePriceTypeUsagePrice PriceMatrixWithAllocationPricePriceType = "usage_price"
+	PriceMatrixWithAllocationPricePriceTypeFixedPrice PriceMatrixWithAllocationPricePriceType = "fixed_price"
+)
+
 // This interface is a union satisfied by one of the following:
 // [PriceNewParamsNewFloatingUnitPrice], [PriceNewParamsNewFloatingPackagePrice],
-// [PriceNewParamsNewFloatingMatrixPrice], [PriceNewParamsNewFloatingTieredPrice],
+// [PriceNewParamsNewFloatingMatrixPrice],
+// [PriceNewParamsNewFloatingMatrixWithAllocationPrice],
+// [PriceNewParamsNewFloatingTieredPrice],
 // [PriceNewParamsNewFloatingTieredBpsPrice], [PriceNewParamsNewFloatingBpsPrice],
 // [PriceNewParamsNewFloatingBulkBpsPrice], [PriceNewParamsNewFloatingBulkPrice],
 // [PriceNewParamsNewFloatingThresholdTotalAmountPrice],
@@ -3248,6 +3497,89 @@ type PriceNewParamsNewFloatingMatrixPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingMatrixPriceModelTypeMatrix PriceNewParamsNewFloatingMatrixPriceModelType = "matrix"
+)
+
+type PriceNewParamsNewFloatingMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the plan will be associated with.
+	ItemID                     param.Field[string]                                                                       `json:"item_id,required"`
+	MatrixWithAllocationConfig param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig] `json:"matrix_with_allocation_config,required"`
+	ModelType                  param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType]                  `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r PriceNewParamsNewFloatingMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (PriceNewParamsNewFloatingMatrixWithAllocationPrice) ImplementsPriceNewParams() {
+
+}
+
+// The cadence to bill for this price on.
+type PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence string
+
+const (
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual    PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "annual"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly   PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "monthly"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime   PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "one_time"
+)
+
+type PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
+	// Allocation to be used to calculate the price
+	Allocation param.Field[float64] `json:"allocation,required"`
+	// Default per unit rate for any usage not bucketed into a specified matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions,required"`
+	// Matrix values for specified matrix grouping keys
+	MatrixValues param.Field[[]PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue] `json:"matrix_values,required"`
+	// Default optional multiplier to scale rated quantities that fall into the default
+	// bucket by
+	ScalingFactor param.Field[float64] `json:"scaling_factor"`
+}
+
+func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this Matrix value by. For example,
+	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
+	// instance tier.
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// Unit price for the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// Optional multiplier to scale rated quantities by
+	ScalingFactor param.Field[float64] `json:"scaling_factor"`
+}
+
+func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType string
+
+const (
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType = "matrix_with_allocation"
 )
 
 type PriceNewParamsNewFloatingTieredPrice struct {

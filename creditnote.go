@@ -221,7 +221,7 @@ type CreditNoteLineItem struct {
 	ID string `json:"id,required"`
 	// The amount of the line item, including any line item minimums and discounts.
 	Amount string `json:"amount,required"`
-	// Any line items discounts from the invoice's line item.
+	// Any line item discounts from the invoice's line item.
 	Discounts []CreditNoteLineItemsDiscount `json:"discounts,required"`
 	// The name of the corresponding invoice line item.
 	Name string `json:"name,required"`
