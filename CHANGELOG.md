@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.23.0 (2024-03-15)
+
+Full Changelog: [v0.22.0...v0.23.0](https://github.com/orbcorp/orb-go/compare/v0.22.0...v0.23.0)
+
+### Features
+
+* **api:** create invoice metadata param ([#104](https://github.com/orbcorp/orb-go/issues/104)) ([c585633](https://github.com/orbcorp/orb-go/commit/c58563397fc91a2e03b75dbb93b11e15393a9007))
+
 ## 0.22.0 (2024-03-14)
 
 Full Changelog: [v0.21.2...v0.22.0](https://github.com/orbcorp/orb-go/compare/v0.21.2...v0.22.0)
