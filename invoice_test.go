@@ -67,7 +67,10 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 		CustomerID:         orb.F("4khy3nwzktxv7"),
 		ExternalCustomerID: orb.F("external-customer-id"),
 		Memo:               orb.F("An optional memo for my invoice."),
-		WillAutoIssue:      orb.F(false),
+		Metadata: orb.F(map[string]string{
+			"foo": "string",
+		}),
+		WillAutoIssue: orb.F(false),
 	})
 	if err != nil {
 		var apierr *orb.Error
