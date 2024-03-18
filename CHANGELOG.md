@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.23.1 (2024-03-18)
+
+Full Changelog: [v0.23.0...v0.23.1](https://github.com/orbcorp/orb-go/compare/v0.23.0...v0.23.1)
+
+### Bug Fixes
+
+* **api:** improve union handling for request bodies ([#106](https://github.com/orbcorp/orb-go/issues/106)) ([93a5ed2](https://github.com/orbcorp/orb-go/commit/93a5ed25222c0f49a5d716f6b69f62c4ce210008))
+
 ## 0.23.0 (2024-03-15)
 
 Full Changelog: [v0.22.0...v0.23.0](https://github.com/orbcorp/orb-go/compare/v0.22.0...v0.23.0)
