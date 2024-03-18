@@ -67,10 +67,27 @@ type ErrorStatus int64
 
 const (
 	ErrorStatus500 ErrorStatus = 500
+	ErrorStatus429 ErrorStatus = 429
+	ErrorStatus413 ErrorStatus = 413
+	ErrorStatus409 ErrorStatus = 409
+	ErrorStatus404 ErrorStatus = 404
+	ErrorStatus400 ErrorStatus = 400
+	ErrorStatus401 ErrorStatus = 401
 )
 
 type ErrorType string
 
 const (
-	ErrorTypeOrbInternalServerError ErrorType = "https://docs.withorb.com/reference/error-responses#500-internal-server-error"
+	ErrorTypeOrbInternalServerError                                                 ErrorType = "https://docs.withorb.com/reference/error-responses#500-internal-server-error"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses429TooManyRequests           ErrorType = "https://docs.withorb.com/reference/error-responses#429-too-many-requests"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413ResourceTooLarge          ErrorType = "https://docs.withorb.com/reference/error-responses#413-resource-too-large"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413RequestTooLarge           ErrorType = "https://docs.withorb.com/reference/error-responses#413-request-too-large"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses409ResourceConflict          ErrorType = "https://docs.withorb.com/reference/error-responses#409-resource-conflict"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404URLNotFound               ErrorType = "https://docs.withorb.com/reference/error-responses#404-url-not-found"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404ResourceNotFound          ErrorType = "https://docs.withorb.com/reference/error-responses#404-resource-not-found"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404FeatureNotAvailable       ErrorType = "https://docs.withorb.com/reference/error-responses#404-feature-not-available"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses401AuthenticationError       ErrorType = "https://docs.withorb.com/reference/error-responses#401-authentication-error"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400RequestValidationErrors   ErrorType = "https://docs.withorb.com/reference/error-responses#400-request-validation-errors"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400DuplicateResourceCreation ErrorType = "https://docs.withorb.com/reference/error-responses#400-duplicate-resource-creation"
+	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400ConstraintViolation       ErrorType = "https://docs.withorb.com/reference/error-responses#400-constraint-violation"
 )
