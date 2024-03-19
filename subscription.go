@@ -1212,6 +1212,14 @@ const (
 	SubscriptionDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
 )
 
+func (r SubscriptionDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionDiscountIntervalsPercentageDiscountInterval struct {
 	// The price ids that this discount interval applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
@@ -1259,6 +1267,14 @@ const (
 	SubscriptionDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
 )
 
+func (r SubscriptionDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
 type SubscriptionDiscountIntervalsUsageDiscountInterval struct {
 	// The price ids that this discount interval applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
@@ -1304,6 +1320,14 @@ type SubscriptionDiscountIntervalsUsageDiscountIntervalDiscountType string
 const (
 	SubscriptionDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
 )
+
+func (r SubscriptionDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
 
 type SubscriptionFixedFeeQuantitySchedule struct {
 	EndDate   time.Time                                `json:"end_date,required,nullable" format:"date-time"`
@@ -1760,6 +1784,14 @@ const (
 	SubscriptionStatusUpcoming SubscriptionStatus = "upcoming"
 )
 
+func (r SubscriptionStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionStatusActive, SubscriptionStatusEnded, SubscriptionStatusUpcoming:
+		return true
+	}
+	return false
+}
+
 type SubscriptionTrialInfo struct {
 	EndDate time.Time                 `json:"end_date,required,nullable" format:"date-time"`
 	JSON    subscriptionTrialInfoJSON `json:"-"`
@@ -1906,6 +1938,14 @@ const (
 	SubscriptionUsageUngroupedSubscriptionUsageDataViewModeCumulative SubscriptionUsageUngroupedSubscriptionUsageDataViewMode = "cumulative"
 )
 
+func (r SubscriptionUsageUngroupedSubscriptionUsageDataViewMode) IsKnown() bool {
+	switch r {
+	case SubscriptionUsageUngroupedSubscriptionUsageDataViewModePeriodic, SubscriptionUsageUngroupedSubscriptionUsageDataViewModeCumulative:
+		return true
+	}
+	return false
+}
+
 type SubscriptionUsageGroupedSubscriptionUsage struct {
 	Data               []SubscriptionUsageGroupedSubscriptionUsageData             `json:"data,required"`
 	PaginationMetadata SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata `json:"pagination_metadata,nullable"`
@@ -2037,6 +2077,14 @@ const (
 	SubscriptionUsageGroupedSubscriptionUsageDataViewModePeriodic   SubscriptionUsageGroupedSubscriptionUsageDataViewMode = "periodic"
 	SubscriptionUsageGroupedSubscriptionUsageDataViewModeCumulative SubscriptionUsageGroupedSubscriptionUsageDataViewMode = "cumulative"
 )
+
+func (r SubscriptionUsageGroupedSubscriptionUsageDataViewMode) IsKnown() bool {
+	switch r {
+	case SubscriptionUsageGroupedSubscriptionUsageDataViewModePeriodic, SubscriptionUsageGroupedSubscriptionUsageDataViewModeCumulative:
+		return true
+	}
+	return false
+}
 
 type SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata struct {
 	HasMore    bool                                                            `json:"has_more,required"`
@@ -2536,6 +2584,14 @@ const (
 	SubscriptionNewParamsExternalMarketplaceAzure  SubscriptionNewParamsExternalMarketplace = "azure"
 )
 
+func (r SubscriptionNewParamsExternalMarketplace) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsExternalMarketplaceGoogle, SubscriptionNewParamsExternalMarketplaceAws, SubscriptionNewParamsExternalMarketplaceAzure:
+		return true
+	}
+	return false
+}
+
 // Satisfied by [SubscriptionNewParamsPriceOverridesOverrideUnitPrice],
 // [SubscriptionNewParamsPriceOverridesOverridePackagePrice],
 // [SubscriptionNewParamsPriceOverridesOverrideMatrixPrice],
@@ -2580,6 +2636,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelTypeUnit SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelType = "unit"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -2622,6 +2686,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverridePackagePrice struct {
 	ID            param.Field[string]                                                               `json:"id,required"`
 	ModelType     param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePriceModelType]     `json:"model_type,required"`
@@ -2648,6 +2720,14 @@ type SubscriptionNewParamsPriceOverridesOverridePackagePriceModelType string
 const (
 	SubscriptionNewParamsPriceOverridesOverridePackagePriceModelTypePackage SubscriptionNewParamsPriceOverridesOverridePackagePriceModelType = "package"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverridePackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverridePackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
 
 type SubscriptionNewParamsPriceOverridesOverridePackagePricePackageConfig struct {
 	// A currency amount to rate usage by
@@ -2691,6 +2771,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "usage"
 	SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "amount"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionNewParamsPriceOverridesOverrideMatrixPrice struct {
 	ID           param.Field[string]                                                             `json:"id,required"`
@@ -2750,6 +2838,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelTypeMatrix SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelType = "matrix"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -2781,6 +2877,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredPrice struct {
 	ID           param.Field[string]                                                             `json:"id,required"`
 	ModelType    param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelType]    `json:"model_type,required"`
@@ -2807,6 +2911,14 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelType string
 const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelTypeTiered SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelType = "tiered"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
 
 type SubscriptionNewParamsPriceOverridesOverrideTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
@@ -2861,6 +2973,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPrice struct {
 	ID              param.Field[string]                                                                   `json:"id,required"`
 	ModelType       param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelType]       `json:"model_type,required"`
@@ -2887,6 +3007,14 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelType string
 const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelTypeTieredBps SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelType = "tiered_bps"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelTypeTieredBps:
+		return true
+	}
+	return false
+}
 
 type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
@@ -2944,6 +3072,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideBpsPrice struct {
 	ID        param.Field[string]                                                       `json:"id,required"`
 	BpsConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceBpsConfig] `json:"bps_config,required"`
@@ -2982,6 +3118,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelTypeBps SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelType = "bps"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelTypeBps:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -3012,6 +3156,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "usage"
 	SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "amount"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPrice struct {
 	ID            param.Field[string]                                                               `json:"id,required"`
@@ -3063,6 +3215,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelTypeBulkBps SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelType = "bulk_bps"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelTypeBulkBps:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -3093,6 +3253,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "usage"
 	SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "amount"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionNewParamsPriceOverridesOverrideBulkPrice struct {
 	ID         param.Field[string]                                                         `json:"id,required"`
@@ -3141,6 +3309,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelTypeBulk SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelType = "bulk"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -3172,6 +3348,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice struct {
 	ID                         param.Field[string]                                                                        `json:"id,required"`
 	ModelType                  param.Field[SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType] `json:"model_type,required"`
@@ -3198,6 +3382,14 @@ type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelTy
 const (
 	SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount struct {
@@ -3230,6 +3422,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice struct {
 	ID                  param.Field[string]                                                                 `json:"id,required"`
 	ModelType           param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType] `json:"model_type,required"`
@@ -3256,6 +3456,14 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType stri
 const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelTypeTieredPackage SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType = "tiered_package"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscount struct {
@@ -3288,6 +3496,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice struct {
 	ID                      param.Field[string]                                                                     `json:"id,required"`
 	ModelType               param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType] `json:"model_type,required"`
@@ -3314,6 +3530,14 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType 
 const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount struct {
@@ -3346,6 +3570,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPrice struct {
 	ID                          param.Field[string]                                                                         `json:"id,required"`
 	ModelType                   param.Field[SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelType] `json:"model_type,required"`
@@ -3372,6 +3604,14 @@ type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelT
 const (
 	SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelType = "package_with_allocation"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscount struct {
@@ -3404,6 +3644,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice struct {
 	ID                    param.Field[string]                                                                   `json:"id,required"`
 	ModelType             param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelType] `json:"model_type,required"`
@@ -3430,6 +3678,14 @@ type SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelType st
 const (
 	SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelTypeUnitWithPercent SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelType = "unit_with_percent"
 )
+
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscount struct {
@@ -3462,6 +3718,14 @@ const (
 	SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionListParams struct {
 	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
 	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
@@ -3493,6 +3757,14 @@ const (
 	SubscriptionListParamsStatusUpcoming SubscriptionListParamsStatus = "upcoming"
 )
 
+func (r SubscriptionListParamsStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionListParamsStatusActive, SubscriptionListParamsStatusEnded, SubscriptionListParamsStatusUpcoming:
+		return true
+	}
+	return false
+}
+
 type SubscriptionCancelParams struct {
 	// Determines the timing of subscription cancellation
 	CancelOption param.Field[SubscriptionCancelParamsCancelOption] `json:"cancel_option,required"`
@@ -3513,6 +3785,14 @@ const (
 	SubscriptionCancelParamsCancelOptionImmediate             SubscriptionCancelParamsCancelOption = "immediate"
 	SubscriptionCancelParamsCancelOptionRequestedDate         SubscriptionCancelParamsCancelOption = "requested_date"
 )
+
+func (r SubscriptionCancelParamsCancelOption) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelParamsCancelOptionEndOfSubscriptionTerm, SubscriptionCancelParamsCancelOptionImmediate, SubscriptionCancelParamsCancelOptionRequestedDate:
+		return true
+	}
+	return false
+}
 
 type SubscriptionFetchCostsParams struct {
 	// Costs returned are exclusive of `timeframe_end`.
@@ -3545,6 +3825,14 @@ const (
 	SubscriptionFetchCostsParamsViewModePeriodic   SubscriptionFetchCostsParamsViewMode = "periodic"
 	SubscriptionFetchCostsParamsViewModeCumulative SubscriptionFetchCostsParamsViewMode = "cumulative"
 )
+
+func (r SubscriptionFetchCostsParamsViewMode) IsKnown() bool {
+	switch r {
+	case SubscriptionFetchCostsParamsViewModePeriodic, SubscriptionFetchCostsParamsViewModeCumulative:
+		return true
+	}
+	return false
+}
 
 type SubscriptionFetchScheduleParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
@@ -3613,6 +3901,14 @@ const (
 	SubscriptionFetchUsageParamsGranularityDay SubscriptionFetchUsageParamsGranularity = "day"
 )
 
+func (r SubscriptionFetchUsageParamsGranularity) IsKnown() bool {
+	switch r {
+	case SubscriptionFetchUsageParamsGranularityDay:
+		return true
+	}
+	return false
+}
+
 // Controls whether Orb returns cumulative usage since the start of the billing
 // period, or incremental day-by-day usage. If your customer has minimums or
 // discounts, it's strongly recommended that you use the default cumulative
@@ -3623,6 +3919,14 @@ const (
 	SubscriptionFetchUsageParamsViewModePeriodic   SubscriptionFetchUsageParamsViewMode = "periodic"
 	SubscriptionFetchUsageParamsViewModeCumulative SubscriptionFetchUsageParamsViewMode = "cumulative"
 )
+
+func (r SubscriptionFetchUsageParamsViewMode) IsKnown() bool {
+	switch r {
+	case SubscriptionFetchUsageParamsViewModePeriodic, SubscriptionFetchUsageParamsViewModeCumulative:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParams struct {
 	// A list of price intervals to add to the subscription.
@@ -3680,6 +3984,14 @@ const (
 	SubscriptionPriceIntervalsParamsAddStartDateStringEndOfTerm   SubscriptionPriceIntervalsParamsAddStartDateString = "end_of_term"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddStartDateString) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddStartDateStringStartOfTerm, SubscriptionPriceIntervalsParamsAddStartDateStringEndOfTerm:
+		return true
+	}
+	return false
+}
+
 // Satisfied by
 // [SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams],
 // [SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParams],
@@ -3707,6 +4019,14 @@ const (
 	SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountType = "amount"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParams struct {
 	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
@@ -3726,6 +4046,14 @@ type SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParam
 const (
 	SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountTypePercentage SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountType = "percentage"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountTypePercentage:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams struct {
 	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountType] `json:"discount_type,required"`
@@ -3747,6 +4075,14 @@ const (
 	SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountTypeUsage SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountType = "usage"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
 // The end date of the price interval. This is the date that the price will stop
 // billing on the subscription.
 //
@@ -3762,6 +4098,14 @@ const (
 	SubscriptionPriceIntervalsParamsAddEndDateStringStartOfTerm SubscriptionPriceIntervalsParamsAddEndDateString = "start_of_term"
 	SubscriptionPriceIntervalsParamsAddEndDateStringEndOfTerm   SubscriptionPriceIntervalsParamsAddEndDateString = "end_of_term"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddEndDateString) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddEndDateStringStartOfTerm, SubscriptionPriceIntervalsParamsAddEndDateStringEndOfTerm:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
@@ -3838,11 +4182,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType = "unit"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig struct {
 	// Rate per unit of usage
@@ -3898,11 +4258,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelTypePackage SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelType = "package"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePricePackageConfig struct {
 	// A currency amount to rate usage by
@@ -3959,6 +4335,14 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfig struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
 	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
@@ -3995,6 +4379,14 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType str
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelTypeMatrix SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType = "matrix"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPrice struct {
 	// The cadence to bill for this price on.
@@ -4039,6 +4431,14 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
 	// Allocation to be used to calculate the price
 	Allocation param.Field[float64] `json:"allocation,required"`
@@ -4077,6 +4477,14 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPric
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelType = "matrix_with_allocation"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice struct {
 	// The cadence to bill for this price on.
@@ -4121,11 +4529,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelTypeTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelType = "tiered"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
@@ -4192,11 +4616,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelTypeTieredBps SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelType = "tiered_bps"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelTypeTieredBps:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
@@ -4277,11 +4717,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelTypeBps SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelType = "bps"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelTypeBps:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice struct {
 	BulkBpsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
@@ -4349,11 +4805,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelTypeBulkBps SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelType = "bulk_bps"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelTypeBulkBps:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice struct {
 	BulkConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfig] `json:"bulk_config,required"`
@@ -4418,11 +4890,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelTypeBulk SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelType = "bulk"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
@@ -4467,11 +4955,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice struct {
 	// The cadence to bill for this price on.
@@ -4516,11 +5020,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelTypeTieredPackage SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType = "tiered_package"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
@@ -4565,11 +5085,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
@@ -4614,11 +5150,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelType = "package_with_allocation"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPrice struct {
 	// The cadence to bill for this price on.
@@ -4663,11 +5215,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
@@ -4712,11 +5280,27 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadence = "one_time"
 )
 
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceModelType = "unit_with_percent"
 )
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
 
 type SubscriptionPriceIntervalsParamsEdit struct {
 	// The id of the price interval to edit.
@@ -4757,6 +5341,14 @@ const (
 	SubscriptionPriceIntervalsParamsEditEndDateStringEndOfTerm   SubscriptionPriceIntervalsParamsEditEndDateString = "end_of_term"
 )
 
+func (r SubscriptionPriceIntervalsParamsEditEndDateString) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsEditEndDateStringStartOfTerm, SubscriptionPriceIntervalsParamsEditEndDateStringEndOfTerm:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition struct {
 	// The date that the fixed fee quantity transition should take effect.
 	EffectiveDate param.Field[time.Time] `json:"effective_date,required" format:"date-time"`
@@ -4783,6 +5375,14 @@ const (
 	SubscriptionPriceIntervalsParamsEditStartDateStringStartOfTerm SubscriptionPriceIntervalsParamsEditStartDateString = "start_of_term"
 	SubscriptionPriceIntervalsParamsEditStartDateStringEndOfTerm   SubscriptionPriceIntervalsParamsEditStartDateString = "end_of_term"
 )
+
+func (r SubscriptionPriceIntervalsParamsEditStartDateString) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsEditStartDateStringStartOfTerm, SubscriptionPriceIntervalsParamsEditStartDateStringEndOfTerm:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSchedulePlanChangeParams struct {
 	ChangeOption param.Field[SubscriptionSchedulePlanChangeParamsChangeOption] `json:"change_option,required"`
@@ -4830,6 +5430,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsChangeOptionImmediate             SubscriptionSchedulePlanChangeParamsChangeOption = "immediate"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsChangeOption) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsChangeOptionRequestedDate, SubscriptionSchedulePlanChangeParamsChangeOptionEndOfSubscriptionTerm, SubscriptionSchedulePlanChangeParamsChangeOptionImmediate:
+		return true
+	}
+	return false
+}
+
 // Reset billing periods to be aligned with the plan change’s effective date or
 // start of the month. Defaults to `unchanged` which keeps subscription's existing
 // billing cycle alignment.
@@ -4840,6 +5448,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsBillingCycleAlignmentPlanChangeDate SubscriptionSchedulePlanChangeParamsBillingCycleAlignment = "plan_change_date"
 	SubscriptionSchedulePlanChangeParamsBillingCycleAlignmentStartOfMonth   SubscriptionSchedulePlanChangeParamsBillingCycleAlignment = "start_of_month"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsBillingCycleAlignment) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsBillingCycleAlignmentUnchanged, SubscriptionSchedulePlanChangeParamsBillingCycleAlignmentPlanChangeDate, SubscriptionSchedulePlanChangeParamsBillingCycleAlignmentStartOfMonth:
+		return true
+	}
+	return false
+}
 
 // Satisfied by
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice],
@@ -4886,6 +5502,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelTypeUnit SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelType = "unit"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -4928,6 +5552,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePrice struct {
 	ID            param.Field[string]                                                                              `json:"id,required"`
 	ModelType     param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelType]     `json:"model_type,required"`
@@ -4954,6 +5586,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModel
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelTypePackage SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelType = "package"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePricePackageConfig struct {
 	// A currency amount to rate usage by
@@ -4997,6 +5637,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "usage"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType = "amount"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPrice struct {
 	ID           param.Field[string]                                                                            `json:"id,required"`
@@ -5056,6 +5704,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelTypeMatrix SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelType = "matrix"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscount struct {
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -5087,6 +5743,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPrice struct {
 	ID           param.Field[string]                                                                            `json:"id,required"`
 	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelType]    `json:"model_type,required"`
@@ -5113,6 +5777,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelT
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelTypeTiered SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelType = "tiered"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
@@ -5167,6 +5839,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPrice struct {
 	ID              param.Field[string]                                                                                  `json:"id,required"`
 	ModelType       param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelType]       `json:"model_type,required"`
@@ -5193,6 +5873,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceMod
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelTypeTieredBps SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelType = "tiered_bps"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelTypeTieredBps:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
@@ -5250,6 +5938,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPrice struct {
 	ID        param.Field[string]                                                                      `json:"id,required"`
 	BpsConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceBpsConfig] `json:"bps_config,required"`
@@ -5288,6 +5984,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelTypeBps SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelType = "bps"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelTypeBps:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscount struct {
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -5318,6 +6022,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "usage"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType = "amount"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPrice struct {
 	ID            param.Field[string]                                                                              `json:"id,required"`
@@ -5369,6 +6081,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelTypeBulkBps SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelType = "bulk_bps"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelTypeBulkBps:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscount struct {
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -5399,6 +6119,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "usage"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType = "amount"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPrice struct {
 	ID         param.Field[string]                                                                        `json:"id,required"`
@@ -5447,6 +6175,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelTypeBulk SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelType = "bulk"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
+
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscount struct {
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType] `json:"discount_type,required"`
@@ -5478,6 +6214,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPrice struct {
 	ID                         param.Field[string]                                                                                       `json:"id,required"`
 	ModelType                  param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType] `json:"model_type,required"`
@@ -5504,6 +6248,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmo
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount struct {
@@ -5536,6 +6288,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePrice struct {
 	ID                  param.Field[string]                                                                                `json:"id,required"`
 	ModelType           param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelType] `json:"model_type,required"`
@@ -5562,6 +6322,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePric
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelTypeTieredPackage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelType = "tiered_package"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscount struct {
@@ -5594,6 +6362,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPrice struct {
 	ID                      param.Field[string]                                                                                    `json:"id,required"`
 	ModelType               param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelType] `json:"model_type,required"`
@@ -5620,6 +6396,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimum
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount struct {
@@ -5652,6 +6436,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPrice struct {
 	ID                          param.Field[string]                                                                                        `json:"id,required"`
 	ModelType                   param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelType] `json:"model_type,required"`
@@ -5678,6 +6470,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAlloca
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelType = "package_with_allocation"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscount struct {
@@ -5710,6 +6510,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType = "amount"
 )
 
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPrice struct {
 	ID                    param.Field[string]                                                                                  `json:"id,required"`
 	ModelType             param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceModelType] `json:"model_type,required"`
@@ -5736,6 +6544,14 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPr
 const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceModelTypeUnitWithPercent SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceModelType = "unit_with_percent"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
 
 // The subscription's override discount for the plan.
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscount struct {
@@ -5767,6 +6583,14 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType = "usage"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType = "amount"
 )
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type SubscriptionTriggerPhaseParams struct {
 	// The date on which the phase change should take effect. If not provided, defaults
@@ -5815,3 +6639,11 @@ const (
 	SubscriptionUpdateFixedFeeQuantityParamsChangeOptionUpcomingInvoice SubscriptionUpdateFixedFeeQuantityParamsChangeOption = "upcoming_invoice"
 	SubscriptionUpdateFixedFeeQuantityParamsChangeOptionEffectiveDate   SubscriptionUpdateFixedFeeQuantityParamsChangeOption = "effective_date"
 )
+
+func (r SubscriptionUpdateFixedFeeQuantityParamsChangeOption) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityParamsChangeOptionImmediate, SubscriptionUpdateFixedFeeQuantityParamsChangeOptionUpcomingInvoice, SubscriptionUpdateFixedFeeQuantityParamsChangeOptionEffectiveDate:
+		return true
+	}
+	return false
+}

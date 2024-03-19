@@ -211,6 +211,14 @@ const (
 	CustomerCreditTopUpNewResponseExpiresAfterUnitMonth CustomerCreditTopUpNewResponseExpiresAfterUnit = "month"
 )
 
+func (r CustomerCreditTopUpNewResponseExpiresAfterUnit) IsKnown() bool {
+	switch r {
+	case CustomerCreditTopUpNewResponseExpiresAfterUnitDay, CustomerCreditTopUpNewResponseExpiresAfterUnitMonth:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditTopUpListResponse struct {
 	ID string `json:"id,required"`
 	// The amount to increment when the threshold is reached.
@@ -295,6 +303,14 @@ const (
 	CustomerCreditTopUpListResponseExpiresAfterUnitDay   CustomerCreditTopUpListResponseExpiresAfterUnit = "day"
 	CustomerCreditTopUpListResponseExpiresAfterUnitMonth CustomerCreditTopUpListResponseExpiresAfterUnit = "month"
 )
+
+func (r CustomerCreditTopUpListResponseExpiresAfterUnit) IsKnown() bool {
+	switch r {
+	case CustomerCreditTopUpListResponseExpiresAfterUnitDay, CustomerCreditTopUpListResponseExpiresAfterUnitMonth:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditTopUpNewByExternalIDResponse struct {
 	ID string `json:"id,required"`
@@ -382,6 +398,14 @@ const (
 	CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnitMonth CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnit = "month"
 )
 
+func (r CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnit) IsKnown() bool {
+	switch r {
+	case CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnitDay, CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnitMonth:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditTopUpListByExternalIDResponse struct {
 	ID string `json:"id,required"`
 	// The amount to increment when the threshold is reached.
@@ -468,6 +492,14 @@ const (
 	CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnitMonth CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnit = "month"
 )
 
+func (r CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnit) IsKnown() bool {
+	switch r {
+	case CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnitDay, CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnitMonth:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditTopUpNewParams struct {
 	// The amount to increment when the threshold is reached.
 	Amount param.Field[string] `json:"amount,required"`
@@ -516,6 +548,14 @@ const (
 	CustomerCreditTopUpNewParamsExpiresAfterUnitDay   CustomerCreditTopUpNewParamsExpiresAfterUnit = "day"
 	CustomerCreditTopUpNewParamsExpiresAfterUnitMonth CustomerCreditTopUpNewParamsExpiresAfterUnit = "month"
 )
+
+func (r CustomerCreditTopUpNewParamsExpiresAfterUnit) IsKnown() bool {
+	switch r {
+	case CustomerCreditTopUpNewParamsExpiresAfterUnitDay, CustomerCreditTopUpNewParamsExpiresAfterUnitMonth:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditTopUpListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
@@ -582,6 +622,14 @@ const (
 	CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnitDay   CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnit = "day"
 	CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnitMonth CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnit = "month"
 )
+
+func (r CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnit) IsKnown() bool {
+	switch r {
+	case CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnitDay, CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnitMonth:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditTopUpListByExternalIDParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned

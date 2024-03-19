@@ -75,6 +75,14 @@ const (
 	ErrorStatus401 ErrorStatus = 401
 )
 
+func (r ErrorStatus) IsKnown() bool {
+	switch r {
+	case ErrorStatus500, ErrorStatus429, ErrorStatus413, ErrorStatus409, ErrorStatus404, ErrorStatus400, ErrorStatus401:
+		return true
+	}
+	return false
+}
+
 type ErrorType string
 
 const (
@@ -91,3 +99,11 @@ const (
 	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400DuplicateResourceCreation ErrorType = "https://docs.withorb.com/reference/error-responses#400-duplicate-resource-creation"
 	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400ConstraintViolation       ErrorType = "https://docs.withorb.com/reference/error-responses#400-constraint-violation"
 )
+
+func (r ErrorType) IsKnown() bool {
+	switch r {
+	case ErrorTypeOrbInternalServerError, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses429TooManyRequests, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413ResourceTooLarge, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413RequestTooLarge, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses409ResourceConflict, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404URLNotFound, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404ResourceNotFound, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404FeatureNotAvailable, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses401AuthenticationError, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400RequestValidationErrors, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400DuplicateResourceCreation, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400ConstraintViolation:
+		return true
+	}
+	return false
+}

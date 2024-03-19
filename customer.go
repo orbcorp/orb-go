@@ -390,6 +390,14 @@ const (
 	CustomerPaymentProviderNetsuite      CustomerPaymentProvider = "netsuite"
 )
 
+func (r CustomerPaymentProvider) IsKnown() bool {
+	switch r {
+	case CustomerPaymentProviderQuickbooks, CustomerPaymentProviderBillCom, CustomerPaymentProviderStripeCharge, CustomerPaymentProviderStripeInvoice, CustomerPaymentProviderNetsuite:
+		return true
+	}
+	return false
+}
+
 type CustomerShippingAddress struct {
 	City       string                      `json:"city,required,nullable"`
 	Country    string                      `json:"country,required,nullable"`
@@ -596,6 +604,14 @@ const (
 	CustomerTaxIDCountryZa CustomerTaxIDCountry = "ZA"
 )
 
+func (r CustomerTaxIDCountry) IsKnown() bool {
+	switch r {
+	case CustomerTaxIDCountryAd, CustomerTaxIDCountryAe, CustomerTaxIDCountryAt, CustomerTaxIDCountryAu, CustomerTaxIDCountryBe, CustomerTaxIDCountryBg, CustomerTaxIDCountryBr, CustomerTaxIDCountryCa, CustomerTaxIDCountryCh, CustomerTaxIDCountryCl, CustomerTaxIDCountryCy, CustomerTaxIDCountryCz, CustomerTaxIDCountryDe, CustomerTaxIDCountryDk, CustomerTaxIDCountryEe, CustomerTaxIDCountryEg, CustomerTaxIDCountryEs, CustomerTaxIDCountryEu, CustomerTaxIDCountryFi, CustomerTaxIDCountryFr, CustomerTaxIDCountryGB, CustomerTaxIDCountryGe, CustomerTaxIDCountryGr, CustomerTaxIDCountryHk, CustomerTaxIDCountryHr, CustomerTaxIDCountryHu, CustomerTaxIDCountryID, CustomerTaxIDCountryIe, CustomerTaxIDCountryIl, CustomerTaxIDCountryIn, CustomerTaxIDCountryIs, CustomerTaxIDCountryIt, CustomerTaxIDCountryJp, CustomerTaxIDCountryKe, CustomerTaxIDCountryKr, CustomerTaxIDCountryLi, CustomerTaxIDCountryLt, CustomerTaxIDCountryLu, CustomerTaxIDCountryLv, CustomerTaxIDCountryMt, CustomerTaxIDCountryMx, CustomerTaxIDCountryMy, CustomerTaxIDCountryNl, CustomerTaxIDCountryNo, CustomerTaxIDCountryNz, CustomerTaxIDCountryPh, CustomerTaxIDCountryPl, CustomerTaxIDCountryPt, CustomerTaxIDCountryRo, CustomerTaxIDCountryRu, CustomerTaxIDCountrySa, CustomerTaxIDCountrySe, CustomerTaxIDCountrySg, CustomerTaxIDCountrySi, CustomerTaxIDCountrySk, CustomerTaxIDCountryTh, CustomerTaxIDCountryTr, CustomerTaxIDCountryTw, CustomerTaxIDCountryUa, CustomerTaxIDCountryUs, CustomerTaxIDCountryZa:
+		return true
+	}
+	return false
+}
+
 type CustomerTaxIDType string
 
 const (
@@ -653,6 +669,14 @@ const (
 	CustomerTaxIDTypeZaVat    CustomerTaxIDType = "za_vat"
 )
 
+func (r CustomerTaxIDType) IsKnown() bool {
+	switch r {
+	case CustomerTaxIDTypeAdNrt, CustomerTaxIDTypeAeTrn, CustomerTaxIDTypeEuVat, CustomerTaxIDTypeAuAbn, CustomerTaxIDTypeAuArn, CustomerTaxIDTypeBgUic, CustomerTaxIDTypeBrCnpj, CustomerTaxIDTypeBrCpf, CustomerTaxIDTypeCaBn, CustomerTaxIDTypeCaGstHst, CustomerTaxIDTypeCaPstBc, CustomerTaxIDTypeCaPstMB, CustomerTaxIDTypeCaPstSk, CustomerTaxIDTypeCaQst, CustomerTaxIDTypeChVat, CustomerTaxIDTypeClTin, CustomerTaxIDTypeEgTin, CustomerTaxIDTypeEsCif, CustomerTaxIDTypeEuOssVat, CustomerTaxIDTypeGBVat, CustomerTaxIDTypeGeVat, CustomerTaxIDTypeHkBr, CustomerTaxIDTypeHuTin, CustomerTaxIDTypeIDNpwp, CustomerTaxIDTypeIlVat, CustomerTaxIDTypeInGst, CustomerTaxIDTypeIsVat, CustomerTaxIDTypeJpCn, CustomerTaxIDTypeJpRn, CustomerTaxIDTypeJpTrn, CustomerTaxIDTypeKePin, CustomerTaxIDTypeKrBrn, CustomerTaxIDTypeLiUid, CustomerTaxIDTypeMxRfc, CustomerTaxIDTypeMyFrp, CustomerTaxIDTypeMyItn, CustomerTaxIDTypeMySst, CustomerTaxIDTypeNoVat, CustomerTaxIDTypeNzGst, CustomerTaxIDTypePhTin, CustomerTaxIDTypeRuInn, CustomerTaxIDTypeRuKpp, CustomerTaxIDTypeSaVat, CustomerTaxIDTypeSgGst, CustomerTaxIDTypeSgUen, CustomerTaxIDTypeSiTin, CustomerTaxIDTypeThVat, CustomerTaxIDTypeTrTin, CustomerTaxIDTypeTwVat, CustomerTaxIDTypeUaVat, CustomerTaxIDTypeUsEin, CustomerTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}
+
 type CustomerAccountingSyncConfiguration struct {
 	AccountingProviders []CustomerAccountingSyncConfigurationAccountingProvider `json:"accounting_providers,required"`
 	Excluded            bool                                                    `json:"excluded,required"`
@@ -705,6 +729,14 @@ const (
 	CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks CustomerAccountingSyncConfigurationAccountingProvidersProviderType = "quickbooks"
 	CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite   CustomerAccountingSyncConfigurationAccountingProvidersProviderType = "netsuite"
 )
+
+func (r CustomerAccountingSyncConfigurationAccountingProvidersProviderType) IsKnown() bool {
+	switch r {
+	case CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks, CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite:
+		return true
+	}
+	return false
+}
 
 type CustomerReportingConfiguration struct {
 	Exempt bool                               `json:"exempt,required"`
@@ -904,6 +936,14 @@ const (
 	CustomerNewParamsPaymentProviderNetsuite      CustomerNewParamsPaymentProvider = "netsuite"
 )
 
+func (r CustomerNewParamsPaymentProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsPaymentProviderQuickbooks, CustomerNewParamsPaymentProviderBillCom, CustomerNewParamsPaymentProviderStripeCharge, CustomerNewParamsPaymentProviderStripeInvoice, CustomerNewParamsPaymentProviderNetsuite:
+		return true
+	}
+	return false
+}
+
 type CustomerNewParamsReportingConfiguration struct {
 	Exempt param.Field[bool] `json:"exempt,required"`
 }
@@ -1086,6 +1126,14 @@ const (
 	CustomerNewParamsTaxIDCountryZa CustomerNewParamsTaxIDCountry = "ZA"
 )
 
+func (r CustomerNewParamsTaxIDCountry) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxIDCountryAd, CustomerNewParamsTaxIDCountryAe, CustomerNewParamsTaxIDCountryAt, CustomerNewParamsTaxIDCountryAu, CustomerNewParamsTaxIDCountryBe, CustomerNewParamsTaxIDCountryBg, CustomerNewParamsTaxIDCountryBr, CustomerNewParamsTaxIDCountryCa, CustomerNewParamsTaxIDCountryCh, CustomerNewParamsTaxIDCountryCl, CustomerNewParamsTaxIDCountryCy, CustomerNewParamsTaxIDCountryCz, CustomerNewParamsTaxIDCountryDe, CustomerNewParamsTaxIDCountryDk, CustomerNewParamsTaxIDCountryEe, CustomerNewParamsTaxIDCountryEg, CustomerNewParamsTaxIDCountryEs, CustomerNewParamsTaxIDCountryEu, CustomerNewParamsTaxIDCountryFi, CustomerNewParamsTaxIDCountryFr, CustomerNewParamsTaxIDCountryGB, CustomerNewParamsTaxIDCountryGe, CustomerNewParamsTaxIDCountryGr, CustomerNewParamsTaxIDCountryHk, CustomerNewParamsTaxIDCountryHr, CustomerNewParamsTaxIDCountryHu, CustomerNewParamsTaxIDCountryID, CustomerNewParamsTaxIDCountryIe, CustomerNewParamsTaxIDCountryIl, CustomerNewParamsTaxIDCountryIn, CustomerNewParamsTaxIDCountryIs, CustomerNewParamsTaxIDCountryIt, CustomerNewParamsTaxIDCountryJp, CustomerNewParamsTaxIDCountryKe, CustomerNewParamsTaxIDCountryKr, CustomerNewParamsTaxIDCountryLi, CustomerNewParamsTaxIDCountryLt, CustomerNewParamsTaxIDCountryLu, CustomerNewParamsTaxIDCountryLv, CustomerNewParamsTaxIDCountryMt, CustomerNewParamsTaxIDCountryMx, CustomerNewParamsTaxIDCountryMy, CustomerNewParamsTaxIDCountryNl, CustomerNewParamsTaxIDCountryNo, CustomerNewParamsTaxIDCountryNz, CustomerNewParamsTaxIDCountryPh, CustomerNewParamsTaxIDCountryPl, CustomerNewParamsTaxIDCountryPt, CustomerNewParamsTaxIDCountryRo, CustomerNewParamsTaxIDCountryRu, CustomerNewParamsTaxIDCountrySa, CustomerNewParamsTaxIDCountrySe, CustomerNewParamsTaxIDCountrySg, CustomerNewParamsTaxIDCountrySi, CustomerNewParamsTaxIDCountrySk, CustomerNewParamsTaxIDCountryTh, CustomerNewParamsTaxIDCountryTr, CustomerNewParamsTaxIDCountryTw, CustomerNewParamsTaxIDCountryUa, CustomerNewParamsTaxIDCountryUs, CustomerNewParamsTaxIDCountryZa:
+		return true
+	}
+	return false
+}
+
 type CustomerNewParamsTaxIDType string
 
 const (
@@ -1142,6 +1190,14 @@ const (
 	CustomerNewParamsTaxIDTypeUsEin    CustomerNewParamsTaxIDType = "us_ein"
 	CustomerNewParamsTaxIDTypeZaVat    CustomerNewParamsTaxIDType = "za_vat"
 )
+
+func (r CustomerNewParamsTaxIDType) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxIDTypeAdNrt, CustomerNewParamsTaxIDTypeAeTrn, CustomerNewParamsTaxIDTypeEuVat, CustomerNewParamsTaxIDTypeAuAbn, CustomerNewParamsTaxIDTypeAuArn, CustomerNewParamsTaxIDTypeBgUic, CustomerNewParamsTaxIDTypeBrCnpj, CustomerNewParamsTaxIDTypeBrCpf, CustomerNewParamsTaxIDTypeCaBn, CustomerNewParamsTaxIDTypeCaGstHst, CustomerNewParamsTaxIDTypeCaPstBc, CustomerNewParamsTaxIDTypeCaPstMB, CustomerNewParamsTaxIDTypeCaPstSk, CustomerNewParamsTaxIDTypeCaQst, CustomerNewParamsTaxIDTypeChVat, CustomerNewParamsTaxIDTypeClTin, CustomerNewParamsTaxIDTypeEgTin, CustomerNewParamsTaxIDTypeEsCif, CustomerNewParamsTaxIDTypeEuOssVat, CustomerNewParamsTaxIDTypeGBVat, CustomerNewParamsTaxIDTypeGeVat, CustomerNewParamsTaxIDTypeHkBr, CustomerNewParamsTaxIDTypeHuTin, CustomerNewParamsTaxIDTypeIDNpwp, CustomerNewParamsTaxIDTypeIlVat, CustomerNewParamsTaxIDTypeInGst, CustomerNewParamsTaxIDTypeIsVat, CustomerNewParamsTaxIDTypeJpCn, CustomerNewParamsTaxIDTypeJpRn, CustomerNewParamsTaxIDTypeJpTrn, CustomerNewParamsTaxIDTypeKePin, CustomerNewParamsTaxIDTypeKrBrn, CustomerNewParamsTaxIDTypeLiUid, CustomerNewParamsTaxIDTypeMxRfc, CustomerNewParamsTaxIDTypeMyFrp, CustomerNewParamsTaxIDTypeMyItn, CustomerNewParamsTaxIDTypeMySst, CustomerNewParamsTaxIDTypeNoVat, CustomerNewParamsTaxIDTypeNzGst, CustomerNewParamsTaxIDTypePhTin, CustomerNewParamsTaxIDTypeRuInn, CustomerNewParamsTaxIDTypeRuKpp, CustomerNewParamsTaxIDTypeSaVat, CustomerNewParamsTaxIDTypeSgGst, CustomerNewParamsTaxIDTypeSgUen, CustomerNewParamsTaxIDTypeSiTin, CustomerNewParamsTaxIDTypeThVat, CustomerNewParamsTaxIDTypeTrTin, CustomerNewParamsTaxIDTypeTwVat, CustomerNewParamsTaxIDTypeUaVat, CustomerNewParamsTaxIDTypeUsEin, CustomerNewParamsTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}
 
 type CustomerUpdateParams struct {
 	AccountingSyncConfiguration param.Field[CustomerUpdateParamsAccountingSyncConfiguration] `json:"accounting_sync_configuration"`
@@ -1320,6 +1376,14 @@ const (
 	CustomerUpdateParamsPaymentProviderStripeInvoice CustomerUpdateParamsPaymentProvider = "stripe_invoice"
 	CustomerUpdateParamsPaymentProviderNetsuite      CustomerUpdateParamsPaymentProvider = "netsuite"
 )
+
+func (r CustomerUpdateParamsPaymentProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsPaymentProviderQuickbooks, CustomerUpdateParamsPaymentProviderBillCom, CustomerUpdateParamsPaymentProviderStripeCharge, CustomerUpdateParamsPaymentProviderStripeInvoice, CustomerUpdateParamsPaymentProviderNetsuite:
+		return true
+	}
+	return false
+}
 
 type CustomerUpdateParamsReportingConfiguration struct {
 	Exempt param.Field[bool] `json:"exempt,required"`
@@ -1503,6 +1567,14 @@ const (
 	CustomerUpdateParamsTaxIDCountryZa CustomerUpdateParamsTaxIDCountry = "ZA"
 )
 
+func (r CustomerUpdateParamsTaxIDCountry) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxIDCountryAd, CustomerUpdateParamsTaxIDCountryAe, CustomerUpdateParamsTaxIDCountryAt, CustomerUpdateParamsTaxIDCountryAu, CustomerUpdateParamsTaxIDCountryBe, CustomerUpdateParamsTaxIDCountryBg, CustomerUpdateParamsTaxIDCountryBr, CustomerUpdateParamsTaxIDCountryCa, CustomerUpdateParamsTaxIDCountryCh, CustomerUpdateParamsTaxIDCountryCl, CustomerUpdateParamsTaxIDCountryCy, CustomerUpdateParamsTaxIDCountryCz, CustomerUpdateParamsTaxIDCountryDe, CustomerUpdateParamsTaxIDCountryDk, CustomerUpdateParamsTaxIDCountryEe, CustomerUpdateParamsTaxIDCountryEg, CustomerUpdateParamsTaxIDCountryEs, CustomerUpdateParamsTaxIDCountryEu, CustomerUpdateParamsTaxIDCountryFi, CustomerUpdateParamsTaxIDCountryFr, CustomerUpdateParamsTaxIDCountryGB, CustomerUpdateParamsTaxIDCountryGe, CustomerUpdateParamsTaxIDCountryGr, CustomerUpdateParamsTaxIDCountryHk, CustomerUpdateParamsTaxIDCountryHr, CustomerUpdateParamsTaxIDCountryHu, CustomerUpdateParamsTaxIDCountryID, CustomerUpdateParamsTaxIDCountryIe, CustomerUpdateParamsTaxIDCountryIl, CustomerUpdateParamsTaxIDCountryIn, CustomerUpdateParamsTaxIDCountryIs, CustomerUpdateParamsTaxIDCountryIt, CustomerUpdateParamsTaxIDCountryJp, CustomerUpdateParamsTaxIDCountryKe, CustomerUpdateParamsTaxIDCountryKr, CustomerUpdateParamsTaxIDCountryLi, CustomerUpdateParamsTaxIDCountryLt, CustomerUpdateParamsTaxIDCountryLu, CustomerUpdateParamsTaxIDCountryLv, CustomerUpdateParamsTaxIDCountryMt, CustomerUpdateParamsTaxIDCountryMx, CustomerUpdateParamsTaxIDCountryMy, CustomerUpdateParamsTaxIDCountryNl, CustomerUpdateParamsTaxIDCountryNo, CustomerUpdateParamsTaxIDCountryNz, CustomerUpdateParamsTaxIDCountryPh, CustomerUpdateParamsTaxIDCountryPl, CustomerUpdateParamsTaxIDCountryPt, CustomerUpdateParamsTaxIDCountryRo, CustomerUpdateParamsTaxIDCountryRu, CustomerUpdateParamsTaxIDCountrySa, CustomerUpdateParamsTaxIDCountrySe, CustomerUpdateParamsTaxIDCountrySg, CustomerUpdateParamsTaxIDCountrySi, CustomerUpdateParamsTaxIDCountrySk, CustomerUpdateParamsTaxIDCountryTh, CustomerUpdateParamsTaxIDCountryTr, CustomerUpdateParamsTaxIDCountryTw, CustomerUpdateParamsTaxIDCountryUa, CustomerUpdateParamsTaxIDCountryUs, CustomerUpdateParamsTaxIDCountryZa:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateParamsTaxIDType string
 
 const (
@@ -1559,6 +1631,14 @@ const (
 	CustomerUpdateParamsTaxIDTypeUsEin    CustomerUpdateParamsTaxIDType = "us_ein"
 	CustomerUpdateParamsTaxIDTypeZaVat    CustomerUpdateParamsTaxIDType = "za_vat"
 )
+
+func (r CustomerUpdateParamsTaxIDType) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxIDTypeAdNrt, CustomerUpdateParamsTaxIDTypeAeTrn, CustomerUpdateParamsTaxIDTypeEuVat, CustomerUpdateParamsTaxIDTypeAuAbn, CustomerUpdateParamsTaxIDTypeAuArn, CustomerUpdateParamsTaxIDTypeBgUic, CustomerUpdateParamsTaxIDTypeBrCnpj, CustomerUpdateParamsTaxIDTypeBrCpf, CustomerUpdateParamsTaxIDTypeCaBn, CustomerUpdateParamsTaxIDTypeCaGstHst, CustomerUpdateParamsTaxIDTypeCaPstBc, CustomerUpdateParamsTaxIDTypeCaPstMB, CustomerUpdateParamsTaxIDTypeCaPstSk, CustomerUpdateParamsTaxIDTypeCaQst, CustomerUpdateParamsTaxIDTypeChVat, CustomerUpdateParamsTaxIDTypeClTin, CustomerUpdateParamsTaxIDTypeEgTin, CustomerUpdateParamsTaxIDTypeEsCif, CustomerUpdateParamsTaxIDTypeEuOssVat, CustomerUpdateParamsTaxIDTypeGBVat, CustomerUpdateParamsTaxIDTypeGeVat, CustomerUpdateParamsTaxIDTypeHkBr, CustomerUpdateParamsTaxIDTypeHuTin, CustomerUpdateParamsTaxIDTypeIDNpwp, CustomerUpdateParamsTaxIDTypeIlVat, CustomerUpdateParamsTaxIDTypeInGst, CustomerUpdateParamsTaxIDTypeIsVat, CustomerUpdateParamsTaxIDTypeJpCn, CustomerUpdateParamsTaxIDTypeJpRn, CustomerUpdateParamsTaxIDTypeJpTrn, CustomerUpdateParamsTaxIDTypeKePin, CustomerUpdateParamsTaxIDTypeKrBrn, CustomerUpdateParamsTaxIDTypeLiUid, CustomerUpdateParamsTaxIDTypeMxRfc, CustomerUpdateParamsTaxIDTypeMyFrp, CustomerUpdateParamsTaxIDTypeMyItn, CustomerUpdateParamsTaxIDTypeMySst, CustomerUpdateParamsTaxIDTypeNoVat, CustomerUpdateParamsTaxIDTypeNzGst, CustomerUpdateParamsTaxIDTypePhTin, CustomerUpdateParamsTaxIDTypeRuInn, CustomerUpdateParamsTaxIDTypeRuKpp, CustomerUpdateParamsTaxIDTypeSaVat, CustomerUpdateParamsTaxIDTypeSgGst, CustomerUpdateParamsTaxIDTypeSgUen, CustomerUpdateParamsTaxIDTypeSiTin, CustomerUpdateParamsTaxIDTypeThVat, CustomerUpdateParamsTaxIDTypeTrTin, CustomerUpdateParamsTaxIDTypeTwVat, CustomerUpdateParamsTaxIDTypeUaVat, CustomerUpdateParamsTaxIDTypeUsEin, CustomerUpdateParamsTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}
 
 type CustomerListParams struct {
 	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
@@ -1758,6 +1838,14 @@ const (
 	CustomerUpdateByExternalIDParamsPaymentProviderNetsuite      CustomerUpdateByExternalIDParamsPaymentProvider = "netsuite"
 )
 
+func (r CustomerUpdateByExternalIDParamsPaymentProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks, CustomerUpdateByExternalIDParamsPaymentProviderBillCom, CustomerUpdateByExternalIDParamsPaymentProviderStripeCharge, CustomerUpdateByExternalIDParamsPaymentProviderStripeInvoice, CustomerUpdateByExternalIDParamsPaymentProviderNetsuite:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateByExternalIDParamsReportingConfiguration struct {
 	Exempt param.Field[bool] `json:"exempt,required"`
 }
@@ -1940,6 +2028,14 @@ const (
 	CustomerUpdateByExternalIDParamsTaxIDCountryZa CustomerUpdateByExternalIDParamsTaxIDCountry = "ZA"
 )
 
+func (r CustomerUpdateByExternalIDParamsTaxIDCountry) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxIDCountryAd, CustomerUpdateByExternalIDParamsTaxIDCountryAe, CustomerUpdateByExternalIDParamsTaxIDCountryAt, CustomerUpdateByExternalIDParamsTaxIDCountryAu, CustomerUpdateByExternalIDParamsTaxIDCountryBe, CustomerUpdateByExternalIDParamsTaxIDCountryBg, CustomerUpdateByExternalIDParamsTaxIDCountryBr, CustomerUpdateByExternalIDParamsTaxIDCountryCa, CustomerUpdateByExternalIDParamsTaxIDCountryCh, CustomerUpdateByExternalIDParamsTaxIDCountryCl, CustomerUpdateByExternalIDParamsTaxIDCountryCy, CustomerUpdateByExternalIDParamsTaxIDCountryCz, CustomerUpdateByExternalIDParamsTaxIDCountryDe, CustomerUpdateByExternalIDParamsTaxIDCountryDk, CustomerUpdateByExternalIDParamsTaxIDCountryEe, CustomerUpdateByExternalIDParamsTaxIDCountryEg, CustomerUpdateByExternalIDParamsTaxIDCountryEs, CustomerUpdateByExternalIDParamsTaxIDCountryEu, CustomerUpdateByExternalIDParamsTaxIDCountryFi, CustomerUpdateByExternalIDParamsTaxIDCountryFr, CustomerUpdateByExternalIDParamsTaxIDCountryGB, CustomerUpdateByExternalIDParamsTaxIDCountryGe, CustomerUpdateByExternalIDParamsTaxIDCountryGr, CustomerUpdateByExternalIDParamsTaxIDCountryHk, CustomerUpdateByExternalIDParamsTaxIDCountryHr, CustomerUpdateByExternalIDParamsTaxIDCountryHu, CustomerUpdateByExternalIDParamsTaxIDCountryID, CustomerUpdateByExternalIDParamsTaxIDCountryIe, CustomerUpdateByExternalIDParamsTaxIDCountryIl, CustomerUpdateByExternalIDParamsTaxIDCountryIn, CustomerUpdateByExternalIDParamsTaxIDCountryIs, CustomerUpdateByExternalIDParamsTaxIDCountryIt, CustomerUpdateByExternalIDParamsTaxIDCountryJp, CustomerUpdateByExternalIDParamsTaxIDCountryKe, CustomerUpdateByExternalIDParamsTaxIDCountryKr, CustomerUpdateByExternalIDParamsTaxIDCountryLi, CustomerUpdateByExternalIDParamsTaxIDCountryLt, CustomerUpdateByExternalIDParamsTaxIDCountryLu, CustomerUpdateByExternalIDParamsTaxIDCountryLv, CustomerUpdateByExternalIDParamsTaxIDCountryMt, CustomerUpdateByExternalIDParamsTaxIDCountryMx, CustomerUpdateByExternalIDParamsTaxIDCountryMy, CustomerUpdateByExternalIDParamsTaxIDCountryNl, CustomerUpdateByExternalIDParamsTaxIDCountryNo, CustomerUpdateByExternalIDParamsTaxIDCountryNz, CustomerUpdateByExternalIDParamsTaxIDCountryPh, CustomerUpdateByExternalIDParamsTaxIDCountryPl, CustomerUpdateByExternalIDParamsTaxIDCountryPt, CustomerUpdateByExternalIDParamsTaxIDCountryRo, CustomerUpdateByExternalIDParamsTaxIDCountryRu, CustomerUpdateByExternalIDParamsTaxIDCountrySa, CustomerUpdateByExternalIDParamsTaxIDCountrySe, CustomerUpdateByExternalIDParamsTaxIDCountrySg, CustomerUpdateByExternalIDParamsTaxIDCountrySi, CustomerUpdateByExternalIDParamsTaxIDCountrySk, CustomerUpdateByExternalIDParamsTaxIDCountryTh, CustomerUpdateByExternalIDParamsTaxIDCountryTr, CustomerUpdateByExternalIDParamsTaxIDCountryTw, CustomerUpdateByExternalIDParamsTaxIDCountryUa, CustomerUpdateByExternalIDParamsTaxIDCountryUs, CustomerUpdateByExternalIDParamsTaxIDCountryZa:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateByExternalIDParamsTaxIDType string
 
 const (
@@ -1996,3 +2092,11 @@ const (
 	CustomerUpdateByExternalIDParamsTaxIDTypeUsEin    CustomerUpdateByExternalIDParamsTaxIDType = "us_ein"
 	CustomerUpdateByExternalIDParamsTaxIDTypeZaVat    CustomerUpdateByExternalIDParamsTaxIDType = "za_vat"
 )
+
+func (r CustomerUpdateByExternalIDParamsTaxIDType) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxIDTypeAdNrt, CustomerUpdateByExternalIDParamsTaxIDTypeAeTrn, CustomerUpdateByExternalIDParamsTaxIDTypeEuVat, CustomerUpdateByExternalIDParamsTaxIDTypeAuAbn, CustomerUpdateByExternalIDParamsTaxIDTypeAuArn, CustomerUpdateByExternalIDParamsTaxIDTypeBgUic, CustomerUpdateByExternalIDParamsTaxIDTypeBrCnpj, CustomerUpdateByExternalIDParamsTaxIDTypeBrCpf, CustomerUpdateByExternalIDParamsTaxIDTypeCaBn, CustomerUpdateByExternalIDParamsTaxIDTypeCaGstHst, CustomerUpdateByExternalIDParamsTaxIDTypeCaPstBc, CustomerUpdateByExternalIDParamsTaxIDTypeCaPstMB, CustomerUpdateByExternalIDParamsTaxIDTypeCaPstSk, CustomerUpdateByExternalIDParamsTaxIDTypeCaQst, CustomerUpdateByExternalIDParamsTaxIDTypeChVat, CustomerUpdateByExternalIDParamsTaxIDTypeClTin, CustomerUpdateByExternalIDParamsTaxIDTypeEgTin, CustomerUpdateByExternalIDParamsTaxIDTypeEsCif, CustomerUpdateByExternalIDParamsTaxIDTypeEuOssVat, CustomerUpdateByExternalIDParamsTaxIDTypeGBVat, CustomerUpdateByExternalIDParamsTaxIDTypeGeVat, CustomerUpdateByExternalIDParamsTaxIDTypeHkBr, CustomerUpdateByExternalIDParamsTaxIDTypeHuTin, CustomerUpdateByExternalIDParamsTaxIDTypeIDNpwp, CustomerUpdateByExternalIDParamsTaxIDTypeIlVat, CustomerUpdateByExternalIDParamsTaxIDTypeInGst, CustomerUpdateByExternalIDParamsTaxIDTypeIsVat, CustomerUpdateByExternalIDParamsTaxIDTypeJpCn, CustomerUpdateByExternalIDParamsTaxIDTypeJpRn, CustomerUpdateByExternalIDParamsTaxIDTypeJpTrn, CustomerUpdateByExternalIDParamsTaxIDTypeKePin, CustomerUpdateByExternalIDParamsTaxIDTypeKrBrn, CustomerUpdateByExternalIDParamsTaxIDTypeLiUid, CustomerUpdateByExternalIDParamsTaxIDTypeMxRfc, CustomerUpdateByExternalIDParamsTaxIDTypeMyFrp, CustomerUpdateByExternalIDParamsTaxIDTypeMyItn, CustomerUpdateByExternalIDParamsTaxIDTypeMySst, CustomerUpdateByExternalIDParamsTaxIDTypeNoVat, CustomerUpdateByExternalIDParamsTaxIDTypeNzGst, CustomerUpdateByExternalIDParamsTaxIDTypePhTin, CustomerUpdateByExternalIDParamsTaxIDTypeRuInn, CustomerUpdateByExternalIDParamsTaxIDTypeRuKpp, CustomerUpdateByExternalIDParamsTaxIDTypeSaVat, CustomerUpdateByExternalIDParamsTaxIDTypeSgGst, CustomerUpdateByExternalIDParamsTaxIDTypeSgUen, CustomerUpdateByExternalIDParamsTaxIDTypeSiTin, CustomerUpdateByExternalIDParamsTaxIDTypeThVat, CustomerUpdateByExternalIDParamsTaxIDTypeTrTin, CustomerUpdateByExternalIDParamsTaxIDTypeTwVat, CustomerUpdateByExternalIDParamsTaxIDTypeUaVat, CustomerUpdateByExternalIDParamsTaxIDTypeUsEin, CustomerUpdateByExternalIDParamsTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}

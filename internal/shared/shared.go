@@ -82,6 +82,14 @@ const (
 	DiscountPercentageDiscountDiscountTypePercentage DiscountPercentageDiscountDiscountType = "percentage"
 )
 
+func (r DiscountPercentageDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case DiscountPercentageDiscountDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
 type DiscountTrialDiscount struct {
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
@@ -123,6 +131,14 @@ const (
 	DiscountTrialDiscountDiscountTypeTrial DiscountTrialDiscountDiscountType = "trial"
 )
 
+func (r DiscountTrialDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case DiscountTrialDiscountDiscountTypeTrial:
+		return true
+	}
+	return false
+}
+
 type DiscountUsageDiscount struct {
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
@@ -162,6 +178,14 @@ const (
 	DiscountUsageDiscountDiscountTypeUsage DiscountUsageDiscountDiscountType = "usage"
 )
 
+func (r DiscountUsageDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case DiscountUsageDiscountDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
 type DiscountAmountDiscount struct {
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount,required"`
@@ -199,3 +223,11 @@ type DiscountAmountDiscountDiscountType string
 const (
 	DiscountAmountDiscountDiscountTypeAmount DiscountAmountDiscountDiscountType = "amount"
 )
+
+func (r DiscountAmountDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case DiscountAmountDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
