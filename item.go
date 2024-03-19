@@ -139,6 +139,14 @@ const (
 	ItemExternalConnectionsExternalConnectionNameAnrok      ItemExternalConnectionsExternalConnectionName = "anrok"
 )
 
+func (r ItemExternalConnectionsExternalConnectionName) IsKnown() bool {
+	switch r {
+	case ItemExternalConnectionsExternalConnectionNameStripe, ItemExternalConnectionsExternalConnectionNameQuickbooks, ItemExternalConnectionsExternalConnectionNameBillCom, ItemExternalConnectionsExternalConnectionNameNetsuite, ItemExternalConnectionsExternalConnectionNameTaxjar, ItemExternalConnectionsExternalConnectionNameAvalara, ItemExternalConnectionsExternalConnectionNameAnrok:
+		return true
+	}
+	return false
+}
+
 type ItemNewParams struct {
 	// The name of the item.
 	Name param.Field[string] `json:"name,required"`

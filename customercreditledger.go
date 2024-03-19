@@ -812,11 +812,27 @@ const (
 	CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatusPending   CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListResponseIncrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListResponseIncrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListResponseIncrementLedgerEntryEntryTypeIncrement CustomerCreditLedgerListResponseIncrementLedgerEntryEntryType = "increment"
 )
+
+func (r CustomerCreditLedgerListResponseIncrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseIncrementLedgerEntryEntryTypeIncrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListResponseDecrementLedgerEntry struct {
 	ID                   string                                                          `json:"id,required"`
@@ -933,11 +949,27 @@ const (
 	CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatusPending   CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListResponseDecrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListResponseDecrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListResponseDecrementLedgerEntryEntryTypeDecrement CustomerCreditLedgerListResponseDecrementLedgerEntryEntryType = "decrement"
 )
+
+func (r CustomerCreditLedgerListResponseDecrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseDecrementLedgerEntryEntryTypeDecrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListResponseExpirationChangeLedgerEntry struct {
 	ID                   string                                                                 `json:"id,required"`
@@ -1051,11 +1083,27 @@ const (
 	CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatusPending   CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryTypeExpirationChange CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryType = "expiration_change"
 )
+
+func (r CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseExpirationChangeLedgerEntryEntryTypeExpirationChange:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntry struct {
 	ID                   string                                                                  `json:"id,required"`
@@ -1167,11 +1215,27 @@ const (
 	CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatusPending   CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryType = "credit_block_expiry"
 )
+
+func (r CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListResponseVoidLedgerEntry struct {
 	ID                   string                                                     `json:"id,required"`
@@ -1286,11 +1350,27 @@ const (
 	CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatusPending   CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListResponseVoidLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListResponseVoidLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListResponseVoidLedgerEntryEntryTypeVoid CustomerCreditLedgerListResponseVoidLedgerEntryEntryType = "void"
 )
+
+func (r CustomerCreditLedgerListResponseVoidLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseVoidLedgerEntryEntryTypeVoid:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry struct {
 	ID                   string                                                              `json:"id,required"`
@@ -1408,11 +1488,27 @@ const (
 	CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatusPending   CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryType = "void_initiated"
 )
+
+func (r CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListResponseAmendmentLedgerEntry struct {
 	ID                   string                                                          `json:"id,required"`
@@ -1523,11 +1619,27 @@ const (
 	CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatusPending   CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryTypeAmendment CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryType = "amendment"
 )
+
+func (r CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryTypeAmendment:
+		return true
+	}
+	return false
+}
 
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
@@ -1695,11 +1807,27 @@ const (
 	CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryTypeIncrement CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryType = "increment"
 )
+
+func (r CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryEntryTypeIncrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry struct {
 	ID                   string                                                              `json:"id,required"`
@@ -1817,11 +1945,27 @@ const (
 	CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryTypeDecrement CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryType = "decrement"
 )
+
+func (r CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryEntryTypeDecrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry struct {
 	ID                   string                                                                     `json:"id,required"`
@@ -1935,11 +2079,27 @@ const (
 	CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryTypeExpirationChange CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryType = "expiration_change"
 )
+
+func (r CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryEntryTypeExpirationChange:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntry struct {
 	ID                   string                                                                      `json:"id,required"`
@@ -2051,11 +2211,27 @@ const (
 	CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryType = "credit_block_expiry"
 )
+
+func (r CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryResponseVoidLedgerEntry struct {
 	ID                   string                                                         `json:"id,required"`
@@ -2170,11 +2346,27 @@ const (
 	CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryTypeVoid CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryType = "void"
 )
+
+func (r CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseVoidLedgerEntryEntryTypeVoid:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry struct {
 	ID                   string                                                                  `json:"id,required"`
@@ -2292,11 +2484,27 @@ const (
 	CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryType = "void_initiated"
 )
+
+func (r CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry struct {
 	ID                   string                                                              `json:"id,required"`
@@ -2408,11 +2616,27 @@ const (
 	CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryTypeAmendment CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryType = "amendment"
 )
+
+func (r CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryTypeAmendment:
+		return true
+	}
+	return false
+}
 
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
@@ -2581,11 +2805,27 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryTypeIncrement CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType = "increment"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryEntryTypeIncrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntry struct {
 	ID                   string                                                                          `json:"id,required"`
@@ -2703,11 +2943,27 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryTypeDecrement CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType = "decrement"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryEntryTypeDecrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry struct {
 	ID                   string                                                                                 `json:"id,required"`
@@ -2821,11 +3077,27 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryTypeExpirationChange CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType = "expiration_change"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryEntryTypeExpirationChange:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntry struct {
 	ID                   string                                                                                  `json:"id,required"`
@@ -2937,11 +3209,27 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType = "credit_block_expiry"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry struct {
 	ID                   string                                                                     `json:"id,required"`
@@ -3057,11 +3345,27 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryTypeVoid CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType = "void"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryEntryTypeVoid:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry struct {
 	ID                   string                                                                              `json:"id,required"`
@@ -3179,11 +3483,27 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType = "void_initiated"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry struct {
 	ID                   string                                                                          `json:"id,required"`
@@ -3295,11 +3615,27 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryTypeAmendment CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType = "amendment"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntryTypeAmendment:
+		return true
+	}
+	return false
+}
 
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
@@ -3468,11 +3804,27 @@ const (
 	CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryTypeIncrement CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryType = "increment"
 )
+
+func (r CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryEntryTypeIncrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntry struct {
 	ID                   string                                                                      `json:"id,required"`
@@ -3590,11 +3942,27 @@ const (
 	CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryTypeDecrement CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryType = "decrement"
 )
+
+func (r CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryEntryTypeDecrement:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry struct {
 	ID                   string                                                                             `json:"id,required"`
@@ -3708,11 +4076,27 @@ const (
 	CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryTypeExpirationChange CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryType = "expiration_change"
 )
+
+func (r CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryEntryTypeExpirationChange:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntry struct {
 	ID                   string                                                                              `json:"id,required"`
@@ -3824,11 +4208,27 @@ const (
 	CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType = "credit_block_expiry"
 )
+
+func (r CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry struct {
 	ID                   string                                                                 `json:"id,required"`
@@ -3944,11 +4344,27 @@ const (
 	CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryTypeVoid CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryType = "void"
 )
+
+func (r CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryEntryTypeVoid:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry struct {
 	ID                   string                                                                          `json:"id,required"`
@@ -4066,11 +4482,27 @@ const (
 	CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryType = "void_initiated"
 )
+
+func (r CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryEntryTypeVoidInitiated:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry struct {
 	ID                   string                                                                      `json:"id,required"`
@@ -4182,11 +4614,27 @@ const (
 	CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryType string
 
 const (
 	CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryTypeAmendment CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryType = "amendment"
 )
+
+func (r CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryTypeAmendment:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerListParams struct {
 	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
@@ -4221,6 +4669,14 @@ const (
 	CustomerCreditLedgerListParamsEntryStatusPending   CustomerCreditLedgerListParamsEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListParamsEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListParamsEntryStatusCommitted, CustomerCreditLedgerListParamsEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListParamsEntryType string
 
 const (
@@ -4232,6 +4688,14 @@ const (
 	CustomerCreditLedgerListParamsEntryTypeVoidInitiated     CustomerCreditLedgerListParamsEntryType = "void_initiated"
 	CustomerCreditLedgerListParamsEntryTypeAmendment         CustomerCreditLedgerListParamsEntryType = "amendment"
 )
+
+func (r CustomerCreditLedgerListParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListParamsEntryTypeIncrement, CustomerCreditLedgerListParamsEntryTypeDecrement, CustomerCreditLedgerListParamsEntryTypeExpirationChange, CustomerCreditLedgerListParamsEntryTypeCreditBlockExpiry, CustomerCreditLedgerListParamsEntryTypeVoid, CustomerCreditLedgerListParamsEntryTypeVoidInitiated, CustomerCreditLedgerListParamsEntryTypeAmendment:
+		return true
+	}
+	return false
+}
 
 // This interface is a union satisfied by one of the following:
 // [CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParams],
@@ -4288,6 +4752,14 @@ const (
 	CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryType = "increment"
 )
 
+func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement:
+		return true
+	}
+	return false
+}
+
 // Passing `invoice_settings` automatically generates an invoice for the newly
 // added credits. If `invoice_settings` is passed, you must specify
 // per_unit_cost_basis, as the calculation of the invoice total is done on that
@@ -4340,6 +4812,14 @@ const (
 	CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParamsEntryTypeDecrement CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParamsEntryType = "decrement"
 )
 
+func (r CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParamsEntryTypeDecrement:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
 	// An ISO 8601 format date that identifies the origination credit block to expire
@@ -4381,6 +4861,14 @@ const (
 	CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryTypeExpirationChange CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType = "expiration_change"
 )
 
+func (r CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryTypeExpirationChange:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
@@ -4417,12 +4905,28 @@ const (
 	CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsEntryTypeVoid CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsEntryType = "void"
 )
 
+func (r CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsEntryTypeVoid:
+		return true
+	}
+	return false
+}
+
 // Can only be specified when `entry_type=void`. The reason for the void.
 type CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsVoidReason string
 
 const (
 	CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsVoidReasonRefund CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsVoidReason = "refund"
 )
+
+func (r CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsVoidReason) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddVoidCreditLedgerEntryRequestParamsVoidReasonRefund:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
@@ -4457,6 +4961,14 @@ type CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParam
 const (
 	CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParamsEntryTypeAmendment CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType = "amendment"
 )
+
+func (r CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddAmendmentCreditLedgerEntryRequestParamsEntryTypeAmendment:
+		return true
+	}
+	return false
+}
 
 // This interface is a union satisfied by one of the following:
 // [CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParams],
@@ -4513,6 +5025,14 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType = "increment"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement:
+		return true
+	}
+	return false
+}
+
 // Passing `invoice_settings` automatically generates an invoice for the newly
 // added credits. If `invoice_settings` is passed, you must specify
 // per_unit_cost_basis, as the calculation of the invoice total is done on that
@@ -4565,6 +5085,14 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryTypeDecrement CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType = "decrement"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParamsEntryTypeDecrement:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
 	// An ISO 8601 format date that identifies the origination credit block to expire
@@ -4606,6 +5134,14 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryTypeExpirationChange CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType = "expiration_change"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryTypeExpirationChange:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
 	// decrement, void, or undo operations.
@@ -4642,12 +5178,28 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryTypeVoid CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType = "void"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsEntryTypeVoid:
+		return true
+	}
+	return false
+}
+
 // Can only be specified when `entry_type=void`. The reason for the void.
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason string
 
 const (
 	CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReasonRefund CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason = "refund"
 )
+
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReason) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddVoidCreditLedgerEntryRequestParamsVoidReasonRefund:
+		return true
+	}
+	return false
+}
 
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParams struct {
 	// The number of credits to effect. Note that this is required for increment,
@@ -4683,6 +5235,14 @@ const (
 	CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryTypeAmendment CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType = "amendment"
 )
 
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddAmendmentCreditLedgerEntryRequestParamsEntryTypeAmendment:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDParams struct {
 	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
 	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
@@ -4716,6 +5276,14 @@ const (
 	CustomerCreditLedgerListByExternalIDParamsEntryStatusPending   CustomerCreditLedgerListByExternalIDParamsEntryStatus = "pending"
 )
 
+func (r CustomerCreditLedgerListByExternalIDParamsEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDParamsEntryStatusCommitted, CustomerCreditLedgerListByExternalIDParamsEntryStatusPending:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditLedgerListByExternalIDParamsEntryType string
 
 const (
@@ -4727,3 +5295,11 @@ const (
 	CustomerCreditLedgerListByExternalIDParamsEntryTypeVoidInitiated     CustomerCreditLedgerListByExternalIDParamsEntryType = "void_initiated"
 	CustomerCreditLedgerListByExternalIDParamsEntryTypeAmendment         CustomerCreditLedgerListByExternalIDParamsEntryType = "amendment"
 )
+
+func (r CustomerCreditLedgerListByExternalIDParamsEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDParamsEntryTypeIncrement, CustomerCreditLedgerListByExternalIDParamsEntryTypeDecrement, CustomerCreditLedgerListByExternalIDParamsEntryTypeExpirationChange, CustomerCreditLedgerListByExternalIDParamsEntryTypeCreditBlockExpiry, CustomerCreditLedgerListByExternalIDParamsEntryTypeVoid, CustomerCreditLedgerListByExternalIDParamsEntryTypeVoidInitiated, CustomerCreditLedgerListByExternalIDParamsEntryTypeAmendment:
+		return true
+	}
+	return false
+}

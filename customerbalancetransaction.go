@@ -181,6 +181,14 @@ const (
 	CustomerBalanceTransactionNewResponseActionOverpaymentRefund    CustomerBalanceTransactionNewResponseAction = "overpayment_refund"
 )
 
+func (r CustomerBalanceTransactionNewResponseAction) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionNewResponseActionAppliedToInvoice, CustomerBalanceTransactionNewResponseActionManualAdjustment, CustomerBalanceTransactionNewResponseActionProratedRefund, CustomerBalanceTransactionNewResponseActionRevertProratedRefund, CustomerBalanceTransactionNewResponseActionReturnFromVoiding, CustomerBalanceTransactionNewResponseActionCreditNoteApplied, CustomerBalanceTransactionNewResponseActionCreditNoteVoided, CustomerBalanceTransactionNewResponseActionOverpaymentRefund:
+		return true
+	}
+	return false
+}
+
 type CustomerBalanceTransactionNewResponseCreditNote struct {
 	// The id of the Credit note
 	ID   string                                              `json:"id,required"`
@@ -231,6 +239,14 @@ const (
 	CustomerBalanceTransactionNewResponseTypeIncrement CustomerBalanceTransactionNewResponseType = "increment"
 	CustomerBalanceTransactionNewResponseTypeDecrement CustomerBalanceTransactionNewResponseType = "decrement"
 )
+
+func (r CustomerBalanceTransactionNewResponseType) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionNewResponseTypeIncrement, CustomerBalanceTransactionNewResponseTypeDecrement:
+		return true
+	}
+	return false
+}
 
 type CustomerBalanceTransactionListResponse struct {
 	// A unique id for this transaction.
@@ -292,6 +308,14 @@ const (
 	CustomerBalanceTransactionListResponseActionOverpaymentRefund    CustomerBalanceTransactionListResponseAction = "overpayment_refund"
 )
 
+func (r CustomerBalanceTransactionListResponseAction) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionListResponseActionAppliedToInvoice, CustomerBalanceTransactionListResponseActionManualAdjustment, CustomerBalanceTransactionListResponseActionProratedRefund, CustomerBalanceTransactionListResponseActionRevertProratedRefund, CustomerBalanceTransactionListResponseActionReturnFromVoiding, CustomerBalanceTransactionListResponseActionCreditNoteApplied, CustomerBalanceTransactionListResponseActionCreditNoteVoided, CustomerBalanceTransactionListResponseActionOverpaymentRefund:
+		return true
+	}
+	return false
+}
+
 type CustomerBalanceTransactionListResponseCreditNote struct {
 	// The id of the Credit note
 	ID   string                                               `json:"id,required"`
@@ -343,6 +367,14 @@ const (
 	CustomerBalanceTransactionListResponseTypeDecrement CustomerBalanceTransactionListResponseType = "decrement"
 )
 
+func (r CustomerBalanceTransactionListResponseType) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionListResponseTypeIncrement, CustomerBalanceTransactionListResponseTypeDecrement:
+		return true
+	}
+	return false
+}
+
 type CustomerBalanceTransactionNewParams struct {
 	Amount param.Field[string]                                  `json:"amount,required"`
 	Type   param.Field[CustomerBalanceTransactionNewParamsType] `json:"type,required"`
@@ -360,6 +392,14 @@ const (
 	CustomerBalanceTransactionNewParamsTypeIncrement CustomerBalanceTransactionNewParamsType = "increment"
 	CustomerBalanceTransactionNewParamsTypeDecrement CustomerBalanceTransactionNewParamsType = "decrement"
 )
+
+func (r CustomerBalanceTransactionNewParamsType) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionNewParamsTypeIncrement, CustomerBalanceTransactionNewParamsTypeDecrement:
+		return true
+	}
+	return false
+}
 
 type CustomerBalanceTransactionListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned

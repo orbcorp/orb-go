@@ -211,6 +211,14 @@ const (
 	CouponDiscountPercentageDiscountDiscountTypePercentage CouponDiscountPercentageDiscountDiscountType = "percentage"
 )
 
+func (r CouponDiscountPercentageDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case CouponDiscountPercentageDiscountDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
 type CouponDiscountAmountDiscount struct {
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount,required"`
@@ -248,6 +256,14 @@ type CouponDiscountAmountDiscountDiscountType string
 const (
 	CouponDiscountAmountDiscountDiscountTypeAmount CouponDiscountAmountDiscountDiscountType = "amount"
 )
+
+func (r CouponDiscountAmountDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case CouponDiscountAmountDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type CouponNewParams struct {
 	Discount param.Field[CouponNewParamsDiscount] `json:"discount,required"`
@@ -294,6 +310,14 @@ const (
 	CouponNewParamsDiscountPercentageDiscountDiscountTypePercentage CouponNewParamsDiscountPercentageDiscountDiscountType = "percentage"
 )
 
+func (r CouponNewParamsDiscountPercentageDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case CouponNewParamsDiscountPercentageDiscountDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
 type CouponNewParamsDiscountAmountDiscount struct {
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount,required"`
@@ -315,6 +339,14 @@ type CouponNewParamsDiscountAmountDiscountDiscountType string
 const (
 	CouponNewParamsDiscountAmountDiscountDiscountTypeAmount CouponNewParamsDiscountAmountDiscountDiscountType = "amount"
 )
+
+func (r CouponNewParamsDiscountAmountDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case CouponNewParamsDiscountAmountDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
 
 type CouponListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned

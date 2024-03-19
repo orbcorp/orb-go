@@ -557,6 +557,14 @@ const (
 	InvoiceCustomerBalanceTransactionsActionOverpaymentRefund    InvoiceCustomerBalanceTransactionsAction = "overpayment_refund"
 )
 
+func (r InvoiceCustomerBalanceTransactionsAction) IsKnown() bool {
+	switch r {
+	case InvoiceCustomerBalanceTransactionsActionAppliedToInvoice, InvoiceCustomerBalanceTransactionsActionManualAdjustment, InvoiceCustomerBalanceTransactionsActionProratedRefund, InvoiceCustomerBalanceTransactionsActionRevertProratedRefund, InvoiceCustomerBalanceTransactionsActionReturnFromVoiding, InvoiceCustomerBalanceTransactionsActionCreditNoteApplied, InvoiceCustomerBalanceTransactionsActionCreditNoteVoided, InvoiceCustomerBalanceTransactionsActionOverpaymentRefund:
+		return true
+	}
+	return false
+}
+
 type InvoiceCustomerBalanceTransactionsCreditNote struct {
 	// The id of the Credit note
 	ID   string                                           `json:"id,required"`
@@ -607,6 +615,14 @@ const (
 	InvoiceCustomerBalanceTransactionsTypeIncrement InvoiceCustomerBalanceTransactionsType = "increment"
 	InvoiceCustomerBalanceTransactionsTypeDecrement InvoiceCustomerBalanceTransactionsType = "decrement"
 )
+
+func (r InvoiceCustomerBalanceTransactionsType) IsKnown() bool {
+	switch r {
+	case InvoiceCustomerBalanceTransactionsTypeIncrement, InvoiceCustomerBalanceTransactionsTypeDecrement:
+		return true
+	}
+	return false
+}
 
 // Tax IDs are commonly required to be displayed on customer invoices, which are
 // added to the headers of invoices.
@@ -784,6 +800,14 @@ const (
 	InvoiceCustomerTaxIDCountryZa InvoiceCustomerTaxIDCountry = "ZA"
 )
 
+func (r InvoiceCustomerTaxIDCountry) IsKnown() bool {
+	switch r {
+	case InvoiceCustomerTaxIDCountryAd, InvoiceCustomerTaxIDCountryAe, InvoiceCustomerTaxIDCountryAt, InvoiceCustomerTaxIDCountryAu, InvoiceCustomerTaxIDCountryBe, InvoiceCustomerTaxIDCountryBg, InvoiceCustomerTaxIDCountryBr, InvoiceCustomerTaxIDCountryCa, InvoiceCustomerTaxIDCountryCh, InvoiceCustomerTaxIDCountryCl, InvoiceCustomerTaxIDCountryCy, InvoiceCustomerTaxIDCountryCz, InvoiceCustomerTaxIDCountryDe, InvoiceCustomerTaxIDCountryDk, InvoiceCustomerTaxIDCountryEe, InvoiceCustomerTaxIDCountryEg, InvoiceCustomerTaxIDCountryEs, InvoiceCustomerTaxIDCountryEu, InvoiceCustomerTaxIDCountryFi, InvoiceCustomerTaxIDCountryFr, InvoiceCustomerTaxIDCountryGB, InvoiceCustomerTaxIDCountryGe, InvoiceCustomerTaxIDCountryGr, InvoiceCustomerTaxIDCountryHk, InvoiceCustomerTaxIDCountryHr, InvoiceCustomerTaxIDCountryHu, InvoiceCustomerTaxIDCountryID, InvoiceCustomerTaxIDCountryIe, InvoiceCustomerTaxIDCountryIl, InvoiceCustomerTaxIDCountryIn, InvoiceCustomerTaxIDCountryIs, InvoiceCustomerTaxIDCountryIt, InvoiceCustomerTaxIDCountryJp, InvoiceCustomerTaxIDCountryKe, InvoiceCustomerTaxIDCountryKr, InvoiceCustomerTaxIDCountryLi, InvoiceCustomerTaxIDCountryLt, InvoiceCustomerTaxIDCountryLu, InvoiceCustomerTaxIDCountryLv, InvoiceCustomerTaxIDCountryMt, InvoiceCustomerTaxIDCountryMx, InvoiceCustomerTaxIDCountryMy, InvoiceCustomerTaxIDCountryNl, InvoiceCustomerTaxIDCountryNo, InvoiceCustomerTaxIDCountryNz, InvoiceCustomerTaxIDCountryPh, InvoiceCustomerTaxIDCountryPl, InvoiceCustomerTaxIDCountryPt, InvoiceCustomerTaxIDCountryRo, InvoiceCustomerTaxIDCountryRu, InvoiceCustomerTaxIDCountrySa, InvoiceCustomerTaxIDCountrySe, InvoiceCustomerTaxIDCountrySg, InvoiceCustomerTaxIDCountrySi, InvoiceCustomerTaxIDCountrySk, InvoiceCustomerTaxIDCountryTh, InvoiceCustomerTaxIDCountryTr, InvoiceCustomerTaxIDCountryTw, InvoiceCustomerTaxIDCountryUa, InvoiceCustomerTaxIDCountryUs, InvoiceCustomerTaxIDCountryZa:
+		return true
+	}
+	return false
+}
+
 type InvoiceCustomerTaxIDType string
 
 const (
@@ -840,6 +864,14 @@ const (
 	InvoiceCustomerTaxIDTypeUsEin    InvoiceCustomerTaxIDType = "us_ein"
 	InvoiceCustomerTaxIDTypeZaVat    InvoiceCustomerTaxIDType = "za_vat"
 )
+
+func (r InvoiceCustomerTaxIDType) IsKnown() bool {
+	switch r {
+	case InvoiceCustomerTaxIDTypeAdNrt, InvoiceCustomerTaxIDTypeAeTrn, InvoiceCustomerTaxIDTypeEuVat, InvoiceCustomerTaxIDTypeAuAbn, InvoiceCustomerTaxIDTypeAuArn, InvoiceCustomerTaxIDTypeBgUic, InvoiceCustomerTaxIDTypeBrCnpj, InvoiceCustomerTaxIDTypeBrCpf, InvoiceCustomerTaxIDTypeCaBn, InvoiceCustomerTaxIDTypeCaGstHst, InvoiceCustomerTaxIDTypeCaPstBc, InvoiceCustomerTaxIDTypeCaPstMB, InvoiceCustomerTaxIDTypeCaPstSk, InvoiceCustomerTaxIDTypeCaQst, InvoiceCustomerTaxIDTypeChVat, InvoiceCustomerTaxIDTypeClTin, InvoiceCustomerTaxIDTypeEgTin, InvoiceCustomerTaxIDTypeEsCif, InvoiceCustomerTaxIDTypeEuOssVat, InvoiceCustomerTaxIDTypeGBVat, InvoiceCustomerTaxIDTypeGeVat, InvoiceCustomerTaxIDTypeHkBr, InvoiceCustomerTaxIDTypeHuTin, InvoiceCustomerTaxIDTypeIDNpwp, InvoiceCustomerTaxIDTypeIlVat, InvoiceCustomerTaxIDTypeInGst, InvoiceCustomerTaxIDTypeIsVat, InvoiceCustomerTaxIDTypeJpCn, InvoiceCustomerTaxIDTypeJpRn, InvoiceCustomerTaxIDTypeJpTrn, InvoiceCustomerTaxIDTypeKePin, InvoiceCustomerTaxIDTypeKrBrn, InvoiceCustomerTaxIDTypeLiUid, InvoiceCustomerTaxIDTypeMxRfc, InvoiceCustomerTaxIDTypeMyFrp, InvoiceCustomerTaxIDTypeMyItn, InvoiceCustomerTaxIDTypeMySst, InvoiceCustomerTaxIDTypeNoVat, InvoiceCustomerTaxIDTypeNzGst, InvoiceCustomerTaxIDTypePhTin, InvoiceCustomerTaxIDTypeRuInn, InvoiceCustomerTaxIDTypeRuKpp, InvoiceCustomerTaxIDTypeSaVat, InvoiceCustomerTaxIDTypeSgGst, InvoiceCustomerTaxIDTypeSgUen, InvoiceCustomerTaxIDTypeSiTin, InvoiceCustomerTaxIDTypeThVat, InvoiceCustomerTaxIDTypeTrTin, InvoiceCustomerTaxIDTypeTwVat, InvoiceCustomerTaxIDTypeUaVat, InvoiceCustomerTaxIDTypeUsEin, InvoiceCustomerTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}
 
 type InvoiceLineItem struct {
 	// A unique ID for this line item.
@@ -1321,6 +1353,14 @@ const (
 	InvoiceLineItemsSubLineItemsMatrixSubLineItemTypeMatrix InvoiceLineItemsSubLineItemsMatrixSubLineItemType = "matrix"
 )
 
+func (r InvoiceLineItemsSubLineItemsMatrixSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsSubLineItemsMatrixSubLineItemTypeMatrix:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemsSubLineItemsTierSubLineItem struct {
 	// The total amount for this sub line item.
 	Amount     string                                                `json:"amount,required"`
@@ -1410,6 +1450,14 @@ const (
 	InvoiceLineItemsSubLineItemsTierSubLineItemTypeTier InvoiceLineItemsSubLineItemsTierSubLineItemType = "tier"
 )
 
+func (r InvoiceLineItemsSubLineItemsTierSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsSubLineItemsTierSubLineItemTypeTier:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemsSubLineItemsOtherSubLineItem struct {
 	// The total amount for this sub line item.
 	Amount   string                                               `json:"amount,required"`
@@ -1471,6 +1519,14 @@ type InvoiceLineItemsSubLineItemsOtherSubLineItemType string
 const (
 	InvoiceLineItemsSubLineItemsOtherSubLineItemTypeNull InvoiceLineItemsSubLineItemsOtherSubLineItemType = "'null'"
 )
+
+func (r InvoiceLineItemsSubLineItemsOtherSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsSubLineItemsOtherSubLineItemTypeNull:
+		return true
+	}
+	return false
+}
 
 type InvoiceLineItemsTaxAmount struct {
 	// The amount of additional tax incurred by this tax rate.
@@ -1590,6 +1646,14 @@ const (
 	InvoiceStatusVoid   InvoiceStatus = "void"
 	InvoiceStatusDraft  InvoiceStatus = "draft"
 )
+
+func (r InvoiceStatus) IsKnown() bool {
+	switch r {
+	case InvoiceStatusIssued, InvoiceStatusPaid, InvoiceStatusSynced, InvoiceStatusVoid, InvoiceStatusDraft:
+		return true
+	}
+	return false
+}
 
 type InvoiceSubscription struct {
 	ID   string                  `json:"id,required"`
@@ -2022,6 +2086,14 @@ const (
 	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionOverpaymentRefund    InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "overpayment_refund"
 )
 
+func (r InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionAppliedToInvoice, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionManualAdjustment, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionProratedRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionRevertProratedRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionReturnFromVoiding, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteApplied, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteVoided, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionOverpaymentRefund:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseCustomerBalanceTransactionsCreditNote struct {
 	// The id of the Credit note
 	ID   string                                                                `json:"id,required"`
@@ -2074,6 +2146,14 @@ const (
 	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsTypeIncrement InvoiceFetchUpcomingResponseCustomerBalanceTransactionsType = "increment"
 	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsTypeDecrement InvoiceFetchUpcomingResponseCustomerBalanceTransactionsType = "decrement"
 )
+
+func (r InvoiceFetchUpcomingResponseCustomerBalanceTransactionsType) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseCustomerBalanceTransactionsTypeIncrement, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsTypeDecrement:
+		return true
+	}
+	return false
+}
 
 // Tax IDs are commonly required to be displayed on customer invoices, which are
 // added to the headers of invoices.
@@ -2251,6 +2331,14 @@ const (
 	InvoiceFetchUpcomingResponseCustomerTaxIDCountryZa InvoiceFetchUpcomingResponseCustomerTaxIDCountry = "ZA"
 )
 
+func (r InvoiceFetchUpcomingResponseCustomerTaxIDCountry) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseCustomerTaxIDCountryAd, InvoiceFetchUpcomingResponseCustomerTaxIDCountryAe, InvoiceFetchUpcomingResponseCustomerTaxIDCountryAt, InvoiceFetchUpcomingResponseCustomerTaxIDCountryAu, InvoiceFetchUpcomingResponseCustomerTaxIDCountryBe, InvoiceFetchUpcomingResponseCustomerTaxIDCountryBg, InvoiceFetchUpcomingResponseCustomerTaxIDCountryBr, InvoiceFetchUpcomingResponseCustomerTaxIDCountryCa, InvoiceFetchUpcomingResponseCustomerTaxIDCountryCh, InvoiceFetchUpcomingResponseCustomerTaxIDCountryCl, InvoiceFetchUpcomingResponseCustomerTaxIDCountryCy, InvoiceFetchUpcomingResponseCustomerTaxIDCountryCz, InvoiceFetchUpcomingResponseCustomerTaxIDCountryDe, InvoiceFetchUpcomingResponseCustomerTaxIDCountryDk, InvoiceFetchUpcomingResponseCustomerTaxIDCountryEe, InvoiceFetchUpcomingResponseCustomerTaxIDCountryEg, InvoiceFetchUpcomingResponseCustomerTaxIDCountryEs, InvoiceFetchUpcomingResponseCustomerTaxIDCountryEu, InvoiceFetchUpcomingResponseCustomerTaxIDCountryFi, InvoiceFetchUpcomingResponseCustomerTaxIDCountryFr, InvoiceFetchUpcomingResponseCustomerTaxIDCountryGB, InvoiceFetchUpcomingResponseCustomerTaxIDCountryGe, InvoiceFetchUpcomingResponseCustomerTaxIDCountryGr, InvoiceFetchUpcomingResponseCustomerTaxIDCountryHk, InvoiceFetchUpcomingResponseCustomerTaxIDCountryHr, InvoiceFetchUpcomingResponseCustomerTaxIDCountryHu, InvoiceFetchUpcomingResponseCustomerTaxIDCountryID, InvoiceFetchUpcomingResponseCustomerTaxIDCountryIe, InvoiceFetchUpcomingResponseCustomerTaxIDCountryIl, InvoiceFetchUpcomingResponseCustomerTaxIDCountryIn, InvoiceFetchUpcomingResponseCustomerTaxIDCountryIs, InvoiceFetchUpcomingResponseCustomerTaxIDCountryIt, InvoiceFetchUpcomingResponseCustomerTaxIDCountryJp, InvoiceFetchUpcomingResponseCustomerTaxIDCountryKe, InvoiceFetchUpcomingResponseCustomerTaxIDCountryKr, InvoiceFetchUpcomingResponseCustomerTaxIDCountryLi, InvoiceFetchUpcomingResponseCustomerTaxIDCountryLt, InvoiceFetchUpcomingResponseCustomerTaxIDCountryLu, InvoiceFetchUpcomingResponseCustomerTaxIDCountryLv, InvoiceFetchUpcomingResponseCustomerTaxIDCountryMt, InvoiceFetchUpcomingResponseCustomerTaxIDCountryMx, InvoiceFetchUpcomingResponseCustomerTaxIDCountryMy, InvoiceFetchUpcomingResponseCustomerTaxIDCountryNl, InvoiceFetchUpcomingResponseCustomerTaxIDCountryNo, InvoiceFetchUpcomingResponseCustomerTaxIDCountryNz, InvoiceFetchUpcomingResponseCustomerTaxIDCountryPh, InvoiceFetchUpcomingResponseCustomerTaxIDCountryPl, InvoiceFetchUpcomingResponseCustomerTaxIDCountryPt, InvoiceFetchUpcomingResponseCustomerTaxIDCountryRo, InvoiceFetchUpcomingResponseCustomerTaxIDCountryRu, InvoiceFetchUpcomingResponseCustomerTaxIDCountrySa, InvoiceFetchUpcomingResponseCustomerTaxIDCountrySe, InvoiceFetchUpcomingResponseCustomerTaxIDCountrySg, InvoiceFetchUpcomingResponseCustomerTaxIDCountrySi, InvoiceFetchUpcomingResponseCustomerTaxIDCountrySk, InvoiceFetchUpcomingResponseCustomerTaxIDCountryTh, InvoiceFetchUpcomingResponseCustomerTaxIDCountryTr, InvoiceFetchUpcomingResponseCustomerTaxIDCountryTw, InvoiceFetchUpcomingResponseCustomerTaxIDCountryUa, InvoiceFetchUpcomingResponseCustomerTaxIDCountryUs, InvoiceFetchUpcomingResponseCustomerTaxIDCountryZa:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseCustomerTaxIDType string
 
 const (
@@ -2307,6 +2395,14 @@ const (
 	InvoiceFetchUpcomingResponseCustomerTaxIDTypeUsEin    InvoiceFetchUpcomingResponseCustomerTaxIDType = "us_ein"
 	InvoiceFetchUpcomingResponseCustomerTaxIDTypeZaVat    InvoiceFetchUpcomingResponseCustomerTaxIDType = "za_vat"
 )
+
+func (r InvoiceFetchUpcomingResponseCustomerTaxIDType) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseCustomerTaxIDTypeAdNrt, InvoiceFetchUpcomingResponseCustomerTaxIDTypeAeTrn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEuVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeAuAbn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeAuArn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeBgUic, InvoiceFetchUpcomingResponseCustomerTaxIDTypeBrCnpj, InvoiceFetchUpcomingResponseCustomerTaxIDTypeBrCpf, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaBn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaGstHst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaPstBc, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaPstMB, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaPstSk, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaQst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeChVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeClTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEgTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEsCif, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEuOssVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeGBVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeGeVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeHkBr, InvoiceFetchUpcomingResponseCustomerTaxIDTypeHuTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeIDNpwp, InvoiceFetchUpcomingResponseCustomerTaxIDTypeIlVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeInGst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeIsVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeJpCn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeJpRn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeJpTrn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeKePin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeKrBrn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeLiUid, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMxRfc, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMyFrp, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMyItn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMySst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeNoVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeNzGst, InvoiceFetchUpcomingResponseCustomerTaxIDTypePhTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeRuInn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeRuKpp, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSaVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSgGst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSgUen, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSiTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeThVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeTrTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeTwVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeUaVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeUsEin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}
 
 type InvoiceFetchUpcomingResponseLineItem struct {
 	// A unique ID for this line item.
@@ -2793,6 +2889,14 @@ const (
 	InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemTypeMatrix InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemType = "matrix"
 )
 
+func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemTypeMatrix:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItem struct {
 	// The total amount for this sub line item.
 	Amount     string                                                                     `json:"amount,required"`
@@ -2886,6 +2990,14 @@ const (
 	InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTypeTier InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemType = "tier"
 )
 
+func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTypeTier:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItem struct {
 	// The total amount for this sub line item.
 	Amount   string                                                                    `json:"amount,required"`
@@ -2950,6 +3062,14 @@ type InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemType strin
 const (
 	InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemTypeNull InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemType = "'null'"
 )
+
+func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemTypeNull:
+		return true
+	}
+	return false
+}
 
 type InvoiceFetchUpcomingResponseLineItemsTaxAmount struct {
 	// The amount of additional tax incurred by this tax rate.
@@ -3072,6 +3192,14 @@ const (
 	InvoiceFetchUpcomingResponseStatusDraft  InvoiceFetchUpcomingResponseStatus = "draft"
 )
 
+func (r InvoiceFetchUpcomingResponseStatus) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseStatusIssued, InvoiceFetchUpcomingResponseStatusPaid, InvoiceFetchUpcomingResponseStatusSynced, InvoiceFetchUpcomingResponseStatusVoid, InvoiceFetchUpcomingResponseStatusDraft:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseSubscription struct {
 	ID   string                                       `json:"id,required"`
 	JSON invoiceFetchUpcomingResponseSubscriptionJSON `json:"-"`
@@ -3151,6 +3279,14 @@ const (
 	InvoiceNewParamsLineItemsModelTypeUnit InvoiceNewParamsLineItemsModelType = "unit"
 )
 
+func (r InvoiceNewParamsLineItemsModelType) IsKnown() bool {
+	switch r {
+	case InvoiceNewParamsLineItemsModelTypeUnit:
+		return true
+	}
+	return false
+}
+
 type InvoiceNewParamsLineItemsUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -3202,6 +3338,14 @@ const (
 	InvoiceListParamsDateTypeInvoiceDate InvoiceListParamsDateType = "invoice_date"
 )
 
+func (r InvoiceListParamsDateType) IsKnown() bool {
+	switch r {
+	case InvoiceListParamsDateTypeDueDate, InvoiceListParamsDateTypeInvoiceDate:
+		return true
+	}
+	return false
+}
+
 type InvoiceListParamsStatus string
 
 const (
@@ -3211,6 +3355,14 @@ const (
 	InvoiceListParamsStatusSynced InvoiceListParamsStatus = "synced"
 	InvoiceListParamsStatusVoid   InvoiceListParamsStatus = "void"
 )
+
+func (r InvoiceListParamsStatus) IsKnown() bool {
+	switch r {
+	case InvoiceListParamsStatusDraft, InvoiceListParamsStatusIssued, InvoiceListParamsStatusPaid, InvoiceListParamsStatusSynced, InvoiceListParamsStatusVoid:
+		return true
+	}
+	return false
+}
 
 type InvoiceFetchUpcomingParams struct {
 	SubscriptionID param.Field[string] `query:"subscription_id"`

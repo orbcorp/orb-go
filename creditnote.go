@@ -193,6 +193,14 @@ const (
 	CreditNoteDiscountsDiscountTypePercentage CreditNoteDiscountsDiscountType = "percentage"
 )
 
+func (r CreditNoteDiscountsDiscountType) IsKnown() bool {
+	switch r {
+	case CreditNoteDiscountsDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
 type CreditNoteDiscountsAppliesToPrice struct {
 	ID   string                                `json:"id,required"`
 	Name string                                `json:"name,required"`
@@ -296,6 +304,14 @@ const (
 	CreditNoteLineItemsDiscountsDiscountTypeAmount     CreditNoteLineItemsDiscountsDiscountType = "amount"
 )
 
+func (r CreditNoteLineItemsDiscountsDiscountType) IsKnown() bool {
+	switch r {
+	case CreditNoteLineItemsDiscountsDiscountTypePercentage, CreditNoteLineItemsDiscountsDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type CreditNoteLineItemsTaxAmount struct {
 	// The amount of additional tax incurred by this tax rate.
 	Amount string `json:"amount,required"`
@@ -360,6 +376,14 @@ const (
 	CreditNoteMaximumAmountAdjustmentDiscountTypePercentage CreditNoteMaximumAmountAdjustmentDiscountType = "percentage"
 )
 
+func (r CreditNoteMaximumAmountAdjustmentDiscountType) IsKnown() bool {
+	switch r {
+	case CreditNoteMaximumAmountAdjustmentDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
 type CreditNoteMaximumAmountAdjustmentAppliesToPrice struct {
 	ID   string                                              `json:"id,required"`
 	Name string                                              `json:"name,required"`
@@ -392,12 +416,28 @@ const (
 	CreditNoteReasonProductUnsatisfactory CreditNoteReason = "Product unsatisfactory"
 )
 
+func (r CreditNoteReason) IsKnown() bool {
+	switch r {
+	case CreditNoteReasonDuplicate, CreditNoteReasonFraudulent, CreditNoteReasonOrderChange, CreditNoteReasonProductUnsatisfactory:
+		return true
+	}
+	return false
+}
+
 type CreditNoteType string
 
 const (
 	CreditNoteTypeRefund     CreditNoteType = "refund"
 	CreditNoteTypeAdjustment CreditNoteType = "adjustment"
 )
+
+func (r CreditNoteType) IsKnown() bool {
+	switch r {
+	case CreditNoteTypeRefund, CreditNoteTypeAdjustment:
+		return true
+	}
+	return false
+}
 
 type CreditNoteListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
