@@ -187,6 +187,14 @@ const (
 	EventBackfillNewResponseStatusReverted      EventBackfillNewResponseStatus = "reverted"
 )
 
+func (r EventBackfillNewResponseStatus) IsKnown() bool {
+	switch r {
+	case EventBackfillNewResponseStatusPending, EventBackfillNewResponseStatusReflected, EventBackfillNewResponseStatusPendingRevert, EventBackfillNewResponseStatusReverted:
+		return true
+	}
+	return false
+}
+
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillListResponse struct {
@@ -239,6 +247,14 @@ const (
 	EventBackfillListResponseStatusPendingRevert EventBackfillListResponseStatus = "pending_revert"
 	EventBackfillListResponseStatusReverted      EventBackfillListResponseStatus = "reverted"
 )
+
+func (r EventBackfillListResponseStatus) IsKnown() bool {
+	switch r {
+	case EventBackfillListResponseStatusPending, EventBackfillListResponseStatusReflected, EventBackfillListResponseStatusPendingRevert, EventBackfillListResponseStatusReverted:
+		return true
+	}
+	return false
+}
 
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
@@ -293,6 +309,14 @@ const (
 	EventBackfillCloseResponseStatusReverted      EventBackfillCloseResponseStatus = "reverted"
 )
 
+func (r EventBackfillCloseResponseStatus) IsKnown() bool {
+	switch r {
+	case EventBackfillCloseResponseStatusPending, EventBackfillCloseResponseStatusReflected, EventBackfillCloseResponseStatusPendingRevert, EventBackfillCloseResponseStatusReverted:
+		return true
+	}
+	return false
+}
+
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillFetchResponse struct {
@@ -346,6 +370,14 @@ const (
 	EventBackfillFetchResponseStatusReverted      EventBackfillFetchResponseStatus = "reverted"
 )
 
+func (r EventBackfillFetchResponseStatus) IsKnown() bool {
+	switch r {
+	case EventBackfillFetchResponseStatusPending, EventBackfillFetchResponseStatusReflected, EventBackfillFetchResponseStatusPendingRevert, EventBackfillFetchResponseStatusReverted:
+		return true
+	}
+	return false
+}
+
 // A backfill represents an update to historical usage data, adding or replacing
 // events in a timeframe.
 type EventBackfillRevertResponse struct {
@@ -398,6 +430,14 @@ const (
 	EventBackfillRevertResponseStatusPendingRevert EventBackfillRevertResponseStatus = "pending_revert"
 	EventBackfillRevertResponseStatusReverted      EventBackfillRevertResponseStatus = "reverted"
 )
+
+func (r EventBackfillRevertResponseStatus) IsKnown() bool {
+	switch r {
+	case EventBackfillRevertResponseStatusPending, EventBackfillRevertResponseStatusReflected, EventBackfillRevertResponseStatusPendingRevert, EventBackfillRevertResponseStatusReverted:
+		return true
+	}
+	return false
+}
 
 type EventBackfillNewParams struct {
 	// The (exclusive) end of the usage timeframe affected by this backfill.

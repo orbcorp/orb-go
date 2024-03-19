@@ -1008,6 +1008,14 @@ const (
 	CustomerCostListParamsViewModeCumulative CustomerCostListParamsViewMode = "cumulative"
 )
 
+func (r CustomerCostListParamsViewMode) IsKnown() bool {
+	switch r {
+	case CustomerCostListParamsViewModePeriodic, CustomerCostListParamsViewModeCumulative:
+		return true
+	}
+	return false
+}
+
 type CustomerCostListByExternalIDParams struct {
 	// Costs returned are exclusive of `timeframe_end`.
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
@@ -1039,3 +1047,11 @@ const (
 	CustomerCostListByExternalIDParamsViewModePeriodic   CustomerCostListByExternalIDParamsViewMode = "periodic"
 	CustomerCostListByExternalIDParamsViewModeCumulative CustomerCostListByExternalIDParamsViewMode = "cumulative"
 )
+
+func (r CustomerCostListByExternalIDParamsViewMode) IsKnown() bool {
+	switch r {
+	case CustomerCostListByExternalIDParamsViewModePeriodic, CustomerCostListByExternalIDParamsViewModeCumulative:
+		return true
+	}
+	return false
+}

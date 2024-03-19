@@ -510,6 +510,14 @@ const (
 	PriceUnitPriceCadenceAnnual    PriceUnitPriceCadence = "annual"
 )
 
+func (r PriceUnitPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceUnitPriceCadenceOneTime, PriceUnitPriceCadenceMonthly, PriceUnitPriceCadenceQuarterly, PriceUnitPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceUnitPriceItem struct {
 	ID   string                 `json:"id,required"`
 	Name string                 `json:"name,required"`
@@ -591,12 +599,28 @@ const (
 	PriceUnitPriceModelTypeUnit PriceUnitPriceModelType = "unit"
 )
 
+func (r PriceUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
+
 type PriceUnitPricePriceType string
 
 const (
 	PriceUnitPricePriceTypeUsagePrice PriceUnitPricePriceType = "usage_price"
 	PriceUnitPricePriceTypeFixedPrice PriceUnitPricePriceType = "fixed_price"
 )
+
+func (r PriceUnitPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceUnitPricePriceTypeUsagePrice, PriceUnitPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceUnitPriceUnitConfig struct {
 	// Rate per unit of usage
@@ -710,6 +734,14 @@ const (
 	PricePackagePriceCadenceAnnual    PricePackagePriceCadence = "annual"
 )
 
+func (r PricePackagePriceCadence) IsKnown() bool {
+	switch r {
+	case PricePackagePriceCadenceOneTime, PricePackagePriceCadenceMonthly, PricePackagePriceCadenceQuarterly, PricePackagePriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PricePackagePriceItem struct {
 	ID   string                    `json:"id,required"`
 	Name string                    `json:"name,required"`
@@ -791,6 +823,14 @@ const (
 	PricePackagePriceModelTypePackage PricePackagePriceModelType = "package"
 )
 
+func (r PricePackagePriceModelType) IsKnown() bool {
+	switch r {
+	case PricePackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
+
 type PricePackagePricePackageConfig struct {
 	// A currency amount to rate usage by
 	PackageAmount string `json:"package_amount,required"`
@@ -823,6 +863,14 @@ const (
 	PricePackagePricePriceTypeUsagePrice PricePackagePricePriceType = "usage_price"
 	PricePackagePricePriceTypeFixedPrice PricePackagePricePriceType = "fixed_price"
 )
+
+func (r PricePackagePricePriceType) IsKnown() bool {
+	switch r {
+	case PricePackagePricePriceTypeUsagePrice, PricePackagePricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceMatrixPrice struct {
 	ID                 string                         `json:"id,required"`
@@ -910,6 +958,14 @@ const (
 	PriceMatrixPriceCadenceQuarterly PriceMatrixPriceCadence = "quarterly"
 	PriceMatrixPriceCadenceAnnual    PriceMatrixPriceCadence = "annual"
 )
+
+func (r PriceMatrixPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceMatrixPriceCadenceOneTime, PriceMatrixPriceCadenceMonthly, PriceMatrixPriceCadenceQuarterly, PriceMatrixPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
 
 type PriceMatrixPriceItem struct {
 	ID   string                   `json:"id,required"`
@@ -1054,12 +1110,28 @@ const (
 	PriceMatrixPriceModelTypeMatrix PriceMatrixPriceModelType = "matrix"
 )
 
+func (r PriceMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
+
 type PriceMatrixPricePriceType string
 
 const (
 	PriceMatrixPricePriceTypeUsagePrice PriceMatrixPricePriceType = "usage_price"
 	PriceMatrixPricePriceTypeFixedPrice PriceMatrixPricePriceType = "fixed_price"
 )
+
+func (r PriceMatrixPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceMatrixPricePriceTypeUsagePrice, PriceMatrixPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceTieredPrice struct {
 	ID                 string                         `json:"id,required"`
@@ -1148,6 +1220,14 @@ const (
 	PriceTieredPriceCadenceAnnual    PriceTieredPriceCadence = "annual"
 )
 
+func (r PriceTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceTieredPriceCadenceOneTime, PriceTieredPriceCadenceMonthly, PriceTieredPriceCadenceQuarterly, PriceTieredPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceTieredPriceItem struct {
 	ID   string                   `json:"id,required"`
 	Name string                   `json:"name,required"`
@@ -1229,12 +1309,28 @@ const (
 	PriceTieredPriceModelTypeTiered PriceTieredPriceModelType = "tiered"
 )
 
+func (r PriceTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
+
 type PriceTieredPricePriceType string
 
 const (
 	PriceTieredPricePriceTypeUsagePrice PriceTieredPricePriceType = "usage_price"
 	PriceTieredPricePriceTypeFixedPrice PriceTieredPricePriceType = "fixed_price"
 )
+
+func (r PriceTieredPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceTieredPricePriceTypeUsagePrice, PriceTieredPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
@@ -1373,6 +1469,14 @@ const (
 	PriceTieredBpsPriceCadenceAnnual    PriceTieredBpsPriceCadence = "annual"
 )
 
+func (r PriceTieredBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceTieredBpsPriceCadenceOneTime, PriceTieredBpsPriceCadenceMonthly, PriceTieredBpsPriceCadenceQuarterly, PriceTieredBpsPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceTieredBpsPriceItem struct {
 	ID   string                      `json:"id,required"`
 	Name string                      `json:"name,required"`
@@ -1454,12 +1558,28 @@ const (
 	PriceTieredBpsPriceModelTypeTieredBps PriceTieredBpsPriceModelType = "tiered_bps"
 )
 
+func (r PriceTieredBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceTieredBpsPriceModelTypeTieredBps:
+		return true
+	}
+	return false
+}
+
 type PriceTieredBpsPricePriceType string
 
 const (
 	PriceTieredBpsPricePriceTypeUsagePrice PriceTieredBpsPricePriceType = "usage_price"
 	PriceTieredBpsPricePriceTypeFixedPrice PriceTieredBpsPricePriceType = "fixed_price"
 )
+
+func (r PriceTieredBpsPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceTieredBpsPricePriceTypeUsagePrice, PriceTieredBpsPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
@@ -1626,6 +1746,14 @@ const (
 	PriceBpsPriceCadenceAnnual    PriceBpsPriceCadence = "annual"
 )
 
+func (r PriceBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceBpsPriceCadenceOneTime, PriceBpsPriceCadenceMonthly, PriceBpsPriceCadenceQuarterly, PriceBpsPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceBpsPriceItem struct {
 	ID   string                `json:"id,required"`
 	Name string                `json:"name,required"`
@@ -1707,12 +1835,28 @@ const (
 	PriceBpsPriceModelTypeBps PriceBpsPriceModelType = "bps"
 )
 
+func (r PriceBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceBpsPriceModelTypeBps:
+		return true
+	}
+	return false
+}
+
 type PriceBpsPricePriceType string
 
 const (
 	PriceBpsPricePriceTypeUsagePrice PriceBpsPricePriceType = "usage_price"
 	PriceBpsPricePriceTypeFixedPrice PriceBpsPricePriceType = "fixed_price"
 )
+
+func (r PriceBpsPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceBpsPricePriceTypeUsagePrice, PriceBpsPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceBulkBpsPrice struct {
 	ID                 string                          `json:"id,required"`
@@ -1852,6 +1996,14 @@ const (
 	PriceBulkBpsPriceCadenceAnnual    PriceBulkBpsPriceCadence = "annual"
 )
 
+func (r PriceBulkBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceBulkBpsPriceCadenceOneTime, PriceBulkBpsPriceCadenceMonthly, PriceBulkBpsPriceCadenceQuarterly, PriceBulkBpsPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceBulkBpsPriceItem struct {
 	ID   string                    `json:"id,required"`
 	Name string                    `json:"name,required"`
@@ -1933,12 +2085,28 @@ const (
 	PriceBulkBpsPriceModelTypeBulkBps PriceBulkBpsPriceModelType = "bulk_bps"
 )
 
+func (r PriceBulkBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceBulkBpsPriceModelTypeBulkBps:
+		return true
+	}
+	return false
+}
+
 type PriceBulkBpsPricePriceType string
 
 const (
 	PriceBulkBpsPricePriceTypeUsagePrice PriceBulkBpsPricePriceType = "usage_price"
 	PriceBulkBpsPricePriceTypeFixedPrice PriceBulkBpsPricePriceType = "fixed_price"
 )
+
+func (r PriceBulkBpsPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceBulkBpsPricePriceTypeUsagePrice, PriceBulkBpsPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceBulkPrice struct {
 	ID                 string                       `json:"id,required"`
@@ -2073,6 +2241,14 @@ const (
 	PriceBulkPriceCadenceAnnual    PriceBulkPriceCadence = "annual"
 )
 
+func (r PriceBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceBulkPriceCadenceOneTime, PriceBulkPriceCadenceMonthly, PriceBulkPriceCadenceQuarterly, PriceBulkPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceBulkPriceItem struct {
 	ID   string                 `json:"id,required"`
 	Name string                 `json:"name,required"`
@@ -2154,12 +2330,28 @@ const (
 	PriceBulkPriceModelTypeBulk PriceBulkPriceModelType = "bulk"
 )
 
+func (r PriceBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
+
 type PriceBulkPricePriceType string
 
 const (
 	PriceBulkPricePriceTypeUsagePrice PriceBulkPricePriceType = "usage_price"
 	PriceBulkPricePriceTypeFixedPrice PriceBulkPricePriceType = "fixed_price"
 )
+
+func (r PriceBulkPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceBulkPricePriceTypeUsagePrice, PriceBulkPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceThresholdTotalAmountPrice struct {
 	ID                         string                                       `json:"id,required"`
@@ -2248,6 +2440,14 @@ const (
 	PriceThresholdTotalAmountPriceCadenceAnnual    PriceThresholdTotalAmountPriceCadence = "annual"
 )
 
+func (r PriceThresholdTotalAmountPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPriceCadenceOneTime, PriceThresholdTotalAmountPriceCadenceMonthly, PriceThresholdTotalAmountPriceCadenceQuarterly, PriceThresholdTotalAmountPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceThresholdTotalAmountPriceItem struct {
 	ID   string                                 `json:"id,required"`
 	Name string                                 `json:"name,required"`
@@ -2329,12 +2529,28 @@ const (
 	PriceThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
 
+func (r PriceThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
+
 type PriceThresholdTotalAmountPricePriceType string
 
 const (
 	PriceThresholdTotalAmountPricePriceTypeUsagePrice PriceThresholdTotalAmountPricePriceType = "usage_price"
 	PriceThresholdTotalAmountPricePriceTypeFixedPrice PriceThresholdTotalAmountPricePriceType = "fixed_price"
 )
+
+func (r PriceThresholdTotalAmountPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPricePriceTypeUsagePrice, PriceThresholdTotalAmountPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceTieredPackagePrice struct {
 	ID                  string                                `json:"id,required"`
@@ -2423,6 +2639,14 @@ const (
 	PriceTieredPackagePriceCadenceAnnual    PriceTieredPackagePriceCadence = "annual"
 )
 
+func (r PriceTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePriceCadenceOneTime, PriceTieredPackagePriceCadenceMonthly, PriceTieredPackagePriceCadenceQuarterly, PriceTieredPackagePriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceTieredPackagePriceItem struct {
 	ID   string                          `json:"id,required"`
 	Name string                          `json:"name,required"`
@@ -2504,12 +2728,28 @@ const (
 	PriceTieredPackagePriceModelTypeTieredPackage PriceTieredPackagePriceModelType = "tiered_package"
 )
 
+func (r PriceTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
+
 type PriceTieredPackagePricePriceType string
 
 const (
 	PriceTieredPackagePricePriceTypeUsagePrice PriceTieredPackagePricePriceType = "usage_price"
 	PriceTieredPackagePricePriceTypeFixedPrice PriceTieredPackagePricePriceType = "fixed_price"
 )
+
+func (r PriceTieredPackagePricePriceType) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePricePriceTypeUsagePrice, PriceTieredPackagePricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceTieredWithMinimumPrice struct {
 	ID                      string                                    `json:"id,required"`
@@ -2598,6 +2838,14 @@ const (
 	PriceTieredWithMinimumPriceCadenceAnnual    PriceTieredWithMinimumPriceCadence = "annual"
 )
 
+func (r PriceTieredWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPriceCadenceOneTime, PriceTieredWithMinimumPriceCadenceMonthly, PriceTieredWithMinimumPriceCadenceQuarterly, PriceTieredWithMinimumPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceTieredWithMinimumPriceItem struct {
 	ID   string                              `json:"id,required"`
 	Name string                              `json:"name,required"`
@@ -2679,12 +2927,28 @@ const (
 	PriceTieredWithMinimumPriceModelTypeTieredWithMinimum PriceTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
 
+func (r PriceTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
+
 type PriceTieredWithMinimumPricePriceType string
 
 const (
 	PriceTieredWithMinimumPricePriceTypeUsagePrice PriceTieredWithMinimumPricePriceType = "usage_price"
 	PriceTieredWithMinimumPricePriceTypeFixedPrice PriceTieredWithMinimumPricePriceType = "fixed_price"
 )
+
+func (r PriceTieredWithMinimumPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPricePriceTypeUsagePrice, PriceTieredWithMinimumPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PricePackageWithAllocationPrice struct {
 	ID                          string                                        `json:"id,required"`
@@ -2773,6 +3037,14 @@ const (
 	PricePackageWithAllocationPriceCadenceAnnual    PricePackageWithAllocationPriceCadence = "annual"
 )
 
+func (r PricePackageWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPriceCadenceOneTime, PricePackageWithAllocationPriceCadenceMonthly, PricePackageWithAllocationPriceCadenceQuarterly, PricePackageWithAllocationPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PricePackageWithAllocationPriceItem struct {
 	ID   string                                  `json:"id,required"`
 	Name string                                  `json:"name,required"`
@@ -2854,12 +3126,28 @@ const (
 	PricePackageWithAllocationPriceModelTypePackageWithAllocation PricePackageWithAllocationPriceModelType = "package_with_allocation"
 )
 
+func (r PricePackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
+
 type PricePackageWithAllocationPricePriceType string
 
 const (
 	PricePackageWithAllocationPricePriceTypeUsagePrice PricePackageWithAllocationPricePriceType = "usage_price"
 	PricePackageWithAllocationPricePriceTypeFixedPrice PricePackageWithAllocationPricePriceType = "fixed_price"
 )
+
+func (r PricePackageWithAllocationPricePriceType) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPricePriceTypeUsagePrice, PricePackageWithAllocationPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceUnitWithPercentPrice struct {
 	ID                    string                                  `json:"id,required"`
@@ -2948,6 +3236,14 @@ const (
 	PriceUnitWithPercentPriceCadenceAnnual    PriceUnitWithPercentPriceCadence = "annual"
 )
 
+func (r PriceUnitWithPercentPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPriceCadenceOneTime, PriceUnitWithPercentPriceCadenceMonthly, PriceUnitWithPercentPriceCadenceQuarterly, PriceUnitWithPercentPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
 type PriceUnitWithPercentPriceItem struct {
 	ID   string                            `json:"id,required"`
 	Name string                            `json:"name,required"`
@@ -3029,12 +3325,28 @@ const (
 	PriceUnitWithPercentPriceModelTypeUnitWithPercent PriceUnitWithPercentPriceModelType = "unit_with_percent"
 )
 
+func (r PriceUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
+
 type PriceUnitWithPercentPricePriceType string
 
 const (
 	PriceUnitWithPercentPricePriceTypeUsagePrice PriceUnitWithPercentPricePriceType = "usage_price"
 	PriceUnitWithPercentPricePriceTypeFixedPrice PriceUnitWithPercentPricePriceType = "fixed_price"
 )
+
+func (r PriceUnitWithPercentPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPricePriceTypeUsagePrice, PriceUnitWithPercentPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 type PriceMatrixWithAllocationPrice struct {
 	ID                         string                                                   `json:"id,required"`
@@ -3122,6 +3434,14 @@ const (
 	PriceMatrixWithAllocationPriceCadenceQuarterly PriceMatrixWithAllocationPriceCadence = "quarterly"
 	PriceMatrixWithAllocationPriceCadenceAnnual    PriceMatrixWithAllocationPriceCadence = "annual"
 )
+
+func (r PriceMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPriceCadenceOneTime, PriceMatrixWithAllocationPriceCadenceMonthly, PriceMatrixWithAllocationPriceCadenceQuarterly, PriceMatrixWithAllocationPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
 
 type PriceMatrixWithAllocationPriceItem struct {
 	ID   string                                 `json:"id,required"`
@@ -3271,12 +3591,28 @@ const (
 	PriceMatrixWithAllocationPriceModelTypeMatrixWithAllocation PriceMatrixWithAllocationPriceModelType = "matrix_with_allocation"
 )
 
+func (r PriceMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
+		return true
+	}
+	return false
+}
+
 type PriceMatrixWithAllocationPricePriceType string
 
 const (
 	PriceMatrixWithAllocationPricePriceTypeUsagePrice PriceMatrixWithAllocationPricePriceType = "usage_price"
 	PriceMatrixWithAllocationPricePriceTypeFixedPrice PriceMatrixWithAllocationPricePriceType = "fixed_price"
 )
+
+func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPricePriceTypeUsagePrice, PriceMatrixWithAllocationPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
 
 // This interface is a union satisfied by one of the following:
 // [PriceNewParamsNewFloatingUnitPrice], [PriceNewParamsNewFloatingPackagePrice],
@@ -3339,11 +3675,27 @@ const (
 	PriceNewParamsNewFloatingUnitPriceCadenceOneTime   PriceNewParamsNewFloatingUnitPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingUnitPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingUnitPriceCadenceAnnual, PriceNewParamsNewFloatingUnitPriceCadenceMonthly, PriceNewParamsNewFloatingUnitPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingUnitPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingUnitPriceModelTypeUnit PriceNewParamsNewFloatingUnitPriceModelType = "unit"
 )
+
+func (r PriceNewParamsNewFloatingUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingUnitPriceUnitConfig struct {
 	// Rate per unit of usage
@@ -3400,11 +3752,27 @@ const (
 	PriceNewParamsNewFloatingPackagePriceCadenceOneTime   PriceNewParamsNewFloatingPackagePriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingPackagePriceCadenceAnnual, PriceNewParamsNewFloatingPackagePriceCadenceMonthly, PriceNewParamsNewFloatingPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingPackagePriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingPackagePriceModelType string
 
 const (
 	PriceNewParamsNewFloatingPackagePriceModelTypePackage PriceNewParamsNewFloatingPackagePriceModelType = "package"
 )
+
+func (r PriceNewParamsNewFloatingPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingPackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingPackagePricePackageConfig struct {
 	// A currency amount to rate usage by
@@ -3462,6 +3830,14 @@ const (
 	PriceNewParamsNewFloatingMatrixPriceCadenceOneTime   PriceNewParamsNewFloatingMatrixPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingMatrixPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingMatrixPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingMatrixPriceMatrixConfig struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
 	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
@@ -3498,6 +3874,14 @@ type PriceNewParamsNewFloatingMatrixPriceModelType string
 const (
 	PriceNewParamsNewFloatingMatrixPriceModelTypeMatrix PriceNewParamsNewFloatingMatrixPriceModelType = "matrix"
 )
+
+func (r PriceNewParamsNewFloatingMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingMatrixWithAllocationPrice struct {
 	// The cadence to bill for this price on.
@@ -3543,6 +3927,14 @@ const (
 	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime   PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
 	// Allocation to be used to calculate the price
 	Allocation param.Field[float64] `json:"allocation,required"`
@@ -3581,6 +3973,14 @@ type PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType string
 const (
 	PriceNewParamsNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType = "matrix_with_allocation"
 )
+
+func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingTieredPrice struct {
 	// The cadence to bill for this price on.
@@ -3626,11 +4026,27 @@ const (
 	PriceNewParamsNewFloatingTieredPriceCadenceOneTime   PriceNewParamsNewFloatingTieredPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingTieredPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingTieredPriceModelTypeTiered PriceNewParamsNewFloatingTieredPriceModelType = "tiered"
 )
+
+func (r PriceNewParamsNewFloatingTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
@@ -3698,11 +4114,27 @@ const (
 	PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime   PriceNewParamsNewFloatingTieredBpsPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingTieredBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly, PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingTieredBpsPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingTieredBpsPriceModelTypeTieredBps PriceNewParamsNewFloatingTieredBpsPriceModelType = "tiered_bps"
 )
+
+func (r PriceNewParamsNewFloatingTieredBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredBpsPriceModelTypeTieredBps:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
@@ -3784,11 +4216,27 @@ const (
 	PriceNewParamsNewFloatingBpsPriceCadenceOneTime   PriceNewParamsNewFloatingBpsPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBpsPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingBpsPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingBpsPriceModelTypeBps PriceNewParamsNewFloatingBpsPriceModelType = "bps"
 )
+
+func (r PriceNewParamsNewFloatingBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingBpsPriceModelTypeBps:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingBulkBpsPrice struct {
 	BulkBpsConfig param.Field[PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
@@ -3857,11 +4305,27 @@ const (
 	PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime   PriceNewParamsNewFloatingBulkBpsPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingBulkBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingBulkBpsPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingBulkBpsPriceModelTypeBulkBps PriceNewParamsNewFloatingBulkBpsPriceModelType = "bulk_bps"
 )
+
+func (r PriceNewParamsNewFloatingBulkBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingBulkBpsPriceModelTypeBulkBps:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingBulkPrice struct {
 	BulkConfig param.Field[PriceNewParamsNewFloatingBulkPriceBulkConfig] `json:"bulk_config,required"`
@@ -3927,11 +4391,27 @@ const (
 	PriceNewParamsNewFloatingBulkPriceCadenceOneTime   PriceNewParamsNewFloatingBulkPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingBulkPriceCadenceAnnual, PriceNewParamsNewFloatingBulkPriceCadenceMonthly, PriceNewParamsNewFloatingBulkPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingBulkPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingBulkPriceModelTypeBulk PriceNewParamsNewFloatingBulkPriceModelType = "bulk"
 )
+
+func (r PriceNewParamsNewFloatingBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
@@ -3977,11 +4457,27 @@ const (
 	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime   PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
+
+func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingTieredPackagePrice struct {
 	// The cadence to bill for this price on.
@@ -4027,11 +4523,27 @@ const (
 	PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime   PriceNewParamsNewFloatingTieredPackagePriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingTieredPackagePriceModelType string
 
 const (
 	PriceNewParamsNewFloatingTieredPackagePriceModelTypeTieredPackage PriceNewParamsNewFloatingTieredPackagePriceModelType = "tiered_package"
 )
+
+func (r PriceNewParamsNewFloatingTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
@@ -4077,11 +4589,27 @@ const (
 	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime   PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingTieredWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingTieredWithMinimumPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum PriceNewParamsNewFloatingTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
+
+func (r PriceNewParamsNewFloatingTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
@@ -4127,11 +4655,27 @@ const (
 	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime   PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingPackageWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingPackageWithAllocationPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation PriceNewParamsNewFloatingPackageWithAllocationPriceModelType = "package_with_allocation"
 )
+
+func (r PriceNewParamsNewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingTieredPackageWithMinimumPrice struct {
 	// The cadence to bill for this price on.
@@ -4177,11 +4721,27 @@ const (
 	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime   PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
 )
+
+func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
+		return true
+	}
+	return false
+}
 
 type PriceNewParamsNewFloatingUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
@@ -4227,11 +4787,27 @@ const (
 	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime   PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "one_time"
 )
 
+func (r PriceNewParamsNewFloatingUnitWithPercentPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
 type PriceNewParamsNewFloatingUnitWithPercentPriceModelType string
 
 const (
 	PriceNewParamsNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent PriceNewParamsNewFloatingUnitWithPercentPriceModelType = "unit_with_percent"
 )
+
+func (r PriceNewParamsNewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
 
 type PriceListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned

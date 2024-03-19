@@ -130,6 +130,14 @@ const (
 	MetricNewResponseStatusArchived MetricNewResponseStatus = "archived"
 )
 
+func (r MetricNewResponseStatus) IsKnown() bool {
+	switch r {
+	case MetricNewResponseStatusActive, MetricNewResponseStatusDraft, MetricNewResponseStatusArchived:
+		return true
+	}
+	return false
+}
+
 // The Metric resource represents a calculation of a quantity based on events.
 // Metrics are defined by the query that transforms raw usage events into
 // meaningful values for your customers.
@@ -179,6 +187,14 @@ const (
 	MetricListResponseStatusArchived MetricListResponseStatus = "archived"
 )
 
+func (r MetricListResponseStatus) IsKnown() bool {
+	switch r {
+	case MetricListResponseStatusActive, MetricListResponseStatusDraft, MetricListResponseStatusArchived:
+		return true
+	}
+	return false
+}
+
 // The Metric resource represents a calculation of a quantity based on events.
 // Metrics are defined by the query that transforms raw usage events into
 // meaningful values for your customers.
@@ -227,6 +243,14 @@ const (
 	MetricFetchResponseStatusDraft    MetricFetchResponseStatus = "draft"
 	MetricFetchResponseStatusArchived MetricFetchResponseStatus = "archived"
 )
+
+func (r MetricFetchResponseStatus) IsKnown() bool {
+	switch r {
+	case MetricFetchResponseStatusActive, MetricFetchResponseStatusDraft, MetricFetchResponseStatusArchived:
+		return true
+	}
+	return false
+}
 
 type MetricNewParams struct {
 	// A description of the metric.

@@ -527,6 +527,14 @@ const (
 	InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemTypeMatrix InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemType = "matrix"
 )
 
+func (r InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemTypeMatrix:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemNewResponseSubLineItemsTierSubLineItem struct {
 	// The total amount for this sub line item.
 	Amount     string                                                          `json:"amount,required"`
@@ -619,6 +627,14 @@ const (
 	InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTypeTier InvoiceLineItemNewResponseSubLineItemsTierSubLineItemType = "tier"
 )
 
+func (r InvoiceLineItemNewResponseSubLineItemsTierSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTypeTier:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem struct {
 	// The total amount for this sub line item.
 	Amount   string                                                         `json:"amount,required"`
@@ -682,6 +698,14 @@ type InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemType string
 const (
 	InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemTypeNull InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemType = "'null'"
 )
+
+func (r InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemTypeNull:
+		return true
+	}
+	return false
+}
 
 type InvoiceLineItemNewResponseTaxAmount struct {
 	// The amount of additional tax incurred by this tax rate.
