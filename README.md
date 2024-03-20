@@ -62,7 +62,7 @@ func main() {
 
 ```
 
-### Request Fields
+### Request fields
 
 All request parameters are wrapped in a generic `Field` type,
 which we use to distinguish zero values from null or omitted fields.
@@ -92,7 +92,7 @@ params := FooParams{
 }
 ```
 
-### Response Objects
+### Response objects
 
 All fields in response structs are value types (not pointers or wrappers).
 
@@ -301,7 +301,7 @@ You may also replace the default `http.Client` with
 accepted (this overwrites any previous client) and receives requests after any
 middleware has been applied.
 
-## Semantic Versioning
+## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
