@@ -316,7 +316,7 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 //
 // ```
 //
-// ### Fixed fees
+// ## Fixed fees
 //
 // Fixed fees are prices that are applied independent of usage quantities, and
 // follow unit pricing. They also have an additional parameter
@@ -624,19 +624,16 @@ func (r PriceUnitPricePriceType) IsKnown() bool {
 
 type PriceUnitPriceUnitConfig struct {
 	// Rate per unit of usage
-	UnitAmount string `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor float64                      `json:"scaling_factor,nullable"`
-	JSON          priceUnitPriceUnitConfigJSON `json:"-"`
+	UnitAmount string                       `json:"unit_amount,required"`
+	JSON       priceUnitPriceUnitConfigJSON `json:"-"`
 }
 
 // priceUnitPriceUnitConfigJSON contains the JSON metadata for the struct
 // [PriceUnitPriceUnitConfig]
 type priceUnitPriceUnitConfigJSON struct {
-	UnitAmount    apijson.Field
-	ScalingFactor apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
+	UnitAmount  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
 }
 
 func (r *PriceUnitPriceUnitConfig) UnmarshalJSON(data []byte) (err error) {
@@ -997,10 +994,7 @@ type PriceMatrixPriceMatrixConfig struct {
 	Dimensions []string `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues []PriceMatrixPriceMatrixConfigMatrixValue `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor float64                          `json:"scaling_factor,nullable"`
-	JSON          priceMatrixPriceMatrixConfigJSON `json:"-"`
+	JSON         priceMatrixPriceMatrixConfigJSON          `json:"-"`
 }
 
 // priceMatrixPriceMatrixConfigJSON contains the JSON metadata for the struct
@@ -1009,7 +1003,6 @@ type priceMatrixPriceMatrixConfigJSON struct {
 	DefaultUnitAmount apijson.Field
 	Dimensions        apijson.Field
 	MatrixValues      apijson.Field
-	ScalingFactor     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
 }
@@ -1028,10 +1021,8 @@ type PriceMatrixPriceMatrixConfigMatrixValue struct {
 	// instance tier.
 	DimensionValues []string `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
-	UnitAmount string `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor float64                                     `json:"scaling_factor,nullable"`
-	JSON          priceMatrixPriceMatrixConfigMatrixValueJSON `json:"-"`
+	UnitAmount string                                      `json:"unit_amount,required"`
+	JSON       priceMatrixPriceMatrixConfigMatrixValueJSON `json:"-"`
 }
 
 // priceMatrixPriceMatrixConfigMatrixValueJSON contains the JSON metadata for the
@@ -1039,7 +1030,6 @@ type PriceMatrixPriceMatrixConfigMatrixValue struct {
 type priceMatrixPriceMatrixConfigMatrixValueJSON struct {
 	DimensionValues apijson.Field
 	UnitAmount      apijson.Field
-	ScalingFactor   apijson.Field
 	raw             string
 	ExtraFields     map[string]apijson.Field
 }
@@ -3475,10 +3465,7 @@ type PriceMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
 	Dimensions []string `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues []PriceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor float64                                                      `json:"scaling_factor,nullable"`
-	JSON          priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON `json:"-"`
+	JSON         priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON          `json:"-"`
 }
 
 // priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON contains the JSON
@@ -3489,7 +3476,6 @@ type priceMatrixWithAllocationPriceMatrixWithAllocationConfigJSON struct {
 	DefaultUnitAmount apijson.Field
 	Dimensions        apijson.Field
 	MatrixValues      apijson.Field
-	ScalingFactor     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
 }
@@ -3508,10 +3494,8 @@ type PriceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct 
 	// instance tier.
 	DimensionValues []string `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
-	UnitAmount string `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor float64                                                                 `json:"scaling_factor,nullable"`
-	JSON          priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON `json:"-"`
+	UnitAmount string                                                                  `json:"unit_amount,required"`
+	JSON       priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON `json:"-"`
 }
 
 // priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON contains
@@ -3520,7 +3504,6 @@ type PriceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct 
 type priceMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValueJSON struct {
 	DimensionValues apijson.Field
 	UnitAmount      apijson.Field
-	ScalingFactor   apijson.Field
 	raw             string
 	ExtraFields     map[string]apijson.Field
 }
@@ -3700,8 +3683,6 @@ func (r PriceNewParamsNewFloatingUnitPriceModelType) IsKnown() bool {
 type PriceNewParamsNewFloatingUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PriceNewParamsNewFloatingUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
@@ -3845,9 +3826,6 @@ type PriceNewParamsNewFloatingMatrixPriceMatrixConfig struct {
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues param.Field[[]PriceNewParamsNewFloatingMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PriceNewParamsNewFloatingMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
@@ -3861,8 +3839,6 @@ type PriceNewParamsNewFloatingMatrixPriceMatrixConfigMatrixValue struct {
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PriceNewParamsNewFloatingMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
@@ -3944,9 +3920,6 @@ type PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfi
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues param.Field[[]PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue] `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -3960,8 +3933,6 @@ type PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfi
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) MarshalJSON() (data []byte, err error) {

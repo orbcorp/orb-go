@@ -32,8 +32,7 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		ModelType: orb.F(orb.PriceNewParamsNewFloatingUnitPriceModelTypeUnit),
 		Name:      orb.F("Annual fee"),
 		UnitConfig: orb.F(orb.PriceNewParamsNewFloatingUnitPriceUnitConfig{
-			UnitAmount:    orb.F("string"),
-			ScalingFactor: orb.F(0.000000),
+			UnitAmount: orb.F("string"),
 		}),
 		BillableMetricID:   orb.F("string"),
 		BilledInAdvance:    orb.F(true),

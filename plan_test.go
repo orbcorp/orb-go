@@ -40,8 +40,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			Cadence:            orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceCadenceAnnual),
 			ModelType:          orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceModelTypeUnit),
 			UnitConfig: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceUnitConfig{
-				UnitAmount:    orb.F("string"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("string"),
 			}),
 		})}),
 		DefaultInvoiceMemo: orb.F("string"),
