@@ -1675,7 +1675,7 @@ type SubscriptionPriceInterval struct {
 	//
 	// ```
 	//
-	// ### Fixed fees
+	// ## Fixed fees
 	//
 	// Fixed fees are prices that are applied independent of usage quantities, and
 	// follow unit pricing. They also have an additional parameter
@@ -2436,7 +2436,7 @@ type SubscriptionFetchCostsResponseDataPerPriceCost struct {
 	//
 	// ```
 	//
-	// ### Fixed fees
+	// ## Fixed fees
 	//
 	// Fixed fees are prices that are applied independent of usage quantities, and
 	// follow unit pricing. They also have an additional parameter
@@ -2647,8 +2647,6 @@ func (r SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelType) IsKnown()
 type SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
@@ -2808,9 +2806,6 @@ type SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfig struct {
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues param.Field[[]SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
@@ -2824,8 +2819,6 @@ type SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfigMatrixVal
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
@@ -4207,8 +4200,6 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType) I
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
@@ -4350,9 +4341,6 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfig 
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
@@ -4366,8 +4354,6 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfigM
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
@@ -4448,9 +4434,6 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPric
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues param.Field[[]SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue] `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
@@ -4464,8 +4447,6 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPric
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) MarshalJSON() (data []byte, err error) {
@@ -5513,8 +5494,6 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModel
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
@@ -5674,9 +5653,6 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrix
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues param.Field[[]SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
@@ -5690,8 +5666,6 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrix
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {

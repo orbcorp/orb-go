@@ -37,8 +37,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			ItemID:    orb.F("4khy3nwzktxv7"),
 			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
 			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount:    orb.F("string"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("string"),
 			}),
 		}, {
 			StartDate: orb.F(time.Now()),
@@ -48,8 +47,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			ItemID:    orb.F("4khy3nwzktxv7"),
 			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
 			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount:    orb.F("string"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("string"),
 			}),
 		}, {
 			StartDate: orb.F(time.Now()),
@@ -59,8 +57,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			ItemID:    orb.F("4khy3nwzktxv7"),
 			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
 			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount:    orb.F("string"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("string"),
 			}),
 		}}),
 		NetTerms:           orb.F(int64(0)),
@@ -191,7 +188,7 @@ func TestInvoiceIssue(t *testing.T) {
 	}
 }
 
-func TestInvoiceMarkPaid(t *testing.T) {
+func TestInvoiceMarkPaidWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -207,9 +204,9 @@ func TestInvoiceMarkPaid(t *testing.T) {
 		context.TODO(),
 		"string",
 		orb.InvoiceMarkPaidParams{
+			PaymentReceivedDate: orb.F(time.Now()),
 			ExternalID:          orb.F("external_payment_id_123"),
 			Notes:               orb.F("string"),
-			PaymentReceivedDate: orb.F(time.Now()),
 		},
 	)
 	if err != nil {

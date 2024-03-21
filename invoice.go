@@ -1113,7 +1113,7 @@ type InvoiceLineItem struct {
 	//
 	// ```
 	//
-	// ### Fixed fees
+	// ## Fixed fees
 	//
 	// Fixed fees are prices that are applied independent of usage quantities, and
 	// follow unit pricing. They also have an additional parameter
@@ -2644,7 +2644,7 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	//
 	// ```
 	//
-	// ### Fixed fees
+	// ## Fixed fees
 	//
 	// Fixed fees are prices that are applied independent of usage quantities, and
 	// follow unit pricing. They also have an additional parameter
@@ -3284,8 +3284,6 @@ func (r InvoiceNewParamsLineItemsModelType) IsKnown() bool {
 type InvoiceNewParamsLineItemsUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r InvoiceNewParamsLineItemsUnitConfig) MarshalJSON() (data []byte, err error) {
@@ -3372,12 +3370,12 @@ func (r InvoiceFetchUpcomingParams) URLQuery() (v url.Values) {
 }
 
 type InvoiceMarkPaidParams struct {
-	// An optional external ID to associate with the payment.
-	ExternalID param.Field[string] `json:"external_id,required"`
-	// An optional note to associate with the payment.
-	Notes param.Field[string] `json:"notes,required"`
 	// A date string to specify the date of the payment.
 	PaymentReceivedDate param.Field[time.Time] `json:"payment_received_date,required" format:"date"`
+	// An optional external ID to associate with the payment.
+	ExternalID param.Field[string] `json:"external_id"`
+	// An optional note to associate with the payment.
+	Notes param.Field[string] `json:"notes"`
 }
 
 func (r InvoiceMarkPaidParams) MarshalJSON() (data []byte, err error) {

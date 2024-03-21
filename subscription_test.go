@@ -63,8 +63,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			}),
 			FixedPriceQuantity: orb.F(2.000000),
 			UnitConfig: orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig{
-				UnitAmount:    orb.F("string"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("string"),
 			}),
 		}), orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:            orb.F("string"),
@@ -81,8 +80,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			}),
 			FixedPriceQuantity: orb.F(2.000000),
 			UnitConfig: orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig{
-				UnitAmount:    orb.F("string"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("string"),
 			}),
 		}), orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:            orb.F("string"),
@@ -99,8 +97,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			}),
 			FixedPriceQuantity: orb.F(2.000000),
 			UnitConfig: orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig{
-				UnitAmount:    orb.F("string"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("string"),
 			}),
 		})}),
 		StartDate: orb.F(time.Now()),
@@ -331,8 +328,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Cadence:            orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceAnnual),
 					ModelType:          orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit),
 					UnitConfig: orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig{
-						UnitAmount:    orb.F("string"),
-						ScalingFactor: orb.F(0.000000),
+						UnitAmount: orb.F("string"),
 					}),
 					Currency: orb.F("string"),
 				})),
@@ -374,8 +370,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Cadence:            orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceAnnual),
 					ModelType:          orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit),
 					UnitConfig: orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig{
-						UnitAmount:    orb.F("string"),
-						ScalingFactor: orb.F(0.000000),
+						UnitAmount: orb.F("string"),
 					}),
 					Currency: orb.F("string"),
 				})),
@@ -417,8 +412,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Cadence:            orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceAnnual),
 					ModelType:          orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit),
 					UnitConfig: orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig{
-						UnitAmount:    orb.F("string"),
-						ScalingFactor: orb.F(0.000000),
+						UnitAmount: orb.F("string"),
 					}),
 					Currency: orb.F("string"),
 				})),
@@ -546,8 +540,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				}),
 				FixedPriceQuantity: orb.F(2.000000),
 				UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig{
-					UnitAmount:    orb.F("string"),
-					ScalingFactor: orb.F(0.000000),
+					UnitAmount: orb.F("string"),
 				}),
 			}), orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
 				ID:            orb.F("string"),
@@ -564,8 +557,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				}),
 				FixedPriceQuantity: orb.F(2.000000),
 				UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig{
-					UnitAmount:    orb.F("string"),
-					ScalingFactor: orb.F(0.000000),
+					UnitAmount: orb.F("string"),
 				}),
 			}), orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
 				ID:            orb.F("string"),
@@ -582,8 +574,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				}),
 				FixedPriceQuantity: orb.F(2.000000),
 				UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig{
-					UnitAmount:    orb.F("string"),
-					ScalingFactor: orb.F(0.000000),
+					UnitAmount: orb.F("string"),
 				}),
 			})}),
 		},

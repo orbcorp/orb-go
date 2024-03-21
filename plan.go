@@ -571,8 +571,6 @@ func (r PlanNewParamsPricesNewPlanUnitPriceModelType) IsKnown() bool {
 type PlanNewParamsPricesNewPlanUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PlanNewParamsPricesNewPlanUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
@@ -708,9 +706,6 @@ type PlanNewParamsPricesNewPlanMatrixPriceMatrixConfig struct {
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
 	MatrixValues param.Field[[]PlanNewParamsPricesNewPlanMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
-	// Default optional multiplier to scale rated quantities that fall into the default
-	// bucket by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PlanNewParamsPricesNewPlanMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
@@ -724,8 +719,6 @@ type PlanNewParamsPricesNewPlanMatrixPriceMatrixConfigMatrixValue struct {
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
 	// Unit price for the specified dimension_values
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Optional multiplier to scale rated quantities by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r PlanNewParamsPricesNewPlanMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
