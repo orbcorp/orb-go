@@ -85,11 +85,12 @@ func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, 
 }
 
 type CustomerCreditListResponse struct {
-	ID               string                         `json:"id,required"`
-	Balance          float64                        `json:"balance,required"`
-	ExpiryDate       time.Time                      `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string                         `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditListResponseJSON `json:"-"`
+	ID               string                           `json:"id,required"`
+	Balance          float64                          `json:"balance,required"`
+	ExpiryDate       time.Time                        `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                           `json:"per_unit_cost_basis,required,nullable"`
+	Status           CustomerCreditListResponseStatus `json:"status,required"`
+	JSON             customerCreditListResponseJSON   `json:"-"`
 }
 
 // customerCreditListResponseJSON contains the JSON metadata for the struct
@@ -99,6 +100,7 @@ type customerCreditListResponseJSON struct {
 	Balance          apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
+	Status           apijson.Field
 	raw              string
 	ExtraFields      map[string]apijson.Field
 }
@@ -111,12 +113,28 @@ func (r customerCreditListResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+type CustomerCreditListResponseStatus string
+
+const (
+	CustomerCreditListResponseStatusActive         CustomerCreditListResponseStatus = "active"
+	CustomerCreditListResponseStatusPendingPayment CustomerCreditListResponseStatus = "pending_payment"
+)
+
+func (r CustomerCreditListResponseStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditListResponseStatusActive, CustomerCreditListResponseStatusPendingPayment:
+		return true
+	}
+	return false
+}
+
 type CustomerCreditListByExternalIDResponse struct {
-	ID               string                                     `json:"id,required"`
-	Balance          float64                                    `json:"balance,required"`
-	ExpiryDate       time.Time                                  `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string                                     `json:"per_unit_cost_basis,required,nullable"`
-	JSON             customerCreditListByExternalIDResponseJSON `json:"-"`
+	ID               string                                       `json:"id,required"`
+	Balance          float64                                      `json:"balance,required"`
+	ExpiryDate       time.Time                                    `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                                       `json:"per_unit_cost_basis,required,nullable"`
+	Status           CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
+	JSON             customerCreditListByExternalIDResponseJSON   `json:"-"`
 }
 
 // customerCreditListByExternalIDResponseJSON contains the JSON metadata for the
@@ -126,6 +144,7 @@ type customerCreditListByExternalIDResponseJSON struct {
 	Balance          apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
+	Status           apijson.Field
 	raw              string
 	ExtraFields      map[string]apijson.Field
 }
@@ -136,6 +155,21 @@ func (r *CustomerCreditListByExternalIDResponse) UnmarshalJSON(data []byte) (err
 
 func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
 	return r.raw
+}
+
+type CustomerCreditListByExternalIDResponseStatus string
+
+const (
+	CustomerCreditListByExternalIDResponseStatusActive         CustomerCreditListByExternalIDResponseStatus = "active"
+	CustomerCreditListByExternalIDResponseStatusPendingPayment CustomerCreditListByExternalIDResponseStatus = "pending_payment"
+)
+
+func (r CustomerCreditListByExternalIDResponseStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditListByExternalIDResponseStatusActive, CustomerCreditListByExternalIDResponseStatusPendingPayment:
+		return true
+	}
+	return false
 }
 
 type CustomerCreditListParams struct {
