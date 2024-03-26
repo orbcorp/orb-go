@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.24.0 (2024-03-26)
+
+Full Changelog: [v0.23.1...v0.24.0](https://github.com/orbcorp/orb-go/compare/v0.23.1...v0.24.0)
+
+### Features
+
+* add IsKnown method to enums ([#111](https://github.com/orbcorp/orb-go/issues/111)) ([50d1623](https://github.com/orbcorp/orb-go/commit/50d1623f43a1f87b7b84b0100d1da5bd0db6cb52))
+* **api:** introduce credits status ([658ff1e](https://github.com/orbcorp/orb-go/commit/658ff1ea9605f7d96ff3dc15cb20d6f5afb362b8))
+* **api:** remove `scaling_factor` ([#114](https://github.com/orbcorp/orb-go/issues/114)) ([658ff1e](https://github.com/orbcorp/orb-go/commit/658ff1ea9605f7d96ff3dc15cb20d6f5afb362b8))
+
+
+### Chores
+
+* **internal:** update generated pragma comment ([#110](https://github.com/orbcorp/orb-go/issues/110)) ([713043c](https://github.com/orbcorp/orb-go/commit/713043c8db17cccf3fc68ff8584ac4d9c0159464))
+
+
+### Documentation
+
+* fix typo in CONTRIBUTING.md ([#108](https://github.com/orbcorp/orb-go/issues/108)) ([7a107b3](https://github.com/orbcorp/orb-go/commit/7a107b30d9bce7ee47077afcb22025151bc2fd84))
+* **readme:** consistent use of sentence case in headings ([#113](https://github.com/orbcorp/orb-go/issues/113)) ([bef493a](https://github.com/orbcorp/orb-go/commit/bef493a87cdac0083fc213a814284e7eade7ea52))
+* **readme:** document file uploads ([#115](https://github.com/orbcorp/orb-go/issues/115)) ([c5efd2e](https://github.com/orbcorp/orb-go/commit/c5efd2e33eb0eb3d7955699d389610e9efc2482a))
+* updated invoice description ([#112](https://github.com/orbcorp/orb-go/issues/112)) ([7d55ac1](https://github.com/orbcorp/orb-go/commit/7d55ac1377a18e7d1513108573c084d3796999ef))
+
 ## 0.23.1 (2024-03-18)
 
 Full Changelog: [v0.23.0...v0.23.1](https://github.com/orbcorp/orb-go/compare/v0.23.0...v0.23.1)
