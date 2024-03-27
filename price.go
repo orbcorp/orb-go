@@ -341,8 +341,9 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 // Union satisfied by [PriceUnitPrice], [PricePackagePrice], [PriceMatrixPrice],
 // [PriceTieredPrice], [PriceTieredBpsPrice], [PriceBpsPrice], [PriceBulkBpsPrice],
 // [PriceBulkPrice], [PriceThresholdTotalAmountPrice], [PriceTieredPackagePrice],
-// [PriceTieredWithMinimumPrice], [PricePackageWithAllocationPrice],
-// [PriceUnitWithPercentPrice] or [PriceMatrixWithAllocationPrice].
+// [PriceGroupedTieredPrice], [PriceTieredWithMinimumPrice],
+// [PricePackageWithAllocationPrice], [PriceUnitWithPercentPrice] or
+// [PriceMatrixWithAllocationPrice].
 type Price interface {
 	implementsPrice()
 }
@@ -400,6 +401,11 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceTieredPackagePrice{}),
 			DiscriminatorValue: "tiered_package",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceGroupedTieredPrice{}),
+			DiscriminatorValue: "grouped_tiered",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -2741,6 +2747,205 @@ func (r PriceTieredPackagePricePriceType) IsKnown() bool {
 	return false
 }
 
+type PriceGroupedTieredPrice struct {
+	ID                  string                                `json:"id,required"`
+	BillableMetric      PriceGroupedTieredPriceBillableMetric `json:"billable_metric,required,nullable"`
+	Cadence             PriceGroupedTieredPriceCadence        `json:"cadence,required"`
+	CreatedAt           time.Time                             `json:"created_at,required" format:"date-time"`
+	Currency            string                                `json:"currency,required"`
+	Discount            shared.Discount                       `json:"discount,required,nullable"`
+	ExternalPriceID     string                                `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity  float64                               `json:"fixed_price_quantity,required,nullable"`
+	GroupedTieredConfig map[string]interface{}                `json:"grouped_tiered_config,required"`
+	Item                PriceGroupedTieredPriceItem           `json:"item,required"`
+	Maximum             PriceGroupedTieredPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount       string                                `json:"maximum_amount,required,nullable"`
+	Minimum             PriceGroupedTieredPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount       string                                `json:"minimum_amount,required,nullable"`
+	ModelType           PriceGroupedTieredPriceModelType      `json:"model_type,required"`
+	Name                string                                `json:"name,required"`
+	PlanPhaseOrder      int64                                 `json:"plan_phase_order,required,nullable"`
+	PriceType           PriceGroupedTieredPricePriceType      `json:"price_type,required"`
+	JSON                priceGroupedTieredPriceJSON           `json:"-"`
+}
+
+// priceGroupedTieredPriceJSON contains the JSON metadata for the struct
+// [PriceGroupedTieredPrice]
+type priceGroupedTieredPriceJSON struct {
+	ID                  apijson.Field
+	BillableMetric      apijson.Field
+	Cadence             apijson.Field
+	CreatedAt           apijson.Field
+	Currency            apijson.Field
+	Discount            apijson.Field
+	ExternalPriceID     apijson.Field
+	FixedPriceQuantity  apijson.Field
+	GroupedTieredConfig apijson.Field
+	Item                apijson.Field
+	Maximum             apijson.Field
+	MaximumAmount       apijson.Field
+	Minimum             apijson.Field
+	MinimumAmount       apijson.Field
+	ModelType           apijson.Field
+	Name                apijson.Field
+	PlanPhaseOrder      apijson.Field
+	PriceType           apijson.Field
+	raw                 string
+	ExtraFields         map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceGroupedTieredPrice) implementsPrice() {}
+
+type PriceGroupedTieredPriceBillableMetric struct {
+	ID   string                                    `json:"id,required"`
+	JSON priceGroupedTieredPriceBillableMetricJSON `json:"-"`
+}
+
+// priceGroupedTieredPriceBillableMetricJSON contains the JSON metadata for the
+// struct [PriceGroupedTieredPriceBillableMetric]
+type priceGroupedTieredPriceBillableMetricJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedTieredPriceCadence string
+
+const (
+	PriceGroupedTieredPriceCadenceOneTime   PriceGroupedTieredPriceCadence = "one_time"
+	PriceGroupedTieredPriceCadenceMonthly   PriceGroupedTieredPriceCadence = "monthly"
+	PriceGroupedTieredPriceCadenceQuarterly PriceGroupedTieredPriceCadence = "quarterly"
+	PriceGroupedTieredPriceCadenceAnnual    PriceGroupedTieredPriceCadence = "annual"
+)
+
+func (r PriceGroupedTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPriceCadenceOneTime, PriceGroupedTieredPriceCadenceMonthly, PriceGroupedTieredPriceCadenceQuarterly, PriceGroupedTieredPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedTieredPriceItem struct {
+	ID   string                          `json:"id,required"`
+	Name string                          `json:"name,required"`
+	JSON priceGroupedTieredPriceItemJSON `json:"-"`
+}
+
+// priceGroupedTieredPriceItemJSON contains the JSON metadata for the struct
+// [PriceGroupedTieredPriceItem]
+type priceGroupedTieredPriceItemJSON struct {
+	ID          apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedTieredPriceMaximum struct {
+	// List of price_ids that this maximum amount applies to. For plan/plan phase
+	// maximums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Maximum amount applied
+	MaximumAmount string                             `json:"maximum_amount,required"`
+	JSON          priceGroupedTieredPriceMaximumJSON `json:"-"`
+}
+
+// priceGroupedTieredPriceMaximumJSON contains the JSON metadata for the struct
+// [PriceGroupedTieredPriceMaximum]
+type priceGroupedTieredPriceMaximumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceMaximum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedTieredPriceMinimum struct {
+	// List of price_ids that this minimum amount applies to. For plan/plan phase
+	// minimums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Minimum amount applied
+	MinimumAmount string                             `json:"minimum_amount,required"`
+	JSON          priceGroupedTieredPriceMinimumJSON `json:"-"`
+}
+
+// priceGroupedTieredPriceMinimumJSON contains the JSON metadata for the struct
+// [PriceGroupedTieredPriceMinimum]
+type priceGroupedTieredPriceMinimumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MinimumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceMinimum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceMinimumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedTieredPriceModelType string
+
+const (
+	PriceGroupedTieredPriceModelTypeGroupedTiered PriceGroupedTieredPriceModelType = "grouped_tiered"
+)
+
+func (r PriceGroupedTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPriceModelTypeGroupedTiered:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedTieredPricePriceType string
+
+const (
+	PriceGroupedTieredPricePriceTypeUsagePrice PriceGroupedTieredPricePriceType = "usage_price"
+	PriceGroupedTieredPricePriceTypeFixedPrice PriceGroupedTieredPricePriceType = "fixed_price"
+)
+
+func (r PriceGroupedTieredPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPricePriceTypeUsagePrice, PriceGroupedTieredPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
+
 type PriceTieredWithMinimumPrice struct {
 	ID                      string                                    `json:"id,required"`
 	BillableMetric          PriceTieredWithMinimumPriceBillableMetric `json:"billable_metric,required,nullable"`
@@ -3606,6 +3811,7 @@ func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
 // [PriceNewParamsNewFloatingBulkBpsPrice], [PriceNewParamsNewFloatingBulkPrice],
 // [PriceNewParamsNewFloatingThresholdTotalAmountPrice],
 // [PriceNewParamsNewFloatingTieredPackagePrice],
+// [PriceNewParamsNewFloatingGroupedTieredPrice],
 // [PriceNewParamsNewFloatingTieredWithMinimumPrice],
 // [PriceNewParamsNewFloatingPackageWithAllocationPrice],
 // [PriceNewParamsNewFloatingTieredPackageWithMinimumPrice],
@@ -4511,6 +4717,72 @@ const (
 func (r PriceNewParamsNewFloatingTieredPackagePriceModelType) IsKnown() bool {
 	switch r {
 	case PriceNewParamsNewFloatingTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
+
+type PriceNewParamsNewFloatingGroupedTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedTieredPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency            param.Field[string]                 `json:"currency,required"`
+	GroupedTieredConfig param.Field[map[string]interface{}] `json:"grouped_tiered_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                               `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r PriceNewParamsNewFloatingGroupedTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (PriceNewParamsNewFloatingGroupedTieredPrice) ImplementsPriceNewParams() {
+
+}
+
+// The cadence to bill for this price on.
+type PriceNewParamsNewFloatingGroupedTieredPriceCadence string
+
+const (
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual    PriceNewParamsNewFloatingGroupedTieredPriceCadence = "annual"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly   PriceNewParamsNewFloatingGroupedTieredPriceCadence = "monthly"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly PriceNewParamsNewFloatingGroupedTieredPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime   PriceNewParamsNewFloatingGroupedTieredPriceCadence = "one_time"
+)
+
+func (r PriceNewParamsNewFloatingGroupedTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
+type PriceNewParamsNewFloatingGroupedTieredPriceModelType string
+
+const (
+	PriceNewParamsNewFloatingGroupedTieredPriceModelTypeGroupedTiered PriceNewParamsNewFloatingGroupedTieredPriceModelType = "grouped_tiered"
+)
+
+func (r PriceNewParamsNewFloatingGroupedTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingGroupedTieredPriceModelTypeGroupedTiered:
 		return true
 	}
 	return false
