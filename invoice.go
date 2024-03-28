@@ -12,6 +12,7 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/internal/shared"
@@ -53,7 +54,7 @@ func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ..
 // the next page of results if they exist.
 //
 // By default, this only returns invoices that are `issued`, `paid`, or `synced`.
-func (r *InvoiceService) List(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) (res *shared.Page[Invoice], err error) {
+func (r *InvoiceService) List(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) (res *pagination.Page[Invoice], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -79,8 +80,8 @@ func (r *InvoiceService) List(ctx context.Context, query InvoiceListParams, opts
 // the next page of results if they exist.
 //
 // By default, this only returns invoices that are `issued`, `paid`, or `synced`.
-func (r *InvoiceService) ListAutoPaging(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) *shared.PageAutoPager[Invoice] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *InvoiceService) ListAutoPaging(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Invoice] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint is used to fetch an [`Invoice`](../guides/concepts#invoice) given

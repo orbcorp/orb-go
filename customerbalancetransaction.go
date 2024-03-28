@@ -11,9 +11,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -72,7 +72,7 @@ func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID 
 // invoices are not synced to a separate invoicing provider. If a payment gateway
 // such as Stripe is used, the balance will be applied to the invoice before
 // forwarding payment to the gateway.
-func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) (res *shared.Page[CustomerBalanceTransactionListResponse], err error) {
+func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerBalanceTransactionListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -117,8 +117,8 @@ func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID
 // invoices are not synced to a separate invoicing provider. If a payment gateway
 // such as Stripe is used, the balance will be applied to the invoice before
 // forwarding payment to the gateway.
-func (r *CustomerBalanceTransactionService) ListAutoPaging(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) *shared.PageAutoPager[CustomerBalanceTransactionListResponse] {
-	return shared.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
+func (r *CustomerBalanceTransactionService) ListAutoPaging(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerBalanceTransactionListResponse] {
+	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
 type CustomerBalanceTransactionNewResponse struct {

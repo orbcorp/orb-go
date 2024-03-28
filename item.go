@@ -11,9 +11,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -44,7 +44,7 @@ func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...optio
 
 // This endpoint returns a list of all Items, ordered in descending order by
 // creation time.
-func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...option.RequestOption) (res *shared.Page[Item], err error) {
+func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...option.RequestOption) (res *pagination.Page[Item], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -63,8 +63,8 @@ func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...op
 
 // This endpoint returns a list of all Items, ordered in descending order by
 // creation time.
-func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, opts ...option.RequestOption) *shared.PageAutoPager[Item] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Item] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint returns an item identified by its item_id.
