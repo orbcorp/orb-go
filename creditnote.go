@@ -11,9 +11,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -37,7 +37,7 @@ func NewCreditNoteService(opts ...option.RequestOption) (r *CreditNoteService) {
 // Get a paginated list of CreditNotes. Users can also filter by customer_id,
 // subscription_id, or external_customer_id. The credit notes will be returned in
 // reverse chronological order by `creation_time`.
-func (r *CreditNoteService) List(ctx context.Context, query CreditNoteListParams, opts ...option.RequestOption) (res *shared.Page[CreditNote], err error) {
+func (r *CreditNoteService) List(ctx context.Context, query CreditNoteListParams, opts ...option.RequestOption) (res *pagination.Page[CreditNote], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -57,8 +57,8 @@ func (r *CreditNoteService) List(ctx context.Context, query CreditNoteListParams
 // Get a paginated list of CreditNotes. Users can also filter by customer_id,
 // subscription_id, or external_customer_id. The credit notes will be returned in
 // reverse chronological order by `creation_time`.
-func (r *CreditNoteService) ListAutoPaging(ctx context.Context, query CreditNoteListParams, opts ...option.RequestOption) *shared.PageAutoPager[CreditNote] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *CreditNoteService) ListAutoPaging(ctx context.Context, query CreditNoteListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CreditNote] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint is used to fetch a single
