@@ -314,6 +314,41 @@ You may also replace the default `http.Client` with
 accepted (this overwrites any previous client) and receives requests after any
 middleware has been applied.
 
+## Webhook Verification
+
+We provide the method `orb.Webhooks.VerifySignature(payload []byte, headers http.Header, secret string, now time.Time)` for verifying that a webhook request came from Orb, and not a malicious third party.
+
+Note that the `payload` parameter must be the raw JSON string sent from the server (do not parse it first). To use the
+webhook secret defined at the client level pass an empty string as the `secret` parameter.
+
+```go
+func handler(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+
+    body, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        http.Error(w, "Error reading request body", http.StatusInternalServerError)
+        return
+    }
+    defer r.Body.Close()
+
+    secret := os.Getenv("ORB_WEBHOOK_SECRET") // env var used by default; explicit here.
+    now := time.Now()
+
+    err = orb.Webhooks.VerifySignature(body, r.Header, secret, now)
+    if err != nil {
+        http.Error(w, `{"error": "invalid signature"}`, http.StatusBadRequest)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.Write([]byte(`{"ok": true}`))
+}
+```
+
 ## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
