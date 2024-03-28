@@ -10,9 +10,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -49,7 +49,7 @@ func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string,
 }
 
 // List top-ups
-func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) (res *shared.Page[CustomerCreditTopUpListResponse], err error) {
+func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -67,8 +67,8 @@ func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string
 }
 
 // List top-ups
-func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) *shared.PageAutoPager[CustomerCreditTopUpListResponse] {
-	return shared.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
+func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditTopUpListResponse] {
+	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
 // Delete top-up
@@ -104,7 +104,7 @@ func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, ext
 }
 
 // List top-ups by external ID
-func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) (res *shared.Page[CustomerCreditTopUpListByExternalIDResponse], err error) {
+func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListByExternalIDResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -122,8 +122,8 @@ func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, exter
 }
 
 // List top-ups by external ID
-func (r *CustomerCreditTopUpService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) *shared.PageAutoPager[CustomerCreditTopUpListByExternalIDResponse] {
-	return shared.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
+func (r *CustomerCreditTopUpService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditTopUpListByExternalIDResponse] {
+	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
 }
 
 type CustomerCreditTopUpNewResponse struct {

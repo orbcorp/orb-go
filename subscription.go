@@ -12,9 +12,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/tidwall/gjson"
 )
@@ -468,7 +468,7 @@ func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParam
 //
 // Subscriptions can be filtered to a single customer by passing in the
 // `customer_id` query parameter or the `external_customer_id` query parameter.
-func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *shared.Page[Subscription], err error) {
+func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -492,8 +492,8 @@ func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListPa
 //
 // Subscriptions can be filtered to a single customer by passing in the
 // `customer_id` query parameter or the `external_customer_id` query parameter.
-func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) *shared.PageAutoPager[Subscription] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Subscription] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint can be used to cancel an existing subscription. It returns the
@@ -598,7 +598,7 @@ func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID str
 // associated with a subscription along with their start and end dates. This list
 // contains the subscription's initial plan along with past and future plan
 // changes.
-func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) (res *shared.Page[SubscriptionFetchScheduleResponse], err error) {
+func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) (res *pagination.Page[SubscriptionFetchScheduleResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -619,8 +619,8 @@ func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID 
 // associated with a subscription along with their start and end dates. This list
 // contains the subscription's initial plan along with past and future plan
 // changes.
-func (r *SubscriptionService) FetchScheduleAutoPaging(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) *shared.PageAutoPager[SubscriptionFetchScheduleResponse] {
-	return shared.NewPageAutoPager(r.FetchSchedule(ctx, subscriptionID, query, opts...))
+func (r *SubscriptionService) FetchScheduleAutoPaging(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) *pagination.PageAutoPager[SubscriptionFetchScheduleResponse] {
+	return pagination.NewPageAutoPager(r.FetchSchedule(ctx, subscriptionID, query, opts...))
 }
 
 // This endpoint is used to fetch a subscription's usage in Orb. Especially when
@@ -4124,6 +4124,7 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPrice],
@@ -5018,6 +5019,71 @@ const (
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType) IsKnown() bool {
 	switch r {
 	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency            param.Field[string]                 `json:"currency,required"`
+	GroupedTieredConfig param.Field[map[string]interface{}] `json:"grouped_tiered_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                         `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadence = "one_time"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceModelTypeGroupedTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceModelType = "grouped_tiered"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceModelTypeGroupedTiered:
 		return true
 	}
 	return false

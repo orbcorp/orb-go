@@ -12,9 +12,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/tidwall/gjson"
 )
@@ -118,7 +118,7 @@ func NewCustomerCreditLedgerService(opts ...option.RequestOption) (r *CustomerCr
 //
 // When credits are added to a customer's balance as a result of a correction, this
 // entry will be added to the ledger to indicate the adjustment of credits.
-func (r *CustomerCreditLedgerService) List(ctx context.Context, customerID string, query CustomerCreditLedgerListParams, opts ...option.RequestOption) (res *shared.Page[CustomerCreditLedgerListResponse], err error) {
+func (r *CustomerCreditLedgerService) List(ctx context.Context, customerID string, query CustomerCreditLedgerListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditLedgerListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -216,8 +216,8 @@ func (r *CustomerCreditLedgerService) List(ctx context.Context, customerID strin
 //
 // When credits are added to a customer's balance as a result of a correction, this
 // entry will be added to the ledger to indicate the adjustment of credits.
-func (r *CustomerCreditLedgerService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditLedgerListParams, opts ...option.RequestOption) *shared.PageAutoPager[CustomerCreditLedgerListResponse] {
-	return shared.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
+func (r *CustomerCreditLedgerService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditLedgerListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditLedgerListResponse] {
+	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
 // This endpoint allows you to create a new ledger entry for a specified customer's
@@ -545,7 +545,7 @@ func (r *CustomerCreditLedgerService) NewEntryByExternalID(ctx context.Context, 
 //
 // When credits are added to a customer's balance as a result of a correction, this
 // entry will be added to the ledger to indicate the adjustment of credits.
-func (r *CustomerCreditLedgerService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditLedgerListByExternalIDParams, opts ...option.RequestOption) (res *shared.Page[CustomerCreditLedgerListByExternalIDResponse], err error) {
+func (r *CustomerCreditLedgerService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditLedgerListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditLedgerListByExternalIDResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -643,8 +643,8 @@ func (r *CustomerCreditLedgerService) ListByExternalID(ctx context.Context, exte
 //
 // When credits are added to a customer's balance as a result of a correction, this
 // entry will be added to the ledger to indicate the adjustment of credits.
-func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditLedgerListByExternalIDParams, opts ...option.RequestOption) *shared.PageAutoPager[CustomerCreditLedgerListByExternalIDResponse] {
-	return shared.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
+func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditLedgerListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditLedgerListByExternalIDResponse] {
+	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
 }
 
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models

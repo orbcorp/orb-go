@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.25.0 (2024-03-28)
+
+Full Changelog: [v0.24.0...v0.25.0](https://github.com/orbcorp/orb-go/compare/v0.24.0...v0.25.0)
+
+### Features
+
+* **api:** updates ([#118](https://github.com/orbcorp/orb-go/issues/118)) ([917e15f](https://github.com/orbcorp/orb-go/commit/917e15f43ef88b02715f53399bc320165b603a0d))
+* **client:** add webhook secret argument ([#119](https://github.com/orbcorp/orb-go/issues/119)) ([b4a4f86](https://github.com/orbcorp/orb-go/commit/b4a4f86c4c4aae814d88811b39f6e55643999a95))
+* **client:** implement raw requests methods on client ([#120](https://github.com/orbcorp/orb-go/issues/120)) ([11a7262](https://github.com/orbcorp/orb-go/commit/11a72626fe90cde9b6e12c0d908b2c82094b53b9))
+
+
+### Chores
+
+* **internal:** move pagination types to pagination package ([#121](https://github.com/orbcorp/orb-go/issues/121)) ([bbd516c](https://github.com/orbcorp/orb-go/commit/bbd516c05ad22fd7461a5e9882da8a33998f59da))
+
+
+### Documentation
+
+* fix typo in docstring for Null() ([#116](https://github.com/orbcorp/orb-go/issues/116)) ([180f2df](https://github.com/orbcorp/orb-go/commit/180f2dfae9675ec4630534d504e278a740772240))
+
 ## 0.24.0 (2024-03-26)
 
 Full Changelog: [v0.23.1...v0.24.0](https://github.com/orbcorp/orb-go/compare/v0.23.1...v0.24.0)

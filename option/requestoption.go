@@ -3,6 +3,7 @@
 package option
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"net/http"
@@ -138,8 +139,17 @@ func WithQueryDel(key string) RequestOption {
 // [sjson format]: https://github.com/tidwall/sjson
 func WithJSONSet(key string, value interface{}) RequestOption {
 	return func(r *requestconfig.RequestConfig) (err error) {
-		r.Buffer, err = sjson.SetBytes(r.Buffer, key, value)
-		return err
+		if buffer, ok := r.Body.(*bytes.Buffer); ok {
+			b := buffer.Bytes()
+			b, err = sjson.SetBytes(b, key, value)
+			if err != nil {
+				return err
+			}
+			r.Body = bytes.NewBuffer(b)
+			return nil
+		}
+
+		return fmt.Errorf("cannot use WithJSONSet on a body that is not serialized as *bytes.Buffer")
 	}
 }
 
@@ -149,8 +159,17 @@ func WithJSONSet(key string, value interface{}) RequestOption {
 // [sjson format]: https://github.com/tidwall/sjson
 func WithJSONDel(key string) RequestOption {
 	return func(r *requestconfig.RequestConfig) (err error) {
-		r.Buffer, err = sjson.DeleteBytes(r.Buffer, key)
-		return err
+		if buffer, ok := r.Body.(*bytes.Buffer); ok {
+			b := buffer.Bytes()
+			b, err = sjson.DeleteBytes(b, key)
+			if err != nil {
+				return err
+			}
+			r.Body = bytes.NewBuffer(b)
+			return nil
+		}
+
+		return fmt.Errorf("cannot use WithJSONDel on a body that is not serialized as *bytes.Buffer")
 	}
 }
 
@@ -193,5 +212,13 @@ func WithAPIKey(value string) RequestOption {
 	return func(r *requestconfig.RequestConfig) error {
 		r.APIKey = value
 		return r.Apply(WithHeader("authorization", fmt.Sprintf("Bearer %s", r.APIKey)))
+	}
+}
+
+// WithWebhookSecret returns a RequestOption that sets the client setting "webhook_secret".
+func WithWebhookSecret(value string) RequestOption {
+	return func(r *requestconfig.RequestConfig) error {
+		r.WebhookSecret = value
+		return nil
 	}
 }

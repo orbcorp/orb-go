@@ -12,9 +12,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/tidwall/gjson"
 )
@@ -53,7 +53,7 @@ func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...o
 // The response also includes `pagination_metadata`, which lets the caller retrieve
 // the next page of results if they exist. More information about pagination can be
 // found in the Pagination-metadata schema.
-func (r *CouponService) List(ctx context.Context, query CouponListParams, opts ...option.RequestOption) (res *shared.Page[Coupon], err error) {
+func (r *CouponService) List(ctx context.Context, query CouponListParams, opts ...option.RequestOption) (res *pagination.Page[Coupon], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -76,8 +76,8 @@ func (r *CouponService) List(ctx context.Context, query CouponListParams, opts .
 // The response also includes `pagination_metadata`, which lets the caller retrieve
 // the next page of results if they exist. More information about pagination can be
 // found in the Pagination-metadata schema.
-func (r *CouponService) ListAutoPaging(ctx context.Context, query CouponListParams, opts ...option.RequestOption) *shared.PageAutoPager[Coupon] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *CouponService) ListAutoPaging(ctx context.Context, query CouponListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Coupon] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint allows a coupon to be archived. Archived coupons can no longer be

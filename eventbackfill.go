@@ -11,9 +11,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -73,7 +73,7 @@ func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewPar
 // [`pagination_metadata`](../reference/pagination), which lets the caller retrieve
 // the next page of results if they exist. More information about pagination can be
 // found in the [Pagination-metadata schema](pagination).
-func (r *EventBackfillService) List(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) (res *shared.Page[EventBackfillListResponse], err error) {
+func (r *EventBackfillService) List(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) (res *pagination.Page[EventBackfillListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -97,8 +97,8 @@ func (r *EventBackfillService) List(ctx context.Context, query EventBackfillList
 // [`pagination_metadata`](../reference/pagination), which lets the caller retrieve
 // the next page of results if they exist. More information about pagination can be
 // found in the [Pagination-metadata schema](pagination).
-func (r *EventBackfillService) ListAutoPaging(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) *shared.PageAutoPager[EventBackfillListResponse] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *EventBackfillService) ListAutoPaging(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) *pagination.PageAutoPager[EventBackfillListResponse] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // Closing a backfill makes the updated usage visible in Orb. Upon closing a

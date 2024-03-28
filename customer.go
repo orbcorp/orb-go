@@ -11,9 +11,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -80,7 +80,7 @@ func (r *CustomerService) Update(ctx context.Context, customerID string, body Cu
 //
 // See [Customer](../guides/concepts#customer) for an overview of the customer
 // model.
-func (r *CustomerService) List(ctx context.Context, query CustomerListParams, opts ...option.RequestOption) (res *shared.Page[Customer], err error) {
+func (r *CustomerService) List(ctx context.Context, query CustomerListParams, opts ...option.RequestOption) (res *pagination.Page[Customer], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -104,8 +104,8 @@ func (r *CustomerService) List(ctx context.Context, query CustomerListParams, op
 //
 // See [Customer](../guides/concepts#customer) for an overview of the customer
 // model.
-func (r *CustomerService) ListAutoPaging(ctx context.Context, query CustomerListParams, opts ...option.RequestOption) *shared.PageAutoPager[Customer] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *CustomerService) ListAutoPaging(ctx context.Context, query CustomerListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Customer] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This performs a deletion of this customer, its subscriptions, and its invoices.
