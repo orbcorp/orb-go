@@ -28,6 +28,7 @@ type Client struct {
 	Plans            *PlanService
 	Prices           *PriceService
 	Subscriptions    *SubscriptionService
+	Webhooks         *WebhookService
 	Beta             *BetaService
 }
 
@@ -59,6 +60,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.Plans = NewPlanService(opts...)
 	r.Prices = NewPriceService(opts...)
 	r.Subscriptions = NewSubscriptionService(opts...)
+	r.Webhooks = NewWebhookService(opts...)
 	r.Beta = NewBetaService(opts...)
 
 	return

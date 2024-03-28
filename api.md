@@ -292,6 +292,12 @@ Methods:
 - <code title="post /subscriptions/{subscription_id}/unschedule_pending_plan_changes">client.Subscriptions.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionService.UnschedulePendingPlanChanges">UnschedulePendingPlanChanges</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, subscriptionID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Subscription">Subscription</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="post /subscriptions/{subscription_id}/update_fixed_fee_quantity">client.Subscriptions.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionService.UpdateFixedFeeQuantity">UpdateFixedFeeQuantity</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, subscriptionID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionUpdateFixedFeeQuantityParams">SubscriptionUpdateFixedFeeQuantityParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Subscription">Subscription</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
+# Webhooks
+
+Methods:
+
+- <code>client.Webhooks.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#WebhookService.VerifySignature">VerifySignature</a>(payload []byte, headers http.Header, secret string, now time.Time) <a href="https://pkg.go.dev/builtin#error">error</a></code>
+
 # Beta
 
 ## Price
