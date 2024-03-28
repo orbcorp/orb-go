@@ -9,9 +9,9 @@ import (
 	"net/url"
 
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -37,7 +37,7 @@ func NewCouponSubscriptionService(opts ...option.RequestOption) (r *CouponSubscr
 // coupon as a [paginated](../reference/pagination) list, ordered starting from the
 // most recently created subscription. For a full discussion of the subscription
 // resource, see [Subscription](../guides/concepts#subscription).
-func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) (res *shared.Page[Subscription], err error) {
+func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -58,8 +58,8 @@ func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, q
 // coupon as a [paginated](../reference/pagination) list, ordered starting from the
 // most recently created subscription. For a full discussion of the subscription
 // resource, see [Subscription](../guides/concepts#subscription).
-func (r *CouponSubscriptionService) ListAutoPaging(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) *shared.PageAutoPager[Subscription] {
-	return shared.NewPageAutoPager(r.List(ctx, couponID, query, opts...))
+func (r *CouponSubscriptionService) ListAutoPaging(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Subscription] {
+	return pagination.NewPageAutoPager(r.List(ctx, couponID, query, opts...))
 }
 
 type CouponSubscriptionListParams struct {

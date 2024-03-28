@@ -12,6 +12,7 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/internal/shared"
@@ -57,7 +58,7 @@ func (r *PriceService) New(ctx context.Context, body PriceNewParams, opts ...opt
 
 // This endpoint is used to list all add-on prices created using the
 // [price creation endpoint](../reference/create-price).
-func (r *PriceService) List(ctx context.Context, query PriceListParams, opts ...option.RequestOption) (res *shared.Page[Price], err error) {
+func (r *PriceService) List(ctx context.Context, query PriceListParams, opts ...option.RequestOption) (res *pagination.Page[Price], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -76,8 +77,8 @@ func (r *PriceService) List(ctx context.Context, query PriceListParams, opts ...
 
 // This endpoint is used to list all add-on prices created using the
 // [price creation endpoint](../reference/create-price).
-func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams, opts ...option.RequestOption) *shared.PageAutoPager[Price] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Price] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint returns a price given an identifier.

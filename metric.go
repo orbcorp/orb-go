@@ -11,9 +11,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -48,7 +48,7 @@ func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...o
 // This endpoint is used to fetch [metric](../guides/concepts#metric) details given
 // a metric identifier. It returns information about the metrics including its
 // name, description, and item.
-func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *shared.Page[MetricListResponse], err error) {
+func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[MetricListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -68,8 +68,8 @@ func (r *MetricService) List(ctx context.Context, query MetricListParams, opts .
 // This endpoint is used to fetch [metric](../guides/concepts#metric) details given
 // a metric identifier. It returns information about the metrics including its
 // name, description, and item.
-func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *shared.PageAutoPager[MetricListResponse] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[MetricListResponse] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint is used to list [metrics](../guides/concepts##metric). It returns

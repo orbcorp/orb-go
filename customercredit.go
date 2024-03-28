@@ -11,9 +11,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 )
 
@@ -39,7 +39,7 @@ func NewCustomerCreditService(opts ...option.RequestOption) (r *CustomerCreditSe
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
-func (r *CustomerCreditService) List(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) (res *shared.Page[CustomerCreditListResponse], err error) {
+func (r *CustomerCreditService) List(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -57,12 +57,12 @@ func (r *CustomerCreditService) List(ctx context.Context, customerID string, que
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
-func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) *shared.PageAutoPager[CustomerCreditListResponse] {
-	return shared.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
+func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListResponse] {
+	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
-func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) (res *shared.Page[CustomerCreditListByExternalIDResponse], err error) {
+func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListByExternalIDResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -80,8 +80,8 @@ func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCu
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
-func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) *shared.PageAutoPager[CustomerCreditListByExternalIDResponse] {
-	return shared.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
+func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListByExternalIDResponse] {
+	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
 }
 
 type CustomerCreditListResponse struct {

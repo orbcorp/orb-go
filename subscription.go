@@ -12,9 +12,9 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/tidwall/gjson"
 )
@@ -468,7 +468,7 @@ func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParam
 //
 // Subscriptions can be filtered to a single customer by passing in the
 // `customer_id` query parameter or the `external_customer_id` query parameter.
-func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *shared.Page[Subscription], err error) {
+func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -492,8 +492,8 @@ func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListPa
 //
 // Subscriptions can be filtered to a single customer by passing in the
 // `customer_id` query parameter or the `external_customer_id` query parameter.
-func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) *shared.PageAutoPager[Subscription] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Subscription] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint can be used to cancel an existing subscription. It returns the
@@ -598,7 +598,7 @@ func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID str
 // associated with a subscription along with their start and end dates. This list
 // contains the subscription's initial plan along with past and future plan
 // changes.
-func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) (res *shared.Page[SubscriptionFetchScheduleResponse], err error) {
+func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) (res *pagination.Page[SubscriptionFetchScheduleResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -619,8 +619,8 @@ func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID 
 // associated with a subscription along with their start and end dates. This list
 // contains the subscription's initial plan along with past and future plan
 // changes.
-func (r *SubscriptionService) FetchScheduleAutoPaging(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) *shared.PageAutoPager[SubscriptionFetchScheduleResponse] {
-	return shared.NewPageAutoPager(r.FetchSchedule(ctx, subscriptionID, query, opts...))
+func (r *SubscriptionService) FetchScheduleAutoPaging(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) *pagination.PageAutoPager[SubscriptionFetchScheduleResponse] {
+	return pagination.NewPageAutoPager(r.FetchSchedule(ctx, subscriptionID, query, opts...))
 }
 
 // This endpoint is used to fetch a subscription's usage in Orb. Especially when

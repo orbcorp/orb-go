@@ -11,6 +11,7 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/internal/shared"
@@ -60,7 +61,7 @@ func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdate
 // most recently created plan. The response also includes
 // [`pagination_metadata`](../reference/pagination), which lets the caller retrieve
 // the next page of results if they exist.
-func (r *PlanService) List(ctx context.Context, query PlanListParams, opts ...option.RequestOption) (res *shared.Page[Plan], err error) {
+func (r *PlanService) List(ctx context.Context, query PlanListParams, opts ...option.RequestOption) (res *pagination.Page[Plan], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -82,8 +83,8 @@ func (r *PlanService) List(ctx context.Context, query PlanListParams, opts ...op
 // most recently created plan. The response also includes
 // [`pagination_metadata`](../reference/pagination), which lets the caller retrieve
 // the next page of results if they exist.
-func (r *PlanService) ListAutoPaging(ctx context.Context, query PlanListParams, opts ...option.RequestOption) *shared.PageAutoPager[Plan] {
-	return shared.NewPageAutoPager(r.List(ctx, query, opts...))
+func (r *PlanService) ListAutoPaging(ctx context.Context, query PlanListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Plan] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint is used to fetch [plan](../guides/concepts##plan-and-price)
