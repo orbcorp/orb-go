@@ -343,8 +343,8 @@ func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option
 // [PriceTieredPrice], [PriceTieredBpsPrice], [PriceBpsPrice], [PriceBulkBpsPrice],
 // [PriceBulkPrice], [PriceThresholdTotalAmountPrice], [PriceTieredPackagePrice],
 // [PriceGroupedTieredPrice], [PriceTieredWithMinimumPrice],
-// [PricePackageWithAllocationPrice], [PriceUnitWithPercentPrice] or
-// [PriceMatrixWithAllocationPrice].
+// [PriceTieredPackageWithMinimumPrice], [PricePackageWithAllocationPrice],
+// [PriceUnitWithPercentPrice] or [PriceMatrixWithAllocationPrice].
 type Price interface {
 	implementsPrice()
 }
@@ -412,6 +412,11 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceTieredWithMinimumPrice{}),
 			DiscriminatorValue: "tiered_with_minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceTieredPackageWithMinimumPrice{}),
+			DiscriminatorValue: "tiered_package_with_minimum",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -3141,6 +3146,205 @@ const (
 func (r PriceTieredWithMinimumPricePriceType) IsKnown() bool {
 	switch r {
 	case PriceTieredWithMinimumPricePriceTypeUsagePrice, PriceTieredWithMinimumPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
+
+type PriceTieredPackageWithMinimumPrice struct {
+	ID                             string                                           `json:"id,required"`
+	BillableMetric                 PriceTieredPackageWithMinimumPriceBillableMetric `json:"billable_metric,required,nullable"`
+	Cadence                        PriceTieredPackageWithMinimumPriceCadence        `json:"cadence,required"`
+	CreatedAt                      time.Time                                        `json:"created_at,required" format:"date-time"`
+	Currency                       string                                           `json:"currency,required"`
+	Discount                       shared.Discount                                  `json:"discount,required,nullable"`
+	ExternalPriceID                string                                           `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity             float64                                          `json:"fixed_price_quantity,required,nullable"`
+	Item                           PriceTieredPackageWithMinimumPriceItem           `json:"item,required"`
+	Maximum                        PriceTieredPackageWithMinimumPriceMaximum        `json:"maximum,required,nullable"`
+	MaximumAmount                  string                                           `json:"maximum_amount,required,nullable"`
+	Minimum                        PriceTieredPackageWithMinimumPriceMinimum        `json:"minimum,required,nullable"`
+	MinimumAmount                  string                                           `json:"minimum_amount,required,nullable"`
+	ModelType                      PriceTieredPackageWithMinimumPriceModelType      `json:"model_type,required"`
+	Name                           string                                           `json:"name,required"`
+	PlanPhaseOrder                 int64                                            `json:"plan_phase_order,required,nullable"`
+	PriceType                      PriceTieredPackageWithMinimumPricePriceType      `json:"price_type,required"`
+	TieredPackageWithMinimumConfig map[string]interface{}                           `json:"tiered_package_with_minimum_config,required"`
+	JSON                           priceTieredPackageWithMinimumPriceJSON           `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceJSON contains the JSON metadata for the struct
+// [PriceTieredPackageWithMinimumPrice]
+type priceTieredPackageWithMinimumPriceJSON struct {
+	ID                             apijson.Field
+	BillableMetric                 apijson.Field
+	Cadence                        apijson.Field
+	CreatedAt                      apijson.Field
+	Currency                       apijson.Field
+	Discount                       apijson.Field
+	ExternalPriceID                apijson.Field
+	FixedPriceQuantity             apijson.Field
+	Item                           apijson.Field
+	Maximum                        apijson.Field
+	MaximumAmount                  apijson.Field
+	Minimum                        apijson.Field
+	MinimumAmount                  apijson.Field
+	ModelType                      apijson.Field
+	Name                           apijson.Field
+	PlanPhaseOrder                 apijson.Field
+	PriceType                      apijson.Field
+	TieredPackageWithMinimumConfig apijson.Field
+	raw                            string
+	ExtraFields                    map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceTieredPackageWithMinimumPrice) implementsPrice() {}
+
+type PriceTieredPackageWithMinimumPriceBillableMetric struct {
+	ID   string                                               `json:"id,required"`
+	JSON priceTieredPackageWithMinimumPriceBillableMetricJSON `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceBillableMetricJSON contains the JSON metadata
+// for the struct [PriceTieredPackageWithMinimumPriceBillableMetric]
+type priceTieredPackageWithMinimumPriceBillableMetricJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceCadence string
+
+const (
+	PriceTieredPackageWithMinimumPriceCadenceOneTime   PriceTieredPackageWithMinimumPriceCadence = "one_time"
+	PriceTieredPackageWithMinimumPriceCadenceMonthly   PriceTieredPackageWithMinimumPriceCadence = "monthly"
+	PriceTieredPackageWithMinimumPriceCadenceQuarterly PriceTieredPackageWithMinimumPriceCadence = "quarterly"
+	PriceTieredPackageWithMinimumPriceCadenceAnnual    PriceTieredPackageWithMinimumPriceCadence = "annual"
+)
+
+func (r PriceTieredPackageWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPriceCadenceOneTime, PriceTieredPackageWithMinimumPriceCadenceMonthly, PriceTieredPackageWithMinimumPriceCadenceQuarterly, PriceTieredPackageWithMinimumPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
+type PriceTieredPackageWithMinimumPriceItem struct {
+	ID   string                                     `json:"id,required"`
+	Name string                                     `json:"name,required"`
+	JSON priceTieredPackageWithMinimumPriceItemJSON `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceItemJSON contains the JSON metadata for the
+// struct [PriceTieredPackageWithMinimumPriceItem]
+type priceTieredPackageWithMinimumPriceItemJSON struct {
+	ID          apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceMaximum struct {
+	// List of price_ids that this maximum amount applies to. For plan/plan phase
+	// maximums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Maximum amount applied
+	MaximumAmount string                                        `json:"maximum_amount,required"`
+	JSON          priceTieredPackageWithMinimumPriceMaximumJSON `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceMaximumJSON contains the JSON metadata for the
+// struct [PriceTieredPackageWithMinimumPriceMaximum]
+type priceTieredPackageWithMinimumPriceMaximumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceMaximum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceMinimum struct {
+	// List of price_ids that this minimum amount applies to. For plan/plan phase
+	// minimums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Minimum amount applied
+	MinimumAmount string                                        `json:"minimum_amount,required"`
+	JSON          priceTieredPackageWithMinimumPriceMinimumJSON `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceMinimumJSON contains the JSON metadata for the
+// struct [PriceTieredPackageWithMinimumPriceMinimum]
+type priceTieredPackageWithMinimumPriceMinimumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MinimumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceMinimum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceMinimumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceModelType string
+
+const (
+	PriceTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum PriceTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
+)
+
+func (r PriceTieredPackageWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
+		return true
+	}
+	return false
+}
+
+type PriceTieredPackageWithMinimumPricePriceType string
+
+const (
+	PriceTieredPackageWithMinimumPricePriceTypeUsagePrice PriceTieredPackageWithMinimumPricePriceType = "usage_price"
+	PriceTieredPackageWithMinimumPricePriceTypeFixedPrice PriceTieredPackageWithMinimumPricePriceType = "fixed_price"
+)
+
+func (r PriceTieredPackageWithMinimumPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPricePriceTypeUsagePrice, PriceTieredPackageWithMinimumPricePriceTypeFixedPrice:
 		return true
 	}
 	return false
