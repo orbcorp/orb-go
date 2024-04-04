@@ -9,16 +9,66 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+type Discount struct {
+	DiscountType      DiscountDiscountType `json:"discount_type,required"`
+	AppliesToPriceIDs interface{}          `json:"applies_to_price_ids"`
+	Reason            string               `json:"reason,nullable"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
+	// Only available if discount_type is `trial`
+	TrialPercentageDiscount float64 `json:"trial_percentage_discount,nullable"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64 `json:"usage_discount"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string       `json:"amount_discount"`
+	JSON           discountJSON `json:"-"`
+	union          DiscountUnion
+}
+
+// discountJSON contains the JSON metadata for the struct [Discount]
+type discountJSON struct {
+	DiscountType            apijson.Field
+	AppliesToPriceIDs       apijson.Field
+	Reason                  apijson.Field
+	PercentageDiscount      apijson.Field
+	TrialAmountDiscount     apijson.Field
+	TrialPercentageDiscount apijson.Field
+	UsageDiscount           apijson.Field
+	AmountDiscount          apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
+}
+
+func (r discountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *Discount) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r Discount) AsUnion() DiscountUnion {
+	return r.union
+}
+
 // Union satisfied by [shared.DiscountPercentageDiscount],
 // [shared.DiscountTrialDiscount], [shared.DiscountUsageDiscount] or
 // [shared.DiscountAmountDiscount].
-type Discount interface {
+type DiscountUnion interface {
 	implementsSharedDiscount()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*Discount)(nil)).Elem(),
+		reflect.TypeOf((*DiscountUnion)(nil)).Elem(),
 		"discount_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -227,6 +277,23 @@ const (
 func (r DiscountAmountDiscountDiscountType) IsKnown() bool {
 	switch r {
 	case DiscountAmountDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type DiscountDiscountType string
+
+const (
+	DiscountDiscountTypePercentage DiscountDiscountType = "percentage"
+	DiscountDiscountTypeTrial      DiscountDiscountType = "trial"
+	DiscountDiscountTypeUsage      DiscountDiscountType = "usage"
+	DiscountDiscountTypeAmount     DiscountDiscountType = "amount"
+)
+
+func (r DiscountDiscountType) IsKnown() bool {
+	switch r {
+	case DiscountDiscountTypePercentage, DiscountDiscountTypeTrial, DiscountDiscountTypeUsage, DiscountDiscountTypeAmount:
 		return true
 	}
 	return false

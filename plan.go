@@ -473,7 +473,7 @@ type PlanNewParams struct {
 	Name     param.Field[string] `json:"name,required"`
 	// Prices for this plan. If the plan has phases, this includes prices across all
 	// phases of the plan.
-	Prices param.Field[[]PlanNewParamsPrice] `json:"prices,required"`
+	Prices param.Field[[]PlanNewParamsPriceUnion] `json:"prices,required"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
 	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
 	ExternalPlanID     param.Field[string] `json:"external_plan_id"`
@@ -491,6 +491,48 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
+type PlanNewParamsPrice struct {
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// The id of the item the plan will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// The cadence to bill for this price on.
+	Cadence                     param.Field[PlanNewParamsPricesCadence]   `json:"cadence,required"`
+	ModelType                   param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
+	UnitConfig                  param.Field[interface{}]                  `json:"unit_config,required"`
+	PackageConfig               param.Field[interface{}]                  `json:"package_config,required"`
+	MatrixConfig                param.Field[interface{}]                  `json:"matrix_config,required"`
+	TieredConfig                param.Field[interface{}]                  `json:"tiered_config,required"`
+	TieredBpsConfig             param.Field[interface{}]                  `json:"tiered_bps_config,required"`
+	BpsConfig                   param.Field[interface{}]                  `json:"bps_config,required"`
+	BulkBpsConfig               param.Field[interface{}]                  `json:"bulk_bps_config,required"`
+	BulkConfig                  param.Field[interface{}]                  `json:"bulk_config,required"`
+	ThresholdTotalAmountConfig  param.Field[interface{}]                  `json:"threshold_total_amount_config,required"`
+	TieredPackageConfig         param.Field[interface{}]                  `json:"tiered_package_config,required"`
+	TieredWithMinimumConfig     param.Field[interface{}]                  `json:"tiered_with_minimum_config,required"`
+	UnitWithPercentConfig       param.Field[interface{}]                  `json:"unit_with_percent_config,required"`
+	PackageWithAllocationConfig param.Field[interface{}]                  `json:"package_with_allocation_config,required"`
+}
+
+func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPrice) implementsPlanNewParamsPriceUnion() {}
+
 // Satisfied by [PlanNewParamsPricesNewPlanUnitPrice],
 // [PlanNewParamsPricesNewPlanPackagePrice],
 // [PlanNewParamsPricesNewPlanMatrixPrice],
@@ -502,9 +544,9 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 // [PlanNewParamsPricesNewPlanTieredPackagePrice],
 // [PlanNewParamsPricesNewPlanTieredWithMinimumPrice],
 // [PlanNewParamsPricesNewPlanUnitWithPercentPrice],
-// [PlanNewParamsPricesNewPlanPackageWithAllocationPrice].
-type PlanNewParamsPrice interface {
-	implementsPlanNewParamsPrice()
+// [PlanNewParamsPricesNewPlanPackageWithAllocationPrice], [PlanNewParamsPrice].
+type PlanNewParamsPriceUnion interface {
+	implementsPlanNewParamsPriceUnion()
 }
 
 type PlanNewParamsPricesNewPlanUnitPrice struct {
@@ -535,7 +577,7 @@ func (r PlanNewParamsPricesNewPlanUnitPrice) MarshalJSON() (data []byte, err err
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanUnitPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanUnitPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanUnitPriceCadence string
@@ -606,7 +648,7 @@ func (r PlanNewParamsPricesNewPlanPackagePrice) MarshalJSON() (data []byte, err 
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanPackagePrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanPackagePrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanPackagePriceCadence string
@@ -680,7 +722,7 @@ func (r PlanNewParamsPricesNewPlanMatrixPrice) MarshalJSON() (data []byte, err e
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanMatrixPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanMatrixPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanMatrixPriceCadence string
@@ -768,7 +810,7 @@ func (r PlanNewParamsPricesNewPlanTieredPrice) MarshalJSON() (data []byte, err e
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanTieredPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanTieredPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanTieredPriceCadence string
@@ -852,7 +894,7 @@ func (r PlanNewParamsPricesNewPlanTieredBpsPrice) MarshalJSON() (data []byte, er
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanTieredBpsPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanTieredBpsPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanTieredBpsPriceCadence string
@@ -939,7 +981,7 @@ func (r PlanNewParamsPricesNewPlanBpsPrice) MarshalJSON() (data []byte, err erro
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanBpsPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanBpsPrice) implementsPlanNewParamsPriceUnion() {}
 
 type PlanNewParamsPricesNewPlanBpsPriceBpsConfig struct {
 	// Basis point take rate per event
@@ -1012,7 +1054,7 @@ func (r PlanNewParamsPricesNewPlanBulkBpsPrice) MarshalJSON() (data []byte, err 
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanBulkBpsPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanBulkBpsPrice) implementsPlanNewParamsPriceUnion() {}
 
 type PlanNewParamsPricesNewPlanBulkBpsPriceBulkBpsConfig struct {
 	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
@@ -1097,7 +1139,7 @@ func (r PlanNewParamsPricesNewPlanBulkPrice) MarshalJSON() (data []byte, err err
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanBulkPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanBulkPrice) implementsPlanNewParamsPriceUnion() {}
 
 type PlanNewParamsPricesNewPlanBulkPriceBulkConfig struct {
 	// Bulk tiers for rating based on total usage volume
@@ -1179,7 +1221,7 @@ func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPrice) MarshalJSON() (data
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanThresholdTotalAmountPriceCadence string
@@ -1241,7 +1283,7 @@ func (r PlanNewParamsPricesNewPlanTieredPackagePrice) MarshalJSON() (data []byte
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanTieredPackagePrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanTieredPackagePrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanTieredPackagePriceCadence string
@@ -1303,7 +1345,7 @@ func (r PlanNewParamsPricesNewPlanTieredWithMinimumPrice) MarshalJSON() (data []
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanTieredWithMinimumPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanTieredWithMinimumPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanTieredWithMinimumPriceCadence string
@@ -1365,7 +1407,7 @@ func (r PlanNewParamsPricesNewPlanUnitWithPercentPrice) MarshalJSON() (data []by
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanUnitWithPercentPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence string
@@ -1427,7 +1469,7 @@ func (r PlanNewParamsPricesNewPlanPackageWithAllocationPrice) MarshalJSON() (dat
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanPackageWithAllocationPrice) implementsPlanNewParamsPrice() {}
+func (r PlanNewParamsPricesNewPlanPackageWithAllocationPrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
 type PlanNewParamsPricesNewPlanPackageWithAllocationPriceCadence string
@@ -1456,6 +1498,50 @@ const (
 func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceModelType) IsKnown() bool {
 	switch r {
 	case PlanNewParamsPricesNewPlanPackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesCadence string
+
+const (
+	PlanNewParamsPricesCadenceAnnual    PlanNewParamsPricesCadence = "annual"
+	PlanNewParamsPricesCadenceMonthly   PlanNewParamsPricesCadence = "monthly"
+	PlanNewParamsPricesCadenceQuarterly PlanNewParamsPricesCadence = "quarterly"
+	PlanNewParamsPricesCadenceOneTime   PlanNewParamsPricesCadence = "one_time"
+)
+
+func (r PlanNewParamsPricesCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesCadenceAnnual, PlanNewParamsPricesCadenceMonthly, PlanNewParamsPricesCadenceQuarterly, PlanNewParamsPricesCadenceOneTime:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesModelType string
+
+const (
+	PlanNewParamsPricesModelTypeUnit                  PlanNewParamsPricesModelType = "unit"
+	PlanNewParamsPricesModelTypePackage               PlanNewParamsPricesModelType = "package"
+	PlanNewParamsPricesModelTypeMatrix                PlanNewParamsPricesModelType = "matrix"
+	PlanNewParamsPricesModelTypeTiered                PlanNewParamsPricesModelType = "tiered"
+	PlanNewParamsPricesModelTypeTieredBps             PlanNewParamsPricesModelType = "tiered_bps"
+	PlanNewParamsPricesModelTypeBps                   PlanNewParamsPricesModelType = "bps"
+	PlanNewParamsPricesModelTypeBulkBps               PlanNewParamsPricesModelType = "bulk_bps"
+	PlanNewParamsPricesModelTypeBulk                  PlanNewParamsPricesModelType = "bulk"
+	PlanNewParamsPricesModelTypeThresholdTotalAmount  PlanNewParamsPricesModelType = "threshold_total_amount"
+	PlanNewParamsPricesModelTypeTieredPackage         PlanNewParamsPricesModelType = "tiered_package"
+	PlanNewParamsPricesModelTypeTieredWithMinimum     PlanNewParamsPricesModelType = "tiered_with_minimum"
+	PlanNewParamsPricesModelTypeUnitWithPercent       PlanNewParamsPricesModelType = "unit_with_percent"
+	PlanNewParamsPricesModelTypePackageWithAllocation PlanNewParamsPricesModelType = "package_with_allocation"
+)
+
+func (r PlanNewParamsPricesModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation:
 		return true
 	}
 	return false

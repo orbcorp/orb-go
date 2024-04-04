@@ -649,6 +649,74 @@ func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Con
 
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
+type CustomerCreditLedgerListResponse struct {
+	Metadata             interface{}                                 `json:"metadata"`
+	ID                   string                                      `json:"id,required"`
+	LedgerSequenceNumber int64                                       `json:"ledger_sequence_number,required"`
+	EntryStatus          CustomerCreditLedgerListResponseEntryStatus `json:"entry_status,required"`
+	Customer             interface{}                                 `json:"customer"`
+	StartingBalance      float64                                     `json:"starting_balance,required"`
+	EndingBalance        float64                                     `json:"ending_balance,required"`
+	Amount               float64                                     `json:"amount,required"`
+	Currency             string                                      `json:"currency,required"`
+	CreatedAt            time.Time                                   `json:"created_at,required" format:"date-time"`
+	Description          string                                      `json:"description,required,nullable"`
+	CreditBlock          interface{}                                 `json:"credit_block"`
+	EntryType            CustomerCreditLedgerListResponseEntryType   `json:"entry_type,required"`
+	PriceID              string                                      `json:"price_id,nullable"`
+	EventID              string                                      `json:"event_id,nullable"`
+	InvoiceID            string                                      `json:"invoice_id,nullable"`
+	NewBlockExpiryDate   time.Time                                   `json:"new_block_expiry_date" format:"date-time"`
+	VoidReason           string                                      `json:"void_reason,nullable"`
+	VoidAmount           float64                                     `json:"void_amount"`
+	JSON                 customerCreditLedgerListResponseJSON        `json:"-"`
+	union                CustomerCreditLedgerListResponseUnion
+}
+
+// customerCreditLedgerListResponseJSON contains the JSON metadata for the struct
+// [CustomerCreditLedgerListResponse]
+type customerCreditLedgerListResponseJSON struct {
+	Metadata             apijson.Field
+	ID                   apijson.Field
+	LedgerSequenceNumber apijson.Field
+	EntryStatus          apijson.Field
+	Customer             apijson.Field
+	StartingBalance      apijson.Field
+	EndingBalance        apijson.Field
+	Amount               apijson.Field
+	Currency             apijson.Field
+	CreatedAt            apijson.Field
+	Description          apijson.Field
+	CreditBlock          apijson.Field
+	EntryType            apijson.Field
+	PriceID              apijson.Field
+	EventID              apijson.Field
+	InvoiceID            apijson.Field
+	NewBlockExpiryDate   apijson.Field
+	VoidReason           apijson.Field
+	VoidAmount           apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r customerCreditLedgerListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *CustomerCreditLedgerListResponse) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r CustomerCreditLedgerListResponse) AsUnion() CustomerCreditLedgerListResponseUnion {
+	return r.union
+}
+
+// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
+// prepaid credits within Orb.
 //
 // Union satisfied by [CustomerCreditLedgerListResponseIncrementLedgerEntry],
 // [CustomerCreditLedgerListResponseDecrementLedgerEntry],
@@ -657,13 +725,13 @@ func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Con
 // [CustomerCreditLedgerListResponseVoidLedgerEntry],
 // [CustomerCreditLedgerListResponseVoidInitiatedLedgerEntry] or
 // [CustomerCreditLedgerListResponseAmendmentLedgerEntry].
-type CustomerCreditLedgerListResponse interface {
+type CustomerCreditLedgerListResponseUnion interface {
 	implementsCustomerCreditLedgerListResponse()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*CustomerCreditLedgerListResponse)(nil)).Elem(),
+		reflect.TypeOf((*CustomerCreditLedgerListResponseUnion)(nil)).Elem(),
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -1641,6 +1709,109 @@ func (r CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryType) IsKnown()
 	return false
 }
 
+type CustomerCreditLedgerListResponseEntryStatus string
+
+const (
+	CustomerCreditLedgerListResponseEntryStatusCommitted CustomerCreditLedgerListResponseEntryStatus = "committed"
+	CustomerCreditLedgerListResponseEntryStatusPending   CustomerCreditLedgerListResponseEntryStatus = "pending"
+)
+
+func (r CustomerCreditLedgerListResponseEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseEntryStatusCommitted, CustomerCreditLedgerListResponseEntryStatusPending:
+		return true
+	}
+	return false
+}
+
+type CustomerCreditLedgerListResponseEntryType string
+
+const (
+	CustomerCreditLedgerListResponseEntryTypeIncrement         CustomerCreditLedgerListResponseEntryType = "increment"
+	CustomerCreditLedgerListResponseEntryTypeDecrement         CustomerCreditLedgerListResponseEntryType = "decrement"
+	CustomerCreditLedgerListResponseEntryTypeExpirationChange  CustomerCreditLedgerListResponseEntryType = "expiration_change"
+	CustomerCreditLedgerListResponseEntryTypeCreditBlockExpiry CustomerCreditLedgerListResponseEntryType = "credit_block_expiry"
+	CustomerCreditLedgerListResponseEntryTypeVoid              CustomerCreditLedgerListResponseEntryType = "void"
+	CustomerCreditLedgerListResponseEntryTypeVoidInitiated     CustomerCreditLedgerListResponseEntryType = "void_initiated"
+	CustomerCreditLedgerListResponseEntryTypeAmendment         CustomerCreditLedgerListResponseEntryType = "amendment"
+)
+
+func (r CustomerCreditLedgerListResponseEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListResponseEntryTypeIncrement, CustomerCreditLedgerListResponseEntryTypeDecrement, CustomerCreditLedgerListResponseEntryTypeExpirationChange, CustomerCreditLedgerListResponseEntryTypeCreditBlockExpiry, CustomerCreditLedgerListResponseEntryTypeVoid, CustomerCreditLedgerListResponseEntryTypeVoidInitiated, CustomerCreditLedgerListResponseEntryTypeAmendment:
+		return true
+	}
+	return false
+}
+
+// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
+// prepaid credits within Orb.
+type CustomerCreditLedgerNewEntryResponse struct {
+	Metadata             interface{}                                     `json:"metadata"`
+	ID                   string                                          `json:"id,required"`
+	LedgerSequenceNumber int64                                           `json:"ledger_sequence_number,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryResponseEntryStatus `json:"entry_status,required"`
+	Customer             interface{}                                     `json:"customer"`
+	StartingBalance      float64                                         `json:"starting_balance,required"`
+	EndingBalance        float64                                         `json:"ending_balance,required"`
+	Amount               float64                                         `json:"amount,required"`
+	Currency             string                                          `json:"currency,required"`
+	CreatedAt            time.Time                                       `json:"created_at,required" format:"date-time"`
+	Description          string                                          `json:"description,required,nullable"`
+	CreditBlock          interface{}                                     `json:"credit_block"`
+	EntryType            CustomerCreditLedgerNewEntryResponseEntryType   `json:"entry_type,required"`
+	PriceID              string                                          `json:"price_id,nullable"`
+	EventID              string                                          `json:"event_id,nullable"`
+	InvoiceID            string                                          `json:"invoice_id,nullable"`
+	NewBlockExpiryDate   time.Time                                       `json:"new_block_expiry_date" format:"date-time"`
+	VoidReason           string                                          `json:"void_reason,nullable"`
+	VoidAmount           float64                                         `json:"void_amount"`
+	JSON                 customerCreditLedgerNewEntryResponseJSON        `json:"-"`
+	union                CustomerCreditLedgerNewEntryResponseUnion
+}
+
+// customerCreditLedgerNewEntryResponseJSON contains the JSON metadata for the
+// struct [CustomerCreditLedgerNewEntryResponse]
+type customerCreditLedgerNewEntryResponseJSON struct {
+	Metadata             apijson.Field
+	ID                   apijson.Field
+	LedgerSequenceNumber apijson.Field
+	EntryStatus          apijson.Field
+	Customer             apijson.Field
+	StartingBalance      apijson.Field
+	EndingBalance        apijson.Field
+	Amount               apijson.Field
+	Currency             apijson.Field
+	CreatedAt            apijson.Field
+	Description          apijson.Field
+	CreditBlock          apijson.Field
+	EntryType            apijson.Field
+	PriceID              apijson.Field
+	EventID              apijson.Field
+	InvoiceID            apijson.Field
+	NewBlockExpiryDate   apijson.Field
+	VoidReason           apijson.Field
+	VoidAmount           apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r customerCreditLedgerNewEntryResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *CustomerCreditLedgerNewEntryResponse) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r CustomerCreditLedgerNewEntryResponse) AsUnion() CustomerCreditLedgerNewEntryResponseUnion {
+	return r.union
+}
+
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
 //
@@ -1651,13 +1822,13 @@ func (r CustomerCreditLedgerListResponseAmendmentLedgerEntryEntryType) IsKnown()
 // [CustomerCreditLedgerNewEntryResponseVoidLedgerEntry],
 // [CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntry] or
 // [CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntry].
-type CustomerCreditLedgerNewEntryResponse interface {
+type CustomerCreditLedgerNewEntryResponseUnion interface {
 	implementsCustomerCreditLedgerNewEntryResponse()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*CustomerCreditLedgerNewEntryResponse)(nil)).Elem(),
+		reflect.TypeOf((*CustomerCreditLedgerNewEntryResponseUnion)(nil)).Elem(),
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -2638,6 +2809,109 @@ func (r CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryType) IsKno
 	return false
 }
 
+type CustomerCreditLedgerNewEntryResponseEntryStatus string
+
+const (
+	CustomerCreditLedgerNewEntryResponseEntryStatusCommitted CustomerCreditLedgerNewEntryResponseEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryResponseEntryStatusPending   CustomerCreditLedgerNewEntryResponseEntryStatus = "pending"
+)
+
+func (r CustomerCreditLedgerNewEntryResponseEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseEntryStatusCommitted, CustomerCreditLedgerNewEntryResponseEntryStatusPending:
+		return true
+	}
+	return false
+}
+
+type CustomerCreditLedgerNewEntryResponseEntryType string
+
+const (
+	CustomerCreditLedgerNewEntryResponseEntryTypeIncrement         CustomerCreditLedgerNewEntryResponseEntryType = "increment"
+	CustomerCreditLedgerNewEntryResponseEntryTypeDecrement         CustomerCreditLedgerNewEntryResponseEntryType = "decrement"
+	CustomerCreditLedgerNewEntryResponseEntryTypeExpirationChange  CustomerCreditLedgerNewEntryResponseEntryType = "expiration_change"
+	CustomerCreditLedgerNewEntryResponseEntryTypeCreditBlockExpiry CustomerCreditLedgerNewEntryResponseEntryType = "credit_block_expiry"
+	CustomerCreditLedgerNewEntryResponseEntryTypeVoid              CustomerCreditLedgerNewEntryResponseEntryType = "void"
+	CustomerCreditLedgerNewEntryResponseEntryTypeVoidInitiated     CustomerCreditLedgerNewEntryResponseEntryType = "void_initiated"
+	CustomerCreditLedgerNewEntryResponseEntryTypeAmendment         CustomerCreditLedgerNewEntryResponseEntryType = "amendment"
+)
+
+func (r CustomerCreditLedgerNewEntryResponseEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryResponseEntryTypeIncrement, CustomerCreditLedgerNewEntryResponseEntryTypeDecrement, CustomerCreditLedgerNewEntryResponseEntryTypeExpirationChange, CustomerCreditLedgerNewEntryResponseEntryTypeCreditBlockExpiry, CustomerCreditLedgerNewEntryResponseEntryTypeVoid, CustomerCreditLedgerNewEntryResponseEntryTypeVoidInitiated, CustomerCreditLedgerNewEntryResponseEntryTypeAmendment:
+		return true
+	}
+	return false
+}
+
+// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
+// prepaid credits within Orb.
+type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
+	Metadata             interface{}                                                 `json:"metadata"`
+	ID                   string                                                      `json:"id,required"`
+	LedgerSequenceNumber int64                                                       `json:"ledger_sequence_number,required"`
+	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus `json:"entry_status,required"`
+	Customer             interface{}                                                 `json:"customer"`
+	StartingBalance      float64                                                     `json:"starting_balance,required"`
+	EndingBalance        float64                                                     `json:"ending_balance,required"`
+	Amount               float64                                                     `json:"amount,required"`
+	Currency             string                                                      `json:"currency,required"`
+	CreatedAt            time.Time                                                   `json:"created_at,required" format:"date-time"`
+	Description          string                                                      `json:"description,required,nullable"`
+	CreditBlock          interface{}                                                 `json:"credit_block"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseEntryType   `json:"entry_type,required"`
+	PriceID              string                                                      `json:"price_id,nullable"`
+	EventID              string                                                      `json:"event_id,nullable"`
+	InvoiceID            string                                                      `json:"invoice_id,nullable"`
+	NewBlockExpiryDate   time.Time                                                   `json:"new_block_expiry_date" format:"date-time"`
+	VoidReason           string                                                      `json:"void_reason,nullable"`
+	VoidAmount           float64                                                     `json:"void_amount"`
+	JSON                 customerCreditLedgerNewEntryByExternalIDResponseJSON        `json:"-"`
+	union                CustomerCreditLedgerNewEntryByExternalIDResponseUnion
+}
+
+// customerCreditLedgerNewEntryByExternalIDResponseJSON contains the JSON metadata
+// for the struct [CustomerCreditLedgerNewEntryByExternalIDResponse]
+type customerCreditLedgerNewEntryByExternalIDResponseJSON struct {
+	Metadata             apijson.Field
+	ID                   apijson.Field
+	LedgerSequenceNumber apijson.Field
+	EntryStatus          apijson.Field
+	Customer             apijson.Field
+	StartingBalance      apijson.Field
+	EndingBalance        apijson.Field
+	Amount               apijson.Field
+	Currency             apijson.Field
+	CreatedAt            apijson.Field
+	Description          apijson.Field
+	CreditBlock          apijson.Field
+	EntryType            apijson.Field
+	PriceID              apijson.Field
+	EventID              apijson.Field
+	InvoiceID            apijson.Field
+	NewBlockExpiryDate   apijson.Field
+	VoidReason           apijson.Field
+	VoidAmount           apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r customerCreditLedgerNewEntryByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *CustomerCreditLedgerNewEntryByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponse) AsUnion() CustomerCreditLedgerNewEntryByExternalIDResponseUnion {
+	return r.union
+}
+
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
 //
@@ -2649,13 +2923,13 @@ func (r CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryEntryType) IsKno
 // [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntry],
 // [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntry] or
 // [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntry].
-type CustomerCreditLedgerNewEntryByExternalIDResponse interface {
+type CustomerCreditLedgerNewEntryByExternalIDResponseUnion interface {
 	implementsCustomerCreditLedgerNewEntryByExternalIDResponse()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*CustomerCreditLedgerNewEntryByExternalIDResponse)(nil)).Elem(),
+		reflect.TypeOf((*CustomerCreditLedgerNewEntryByExternalIDResponseUnion)(nil)).Elem(),
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -3637,6 +3911,109 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntr
 	return false
 }
 
+type CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus string
+
+const (
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatusCommitted CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus = "committed"
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatusPending   CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus = "pending"
+)
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatusCommitted, CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatusPending:
+		return true
+	}
+	return false
+}
+
+type CustomerCreditLedgerNewEntryByExternalIDResponseEntryType string
+
+const (
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeIncrement         CustomerCreditLedgerNewEntryByExternalIDResponseEntryType = "increment"
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeDecrement         CustomerCreditLedgerNewEntryByExternalIDResponseEntryType = "decrement"
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeExpirationChange  CustomerCreditLedgerNewEntryByExternalIDResponseEntryType = "expiration_change"
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeCreditBlockExpiry CustomerCreditLedgerNewEntryByExternalIDResponseEntryType = "credit_block_expiry"
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeVoid              CustomerCreditLedgerNewEntryByExternalIDResponseEntryType = "void"
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeVoidInitiated     CustomerCreditLedgerNewEntryByExternalIDResponseEntryType = "void_initiated"
+	CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeAmendment         CustomerCreditLedgerNewEntryByExternalIDResponseEntryType = "amendment"
+)
+
+func (r CustomerCreditLedgerNewEntryByExternalIDResponseEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeIncrement, CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeDecrement, CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeExpirationChange, CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeCreditBlockExpiry, CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeVoid, CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeVoidInitiated, CustomerCreditLedgerNewEntryByExternalIDResponseEntryTypeAmendment:
+		return true
+	}
+	return false
+}
+
+// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
+// prepaid credits within Orb.
+type CustomerCreditLedgerListByExternalIDResponse struct {
+	Metadata             interface{}                                             `json:"metadata"`
+	ID                   string                                                  `json:"id,required"`
+	LedgerSequenceNumber int64                                                   `json:"ledger_sequence_number,required"`
+	EntryStatus          CustomerCreditLedgerListByExternalIDResponseEntryStatus `json:"entry_status,required"`
+	Customer             interface{}                                             `json:"customer"`
+	StartingBalance      float64                                                 `json:"starting_balance,required"`
+	EndingBalance        float64                                                 `json:"ending_balance,required"`
+	Amount               float64                                                 `json:"amount,required"`
+	Currency             string                                                  `json:"currency,required"`
+	CreatedAt            time.Time                                               `json:"created_at,required" format:"date-time"`
+	Description          string                                                  `json:"description,required,nullable"`
+	CreditBlock          interface{}                                             `json:"credit_block"`
+	EntryType            CustomerCreditLedgerListByExternalIDResponseEntryType   `json:"entry_type,required"`
+	PriceID              string                                                  `json:"price_id,nullable"`
+	EventID              string                                                  `json:"event_id,nullable"`
+	InvoiceID            string                                                  `json:"invoice_id,nullable"`
+	NewBlockExpiryDate   time.Time                                               `json:"new_block_expiry_date" format:"date-time"`
+	VoidReason           string                                                  `json:"void_reason,nullable"`
+	VoidAmount           float64                                                 `json:"void_amount"`
+	JSON                 customerCreditLedgerListByExternalIDResponseJSON        `json:"-"`
+	union                CustomerCreditLedgerListByExternalIDResponseUnion
+}
+
+// customerCreditLedgerListByExternalIDResponseJSON contains the JSON metadata for
+// the struct [CustomerCreditLedgerListByExternalIDResponse]
+type customerCreditLedgerListByExternalIDResponseJSON struct {
+	Metadata             apijson.Field
+	ID                   apijson.Field
+	LedgerSequenceNumber apijson.Field
+	EntryStatus          apijson.Field
+	Customer             apijson.Field
+	StartingBalance      apijson.Field
+	EndingBalance        apijson.Field
+	Amount               apijson.Field
+	Currency             apijson.Field
+	CreatedAt            apijson.Field
+	Description          apijson.Field
+	CreditBlock          apijson.Field
+	EntryType            apijson.Field
+	PriceID              apijson.Field
+	EventID              apijson.Field
+	InvoiceID            apijson.Field
+	NewBlockExpiryDate   apijson.Field
+	VoidReason           apijson.Field
+	VoidAmount           apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r customerCreditLedgerListByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *CustomerCreditLedgerListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r CustomerCreditLedgerListByExternalIDResponse) AsUnion() CustomerCreditLedgerListByExternalIDResponseUnion {
+	return r.union
+}
+
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
 //
@@ -3648,13 +4025,13 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryEntr
 // [CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntry],
 // [CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntry] or
 // [CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntry].
-type CustomerCreditLedgerListByExternalIDResponse interface {
+type CustomerCreditLedgerListByExternalIDResponseUnion interface {
 	implementsCustomerCreditLedgerListByExternalIDResponse()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*CustomerCreditLedgerListByExternalIDResponse)(nil)).Elem(),
+		reflect.TypeOf((*CustomerCreditLedgerListByExternalIDResponseUnion)(nil)).Elem(),
 		"entry_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -4631,6 +5008,41 @@ const (
 func (r CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryType) IsKnown() bool {
 	switch r {
 	case CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryEntryTypeAmendment:
+		return true
+	}
+	return false
+}
+
+type CustomerCreditLedgerListByExternalIDResponseEntryStatus string
+
+const (
+	CustomerCreditLedgerListByExternalIDResponseEntryStatusCommitted CustomerCreditLedgerListByExternalIDResponseEntryStatus = "committed"
+	CustomerCreditLedgerListByExternalIDResponseEntryStatusPending   CustomerCreditLedgerListByExternalIDResponseEntryStatus = "pending"
+)
+
+func (r CustomerCreditLedgerListByExternalIDResponseEntryStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseEntryStatusCommitted, CustomerCreditLedgerListByExternalIDResponseEntryStatusPending:
+		return true
+	}
+	return false
+}
+
+type CustomerCreditLedgerListByExternalIDResponseEntryType string
+
+const (
+	CustomerCreditLedgerListByExternalIDResponseEntryTypeIncrement         CustomerCreditLedgerListByExternalIDResponseEntryType = "increment"
+	CustomerCreditLedgerListByExternalIDResponseEntryTypeDecrement         CustomerCreditLedgerListByExternalIDResponseEntryType = "decrement"
+	CustomerCreditLedgerListByExternalIDResponseEntryTypeExpirationChange  CustomerCreditLedgerListByExternalIDResponseEntryType = "expiration_change"
+	CustomerCreditLedgerListByExternalIDResponseEntryTypeCreditBlockExpiry CustomerCreditLedgerListByExternalIDResponseEntryType = "credit_block_expiry"
+	CustomerCreditLedgerListByExternalIDResponseEntryTypeVoid              CustomerCreditLedgerListByExternalIDResponseEntryType = "void"
+	CustomerCreditLedgerListByExternalIDResponseEntryTypeVoidInitiated     CustomerCreditLedgerListByExternalIDResponseEntryType = "void_initiated"
+	CustomerCreditLedgerListByExternalIDResponseEntryTypeAmendment         CustomerCreditLedgerListByExternalIDResponseEntryType = "amendment"
+)
+
+func (r CustomerCreditLedgerListByExternalIDResponseEntryType) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerListByExternalIDResponseEntryTypeIncrement, CustomerCreditLedgerListByExternalIDResponseEntryTypeDecrement, CustomerCreditLedgerListByExternalIDResponseEntryTypeExpirationChange, CustomerCreditLedgerListByExternalIDResponseEntryTypeCreditBlockExpiry, CustomerCreditLedgerListByExternalIDResponseEntryTypeVoid, CustomerCreditLedgerListByExternalIDResponseEntryTypeVoidInitiated, CustomerCreditLedgerListByExternalIDResponseEntryTypeAmendment:
 		return true
 	}
 	return false
