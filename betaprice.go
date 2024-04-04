@@ -66,7 +66,7 @@ type EvaluatePriceGroup struct {
 	// The price's output for the group
 	Amount string `json:"amount,required"`
 	// The values for the group in the order specified by `grouping_keys`
-	GroupingValues []EvaluatePriceGroupGroupingValue `json:"grouping_values,required"`
+	GroupingValues []EvaluatePriceGroupGroupingValuesUnion `json:"grouping_values,required"`
 	// The price's usage quantity for the group
 	Quantity float64                `json:"quantity,required"`
 	JSON     evaluatePriceGroupJSON `json:"-"`
@@ -92,13 +92,13 @@ func (r evaluatePriceGroupJSON) RawJSON() string {
 
 // Union satisfied by [shared.UnionString], [shared.UnionFloat] or
 // [shared.UnionBool].
-type EvaluatePriceGroupGroupingValue interface {
-	ImplementsEvaluatePriceGroupGroupingValue()
+type EvaluatePriceGroupGroupingValuesUnion interface {
+	ImplementsEvaluatePriceGroupGroupingValuesUnion()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*EvaluatePriceGroupGroupingValue)(nil)).Elem(),
+		reflect.TypeOf((*EvaluatePriceGroupGroupingValuesUnion)(nil)).Elem(),
 		"",
 		apijson.UnionVariant{
 			TypeFilter: gjson.String,

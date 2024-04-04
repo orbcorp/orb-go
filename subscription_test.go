@@ -48,7 +48,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		NetTerms:               orb.F(int64(0)),
 		PerCreditOverageAmount: orb.F("string"),
 		PlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
-		PriceOverrides: orb.F([]orb.SubscriptionNewParamsPriceOverride{orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
+		PriceOverrides: orb.F([]orb.SubscriptionNewParamsPriceOverrideUnion{orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:            orb.F("string"),
 			ModelType:     orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
 			MinimumAmount: orb.F("1.23"),
@@ -65,7 +65,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			UnitConfig: orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig{
 				UnitAmount: orb.F("string"),
 			}),
-		}), orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
+		}, orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:            orb.F("string"),
 			ModelType:     orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
 			MinimumAmount: orb.F("1.23"),
@@ -82,7 +82,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			UnitConfig: orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig{
 				UnitAmount: orb.F("string"),
 			}),
-		}), orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
+		}, orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:            orb.F("string"),
 			ModelType:     orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
 			MinimumAmount: orb.F("1.23"),
@@ -99,7 +99,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			UnitConfig: orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig{
 				UnitAmount: orb.F("string"),
 			}),
-		})}),
+		}}),
 		StartDate: orb.F(time.Now()),
 	})
 	if err != nil {
@@ -317,7 +317,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 			Add: orb.F([]orb.SubscriptionPriceIntervalsParamsAdd{{
 				PriceID:         orb.F("h74gfhdjvn7ujokd"),
 				ExternalPriceID: orb.F("external_price_id"),
-				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPrice](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
+				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
 					ExternalPriceID:    orb.F("string"),
 					Name:               orb.F("Annual fee"),
 					BillableMetricID:   orb.F("string"),
@@ -331,9 +331,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						UnitAmount: orb.F("string"),
 					}),
 					Currency: orb.F("string"),
-				})),
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDate](shared.UnionTime(time.Now())),
-				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDate](shared.UnionTime(time.Now())),
+				}),
+				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
@@ -344,22 +344,22 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
 				}}),
-				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscount{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscountUnion{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				}), orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				}), orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				})}),
+				}}),
 				MinimumAmount: orb.F(0.000000),
 				MaximumAmount: orb.F(0.000000),
 			}, {
 				PriceID:         orb.F("h74gfhdjvn7ujokd"),
 				ExternalPriceID: orb.F("external_price_id"),
-				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPrice](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
+				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
 					ExternalPriceID:    orb.F("string"),
 					Name:               orb.F("Annual fee"),
 					BillableMetricID:   orb.F("string"),
@@ -373,9 +373,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						UnitAmount: orb.F("string"),
 					}),
 					Currency: orb.F("string"),
-				})),
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDate](shared.UnionTime(time.Now())),
-				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDate](shared.UnionTime(time.Now())),
+				}),
+				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
@@ -386,22 +386,22 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
 				}}),
-				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscount{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscountUnion{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				}), orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				}), orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				})}),
+				}}),
 				MinimumAmount: orb.F(0.000000),
 				MaximumAmount: orb.F(0.000000),
 			}, {
 				PriceID:         orb.F("h74gfhdjvn7ujokd"),
 				ExternalPriceID: orb.F("external_price_id"),
-				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPrice](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
+				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
 					ExternalPriceID:    orb.F("string"),
 					Name:               orb.F("Annual fee"),
 					BillableMetricID:   orb.F("string"),
@@ -415,9 +415,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						UnitAmount: orb.F("string"),
 					}),
 					Currency: orb.F("string"),
-				})),
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDate](shared.UnionTime(time.Now())),
-				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDate](shared.UnionTime(time.Now())),
+				}),
+				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
@@ -428,23 +428,23 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
 				}}),
-				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscount{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscountUnion{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				}), orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				}), orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
 					AmountDiscount: orb.F(0.000000),
-				})}),
+				}}),
 				MinimumAmount: orb.F(0.000000),
 				MaximumAmount: orb.F(0.000000),
 			}}),
 			Edit: orb.F([]orb.SubscriptionPriceIntervalsParamsEdit{{
 				PriceIntervalID: orb.F("sdfs6wdjvn7ujokd"),
-				StartDate:       orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDate](shared.UnionTime(time.Now())),
-				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDate](shared.UnionTime(time.Now())),
+				StartDate:       orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDateUnion](shared.UnionTime(time.Now())),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition{{
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
@@ -458,8 +458,8 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				BillingCycleDay: orb.F(int64(0)),
 			}, {
 				PriceIntervalID: orb.F("sdfs6wdjvn7ujokd"),
-				StartDate:       orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDate](shared.UnionTime(time.Now())),
-				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDate](shared.UnionTime(time.Now())),
+				StartDate:       orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDateUnion](shared.UnionTime(time.Now())),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition{{
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
@@ -473,8 +473,8 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				BillingCycleDay: orb.F(int64(0)),
 			}, {
 				PriceIntervalID: orb.F("sdfs6wdjvn7ujokd"),
-				StartDate:       orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDate](shared.UnionTime(time.Now())),
-				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDate](shared.UnionTime(time.Now())),
+				StartDate:       orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDateUnion](shared.UnionTime(time.Now())),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition{{
 					Quantity:      orb.F(int64(5)),
 					EffectiveDate: orb.F(time.Now()),
@@ -525,7 +525,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 			InvoicingThreshold:             orb.F("10.00"),
 			PerCreditOverageAmount:         orb.F("string"),
 			PlanID:                         orb.F("ZMwNQefe7J3ecf7W"),
-			PriceOverrides: orb.F([]orb.SubscriptionSchedulePlanChangeParamsPriceOverride{orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
+			PriceOverrides: orb.F([]orb.SubscriptionSchedulePlanChangeParamsPriceOverrideUnion{orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
 				ID:            orb.F("string"),
 				ModelType:     orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
 				MinimumAmount: orb.F("1.23"),
@@ -542,7 +542,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig{
 					UnitAmount: orb.F("string"),
 				}),
-			}), orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
+			}, orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
 				ID:            orb.F("string"),
 				ModelType:     orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
 				MinimumAmount: orb.F("1.23"),
@@ -559,7 +559,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig{
 					UnitAmount: orb.F("string"),
 				}),
-			}), orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
+			}, orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
 				ID:            orb.F("string"),
 				ModelType:     orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
 				MinimumAmount: orb.F("1.23"),
@@ -576,7 +576,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig{
 					UnitAmount: orb.F("string"),
 				}),
-			})}),
+			}}),
 		},
 	)
 	if err != nil {

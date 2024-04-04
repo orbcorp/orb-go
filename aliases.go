@@ -47,3 +47,18 @@ type DiscountAmountDiscountDiscountType = shared.DiscountAmountDiscountDiscountT
 
 // This is an alias to an internal value.
 const DiscountAmountDiscountDiscountTypeAmount = shared.DiscountAmountDiscountDiscountTypeAmount
+
+// This is an alias to an internal type.
+type DiscountDiscountType = shared.DiscountDiscountType
+
+// This is an alias to an internal value.
+const DiscountDiscountTypePercentage = shared.DiscountDiscountTypePercentage
+
+// This is an alias to an internal value.
+const DiscountDiscountTypeTrial = shared.DiscountDiscountTypeTrial
+
+// This is an alias to an internal value.
+const DiscountDiscountTypeUsage = shared.DiscountDiscountTypeUsage
+
+// This is an alias to an internal value.
+const DiscountDiscountTypeAmount = shared.DiscountDiscountTypeAmount

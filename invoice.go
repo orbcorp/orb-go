@@ -1232,16 +1232,59 @@ func (r invoiceLineItemsMinimumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceLineItemsSubLineItem struct {
+	// The total amount for this sub line item.
+	Amount       string                           `json:"amount,required"`
+	Name         string                           `json:"name,required"`
+	Quantity     float64                          `json:"quantity,required"`
+	Grouping     interface{}                      `json:"grouping"`
+	Type         InvoiceLineItemsSubLineItemsType `json:"type,required"`
+	MatrixConfig interface{}                      `json:"matrix_config,required"`
+	TierConfig   interface{}                      `json:"tier_config,required"`
+	JSON         invoiceLineItemsSubLineItemJSON  `json:"-"`
+	union        InvoiceLineItemsSubLineItemsUnion
+}
+
+// invoiceLineItemsSubLineItemJSON contains the JSON metadata for the struct
+// [InvoiceLineItemsSubLineItem]
+type invoiceLineItemsSubLineItemJSON struct {
+	Amount       apijson.Field
+	Name         apijson.Field
+	Quantity     apijson.Field
+	Grouping     apijson.Field
+	Type         apijson.Field
+	MatrixConfig apijson.Field
+	TierConfig   apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r invoiceLineItemsSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *InvoiceLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r InvoiceLineItemsSubLineItem) AsUnion() InvoiceLineItemsSubLineItemsUnion {
+	return r.union
+}
+
 // Union satisfied by [InvoiceLineItemsSubLineItemsMatrixSubLineItem],
 // [InvoiceLineItemsSubLineItemsTierSubLineItem] or
 // [InvoiceLineItemsSubLineItemsOtherSubLineItem].
-type InvoiceLineItemsSubLineItem interface {
+type InvoiceLineItemsSubLineItemsUnion interface {
 	implementsInvoiceLineItemsSubLineItem()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*InvoiceLineItemsSubLineItem)(nil)).Elem(),
+		reflect.TypeOf((*InvoiceLineItemsSubLineItemsUnion)(nil)).Elem(),
 		"type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -1518,6 +1561,22 @@ const (
 func (r InvoiceLineItemsSubLineItemsOtherSubLineItemType) IsKnown() bool {
 	switch r {
 	case InvoiceLineItemsSubLineItemsOtherSubLineItemTypeNull:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemsSubLineItemsType string
+
+const (
+	InvoiceLineItemsSubLineItemsTypeMatrix InvoiceLineItemsSubLineItemsType = "matrix"
+	InvoiceLineItemsSubLineItemsTypeTier   InvoiceLineItemsSubLineItemsType = "tier"
+	InvoiceLineItemsSubLineItemsTypeNull   InvoiceLineItemsSubLineItemsType = "'null'"
+)
+
+func (r InvoiceLineItemsSubLineItemsType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsSubLineItemsTypeMatrix, InvoiceLineItemsSubLineItemsTypeTier, InvoiceLineItemsSubLineItemsTypeNull:
 		return true
 	}
 	return false
@@ -2764,17 +2823,60 @@ func (r invoiceFetchUpcomingResponseLineItemsMinimumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceFetchUpcomingResponseLineItemsSubLineItem struct {
+	// The total amount for this sub line item.
+	Amount       string                                                `json:"amount,required"`
+	Name         string                                                `json:"name,required"`
+	Quantity     float64                                               `json:"quantity,required"`
+	Grouping     interface{}                                           `json:"grouping"`
+	Type         InvoiceFetchUpcomingResponseLineItemsSubLineItemsType `json:"type,required"`
+	MatrixConfig interface{}                                           `json:"matrix_config,required"`
+	TierConfig   interface{}                                           `json:"tier_config,required"`
+	JSON         invoiceFetchUpcomingResponseLineItemsSubLineItemJSON  `json:"-"`
+	union        InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion
+}
+
+// invoiceFetchUpcomingResponseLineItemsSubLineItemJSON contains the JSON metadata
+// for the struct [InvoiceFetchUpcomingResponseLineItemsSubLineItem]
+type invoiceFetchUpcomingResponseLineItemsSubLineItemJSON struct {
+	Amount       apijson.Field
+	Name         apijson.Field
+	Quantity     apijson.Field
+	Grouping     apijson.Field
+	Type         apijson.Field
+	MatrixConfig apijson.Field
+	TierConfig   apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r InvoiceFetchUpcomingResponseLineItemsSubLineItem) AsUnion() InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion {
+	return r.union
+}
+
 // Union satisfied by
 // [InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItem],
 // [InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItem] or
 // [InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItem].
-type InvoiceFetchUpcomingResponseLineItemsSubLineItem interface {
+type InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion interface {
 	implementsInvoiceFetchUpcomingResponseLineItemsSubLineItem()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*InvoiceFetchUpcomingResponseLineItemsSubLineItem)(nil)).Elem(),
+		reflect.TypeOf((*InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion)(nil)).Elem(),
 		"type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -3061,6 +3163,22 @@ const (
 func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemType) IsKnown() bool {
 	switch r {
 	case InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemTypeNull:
+		return true
+	}
+	return false
+}
+
+type InvoiceFetchUpcomingResponseLineItemsSubLineItemsType string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsSubLineItemsTypeMatrix InvoiceFetchUpcomingResponseLineItemsSubLineItemsType = "matrix"
+	InvoiceFetchUpcomingResponseLineItemsSubLineItemsTypeTier   InvoiceFetchUpcomingResponseLineItemsSubLineItemsType = "tier"
+	InvoiceFetchUpcomingResponseLineItemsSubLineItemsTypeNull   InvoiceFetchUpcomingResponseLineItemsSubLineItemsType = "'null'"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsSubLineItemsType) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsSubLineItemsTypeMatrix, InvoiceFetchUpcomingResponseLineItemsSubLineItemsTypeTier, InvoiceFetchUpcomingResponseLineItemsSubLineItemsTypeNull:
 		return true
 	}
 	return false

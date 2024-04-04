@@ -1138,16 +1138,67 @@ func (r subscriptionJSON) RawJSON() string {
 	return r.raw
 }
 
+type SubscriptionDiscountInterval struct {
+	DiscountType SubscriptionDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate                   time.Time   `json:"end_date,required,nullable" format:"date-time"`
+	AppliesToPriceIDs         interface{} `json:"applies_to_price_ids"`
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                          `json:"usage_discount"`
+	JSON          subscriptionDiscountIntervalJSON `json:"-"`
+	union         SubscriptionDiscountIntervalsUnion
+}
+
+// subscriptionDiscountIntervalJSON contains the JSON metadata for the struct
+// [SubscriptionDiscountInterval]
+type subscriptionDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r SubscriptionDiscountInterval) AsUnion() SubscriptionDiscountIntervalsUnion {
+	return r.union
+}
+
 // Union satisfied by [SubscriptionDiscountIntervalsAmountDiscountInterval],
 // [SubscriptionDiscountIntervalsPercentageDiscountInterval] or
 // [SubscriptionDiscountIntervalsUsageDiscountInterval].
-type SubscriptionDiscountInterval interface {
+type SubscriptionDiscountIntervalsUnion interface {
 	implementsSubscriptionDiscountInterval()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*SubscriptionDiscountInterval)(nil)).Elem(),
+		reflect.TypeOf((*SubscriptionDiscountIntervalsUnion)(nil)).Elem(),
 		"discount_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -1324,6 +1375,22 @@ const (
 func (r SubscriptionDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
 	switch r {
 	case SubscriptionDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionDiscountIntervalsDiscountTypeAmount     SubscriptionDiscountIntervalsDiscountType = "amount"
+	SubscriptionDiscountIntervalsDiscountTypePercentage SubscriptionDiscountIntervalsDiscountType = "percentage"
+	SubscriptionDiscountIntervalsDiscountTypeUsage      SubscriptionDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionDiscountIntervalsDiscountTypeAmount, SubscriptionDiscountIntervalsDiscountTypePercentage, SubscriptionDiscountIntervalsDiscountTypeUsage:
 		return true
 	}
 	return false
@@ -1813,15 +1880,47 @@ func (r subscriptionTrialInfoJSON) RawJSON() string {
 	return r.raw
 }
 
+type SubscriptionUsage struct {
+	Data               interface{}           `json:"data"`
+	PaginationMetadata interface{}           `json:"pagination_metadata,required"`
+	JSON               subscriptionUsageJSON `json:"-"`
+	union              SubscriptionUsageUnion
+}
+
+// subscriptionUsageJSON contains the JSON metadata for the struct
+// [SubscriptionUsage]
+type subscriptionUsageJSON struct {
+	Data               apijson.Field
+	PaginationMetadata apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionUsageJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUsage) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r SubscriptionUsage) AsUnion() SubscriptionUsageUnion {
+	return r.union
+}
+
 // Union satisfied by [SubscriptionUsageUngroupedSubscriptionUsage] or
 // [SubscriptionUsageGroupedSubscriptionUsage].
-type SubscriptionUsage interface {
+type SubscriptionUsageUnion interface {
 	implementsSubscriptionUsage()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*SubscriptionUsage)(nil)).Elem(),
+		reflect.TypeOf((*SubscriptionUsageUnion)(nil)).Elem(),
 		"",
 		apijson.UnionVariant{
 			TypeFilter: gjson.JSON,
@@ -2568,8 +2667,8 @@ type SubscriptionNewParams struct {
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`
 	// Optionally provide a list of overrides for prices on the plan
-	PriceOverrides param.Field[[]SubscriptionNewParamsPriceOverride] `json:"price_overrides"`
-	StartDate      param.Field[time.Time]                            `json:"start_date" format:"date-time"`
+	PriceOverrides param.Field[[]SubscriptionNewParamsPriceOverrideUnion] `json:"price_overrides"`
+	StartDate      param.Field[time.Time]                                 `json:"start_date" format:"date-time"`
 }
 
 func (r SubscriptionNewParams) MarshalJSON() (data []byte, err error) {
@@ -2592,6 +2691,37 @@ func (r SubscriptionNewParamsExternalMarketplace) IsKnown() bool {
 	return false
 }
 
+type SubscriptionNewParamsPriceOverride struct {
+	ID        param.Field[string]                                       `json:"id,required"`
+	ModelType param.Field[SubscriptionNewParamsPriceOverridesModelType] `json:"model_type,required"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string]      `json:"maximum_amount"`
+	Discount      param.Field[interface{}] `json:"discount,required"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity          param.Field[float64]     `json:"fixed_price_quantity"`
+	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
+	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config,required"`
+	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
+	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
+	BpsConfig                   param.Field[interface{}] `json:"bps_config,required"`
+	BulkBpsConfig               param.Field[interface{}] `json:"bulk_bps_config,required"`
+	BulkConfig                  param.Field[interface{}] `json:"bulk_config,required"`
+	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
+	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
+	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
+	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
+}
+
+func (r SubscriptionNewParamsPriceOverride) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsPriceOverride) implementsSubscriptionNewParamsPriceOverrideUnion() {}
+
 // Satisfied by [SubscriptionNewParamsPriceOverridesOverrideUnitPrice],
 // [SubscriptionNewParamsPriceOverridesOverridePackagePrice],
 // [SubscriptionNewParamsPriceOverridesOverrideMatrixPrice],
@@ -2604,9 +2734,10 @@ func (r SubscriptionNewParamsExternalMarketplace) IsKnown() bool {
 // [SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice],
 // [SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice],
 // [SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPrice],
-// [SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice].
-type SubscriptionNewParamsPriceOverride interface {
-	implementsSubscriptionNewParamsPriceOverride()
+// [SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice],
+// [SubscriptionNewParamsPriceOverride].
+type SubscriptionNewParamsPriceOverrideUnion interface {
+	implementsSubscriptionNewParamsPriceOverrideUnion()
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideUnitPrice struct {
@@ -2627,7 +2758,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideUnitPrice) MarshalJSON() (dat
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideUnitPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelType string
@@ -2710,7 +2841,7 @@ func (r SubscriptionNewParamsPriceOverridesOverridePackagePrice) MarshalJSON() (
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverridePackagePrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverridePackagePrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverridePackagePriceModelType string
@@ -2796,7 +2927,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPrice) MarshalJSON() (d
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideMatrixPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfig struct {
@@ -2896,7 +3027,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideTieredPrice) MarshalJSON() (d
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideTieredPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelType string
@@ -2992,7 +3123,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideTieredBpsPrice) MarshalJSON()
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideTieredBpsPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredBpsPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelType string
@@ -3091,7 +3222,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideBpsPrice) MarshalJSON() (data
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideBpsPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideBpsPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideBpsPriceBpsConfig struct {
@@ -3176,7 +3307,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideBulkBpsPrice) MarshalJSON() (
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideBulkBpsPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkBpsPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceBulkBpsConfig struct {
@@ -3273,7 +3404,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideBulkPrice) MarshalJSON() (dat
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideBulkPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideBulkPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideBulkPriceBulkConfig struct {
@@ -3367,7 +3498,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice) Ma
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType string
@@ -3441,7 +3572,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice) MarshalJS
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType string
@@ -3515,7 +3646,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice) Marsh
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType string
@@ -3589,7 +3720,7 @@ func (r SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPrice) M
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelType string
@@ -3663,7 +3794,7 @@ func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice) Marshal
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice) implementsSubscriptionNewParamsPriceOverride() {
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
 }
 
 type SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelType string
@@ -3714,6 +3845,32 @@ const (
 func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType) IsKnown() bool {
 	switch r {
 	case SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsPriceOverridesModelType string
+
+const (
+	SubscriptionNewParamsPriceOverridesModelTypeUnit                  SubscriptionNewParamsPriceOverridesModelType = "unit"
+	SubscriptionNewParamsPriceOverridesModelTypePackage               SubscriptionNewParamsPriceOverridesModelType = "package"
+	SubscriptionNewParamsPriceOverridesModelTypeMatrix                SubscriptionNewParamsPriceOverridesModelType = "matrix"
+	SubscriptionNewParamsPriceOverridesModelTypeTiered                SubscriptionNewParamsPriceOverridesModelType = "tiered"
+	SubscriptionNewParamsPriceOverridesModelTypeTieredBps             SubscriptionNewParamsPriceOverridesModelType = "tiered_bps"
+	SubscriptionNewParamsPriceOverridesModelTypeBps                   SubscriptionNewParamsPriceOverridesModelType = "bps"
+	SubscriptionNewParamsPriceOverridesModelTypeBulkBps               SubscriptionNewParamsPriceOverridesModelType = "bulk_bps"
+	SubscriptionNewParamsPriceOverridesModelTypeBulk                  SubscriptionNewParamsPriceOverridesModelType = "bulk"
+	SubscriptionNewParamsPriceOverridesModelTypeThresholdTotalAmount  SubscriptionNewParamsPriceOverridesModelType = "threshold_total_amount"
+	SubscriptionNewParamsPriceOverridesModelTypeTieredPackage         SubscriptionNewParamsPriceOverridesModelType = "tiered_package"
+	SubscriptionNewParamsPriceOverridesModelTypeTieredWithMinimum     SubscriptionNewParamsPriceOverridesModelType = "tiered_with_minimum"
+	SubscriptionNewParamsPriceOverridesModelTypePackageWithAllocation SubscriptionNewParamsPriceOverridesModelType = "package_with_allocation"
+	SubscriptionNewParamsPriceOverridesModelTypeUnitWithPercent       SubscriptionNewParamsPriceOverridesModelType = "unit_with_percent"
+)
+
+func (r SubscriptionNewParamsPriceOverridesModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesModelTypeUnit, SubscriptionNewParamsPriceOverridesModelTypePackage, SubscriptionNewParamsPriceOverridesModelTypeMatrix, SubscriptionNewParamsPriceOverridesModelTypeTiered, SubscriptionNewParamsPriceOverridesModelTypeTieredBps, SubscriptionNewParamsPriceOverridesModelTypeBps, SubscriptionNewParamsPriceOverridesModelTypeBulkBps, SubscriptionNewParamsPriceOverridesModelTypeBulk, SubscriptionNewParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionNewParamsPriceOverridesModelTypeTieredPackage, SubscriptionNewParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionNewParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionNewParamsPriceOverridesModelTypeUnitWithPercent:
 		return true
 	}
 	return false
@@ -3935,12 +4092,12 @@ func (r SubscriptionPriceIntervalsParams) MarshalJSON() (data []byte, err error)
 type SubscriptionPriceIntervalsParamsAdd struct {
 	// The start date of the price interval. This is the date that the price will start
 	// billing on the subscription.
-	StartDate param.Field[SubscriptionPriceIntervalsParamsAddStartDate] `json:"start_date,required" format:"date-time"`
+	StartDate param.Field[SubscriptionPriceIntervalsParamsAddStartDateUnion] `json:"start_date,required" format:"date-time"`
 	// A list of discounts to initialize on the price interval.
-	Discounts param.Field[[]SubscriptionPriceIntervalsParamsAddDiscount] `json:"discounts"`
+	Discounts param.Field[[]SubscriptionPriceIntervalsParamsAddDiscountUnion] `json:"discounts"`
 	// The end date of the price interval. This is the date that the price will stop
 	// billing on the subscription.
-	EndDate param.Field[SubscriptionPriceIntervalsParamsAddEndDate] `json:"end_date" format:"date-time"`
+	EndDate param.Field[SubscriptionPriceIntervalsParamsAddEndDateUnion] `json:"end_date" format:"date-time"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// A list of fixed fee quantity transitions to initialize on the price interval.
@@ -3952,7 +4109,7 @@ type SubscriptionPriceIntervalsParamsAdd struct {
 	// billing period.
 	MinimumAmount param.Field[float64] `json:"minimum_amount"`
 	// The definition of a new price to create and add to the subscription.
-	Price param.Field[SubscriptionPriceIntervalsParamsAddPrice] `json:"price"`
+	Price param.Field[SubscriptionPriceIntervalsParamsAddPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
 	PriceID param.Field[string] `json:"price_id"`
 }
@@ -3966,8 +4123,8 @@ func (r SubscriptionPriceIntervalsParamsAdd) MarshalJSON() (data []byte, err err
 //
 // Satisfied by [shared.UnionTime],
 // [SubscriptionPriceIntervalsParamsAddStartDateString].
-type SubscriptionPriceIntervalsParamsAddStartDate interface {
-	ImplementsSubscriptionPriceIntervalsParamsAddStartDate()
+type SubscriptionPriceIntervalsParamsAddStartDateUnion interface {
+	ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()
 }
 
 type SubscriptionPriceIntervalsParamsAddStartDateString string
@@ -3985,12 +4142,32 @@ func (r SubscriptionPriceIntervalsParamsAddStartDateString) IsKnown() bool {
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddDiscount struct {
+	DiscountType param.Field[SubscriptionPriceIntervalsParamsAddDiscountsDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[float64] `json:"amount_discount"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for.
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddDiscount) implementsSubscriptionPriceIntervalsParamsAddDiscountUnion() {
+}
+
 // Satisfied by
 // [SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams],
 // [SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParams],
-// [SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams].
-type SubscriptionPriceIntervalsParamsAddDiscount interface {
-	implementsSubscriptionPriceIntervalsParamsAddDiscount()
+// [SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams],
+// [SubscriptionPriceIntervalsParamsAddDiscount].
+type SubscriptionPriceIntervalsParamsAddDiscountUnion interface {
+	implementsSubscriptionPriceIntervalsParamsAddDiscountUnion()
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams struct {
@@ -4003,7 +4180,7 @@ func (r SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams) implementsSubscriptionPriceIntervalsParamsAddDiscount() {
+func (r SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams) implementsSubscriptionPriceIntervalsParamsAddDiscountUnion() {
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountType string
@@ -4031,7 +4208,7 @@ func (r SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationPa
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParams) implementsSubscriptionPriceIntervalsParamsAddDiscount() {
+func (r SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParams) implementsSubscriptionPriceIntervalsParamsAddDiscountUnion() {
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscountsPercentageDiscountCreationParamsDiscountType string
@@ -4059,7 +4236,7 @@ func (r SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams)
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams) implementsSubscriptionPriceIntervalsParamsAddDiscount() {
+func (r SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParams) implementsSubscriptionPriceIntervalsParamsAddDiscountUnion() {
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsDiscountType string
@@ -4076,13 +4253,29 @@ func (r SubscriptionPriceIntervalsParamsAddDiscountsUsageDiscountCreationParamsD
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddDiscountsDiscountType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddDiscountsDiscountTypeAmount     SubscriptionPriceIntervalsParamsAddDiscountsDiscountType = "amount"
+	SubscriptionPriceIntervalsParamsAddDiscountsDiscountTypePercentage SubscriptionPriceIntervalsParamsAddDiscountsDiscountType = "percentage"
+	SubscriptionPriceIntervalsParamsAddDiscountsDiscountTypeUsage      SubscriptionPriceIntervalsParamsAddDiscountsDiscountType = "usage"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddDiscountsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddDiscountsDiscountTypeAmount, SubscriptionPriceIntervalsParamsAddDiscountsDiscountTypePercentage, SubscriptionPriceIntervalsParamsAddDiscountsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
 // The end date of the price interval. This is the date that the price will stop
 // billing on the subscription.
 //
 // Satisfied by [shared.UnionTime],
 // [SubscriptionPriceIntervalsParamsAddEndDateString].
-type SubscriptionPriceIntervalsParamsAddEndDate interface {
-	ImplementsSubscriptionPriceIntervalsParamsAddEndDate()
+type SubscriptionPriceIntervalsParamsAddEndDateUnion interface {
+	ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()
 }
 
 type SubscriptionPriceIntervalsParamsAddEndDateString string
@@ -4112,6 +4305,55 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 }
 
 // The definition of a new price to create and add to the subscription.
+type SubscriptionPriceIntervalsParamsAddPrice struct {
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// The id of the item the plan will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// The cadence to bill for this price on.
+	Cadence    param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence]   `json:"cadence,required"`
+	ModelType  param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
+	UnitConfig param.Field[interface{}]                                       `json:"unit_config,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency                       param.Field[string]      `json:"currency,required"`
+	PackageConfig                  param.Field[interface{}] `json:"package_config,required"`
+	MatrixConfig                   param.Field[interface{}] `json:"matrix_config,required"`
+	MatrixWithAllocationConfig     param.Field[interface{}] `json:"matrix_with_allocation_config,required"`
+	TieredConfig                   param.Field[interface{}] `json:"tiered_config,required"`
+	TieredBpsConfig                param.Field[interface{}] `json:"tiered_bps_config,required"`
+	BpsConfig                      param.Field[interface{}] `json:"bps_config,required"`
+	BulkBpsConfig                  param.Field[interface{}] `json:"bulk_bps_config,required"`
+	BulkConfig                     param.Field[interface{}] `json:"bulk_config,required"`
+	ThresholdTotalAmountConfig     param.Field[interface{}] `json:"threshold_total_amount_config,required"`
+	TieredPackageConfig            param.Field[interface{}] `json:"tiered_package_config,required"`
+	GroupedTieredConfig            param.Field[interface{}] `json:"grouped_tiered_config,required"`
+	TieredWithMinimumConfig        param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
+	PackageWithAllocationConfig    param.Field[interface{}] `json:"package_with_allocation_config,required"`
+	TieredPackageWithMinimumConfig param.Field[interface{}] `json:"tiered_package_with_minimum_config,required"`
+	UnitWithPercentConfig          param.Field[interface{}] `json:"unit_with_percent_config,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The definition of a new price to create and add to the subscription.
 //
 // Satisfied by [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice],
@@ -4128,9 +4370,10 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice].
-type SubscriptionPriceIntervalsParamsAddPrice interface {
-	implementsSubscriptionPriceIntervalsParamsAddPrice()
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice],
+// [SubscriptionPriceIntervalsParamsAddPrice].
+type SubscriptionPriceIntervalsParamsAddPriceUnion interface {
+	implementsSubscriptionPriceIntervalsParamsAddPriceUnion()
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice struct {
@@ -4163,7 +4406,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice) MarshalJSO
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -4237,7 +4480,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice) Marshal
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -4314,7 +4557,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice) MarshalJ
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -4405,7 +4648,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationP
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -4498,7 +4741,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice) MarshalJ
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -4585,7 +4828,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice) Marsh
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -4675,7 +4918,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice) MarshalJSON
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceBpsConfig struct {
@@ -4751,7 +4994,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice) Marshal
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceBulkBpsConfig struct {
@@ -4839,7 +5082,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice) MarshalJSO
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceBulkConfig struct {
@@ -4924,7 +5167,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountP
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -4989,7 +5232,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice) M
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -5054,7 +5297,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice) M
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -5119,7 +5362,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPric
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -5184,7 +5427,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocation
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -5249,7 +5492,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMini
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -5314,7 +5557,7 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice)
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice) implementsSubscriptionPriceIntervalsParamsAddPrice() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
 // The cadence to bill for this price on.
@@ -5349,6 +5592,53 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceM
 	return false
 }
 
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceCadenceAnnual    SubscriptionPriceIntervalsParamsAddPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceCadenceMonthly   SubscriptionPriceIntervalsParamsAddPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceCadenceQuarterly SubscriptionPriceIntervalsParamsAddPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceCadenceOneTime   SubscriptionPriceIntervalsParamsAddPriceCadence = "one_time"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit                     SubscriptionPriceIntervalsParamsAddPriceModelType = "unit"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypePackage                  SubscriptionPriceIntervalsParamsAddPriceModelType = "package"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix                   SubscriptionPriceIntervalsParamsAddPriceModelType = "matrix"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation     SubscriptionPriceIntervalsParamsAddPriceModelType = "matrix_with_allocation"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered                   SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps                SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_bps"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeBps                      SubscriptionPriceIntervalsParamsAddPriceModelType = "bps"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps                  SubscriptionPriceIntervalsParamsAddPriceModelType = "bulk_bps"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk                     SubscriptionPriceIntervalsParamsAddPriceModelType = "bulk"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount     SubscriptionPriceIntervalsParamsAddPriceModelType = "threshold_total_amount"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage            SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered            SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_tiered"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum        SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_with_minimum"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation    SubscriptionPriceIntervalsParamsAddPriceModelType = "package_with_allocation"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package_with_minimum"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent          SubscriptionPriceIntervalsParamsAddPriceModelType = "unit_with_percent"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsEdit struct {
 	// The id of the price interval to edit.
 	PriceIntervalID param.Field[string] `json:"price_interval_id,required"`
@@ -5358,14 +5648,14 @@ type SubscriptionPriceIntervalsParamsEdit struct {
 	BillingCycleDay param.Field[int64] `json:"billing_cycle_day"`
 	// The updated end date of this price interval. If not specified, the start date
 	// will not be updated.
-	EndDate param.Field[SubscriptionPriceIntervalsParamsEditEndDate] `json:"end_date" format:"date-time"`
+	EndDate param.Field[SubscriptionPriceIntervalsParamsEditEndDateUnion] `json:"end_date" format:"date-time"`
 	// A list of fixed fee quantity transitions to use for this price interval. Note
 	// that this list will overwrite all existing fixed fee quantity transitions on the
 	// price interval.
 	FixedFeeQuantityTransitions param.Field[[]SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition] `json:"fixed_fee_quantity_transitions"`
 	// The updated start date of this price interval. If not specified, the start date
 	// will not be updated.
-	StartDate param.Field[SubscriptionPriceIntervalsParamsEditStartDate] `json:"start_date" format:"date-time"`
+	StartDate param.Field[SubscriptionPriceIntervalsParamsEditStartDateUnion] `json:"start_date" format:"date-time"`
 }
 
 func (r SubscriptionPriceIntervalsParamsEdit) MarshalJSON() (data []byte, err error) {
@@ -5377,8 +5667,8 @@ func (r SubscriptionPriceIntervalsParamsEdit) MarshalJSON() (data []byte, err er
 //
 // Satisfied by [shared.UnionTime],
 // [SubscriptionPriceIntervalsParamsEditEndDateString].
-type SubscriptionPriceIntervalsParamsEditEndDate interface {
-	ImplementsSubscriptionPriceIntervalsParamsEditEndDate()
+type SubscriptionPriceIntervalsParamsEditEndDateUnion interface {
+	ImplementsSubscriptionPriceIntervalsParamsEditEndDateUnion()
 }
 
 type SubscriptionPriceIntervalsParamsEditEndDateString string
@@ -5412,8 +5702,8 @@ func (r SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition) MarshalJ
 //
 // Satisfied by [shared.UnionTime],
 // [SubscriptionPriceIntervalsParamsEditStartDateString].
-type SubscriptionPriceIntervalsParamsEditStartDate interface {
-	ImplementsSubscriptionPriceIntervalsParamsEditStartDate()
+type SubscriptionPriceIntervalsParamsEditStartDateUnion interface {
+	ImplementsSubscriptionPriceIntervalsParamsEditStartDateUnion()
 }
 
 type SubscriptionPriceIntervalsParamsEditStartDateString string
@@ -5462,7 +5752,7 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`
 	// Optionally provide a list of overrides for prices on the plan
-	PriceOverrides param.Field[[]SubscriptionSchedulePlanChangeParamsPriceOverride] `json:"price_overrides"`
+	PriceOverrides param.Field[[]SubscriptionSchedulePlanChangeParamsPriceOverrideUnion] `json:"price_overrides"`
 }
 
 func (r SubscriptionSchedulePlanChangeParams) MarshalJSON() (data []byte, err error) {
@@ -5504,6 +5794,38 @@ func (r SubscriptionSchedulePlanChangeParamsBillingCycleAlignment) IsKnown() boo
 	return false
 }
 
+type SubscriptionSchedulePlanChangeParamsPriceOverride struct {
+	ID        param.Field[string]                                                      `json:"id,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesModelType] `json:"model_type,required"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string]      `json:"maximum_amount"`
+	Discount      param.Field[interface{}] `json:"discount,required"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity          param.Field[float64]     `json:"fixed_price_quantity"`
+	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
+	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config,required"`
+	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
+	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
+	BpsConfig                   param.Field[interface{}] `json:"bps_config,required"`
+	BulkBpsConfig               param.Field[interface{}] `json:"bulk_bps_config,required"`
+	BulkConfig                  param.Field[interface{}] `json:"bulk_config,required"`
+	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
+	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
+	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
+	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverride) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverride) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
+}
+
 // Satisfied by
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePrice],
@@ -5517,9 +5839,10 @@ func (r SubscriptionSchedulePlanChangeParamsBillingCycleAlignment) IsKnown() boo
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPrice],
-// [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPrice].
-type SubscriptionSchedulePlanChangeParamsPriceOverride interface {
-	implementsSubscriptionSchedulePlanChangeParamsPriceOverride()
+// [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPrice],
+// [SubscriptionSchedulePlanChangeParamsPriceOverride].
+type SubscriptionSchedulePlanChangeParamsPriceOverrideUnion interface {
+	implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion()
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice struct {
@@ -5540,7 +5863,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice) Mar
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelType string
@@ -5623,7 +5946,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePrice) 
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelType string
@@ -5709,7 +6032,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPrice) M
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrixConfig struct {
@@ -5809,7 +6132,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPrice) M
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelType string
@@ -5905,7 +6228,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPrice
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelType string
@@ -6004,7 +6327,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPrice) Mars
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceBpsConfig struct {
@@ -6089,7 +6412,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPrice) 
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceBulkBpsConfig struct {
@@ -6186,7 +6509,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPrice) Mar
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceBulkConfig struct {
@@ -6280,7 +6603,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotal
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType string
@@ -6354,7 +6677,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackageP
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelType string
@@ -6428,7 +6751,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMini
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelType string
@@ -6502,7 +6825,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAll
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelType string
@@ -6576,7 +6899,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercen
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverride() {
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
 }
 
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceModelType string
@@ -6627,6 +6950,32 @@ const (
 func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType) IsKnown() bool {
 	switch r {
 	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnit                  SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "unit"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackage               SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "package"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeMatrix                SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "matrix"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTiered                SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "tiered"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredBps             SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "tiered_bps"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBps                   SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "bps"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkBps               SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "bulk_bps"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulk                  SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "bulk"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeThresholdTotalAmount  SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "threshold_total_amount"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredPackage         SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "tiered_package"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithMinimum     SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "tiered_with_minimum"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackageWithAllocation SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "package_with_allocation"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithPercent       SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "unit_with_percent"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnit, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeMatrix, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTiered, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulk, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithPercent:
 		return true
 	}
 	return false
