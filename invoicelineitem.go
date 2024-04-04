@@ -408,16 +408,59 @@ func (r invoiceLineItemNewResponseMinimumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceLineItemNewResponseSubLineItem struct {
+	// The total amount for this sub line item.
+	Amount       string                                     `json:"amount,required"`
+	Name         string                                     `json:"name,required"`
+	Quantity     float64                                    `json:"quantity,required"`
+	Grouping     interface{}                                `json:"grouping"`
+	Type         InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
+	MatrixConfig interface{}                                `json:"matrix_config,required"`
+	TierConfig   interface{}                                `json:"tier_config,required"`
+	JSON         invoiceLineItemNewResponseSubLineItemJSON  `json:"-"`
+	union        InvoiceLineItemNewResponseSubLineItemsUnion
+}
+
+// invoiceLineItemNewResponseSubLineItemJSON contains the JSON metadata for the
+// struct [InvoiceLineItemNewResponseSubLineItem]
+type invoiceLineItemNewResponseSubLineItemJSON struct {
+	Amount       apijson.Field
+	Name         apijson.Field
+	Quantity     apijson.Field
+	Grouping     apijson.Field
+	Type         apijson.Field
+	MatrixConfig apijson.Field
+	TierConfig   apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r invoiceLineItemNewResponseSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *InvoiceLineItemNewResponseSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r InvoiceLineItemNewResponseSubLineItem) AsUnion() InvoiceLineItemNewResponseSubLineItemsUnion {
+	return r.union
+}
+
 // Union satisfied by [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem],
 // [InvoiceLineItemNewResponseSubLineItemsTierSubLineItem] or
 // [InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem].
-type InvoiceLineItemNewResponseSubLineItem interface {
+type InvoiceLineItemNewResponseSubLineItemsUnion interface {
 	implementsInvoiceLineItemNewResponseSubLineItem()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*InvoiceLineItemNewResponseSubLineItem)(nil)).Elem(),
+		reflect.TypeOf((*InvoiceLineItemNewResponseSubLineItemsUnion)(nil)).Elem(),
 		"type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -702,6 +745,22 @@ const (
 func (r InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemType) IsKnown() bool {
 	switch r {
 	case InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemTypeNull:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemNewResponseSubLineItemsType string
+
+const (
+	InvoiceLineItemNewResponseSubLineItemsTypeMatrix InvoiceLineItemNewResponseSubLineItemsType = "matrix"
+	InvoiceLineItemNewResponseSubLineItemsTypeTier   InvoiceLineItemNewResponseSubLineItemsType = "tier"
+	InvoiceLineItemNewResponseSubLineItemsTypeNull   InvoiceLineItemNewResponseSubLineItemsType = "'null'"
+)
+
+func (r InvoiceLineItemNewResponseSubLineItemsType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseSubLineItemsTypeMatrix, InvoiceLineItemNewResponseSubLineItemsTypeTier, InvoiceLineItemNewResponseSubLineItemsTypeNull:
 		return true
 	}
 	return false

@@ -8,19 +8,19 @@ import (
 
 type UnionTime time.Time
 
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddStartDate()  {}
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddEndDate()    {}
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditEndDate()   {}
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditStartDate() {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()  {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()    {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditEndDateUnion()   {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditStartDateUnion() {}
 
 type UnionString string
 
-func (UnionString) ImplementsEvaluatePriceGroupGroupingValue() {}
+func (UnionString) ImplementsEvaluatePriceGroupGroupingValuesUnion() {}
 
 type UnionBool bool
 
-func (UnionBool) ImplementsEvaluatePriceGroupGroupingValue() {}
+func (UnionBool) ImplementsEvaluatePriceGroupGroupingValuesUnion() {}
 
 type UnionFloat float64
 
-func (UnionFloat) ImplementsEvaluatePriceGroupGroupingValue() {}
+func (UnionFloat) ImplementsEvaluatePriceGroupGroupingValuesUnion() {}

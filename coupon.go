@@ -149,15 +149,55 @@ func (r couponJSON) RawJSON() string {
 	return r.raw
 }
 
+type CouponDiscount struct {
+	DiscountType      CouponDiscountDiscountType `json:"discount_type,required"`
+	AppliesToPriceIDs interface{}                `json:"applies_to_price_ids"`
+	Reason            string                     `json:"reason,nullable"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string             `json:"amount_discount"`
+	JSON           couponDiscountJSON `json:"-"`
+	union          CouponDiscountUnion
+}
+
+// couponDiscountJSON contains the JSON metadata for the struct [CouponDiscount]
+type couponDiscountJSON struct {
+	DiscountType       apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	PercentageDiscount apijson.Field
+	AmountDiscount     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r couponDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *CouponDiscount) UnmarshalJSON(data []byte) (err error) {
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+func (r CouponDiscount) AsUnion() CouponDiscountUnion {
+	return r.union
+}
+
 // Union satisfied by [CouponDiscountPercentageDiscount] or
 // [CouponDiscountAmountDiscount].
-type CouponDiscount interface {
+type CouponDiscountUnion interface {
 	implementsCouponDiscount()
 }
 
 func init() {
 	apijson.RegisterUnion(
-		reflect.TypeOf((*CouponDiscount)(nil)).Elem(),
+		reflect.TypeOf((*CouponDiscountUnion)(nil)).Elem(),
 		"discount_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -265,8 +305,23 @@ func (r CouponDiscountAmountDiscountDiscountType) IsKnown() bool {
 	return false
 }
 
+type CouponDiscountDiscountType string
+
+const (
+	CouponDiscountDiscountTypePercentage CouponDiscountDiscountType = "percentage"
+	CouponDiscountDiscountTypeAmount     CouponDiscountDiscountType = "amount"
+)
+
+func (r CouponDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case CouponDiscountDiscountTypePercentage, CouponDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type CouponNewParams struct {
-	Discount param.Field[CouponNewParamsDiscount] `json:"discount,required"`
+	Discount param.Field[CouponNewParamsDiscountUnion] `json:"discount,required"`
 	// This string can be used to redeem this coupon for a given subscription.
 	RedemptionCode param.Field[string] `json:"redemption_code,required"`
 	// This allows for a coupon's discount to apply for a limited time (determined in
@@ -281,10 +336,27 @@ func (r CouponNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
+type CouponNewParamsDiscount struct {
+	DiscountType      param.Field[CouponNewParamsDiscountDiscountType] `json:"discount_type,required"`
+	AppliesToPriceIDs param.Field[interface{}]                         `json:"applies_to_price_ids"`
+	Reason            param.Field[string]                              `json:"reason"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+}
+
+func (r CouponNewParamsDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CouponNewParamsDiscount) implementsCouponNewParamsDiscountUnion() {}
+
 // Satisfied by [CouponNewParamsDiscountPercentageDiscount],
-// [CouponNewParamsDiscountAmountDiscount].
-type CouponNewParamsDiscount interface {
-	implementsCouponNewParamsDiscount()
+// [CouponNewParamsDiscountAmountDiscount], [CouponNewParamsDiscount].
+type CouponNewParamsDiscountUnion interface {
+	implementsCouponNewParamsDiscountUnion()
 }
 
 type CouponNewParamsDiscountPercentageDiscount struct {
@@ -302,7 +374,7 @@ func (r CouponNewParamsDiscountPercentageDiscount) MarshalJSON() (data []byte, e
 	return apijson.MarshalRoot(r)
 }
 
-func (r CouponNewParamsDiscountPercentageDiscount) implementsCouponNewParamsDiscount() {}
+func (r CouponNewParamsDiscountPercentageDiscount) implementsCouponNewParamsDiscountUnion() {}
 
 type CouponNewParamsDiscountPercentageDiscountDiscountType string
 
@@ -332,7 +404,7 @@ func (r CouponNewParamsDiscountAmountDiscount) MarshalJSON() (data []byte, err e
 	return apijson.MarshalRoot(r)
 }
 
-func (r CouponNewParamsDiscountAmountDiscount) implementsCouponNewParamsDiscount() {}
+func (r CouponNewParamsDiscountAmountDiscount) implementsCouponNewParamsDiscountUnion() {}
 
 type CouponNewParamsDiscountAmountDiscountDiscountType string
 
@@ -343,6 +415,21 @@ const (
 func (r CouponNewParamsDiscountAmountDiscountDiscountType) IsKnown() bool {
 	switch r {
 	case CouponNewParamsDiscountAmountDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type CouponNewParamsDiscountDiscountType string
+
+const (
+	CouponNewParamsDiscountDiscountTypePercentage CouponNewParamsDiscountDiscountType = "percentage"
+	CouponNewParamsDiscountDiscountTypeAmount     CouponNewParamsDiscountDiscountType = "amount"
+)
+
+func (r CouponNewParamsDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case CouponNewParamsDiscountDiscountTypePercentage, CouponNewParamsDiscountDiscountTypeAmount:
 		return true
 	}
 	return false
