@@ -29,7 +29,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 	_, err := client.Plans.New(context.TODO(), orb.PlanNewParams{
 		Currency: orb.F("string"),
 		Name:     orb.F("string"),
-		Prices: orb.F([]orb.PlanNewParamsPrice{orb.PlanNewParamsPricesNewPlanUnitPrice(orb.PlanNewParamsPricesNewPlanUnitPrice{
+		Prices: orb.F([]orb.PlanNewParamsPriceUnion{orb.PlanNewParamsPricesNewPlanUnitPrice{
 			ExternalPriceID:    orb.F("string"),
 			Name:               orb.F("Annual fee"),
 			BillableMetricID:   orb.F("string"),
@@ -42,7 +42,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			UnitConfig: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceUnitConfig{
 				UnitAmount: orb.F("string"),
 			}),
-		})}),
+		}}),
 		DefaultInvoiceMemo: orb.F("string"),
 		ExternalPlanID:     orb.F("string"),
 		Metadata: orb.F(map[string]string{
