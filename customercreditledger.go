@@ -5145,8 +5145,8 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
-	// Can only be specified when entry_type=increment. How much, in USD, a customer
-	// paid for a single credit in this block
+	// Can only be specified when entry_type=increment. How much, in the customer's
+	// currency, a customer paid for a single credit in this block
 	PerUnitCostBasis param.Field[string] `json:"per_unit_cost_basis"`
 }
 
@@ -5418,8 +5418,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
-	// Can only be specified when entry_type=increment. How much, in USD, a customer
-	// paid for a single credit in this block
+	// Can only be specified when entry_type=increment. How much, in the customer's
+	// currency, a customer paid for a single credit in this block
 	PerUnitCostBasis param.Field[string] `json:"per_unit_cost_basis"`
 }
 
