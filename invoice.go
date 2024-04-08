@@ -262,7 +262,8 @@ type Invoice struct {
 	// account or customer.
 	InvoiceNumber string `json:"invoice_number,required"`
 	// The link to download the PDF representation of the `Invoice`.
-	InvoicePdf string `json:"invoice_pdf,required,nullable"`
+	InvoicePdf    string               `json:"invoice_pdf,required,nullable"`
+	InvoiceSource InvoiceInvoiceSource `json:"invoice_source,required"`
 	// If the invoice failed to issue, this will be the last time it failed to issue
 	// (even if it is now in a different state.)
 	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
@@ -335,6 +336,7 @@ type invoiceJSON struct {
 	InvoiceDate                 apijson.Field
 	InvoiceNumber               apijson.Field
 	InvoicePdf                  apijson.Field
+	InvoiceSource               apijson.Field
 	IssueFailedAt               apijson.Field
 	IssuedAt                    apijson.Field
 	LineItems                   apijson.Field
@@ -863,6 +865,22 @@ const (
 func (r InvoiceCustomerTaxIDType) IsKnown() bool {
 	switch r {
 	case InvoiceCustomerTaxIDTypeAdNrt, InvoiceCustomerTaxIDTypeAeTrn, InvoiceCustomerTaxIDTypeEuVat, InvoiceCustomerTaxIDTypeAuAbn, InvoiceCustomerTaxIDTypeAuArn, InvoiceCustomerTaxIDTypeBgUic, InvoiceCustomerTaxIDTypeBrCnpj, InvoiceCustomerTaxIDTypeBrCpf, InvoiceCustomerTaxIDTypeCaBn, InvoiceCustomerTaxIDTypeCaGstHst, InvoiceCustomerTaxIDTypeCaPstBc, InvoiceCustomerTaxIDTypeCaPstMB, InvoiceCustomerTaxIDTypeCaPstSk, InvoiceCustomerTaxIDTypeCaQst, InvoiceCustomerTaxIDTypeChVat, InvoiceCustomerTaxIDTypeClTin, InvoiceCustomerTaxIDTypeEgTin, InvoiceCustomerTaxIDTypeEsCif, InvoiceCustomerTaxIDTypeEuOssVat, InvoiceCustomerTaxIDTypeGBVat, InvoiceCustomerTaxIDTypeGeVat, InvoiceCustomerTaxIDTypeHkBr, InvoiceCustomerTaxIDTypeHuTin, InvoiceCustomerTaxIDTypeIDNpwp, InvoiceCustomerTaxIDTypeIlVat, InvoiceCustomerTaxIDTypeInGst, InvoiceCustomerTaxIDTypeIsVat, InvoiceCustomerTaxIDTypeJpCn, InvoiceCustomerTaxIDTypeJpRn, InvoiceCustomerTaxIDTypeJpTrn, InvoiceCustomerTaxIDTypeKePin, InvoiceCustomerTaxIDTypeKrBrn, InvoiceCustomerTaxIDTypeLiUid, InvoiceCustomerTaxIDTypeMxRfc, InvoiceCustomerTaxIDTypeMyFrp, InvoiceCustomerTaxIDTypeMyItn, InvoiceCustomerTaxIDTypeMySst, InvoiceCustomerTaxIDTypeNoVat, InvoiceCustomerTaxIDTypeNzGst, InvoiceCustomerTaxIDTypePhTin, InvoiceCustomerTaxIDTypeRuInn, InvoiceCustomerTaxIDTypeRuKpp, InvoiceCustomerTaxIDTypeSaVat, InvoiceCustomerTaxIDTypeSgGst, InvoiceCustomerTaxIDTypeSgUen, InvoiceCustomerTaxIDTypeSiTin, InvoiceCustomerTaxIDTypeThVat, InvoiceCustomerTaxIDTypeTrTin, InvoiceCustomerTaxIDTypeTwVat, InvoiceCustomerTaxIDTypeUaVat, InvoiceCustomerTaxIDTypeUsEin, InvoiceCustomerTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}
+
+type InvoiceInvoiceSource string
+
+const (
+	InvoiceInvoiceSourceSubscription InvoiceInvoiceSource = "subscription"
+	InvoiceInvoiceSourcePartial      InvoiceInvoiceSource = "partial"
+	InvoiceInvoiceSourceOneOff       InvoiceInvoiceSource = "one_off"
+)
+
+func (r InvoiceInvoiceSource) IsKnown() bool {
+	switch r {
+	case InvoiceInvoiceSourceSubscription, InvoiceInvoiceSourcePartial, InvoiceInvoiceSourceOneOff:
 		return true
 	}
 	return false
@@ -1846,7 +1864,8 @@ type InvoiceFetchUpcomingResponse struct {
 	// account or customer.
 	InvoiceNumber string `json:"invoice_number,required"`
 	// The link to download the PDF representation of the `Invoice`.
-	InvoicePdf string `json:"invoice_pdf,required,nullable"`
+	InvoicePdf    string                                    `json:"invoice_pdf,required,nullable"`
+	InvoiceSource InvoiceFetchUpcomingResponseInvoiceSource `json:"invoice_source,required"`
 	// If the invoice failed to issue, this will be the last time it failed to issue
 	// (even if it is now in a different state.)
 	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
@@ -1921,6 +1940,7 @@ type invoiceFetchUpcomingResponseJSON struct {
 	HostedInvoiceURL            apijson.Field
 	InvoiceNumber               apijson.Field
 	InvoicePdf                  apijson.Field
+	InvoiceSource               apijson.Field
 	IssueFailedAt               apijson.Field
 	IssuedAt                    apijson.Field
 	LineItems                   apijson.Field
@@ -2453,6 +2473,22 @@ const (
 func (r InvoiceFetchUpcomingResponseCustomerTaxIDType) IsKnown() bool {
 	switch r {
 	case InvoiceFetchUpcomingResponseCustomerTaxIDTypeAdNrt, InvoiceFetchUpcomingResponseCustomerTaxIDTypeAeTrn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEuVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeAuAbn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeAuArn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeBgUic, InvoiceFetchUpcomingResponseCustomerTaxIDTypeBrCnpj, InvoiceFetchUpcomingResponseCustomerTaxIDTypeBrCpf, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaBn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaGstHst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaPstBc, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaPstMB, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaPstSk, InvoiceFetchUpcomingResponseCustomerTaxIDTypeCaQst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeChVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeClTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEgTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEsCif, InvoiceFetchUpcomingResponseCustomerTaxIDTypeEuOssVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeGBVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeGeVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeHkBr, InvoiceFetchUpcomingResponseCustomerTaxIDTypeHuTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeIDNpwp, InvoiceFetchUpcomingResponseCustomerTaxIDTypeIlVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeInGst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeIsVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeJpCn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeJpRn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeJpTrn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeKePin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeKrBrn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeLiUid, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMxRfc, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMyFrp, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMyItn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeMySst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeNoVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeNzGst, InvoiceFetchUpcomingResponseCustomerTaxIDTypePhTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeRuInn, InvoiceFetchUpcomingResponseCustomerTaxIDTypeRuKpp, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSaVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSgGst, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSgUen, InvoiceFetchUpcomingResponseCustomerTaxIDTypeSiTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeThVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeTrTin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeTwVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeUaVat, InvoiceFetchUpcomingResponseCustomerTaxIDTypeUsEin, InvoiceFetchUpcomingResponseCustomerTaxIDTypeZaVat:
+		return true
+	}
+	return false
+}
+
+type InvoiceFetchUpcomingResponseInvoiceSource string
+
+const (
+	InvoiceFetchUpcomingResponseInvoiceSourceSubscription InvoiceFetchUpcomingResponseInvoiceSource = "subscription"
+	InvoiceFetchUpcomingResponseInvoiceSourcePartial      InvoiceFetchUpcomingResponseInvoiceSource = "partial"
+	InvoiceFetchUpcomingResponseInvoiceSourceOneOff       InvoiceFetchUpcomingResponseInvoiceSource = "one_off"
+)
+
+func (r InvoiceFetchUpcomingResponseInvoiceSource) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseInvoiceSourceSubscription, InvoiceFetchUpcomingResponseInvoiceSourcePartial, InvoiceFetchUpcomingResponseInvoiceSourceOneOff:
 		return true
 	}
 	return false
