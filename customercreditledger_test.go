@@ -74,9 +74,10 @@ func TestCustomerCreditLedgerNewEntryWithOptionalParams(t *testing.T) {
 			EffectiveDate: orb.F(time.Now()),
 			ExpiryDate:    orb.F(time.Now()),
 			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
-				AutoCollection: orb.F(true),
-				NetTerms:       orb.F(int64(0)),
-				Memo:           orb.F("string"),
+				AutoCollection:           orb.F(true),
+				NetTerms:                 orb.F(int64(0)),
+				Memo:                     orb.F("string"),
+				RequireSuccessfulPayment: orb.F(true),
 			}),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
@@ -116,9 +117,10 @@ func TestCustomerCreditLedgerNewEntryByExternalIDWithOptionalParams(t *testing.T
 			EffectiveDate: orb.F(time.Now()),
 			ExpiryDate:    orb.F(time.Now()),
 			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
-				AutoCollection: orb.F(true),
-				NetTerms:       orb.F(int64(0)),
-				Memo:           orb.F("string"),
+				AutoCollection:           orb.F(true),
+				NetTerms:                 orb.F(int64(0)),
+				Memo:                     orb.F("string"),
+				RequireSuccessfulPayment: orb.F(true),
 			}),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
