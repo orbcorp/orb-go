@@ -181,18 +181,22 @@ type CustomerCreditTopUpNewResponseInvoiceSettings struct {
 	// to 0.
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
-	Memo string                                            `json:"memo,nullable"`
-	JSON customerCreditTopUpNewResponseInvoiceSettingsJSON `json:"-"`
+	Memo string `json:"memo,nullable"`
+	// If true, new credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they can be drawn down from.
+	RequireSuccessfulPayment bool                                              `json:"require_successful_payment"`
+	JSON                     customerCreditTopUpNewResponseInvoiceSettingsJSON `json:"-"`
 }
 
 // customerCreditTopUpNewResponseInvoiceSettingsJSON contains the JSON metadata for
 // the struct [CustomerCreditTopUpNewResponseInvoiceSettings]
 type customerCreditTopUpNewResponseInvoiceSettingsJSON struct {
-	AutoCollection apijson.Field
-	NetTerms       apijson.Field
-	Memo           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AutoCollection           apijson.Field
+	NetTerms                 apijson.Field
+	Memo                     apijson.Field
+	RequireSuccessfulPayment apijson.Field
+	raw                      string
+	ExtraFields              map[string]apijson.Field
 }
 
 func (r *CustomerCreditTopUpNewResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
@@ -274,18 +278,22 @@ type CustomerCreditTopUpListResponseInvoiceSettings struct {
 	// to 0.
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
-	Memo string                                             `json:"memo,nullable"`
-	JSON customerCreditTopUpListResponseInvoiceSettingsJSON `json:"-"`
+	Memo string `json:"memo,nullable"`
+	// If true, new credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they can be drawn down from.
+	RequireSuccessfulPayment bool                                               `json:"require_successful_payment"`
+	JSON                     customerCreditTopUpListResponseInvoiceSettingsJSON `json:"-"`
 }
 
 // customerCreditTopUpListResponseInvoiceSettingsJSON contains the JSON metadata
 // for the struct [CustomerCreditTopUpListResponseInvoiceSettings]
 type customerCreditTopUpListResponseInvoiceSettingsJSON struct {
-	AutoCollection apijson.Field
-	NetTerms       apijson.Field
-	Memo           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AutoCollection           apijson.Field
+	NetTerms                 apijson.Field
+	Memo                     apijson.Field
+	RequireSuccessfulPayment apijson.Field
+	raw                      string
+	ExtraFields              map[string]apijson.Field
 }
 
 func (r *CustomerCreditTopUpListResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
@@ -367,19 +375,23 @@ type CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings struct {
 	// to 0.
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
-	Memo string                                                        `json:"memo,nullable"`
-	JSON customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON `json:"-"`
+	Memo string `json:"memo,nullable"`
+	// If true, new credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they can be drawn down from.
+	RequireSuccessfulPayment bool                                                          `json:"require_successful_payment"`
+	JSON                     customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON `json:"-"`
 }
 
 // customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON contains the JSON
 // metadata for the struct
 // [CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings]
 type customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON struct {
-	AutoCollection apijson.Field
-	NetTerms       apijson.Field
-	Memo           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AutoCollection           apijson.Field
+	NetTerms                 apijson.Field
+	Memo                     apijson.Field
+	RequireSuccessfulPayment apijson.Field
+	raw                      string
+	ExtraFields              map[string]apijson.Field
 }
 
 func (r *CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
@@ -461,19 +473,23 @@ type CustomerCreditTopUpListByExternalIDResponseInvoiceSettings struct {
 	// to 0.
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
-	Memo string                                                         `json:"memo,nullable"`
-	JSON customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON `json:"-"`
+	Memo string `json:"memo,nullable"`
+	// If true, new credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they can be drawn down from.
+	RequireSuccessfulPayment bool                                                           `json:"require_successful_payment"`
+	JSON                     customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON `json:"-"`
 }
 
 // customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON contains the JSON
 // metadata for the struct
 // [CustomerCreditTopUpListByExternalIDResponseInvoiceSettings]
 type customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON struct {
-	AutoCollection apijson.Field
-	NetTerms       apijson.Field
-	Memo           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AutoCollection           apijson.Field
+	NetTerms                 apijson.Field
+	Memo                     apijson.Field
+	RequireSuccessfulPayment apijson.Field
+	raw                      string
+	ExtraFields              map[string]apijson.Field
 }
 
 func (r *CustomerCreditTopUpListByExternalIDResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
@@ -535,6 +551,9 @@ type CustomerCreditTopUpNewParamsInvoiceSettings struct {
 	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
+	// If true, new credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they can be drawn down from.
+	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
 }
 
 func (r CustomerCreditTopUpNewParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
@@ -609,6 +628,9 @@ type CustomerCreditTopUpNewByExternalIDParamsInvoiceSettings struct {
 	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
+	// If true, new credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they can be drawn down from.
+	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
 }
 
 func (r CustomerCreditTopUpNewByExternalIDParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {

@@ -5186,6 +5186,9 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
+	// If true, the new credit block will require that the corresponding invoice is
+	// paid before it can be drawn down from.
+	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
 }
 
 func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
@@ -5459,6 +5462,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
+	// If true, the new credit block will require that the corresponding invoice is
+	// paid before it can be drawn down from.
+	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
 }
 
 func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
