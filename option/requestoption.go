@@ -5,6 +5,7 @@ package option
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -187,6 +188,26 @@ func WithResponseInto(dst **http.Response) RequestOption {
 	return func(r *requestconfig.RequestConfig) error {
 		r.ResponseInto = dst
 		return nil
+	}
+}
+
+// WithRequestBody returns a RequestOption that provides a custom serialized body with the given
+// content type.
+//
+// body accepts an io.Reader or raw []bytes.
+func WithRequestBody(contentType string, body any) RequestOption {
+	return func(r *requestconfig.RequestConfig) error {
+		if reader, ok := body.(io.Reader); ok {
+			r.Body = reader
+			return r.Apply(WithHeader("Content-Type", contentType))
+		}
+
+		if b, ok := body.([]byte); ok {
+			r.Body = bytes.NewBuffer(b)
+			return r.Apply(WithHeader("Content-Type", contentType))
+		}
+
+		return fmt.Errorf("body must be a byte slice or implement io.Reader")
 	}
 }
 
