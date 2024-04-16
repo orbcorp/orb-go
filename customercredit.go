@@ -87,6 +87,7 @@ func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, 
 type CustomerCreditListResponse struct {
 	ID               string                           `json:"id,required"`
 	Balance          float64                          `json:"balance,required"`
+	EffectiveDate    time.Time                        `json:"effective_date,required,nullable" format:"date-time"`
 	ExpiryDate       time.Time                        `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string                           `json:"per_unit_cost_basis,required,nullable"`
 	Status           CustomerCreditListResponseStatus `json:"status,required"`
@@ -98,6 +99,7 @@ type CustomerCreditListResponse struct {
 type customerCreditListResponseJSON struct {
 	ID               apijson.Field
 	Balance          apijson.Field
+	EffectiveDate    apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
 	Status           apijson.Field
@@ -131,6 +133,7 @@ func (r CustomerCreditListResponseStatus) IsKnown() bool {
 type CustomerCreditListByExternalIDResponse struct {
 	ID               string                                       `json:"id,required"`
 	Balance          float64                                      `json:"balance,required"`
+	EffectiveDate    time.Time                                    `json:"effective_date,required,nullable" format:"date-time"`
 	ExpiryDate       time.Time                                    `json:"expiry_date,required,nullable" format:"date-time"`
 	PerUnitCostBasis string                                       `json:"per_unit_cost_basis,required,nullable"`
 	Status           CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
@@ -142,6 +145,7 @@ type CustomerCreditListByExternalIDResponse struct {
 type customerCreditListByExternalIDResponseJSON struct {
 	ID               apijson.Field
 	Balance          apijson.Field
+	EffectiveDate    apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
 	Status           apijson.Field
