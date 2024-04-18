@@ -298,3 +298,26 @@ func (r DiscountDiscountType) IsKnown() bool {
 	}
 	return false
 }
+
+type PaginationMetadata struct {
+	HasMore    bool                   `json:"has_more,required"`
+	NextCursor string                 `json:"next_cursor,required,nullable"`
+	JSON       paginationMetadataJSON `json:"-"`
+}
+
+// paginationMetadataJSON contains the JSON metadata for the struct
+// [PaginationMetadata]
+type paginationMetadataJSON struct {
+	HasMore     apijson.Field
+	NextCursor  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PaginationMetadata) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r paginationMetadataJSON) RawJSON() string {
+	return r.raw
+}

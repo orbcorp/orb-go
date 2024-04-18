@@ -1,6 +1,7 @@
 # Shared Response Types
 
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared#Discount">Discount</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared#PaginationMetadata">PaginationMetadata</a>
 
 # TopLevel
 
