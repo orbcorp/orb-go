@@ -15,6 +15,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
+	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/tidwall/gjson"
 )
@@ -1881,9 +1882,9 @@ func (r subscriptionTrialInfoJSON) RawJSON() string {
 }
 
 type SubscriptionUsage struct {
-	Data               interface{}           `json:"data"`
-	PaginationMetadata interface{}           `json:"pagination_metadata,required"`
-	JSON               subscriptionUsageJSON `json:"-"`
+	Data               interface{}               `json:"data"`
+	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata,nullable"`
+	JSON               subscriptionUsageJSON     `json:"-"`
 	union              SubscriptionUsageUnion
 }
 
@@ -2046,9 +2047,9 @@ func (r SubscriptionUsageUngroupedSubscriptionUsageDataViewMode) IsKnown() bool 
 }
 
 type SubscriptionUsageGroupedSubscriptionUsage struct {
-	Data               []SubscriptionUsageGroupedSubscriptionUsageData             `json:"data,required"`
-	PaginationMetadata SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata `json:"pagination_metadata,nullable"`
-	JSON               subscriptionUsageGroupedSubscriptionUsageJSON               `json:"-"`
+	Data               []SubscriptionUsageGroupedSubscriptionUsageData `json:"data,required"`
+	PaginationMetadata shared.PaginationMetadata                       `json:"pagination_metadata,nullable"`
+	JSON               subscriptionUsageGroupedSubscriptionUsageJSON   `json:"-"`
 }
 
 // subscriptionUsageGroupedSubscriptionUsageJSON contains the JSON metadata for the
@@ -2185,34 +2186,10 @@ func (r SubscriptionUsageGroupedSubscriptionUsageDataViewMode) IsKnown() bool {
 	return false
 }
 
-type SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata struct {
-	HasMore    bool                                                            `json:"has_more,required"`
-	NextCursor string                                                          `json:"next_cursor,required,nullable"`
-	JSON       subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON `json:"-"`
-}
-
-// subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON contains the
-// JSON metadata for the struct
-// [SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata]
-type subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON struct {
-	HasMore     apijson.Field
-	NextCursor  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *SubscriptionUsageGroupedSubscriptionUsagePaginationMetadata) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r subscriptionUsageGroupedSubscriptionUsagePaginationMetadataJSON) RawJSON() string {
-	return r.raw
-}
-
 type Subscriptions struct {
-	Data               []Subscription                  `json:"data,required"`
-	PaginationMetadata SubscriptionsPaginationMetadata `json:"pagination_metadata,required"`
-	JSON               subscriptionsJSON               `json:"-"`
+	Data               []Subscription            `json:"data,required"`
+	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata,required"`
+	JSON               subscriptionsJSON         `json:"-"`
 }
 
 // subscriptionsJSON contains the JSON metadata for the struct [Subscriptions]
@@ -2228,29 +2205,6 @@ func (r *Subscriptions) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r subscriptionsJSON) RawJSON() string {
-	return r.raw
-}
-
-type SubscriptionsPaginationMetadata struct {
-	HasMore    bool                                `json:"has_more,required"`
-	NextCursor string                              `json:"next_cursor,required,nullable"`
-	JSON       subscriptionsPaginationMetadataJSON `json:"-"`
-}
-
-// subscriptionsPaginationMetadataJSON contains the JSON metadata for the struct
-// [SubscriptionsPaginationMetadata]
-type subscriptionsPaginationMetadataJSON struct {
-	HasMore     apijson.Field
-	NextCursor  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *SubscriptionsPaginationMetadata) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r subscriptionsPaginationMetadataJSON) RawJSON() string {
 	return r.raw
 }
 
