@@ -1,3 +1,7 @@
+# Shared Params Types
+
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared#BillingCycleRelativeDate">BillingCycleRelativeDate</a>
+
 # Shared Response Types
 
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared#Discount">Discount</a>

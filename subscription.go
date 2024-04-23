@@ -4075,25 +4075,9 @@ func (r SubscriptionPriceIntervalsParamsAdd) MarshalJSON() (data []byte, err err
 // The start date of the price interval. This is the date that the price will start
 // billing on the subscription.
 //
-// Satisfied by [shared.UnionTime],
-// [SubscriptionPriceIntervalsParamsAddStartDateString].
+// Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsAddStartDateUnion interface {
 	ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()
-}
-
-type SubscriptionPriceIntervalsParamsAddStartDateString string
-
-const (
-	SubscriptionPriceIntervalsParamsAddStartDateStringStartOfTerm SubscriptionPriceIntervalsParamsAddStartDateString = "start_of_term"
-	SubscriptionPriceIntervalsParamsAddStartDateStringEndOfTerm   SubscriptionPriceIntervalsParamsAddStartDateString = "end_of_term"
-)
-
-func (r SubscriptionPriceIntervalsParamsAddStartDateString) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsAddStartDateStringStartOfTerm, SubscriptionPriceIntervalsParamsAddStartDateStringEndOfTerm:
-		return true
-	}
-	return false
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscount struct {
@@ -4226,25 +4210,9 @@ func (r SubscriptionPriceIntervalsParamsAddDiscountsDiscountType) IsKnown() bool
 // The end date of the price interval. This is the date that the price will stop
 // billing on the subscription.
 //
-// Satisfied by [shared.UnionTime],
-// [SubscriptionPriceIntervalsParamsAddEndDateString].
+// Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsAddEndDateUnion interface {
 	ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()
-}
-
-type SubscriptionPriceIntervalsParamsAddEndDateString string
-
-const (
-	SubscriptionPriceIntervalsParamsAddEndDateStringStartOfTerm SubscriptionPriceIntervalsParamsAddEndDateString = "start_of_term"
-	SubscriptionPriceIntervalsParamsAddEndDateStringEndOfTerm   SubscriptionPriceIntervalsParamsAddEndDateString = "end_of_term"
-)
-
-func (r SubscriptionPriceIntervalsParamsAddEndDateString) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsAddEndDateStringStartOfTerm, SubscriptionPriceIntervalsParamsAddEndDateStringEndOfTerm:
-		return true
-	}
-	return false
 }
 
 type SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition struct {
@@ -5619,25 +5587,9 @@ func (r SubscriptionPriceIntervalsParamsEdit) MarshalJSON() (data []byte, err er
 // The updated end date of this price interval. If not specified, the start date
 // will not be updated.
 //
-// Satisfied by [shared.UnionTime],
-// [SubscriptionPriceIntervalsParamsEditEndDateString].
+// Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsEditEndDateUnion interface {
 	ImplementsSubscriptionPriceIntervalsParamsEditEndDateUnion()
-}
-
-type SubscriptionPriceIntervalsParamsEditEndDateString string
-
-const (
-	SubscriptionPriceIntervalsParamsEditEndDateStringStartOfTerm SubscriptionPriceIntervalsParamsEditEndDateString = "start_of_term"
-	SubscriptionPriceIntervalsParamsEditEndDateStringEndOfTerm   SubscriptionPriceIntervalsParamsEditEndDateString = "end_of_term"
-)
-
-func (r SubscriptionPriceIntervalsParamsEditEndDateString) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsEditEndDateStringStartOfTerm, SubscriptionPriceIntervalsParamsEditEndDateStringEndOfTerm:
-		return true
-	}
-	return false
 }
 
 type SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition struct {
@@ -5654,25 +5606,9 @@ func (r SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition) MarshalJ
 // The updated start date of this price interval. If not specified, the start date
 // will not be updated.
 //
-// Satisfied by [shared.UnionTime],
-// [SubscriptionPriceIntervalsParamsEditStartDateString].
+// Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsEditStartDateUnion interface {
 	ImplementsSubscriptionPriceIntervalsParamsEditStartDateUnion()
-}
-
-type SubscriptionPriceIntervalsParamsEditStartDateString string
-
-const (
-	SubscriptionPriceIntervalsParamsEditStartDateStringStartOfTerm SubscriptionPriceIntervalsParamsEditStartDateString = "start_of_term"
-	SubscriptionPriceIntervalsParamsEditStartDateStringEndOfTerm   SubscriptionPriceIntervalsParamsEditStartDateString = "end_of_term"
-)
-
-func (r SubscriptionPriceIntervalsParamsEditStartDateString) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsEditStartDateStringStartOfTerm, SubscriptionPriceIntervalsParamsEditStartDateStringEndOfTerm:
-		return true
-	}
-	return false
 }
 
 type SubscriptionSchedulePlanChangeParams struct {
