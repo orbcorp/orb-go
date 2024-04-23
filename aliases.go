@@ -10,6 +10,15 @@ import (
 type Error = apierror.Error
 
 // This is an alias to an internal type.
+type BillingCycleRelativeDate = shared.BillingCycleRelativeDate
+
+// This is an alias to an internal value.
+const BillingCycleRelativeDateStartOfTerm = shared.BillingCycleRelativeDateStartOfTerm
+
+// This is an alias to an internal value.
+const BillingCycleRelativeDateEndOfTerm = shared.BillingCycleRelativeDateEndOfTerm
+
+// This is an alias to an internal type.
 type Discount = shared.Discount
 
 // This is an alias to an internal type.
