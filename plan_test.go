@@ -42,6 +42,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			UnitConfig: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceUnitConfig{
 				UnitAmount: orb.F("string"),
 			}),
+			Currency: orb.F("string"),
 		}}),
 		DefaultInvoiceMemo: orb.F("string"),
 		ExternalPlanID:     orb.F("string"),

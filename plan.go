@@ -510,21 +510,24 @@ type PlanNewParamsPrice struct {
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// The cadence to bill for this price on.
-	Cadence                     param.Field[PlanNewParamsPricesCadence]   `json:"cadence,required"`
-	ModelType                   param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
-	UnitConfig                  param.Field[interface{}]                  `json:"unit_config,required"`
-	PackageConfig               param.Field[interface{}]                  `json:"package_config,required"`
-	MatrixConfig                param.Field[interface{}]                  `json:"matrix_config,required"`
-	TieredConfig                param.Field[interface{}]                  `json:"tiered_config,required"`
-	TieredBpsConfig             param.Field[interface{}]                  `json:"tiered_bps_config,required"`
-	BpsConfig                   param.Field[interface{}]                  `json:"bps_config,required"`
-	BulkBpsConfig               param.Field[interface{}]                  `json:"bulk_bps_config,required"`
-	BulkConfig                  param.Field[interface{}]                  `json:"bulk_config,required"`
-	ThresholdTotalAmountConfig  param.Field[interface{}]                  `json:"threshold_total_amount_config,required"`
-	TieredPackageConfig         param.Field[interface{}]                  `json:"tiered_package_config,required"`
-	TieredWithMinimumConfig     param.Field[interface{}]                  `json:"tiered_with_minimum_config,required"`
-	UnitWithPercentConfig       param.Field[interface{}]                  `json:"unit_with_percent_config,required"`
-	PackageWithAllocationConfig param.Field[interface{}]                  `json:"package_with_allocation_config,required"`
+	Cadence    param.Field[PlanNewParamsPricesCadence]   `json:"cadence,required"`
+	ModelType  param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
+	UnitConfig param.Field[interface{}]                  `json:"unit_config,required"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency                    param.Field[string]      `json:"currency"`
+	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config,required"`
+	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
+	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
+	BpsConfig                   param.Field[interface{}] `json:"bps_config,required"`
+	BulkBpsConfig               param.Field[interface{}] `json:"bulk_bps_config,required"`
+	BulkConfig                  param.Field[interface{}] `json:"bulk_config,required"`
+	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
+	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
+	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
+	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
 }
 
 func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
@@ -564,6 +567,9 @@ type PlanNewParamsPricesNewPlanUnitPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -635,6 +641,9 @@ type PlanNewParamsPricesNewPlanPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -709,6 +718,9 @@ type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -797,6 +809,9 @@ type PlanNewParamsPricesNewPlanTieredPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -881,6 +896,9 @@ type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -968,6 +986,9 @@ type PlanNewParamsPricesNewPlanBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1041,6 +1062,9 @@ type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1126,6 +1150,9 @@ type PlanNewParamsPricesNewPlanBulkPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1208,6 +1235,9 @@ type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1270,6 +1300,9 @@ type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1332,6 +1365,9 @@ type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1394,6 +1430,9 @@ type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1456,6 +1495,9 @@ type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
