@@ -111,6 +111,40 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 	}
 }
 
+func TestSubscriptionUpdateWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Subscriptions.Update(
+		context.TODO(),
+		"string",
+		orb.SubscriptionUpdateParams{
+			AutoCollection:     orb.F(true),
+			DefaultInvoiceMemo: orb.F("string"),
+			InvoicingThreshold: orb.F("10.00"),
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
+			NetTerms: orb.F(int64(0)),
+		},
+	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestSubscriptionListWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
