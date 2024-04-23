@@ -9,6 +9,21 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+type BillingCycleRelativeDate string
+
+const (
+	BillingCycleRelativeDateStartOfTerm BillingCycleRelativeDate = "start_of_term"
+	BillingCycleRelativeDateEndOfTerm   BillingCycleRelativeDate = "end_of_term"
+)
+
+func (r BillingCycleRelativeDate) IsKnown() bool {
+	switch r {
+	case BillingCycleRelativeDateStartOfTerm, BillingCycleRelativeDateEndOfTerm:
+		return true
+	}
+	return false
+}
+
 type Discount struct {
 	DiscountType      DiscountDiscountType `json:"discount_type,required"`
 	AppliesToPriceIDs interface{}          `json:"applies_to_price_ids"`
