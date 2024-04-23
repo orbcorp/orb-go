@@ -462,6 +462,16 @@ func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParam
 	return
 }
 
+// This endpoint can be used to update the `metadata`, `net terms`,
+// `auto_collection`, `invoicing_threshold`, and `default_invoice_memo` properties
+// on a subscription.
+func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string, body SubscriptionUpdateParams, opts ...option.RequestOption) (res *Subscription, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("subscriptions/%s", subscriptionID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // This endpoint returns a list of all subscriptions for an account as a
 // [paginated](../reference/pagination) list, ordered starting from the most
 // recently created subscription. For a full discussion of the subscription
@@ -3828,6 +3838,33 @@ func (r SubscriptionNewParamsPriceOverridesModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type SubscriptionUpdateParams struct {
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior.
+	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// Determines the default memo on this subscription's invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
+	// When this subscription's accrued usage reaches this threshold, an invoice will
+	// be issued for the subscription. If not specified, invoices will only be issued
+	// at the end of the billing period.
+	InvoicingThreshold param.Field[string] `json:"invoicing_threshold"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms param.Field[int64] `json:"net_terms"`
+}
+
+func (r SubscriptionUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type SubscriptionListParams struct {

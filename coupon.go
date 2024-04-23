@@ -337,14 +337,9 @@ func (r CouponNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type CouponNewParamsDiscount struct {
-	DiscountType      param.Field[CouponNewParamsDiscountDiscountType] `json:"discount_type,required"`
-	AppliesToPriceIDs param.Field[interface{}]                         `json:"applies_to_price_ids"`
-	Reason            param.Field[string]                              `json:"reason"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount"`
+	DiscountType       param.Field[CouponNewParamsDiscountDiscountType] `json:"discount_type,required"`
+	PercentageDiscount param.Field[float64]                             `json:"percentage_discount"`
+	AmountDiscount     param.Field[string]                              `json:"amount_discount"`
 }
 
 func (r CouponNewParamsDiscount) MarshalJSON() (data []byte, err error) {
@@ -353,68 +348,58 @@ func (r CouponNewParamsDiscount) MarshalJSON() (data []byte, err error) {
 
 func (r CouponNewParamsDiscount) implementsCouponNewParamsDiscountUnion() {}
 
-// Satisfied by [CouponNewParamsDiscountPercentageDiscount],
-// [CouponNewParamsDiscountAmountDiscount], [CouponNewParamsDiscount].
+// Satisfied by [CouponNewParamsDiscountNewCouponPercentageDiscount],
+// [CouponNewParamsDiscountNewCouponAmountDiscount], [CouponNewParamsDiscount].
 type CouponNewParamsDiscountUnion interface {
 	implementsCouponNewParamsDiscountUnion()
 }
 
-type CouponNewParamsDiscountPercentageDiscount struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                                              `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[CouponNewParamsDiscountPercentageDiscountDiscountType] `json:"discount_type,required"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount,required"`
-	Reason             param.Field[string]  `json:"reason"`
+type CouponNewParamsDiscountNewCouponPercentageDiscount struct {
+	DiscountType       param.Field[CouponNewParamsDiscountNewCouponPercentageDiscountDiscountType] `json:"discount_type,required"`
+	PercentageDiscount param.Field[float64]                                                        `json:"percentage_discount,required"`
 }
 
-func (r CouponNewParamsDiscountPercentageDiscount) MarshalJSON() (data []byte, err error) {
+func (r CouponNewParamsDiscountNewCouponPercentageDiscount) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r CouponNewParamsDiscountPercentageDiscount) implementsCouponNewParamsDiscountUnion() {}
+func (r CouponNewParamsDiscountNewCouponPercentageDiscount) implementsCouponNewParamsDiscountUnion() {
+}
 
-type CouponNewParamsDiscountPercentageDiscountDiscountType string
+type CouponNewParamsDiscountNewCouponPercentageDiscountDiscountType string
 
 const (
-	CouponNewParamsDiscountPercentageDiscountDiscountTypePercentage CouponNewParamsDiscountPercentageDiscountDiscountType = "percentage"
+	CouponNewParamsDiscountNewCouponPercentageDiscountDiscountTypePercentage CouponNewParamsDiscountNewCouponPercentageDiscountDiscountType = "percentage"
 )
 
-func (r CouponNewParamsDiscountPercentageDiscountDiscountType) IsKnown() bool {
+func (r CouponNewParamsDiscountNewCouponPercentageDiscountDiscountType) IsKnown() bool {
 	switch r {
-	case CouponNewParamsDiscountPercentageDiscountDiscountTypePercentage:
+	case CouponNewParamsDiscountNewCouponPercentageDiscountDiscountTypePercentage:
 		return true
 	}
 	return false
 }
 
-type CouponNewParamsDiscountAmountDiscount struct {
-	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount,required"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                                          `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[CouponNewParamsDiscountAmountDiscountDiscountType] `json:"discount_type,required"`
-	Reason            param.Field[string]                                            `json:"reason"`
+type CouponNewParamsDiscountNewCouponAmountDiscount struct {
+	AmountDiscount param.Field[string]                                                     `json:"amount_discount,required"`
+	DiscountType   param.Field[CouponNewParamsDiscountNewCouponAmountDiscountDiscountType] `json:"discount_type,required"`
 }
 
-func (r CouponNewParamsDiscountAmountDiscount) MarshalJSON() (data []byte, err error) {
+func (r CouponNewParamsDiscountNewCouponAmountDiscount) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r CouponNewParamsDiscountAmountDiscount) implementsCouponNewParamsDiscountUnion() {}
+func (r CouponNewParamsDiscountNewCouponAmountDiscount) implementsCouponNewParamsDiscountUnion() {}
 
-type CouponNewParamsDiscountAmountDiscountDiscountType string
+type CouponNewParamsDiscountNewCouponAmountDiscountDiscountType string
 
 const (
-	CouponNewParamsDiscountAmountDiscountDiscountTypeAmount CouponNewParamsDiscountAmountDiscountDiscountType = "amount"
+	CouponNewParamsDiscountNewCouponAmountDiscountDiscountTypeAmount CouponNewParamsDiscountNewCouponAmountDiscountDiscountType = "amount"
 )
 
-func (r CouponNewParamsDiscountAmountDiscountDiscountType) IsKnown() bool {
+func (r CouponNewParamsDiscountNewCouponAmountDiscountDiscountType) IsKnown() bool {
 	switch r {
-	case CouponNewParamsDiscountAmountDiscountDiscountTypeAmount:
+	case CouponNewParamsDiscountNewCouponAmountDiscountDiscountTypeAmount:
 		return true
 	}
 	return false
