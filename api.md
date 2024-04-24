@@ -256,12 +256,15 @@ Methods:
 
 Response Types:
 
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EvaluatePriceGroup">EvaluatePriceGroup</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Price">Price</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateResponse">PriceEvaluateResponse</a>
 
 Methods:
 
 - <code title="post /prices">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceNewParams">PriceNewParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Price">Price</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /prices">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceListParams">PriceListParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/pagination#Page">Page</a>[<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Price">Price</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /prices/{price_id}/evaluate">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.Evaluate">Evaluate</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, priceID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateParams">PriceEvaluateParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateResponse">PriceEvaluateResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /prices/{price_id}">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.Fetch">Fetch</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, priceID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Price">Price</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ## ExternalPriceID
@@ -303,16 +306,3 @@ Methods:
 Methods:
 
 - <code>client.Webhooks.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#WebhookService.VerifySignature">VerifySignature</a>(payload []byte, headers http.Header, secret string, now time.Time) <a href="https://pkg.go.dev/builtin#error">error</a></code>
-
-# Beta
-
-## Price
-
-Response Types:
-
-- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EvaluatePriceGroup">EvaluatePriceGroup</a>
-- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#BetaPriceEvaluateResponse">BetaPriceEvaluateResponse</a>
-
-Methods:
-
-- <code title="post /prices/{price_id}/evaluate">client.Beta.Price.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#BetaPriceService.Evaluate">Evaluate</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, priceID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#BetaPriceEvaluateParams">BetaPriceEvaluateParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#BetaPriceEvaluateResponse">BetaPriceEvaluateResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
