@@ -81,12 +81,97 @@ func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
+// This endpoint is used to evaluate the output of a price for a given customer and
+// time range. It enables filtering and grouping the output using
+// [computed properties](../guides/extensibility/advanced-metrics#computed-properties),
+// supporting the following workflows:
+//
+// 1. Showing detailed usage and costs to the end customer.
+// 2. Auditing subtotals on invoice line items.
+//
+// For these workflows, the expressiveness of computed properties in both the
+// filters and grouping is critical. For example, if you'd like to show your
+// customer their usage grouped by hour and another property, you can do so with
+// the following `grouping_keys`:
+// `["hour_floor_timestamp_millis(timestamp_millis)", "my_property"]`. If you'd
+// like to examine a customer's usage for a specific property value, you can do so
+// with the following `filter`:
+// `my_property = 'foo' AND my_other_property = 'bar'`.
+//
+// By default, the start of the time range must be no more than 100 days ago and
+// the length of the results must be no greater than 1000. Note that this is a POST
+// endpoint rather than a GET endpoint because it employs a JSON body rather than
+// query parameters.
+func (r *PriceService) Evaluate(ctx context.Context, priceID string, body PriceEvaluateParams, opts ...option.RequestOption) (res *PriceEvaluateResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("prices/%s/evaluate", priceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // This endpoint returns a price given an identifier.
 func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option.RequestOption) (res *Price, err error) {
 	opts = append(r.Options[:], opts...)
 	path := fmt.Sprintf("prices/%s", priceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
+}
+
+type EvaluatePriceGroup struct {
+	// The price's output for the group
+	Amount string `json:"amount,required"`
+	// The values for the group in the order specified by `grouping_keys`
+	GroupingValues []EvaluatePriceGroupGroupingValuesUnion `json:"grouping_values,required"`
+	// The price's usage quantity for the group
+	Quantity float64                `json:"quantity,required"`
+	JSON     evaluatePriceGroupJSON `json:"-"`
+}
+
+// evaluatePriceGroupJSON contains the JSON metadata for the struct
+// [EvaluatePriceGroup]
+type evaluatePriceGroupJSON struct {
+	Amount         apijson.Field
+	GroupingValues apijson.Field
+	Quantity       apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *EvaluatePriceGroup) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r evaluatePriceGroupJSON) RawJSON() string {
+	return r.raw
+}
+
+// Union satisfied by [shared.UnionString], [shared.UnionFloat] or
+// [shared.UnionBool].
+type EvaluatePriceGroupGroupingValuesUnion interface {
+	ImplementsEvaluatePriceGroupGroupingValuesUnion()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*EvaluatePriceGroupGroupingValuesUnion)(nil)).Elem(),
+		"",
+		apijson.UnionVariant{
+			TypeFilter: gjson.String,
+			Type:       reflect.TypeOf(shared.UnionString("")),
+		},
+		apijson.UnionVariant{
+			TypeFilter: gjson.Number,
+			Type:       reflect.TypeOf(shared.UnionFloat(0)),
+		},
+		apijson.UnionVariant{
+			TypeFilter: gjson.True,
+			Type:       reflect.TypeOf(shared.UnionBool(false)),
+		},
+		apijson.UnionVariant{
+			TypeFilter: gjson.False,
+			Type:       reflect.TypeOf(shared.UnionBool(false)),
+		},
+	)
 }
 
 // The Price resource represents a price that can be billed on a subscription,
@@ -4812,6 +4897,27 @@ func (r PriceCadence) IsKnown() bool {
 	return false
 }
 
+type PriceEvaluateResponse struct {
+	Data []EvaluatePriceGroup      `json:"data,required"`
+	JSON priceEvaluateResponseJSON `json:"-"`
+}
+
+// priceEvaluateResponseJSON contains the JSON metadata for the struct
+// [PriceEvaluateResponse]
+type priceEvaluateResponseJSON struct {
+	Data        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceEvaluateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceEvaluateResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 // This interface is a union satisfied by one of the following:
 // [PriceNewParamsNewFloatingUnitPrice], [PriceNewParamsNewFloatingPackagePrice],
 // [PriceNewParamsNewFloatingMatrixPrice],
@@ -6076,4 +6182,27 @@ func (r PriceListParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type PriceEvaluateParams struct {
+	// The exclusive upper bound for event timestamps
+	TimeframeEnd param.Field[time.Time] `json:"timeframe_end,required" format:"date-time"`
+	// The inclusive lower bound for event timestamps
+	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
+	// The ID of the customer to which this evaluation is scoped.
+	CustomerID param.Field[string] `json:"customer_id"`
+	// The external customer ID of the customer to which this evaluation is scoped.
+	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
+	// A boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
+	// used to filter the underlying billable metric
+	Filter param.Field[string] `json:"filter"`
+	// Properties (or
+	// [computed properties](../guides/extensibility/advanced-metrics#computed-properties))
+	// used to group the underlying billable metric
+	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
+}
+
+func (r PriceEvaluateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
