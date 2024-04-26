@@ -37,6 +37,7 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		}),
 		BillableMetricID:   orb.F("string"),
 		BilledInAdvance:    orb.F(true),
+		ConversionRate:     orb.F(0.000000),
 		ExternalPriceID:    orb.F("string"),
 		FixedPriceQuantity: orb.F(0.000000),
 		InvoiceGroupingKey: orb.F("string"),

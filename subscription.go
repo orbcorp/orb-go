@@ -936,6 +936,11 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // default for the plan. The request format for price overrides, maximums, and
 // minimums are the same as those in [subscription creation](create-subscription).
 //
+// ## Scheduling multiple plan changes
+//
+// When scheduling multiple plan changes with the same date, the latest plan change
+// on that day takes effect.
+//
 // ## Prorations for in-advance fees
 //
 // By default, Orb calculates the prorated difference in any fixed fees when making
@@ -2661,8 +2666,13 @@ type SubscriptionNewParamsPriceOverride struct {
 	// The subscription's override minimum amount for the plan.
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The subscription's override maximum amount for the plan.
-	MaximumAmount param.Field[string]      `json:"maximum_amount"`
-	Discount      param.Field[interface{}] `json:"discount,required"`
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64]     `json:"conversion_rate"`
+	Discount       param.Field[interface{}] `json:"discount,required"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity          param.Field[float64]     `json:"fixed_price_quantity"`
 	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
@@ -2708,6 +2718,11 @@ type SubscriptionNewParamsPriceOverridesOverrideUnitPrice struct {
 	ID         param.Field[string]                                                         `json:"id,required"`
 	ModelType  param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelType]  `json:"model_type,required"`
 	UnitConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceUnitConfig] `json:"unit_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -2791,6 +2806,11 @@ type SubscriptionNewParamsPriceOverridesOverridePackagePrice struct {
 	ID            param.Field[string]                                                               `json:"id,required"`
 	ModelType     param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePriceModelType]     `json:"model_type,required"`
 	PackageConfig param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePricePackageConfig] `json:"package_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -2827,7 +2847,7 @@ type SubscriptionNewParamsPriceOverridesOverridePackagePricePackageConfig struct
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize param.Field[int64] `json:"package_size"`
+	PackageSize param.Field[int64] `json:"package_size,required"`
 }
 
 func (r SubscriptionNewParamsPriceOverridesOverridePackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
@@ -2877,6 +2897,11 @@ type SubscriptionNewParamsPriceOverridesOverrideMatrixPrice struct {
 	ID           param.Field[string]                                                             `json:"id,required"`
 	MatrixConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceModelType]    `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -2977,6 +3002,11 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredPrice struct {
 	ID           param.Field[string]                                                             `json:"id,required"`
 	ModelType    param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceModelType]    `json:"model_type,required"`
 	TieredConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceTieredConfig] `json:"tiered_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3073,6 +3103,11 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPrice struct {
 	ID              param.Field[string]                                                                   `json:"id,required"`
 	ModelType       param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceModelType]       `json:"model_type,required"`
 	TieredBpsConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3172,6 +3207,11 @@ type SubscriptionNewParamsPriceOverridesOverrideBpsPrice struct {
 	ID        param.Field[string]                                                       `json:"id,required"`
 	BpsConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceBpsConfig] `json:"bps_config,required"`
 	ModelType param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceModelType] `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3257,6 +3297,11 @@ type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPrice struct {
 	ID            param.Field[string]                                                               `json:"id,required"`
 	BulkBpsConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	ModelType     param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceModelType]     `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3354,6 +3399,11 @@ type SubscriptionNewParamsPriceOverridesOverrideBulkPrice struct {
 	ID         param.Field[string]                                                         `json:"id,required"`
 	BulkConfig param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceBulkConfig] `json:"bulk_config,required"`
 	ModelType  param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceModelType]  `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3448,6 +3498,11 @@ type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPrice struct
 	ID                         param.Field[string]                                                                        `json:"id,required"`
 	ModelType                  param.Field[SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	ThresholdTotalAmountConfig param.Field[map[string]interface{}]                                                        `json:"threshold_total_amount_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3522,6 +3577,11 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePrice struct {
 	ID                  param.Field[string]                                                                 `json:"id,required"`
 	ModelType           param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceModelType] `json:"model_type,required"`
 	TieredPackageConfig param.Field[map[string]interface{}]                                                 `json:"tiered_package_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3596,6 +3656,11 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPrice struct {
 	ID                      param.Field[string]                                                                     `json:"id,required"`
 	ModelType               param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	TieredWithMinimumConfig param.Field[map[string]interface{}]                                                     `json:"tiered_with_minimum_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3670,6 +3735,11 @@ type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPrice struc
 	ID                          param.Field[string]                                                                         `json:"id,required"`
 	ModelType                   param.Field[SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceModelType] `json:"model_type,required"`
 	PackageWithAllocationConfig param.Field[map[string]interface{}]                                                         `json:"package_with_allocation_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -3744,6 +3814,11 @@ type SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice struct {
 	ID                    param.Field[string]                                                                   `json:"id,required"`
 	ModelType             param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceModelType] `json:"model_type,required"`
 	UnitWithPercentConfig param.Field[map[string]interface{}]                                                   `json:"unit_with_percent_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -4283,9 +4358,11 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// The cadence to bill for this price on.
-	Cadence    param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence]   `json:"cadence,required"`
-	ModelType  param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
-	UnitConfig param.Field[interface{}]                                       `json:"unit_config,required"`
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence] `json:"cadence,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64]                                           `json:"conversion_rate"`
+	ModelType      param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
+	UnitConfig     param.Field[interface{}]                                       `json:"unit_config,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                       param.Field[string]      `json:"currency,required"`
 	PackageConfig                  param.Field[interface{}] `json:"package_config,required"`
@@ -4352,6 +4429,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4426,6 +4505,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4479,7 +4560,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePricePackageConfi
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize param.Field[int64] `json:"package_size"`
+	PackageSize param.Field[int64] `json:"package_size,required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
@@ -4503,6 +4584,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4594,6 +4677,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPric
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4687,6 +4772,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4774,6 +4861,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4864,6 +4953,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4940,6 +5031,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5028,6 +5121,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5113,6 +5208,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPric
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5178,6 +5275,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice struc
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5243,6 +5342,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice struc
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5308,6 +5409,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice s
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5373,6 +5476,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPri
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5438,6 +5543,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimum
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5503,6 +5610,8 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice str
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5727,8 +5836,13 @@ type SubscriptionSchedulePlanChangeParamsPriceOverride struct {
 	// The subscription's override minimum amount for the plan.
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The subscription's override maximum amount for the plan.
-	MaximumAmount param.Field[string]      `json:"maximum_amount"`
-	Discount      param.Field[interface{}] `json:"discount,required"`
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64]     `json:"conversion_rate"`
+	Discount       param.Field[interface{}] `json:"discount,required"`
 	// The starting quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity          param.Field[float64]     `json:"fixed_price_quantity"`
 	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
@@ -5776,6 +5890,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice struct 
 	ID         param.Field[string]                                                                        `json:"id,required"`
 	ModelType  param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelType]  `json:"model_type,required"`
 	UnitConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceUnitConfig] `json:"unit_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -5859,6 +5978,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePrice stru
 	ID            param.Field[string]                                                                              `json:"id,required"`
 	ModelType     param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceModelType]     `json:"model_type,required"`
 	PackageConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePricePackageConfig] `json:"package_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -5895,7 +6019,7 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePricePacka
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize param.Field[int64] `json:"package_size"`
+	PackageSize param.Field[int64] `json:"package_size,required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
@@ -5945,6 +6069,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPrice struc
 	ID           param.Field[string]                                                                            `json:"id,required"`
 	MatrixConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceModelType]    `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6045,6 +6174,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPrice struc
 	ID           param.Field[string]                                                                            `json:"id,required"`
 	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceModelType]    `json:"model_type,required"`
 	TieredConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceTieredConfig] `json:"tiered_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6141,6 +6275,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPrice st
 	ID              param.Field[string]                                                                                  `json:"id,required"`
 	ModelType       param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceModelType]       `json:"model_type,required"`
 	TieredBpsConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6240,6 +6379,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPrice struct {
 	ID        param.Field[string]                                                                      `json:"id,required"`
 	BpsConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceBpsConfig] `json:"bps_config,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceModelType] `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6325,6 +6469,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPrice stru
 	ID            param.Field[string]                                                                              `json:"id,required"`
 	BulkBpsConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	ModelType     param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceModelType]     `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6422,6 +6571,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPrice struct 
 	ID         param.Field[string]                                                                        `json:"id,required"`
 	BulkConfig param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceBulkConfig] `json:"bulk_config,required"`
 	ModelType  param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceModelType]  `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6516,6 +6670,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmo
 	ID                         param.Field[string]                                                                                       `json:"id,required"`
 	ModelType                  param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	ThresholdTotalAmountConfig param.Field[map[string]interface{}]                                                                       `json:"threshold_total_amount_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6590,6 +6749,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePric
 	ID                  param.Field[string]                                                                                `json:"id,required"`
 	ModelType           param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceModelType] `json:"model_type,required"`
 	TieredPackageConfig param.Field[map[string]interface{}]                                                                `json:"tiered_package_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6664,6 +6828,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimum
 	ID                      param.Field[string]                                                                                    `json:"id,required"`
 	ModelType               param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	TieredWithMinimumConfig param.Field[map[string]interface{}]                                                                    `json:"tiered_with_minimum_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6738,6 +6907,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAlloca
 	ID                          param.Field[string]                                                                                        `json:"id,required"`
 	ModelType                   param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceModelType] `json:"model_type,required"`
 	PackageWithAllocationConfig param.Field[map[string]interface{}]                                                                        `json:"package_with_allocation_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.
@@ -6812,6 +6986,11 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPr
 	ID                    param.Field[string]                                                                                  `json:"id,required"`
 	ModelType             param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceModelType] `json:"model_type,required"`
 	UnitWithPercentConfig param.Field[map[string]interface{}]                                                                  `json:"unit_with_percent_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
 	// The subscription's override discount for the plan.
 	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscount] `json:"discount"`
 	// The starting quantity of the price, if the price is a fixed price.

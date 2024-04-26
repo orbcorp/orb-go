@@ -145,6 +145,8 @@ type EventBackfillNewResponse struct {
 	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
 	// to a single customer.
 	CustomerID string `json:"customer_id,required,nullable"`
+	// The number of events ingested in this backfill.
+	EventsIngested int64 `json:"events_ingested,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -161,6 +163,7 @@ type eventBackfillNewResponseJSON struct {
 	CloseTime      apijson.Field
 	CreatedAt      apijson.Field
 	CustomerID     apijson.Field
+	EventsIngested apijson.Field
 	RevertedAt     apijson.Field
 	Status         apijson.Field
 	TimeframeEnd   apijson.Field
@@ -206,6 +209,8 @@ type EventBackfillListResponse struct {
 	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
 	// to a single customer.
 	CustomerID string `json:"customer_id,required,nullable"`
+	// The number of events ingested in this backfill.
+	EventsIngested int64 `json:"events_ingested,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -222,6 +227,7 @@ type eventBackfillListResponseJSON struct {
 	CloseTime      apijson.Field
 	CreatedAt      apijson.Field
 	CustomerID     apijson.Field
+	EventsIngested apijson.Field
 	RevertedAt     apijson.Field
 	Status         apijson.Field
 	TimeframeEnd   apijson.Field
@@ -267,6 +273,8 @@ type EventBackfillCloseResponse struct {
 	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
 	// to a single customer.
 	CustomerID string `json:"customer_id,required,nullable"`
+	// The number of events ingested in this backfill.
+	EventsIngested int64 `json:"events_ingested,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -283,6 +291,7 @@ type eventBackfillCloseResponseJSON struct {
 	CloseTime      apijson.Field
 	CreatedAt      apijson.Field
 	CustomerID     apijson.Field
+	EventsIngested apijson.Field
 	RevertedAt     apijson.Field
 	Status         apijson.Field
 	TimeframeEnd   apijson.Field
@@ -328,6 +337,8 @@ type EventBackfillFetchResponse struct {
 	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
 	// to a single customer.
 	CustomerID string `json:"customer_id,required,nullable"`
+	// The number of events ingested in this backfill.
+	EventsIngested int64 `json:"events_ingested,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -344,6 +355,7 @@ type eventBackfillFetchResponseJSON struct {
 	CloseTime      apijson.Field
 	CreatedAt      apijson.Field
 	CustomerID     apijson.Field
+	EventsIngested apijson.Field
 	RevertedAt     apijson.Field
 	Status         apijson.Field
 	TimeframeEnd   apijson.Field
@@ -389,6 +401,8 @@ type EventBackfillRevertResponse struct {
 	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
 	// to a single customer.
 	CustomerID string `json:"customer_id,required,nullable"`
+	// The number of events ingested in this backfill.
+	EventsIngested int64 `json:"events_ingested,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -405,6 +419,7 @@ type eventBackfillRevertResponseJSON struct {
 	CloseTime      apijson.Field
 	CreatedAt      apijson.Field
 	CustomerID     apijson.Field
+	EventsIngested apijson.Field
 	RevertedAt     apijson.Field
 	Status         apijson.Field
 	TimeframeEnd   apijson.Field
