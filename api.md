@@ -1,11 +1,11 @@
 # Shared Params Types
 
-- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared#BillingCycleRelativeDate">BillingCycleRelativeDate</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BillingCycleRelativeDate">BillingCycleRelativeDate</a>
 
 # Shared Response Types
 
-- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared#Discount">Discount</a>
-- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/internal/shared#PaginationMetadata">PaginationMetadata</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#Discount">Discount</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#PaginationMetadata">PaginationMetadata</a>
 
 # TopLevel
 
