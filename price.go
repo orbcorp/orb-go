@@ -435,6 +435,7 @@ type Price struct {
 	FixedPriceQuantity             float64         `json:"fixed_price_quantity,required,nullable"`
 	PlanPhaseOrder                 int64           `json:"plan_phase_order,required,nullable"`
 	Currency                       string          `json:"currency,required"`
+	ConversionRate                 float64         `json:"conversion_rate,required,nullable"`
 	Item                           interface{}     `json:"item"`
 	CreditAllocation               interface{}     `json:"credit_allocation"`
 	Discount                       shared.Discount `json:"discount,required,nullable"`
@@ -475,6 +476,7 @@ type priceJSON struct {
 	FixedPriceQuantity             apijson.Field
 	PlanPhaseOrder                 apijson.Field
 	Currency                       apijson.Field
+	ConversionRate                 apijson.Field
 	Item                           apijson.Field
 	CreditAllocation               apijson.Field
 	Discount                       apijson.Field
@@ -869,6 +871,7 @@ type PriceUnitPrice struct {
 	ID                 string                         `json:"id,required"`
 	BillableMetric     PriceUnitPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence            PriceUnitPriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                        `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                      `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PriceUnitPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                         `json:"currency,required"`
@@ -893,6 +896,7 @@ type priceUnitPriceJSON struct {
 	ID                 apijson.Field
 	BillableMetric     apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -1114,6 +1118,7 @@ type PricePackagePrice struct {
 	ID                 string                            `json:"id,required"`
 	BillableMetric     PricePackagePriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence            PricePackagePriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                           `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                         `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PricePackagePriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                            `json:"currency,required"`
@@ -1139,6 +1144,7 @@ type pricePackagePriceJSON struct {
 	ID                 apijson.Field
 	BillableMetric     apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -1324,7 +1330,7 @@ type PricePackagePricePackageConfig struct {
 	PackageAmount string `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize int64                              `json:"package_size,nullable"`
+	PackageSize int64                              `json:"package_size,required"`
 	JSON        pricePackagePricePackageConfigJSON `json:"-"`
 }
 
@@ -1364,6 +1370,7 @@ type PriceMatrixPrice struct {
 	ID                 string                           `json:"id,required"`
 	BillableMetric     PriceMatrixPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence            PriceMatrixPriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                          `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                        `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PriceMatrixPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                           `json:"currency,required"`
@@ -1389,6 +1396,7 @@ type priceMatrixPriceJSON struct {
 	ID                 apijson.Field
 	BillableMetric     apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -1643,6 +1651,7 @@ type PriceTieredPrice struct {
 	ID                 string                           `json:"id,required"`
 	BillableMetric     PriceTieredPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence            PriceTieredPriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                          `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                        `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PriceTieredPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                           `json:"currency,required"`
@@ -1668,6 +1677,7 @@ type priceTieredPriceJSON struct {
 	ID                 apijson.Field
 	BillableMetric     apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -1917,6 +1927,7 @@ type PriceTieredBpsPrice struct {
 	ID                 string                              `json:"id,required"`
 	BillableMetric     PriceTieredBpsPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence            PriceTieredBpsPriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                             `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                           `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PriceTieredBpsPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                              `json:"currency,required"`
@@ -1942,6 +1953,7 @@ type priceTieredBpsPriceJSON struct {
 	ID                 apijson.Field
 	BillableMetric     apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -2196,6 +2208,7 @@ type PriceBpsPrice struct {
 	BillableMetric     PriceBpsPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	BpsConfig          PriceBpsPriceBpsConfig        `json:"bps_config,required"`
 	Cadence            PriceBpsPriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                       `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                     `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PriceBpsPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                        `json:"currency,required"`
@@ -2220,6 +2233,7 @@ type priceBpsPriceJSON struct {
 	BillableMetric     apijson.Field
 	BpsConfig          apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -2444,6 +2458,7 @@ type PriceBulkBpsPrice struct {
 	BillableMetric     PriceBulkBpsPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	BulkBpsConfig      PriceBulkBpsPriceBulkBpsConfig    `json:"bulk_bps_config,required"`
 	Cadence            PriceBulkBpsPriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                           `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                         `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PriceBulkBpsPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                            `json:"currency,required"`
@@ -2469,6 +2484,7 @@ type priceBulkBpsPriceJSON struct {
 	BillableMetric     apijson.Field
 	BulkBpsConfig      apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -2719,6 +2735,7 @@ type PriceBulkPrice struct {
 	BillableMetric     PriceBulkPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	BulkConfig         PriceBulkPriceBulkConfig       `json:"bulk_config,required"`
 	Cadence            PriceBulkPriceCadence          `json:"cadence,required"`
+	ConversionRate     float64                        `json:"conversion_rate,required,nullable"`
 	CreatedAt          time.Time                      `json:"created_at,required" format:"date-time"`
 	CreditAllocation   PriceBulkPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency           string                         `json:"currency,required"`
@@ -2743,6 +2760,7 @@ type priceBulkPriceJSON struct {
 	BillableMetric     apijson.Field
 	BulkConfig         apijson.Field
 	Cadence            apijson.Field
+	ConversionRate     apijson.Field
 	CreatedAt          apijson.Field
 	CreditAllocation   apijson.Field
 	Currency           apijson.Field
@@ -2988,6 +3006,7 @@ type PriceThresholdTotalAmountPrice struct {
 	ID                         string                                         `json:"id,required"`
 	BillableMetric             PriceThresholdTotalAmountPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence                    PriceThresholdTotalAmountPriceCadence          `json:"cadence,required"`
+	ConversionRate             float64                                        `json:"conversion_rate,required,nullable"`
 	CreatedAt                  time.Time                                      `json:"created_at,required" format:"date-time"`
 	CreditAllocation           PriceThresholdTotalAmountPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency                   string                                         `json:"currency,required"`
@@ -3013,6 +3032,7 @@ type priceThresholdTotalAmountPriceJSON struct {
 	ID                         apijson.Field
 	BillableMetric             apijson.Field
 	Cadence                    apijson.Field
+	ConversionRate             apijson.Field
 	CreatedAt                  apijson.Field
 	CreditAllocation           apijson.Field
 	Currency                   apijson.Field
@@ -3212,6 +3232,7 @@ type PriceTieredPackagePrice struct {
 	ID                  string                                  `json:"id,required"`
 	BillableMetric      PriceTieredPackagePriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence             PriceTieredPackagePriceCadence          `json:"cadence,required"`
+	ConversionRate      float64                                 `json:"conversion_rate,required,nullable"`
 	CreatedAt           time.Time                               `json:"created_at,required" format:"date-time"`
 	CreditAllocation    PriceTieredPackagePriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency            string                                  `json:"currency,required"`
@@ -3237,6 +3258,7 @@ type priceTieredPackagePriceJSON struct {
 	ID                  apijson.Field
 	BillableMetric      apijson.Field
 	Cadence             apijson.Field
+	ConversionRate      apijson.Field
 	CreatedAt           apijson.Field
 	CreditAllocation    apijson.Field
 	Currency            apijson.Field
@@ -3436,6 +3458,7 @@ type PriceGroupedTieredPrice struct {
 	ID                  string                                  `json:"id,required"`
 	BillableMetric      PriceGroupedTieredPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence             PriceGroupedTieredPriceCadence          `json:"cadence,required"`
+	ConversionRate      float64                                 `json:"conversion_rate,required,nullable"`
 	CreatedAt           time.Time                               `json:"created_at,required" format:"date-time"`
 	CreditAllocation    PriceGroupedTieredPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency            string                                  `json:"currency,required"`
@@ -3461,6 +3484,7 @@ type priceGroupedTieredPriceJSON struct {
 	ID                  apijson.Field
 	BillableMetric      apijson.Field
 	Cadence             apijson.Field
+	ConversionRate      apijson.Field
 	CreatedAt           apijson.Field
 	CreditAllocation    apijson.Field
 	Currency            apijson.Field
@@ -3660,6 +3684,7 @@ type PriceTieredWithMinimumPrice struct {
 	ID                      string                                      `json:"id,required"`
 	BillableMetric          PriceTieredWithMinimumPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence                 PriceTieredWithMinimumPriceCadence          `json:"cadence,required"`
+	ConversionRate          float64                                     `json:"conversion_rate,required,nullable"`
 	CreatedAt               time.Time                                   `json:"created_at,required" format:"date-time"`
 	CreditAllocation        PriceTieredWithMinimumPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency                string                                      `json:"currency,required"`
@@ -3685,6 +3710,7 @@ type priceTieredWithMinimumPriceJSON struct {
 	ID                      apijson.Field
 	BillableMetric          apijson.Field
 	Cadence                 apijson.Field
+	ConversionRate          apijson.Field
 	CreatedAt               apijson.Field
 	CreditAllocation        apijson.Field
 	Currency                apijson.Field
@@ -3884,6 +3910,7 @@ type PriceTieredPackageWithMinimumPrice struct {
 	ID                             string                                             `json:"id,required"`
 	BillableMetric                 PriceTieredPackageWithMinimumPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence                        PriceTieredPackageWithMinimumPriceCadence          `json:"cadence,required"`
+	ConversionRate                 float64                                            `json:"conversion_rate,required,nullable"`
 	CreatedAt                      time.Time                                          `json:"created_at,required" format:"date-time"`
 	CreditAllocation               PriceTieredPackageWithMinimumPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency                       string                                             `json:"currency,required"`
@@ -3909,6 +3936,7 @@ type priceTieredPackageWithMinimumPriceJSON struct {
 	ID                             apijson.Field
 	BillableMetric                 apijson.Field
 	Cadence                        apijson.Field
+	ConversionRate                 apijson.Field
 	CreatedAt                      apijson.Field
 	CreditAllocation               apijson.Field
 	Currency                       apijson.Field
@@ -4108,6 +4136,7 @@ type PricePackageWithAllocationPrice struct {
 	ID                          string                                          `json:"id,required"`
 	BillableMetric              PricePackageWithAllocationPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence                     PricePackageWithAllocationPriceCadence          `json:"cadence,required"`
+	ConversionRate              float64                                         `json:"conversion_rate,required,nullable"`
 	CreatedAt                   time.Time                                       `json:"created_at,required" format:"date-time"`
 	CreditAllocation            PricePackageWithAllocationPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency                    string                                          `json:"currency,required"`
@@ -4133,6 +4162,7 @@ type pricePackageWithAllocationPriceJSON struct {
 	ID                          apijson.Field
 	BillableMetric              apijson.Field
 	Cadence                     apijson.Field
+	ConversionRate              apijson.Field
 	CreatedAt                   apijson.Field
 	CreditAllocation            apijson.Field
 	Currency                    apijson.Field
@@ -4332,6 +4362,7 @@ type PriceUnitWithPercentPrice struct {
 	ID                    string                                    `json:"id,required"`
 	BillableMetric        PriceUnitWithPercentPriceBillableMetric   `json:"billable_metric,required,nullable"`
 	Cadence               PriceUnitWithPercentPriceCadence          `json:"cadence,required"`
+	ConversionRate        float64                                   `json:"conversion_rate,required,nullable"`
 	CreatedAt             time.Time                                 `json:"created_at,required" format:"date-time"`
 	CreditAllocation      PriceUnitWithPercentPriceCreditAllocation `json:"credit_allocation,required,nullable"`
 	Currency              string                                    `json:"currency,required"`
@@ -4357,6 +4388,7 @@ type priceUnitWithPercentPriceJSON struct {
 	ID                    apijson.Field
 	BillableMetric        apijson.Field
 	Cadence               apijson.Field
+	ConversionRate        apijson.Field
 	CreatedAt             apijson.Field
 	CreditAllocation      apijson.Field
 	Currency              apijson.Field
@@ -4556,6 +4588,7 @@ type PriceMatrixWithAllocationPrice struct {
 	ID                         string                                                   `json:"id,required"`
 	BillableMetric             PriceMatrixWithAllocationPriceBillableMetric             `json:"billable_metric,required,nullable"`
 	Cadence                    PriceMatrixWithAllocationPriceCadence                    `json:"cadence,required"`
+	ConversionRate             float64                                                  `json:"conversion_rate,required,nullable"`
 	CreatedAt                  time.Time                                                `json:"created_at,required" format:"date-time"`
 	CreditAllocation           PriceMatrixWithAllocationPriceCreditAllocation           `json:"credit_allocation,required,nullable"`
 	Currency                   string                                                   `json:"currency,required"`
@@ -4581,6 +4614,7 @@ type priceMatrixWithAllocationPriceJSON struct {
 	ID                         apijson.Field
 	BillableMetric             apijson.Field
 	Cadence                    apijson.Field
+	ConversionRate             apijson.Field
 	CreatedAt                  apijson.Field
 	CreditAllocation           apijson.Field
 	Currency                   apijson.Field
@@ -4953,6 +4987,8 @@ type PriceNewParamsNewFloatingUnitPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5028,6 +5064,8 @@ type PriceNewParamsNewFloatingPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5082,7 +5120,7 @@ type PriceNewParamsNewFloatingPackagePricePackageConfig struct {
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize param.Field[int64] `json:"package_size"`
+	PackageSize param.Field[int64] `json:"package_size,required"`
 }
 
 func (r PriceNewParamsNewFloatingPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
@@ -5106,6 +5144,8 @@ type PriceNewParamsNewFloatingMatrixPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5198,6 +5238,8 @@ type PriceNewParamsNewFloatingMatrixWithAllocationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5292,6 +5334,8 @@ type PriceNewParamsNewFloatingTieredPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5380,6 +5424,8 @@ type PriceNewParamsNewFloatingTieredBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5471,6 +5517,8 @@ type PriceNewParamsNewFloatingBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5548,6 +5596,8 @@ type PriceNewParamsNewFloatingBulkBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5637,6 +5687,8 @@ type PriceNewParamsNewFloatingBulkPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5723,6 +5775,8 @@ type PriceNewParamsNewFloatingThresholdTotalAmountPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5789,6 +5843,8 @@ type PriceNewParamsNewFloatingTieredPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5855,6 +5911,8 @@ type PriceNewParamsNewFloatingGroupedTieredPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5921,6 +5979,8 @@ type PriceNewParamsNewFloatingTieredWithMinimumPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -5987,6 +6047,8 @@ type PriceNewParamsNewFloatingPackageWithAllocationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -6053,6 +6115,8 @@ type PriceNewParamsNewFloatingTieredPackageWithMinimumPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -6119,6 +6183,8 @@ type PriceNewParamsNewFloatingUnitWithPercentPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
