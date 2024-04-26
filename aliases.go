@@ -4,7 +4,7 @@ package orb
 
 import (
 	"github.com/orbcorp/orb-go/internal/apierror"
-	"github.com/orbcorp/orb-go/internal/shared"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 type Error = apierror.Error
