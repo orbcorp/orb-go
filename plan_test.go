@@ -38,6 +38,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			FixedPriceQuantity: orb.F(0.000000),
 			InvoiceGroupingKey: orb.F("string"),
 			Cadence:            orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceCadenceAnnual),
+			ConversionRate:     orb.F(0.000000),
 			ModelType:          orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceModelTypeUnit),
 			UnitConfig: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceUnitConfig{
 				UnitAmount: orb.F("string"),

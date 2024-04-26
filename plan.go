@@ -510,9 +510,11 @@ type PlanNewParamsPrice struct {
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// The cadence to bill for this price on.
-	Cadence    param.Field[PlanNewParamsPricesCadence]   `json:"cadence,required"`
-	ModelType  param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
-	UnitConfig param.Field[interface{}]                  `json:"unit_config,required"`
+	Cadence param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64]                      `json:"conversion_rate"`
+	ModelType      param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
+	UnitConfig     param.Field[interface{}]                  `json:"unit_config,required"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency                    param.Field[string]      `json:"currency"`
@@ -567,6 +569,8 @@ type PlanNewParamsPricesNewPlanUnitPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -641,6 +645,8 @@ type PlanNewParamsPricesNewPlanPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -696,7 +702,7 @@ type PlanNewParamsPricesNewPlanPackagePricePackageConfig struct {
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
 	// usage by 1000 before multiplying by package_amount in rating
-	PackageSize param.Field[int64] `json:"package_size"`
+	PackageSize param.Field[int64] `json:"package_size,required"`
 }
 
 func (r PlanNewParamsPricesNewPlanPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
@@ -718,6 +724,8 @@ type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -809,6 +817,8 @@ type PlanNewParamsPricesNewPlanTieredPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -896,6 +906,8 @@ type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -986,6 +998,8 @@ type PlanNewParamsPricesNewPlanBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1062,6 +1076,8 @@ type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1150,6 +1166,8 @@ type PlanNewParamsPricesNewPlanBulkPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1235,6 +1253,8 @@ type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1300,6 +1320,8 @@ type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1365,6 +1387,8 @@ type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1430,6 +1454,8 @@ type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1495,6 +1521,8 @@ type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
