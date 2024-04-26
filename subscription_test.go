@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/orbcorp/orb-go"
-	"github.com/orbcorp/orb-go/internal/shared"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestSubscriptionNewWithOptionalParams(t *testing.T) {
