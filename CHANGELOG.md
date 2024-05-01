@@ -1,5 +1,58 @@
 # Changelog
 
+## 0.25.0 (2024-05-01)
+
+Full Changelog: [v0.24.0...v0.25.0](https://github.com/orbcorp/orb-go/compare/v0.24.0...v0.25.0)
+
+### Features
+
+* add webhooks verification helpers ([aa2840c](https://github.com/orbcorp/orb-go/commit/aa2840c24082c48257a0073ae62c5703584f0272))
+* **api:** add `invoice_source` to invoice ([#128](https://github.com/orbcorp/orb-go/issues/128)) ([1a44a51](https://github.com/orbcorp/orb-go/commit/1a44a511e96df63f14be96a3c88d368a9419377b))
+* **api:** add effective_date field ([#135](https://github.com/orbcorp/orb-go/issues/135)) ([7365947](https://github.com/orbcorp/orb-go/commit/7365947ad4d7d14221b66358c769a02e96bffccb))
+* **api:** add param to backfill create ([#144](https://github.com/orbcorp/orb-go/issues/144)) ([3b94063](https://github.com/orbcorp/orb-go/commit/3b94063be3471d7d18983378f0ba4316d669cf71))
+* **api:** add subscription update endpoint ([#138](https://github.com/orbcorp/orb-go/issues/138)) ([fa142a5](https://github.com/orbcorp/orb-go/commit/fa142a51050c08849602ca2a896a12f417330e59))
+* **api:** add the shared model PaginationMetadata ([#136](https://github.com/orbcorp/orb-go/issues/136)) ([5c04158](https://github.com/orbcorp/orb-go/commit/5c041587024a9a364ddcffb44f92226d6f5f0a1f))
+* **api:** add tiered package with minimum price ([#125](https://github.com/orbcorp/orb-go/issues/125)) ([d46e64c](https://github.com/orbcorp/orb-go/commit/d46e64c1a6f989a59df7150d911d3631f34b9047))
+* **api:** price evaluation endpoint generally available ([#139](https://github.com/orbcorp/orb-go/issues/139)) ([470439c](https://github.com/orbcorp/orb-go/commit/470439ccdbfd78ff9e69d8e75cb7f0bde9fc9034))
+* **api:** updates ([#118](https://github.com/orbcorp/orb-go/issues/118)) ([917e15f](https://github.com/orbcorp/orb-go/commit/917e15f43ef88b02715f53399bc320165b603a0d))
+* **api:** updates ([#129](https://github.com/orbcorp/orb-go/issues/129)) ([e69d2ae](https://github.com/orbcorp/orb-go/commit/e69d2aedc18134fabf3cd49abbc3cc77c873ce50))
+* **api:** updates ([#130](https://github.com/orbcorp/orb-go/issues/130)) ([ece645a](https://github.com/orbcorp/orb-go/commit/ece645a83c833d416b1520d3e079f3ac60a9c51a))
+* **api:** updates ([#148](https://github.com/orbcorp/orb-go/issues/148)) ([bd4c75f](https://github.com/orbcorp/orb-go/commit/bd4c75f6f773229f73078dfd6e390107e01f7016))
+* **client:** add webhook secret argument ([#119](https://github.com/orbcorp/orb-go/issues/119)) ([b4a4f86](https://github.com/orbcorp/orb-go/commit/b4a4f86c4c4aae814d88811b39f6e55643999a95))
+* **client:** implement raw requests methods on client ([#120](https://github.com/orbcorp/orb-go/issues/120)) ([11a7262](https://github.com/orbcorp/orb-go/commit/11a72626fe90cde9b6e12c0d908b2c82094b53b9))
+* **option:** add option to provide a raw request body ([#132](https://github.com/orbcorp/orb-go/issues/132)) ([8024a33](https://github.com/orbcorp/orb-go/commit/8024a33512cc39960520b0554cb416b8679282d6))
+
+
+### Bug Fixes
+
+* **api:** add shared model BillingCycleRelativeDate ([#137](https://github.com/orbcorp/orb-go/issues/137)) ([ebe6d9f](https://github.com/orbcorp/orb-go/commit/ebe6d9f37135067054786030a99b1b9c9ee8485d))
+* change how unions are accessed ([#126](https://github.com/orbcorp/orb-go/issues/126)) ([1e38b4f](https://github.com/orbcorp/orb-go/commit/1e38b4f2f14ff35f8351ef1e50ec8db11a356440))
+* make shared package public ([#143](https://github.com/orbcorp/orb-go/issues/143)) ([28d646b](https://github.com/orbcorp/orb-go/commit/28d646b46f1129526d595817a66f471053f8dc01))
+* **test:** fix test github actions job ([#147](https://github.com/orbcorp/orb-go/issues/147)) ([d20db09](https://github.com/orbcorp/orb-go/commit/d20db09411fd89391ac1ccc7811bd349bfad312f))
+
+
+### Chores
+
+* **docs:** revise currency description ([#127](https://github.com/orbcorp/orb-go/issues/127)) ([3f39e7a](https://github.com/orbcorp/orb-go/commit/3f39e7aa300c7844e72a8aece07a3f30cbcb0155))
+* **internal:** add link to openapi spec ([#145](https://github.com/orbcorp/orb-go/issues/145)) ([74b6fce](https://github.com/orbcorp/orb-go/commit/74b6fce6f7c2a4683eeb8cc02d8f1e0bf99cebd3))
+* **internal:** add scripts/test, scripts/mock and add ci job ([#146](https://github.com/orbcorp/orb-go/issues/146)) ([5eb27d6](https://github.com/orbcorp/orb-go/commit/5eb27d603248a3ab68a8a6eeaea4e98a6633b3e2))
+* **internal:** fix bootstrap script ([#149](https://github.com/orbcorp/orb-go/issues/149)) ([704fc99](https://github.com/orbcorp/orb-go/commit/704fc99d2791aa2df2d15adbc2be7aea40b9262f))
+* **internal:** fix Port function for number and boolean enums ([#142](https://github.com/orbcorp/orb-go/issues/142)) ([71b13ed](https://github.com/orbcorp/orb-go/commit/71b13ed4f06f127300cea4e70f4f1dc454d31087))
+* **internal:** formatting ([#131](https://github.com/orbcorp/orb-go/issues/131)) ([a3944bf](https://github.com/orbcorp/orb-go/commit/a3944bfd2e49cde82435afb2d0682d2e48cf70d9))
+* **internal:** move pagination types to pagination package ([#121](https://github.com/orbcorp/orb-go/issues/121)) ([bbd516c](https://github.com/orbcorp/orb-go/commit/bbd516c05ad22fd7461a5e9882da8a33998f59da))
+* **internal:** use a time zone less likely to conflict with the local one ([#124](https://github.com/orbcorp/orb-go/issues/124)) ([226eaef](https://github.com/orbcorp/orb-go/commit/226eaef8af0127cc4f9fe5d792a124da33c5a408))
+* **internal:** use actions/checkout@v4 for codeflow ([#141](https://github.com/orbcorp/orb-go/issues/141)) ([f201380](https://github.com/orbcorp/orb-go/commit/f20138094ddbbb1e5879860a3139cf3877ca4e3f))
+
+
+### Documentation
+
+* fix typo in docstring for Null() ([#116](https://github.com/orbcorp/orb-go/issues/116)) ([180f2df](https://github.com/orbcorp/orb-go/commit/180f2dfae9675ec4630534d504e278a740772240))
+
+
+### Build System
+
+* configure UTF-8 locale in devcontainer ([#134](https://github.com/orbcorp/orb-go/issues/134)) ([58385b5](https://github.com/orbcorp/orb-go/commit/58385b5cbc9e60ce37c5eab2eb7fba941b5336da))
+
 ## 0.24.0 (2024-03-26)
 
 Full Changelog: [v0.23.1...v0.24.0](https://github.com/orbcorp/orb-go/compare/v0.23.1...v0.24.0)
