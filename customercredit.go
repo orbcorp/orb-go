@@ -39,6 +39,9 @@ func NewCustomerCreditService(opts ...option.RequestOption) (r *CustomerCreditSe
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
+//
+// Note that `currency` defaults to credits if not specified. To use a real world
+// currency, set `currency` to an ISO 4217 string.
 func (r *CustomerCreditService) List(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
@@ -57,11 +60,17 @@ func (r *CustomerCreditService) List(ctx context.Context, customerID string, que
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
+//
+// Note that `currency` defaults to credits if not specified. To use a real world
+// currency, set `currency` to an ISO 4217 string.
 func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
+//
+// Note that `currency` defaults to credits if not specified. To use a real world
+// currency, set `currency` to an ISO 4217 string.
 func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListByExternalIDResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options, opts...)
@@ -80,6 +89,9 @@ func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCu
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
+//
+// Note that `currency` defaults to credits if not specified. To use a real world
+// currency, set `currency` to an ISO 4217 string.
 func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListByExternalIDResponse] {
 	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
 }
