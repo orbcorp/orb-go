@@ -29,6 +29,7 @@ type Client struct {
 	Prices           *PriceService
 	Subscriptions    *SubscriptionService
 	Webhooks         *WebhookService
+	Alerts           *AlertService
 }
 
 // NewClient generates a new client with the default option read from the
@@ -60,6 +61,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.Prices = NewPriceService(opts...)
 	r.Subscriptions = NewSubscriptionService(opts...)
 	r.Webhooks = NewWebhookService(opts...)
+	r.Alerts = NewAlertService(opts...)
 
 	return
 }

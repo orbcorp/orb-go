@@ -306,3 +306,13 @@ Methods:
 Methods:
 
 - <code>client.Webhooks.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#WebhookService.VerifySignature">VerifySignature</a>(payload []byte, headers http.Header, secret string, now time.Time) <a href="https://pkg.go.dev/builtin#error">error</a></code>
+
+# Alerts
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Alert">Alert</a>
+
+Methods:
+
+- <code title="post /alerts/{alert_configuration_id}/enable">client.Alerts.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#AlertService.Enable">Enable</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, alertConfigurationID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#Alert">Alert</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
