@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.26.0 (2024-05-08)
+
+Full Changelog: [v0.25.0...v0.26.0](https://github.com/orbcorp/orb-go/compare/v0.25.0...v0.26.0)
+
+### Features
+
+* **api:** add method to enable alerts ([#151](https://github.com/orbcorp/orb-go/issues/151)) ([5fb1bc5](https://github.com/orbcorp/orb-go/commit/5fb1bc5c0b4ecea9cc2e10a248ea729d1ea71b92))
+
 ## 0.25.0 (2024-05-01)
 
 Full Changelog: [v0.24.0...v0.25.0](https://github.com/orbcorp/orb-go/compare/v0.24.0...v0.25.0)
