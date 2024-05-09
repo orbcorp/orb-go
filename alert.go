@@ -6,9 +6,13 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
+	"github.com/orbcorp/orb-go/internal/apiquery"
+	"github.com/orbcorp/orb-go/internal/pagination"
+	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 )
@@ -30,11 +34,151 @@ func NewAlertService(opts ...option.RequestOption) (r *AlertService) {
 	return
 }
 
+// This endpoint retrieves an alert by its ID.
+func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.RequestOption) (res *Alert, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("alerts/%s", alertID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return
+}
+
+// This endpoint returns a list of all
+// [`alerts`](https://docs.withorb.com/guides/product-catalog/configuring-alerts).
+//
+// The list of alerts is ordered starting from the most recently created alert.
+// This endpoint follows Orb's
+// [standardized pagination format](../reference/pagination).
+//
+// The request must specify one of customer_id, external_customer_id,
+// subscription_id, or plan_id
+//
+// If querying by subscripion_id, the endpoint will return the subscription level
+// alerts as well as the plan level alerts associated with the subscription.
+func (r *AlertService) List(ctx context.Context, query AlertListParams, opts ...option.RequestOption) (res *pagination.Page[Alert], err error) {
+	var raw *http.Response
+	opts = append(r.Options, opts...)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	path := "alerts"
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// This endpoint returns a list of all
+// [`alerts`](https://docs.withorb.com/guides/product-catalog/configuring-alerts).
+//
+// The list of alerts is ordered starting from the most recently created alert.
+// This endpoint follows Orb's
+// [standardized pagination format](../reference/pagination).
+//
+// The request must specify one of customer_id, external_customer_id,
+// subscription_id, or plan_id
+//
+// If querying by subscripion_id, the endpoint will return the subscription level
+// alerts as well as the plan level alerts associated with the subscription.
+func (r *AlertService) ListAutoPaging(ctx context.Context, query AlertListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Alert] {
+	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
+}
+
+// This endpoint creates a new alert to monitor a customer's credit balance. There
+// are three types of alerts that can be scoped to customers:
+// `credit_balance_depleted`, `credit_balance_dropped`, and
+// `credit_balance_recovered`. Customers can have a maximum of one of each type of
+// alert per
+// [credit balance currency](https://docs.withorb.com/guides/product-catalog/prepurchase).
+// `credit_balance_dropped` alerts require a list of thresholds to be provided
+// while `credit_balance_depleted` and `credit_balance_recovered` alerts do not
+// require thresholds.
+func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, body AlertNewForCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("alerts/customer_id/%s", customerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// This endpoint creates a new alert to monitor a customer's credit balance. There
+// are three types of alerts that can be scoped to customers:
+// `credit_balance_depleted`, `credit_balance_dropped`, and
+// `credit_balance_recovered`. Customers can have a maximum of one of each type of
+// alert per
+// [credit balance currency](https://docs.withorb.com/guides/product-catalog/prepurchase).
+// `credit_balance_dropped` alerts require a list of thresholds to be provided
+// while `credit_balance_depleted` and `credit_balance_recovered` alerts do not
+// require thresholds.
+func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCustomerID string, body AlertNewForExternalCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("alerts/external_customer_id/%s", externalCustomerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// This endpoint is used to create alerts at the plan level. Plan level alerts are
+// automatically propagated to all subscriptions associated with the plan. These
+// alerts are scoped to a specific plan version; if no version is specified, the
+// active plan version is used.
+//
+// Plan level alerts can be of two types: `usage_exceeded` or `cost_exceeded`. A
+// `usage_exceeded` alert is scoped to a particular metric and is triggered when
+// the usage of that metric exceeds a predefined thresholds during the current
+// invoice cycle. A `cost_exceeded` alert is triggered when the total cost of the
+// subscription on the plan surpasses predefined thresholds in the current invoice
+// cycle.Each plan can have one `cost_exceeded` alert and one `usage_exceeded`
+// alert per metric that is apart of the plan.
+func (r *AlertService) NewForPlan(ctx context.Context, planID string, body AlertNewForPlanParams, opts ...option.RequestOption) (res *Alert, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("alerts/plan_id/%s", planID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// This endpoint is used to create alerts at the subscription level.
+//
+// Subscription level alerts can be one of two types: `usage_exceeded` or
+// `cost_exceeded`. A `usage_exceeded` alert is scoped to a particular metric and
+// is triggered when the usage of that metric exceeds a predefined thresholds
+// during the current invoice cycle. A `cost_exceeded` alert is triggered when the
+// total cost of the subscription surpasses predefined thresholds in the current
+// invoice cycle. Each subscription can have one `cost_exceeded` alert and one
+// `usage_exceeded` alert per metric that is apart of the subscription. Alerts are
+// triggered based on usage or cost conditions met during the current invoice
+// cycle.
+func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID string, body AlertNewForSubscriptionParams, opts ...option.RequestOption) (res *Alert, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("alerts/subscription_id/%s", subscriptionID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
+// This endpoint can be used to disable an alert.
+//
+// By default, disabling a plan level alert will apply to all subscriptions on that
+// plan. In order to toggle a plan level alert for a specific subscription, the
+// client must provide the plan level alert id as well as the subscription_id
+// parameter.
+func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, body AlertDisableParams, opts ...option.RequestOption) (res *Alert, err error) {
+	opts = append(r.Options[:], opts...)
+	path := fmt.Sprintf("alerts/%s/disable", alertConfigurationID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // This endpoint can be used to enable an alert.
-func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, opts ...option.RequestOption) (res *Alert, err error) {
+//
+// By default, enabling a plan level alert will apply to all subscriptions on that
+// plan. In order to toggle a plan level alert for a specific subscription, the
+// client must provide the plan level alert id as well as the subscription_id
+// parameter.
+func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, body AlertEnableParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
 	path := fmt.Sprintf("alerts/%s/enable", alertConfigurationID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -64,13 +208,15 @@ type Alert struct {
 	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
 	// The name of the currency the credit balance for this alert is denominated in.
 	Currency string `json:"currency,required,nullable"`
-	// The customer that the alert is scoped to.
+	// The customer the alert applies to.
 	Customer map[string]string `json:"customer,required,nullable"`
 	// Whether the alert is enabled or disabled.
-	Enabled bool              `json:"enabled,required"`
-	Metric  map[string]string `json:"metric,required,nullable"`
-	// The plan that the alert is scoped to.
-	Plan         map[string]string `json:"plan,required,nullable"`
+	Enabled bool `json:"enabled,required"`
+	// The metric the alert applies to.
+	Metric map[string]string `json:"metric,required,nullable"`
+	// The plan the alert applies to.
+	Plan map[string]string `json:"plan,required,nullable"`
+	// The subscription the alert applies to.
 	Subscription map[string]string `json:"subscription,required,nullable"`
 	// The thresholds that define the conditions under which the alert will be
 	// triggered.
@@ -110,7 +256,7 @@ type AlertThreshold struct {
 	// The value at which an alert will fire. For credit balance alerts, the alert will fire at or below this value. For usage and
 	//
 	//	cost alerts, the alert will fire at or above this value.
-	Value int64              `json:"value,required"`
+	Value float64            `json:"value,required"`
 	JSON  alertThresholdJSON `json:"-"`
 }
 
@@ -133,6 +279,8 @@ func (r alertThresholdJSON) RawJSON() string {
 type AlertType string
 
 const (
+	AlertTypeUsageExceeded          AlertType = "usage_exceeded"
+	AlertTypeCostExceeded           AlertType = "cost_exceeded"
 	AlertTypeCreditBalanceDepleted  AlertType = "credit_balance_depleted"
 	AlertTypeCreditBalanceDropped   AlertType = "credit_balance_dropped"
 	AlertTypeCreditBalanceRecovered AlertType = "credit_balance_recovered"
@@ -140,8 +288,170 @@ const (
 
 func (r AlertType) IsKnown() bool {
 	switch r {
-	case AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered:
+	case AlertTypeUsageExceeded, AlertTypeCostExceeded, AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered:
 		return true
 	}
 	return false
+}
+
+type AlertListParams struct {
+	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
+	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
+	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
+	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
+	// Cursor for pagination. This can be populated by the `next_cursor` value returned
+	// from the initial request.
+	Cursor param.Field[string] `query:"cursor"`
+	// Fetch alerts scoped to this customer_id
+	CustomerID param.Field[string] `query:"customer_id"`
+	// Fetch alerts scoped to this external_customer_id
+	ExternalCustomerID param.Field[string] `query:"external_customer_id"`
+	// The number of items to fetch. Defaults to 20.
+	Limit param.Field[int64] `query:"limit"`
+	// Fetch alerts scoped to this plan_id
+	PlanID param.Field[string] `query:"plan_id"`
+	// If provided alongside plan_id, only the alerts that are scoped to the specified plan_version will be returned.
+	PlanVersion param.Field[int64] `query:"plan_version"`
+	// Fetch alerts scoped to this subscription_id
+	SubscriptionID param.Field[string] `query:"subscription_id"`
+}
+
+// URLQuery serializes [AlertListParams]'s query parameters as `url.Values`.
+func (r AlertListParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type AlertNewForCustomerParams struct {
+	// The case sensitive currency or custom pricing unit to use for this alert.
+	Currency param.Field[string] `json:"currency,required"`
+	// The thresholds that define the values at which the alert will be triggered.
+	Type param.Field[string] `json:"type,required"`
+	// The thresholds for the alert.
+	Thresholds param.Field[[]AlertNewForCustomerParamsThreshold] `json:"thresholds"`
+}
+
+func (r AlertNewForCustomerParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Thresholds are used to define the conditions under which an alert will be
+// triggered.
+type AlertNewForCustomerParamsThreshold struct {
+	// The value at which an alert will fire. For credit balance alerts, the alert will fire at or below this value. For usage and
+	//
+	//	cost alerts, the alert will fire at or above this value.
+	Value param.Field[float64] `json:"value,required"`
+}
+
+func (r AlertNewForCustomerParamsThreshold) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type AlertNewForExternalCustomerParams struct {
+	// The case sensitive currency or custom pricing unit to use for this alert.
+	Currency param.Field[string] `json:"currency,required"`
+	// The thresholds that define the values at which the alert will be triggered.
+	Type param.Field[string] `json:"type,required"`
+	// The thresholds for the alert.
+	Thresholds param.Field[[]AlertNewForExternalCustomerParamsThreshold] `json:"thresholds"`
+}
+
+func (r AlertNewForExternalCustomerParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Thresholds are used to define the conditions under which an alert will be
+// triggered.
+type AlertNewForExternalCustomerParamsThreshold struct {
+	// The value at which an alert will fire. For credit balance alerts, the alert will fire at or below this value. For usage and
+	//
+	//	cost alerts, the alert will fire at or above this value.
+	Value param.Field[float64] `json:"value,required"`
+}
+
+func (r AlertNewForExternalCustomerParamsThreshold) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type AlertNewForPlanParams struct {
+	// The thresholds for the alert.
+	Thresholds param.Field[[]AlertNewForPlanParamsThreshold] `json:"thresholds,required"`
+	// The thresholds that define the values at which the alert will be triggered.
+	Type param.Field[string] `json:"type,required"`
+	// The metric to track usage for.
+	MetricID param.Field[string] `json:"metric_id"`
+	// The plan version to create alerts for. If not specified, the default will be the plan's active plan version.
+	PlanVersion param.Field[int64] `json:"plan_version"`
+}
+
+func (r AlertNewForPlanParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Thresholds are used to define the conditions under which an alert will be
+// triggered.
+type AlertNewForPlanParamsThreshold struct {
+	// The value at which an alert will fire. For credit balance alerts, the alert will fire at or below this value. For usage and
+	//
+	//	cost alerts, the alert will fire at or above this value.
+	Value param.Field[float64] `json:"value,required"`
+}
+
+func (r AlertNewForPlanParamsThreshold) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type AlertNewForSubscriptionParams struct {
+	// The thresholds for the alert.
+	Thresholds param.Field[[]AlertNewForSubscriptionParamsThreshold] `json:"thresholds,required"`
+	// The thresholds that define the values at which the alert will be triggered.
+	Type param.Field[string] `json:"type,required"`
+	// The metric to track usage for.
+	MetricID param.Field[string] `json:"metric_id"`
+}
+
+func (r AlertNewForSubscriptionParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Thresholds are used to define the conditions under which an alert will be
+// triggered.
+type AlertNewForSubscriptionParamsThreshold struct {
+	// The value at which an alert will fire. For credit balance alerts, the alert will fire at or below this value. For usage and
+	//
+	//	cost alerts, the alert will fire at or above this value.
+	Value param.Field[float64] `json:"value,required"`
+}
+
+func (r AlertNewForSubscriptionParamsThreshold) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type AlertDisableParams struct {
+	// Used to update the status of a plan alert scoped to this subscription_id
+	SubscriptionID param.Field[string] `query:"subscription_id"`
+}
+
+// URLQuery serializes [AlertDisableParams]'s query parameters as `url.Values`.
+func (r AlertDisableParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type AlertEnableParams struct {
+	// Used to update the status of a plan alert scoped to this subscription_id
+	SubscriptionID param.Field[string] `query:"subscription_id"`
+}
+
+// URLQuery serializes [AlertEnableParams]'s query parameters as `url.Values`.
+func (r AlertEnableParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
