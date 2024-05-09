@@ -1043,7 +1043,7 @@ type Subscription struct {
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
-	// the plan's behavior.
+	// the plan's behavior. If null, defaults to the customer's setting.
 	AutoCollection bool `json:"auto_collection,required,nullable"`
 	// The day of the month on which the billing cycle is anchored. If the maximum
 	// number of days in a month is greater than this value, the last day of the month
