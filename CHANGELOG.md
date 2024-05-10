@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.27.0 (2024-05-10)
+
+Full Changelog: [v0.26.0...v0.27.0](https://github.com/orbcorp/orb-go/compare/v0.26.0...v0.27.0)
+
+### Features
+
+* **api:** add alert methods and models ([#155](https://github.com/orbcorp/orb-go/issues/155)) ([073028e](https://github.com/orbcorp/orb-go/commit/073028eb220bb13e22ac35ea3b21810f41f05ee2))
+* propagate resource description field from stainless config to SDK docs ([#157](https://github.com/orbcorp/orb-go/issues/157)) ([2afdd38](https://github.com/orbcorp/orb-go/commit/2afdd388915ca1776e49f2d59871c0543dc8f642))
+
+
+### Chores
+
+* **docs:** improve alert endpoints descriptions ([#158](https://github.com/orbcorp/orb-go/issues/158)) ([8bb2355](https://github.com/orbcorp/orb-go/commit/8bb23553bbed66f9bea9040e401a81ac5d2a8ab8))
+
 ## 0.26.0 (2024-05-08)
 
 Full Changelog: [v0.25.0...v0.26.0](https://github.com/orbcorp/orb-go/compare/v0.25.0...v0.26.0)
