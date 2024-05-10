@@ -269,7 +269,9 @@ func (r *EventService) Deprecate(ctx context.Context, eventID string, opts ...op
 // Orb's idempotency guarantees allow you to implement safe retry logic in the
 // event of network or machine failures, ensuring data fidelity. Each event in the
 // request payload is associated with an idempotency key, and Orb guarantees that a
-// single idempotency key will be successfully ingested at most once.
+// single idempotency key will be successfully ingested at most once. Note that
+// when Orb encounters events with duplicate idempotency keys and differing event
+// bodies in a batch of events, the entire batch will be rejected.
 //
 //   - Successful responses return a 200 HTTP status code. The response contains
 //     information about previously processed events.
