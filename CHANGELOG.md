@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.27.1 (2024-05-10)
+
+Full Changelog: [v0.27.0...v0.27.1](https://github.com/orbcorp/orb-go/compare/v0.27.0...v0.27.1)
+
+### Bug Fixes
+
+* **api:** remove alert parameters and method that aren't supported by the live API ([#162](https://github.com/orbcorp/orb-go/issues/162)) ([88768fd](https://github.com/orbcorp/orb-go/commit/88768fdca8f51d8554bc7d5c40ca541695caa63e))
+
+
+### Chores
+
+* rebuild project due to oas spec rename ([#160](https://github.com/orbcorp/orb-go/issues/160)) ([61e81fb](https://github.com/orbcorp/orb-go/commit/61e81fb537009f1e7c93b8159558c883bc433bfd))
+
 ## 0.27.0 (2024-05-10)
 
 Full Changelog: [v0.26.0...v0.27.0](https://github.com/orbcorp/orb-go/compare/v0.26.0...v0.27.0)
