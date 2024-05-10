@@ -61,6 +61,10 @@ func NewEventBackfillService(opts ...option.RequestOption) (r *EventBackfillServ
 // timeframe will be replaced with the newly ingested events associated with the
 // backfill. If `false`, newly ingested events will be added to the existing
 // events.
+//
+// If a `customer_id` or `external_customer_id` is specified, the backfill will
+// only affect events for that customer. If neither is specified, the backfill will
+// affect all customers.
 func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewParams, opts ...option.RequestOption) (res *EventBackfillNewResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "events/backfills"
