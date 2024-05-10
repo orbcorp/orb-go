@@ -119,26 +119,6 @@ func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCusto
 	return
 }
 
-// This endpoint is used to create alerts at the plan level. Plan level alerts are
-// automatically propagated to all subscriptions associated with the plan. These
-// alerts are scoped to a specific plan version; if no version is specified, the
-// active plan version is used.
-//
-// Plan level alerts can be of two types: `usage_exceeded` or `cost_exceeded`. A
-// `usage_exceeded` alert is scoped to a particular metric and is triggered when
-// the usage of that metric exceeds predefined thresholds during the current
-// billing cycle. A `cost_exceeded` alert is triggered when the total amount due
-// during the current billing cycle surpasses predefined thresholds.
-// `cost_exceeded` alerts do not include burndown of pre-purchase credits. Each
-// plan can have one `cost_exceeded` alert and one `usage_exceeded` alert per
-// metric that is a part of the plan.
-func (r *AlertService) NewForPlan(ctx context.Context, planID string, body AlertNewForPlanParams, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
-	path := fmt.Sprintf("alerts/plan_id/%s", planID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
-}
-
 // This endpoint is used to create alerts at the subscription level.
 //
 // Subscription level alerts can be one of two types: `usage_exceeded` or
@@ -158,18 +138,18 @@ func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID st
 }
 
 // This endpoint can be used to disable an alert.
-func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, body AlertDisableParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
 	path := fmt.Sprintf("alerts/%s/disable", alertConfigurationID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
 // This endpoint can be used to enable an alert.
-func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, body AlertEnableParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
 	path := fmt.Sprintf("alerts/%s/enable", alertConfigurationID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
 }
 
@@ -291,10 +271,6 @@ type AlertListParams struct {
 	ExternalCustomerID param.Field[string] `query:"external_customer_id"`
 	// The number of items to fetch. Defaults to 20.
 	Limit param.Field[int64] `query:"limit"`
-	// Fetch alerts scoped to this plan_id
-	PlanID param.Field[string] `query:"plan_id"`
-	// If provided alongside plan_id, only the alerts that are scoped to the specified plan_version will be returned.
-	PlanVersion param.Field[int64] `query:"plan_version"`
 	// Fetch alerts scoped to this subscription_id
 	SubscriptionID param.Field[string] `query:"subscription_id"`
 }
@@ -359,35 +335,6 @@ func (r AlertNewForExternalCustomerParamsThreshold) MarshalJSON() (data []byte, 
 	return apijson.MarshalRoot(r)
 }
 
-type AlertNewForPlanParams struct {
-	// The thresholds for the alert.
-	Thresholds param.Field[[]AlertNewForPlanParamsThreshold] `json:"thresholds,required"`
-	// The thresholds that define the values at which the alert will be triggered.
-	Type param.Field[string] `json:"type,required"`
-	// The metric to track usage for.
-	MetricID param.Field[string] `json:"metric_id"`
-	// The plan version to create alerts for. If not specified, the default will be the
-	// plan's active plan version.
-	PlanVersion param.Field[int64] `json:"plan_version"`
-}
-
-func (r AlertNewForPlanParams) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertNewForPlanParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertNewForPlanParamsThreshold) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
 type AlertNewForSubscriptionParams struct {
 	// The thresholds for the alert.
 	Thresholds param.Field[[]AlertNewForSubscriptionParamsThreshold] `json:"thresholds,required"`
@@ -412,30 +359,4 @@ type AlertNewForSubscriptionParamsThreshold struct {
 
 func (r AlertNewForSubscriptionParamsThreshold) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
-}
-
-type AlertDisableParams struct {
-	// Used to update the status of a plan alert scoped to this subscription_id
-	SubscriptionID param.Field[string] `query:"subscription_id"`
-}
-
-// URLQuery serializes [AlertDisableParams]'s query parameters as `url.Values`.
-func (r AlertDisableParams) URLQuery() (v url.Values) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
-}
-
-type AlertEnableParams struct {
-	// Used to update the status of a plan alert scoped to this subscription_id
-	SubscriptionID param.Field[string] `query:"subscription_id"`
-}
-
-// URLQuery serializes [AlertEnableParams]'s query parameters as `url.Values`.
-func (r AlertEnableParams) URLQuery() (v url.Values) {
-	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
-		NestedFormat: apiquery.NestedQueryFormatBrackets,
-	})
 }
