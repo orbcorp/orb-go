@@ -69,7 +69,7 @@ func TestCustomerCreditTopUpListWithOptionalParams(t *testing.T) {
 		"string",
 		orb.CustomerCreditTopUpListParams{
 			Cursor: orb.F("string"),
-			Limit:  orb.F(int64(0)),
+			Limit:  orb.F(int64(1)),
 		},
 	)
 	if err != nil {
@@ -189,7 +189,7 @@ func TestCustomerCreditTopUpListByExternalIDWithOptionalParams(t *testing.T) {
 		"string",
 		orb.CustomerCreditTopUpListByExternalIDParams{
 			Cursor: orb.F("string"),
-			Limit:  orb.F(int64(0)),
+			Limit:  orb.F(int64(1)),
 		},
 	)
 	if err != nil {

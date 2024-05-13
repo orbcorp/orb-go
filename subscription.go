@@ -2633,7 +2633,7 @@ type SubscriptionNewParams struct {
 	// by setting `metadata` to `null`.
 	Metadata               param.Field[map[string]string] `json:"metadata"`
 	NetTerms               param.Field[int64]             `json:"net_terms"`
-	PerCreditOverageAmount param.Field[string]            `json:"per_credit_overage_amount"`
+	PerCreditOverageAmount param.Field[float64]           `json:"per_credit_overage_amount"`
 	// The plan that the given subscription should be switched to. Note that either
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`
@@ -5784,8 +5784,8 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// When this subscription's accrued usage reaches this threshold, an invoice will
 	// be issued for the subscription. If not specified, invoices will only be issued
 	// at the end of the billing period.
-	InvoicingThreshold     param.Field[string] `json:"invoicing_threshold"`
-	PerCreditOverageAmount param.Field[string] `json:"per_credit_overage_amount"`
+	InvoicingThreshold     param.Field[string]  `json:"invoicing_threshold"`
+	PerCreditOverageAmount param.Field[float64] `json:"per_credit_overage_amount"`
 	// The plan that the given subscription should be switched to. Note that either
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`

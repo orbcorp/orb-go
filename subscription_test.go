@@ -46,7 +46,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			"foo": "string",
 		}),
 		NetTerms:               orb.F(int64(0)),
-		PerCreditOverageAmount: orb.F("string"),
+		PerCreditOverageAmount: orb.F(0.000000),
 		PlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
 		PriceOverrides: orb.F([]orb.SubscriptionNewParamsPriceOverrideUnion{orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:             orb.F("string"),
@@ -171,7 +171,7 @@ func TestSubscriptionListWithOptionalParams(t *testing.T) {
 		Cursor:             orb.F("string"),
 		CustomerID:         orb.F("string"),
 		ExternalCustomerID: orb.F("string"),
-		Limit:              orb.F(int64(0)),
+		Limit:              orb.F(int64(1)),
 		Status:             orb.F(orb.SubscriptionListParamsStatusActive),
 	})
 	if err != nil {
@@ -281,7 +281,7 @@ func TestSubscriptionFetchScheduleWithOptionalParams(t *testing.T) {
 		"string",
 		orb.SubscriptionFetchScheduleParams{
 			Cursor:       orb.F("string"),
-			Limit:        orb.F(int64(0)),
+			Limit:        orb.F(int64(1)),
 			StartDateGt:  orb.F(time.Now()),
 			StartDateGte: orb.F(time.Now()),
 			StartDateLt:  orb.F(time.Now()),
@@ -566,7 +566,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 			ExternalPlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
 			InitialPhaseOrder:              orb.F(int64(2)),
 			InvoicingThreshold:             orb.F("10.00"),
-			PerCreditOverageAmount:         orb.F("string"),
+			PerCreditOverageAmount:         orb.F(0.000000),
 			PlanID:                         orb.F("ZMwNQefe7J3ecf7W"),
 			PriceOverrides: orb.F([]orb.SubscriptionSchedulePlanChangeParamsPriceOverrideUnion{orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
 				ID:             orb.F("string"),
