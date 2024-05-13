@@ -110,7 +110,7 @@ func TestPlanListWithOptionalParams(t *testing.T) {
 		CreatedAtLt:  orb.F(time.Now()),
 		CreatedAtLte: orb.F(time.Now()),
 		Cursor:       orb.F("string"),
-		Limit:        orb.F(int64(0)),
+		Limit:        orb.F(int64(1)),
 		Status:       orb.F(orb.PlanListParamsStatusActive),
 	})
 	if err != nil {
