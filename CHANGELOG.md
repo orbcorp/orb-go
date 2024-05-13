@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.28.0 (2024-05-13)
+
+Full Changelog: [v0.27.1...v0.28.0](https://github.com/orbcorp/orb-go/compare/v0.27.1...v0.28.0)
+
+### Features
+
+* **api:** updates ([#165](https://github.com/orbcorp/orb-go/issues/165)) ([3300343](https://github.com/orbcorp/orb-go/commit/3300343039f99566c95dae022571a58018149280))
+
+
+### Chores
+
+* **docs:** add SECURITY.md ([#163](https://github.com/orbcorp/orb-go/issues/163)) ([bbd90b9](https://github.com/orbcorp/orb-go/commit/bbd90b926e8a47bd40150cfcf5cd45352c88080c))
+
 ## 0.27.1 (2024-05-10)
 
 Full Changelog: [v0.27.0...v0.27.1](https://github.com/orbcorp/orb-go/compare/v0.27.0...v0.27.1)
