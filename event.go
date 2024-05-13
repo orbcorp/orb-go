@@ -254,12 +254,10 @@ func (r *EventService) Deprecate(ctx context.Context, eventID string, opts ...op
 // We validate the following:
 //
 //   - Exactly one of `customer_id` and `external_customer_id` should be specified.
-//   - If specified, `customer_id` must identify a Customer resource within Orb. We
-//     do not support sending events for customers that have not been provisioned.
-//     Similarly, if specified, `external_customer_id` must be an identifier that is
-//     associated with an Orb Customer resource. Note: During our initial integration
-//     period, this enforcement will be temporarily turned into a warning to ensure
-//     smooth customer migration.
+//   - If the `customer_id` is specified, the customer in Orb must exist.
+//   - If the `external_customer_id` is specified, the customer in Orb does not need
+//     to exist. Events will be attributed to any future customers with the
+//     `external_customer_id` on subscription creation.
 //   - `timestamp` must conform to ISO 8601 and represent a timestamp at most 1 hour
 //     in the future. This timestamp should be sent in UTC timezone (no timezone
 //     offset).

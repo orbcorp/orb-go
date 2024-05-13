@@ -57,7 +57,7 @@ func TestAlertListWithOptionalParams(t *testing.T) {
 		Cursor:             orb.F("string"),
 		CustomerID:         orb.F("string"),
 		ExternalCustomerID: orb.F("string"),
-		Limit:              orb.F(int64(0)),
+		Limit:              orb.F(int64(1)),
 		SubscriptionID:     orb.F("string"),
 	})
 	if err != nil {

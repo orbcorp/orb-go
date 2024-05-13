@@ -65,7 +65,7 @@ func TestPriceListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Prices.List(context.TODO(), orb.PriceListParams{
 		Cursor: orb.F("string"),
-		Limit:  orb.F(int64(0)),
+		Limit:  orb.F(int64(1)),
 	})
 	if err != nil {
 		var apierr *orb.Error

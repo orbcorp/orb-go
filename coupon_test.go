@@ -32,7 +32,7 @@ func TestCouponNewWithOptionalParams(t *testing.T) {
 		}),
 		RedemptionCode:   orb.F("HALFOFF"),
 		DurationInMonths: orb.F(int64(12)),
-		MaxRedemptions:   orb.F(int64(0)),
+		MaxRedemptions:   orb.F(int64(1)),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -57,7 +57,7 @@ func TestCouponListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Coupons.List(context.TODO(), orb.CouponListParams{
 		Cursor:         orb.F("string"),
-		Limit:          orb.F(int64(0)),
+		Limit:          orb.F(int64(1)),
 		RedemptionCode: orb.F("string"),
 		ShowArchived:   orb.F(true),
 	})

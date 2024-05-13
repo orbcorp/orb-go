@@ -107,7 +107,7 @@ func TestInvoiceListWithOptionalParams(t *testing.T) {
 		InvoiceDateLt:      orb.F(time.Now()),
 		InvoiceDateLte:     orb.F(time.Now()),
 		IsRecurring:        orb.F(true),
-		Limit:              orb.F(int64(0)),
+		Limit:              orb.F(int64(1)),
 		Status:             orb.F([]orb.InvoiceListParamsStatus{orb.InvoiceListParamsStatusDraft, orb.InvoiceListParamsStatusIssued, orb.InvoiceListParamsStatusPaid}),
 		SubscriptionID:     orb.F("string"),
 	})
