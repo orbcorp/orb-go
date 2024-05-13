@@ -30,7 +30,7 @@ func TestCouponSubscriptionListWithOptionalParams(t *testing.T) {
 		"string",
 		orb.CouponSubscriptionListParams{
 			Cursor: orb.F("string"),
-			Limit:  orb.F(int64(0)),
+			Limit:  orb.F(int64(1)),
 		},
 	)
 	if err != nil {

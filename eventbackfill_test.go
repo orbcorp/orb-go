@@ -57,7 +57,7 @@ func TestEventBackfillListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Events.Backfills.List(context.TODO(), orb.EventBackfillListParams{
 		Cursor: orb.F("string"),
-		Limit:  orb.F(int64(0)),
+		Limit:  orb.F(int64(1)),
 	})
 	if err != nil {
 		var apierr *orb.Error

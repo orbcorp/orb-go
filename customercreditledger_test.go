@@ -38,7 +38,7 @@ func TestCustomerCreditLedgerListWithOptionalParams(t *testing.T) {
 			Cursor:        orb.F("string"),
 			EntryStatus:   orb.F(orb.CustomerCreditLedgerListParamsEntryStatusCommitted),
 			EntryType:     orb.F(orb.CustomerCreditLedgerListParamsEntryTypeIncrement),
-			Limit:         orb.F(int64(0)),
+			Limit:         orb.F(int64(1)),
 			MinimumAmount: orb.F("string"),
 		},
 	)
@@ -161,7 +161,7 @@ func TestCustomerCreditLedgerListByExternalIDWithOptionalParams(t *testing.T) {
 			Cursor:        orb.F("string"),
 			EntryStatus:   orb.F(orb.CustomerCreditLedgerListByExternalIDParamsEntryStatusCommitted),
 			EntryType:     orb.F(orb.CustomerCreditLedgerListByExternalIDParamsEntryTypeIncrement),
-			Limit:         orb.F(int64(0)),
+			Limit:         orb.F(int64(1)),
 			MinimumAmount: orb.F("string"),
 		},
 	)

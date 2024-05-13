@@ -61,7 +61,7 @@ func TestCustomerBalanceTransactionListWithOptionalParams(t *testing.T) {
 		"string",
 		orb.CustomerBalanceTransactionListParams{
 			Cursor:           orb.F("string"),
-			Limit:            orb.F(int64(0)),
+			Limit:            orb.F(int64(1)),
 			OperationTimeGt:  orb.F(time.Now()),
 			OperationTimeGte: orb.F(time.Now()),
 			OperationTimeLt:  orb.F(time.Now()),
