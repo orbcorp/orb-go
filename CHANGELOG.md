@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.29.1 (2024-05-15)
+
+Full Changelog: [v0.29.0...v0.29.1](https://github.com/orbcorp/orb-go/compare/v0.29.0...v0.29.1)
+
+### Bug Fixes
+
+* fix reading the error body more than once ([#170](https://github.com/orbcorp/orb-go/issues/170)) ([0352386](https://github.com/orbcorp/orb-go/commit/035238685702e37b58a016f9e9645dd3c0e9554a))
+
+
+### Chores
+
+* **internal:** add slightly better logging to scripts ([#168](https://github.com/orbcorp/orb-go/issues/168)) ([c4b2245](https://github.com/orbcorp/orb-go/commit/c4b22457e4ac7028591bc119c5d241527b42be46))
+
 ## 0.29.0 (2024-05-14)
 
 Full Changelog: [v0.28.0...v0.29.0](https://github.com/orbcorp/orb-go/compare/v0.28.0...v0.29.0)
