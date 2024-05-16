@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.30.0 (2024-05-16)
+
+Full Changelog: [v0.29.1...v0.30.0](https://github.com/orbcorp/orb-go/compare/v0.29.1...v0.30.0)
+
+### Features
+
+* **api:** updates ([#173](https://github.com/orbcorp/orb-go/issues/173)) ([3fe7a64](https://github.com/orbcorp/orb-go/commit/3fe7a6427d95eb279353294186e164ddc0abccca))
+
+
+### Chores
+
+* **internal:** support parsing other json content types ([#171](https://github.com/orbcorp/orb-go/issues/171)) ([50ca8b7](https://github.com/orbcorp/orb-go/commit/50ca8b72735ac7c12b90a8b6b9d4e01db1b82cd0))
+
 ## 0.29.1 (2024-05-15)
 
 Full Changelog: [v0.29.0...v0.29.1](https://github.com/orbcorp/orb-go/compare/v0.29.0...v0.29.1)
