@@ -8,6 +8,30 @@ import (
 )
 
 type Error = apierror.Error
+type ErrorStatus = apierror.ErrorStatus
+
+const ErrorStatus500 = apierror.ErrorStatus500
+const ErrorStatus429 = apierror.ErrorStatus429
+const ErrorStatus413 = apierror.ErrorStatus413
+const ErrorStatus409 = apierror.ErrorStatus409
+const ErrorStatus404 = apierror.ErrorStatus404
+const ErrorStatus400 = apierror.ErrorStatus400
+const ErrorStatus401 = apierror.ErrorStatus401
+
+type ErrorType = apierror.ErrorType
+
+const ErrorTypeOrbInternalServerError = apierror.ErrorTypeOrbInternalServerError
+const ErrorTypeTooManyRequests = apierror.ErrorTypeTooManyRequests
+const ErrorTypeResourceTooLarge = apierror.ErrorTypeResourceTooLarge
+const ErrorTypeRequestTooLarge = apierror.ErrorTypeRequestTooLarge
+const ErrorTypeResourceConflict = apierror.ErrorTypeResourceConflict
+const ErrorTypeURLNotFound = apierror.ErrorTypeURLNotFound
+const ErrorTypeResourceNotFound = apierror.ErrorTypeResourceNotFound
+const ErrorTypeFeatureNotAvailable = apierror.ErrorTypeFeatureNotAvailable
+const ErrorTypeOrbAuthenticationError = apierror.ErrorTypeOrbAuthenticationError
+const ErrorTypeRequestValidationError = apierror.ErrorTypeRequestValidationError
+const ErrorTypeDuplicateResourceCreation = apierror.ErrorTypeDuplicateResourceCreation
+const ErrorTypeConstraintViolation = apierror.ErrorTypeConstraintViolation
 
 // This is an alias to an internal type.
 type BillingCycleRelativeDate = shared.BillingCycleRelativeDate
