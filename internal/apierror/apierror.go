@@ -85,23 +85,23 @@ func (r ErrorStatus) IsKnown() bool {
 type ErrorType string
 
 const (
-	ErrorTypeOrbInternalServerError                                                 ErrorType = "https://docs.withorb.com/reference/error-responses#500-internal-server-error"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses429TooManyRequests           ErrorType = "https://docs.withorb.com/reference/error-responses#429-too-many-requests"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413ResourceTooLarge          ErrorType = "https://docs.withorb.com/reference/error-responses#413-resource-too-large"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413RequestTooLarge           ErrorType = "https://docs.withorb.com/reference/error-responses#413-request-too-large"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses409ResourceConflict          ErrorType = "https://docs.withorb.com/reference/error-responses#409-resource-conflict"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404URLNotFound               ErrorType = "https://docs.withorb.com/reference/error-responses#404-url-not-found"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404ResourceNotFound          ErrorType = "https://docs.withorb.com/reference/error-responses#404-resource-not-found"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404FeatureNotAvailable       ErrorType = "https://docs.withorb.com/reference/error-responses#404-feature-not-available"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses401AuthenticationError       ErrorType = "https://docs.withorb.com/reference/error-responses#401-authentication-error"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400RequestValidationErrors   ErrorType = "https://docs.withorb.com/reference/error-responses#400-request-validation-errors"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400DuplicateResourceCreation ErrorType = "https://docs.withorb.com/reference/error-responses#400-duplicate-resource-creation"
-	ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400ConstraintViolation       ErrorType = "https://docs.withorb.com/reference/error-responses#400-constraint-violation"
+	ErrorTypeOrbInternalServerError    ErrorType = "https://docs.withorb.com/reference/error-responses#500-internal-server-error"
+	ErrorTypeTooManyRequests           ErrorType = "https://docs.withorb.com/reference/error-responses#429-too-many-requests"
+	ErrorTypeResourceTooLarge          ErrorType = "https://docs.withorb.com/reference/error-responses#413-resource-too-large"
+	ErrorTypeRequestTooLarge           ErrorType = "https://docs.withorb.com/reference/error-responses#413-request-too-large"
+	ErrorTypeResourceConflict          ErrorType = "https://docs.withorb.com/reference/error-responses#409-resource-conflict"
+	ErrorTypeURLNotFound               ErrorType = "https://docs.withorb.com/reference/error-responses#404-url-not-found"
+	ErrorTypeResourceNotFound          ErrorType = "https://docs.withorb.com/reference/error-responses#404-resource-not-found"
+	ErrorTypeFeatureNotAvailable       ErrorType = "https://docs.withorb.com/reference/error-responses#404-feature-not-available"
+	ErrorTypeOrbAuthenticationError    ErrorType = "https://docs.withorb.com/reference/error-responses#401-authentication-error"
+	ErrorTypeRequestValidationError    ErrorType = "https://docs.withorb.com/reference/error-responses#400-request-validation-errors"
+	ErrorTypeDuplicateResourceCreation ErrorType = "https://docs.withorb.com/reference/error-responses#400-duplicate-resource-creation"
+	ErrorTypeConstraintViolation       ErrorType = "https://docs.withorb.com/reference/error-responses#400-constraint-violation"
 )
 
 func (r ErrorType) IsKnown() bool {
 	switch r {
-	case ErrorTypeOrbInternalServerError, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses429TooManyRequests, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413ResourceTooLarge, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses413RequestTooLarge, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses409ResourceConflict, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404URLNotFound, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404ResourceNotFound, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses404FeatureNotAvailable, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses401AuthenticationError, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400RequestValidationErrors, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400DuplicateResourceCreation, ErrorTypeHTTPSDocsWithorbComReferenceErrorResponses400ConstraintViolation:
+	case ErrorTypeOrbInternalServerError, ErrorTypeTooManyRequests, ErrorTypeResourceTooLarge, ErrorTypeRequestTooLarge, ErrorTypeResourceConflict, ErrorTypeURLNotFound, ErrorTypeResourceNotFound, ErrorTypeFeatureNotAvailable, ErrorTypeOrbAuthenticationError, ErrorTypeRequestValidationError, ErrorTypeDuplicateResourceCreation, ErrorTypeConstraintViolation:
 		return true
 	}
 	return false
