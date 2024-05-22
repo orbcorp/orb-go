@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.32.0 (2024-05-22)
+
+Full Changelog: [v0.31.0...v0.32.0](https://github.com/orbcorp/orb-go/compare/v0.31.0...v0.32.0)
+
+### Features
+
+* export `ErrorType` and `ErrorStatus` types ([#176](https://github.com/orbcorp/orb-go/issues/176)) ([9c25e89](https://github.com/orbcorp/orb-go/commit/9c25e892c638f0c23fbf084e4bf4a1e3be89caa7))
+
+
+### Bug Fixes
+
+* **api:** better handling of enum renaming ([9c25e89](https://github.com/orbcorp/orb-go/commit/9c25e892c638f0c23fbf084e4bf4a1e3be89caa7))
+
 ## 0.31.0 (2024-05-22)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/orbcorp/orb-go/compare/v0.30.0...v0.31.0)
