@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.0 (2024-05-22)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/orbcorp/orb-go/compare/v0.30.0...v0.31.0)
+
+### Features
+
+* **api:** add adjustment interval to subscriptions ([#174](https://github.com/orbcorp/orb-go/issues/174)) ([53a1ee1](https://github.com/orbcorp/orb-go/commit/53a1ee1f07b0ba024fb95af2a8a79b4550cc2549))
+
 ## 0.30.0 (2024-05-16)
 
 Full Changelog: [v0.29.1...v0.30.0](https://github.com/orbcorp/orb-go/compare/v0.29.1...v0.30.0)
