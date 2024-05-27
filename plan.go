@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -53,6 +54,10 @@ func (r *PlanService) New(ctx context.Context, body PlanNewParams, opts ...optio
 // Other fields on a customer are currently immutable.
 func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = append(r.Options[:], opts...)
+	if planID == "" {
+		err = errors.New("missing required plan_id parameter")
+		return
+	}
 	path := fmt.Sprintf("plans/%s", planID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
@@ -108,6 +113,10 @@ func (r *PlanService) ListAutoPaging(ctx context.Context, query PlanListParams, 
 // the serialized prices refer to all prices across all phases.
 func (r *PlanService) Fetch(ctx context.Context, planID string, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = append(r.Options[:], opts...)
+	if planID == "" {
+		err = errors.New("missing required plan_id parameter")
+		return
+	}
 	path := fmt.Sprintf("plans/%s", planID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

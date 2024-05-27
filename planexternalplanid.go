@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -46,6 +47,10 @@ func NewPlanExternalPlanIDService(opts ...option.RequestOption) (r *PlanExternal
 // [Price schema](../guides/concepts#plan-and-price).
 func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPlanID string, body PlanExternalPlanIDUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = append(r.Options[:], opts...)
+	if otherExternalPlanID == "" {
+		err = errors.New("missing required other_external_plan_id parameter")
+		return
+	}
 	path := fmt.Sprintf("plans/external_plan_id/%s", otherExternalPlanID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
@@ -65,6 +70,10 @@ func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPla
 // [Price schema](../guides/concepts#plan-and-price). "
 func (r *PlanExternalPlanIDService) Fetch(ctx context.Context, externalPlanID string, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = append(r.Options[:], opts...)
+	if externalPlanID == "" {
+		err = errors.New("missing required external_plan_id parameter")
+		return
+	}
 	path := fmt.Sprintf("plans/external_plan_id/%s", externalPlanID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

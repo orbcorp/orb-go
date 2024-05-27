@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -67,6 +68,10 @@ func (r *CreditNoteService) ListAutoPaging(ctx context.Context, query CreditNote
 // [`Credit Note`](../guides/invoicing/credit-notes) given an identifier.
 func (r *CreditNoteService) Fetch(ctx context.Context, creditNoteID string, opts ...option.RequestOption) (res *CreditNote, err error) {
 	opts = append(r.Options[:], opts...)
+	if creditNoteID == "" {
+		err = errors.New("missing required credit_note_id parameter")
+		return
+	}
 	path := fmt.Sprintf("credit_notes/%s", creditNoteID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
