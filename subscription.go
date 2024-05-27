@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -469,6 +470,10 @@ func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParam
 // on a subscription.
 func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string, body SubscriptionUpdateParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
@@ -576,6 +581,10 @@ func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query Subscrip
 // [cancellation behaviors](../guides/product-catalog/creating-subscriptions.md#cancellation-behaviors).
 func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string, body SubscriptionCancelParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/cancel", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -585,6 +594,10 @@ func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string,
 // given an identifier.
 func (r *SubscriptionService) Fetch(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
@@ -602,6 +615,10 @@ func (r *SubscriptionService) Fetch(ctx context.Context, subscriptionID string, 
 // same day).
 func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID string, query SubscriptionFetchCostsParams, opts ...option.RequestOption) (res *SubscriptionFetchCostsResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/costs", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
@@ -836,6 +853,10 @@ func (r *SubscriptionService) FetchScheduleAutoPaging(ctx context.Context, subsc
 // - `second_dimension_value`: `aws`
 func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID string, query SubscriptionFetchUsageParams, opts ...option.RequestOption) (res *SubscriptionUsage, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/usage", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
@@ -900,6 +921,10 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 // intervals.
 func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID string, body SubscriptionPriceIntervalsParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/price_intervals", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -951,6 +976,10 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // [Modifying subscriptions](../guides/product-catalog/modifying-subscriptions.md#prorations-for-in-advance-fees).
 func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscriptionID string, body SubscriptionSchedulePlanChangeParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/schedule_plan_change", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -960,6 +989,10 @@ func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscripti
 // specified).
 func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID string, body SubscriptionTriggerPhaseParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/trigger_phase", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -973,6 +1006,10 @@ func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID s
 // subscription does not end at the currently scheduled cancellation time.
 func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/unschedule_cancellation", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
@@ -984,6 +1021,10 @@ func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscr
 // If there are no updates scheduled, this endpoint is a no-op.
 func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Context, subscriptionID string, body SubscriptionUnscheduleFixedFeeQuantityUpdatesParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/unschedule_fixed_fee_quantity_updates", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -993,6 +1034,10 @@ func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Cont
 // subscription.
 func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/unschedule_pending_plan_changes", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
@@ -1014,6 +1059,10 @@ func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, 
 // for the difference for the remainder of the billing period.
 func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscriptionID string, body SubscriptionUpdateFixedFeeQuantityParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/update_fixed_fee_quantity", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return

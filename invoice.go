@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -90,6 +91,10 @@ func (r *InvoiceService) ListAutoPaging(ctx context.Context, query InvoiceListPa
 // an identifier.
 func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *Invoice, err error) {
 	opts = append(r.Options[:], opts...)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return
+	}
 	path := fmt.Sprintf("invoices/%s", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
@@ -113,6 +118,10 @@ func (r *InvoiceService) FetchUpcoming(ctx context.Context, query InvoiceFetchUp
 // providers, etc).
 func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *Invoice, err error) {
 	opts = append(r.Options[:], opts...)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return
+	}
 	path := fmt.Sprintf("invoices/%s/issue", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
@@ -122,6 +131,10 @@ func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, opts ...op
 // only be done to invoices that are in the `issued` status.
 func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body InvoiceMarkPaidParams, opts ...option.RequestOption) (res *Invoice, err error) {
 	opts = append(r.Options[:], opts...)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return
+	}
 	path := fmt.Sprintf("invoices/%s/mark_paid", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -136,6 +149,10 @@ func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body In
 // customer balance upon voiding.
 func (r *InvoiceService) Void(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *Invoice, err error) {
 	opts = append(r.Options[:], opts...)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return
+	}
 	path := fmt.Sprintf("invoices/%s/void", invoiceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return

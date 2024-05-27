@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -70,6 +71,10 @@ func (r *CustomerService) New(ctx context.Context, body CustomerNewParams, opts 
 // currently immutable.
 func (r *CustomerService) Update(ctx context.Context, customerID string, body CustomerUpdateParams, opts ...option.RequestOption) (res *Customer, err error) {
 	opts = append(r.Options[:], opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
@@ -125,6 +130,10 @@ func (r *CustomerService) ListAutoPaging(ctx context.Context, query CustomerList
 func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
 	return
@@ -138,6 +147,10 @@ func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ..
 // discussion of the Customer model.
 func (r *CustomerService) Fetch(ctx context.Context, customerID string, opts ...option.RequestOption) (res *Customer, err error) {
 	opts = append(r.Options[:], opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
@@ -150,6 +163,10 @@ func (r *CustomerService) Fetch(ctx context.Context, customerID string, opts ...
 // [Get Customer](fetch-customer).
 func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustomerID string, opts ...option.RequestOption) (res *Customer, err error) {
 	opts = append(r.Options[:], opts...)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/external_customer_id/%s", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
@@ -161,6 +178,10 @@ func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustome
 // [Update Customer](update-customer).
 func (r *CustomerService) UpdateByExternalID(ctx context.Context, id string, body CustomerUpdateByExternalIDParams, opts ...option.RequestOption) (res *Customer, err error) {
 	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/external_customer_id/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
