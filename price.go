@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -106,6 +107,10 @@ func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams
 // query parameters.
 func (r *PriceService) Evaluate(ctx context.Context, priceID string, body PriceEvaluateParams, opts ...option.RequestOption) (res *PriceEvaluateResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if priceID == "" {
+		err = errors.New("missing required price_id parameter")
+		return
+	}
 	path := fmt.Sprintf("prices/%s/evaluate", priceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -114,6 +119,10 @@ func (r *PriceService) Evaluate(ctx context.Context, priceID string, body PriceE
 // This endpoint returns a price given an identifier.
 func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option.RequestOption) (res *Price, err error) {
 	opts = append(r.Options[:], opts...)
+	if priceID == "" {
+		err = errors.New("missing required price_id parameter")
+		return
+	}
 	path := fmt.Sprintf("prices/%s", priceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -35,6 +36,10 @@ func NewPriceExternalPriceIDService(opts ...option.RequestOption) (r *PriceExter
 // external price aliases.
 func (r *PriceExternalPriceIDService) Fetch(ctx context.Context, externalPriceID string, opts ...option.RequestOption) (res *Price, err error) {
 	opts = append(r.Options[:], opts...)
+	if externalPriceID == "" {
+		err = errors.New("missing required external_price_id parameter")
+		return
+	}
 	path := fmt.Sprintf("prices/external_price_id/%s", externalPriceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -44,6 +45,10 @@ func NewCustomerCreditTopUpService(opts ...option.RequestOption) (r *CustomerCre
 // top-up will be replaced.
 func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string, body CustomerCreditTopUpNewParams, opts ...option.RequestOption) (res *CustomerCreditTopUpNewResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s/credits/top_ups", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -76,6 +81,14 @@ func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, custome
 func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID string, topUpID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
+	if topUpID == "" {
+		err = errors.New("missing required top_up_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s/credits/top_ups/%s", customerID, topUpID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
 	return
@@ -90,6 +103,10 @@ func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID stri
 // top-up will be replaced.
 func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, externalCustomerID string, body CustomerCreditTopUpNewByExternalIDParams, opts ...option.RequestOption) (res *CustomerCreditTopUpNewByExternalIDResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/top_ups", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -99,6 +116,14 @@ func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, extern
 func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, externalCustomerID string, topUpID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return
+	}
+	if topUpID == "" {
+		err = errors.New("missing required top_up_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/top_ups/%s", externalCustomerID, topUpID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
 	return

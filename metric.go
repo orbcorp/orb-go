@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -78,6 +79,10 @@ func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListPara
 // information about the metrics including its name, description, and item.
 func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *MetricFetchResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if metricID == "" {
+		err = errors.New("missing required metric_id parameter")
+		return
+	}
 	path := fmt.Sprintf("metrics/%s", metricID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

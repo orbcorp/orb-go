@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -40,6 +41,10 @@ func NewCustomerBalanceTransactionService(opts ...option.RequestOption) (r *Cust
 // returns back the newly created transaction.
 func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID string, body CustomerBalanceTransactionNewParams, opts ...option.RequestOption) (res *CustomerBalanceTransactionNewResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s/balance_transactions", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return

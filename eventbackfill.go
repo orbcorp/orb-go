@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -113,6 +114,10 @@ func (r *EventBackfillService) ListAutoPaging(ctx context.Context, query EventBa
 // will transition to `reflected`.
 func (r *EventBackfillService) Close(ctx context.Context, backfillID string, opts ...option.RequestOption) (res *EventBackfillCloseResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if backfillID == "" {
+		err = errors.New("missing required backfill_id parameter")
+		return
+	}
 	path := fmt.Sprintf("events/backfills/%s/close", backfillID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
@@ -121,6 +126,10 @@ func (r *EventBackfillService) Close(ctx context.Context, backfillID string, opt
 // This endpoint is used to fetch a backfill given an identifier.
 func (r *EventBackfillService) Fetch(ctx context.Context, backfillID string, opts ...option.RequestOption) (res *EventBackfillFetchResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if backfillID == "" {
+		err = errors.New("missing required backfill_id parameter")
+		return
+	}
 	path := fmt.Sprintf("events/backfills/%s", backfillID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
@@ -135,6 +144,10 @@ func (r *EventBackfillService) Fetch(ctx context.Context, backfillID string, opt
 // result of the backfill and it will immediately transition to `reverted`.
 func (r *EventBackfillService) Revert(ctx context.Context, backfillID string, opts ...option.RequestOption) (res *EventBackfillRevertResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if backfillID == "" {
+		err = errors.New("missing required backfill_id parameter")
+		return
+	}
 	path := fmt.Sprintf("events/backfills/%s/revert", backfillID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return

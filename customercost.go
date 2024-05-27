@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -171,6 +172,10 @@ func NewCustomerCostService(opts ...option.RequestOption) (r *CustomerCostServic
 // `grouping_value` and `secondary_grouping_value` available.
 func (r *CustomerCostService) List(ctx context.Context, customerID string, query CustomerCostListParams, opts ...option.RequestOption) (res *CustomerCostListResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s/costs", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
@@ -312,6 +317,10 @@ func (r *CustomerCostService) List(ctx context.Context, customerID string, query
 // `grouping_value` and `secondary_grouping_value` available.
 func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCostListByExternalIDParams, opts ...option.RequestOption) (res *CustomerCostListByExternalIDResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/costs", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return

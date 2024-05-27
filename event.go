@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -82,6 +83,10 @@ func NewEventService(opts ...option.RequestOption) (r *EventService) {
 //     subscription's previous billing period.
 func (r *EventService) Update(ctx context.Context, eventID string, body EventUpdateParams, opts ...option.RequestOption) (res *EventUpdateResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if eventID == "" {
+		err = errors.New("missing required event_id parameter")
+		return
+	}
 	path := fmt.Sprintf("events/%s", eventID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
 	return
@@ -126,6 +131,10 @@ func (r *EventService) Update(ctx context.Context, eventID string, body EventUpd
 //     deprecating events for customers not in the Orb system.
 func (r *EventService) Deprecate(ctx context.Context, eventID string, opts ...option.RequestOption) (res *EventDeprecateResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if eventID == "" {
+		err = errors.New("missing required event_id parameter")
+		return
+	}
 	path := fmt.Sprintf("events/%s/deprecate", eventID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, nil, &res, opts...)
 	return

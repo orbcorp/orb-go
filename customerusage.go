@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -135,6 +136,10 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 // using multiple calls with small adjacent (e.g. every hour) timeframes.
 func (r *CustomerUsageService) Update(ctx context.Context, id string, params CustomerUsageUpdateParams, opts ...option.RequestOption) (res *CustomerUsageUpdateResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s/usage", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, &res, opts...)
 	return
@@ -240,6 +245,10 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 // using multiple calls with small adjacent (e.g. every hour) timeframes.
 func (r *CustomerUsageService) UpdateByExternalID(ctx context.Context, id string, params CustomerUsageUpdateByExternalIDParams, opts ...option.RequestOption) (res *CustomerUsageUpdateByExternalIDResponse, err error) {
 	opts = append(r.Options[:], opts...)
+	if id == "" {
+		err = errors.New("missing required id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/usage", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, &res, opts...)
 	return
