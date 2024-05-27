@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -39,6 +40,10 @@ func NewAlertService(opts ...option.RequestOption) (r *AlertService) {
 // This endpoint retrieves an alert by its ID.
 func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
+	if alertID == "" {
+		err = errors.New("missing required alert_id parameter")
+		return
+	}
 	path := fmt.Sprintf("alerts/%s", alertID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
@@ -98,6 +103,10 @@ func (r *AlertService) ListAutoPaging(ctx context.Context, query AlertListParams
 // require thresholds.
 func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, body AlertNewForCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("alerts/customer_id/%s", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -114,6 +123,10 @@ func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, bo
 // require thresholds.
 func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCustomerID string, body AlertNewForExternalCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("alerts/external_customer_id/%s", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -132,6 +145,10 @@ func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCusto
 // usage or cost conditions met during the current billing cycle.
 func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID string, body AlertNewForSubscriptionParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("alerts/subscription_id/%s", subscriptionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -140,6 +157,10 @@ func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID st
 // This endpoint can be used to disable an alert.
 func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
+	if alertConfigurationID == "" {
+		err = errors.New("missing required alert_configuration_id parameter")
+		return
+	}
 	path := fmt.Sprintf("alerts/%s/disable", alertConfigurationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
@@ -148,6 +169,10 @@ func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string,
 // This endpoint can be used to enable an alert.
 func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
+	if alertConfigurationID == "" {
+		err = errors.New("missing required alert_configuration_id parameter")
+		return
+	}
 	path := fmt.Sprintf("alerts/%s/enable", alertConfigurationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return

@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -87,6 +88,10 @@ func (r *CouponService) ListAutoPaging(ctx context.Context, query CouponListPara
 // coupon is archived, its redemption code can be reused for a different coupon.
 func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...option.RequestOption) (res *Coupon, err error) {
 	opts = append(r.Options[:], opts...)
+	if couponID == "" {
+		err = errors.New("missing required coupon_id parameter")
+		return
+	}
 	path := fmt.Sprintf("coupons/%s/archive", couponID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return
@@ -97,6 +102,10 @@ func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...op
 // parameter.
 func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...option.RequestOption) (res *Coupon, err error) {
 	opts = append(r.Options[:], opts...)
+	if couponID == "" {
+		err = errors.New("missing required coupon_id parameter")
+		return
+	}
 	path := fmt.Sprintf("coupons/%s", couponID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

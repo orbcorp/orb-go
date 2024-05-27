@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -72,6 +73,10 @@ func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, 
 // This endpoint returns an item identified by its item_id.
 func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.RequestOption) (res *Item, err error) {
 	opts = append(r.Options[:], opts...)
+	if itemID == "" {
+		err = errors.New("missing required item_id parameter")
+		return
+	}
 	path := fmt.Sprintf("items/%s", itemID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
