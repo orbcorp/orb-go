@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.34.0 (2024-05-29)
+
+Full Changelog: [v0.33.0...v0.34.0](https://github.com/orbcorp/orb-go/compare/v0.33.0...v0.34.0)
+
+### Features
+
+* **api:** pricing model updates ([b5c6baa](https://github.com/orbcorp/orb-go/commit/b5c6baaef849d532cd38eee9a6d59d845da8c671))
+* **api:** update item endpoint ([#183](https://github.com/orbcorp/orb-go/issues/183)) ([b5c6baa](https://github.com/orbcorp/orb-go/commit/b5c6baaef849d532cd38eee9a6d59d845da8c671))
+* better validation of path params ([#180](https://github.com/orbcorp/orb-go/issues/180)) ([64ca928](https://github.com/orbcorp/orb-go/commit/64ca9281ffda4eca07e2a28c7e4a93c1ab916806))
+
+
+### Chores
+
+* **internal:** fix format script ([#182](https://github.com/orbcorp/orb-go/issues/182)) ([0a79aff](https://github.com/orbcorp/orb-go/commit/0a79aff55fd704c7d9dbe96fd769db33ef71544c))
+
 ## 0.33.0 (2024-05-23)
 
 Full Changelog: [v0.32.0...v0.33.0](https://github.com/orbcorp/orb-go/compare/v0.32.0...v0.33.0)
