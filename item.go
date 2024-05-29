@@ -45,6 +45,18 @@ func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...optio
 	return
 }
 
+// Update items
+func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdateParams, opts ...option.RequestOption) (res *Item, err error) {
+	opts = append(r.Options[:], opts...)
+	if itemID == "" {
+		err = errors.New("missing required item_id parameter")
+		return
+	}
+	path := fmt.Sprintf("items/%s", itemID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // This endpoint returns a list of all Items, ordered in descending order by
 // creation time.
 func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...option.RequestOption) (res *pagination.Page[Item], err error) {
@@ -161,6 +173,47 @@ type ItemNewParams struct {
 
 func (r ItemNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type ItemUpdateParams struct {
+	ExternalConnections param.Field[[]ItemUpdateParamsExternalConnection] `json:"external_connections,required"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r ItemUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type ItemUpdateParamsExternalConnection struct {
+	ExternalConnectionName param.Field[ItemUpdateParamsExternalConnectionsExternalConnectionName] `json:"external_connection_name,required"`
+	ExternalEntityID       param.Field[string]                                                    `json:"external_entity_id,required"`
+}
+
+func (r ItemUpdateParamsExternalConnection) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type ItemUpdateParamsExternalConnectionsExternalConnectionName string
+
+const (
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe     ItemUpdateParamsExternalConnectionsExternalConnectionName = "stripe"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameQuickbooks ItemUpdateParamsExternalConnectionsExternalConnectionName = "quickbooks"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameBillCom    ItemUpdateParamsExternalConnectionsExternalConnectionName = "bill.com"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameNetsuite   ItemUpdateParamsExternalConnectionsExternalConnectionName = "netsuite"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameTaxjar     ItemUpdateParamsExternalConnectionsExternalConnectionName = "taxjar"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameAvalara    ItemUpdateParamsExternalConnectionsExternalConnectionName = "avalara"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameAnrok      ItemUpdateParamsExternalConnectionsExternalConnectionName = "anrok"
+)
+
+func (r ItemUpdateParamsExternalConnectionsExternalConnectionName) IsKnown() bool {
+	switch r {
+	case ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe, ItemUpdateParamsExternalConnectionsExternalConnectionNameQuickbooks, ItemUpdateParamsExternalConnectionsExternalConnectionNameBillCom, ItemUpdateParamsExternalConnectionsExternalConnectionNameNetsuite, ItemUpdateParamsExternalConnectionsExternalConnectionNameTaxjar, ItemUpdateParamsExternalConnectionsExternalConnectionNameAvalara, ItemUpdateParamsExternalConnectionsExternalConnectionNameAnrok:
+		return true
+	}
+	return false
 }
 
 type ItemListParams struct {

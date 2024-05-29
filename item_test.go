@@ -37,6 +37,46 @@ func TestItemNew(t *testing.T) {
 	}
 }
 
+func TestItemUpdateWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Items.Update(
+		context.TODO(),
+		"string",
+		orb.ItemUpdateParams{
+			ExternalConnections: orb.F([]orb.ItemUpdateParamsExternalConnection{{
+				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
+				ExternalEntityID:       orb.F("string"),
+			}, {
+				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
+				ExternalEntityID:       orb.F("string"),
+			}, {
+				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
+				ExternalEntityID:       orb.F("string"),
+			}}),
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
+		},
+	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestItemListWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
