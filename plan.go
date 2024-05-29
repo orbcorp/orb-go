@@ -541,6 +541,8 @@ type PlanNewParamsPrice struct {
 	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
 	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
 	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
+	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config,required"`
+	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config,required"`
 }
 
 func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
@@ -560,7 +562,9 @@ func (r PlanNewParamsPrice) implementsPlanNewParamsPriceUnion() {}
 // [PlanNewParamsPricesNewPlanTieredPackagePrice],
 // [PlanNewParamsPricesNewPlanTieredWithMinimumPrice],
 // [PlanNewParamsPricesNewPlanUnitWithPercentPrice],
-// [PlanNewParamsPricesNewPlanPackageWithAllocationPrice], [PlanNewParamsPrice].
+// [PlanNewParamsPricesNewPlanPackageWithAllocationPrice],
+// [PlanNewParamsPricesNewPlanTierWithProrationPrice],
+// [PlanNewParamsPricesNewPlanUnitWithProrationPrice], [PlanNewParamsPrice].
 type PlanNewParamsPriceUnion interface {
 	implementsPlanNewParamsPriceUnion()
 }
@@ -1584,6 +1588,140 @@ func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceModelType) IsKnown()
 	return false
 }
 
+type PlanNewParamsPricesNewPlanTierWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                    `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                      param.Field[string]                 `json:"name,required"`
+	TieredWithProrationConfig param.Field[map[string]interface{}] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPrice) implementsPlanNewParamsPriceUnion() {}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanTierWithProrationPriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceAnnual    PlanNewParamsPricesNewPlanTierWithProrationPriceCadence = "annual"
+	PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceMonthly   PlanNewParamsPricesNewPlanTierWithProrationPriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceQuarterly PlanNewParamsPricesNewPlanTierWithProrationPriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceOneTime   PlanNewParamsPricesNewPlanTierWithProrationPriceCadence = "one_time"
+)
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceAnnual, PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceMonthly, PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceQuarterly, PlanNewParamsPricesNewPlanTierWithProrationPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanTierWithProrationPriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanTierWithProrationPriceModelTypeTieredWithProration PlanNewParamsPricesNewPlanTierWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTierWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanUnitWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                    `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                    param.Field[string]                 `json:"name,required"`
+	UnitWithProrationConfig param.Field[map[string]interface{}] `json:"unit_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPrice) implementsPlanNewParamsPriceUnion() {}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceAnnual    PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence = "annual"
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceMonthly   PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceQuarterly PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceOneTime   PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence = "one_time"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceAnnual, PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceMonthly, PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceQuarterly, PlanNewParamsPricesNewPlanUnitWithProrationPriceCadenceOneTime:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanUnitWithProrationPriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceModelTypeUnitWithProration PlanNewParamsPricesNewPlanUnitWithProrationPriceModelType = "unit_with_proration"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitWithProrationPriceModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
 // The cadence to bill for this price on.
 type PlanNewParamsPricesCadence string
 
@@ -1618,11 +1756,13 @@ const (
 	PlanNewParamsPricesModelTypeTieredWithMinimum     PlanNewParamsPricesModelType = "tiered_with_minimum"
 	PlanNewParamsPricesModelTypeUnitWithPercent       PlanNewParamsPricesModelType = "unit_with_percent"
 	PlanNewParamsPricesModelTypePackageWithAllocation PlanNewParamsPricesModelType = "package_with_allocation"
+	PlanNewParamsPricesModelTypeTieredWithProration   PlanNewParamsPricesModelType = "tiered_with_proration"
+	PlanNewParamsPricesModelTypeUnitWithProration     PlanNewParamsPricesModelType = "unit_with_proration"
 )
 
 func (r PlanNewParamsPricesModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation:
+	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration:
 		return true
 	}
 	return false
