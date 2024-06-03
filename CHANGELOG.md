@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.34.1 (2024-06-03)
+
+Full Changelog: [v0.34.0...v0.34.1](https://github.com/orbcorp/orb-go/compare/v0.34.0...v0.34.1)
+
+### Bug Fixes
+
+* **internal:** fix the way that unions are deserialized in nested arrays ([#184](https://github.com/orbcorp/orb-go/issues/184)) ([a959ad4](https://github.com/orbcorp/orb-go/commit/a959ad4e3cdb685d36eb8951fa56285e4d7d5d2f))
+
 ## 0.34.0 (2024-05-29)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/orbcorp/orb-go/compare/v0.33.0...v0.34.0)
