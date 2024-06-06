@@ -977,15 +977,16 @@ func (r priceUnitPriceBillableMetricJSON) RawJSON() string {
 type PriceUnitPriceCadence string
 
 const (
-	PriceUnitPriceCadenceOneTime   PriceUnitPriceCadence = "one_time"
-	PriceUnitPriceCadenceMonthly   PriceUnitPriceCadence = "monthly"
-	PriceUnitPriceCadenceQuarterly PriceUnitPriceCadence = "quarterly"
-	PriceUnitPriceCadenceAnnual    PriceUnitPriceCadence = "annual"
+	PriceUnitPriceCadenceOneTime    PriceUnitPriceCadence = "one_time"
+	PriceUnitPriceCadenceMonthly    PriceUnitPriceCadence = "monthly"
+	PriceUnitPriceCadenceQuarterly  PriceUnitPriceCadence = "quarterly"
+	PriceUnitPriceCadenceSemiAnnual PriceUnitPriceCadence = "semi_annual"
+	PriceUnitPriceCadenceAnnual     PriceUnitPriceCadence = "annual"
 )
 
 func (r PriceUnitPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceUnitPriceCadenceOneTime, PriceUnitPriceCadenceMonthly, PriceUnitPriceCadenceQuarterly, PriceUnitPriceCadenceAnnual:
+	case PriceUnitPriceCadenceOneTime, PriceUnitPriceCadenceMonthly, PriceUnitPriceCadenceQuarterly, PriceUnitPriceCadenceSemiAnnual, PriceUnitPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -1225,15 +1226,16 @@ func (r pricePackagePriceBillableMetricJSON) RawJSON() string {
 type PricePackagePriceCadence string
 
 const (
-	PricePackagePriceCadenceOneTime   PricePackagePriceCadence = "one_time"
-	PricePackagePriceCadenceMonthly   PricePackagePriceCadence = "monthly"
-	PricePackagePriceCadenceQuarterly PricePackagePriceCadence = "quarterly"
-	PricePackagePriceCadenceAnnual    PricePackagePriceCadence = "annual"
+	PricePackagePriceCadenceOneTime    PricePackagePriceCadence = "one_time"
+	PricePackagePriceCadenceMonthly    PricePackagePriceCadence = "monthly"
+	PricePackagePriceCadenceQuarterly  PricePackagePriceCadence = "quarterly"
+	PricePackagePriceCadenceSemiAnnual PricePackagePriceCadence = "semi_annual"
+	PricePackagePriceCadenceAnnual     PricePackagePriceCadence = "annual"
 )
 
 func (r PricePackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PricePackagePriceCadenceOneTime, PricePackagePriceCadenceMonthly, PricePackagePriceCadenceQuarterly, PricePackagePriceCadenceAnnual:
+	case PricePackagePriceCadenceOneTime, PricePackagePriceCadenceMonthly, PricePackagePriceCadenceQuarterly, PricePackagePriceCadenceSemiAnnual, PricePackagePriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -1477,15 +1479,16 @@ func (r priceMatrixPriceBillableMetricJSON) RawJSON() string {
 type PriceMatrixPriceCadence string
 
 const (
-	PriceMatrixPriceCadenceOneTime   PriceMatrixPriceCadence = "one_time"
-	PriceMatrixPriceCadenceMonthly   PriceMatrixPriceCadence = "monthly"
-	PriceMatrixPriceCadenceQuarterly PriceMatrixPriceCadence = "quarterly"
-	PriceMatrixPriceCadenceAnnual    PriceMatrixPriceCadence = "annual"
+	PriceMatrixPriceCadenceOneTime    PriceMatrixPriceCadence = "one_time"
+	PriceMatrixPriceCadenceMonthly    PriceMatrixPriceCadence = "monthly"
+	PriceMatrixPriceCadenceQuarterly  PriceMatrixPriceCadence = "quarterly"
+	PriceMatrixPriceCadenceSemiAnnual PriceMatrixPriceCadence = "semi_annual"
+	PriceMatrixPriceCadenceAnnual     PriceMatrixPriceCadence = "annual"
 )
 
 func (r PriceMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceMatrixPriceCadenceOneTime, PriceMatrixPriceCadenceMonthly, PriceMatrixPriceCadenceQuarterly, PriceMatrixPriceCadenceAnnual:
+	case PriceMatrixPriceCadenceOneTime, PriceMatrixPriceCadenceMonthly, PriceMatrixPriceCadenceQuarterly, PriceMatrixPriceCadenceSemiAnnual, PriceMatrixPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -1758,15 +1761,16 @@ func (r priceTieredPriceBillableMetricJSON) RawJSON() string {
 type PriceTieredPriceCadence string
 
 const (
-	PriceTieredPriceCadenceOneTime   PriceTieredPriceCadence = "one_time"
-	PriceTieredPriceCadenceMonthly   PriceTieredPriceCadence = "monthly"
-	PriceTieredPriceCadenceQuarterly PriceTieredPriceCadence = "quarterly"
-	PriceTieredPriceCadenceAnnual    PriceTieredPriceCadence = "annual"
+	PriceTieredPriceCadenceOneTime    PriceTieredPriceCadence = "one_time"
+	PriceTieredPriceCadenceMonthly    PriceTieredPriceCadence = "monthly"
+	PriceTieredPriceCadenceQuarterly  PriceTieredPriceCadence = "quarterly"
+	PriceTieredPriceCadenceSemiAnnual PriceTieredPriceCadence = "semi_annual"
+	PriceTieredPriceCadenceAnnual     PriceTieredPriceCadence = "annual"
 )
 
 func (r PriceTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredPriceCadenceOneTime, PriceTieredPriceCadenceMonthly, PriceTieredPriceCadenceQuarterly, PriceTieredPriceCadenceAnnual:
+	case PriceTieredPriceCadenceOneTime, PriceTieredPriceCadenceMonthly, PriceTieredPriceCadenceQuarterly, PriceTieredPriceCadenceSemiAnnual, PriceTieredPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -2034,15 +2038,16 @@ func (r priceTieredBpsPriceBillableMetricJSON) RawJSON() string {
 type PriceTieredBpsPriceCadence string
 
 const (
-	PriceTieredBpsPriceCadenceOneTime   PriceTieredBpsPriceCadence = "one_time"
-	PriceTieredBpsPriceCadenceMonthly   PriceTieredBpsPriceCadence = "monthly"
-	PriceTieredBpsPriceCadenceQuarterly PriceTieredBpsPriceCadence = "quarterly"
-	PriceTieredBpsPriceCadenceAnnual    PriceTieredBpsPriceCadence = "annual"
+	PriceTieredBpsPriceCadenceOneTime    PriceTieredBpsPriceCadence = "one_time"
+	PriceTieredBpsPriceCadenceMonthly    PriceTieredBpsPriceCadence = "monthly"
+	PriceTieredBpsPriceCadenceQuarterly  PriceTieredBpsPriceCadence = "quarterly"
+	PriceTieredBpsPriceCadenceSemiAnnual PriceTieredBpsPriceCadence = "semi_annual"
+	PriceTieredBpsPriceCadenceAnnual     PriceTieredBpsPriceCadence = "annual"
 )
 
 func (r PriceTieredBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredBpsPriceCadenceOneTime, PriceTieredBpsPriceCadenceMonthly, PriceTieredBpsPriceCadenceQuarterly, PriceTieredBpsPriceCadenceAnnual:
+	case PriceTieredBpsPriceCadenceOneTime, PriceTieredBpsPriceCadenceMonthly, PriceTieredBpsPriceCadenceQuarterly, PriceTieredBpsPriceCadenceSemiAnnual, PriceTieredBpsPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -2338,15 +2343,16 @@ func (r priceBpsPriceBpsConfigJSON) RawJSON() string {
 type PriceBpsPriceCadence string
 
 const (
-	PriceBpsPriceCadenceOneTime   PriceBpsPriceCadence = "one_time"
-	PriceBpsPriceCadenceMonthly   PriceBpsPriceCadence = "monthly"
-	PriceBpsPriceCadenceQuarterly PriceBpsPriceCadence = "quarterly"
-	PriceBpsPriceCadenceAnnual    PriceBpsPriceCadence = "annual"
+	PriceBpsPriceCadenceOneTime    PriceBpsPriceCadence = "one_time"
+	PriceBpsPriceCadenceMonthly    PriceBpsPriceCadence = "monthly"
+	PriceBpsPriceCadenceQuarterly  PriceBpsPriceCadence = "quarterly"
+	PriceBpsPriceCadenceSemiAnnual PriceBpsPriceCadence = "semi_annual"
+	PriceBpsPriceCadenceAnnual     PriceBpsPriceCadence = "annual"
 )
 
 func (r PriceBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceBpsPriceCadenceOneTime, PriceBpsPriceCadenceMonthly, PriceBpsPriceCadenceQuarterly, PriceBpsPriceCadenceAnnual:
+	case PriceBpsPriceCadenceOneTime, PriceBpsPriceCadenceMonthly, PriceBpsPriceCadenceQuarterly, PriceBpsPriceCadenceSemiAnnual, PriceBpsPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -2615,15 +2621,16 @@ func (r priceBulkBpsPriceBulkBpsConfigTierJSON) RawJSON() string {
 type PriceBulkBpsPriceCadence string
 
 const (
-	PriceBulkBpsPriceCadenceOneTime   PriceBulkBpsPriceCadence = "one_time"
-	PriceBulkBpsPriceCadenceMonthly   PriceBulkBpsPriceCadence = "monthly"
-	PriceBulkBpsPriceCadenceQuarterly PriceBulkBpsPriceCadence = "quarterly"
-	PriceBulkBpsPriceCadenceAnnual    PriceBulkBpsPriceCadence = "annual"
+	PriceBulkBpsPriceCadenceOneTime    PriceBulkBpsPriceCadence = "one_time"
+	PriceBulkBpsPriceCadenceMonthly    PriceBulkBpsPriceCadence = "monthly"
+	PriceBulkBpsPriceCadenceQuarterly  PriceBulkBpsPriceCadence = "quarterly"
+	PriceBulkBpsPriceCadenceSemiAnnual PriceBulkBpsPriceCadence = "semi_annual"
+	PriceBulkBpsPriceCadenceAnnual     PriceBulkBpsPriceCadence = "annual"
 )
 
 func (r PriceBulkBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceBulkBpsPriceCadenceOneTime, PriceBulkBpsPriceCadenceMonthly, PriceBulkBpsPriceCadenceQuarterly, PriceBulkBpsPriceCadenceAnnual:
+	case PriceBulkBpsPriceCadenceOneTime, PriceBulkBpsPriceCadenceMonthly, PriceBulkBpsPriceCadenceQuarterly, PriceBulkBpsPriceCadenceSemiAnnual, PriceBulkBpsPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -2887,15 +2894,16 @@ func (r priceBulkPriceBulkConfigTierJSON) RawJSON() string {
 type PriceBulkPriceCadence string
 
 const (
-	PriceBulkPriceCadenceOneTime   PriceBulkPriceCadence = "one_time"
-	PriceBulkPriceCadenceMonthly   PriceBulkPriceCadence = "monthly"
-	PriceBulkPriceCadenceQuarterly PriceBulkPriceCadence = "quarterly"
-	PriceBulkPriceCadenceAnnual    PriceBulkPriceCadence = "annual"
+	PriceBulkPriceCadenceOneTime    PriceBulkPriceCadence = "one_time"
+	PriceBulkPriceCadenceMonthly    PriceBulkPriceCadence = "monthly"
+	PriceBulkPriceCadenceQuarterly  PriceBulkPriceCadence = "quarterly"
+	PriceBulkPriceCadenceSemiAnnual PriceBulkPriceCadence = "semi_annual"
+	PriceBulkPriceCadenceAnnual     PriceBulkPriceCadence = "annual"
 )
 
 func (r PriceBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceBulkPriceCadenceOneTime, PriceBulkPriceCadenceMonthly, PriceBulkPriceCadenceQuarterly, PriceBulkPriceCadenceAnnual:
+	case PriceBulkPriceCadenceOneTime, PriceBulkPriceCadenceMonthly, PriceBulkPriceCadenceQuarterly, PriceBulkPriceCadenceSemiAnnual, PriceBulkPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -3113,15 +3121,16 @@ func (r priceThresholdTotalAmountPriceBillableMetricJSON) RawJSON() string {
 type PriceThresholdTotalAmountPriceCadence string
 
 const (
-	PriceThresholdTotalAmountPriceCadenceOneTime   PriceThresholdTotalAmountPriceCadence = "one_time"
-	PriceThresholdTotalAmountPriceCadenceMonthly   PriceThresholdTotalAmountPriceCadence = "monthly"
-	PriceThresholdTotalAmountPriceCadenceQuarterly PriceThresholdTotalAmountPriceCadence = "quarterly"
-	PriceThresholdTotalAmountPriceCadenceAnnual    PriceThresholdTotalAmountPriceCadence = "annual"
+	PriceThresholdTotalAmountPriceCadenceOneTime    PriceThresholdTotalAmountPriceCadence = "one_time"
+	PriceThresholdTotalAmountPriceCadenceMonthly    PriceThresholdTotalAmountPriceCadence = "monthly"
+	PriceThresholdTotalAmountPriceCadenceQuarterly  PriceThresholdTotalAmountPriceCadence = "quarterly"
+	PriceThresholdTotalAmountPriceCadenceSemiAnnual PriceThresholdTotalAmountPriceCadence = "semi_annual"
+	PriceThresholdTotalAmountPriceCadenceAnnual     PriceThresholdTotalAmountPriceCadence = "annual"
 )
 
 func (r PriceThresholdTotalAmountPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceThresholdTotalAmountPriceCadenceOneTime, PriceThresholdTotalAmountPriceCadenceMonthly, PriceThresholdTotalAmountPriceCadenceQuarterly, PriceThresholdTotalAmountPriceCadenceAnnual:
+	case PriceThresholdTotalAmountPriceCadenceOneTime, PriceThresholdTotalAmountPriceCadenceMonthly, PriceThresholdTotalAmountPriceCadenceQuarterly, PriceThresholdTotalAmountPriceCadenceSemiAnnual, PriceThresholdTotalAmountPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -3339,15 +3348,16 @@ func (r priceTieredPackagePriceBillableMetricJSON) RawJSON() string {
 type PriceTieredPackagePriceCadence string
 
 const (
-	PriceTieredPackagePriceCadenceOneTime   PriceTieredPackagePriceCadence = "one_time"
-	PriceTieredPackagePriceCadenceMonthly   PriceTieredPackagePriceCadence = "monthly"
-	PriceTieredPackagePriceCadenceQuarterly PriceTieredPackagePriceCadence = "quarterly"
-	PriceTieredPackagePriceCadenceAnnual    PriceTieredPackagePriceCadence = "annual"
+	PriceTieredPackagePriceCadenceOneTime    PriceTieredPackagePriceCadence = "one_time"
+	PriceTieredPackagePriceCadenceMonthly    PriceTieredPackagePriceCadence = "monthly"
+	PriceTieredPackagePriceCadenceQuarterly  PriceTieredPackagePriceCadence = "quarterly"
+	PriceTieredPackagePriceCadenceSemiAnnual PriceTieredPackagePriceCadence = "semi_annual"
+	PriceTieredPackagePriceCadenceAnnual     PriceTieredPackagePriceCadence = "annual"
 )
 
 func (r PriceTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredPackagePriceCadenceOneTime, PriceTieredPackagePriceCadenceMonthly, PriceTieredPackagePriceCadenceQuarterly, PriceTieredPackagePriceCadenceAnnual:
+	case PriceTieredPackagePriceCadenceOneTime, PriceTieredPackagePriceCadenceMonthly, PriceTieredPackagePriceCadenceQuarterly, PriceTieredPackagePriceCadenceSemiAnnual, PriceTieredPackagePriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -3565,15 +3575,16 @@ func (r priceGroupedTieredPriceBillableMetricJSON) RawJSON() string {
 type PriceGroupedTieredPriceCadence string
 
 const (
-	PriceGroupedTieredPriceCadenceOneTime   PriceGroupedTieredPriceCadence = "one_time"
-	PriceGroupedTieredPriceCadenceMonthly   PriceGroupedTieredPriceCadence = "monthly"
-	PriceGroupedTieredPriceCadenceQuarterly PriceGroupedTieredPriceCadence = "quarterly"
-	PriceGroupedTieredPriceCadenceAnnual    PriceGroupedTieredPriceCadence = "annual"
+	PriceGroupedTieredPriceCadenceOneTime    PriceGroupedTieredPriceCadence = "one_time"
+	PriceGroupedTieredPriceCadenceMonthly    PriceGroupedTieredPriceCadence = "monthly"
+	PriceGroupedTieredPriceCadenceQuarterly  PriceGroupedTieredPriceCadence = "quarterly"
+	PriceGroupedTieredPriceCadenceSemiAnnual PriceGroupedTieredPriceCadence = "semi_annual"
+	PriceGroupedTieredPriceCadenceAnnual     PriceGroupedTieredPriceCadence = "annual"
 )
 
 func (r PriceGroupedTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceGroupedTieredPriceCadenceOneTime, PriceGroupedTieredPriceCadenceMonthly, PriceGroupedTieredPriceCadenceQuarterly, PriceGroupedTieredPriceCadenceAnnual:
+	case PriceGroupedTieredPriceCadenceOneTime, PriceGroupedTieredPriceCadenceMonthly, PriceGroupedTieredPriceCadenceQuarterly, PriceGroupedTieredPriceCadenceSemiAnnual, PriceGroupedTieredPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -3791,15 +3802,16 @@ func (r priceTieredWithMinimumPriceBillableMetricJSON) RawJSON() string {
 type PriceTieredWithMinimumPriceCadence string
 
 const (
-	PriceTieredWithMinimumPriceCadenceOneTime   PriceTieredWithMinimumPriceCadence = "one_time"
-	PriceTieredWithMinimumPriceCadenceMonthly   PriceTieredWithMinimumPriceCadence = "monthly"
-	PriceTieredWithMinimumPriceCadenceQuarterly PriceTieredWithMinimumPriceCadence = "quarterly"
-	PriceTieredWithMinimumPriceCadenceAnnual    PriceTieredWithMinimumPriceCadence = "annual"
+	PriceTieredWithMinimumPriceCadenceOneTime    PriceTieredWithMinimumPriceCadence = "one_time"
+	PriceTieredWithMinimumPriceCadenceMonthly    PriceTieredWithMinimumPriceCadence = "monthly"
+	PriceTieredWithMinimumPriceCadenceQuarterly  PriceTieredWithMinimumPriceCadence = "quarterly"
+	PriceTieredWithMinimumPriceCadenceSemiAnnual PriceTieredWithMinimumPriceCadence = "semi_annual"
+	PriceTieredWithMinimumPriceCadenceAnnual     PriceTieredWithMinimumPriceCadence = "annual"
 )
 
 func (r PriceTieredWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredWithMinimumPriceCadenceOneTime, PriceTieredWithMinimumPriceCadenceMonthly, PriceTieredWithMinimumPriceCadenceQuarterly, PriceTieredWithMinimumPriceCadenceAnnual:
+	case PriceTieredWithMinimumPriceCadenceOneTime, PriceTieredWithMinimumPriceCadenceMonthly, PriceTieredWithMinimumPriceCadenceQuarterly, PriceTieredWithMinimumPriceCadenceSemiAnnual, PriceTieredWithMinimumPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -4017,15 +4029,16 @@ func (r priceTieredPackageWithMinimumPriceBillableMetricJSON) RawJSON() string {
 type PriceTieredPackageWithMinimumPriceCadence string
 
 const (
-	PriceTieredPackageWithMinimumPriceCadenceOneTime   PriceTieredPackageWithMinimumPriceCadence = "one_time"
-	PriceTieredPackageWithMinimumPriceCadenceMonthly   PriceTieredPackageWithMinimumPriceCadence = "monthly"
-	PriceTieredPackageWithMinimumPriceCadenceQuarterly PriceTieredPackageWithMinimumPriceCadence = "quarterly"
-	PriceTieredPackageWithMinimumPriceCadenceAnnual    PriceTieredPackageWithMinimumPriceCadence = "annual"
+	PriceTieredPackageWithMinimumPriceCadenceOneTime    PriceTieredPackageWithMinimumPriceCadence = "one_time"
+	PriceTieredPackageWithMinimumPriceCadenceMonthly    PriceTieredPackageWithMinimumPriceCadence = "monthly"
+	PriceTieredPackageWithMinimumPriceCadenceQuarterly  PriceTieredPackageWithMinimumPriceCadence = "quarterly"
+	PriceTieredPackageWithMinimumPriceCadenceSemiAnnual PriceTieredPackageWithMinimumPriceCadence = "semi_annual"
+	PriceTieredPackageWithMinimumPriceCadenceAnnual     PriceTieredPackageWithMinimumPriceCadence = "annual"
 )
 
 func (r PriceTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredPackageWithMinimumPriceCadenceOneTime, PriceTieredPackageWithMinimumPriceCadenceMonthly, PriceTieredPackageWithMinimumPriceCadenceQuarterly, PriceTieredPackageWithMinimumPriceCadenceAnnual:
+	case PriceTieredPackageWithMinimumPriceCadenceOneTime, PriceTieredPackageWithMinimumPriceCadenceMonthly, PriceTieredPackageWithMinimumPriceCadenceQuarterly, PriceTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceTieredPackageWithMinimumPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -4243,15 +4256,16 @@ func (r pricePackageWithAllocationPriceBillableMetricJSON) RawJSON() string {
 type PricePackageWithAllocationPriceCadence string
 
 const (
-	PricePackageWithAllocationPriceCadenceOneTime   PricePackageWithAllocationPriceCadence = "one_time"
-	PricePackageWithAllocationPriceCadenceMonthly   PricePackageWithAllocationPriceCadence = "monthly"
-	PricePackageWithAllocationPriceCadenceQuarterly PricePackageWithAllocationPriceCadence = "quarterly"
-	PricePackageWithAllocationPriceCadenceAnnual    PricePackageWithAllocationPriceCadence = "annual"
+	PricePackageWithAllocationPriceCadenceOneTime    PricePackageWithAllocationPriceCadence = "one_time"
+	PricePackageWithAllocationPriceCadenceMonthly    PricePackageWithAllocationPriceCadence = "monthly"
+	PricePackageWithAllocationPriceCadenceQuarterly  PricePackageWithAllocationPriceCadence = "quarterly"
+	PricePackageWithAllocationPriceCadenceSemiAnnual PricePackageWithAllocationPriceCadence = "semi_annual"
+	PricePackageWithAllocationPriceCadenceAnnual     PricePackageWithAllocationPriceCadence = "annual"
 )
 
 func (r PricePackageWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PricePackageWithAllocationPriceCadenceOneTime, PricePackageWithAllocationPriceCadenceMonthly, PricePackageWithAllocationPriceCadenceQuarterly, PricePackageWithAllocationPriceCadenceAnnual:
+	case PricePackageWithAllocationPriceCadenceOneTime, PricePackageWithAllocationPriceCadenceMonthly, PricePackageWithAllocationPriceCadenceQuarterly, PricePackageWithAllocationPriceCadenceSemiAnnual, PricePackageWithAllocationPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -4469,15 +4483,16 @@ func (r priceUnitWithPercentPriceBillableMetricJSON) RawJSON() string {
 type PriceUnitWithPercentPriceCadence string
 
 const (
-	PriceUnitWithPercentPriceCadenceOneTime   PriceUnitWithPercentPriceCadence = "one_time"
-	PriceUnitWithPercentPriceCadenceMonthly   PriceUnitWithPercentPriceCadence = "monthly"
-	PriceUnitWithPercentPriceCadenceQuarterly PriceUnitWithPercentPriceCadence = "quarterly"
-	PriceUnitWithPercentPriceCadenceAnnual    PriceUnitWithPercentPriceCadence = "annual"
+	PriceUnitWithPercentPriceCadenceOneTime    PriceUnitWithPercentPriceCadence = "one_time"
+	PriceUnitWithPercentPriceCadenceMonthly    PriceUnitWithPercentPriceCadence = "monthly"
+	PriceUnitWithPercentPriceCadenceQuarterly  PriceUnitWithPercentPriceCadence = "quarterly"
+	PriceUnitWithPercentPriceCadenceSemiAnnual PriceUnitWithPercentPriceCadence = "semi_annual"
+	PriceUnitWithPercentPriceCadenceAnnual     PriceUnitWithPercentPriceCadence = "annual"
 )
 
 func (r PriceUnitWithPercentPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceUnitWithPercentPriceCadenceOneTime, PriceUnitWithPercentPriceCadenceMonthly, PriceUnitWithPercentPriceCadenceQuarterly, PriceUnitWithPercentPriceCadenceAnnual:
+	case PriceUnitWithPercentPriceCadenceOneTime, PriceUnitWithPercentPriceCadenceMonthly, PriceUnitWithPercentPriceCadenceQuarterly, PriceUnitWithPercentPriceCadenceSemiAnnual, PriceUnitWithPercentPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -4695,15 +4710,16 @@ func (r priceMatrixWithAllocationPriceBillableMetricJSON) RawJSON() string {
 type PriceMatrixWithAllocationPriceCadence string
 
 const (
-	PriceMatrixWithAllocationPriceCadenceOneTime   PriceMatrixWithAllocationPriceCadence = "one_time"
-	PriceMatrixWithAllocationPriceCadenceMonthly   PriceMatrixWithAllocationPriceCadence = "monthly"
-	PriceMatrixWithAllocationPriceCadenceQuarterly PriceMatrixWithAllocationPriceCadence = "quarterly"
-	PriceMatrixWithAllocationPriceCadenceAnnual    PriceMatrixWithAllocationPriceCadence = "annual"
+	PriceMatrixWithAllocationPriceCadenceOneTime    PriceMatrixWithAllocationPriceCadence = "one_time"
+	PriceMatrixWithAllocationPriceCadenceMonthly    PriceMatrixWithAllocationPriceCadence = "monthly"
+	PriceMatrixWithAllocationPriceCadenceQuarterly  PriceMatrixWithAllocationPriceCadence = "quarterly"
+	PriceMatrixWithAllocationPriceCadenceSemiAnnual PriceMatrixWithAllocationPriceCadence = "semi_annual"
+	PriceMatrixWithAllocationPriceCadenceAnnual     PriceMatrixWithAllocationPriceCadence = "annual"
 )
 
 func (r PriceMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceMatrixWithAllocationPriceCadenceOneTime, PriceMatrixWithAllocationPriceCadenceMonthly, PriceMatrixWithAllocationPriceCadenceQuarterly, PriceMatrixWithAllocationPriceCadenceAnnual:
+	case PriceMatrixWithAllocationPriceCadenceOneTime, PriceMatrixWithAllocationPriceCadenceMonthly, PriceMatrixWithAllocationPriceCadenceQuarterly, PriceMatrixWithAllocationPriceCadenceSemiAnnual, PriceMatrixWithAllocationPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -4981,15 +4997,16 @@ func (r priceTieredWithProrationPriceBillableMetricJSON) RawJSON() string {
 type PriceTieredWithProrationPriceCadence string
 
 const (
-	PriceTieredWithProrationPriceCadenceOneTime   PriceTieredWithProrationPriceCadence = "one_time"
-	PriceTieredWithProrationPriceCadenceMonthly   PriceTieredWithProrationPriceCadence = "monthly"
-	PriceTieredWithProrationPriceCadenceQuarterly PriceTieredWithProrationPriceCadence = "quarterly"
-	PriceTieredWithProrationPriceCadenceAnnual    PriceTieredWithProrationPriceCadence = "annual"
+	PriceTieredWithProrationPriceCadenceOneTime    PriceTieredWithProrationPriceCadence = "one_time"
+	PriceTieredWithProrationPriceCadenceMonthly    PriceTieredWithProrationPriceCadence = "monthly"
+	PriceTieredWithProrationPriceCadenceQuarterly  PriceTieredWithProrationPriceCadence = "quarterly"
+	PriceTieredWithProrationPriceCadenceSemiAnnual PriceTieredWithProrationPriceCadence = "semi_annual"
+	PriceTieredWithProrationPriceCadenceAnnual     PriceTieredWithProrationPriceCadence = "annual"
 )
 
 func (r PriceTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredWithProrationPriceCadenceOneTime, PriceTieredWithProrationPriceCadenceMonthly, PriceTieredWithProrationPriceCadenceQuarterly, PriceTieredWithProrationPriceCadenceAnnual:
+	case PriceTieredWithProrationPriceCadenceOneTime, PriceTieredWithProrationPriceCadenceMonthly, PriceTieredWithProrationPriceCadenceQuarterly, PriceTieredWithProrationPriceCadenceSemiAnnual, PriceTieredWithProrationPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -5207,15 +5224,16 @@ func (r priceUnitWithProrationPriceBillableMetricJSON) RawJSON() string {
 type PriceUnitWithProrationPriceCadence string
 
 const (
-	PriceUnitWithProrationPriceCadenceOneTime   PriceUnitWithProrationPriceCadence = "one_time"
-	PriceUnitWithProrationPriceCadenceMonthly   PriceUnitWithProrationPriceCadence = "monthly"
-	PriceUnitWithProrationPriceCadenceQuarterly PriceUnitWithProrationPriceCadence = "quarterly"
-	PriceUnitWithProrationPriceCadenceAnnual    PriceUnitWithProrationPriceCadence = "annual"
+	PriceUnitWithProrationPriceCadenceOneTime    PriceUnitWithProrationPriceCadence = "one_time"
+	PriceUnitWithProrationPriceCadenceMonthly    PriceUnitWithProrationPriceCadence = "monthly"
+	PriceUnitWithProrationPriceCadenceQuarterly  PriceUnitWithProrationPriceCadence = "quarterly"
+	PriceUnitWithProrationPriceCadenceSemiAnnual PriceUnitWithProrationPriceCadence = "semi_annual"
+	PriceUnitWithProrationPriceCadenceAnnual     PriceUnitWithProrationPriceCadence = "annual"
 )
 
 func (r PriceUnitWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceUnitWithProrationPriceCadenceOneTime, PriceUnitWithProrationPriceCadenceMonthly, PriceUnitWithProrationPriceCadenceQuarterly, PriceUnitWithProrationPriceCadenceAnnual:
+	case PriceUnitWithProrationPriceCadenceOneTime, PriceUnitWithProrationPriceCadenceMonthly, PriceUnitWithProrationPriceCadenceQuarterly, PriceUnitWithProrationPriceCadenceSemiAnnual, PriceUnitWithProrationPriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -5397,15 +5415,16 @@ func (r PriceModelType) IsKnown() bool {
 type PriceCadence string
 
 const (
-	PriceCadenceOneTime   PriceCadence = "one_time"
-	PriceCadenceMonthly   PriceCadence = "monthly"
-	PriceCadenceQuarterly PriceCadence = "quarterly"
-	PriceCadenceAnnual    PriceCadence = "annual"
+	PriceCadenceOneTime    PriceCadence = "one_time"
+	PriceCadenceMonthly    PriceCadence = "monthly"
+	PriceCadenceQuarterly  PriceCadence = "quarterly"
+	PriceCadenceSemiAnnual PriceCadence = "semi_annual"
+	PriceCadenceAnnual     PriceCadence = "annual"
 )
 
 func (r PriceCadence) IsKnown() bool {
 	switch r {
-	case PriceCadenceOneTime, PriceCadenceMonthly, PriceCadenceQuarterly, PriceCadenceAnnual:
+	case PriceCadenceOneTime, PriceCadenceMonthly, PriceCadenceQuarterly, PriceCadenceSemiAnnual, PriceCadenceAnnual:
 		return true
 	}
 	return false
@@ -5492,15 +5511,16 @@ func (PriceNewParamsNewFloatingUnitPrice) ImplementsPriceNewParams() {
 type PriceNewParamsNewFloatingUnitPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingUnitPriceCadenceAnnual    PriceNewParamsNewFloatingUnitPriceCadence = "annual"
-	PriceNewParamsNewFloatingUnitPriceCadenceMonthly   PriceNewParamsNewFloatingUnitPriceCadence = "monthly"
-	PriceNewParamsNewFloatingUnitPriceCadenceQuarterly PriceNewParamsNewFloatingUnitPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingUnitPriceCadenceOneTime   PriceNewParamsNewFloatingUnitPriceCadence = "one_time"
+	PriceNewParamsNewFloatingUnitPriceCadenceAnnual     PriceNewParamsNewFloatingUnitPriceCadence = "annual"
+	PriceNewParamsNewFloatingUnitPriceCadenceSemiAnnual PriceNewParamsNewFloatingUnitPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingUnitPriceCadenceMonthly    PriceNewParamsNewFloatingUnitPriceCadence = "monthly"
+	PriceNewParamsNewFloatingUnitPriceCadenceQuarterly  PriceNewParamsNewFloatingUnitPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingUnitPriceCadenceOneTime    PriceNewParamsNewFloatingUnitPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingUnitPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingUnitPriceCadenceAnnual, PriceNewParamsNewFloatingUnitPriceCadenceMonthly, PriceNewParamsNewFloatingUnitPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingUnitPriceCadenceAnnual, PriceNewParamsNewFloatingUnitPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitPriceCadenceMonthly, PriceNewParamsNewFloatingUnitPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -5569,15 +5589,16 @@ func (PriceNewParamsNewFloatingPackagePrice) ImplementsPriceNewParams() {
 type PriceNewParamsNewFloatingPackagePriceCadence string
 
 const (
-	PriceNewParamsNewFloatingPackagePriceCadenceAnnual    PriceNewParamsNewFloatingPackagePriceCadence = "annual"
-	PriceNewParamsNewFloatingPackagePriceCadenceMonthly   PriceNewParamsNewFloatingPackagePriceCadence = "monthly"
-	PriceNewParamsNewFloatingPackagePriceCadenceQuarterly PriceNewParamsNewFloatingPackagePriceCadence = "quarterly"
-	PriceNewParamsNewFloatingPackagePriceCadenceOneTime   PriceNewParamsNewFloatingPackagePriceCadence = "one_time"
+	PriceNewParamsNewFloatingPackagePriceCadenceAnnual     PriceNewParamsNewFloatingPackagePriceCadence = "annual"
+	PriceNewParamsNewFloatingPackagePriceCadenceSemiAnnual PriceNewParamsNewFloatingPackagePriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingPackagePriceCadenceMonthly    PriceNewParamsNewFloatingPackagePriceCadence = "monthly"
+	PriceNewParamsNewFloatingPackagePriceCadenceQuarterly  PriceNewParamsNewFloatingPackagePriceCadence = "quarterly"
+	PriceNewParamsNewFloatingPackagePriceCadenceOneTime    PriceNewParamsNewFloatingPackagePriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingPackagePriceCadenceAnnual, PriceNewParamsNewFloatingPackagePriceCadenceMonthly, PriceNewParamsNewFloatingPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingPackagePriceCadenceOneTime:
+	case PriceNewParamsNewFloatingPackagePriceCadenceAnnual, PriceNewParamsNewFloatingPackagePriceCadenceSemiAnnual, PriceNewParamsNewFloatingPackagePriceCadenceMonthly, PriceNewParamsNewFloatingPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingPackagePriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -5649,15 +5670,16 @@ func (PriceNewParamsNewFloatingMatrixPrice) ImplementsPriceNewParams() {
 type PriceNewParamsNewFloatingMatrixPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingMatrixPriceCadenceAnnual    PriceNewParamsNewFloatingMatrixPriceCadence = "annual"
-	PriceNewParamsNewFloatingMatrixPriceCadenceMonthly   PriceNewParamsNewFloatingMatrixPriceCadence = "monthly"
-	PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly PriceNewParamsNewFloatingMatrixPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingMatrixPriceCadenceOneTime   PriceNewParamsNewFloatingMatrixPriceCadence = "one_time"
+	PriceNewParamsNewFloatingMatrixPriceCadenceAnnual     PriceNewParamsNewFloatingMatrixPriceCadence = "annual"
+	PriceNewParamsNewFloatingMatrixPriceCadenceSemiAnnual PriceNewParamsNewFloatingMatrixPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingMatrixPriceCadenceMonthly    PriceNewParamsNewFloatingMatrixPriceCadence = "monthly"
+	PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly  PriceNewParamsNewFloatingMatrixPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingMatrixPriceCadenceOneTime    PriceNewParamsNewFloatingMatrixPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingMatrixPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingMatrixPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceSemiAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -5743,15 +5765,16 @@ func (PriceNewParamsNewFloatingMatrixWithAllocationPrice) ImplementsPriceNewPara
 type PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual    PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "annual"
-	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly   PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "monthly"
-	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime   PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual     PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "annual"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly    PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "monthly"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly  PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime    PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -5839,15 +5862,16 @@ func (PriceNewParamsNewFloatingTieredPrice) ImplementsPriceNewParams() {
 type PriceNewParamsNewFloatingTieredPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingTieredPriceCadenceAnnual    PriceNewParamsNewFloatingTieredPriceCadence = "annual"
-	PriceNewParamsNewFloatingTieredPriceCadenceMonthly   PriceNewParamsNewFloatingTieredPriceCadence = "monthly"
-	PriceNewParamsNewFloatingTieredPriceCadenceQuarterly PriceNewParamsNewFloatingTieredPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingTieredPriceCadenceOneTime   PriceNewParamsNewFloatingTieredPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredPriceCadenceAnnual     PriceNewParamsNewFloatingTieredPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredPriceCadenceSemiAnnual PriceNewParamsNewFloatingTieredPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingTieredPriceCadenceMonthly    PriceNewParamsNewFloatingTieredPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPriceCadenceOneTime    PriceNewParamsNewFloatingTieredPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -5929,15 +5953,16 @@ func (PriceNewParamsNewFloatingTieredBpsPrice) ImplementsPriceNewParams() {
 type PriceNewParamsNewFloatingTieredBpsPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual    PriceNewParamsNewFloatingTieredBpsPriceCadence = "annual"
-	PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly   PriceNewParamsNewFloatingTieredBpsPriceCadence = "monthly"
-	PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly PriceNewParamsNewFloatingTieredBpsPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime   PriceNewParamsNewFloatingTieredBpsPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual     PriceNewParamsNewFloatingTieredBpsPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceSemiAnnual PriceNewParamsNewFloatingTieredBpsPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly    PriceNewParamsNewFloatingTieredBpsPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime    PriceNewParamsNewFloatingTieredBpsPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingTieredBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly, PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly, PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6033,15 +6058,16 @@ func (r PriceNewParamsNewFloatingBpsPriceBpsConfig) MarshalJSON() (data []byte, 
 type PriceNewParamsNewFloatingBpsPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingBpsPriceCadenceAnnual    PriceNewParamsNewFloatingBpsPriceCadence = "annual"
-	PriceNewParamsNewFloatingBpsPriceCadenceMonthly   PriceNewParamsNewFloatingBpsPriceCadence = "monthly"
-	PriceNewParamsNewFloatingBpsPriceCadenceQuarterly PriceNewParamsNewFloatingBpsPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingBpsPriceCadenceOneTime   PriceNewParamsNewFloatingBpsPriceCadence = "one_time"
+	PriceNewParamsNewFloatingBpsPriceCadenceAnnual     PriceNewParamsNewFloatingBpsPriceCadence = "annual"
+	PriceNewParamsNewFloatingBpsPriceCadenceSemiAnnual PriceNewParamsNewFloatingBpsPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingBpsPriceCadenceMonthly    PriceNewParamsNewFloatingBpsPriceCadence = "monthly"
+	PriceNewParamsNewFloatingBpsPriceCadenceQuarterly  PriceNewParamsNewFloatingBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBpsPriceCadenceOneTime    PriceNewParamsNewFloatingBpsPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBpsPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBpsPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6124,15 +6150,16 @@ func (r PriceNewParamsNewFloatingBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (d
 type PriceNewParamsNewFloatingBulkBpsPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual    PriceNewParamsNewFloatingBulkBpsPriceCadence = "annual"
-	PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly   PriceNewParamsNewFloatingBulkBpsPriceCadence = "monthly"
-	PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly PriceNewParamsNewFloatingBulkBpsPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime   PriceNewParamsNewFloatingBulkBpsPriceCadence = "one_time"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual     PriceNewParamsNewFloatingBulkBpsPriceCadence = "annual"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceSemiAnnual PriceNewParamsNewFloatingBulkBpsPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly    PriceNewParamsNewFloatingBulkBpsPriceCadence = "monthly"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly  PriceNewParamsNewFloatingBulkBpsPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime    PriceNewParamsNewFloatingBulkBpsPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingBulkBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6212,15 +6239,16 @@ func (r PriceNewParamsNewFloatingBulkPriceBulkConfigTier) MarshalJSON() (data []
 type PriceNewParamsNewFloatingBulkPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingBulkPriceCadenceAnnual    PriceNewParamsNewFloatingBulkPriceCadence = "annual"
-	PriceNewParamsNewFloatingBulkPriceCadenceMonthly   PriceNewParamsNewFloatingBulkPriceCadence = "monthly"
-	PriceNewParamsNewFloatingBulkPriceCadenceQuarterly PriceNewParamsNewFloatingBulkPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingBulkPriceCadenceOneTime   PriceNewParamsNewFloatingBulkPriceCadence = "one_time"
+	PriceNewParamsNewFloatingBulkPriceCadenceAnnual     PriceNewParamsNewFloatingBulkPriceCadence = "annual"
+	PriceNewParamsNewFloatingBulkPriceCadenceSemiAnnual PriceNewParamsNewFloatingBulkPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingBulkPriceCadenceMonthly    PriceNewParamsNewFloatingBulkPriceCadence = "monthly"
+	PriceNewParamsNewFloatingBulkPriceCadenceQuarterly  PriceNewParamsNewFloatingBulkPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingBulkPriceCadenceOneTime    PriceNewParamsNewFloatingBulkPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingBulkPriceCadenceAnnual, PriceNewParamsNewFloatingBulkPriceCadenceMonthly, PriceNewParamsNewFloatingBulkPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingBulkPriceCadenceAnnual, PriceNewParamsNewFloatingBulkPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBulkPriceCadenceMonthly, PriceNewParamsNewFloatingBulkPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6280,15 +6308,16 @@ func (PriceNewParamsNewFloatingThresholdTotalAmountPrice) ImplementsPriceNewPara
 type PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual    PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "annual"
-	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly   PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "monthly"
-	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime   PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "one_time"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual     PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "annual"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly    PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "monthly"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly  PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime    PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6348,15 +6377,16 @@ func (PriceNewParamsNewFloatingTieredPackagePrice) ImplementsPriceNewParams() {
 type PriceNewParamsNewFloatingTieredPackagePriceCadence string
 
 const (
-	PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual    PriceNewParamsNewFloatingTieredPackagePriceCadence = "annual"
-	PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly   PriceNewParamsNewFloatingTieredPackagePriceCadence = "monthly"
-	PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly PriceNewParamsNewFloatingTieredPackagePriceCadence = "quarterly"
-	PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime   PriceNewParamsNewFloatingTieredPackagePriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual     PriceNewParamsNewFloatingTieredPackagePriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceSemiAnnual PriceNewParamsNewFloatingTieredPackagePriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly    PriceNewParamsNewFloatingTieredPackagePriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly  PriceNewParamsNewFloatingTieredPackagePriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime    PriceNewParamsNewFloatingTieredPackagePriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6416,15 +6446,16 @@ func (PriceNewParamsNewFloatingGroupedTieredPrice) ImplementsPriceNewParams() {
 type PriceNewParamsNewFloatingGroupedTieredPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual    PriceNewParamsNewFloatingGroupedTieredPriceCadence = "annual"
-	PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly   PriceNewParamsNewFloatingGroupedTieredPriceCadence = "monthly"
-	PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly PriceNewParamsNewFloatingGroupedTieredPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime   PriceNewParamsNewFloatingGroupedTieredPriceCadence = "one_time"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual     PriceNewParamsNewFloatingGroupedTieredPriceCadence = "annual"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceSemiAnnual PriceNewParamsNewFloatingGroupedTieredPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly    PriceNewParamsNewFloatingGroupedTieredPriceCadence = "monthly"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly  PriceNewParamsNewFloatingGroupedTieredPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime    PriceNewParamsNewFloatingGroupedTieredPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingGroupedTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceSemiAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6484,15 +6515,16 @@ func (PriceNewParamsNewFloatingTieredWithMinimumPrice) ImplementsPriceNewParams(
 type PriceNewParamsNewFloatingTieredWithMinimumPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual    PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "annual"
-	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly   PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "monthly"
-	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime   PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual     PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceSemiAnnual PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly    PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime    PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingTieredWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6552,15 +6584,16 @@ func (PriceNewParamsNewFloatingPackageWithAllocationPrice) ImplementsPriceNewPar
 type PriceNewParamsNewFloatingPackageWithAllocationPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual    PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "annual"
-	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly   PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "monthly"
-	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime   PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual     PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "annual"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceSemiAnnual PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly    PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "monthly"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly  PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime    PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingPackageWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6620,15 +6653,16 @@ func (PriceNewParamsNewFloatingTieredPackageWithMinimumPrice) ImplementsPriceNew
 type PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual    PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "annual"
-	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly   PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "monthly"
-	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime   PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual     PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly    PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime    PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6688,15 +6722,16 @@ func (PriceNewParamsNewFloatingUnitWithPercentPrice) ImplementsPriceNewParams() 
 type PriceNewParamsNewFloatingUnitWithPercentPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual    PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "annual"
-	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly   PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "monthly"
-	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime   PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "one_time"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual     PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "annual"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceSemiAnnual PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly    PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "monthly"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly  PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime    PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingUnitWithPercentPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6756,15 +6791,16 @@ func (PriceNewParamsNewFloatingTieredWithProrationPrice) ImplementsPriceNewParam
 type PriceNewParamsNewFloatingTieredWithProrationPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceAnnual    PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "annual"
-	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceMonthly   PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "monthly"
-	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceQuarterly PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceOneTime   PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceAnnual     PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "annual"
+	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceSemiAnnual PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceMonthly    PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "monthly"
+	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceOneTime    PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceOneTime:
 		return true
 	}
 	return false
@@ -6824,15 +6860,16 @@ func (PriceNewParamsNewFloatingUnitWithProrationPrice) ImplementsPriceNewParams(
 type PriceNewParamsNewFloatingUnitWithProrationPriceCadence string
 
 const (
-	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceAnnual    PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "annual"
-	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceMonthly   PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "monthly"
-	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceQuarterly PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceOneTime   PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceAnnual     PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "annual"
+	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceSemiAnnual PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceMonthly    PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "monthly"
+	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceQuarterly  PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceOneTime    PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "one_time"
 )
 
 func (r PriceNewParamsNewFloatingUnitWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingUnitWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingUnitWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceOneTime:
 		return true
 	}
 	return false
