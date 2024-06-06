@@ -97,4 +97,19 @@ const DiscountDiscountTypeUsage = shared.DiscountDiscountTypeUsage
 const DiscountDiscountTypeAmount = shared.DiscountDiscountTypeAmount
 
 // This is an alias to an internal type.
+type DiscountUnionParam = shared.DiscountUnionParam
+
+// This is an alias to an internal type.
+type DiscountPercentageDiscountParam = shared.DiscountPercentageDiscountParam
+
+// This is an alias to an internal type.
+type DiscountTrialDiscountParam = shared.DiscountTrialDiscountParam
+
+// This is an alias to an internal type.
+type DiscountUsageDiscountParam = shared.DiscountUsageDiscountParam
+
+// This is an alias to an internal type.
+type DiscountAmountDiscountParam = shared.DiscountAmountDiscountParam
+
+// This is an alias to an internal type.
 type PaginationMetadata = shared.PaginationMetadata

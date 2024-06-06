@@ -8,10 +8,14 @@ import (
 
 type UnionTime time.Time
 
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()  {}
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()    {}
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditEndDateUnion()   {}
-func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditStartDateUnion() {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()             {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()               {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion()  {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion()    {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditEndDateUnion()              {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditStartDateUnion()            {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion()   {}
+func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion() {}
 
 type UnionString string
 
