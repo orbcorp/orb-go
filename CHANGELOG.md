@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.34.2 (2024-06-06)
+
+Full Changelog: [v0.34.1...v0.34.2](https://github.com/orbcorp/orb-go/compare/v0.34.1...v0.34.2)
+
+### Bug Fixes
+
+* fix port function for interface{} types ([#186](https://github.com/orbcorp/orb-go/issues/186)) ([7741ce9](https://github.com/orbcorp/orb-go/commit/7741ce969ba907862cfa166e612548cbbea3b450))
+
 ## 0.34.1 (2024-06-03)
 
 Full Changelog: [v0.34.0...v0.34.1](https://github.com/orbcorp/orb-go/compare/v0.34.0...v0.34.1)
