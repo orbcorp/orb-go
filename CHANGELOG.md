@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.35.0 (2024-06-06)
+
+Full Changelog: [v0.34.2...v0.35.0](https://github.com/orbcorp/orb-go/compare/v0.34.2...v0.35.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** add semi_annual cadence and remove metadata from update items ([#188](https://github.com/orbcorp/orb-go/issues/188))
+
+### Features
+
+* **api:** add semi_annual cadence and remove metadata from update items ([#188](https://github.com/orbcorp/orb-go/issues/188)) ([9fb0472](https://github.com/orbcorp/orb-go/commit/9fb04726455ab763ee9fc26da98b3b6c4315ac71))
+
 ## 0.34.2 (2024-06-06)
 
 Full Changelog: [v0.34.1...v0.34.2](https://github.com/orbcorp/orb-go/compare/v0.34.1...v0.34.2)
