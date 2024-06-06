@@ -37,7 +37,7 @@ func TestItemNew(t *testing.T) {
 	}
 }
 
-func TestItemUpdateWithOptionalParams(t *testing.T) {
+func TestItemUpdate(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -63,9 +63,6 @@ func TestItemUpdateWithOptionalParams(t *testing.T) {
 				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
 				ExternalEntityID:       orb.F("string"),
 			}}),
-			Metadata: orb.F(map[string]string{
-				"foo": "string",
-			}),
 		},
 	)
 	if err != nil {

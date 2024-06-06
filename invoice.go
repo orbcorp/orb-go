@@ -416,6 +416,8 @@ type InvoiceAutoCollection struct {
 	// the next attempt will occur. If dunning has been exhausted, or auto-collection
 	// is not enabled for this invoice, this field will be `null`.
 	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	// Number of auto-collection payment attempts.
+	NumAttempts int64 `json:"num_attempts,required,nullable"`
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
@@ -431,6 +433,7 @@ type InvoiceAutoCollection struct {
 type invoiceAutoCollectionJSON struct {
 	Enabled               apijson.Field
 	NextAttemptAt         apijson.Field
+	NumAttempts           apijson.Field
 	PreviouslyAttemptedAt apijson.Field
 	raw                   string
 	ExtraFields           map[string]apijson.Field
@@ -2097,6 +2100,8 @@ type InvoiceFetchUpcomingResponseAutoCollection struct {
 	// the next attempt will occur. If dunning has been exhausted, or auto-collection
 	// is not enabled for this invoice, this field will be `null`.
 	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	// Number of auto-collection payment attempts.
+	NumAttempts int64 `json:"num_attempts,required,nullable"`
 	// If Orb has ever attempted payment auto-collection for this invoice, this field
 	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
 	// this can be used to tell whether the invoice is currently in dunning (that is,
@@ -2112,6 +2117,7 @@ type InvoiceFetchUpcomingResponseAutoCollection struct {
 type invoiceFetchUpcomingResponseAutoCollectionJSON struct {
 	Enabled               apijson.Field
 	NextAttemptAt         apijson.Field
+	NumAttempts           apijson.Field
 	PreviouslyAttemptedAt apijson.Field
 	raw                   string
 	ExtraFields           map[string]apijson.Field
@@ -3557,6 +3563,8 @@ type InvoiceNewParams struct {
 	// The id of the `Customer` to create this invoice for. One of `customer_id` and
 	// `external_customer_id` are required.
 	CustomerID param.Field[string] `json:"customer_id"`
+	// An optional discount to attach to the invoice.
+	Discount param.Field[shared.DiscountUnionParam] `json:"discount"`
 	// The `external_customer_id` of the `Customer` to create this invoice for. One of
 	// `customer_id` and `external_customer_id` are required.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
