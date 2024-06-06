@@ -12,6 +12,7 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestInvoiceNewWithOptionalParams(t *testing.T) {
@@ -60,8 +61,14 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 				UnitAmount: orb.F("string"),
 			}),
 		}}),
-		NetTerms:           orb.F(int64(0)),
-		CustomerID:         orb.F("4khy3nwzktxv7"),
+		NetTerms:   orb.F(int64(0)),
+		CustomerID: orb.F("4khy3nwzktxv7"),
+		Discount: orb.F[shared.DiscountUnionParam](shared.DiscountPercentageDiscountParam{
+			DiscountType:       orb.F(shared.DiscountPercentageDiscountDiscountTypePercentage),
+			AppliesToPriceIDs:  orb.F([]string{"h74gfhdjvn7ujokd", "7hfgtgjnbvc3ujkl"}),
+			Reason:             orb.F("string"),
+			PercentageDiscount: orb.F(0.150000),
+		}),
 		ExternalCustomerID: orb.F("external-customer-id"),
 		Memo:               orb.F("An optional memo for my invoice."),
 		Metadata: orb.F(map[string]string{
