@@ -45,7 +45,7 @@ func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...optio
 	return
 }
 
-// Update items
+// This endpoint can be used to update properties on the Item.
 func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdateParams, opts ...option.RequestOption) (res *Item, err error) {
 	opts = append(r.Options[:], opts...)
 	if itemID == "" {
