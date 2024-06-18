@@ -111,14 +111,31 @@ func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...opti
 	return
 }
 
-// A coupon represents a reusable discount configuration, and have an attached
-// redemption code that can be issued to your end users. Coupons are most often
-// used in self-serve signup or upgrade flows in your checkout experience or
-// billing portal.
+// A coupon represents a reusable discount configuration that can be applied either
+// as a fixed currency amount or as a percentage of the usage cost. Coupons are
+// activated using a redemption code, which applies the discount to a subscription
+// or invoice. The duration of a coupon determines how long it remains available
+// for use by end users.
 //
-// To redeem a coupon, pass the `redemption_code` property in the
-// [create subscription](create-subscription.api.mdx) or
-// [schedule plan change](schedule-plan-change.api.mdx) request.
+// ## How to use coupons
+//
+// Coupons can be created using the Orb dashboard or programmatically through the
+// API. Once a coupon is created, it can be managed and applied programmatically
+// via the API. To redeem a coupon, use the `redemption_code` property when
+// [creating a subscription](create-subscription.api.mdx) or when scheduling a
+// [plan change](schedule-plan-change.api.mdx).
+//
+// ## When to use coupons
+//
+// A common use case for coupons is through self-serve signup or upgrade flows in
+// your checkout experience or billing portal. Coupons can also be used as one-off
+// to incentivize use for custom agreements.
+//
+// Coupons are effective when launching new features and encouraging existing users
+// to upgrade to a higher tier. For example, you could create a coupon code
+// "UPGRADE20" that offers a 20% discount on the first month of the new plan. This
+// code can be applied during the upgrade process in your billing portal, making it
+// straightforward for users to benefit from the new features at a reduced cost.
 type Coupon struct {
 	// Also referred to as coupon_id in this documentation.
 	ID string `json:"id,required"`
