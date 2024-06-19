@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.37.0 (2024-06-19)
+
+Full Changelog: [v0.36.0...v0.37.0](https://github.com/orbcorp/orb-go/compare/v0.36.0...v0.37.0)
+
+### Features
+
+* **api:** add support for adding allocation price to subscription ([#195](https://github.com/orbcorp/orb-go/issues/195)) ([4d7247d](https://github.com/orbcorp/orb-go/commit/4d7247de9169e6cdb8496d34b05a23d488411337))
+
+
+### Chores
+
+* **docs:** improve Coupon description ([#193](https://github.com/orbcorp/orb-go/issues/193)) ([4f7984f](https://github.com/orbcorp/orb-go/commit/4f7984fbfb4edab0b4db2f589fcaa9c107fc1144))
+
 ## 0.36.0 (2024-06-14)
 
 Full Changelog: [v0.35.0...v0.36.0](https://github.com/orbcorp/orb-go/compare/v0.35.0...v0.36.0)
