@@ -4615,6 +4615,8 @@ type SubscriptionPriceIntervalsParamsAdd struct {
 	// The start date of the price interval. This is the date that the price will start
 	// billing on the subscription.
 	StartDate param.Field[SubscriptionPriceIntervalsParamsAddStartDateUnion] `json:"start_date,required" format:"date-time"`
+	// The definition of a new allocation price to create and add to the subscription.
+	AllocationPrice param.Field[SubscriptionPriceIntervalsParamsAddAllocationPrice] `json:"allocation_price"`
 	// A list of discounts to initialize on the price interval.
 	Discounts param.Field[[]SubscriptionPriceIntervalsParamsAddDiscountUnion] `json:"discounts"`
 	// The end date of the price interval. This is the date that the price will stop
@@ -4646,6 +4648,43 @@ func (r SubscriptionPriceIntervalsParamsAdd) MarshalJSON() (data []byte, err err
 // Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsAddStartDateUnion interface {
 	ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()
+}
+
+// The definition of a new allocation price to create and add to the subscription.
+type SubscriptionPriceIntervalsParamsAddAllocationPrice struct {
+	// An amount of the currency to allocate to the customer at the specified cadence.
+	Amount param.Field[float64] `json:"amount,required"`
+	// The cadence at which to allocate the amount to the customer.
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
+	// this price.
+	Currency param.Field[string] `json:"currency,required"`
+	// Whether the allocated amount should expire at the end of the cadence or roll
+	// over to the next period.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence at which to allocate the amount to the customer.
+type SubscriptionPriceIntervalsParamsAddAllocationPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddAllocationPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddAllocationPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddAllocationPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddAllocationPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddAllocationPriceCadence = "annual"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceAnnual:
+		return true
+	}
+	return false
 }
 
 type SubscriptionPriceIntervalsParamsAddDiscount struct {

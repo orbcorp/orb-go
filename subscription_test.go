@@ -373,48 +373,11 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					}),
 					Currency: orb.F("string"),
 				}),
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
-				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
-				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
-					Quantity:      orb.F(int64(5)),
-					EffectiveDate: orb.F(time.Now()),
-				}, {
-					Quantity:      orb.F(int64(5)),
-					EffectiveDate: orb.F(time.Now()),
-				}, {
-					Quantity:      orb.F(int64(5)),
-					EffectiveDate: orb.F(time.Now()),
-				}}),
-				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscountUnion{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
-					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
-					AmountDiscount: orb.F(0.000000),
-				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
-					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
-					AmountDiscount: orb.F(0.000000),
-				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
-					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
-					AmountDiscount: orb.F(0.000000),
-				}}),
-				MinimumAmount: orb.F(0.000000),
-				MaximumAmount: orb.F(0.000000),
-			}, {
-				PriceID:         orb.F("h74gfhdjvn7ujokd"),
-				ExternalPriceID: orb.F("external_price_id"),
-				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
-					ExternalPriceID:    orb.F("string"),
-					Name:               orb.F("Annual fee"),
-					BillableMetricID:   orb.F("string"),
-					ItemID:             orb.F("string"),
-					BilledInAdvance:    orb.F(true),
-					FixedPriceQuantity: orb.F(0.000000),
-					InvoiceGroupingKey: orb.F("string"),
-					Cadence:            orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceAnnual),
-					ConversionRate:     orb.F(0.000000),
-					ModelType:          orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit),
-					UnitConfig: orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig{
-						UnitAmount: orb.F("string"),
-					}),
-					Currency: orb.F("string"),
+				AllocationPrice: orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPrice{
+					Currency:              orb.F("USD"),
+					Amount:                orb.F(0.000000),
+					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly),
+					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
 				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
@@ -458,6 +421,61 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						UnitAmount: orb.F("string"),
 					}),
 					Currency: orb.F("string"),
+				}),
+				AllocationPrice: orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPrice{
+					Currency:              orb.F("USD"),
+					Amount:                orb.F(0.000000),
+					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly),
+					ExpiresAtEndOfCadence: orb.F(true),
+				}),
+				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
+				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
+				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
+					Quantity:      orb.F(int64(5)),
+					EffectiveDate: orb.F(time.Now()),
+				}, {
+					Quantity:      orb.F(int64(5)),
+					EffectiveDate: orb.F(time.Now()),
+				}, {
+					Quantity:      orb.F(int64(5)),
+					EffectiveDate: orb.F(time.Now()),
+				}}),
+				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscountUnion{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
+					AmountDiscount: orb.F(0.000000),
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
+					AmountDiscount: orb.F(0.000000),
+				}, orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
+					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
+					AmountDiscount: orb.F(0.000000),
+				}}),
+				MinimumAmount: orb.F(0.000000),
+				MaximumAmount: orb.F(0.000000),
+			}, {
+				PriceID:         orb.F("h74gfhdjvn7ujokd"),
+				ExternalPriceID: orb.F("external_price_id"),
+				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
+					ExternalPriceID:    orb.F("string"),
+					Name:               orb.F("Annual fee"),
+					BillableMetricID:   orb.F("string"),
+					ItemID:             orb.F("string"),
+					BilledInAdvance:    orb.F(true),
+					FixedPriceQuantity: orb.F(0.000000),
+					InvoiceGroupingKey: orb.F("string"),
+					Cadence:            orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadenceAnnual),
+					ConversionRate:     orb.F(0.000000),
+					ModelType:          orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelTypeUnit),
+					UnitConfig: orb.F(orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceUnitConfig{
+						UnitAmount: orb.F("string"),
+					}),
+					Currency: orb.F("string"),
+				}),
+				AllocationPrice: orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPrice{
+					Currency:              orb.F("USD"),
+					Amount:                orb.F(0.000000),
+					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly),
+					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
 				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
