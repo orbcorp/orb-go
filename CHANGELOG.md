@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.37.1 (2024-06-21)
+
+Full Changelog: [v0.37.0...v0.37.1](https://github.com/orbcorp/orb-go/compare/v0.37.0...v0.37.1)
+
+### Bug Fixes
+
+* add enum union variant ([#196](https://github.com/orbcorp/orb-go/issues/196)) ([0c928d6](https://github.com/orbcorp/orb-go/commit/0c928d6da6fb34c7897495e26a94db3f7bc31a72))
+
 ## 0.37.0 (2024-06-19)
 
 Full Changelog: [v0.36.0...v0.37.0](https://github.com/orbcorp/orb-go/compare/v0.36.0...v0.37.0)
