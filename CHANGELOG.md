@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.37.2 (2024-06-21)
+
+Full Changelog: [v0.37.1...v0.37.2](https://github.com/orbcorp/orb-go/compare/v0.37.1...v0.37.2)
+
+### Bug Fixes
+
+* fix ExtraFields serialization / deserialization ([#198](https://github.com/orbcorp/orb-go/issues/198)) ([720b8ab](https://github.com/orbcorp/orb-go/commit/720b8ab00d9d4c1a362ca0e2478815d9e91ada2c))
+
 ## 0.37.1 (2024-06-21)
 
 Full Changelog: [v0.37.0...v0.37.1](https://github.com/orbcorp/orb-go/compare/v0.37.0...v0.37.1)
