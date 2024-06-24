@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.38.0 (2024-06-24)
+
+Full Changelog: [v0.37.2...v0.38.0](https://github.com/orbcorp/orb-go/compare/v0.37.2...v0.38.0)
+
+### Features
+
+* **api:** external connections made optional when updating items ([#200](https://github.com/orbcorp/orb-go/issues/200)) ([b787513](https://github.com/orbcorp/orb-go/commit/b78751342f936250ab2c6e98e32dca86b54572df))
+
 ## 0.37.2 (2024-06-21)
 
 Full Changelog: [v0.37.1...v0.37.2](https://github.com/orbcorp/orb-go/compare/v0.37.1...v0.37.2)
