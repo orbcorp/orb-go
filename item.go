@@ -176,7 +176,8 @@ func (r ItemNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type ItemUpdateParams struct {
-	ExternalConnections param.Field[[]ItemUpdateParamsExternalConnection] `json:"external_connections,required"`
+	ExternalConnections param.Field[[]ItemUpdateParamsExternalConnection] `json:"external_connections"`
+	Name                param.Field[string]                               `json:"name"`
 }
 
 func (r ItemUpdateParams) MarshalJSON() (data []byte, err error) {
