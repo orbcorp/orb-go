@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.39.0 (2024-06-25)
+
+Full Changelog: [v0.38.0...v0.39.0](https://github.com/orbcorp/orb-go/compare/v0.38.0...v0.39.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** endpoint expects amount of new allocation price to be a string, not a number ([#202](https://github.com/orbcorp/orb-go/issues/202))
+
+### Bug Fixes
+
+* **api:** endpoint expects amount of new allocation price to be a string, not a number ([#202](https://github.com/orbcorp/orb-go/issues/202)) ([441c16d](https://github.com/orbcorp/orb-go/commit/441c16da0d153be2d3ae2619afd75f6da7831459))
+
 ## 0.38.0 (2024-06-24)
 
 Full Changelog: [v0.37.2...v0.38.0](https://github.com/orbcorp/orb-go/compare/v0.37.2...v0.38.0)
