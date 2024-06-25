@@ -4653,7 +4653,7 @@ type SubscriptionPriceIntervalsParamsAddStartDateUnion interface {
 // The definition of a new allocation price to create and add to the subscription.
 type SubscriptionPriceIntervalsParamsAddAllocationPrice struct {
 	// An amount of the currency to allocate to the customer at the specified cadence.
-	Amount param.Field[float64] `json:"amount,required"`
+	Amount param.Field[string] `json:"amount,required"`
 	// The cadence at which to allocate the amount to the customer.
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
