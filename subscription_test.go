@@ -375,7 +375,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				}),
 				AllocationPrice: orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPrice{
 					Currency:              orb.F("USD"),
-					Amount:                orb.F(0.000000),
+					Amount:                orb.F("10.00"),
 					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
@@ -424,7 +424,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				}),
 				AllocationPrice: orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPrice{
 					Currency:              orb.F("USD"),
-					Amount:                orb.F(0.000000),
+					Amount:                orb.F("10.00"),
 					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
@@ -473,7 +473,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				}),
 				AllocationPrice: orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPrice{
 					Currency:              orb.F("USD"),
-					Amount:                orb.F(0.000000),
+					Amount:                orb.F("10.00"),
 					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
