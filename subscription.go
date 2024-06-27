@@ -888,6 +888,21 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 // interval. This will only apply to this price interval, not any other price
 // intervals on the subscription.
 //
+// ## Adjustment intervals
+//
+// An adjustment interval represents the time period that a particular adjustment
+// (a discount, minimum, or maximum) applies to the prices on a subscription.
+// Adjustment intervals can be added to a subscription by specifying them in the
+// `add_adjustments` array, or modified via the `edit_adjustments` array. When
+// creating an adjustment interval, you'll need to provide the definition of the
+// new adjustment (the type of adjustment, and which prices it applies to), as well
+// as the start and end dates for the adjustment interval. The start and end dates
+// of an existing adjustment interval can be edited via the `edit_adjustments`
+// field (just like price intervals). (To "change" the amount of a discount,
+// minimum, or maximum, then, you'll need to end the existing interval, and create
+// a new adjustment interval with the new amount and a start date that matches the
+// end date of the previous interval.)
+//
 // ## Editing price intervals
 //
 // Price intervals can be adjusted by specifying edits to make in the `edit` array.
