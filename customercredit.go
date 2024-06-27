@@ -99,26 +99,28 @@ func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, 
 }
 
 type CustomerCreditListResponse struct {
-	ID               string                           `json:"id,required"`
-	Balance          float64                          `json:"balance,required"`
-	EffectiveDate    time.Time                        `json:"effective_date,required,nullable" format:"date-time"`
-	ExpiryDate       time.Time                        `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string                           `json:"per_unit_cost_basis,required,nullable"`
-	Status           CustomerCreditListResponseStatus `json:"status,required"`
-	JSON             customerCreditListResponseJSON   `json:"-"`
+	ID                    string                           `json:"id,required"`
+	Balance               float64                          `json:"balance,required"`
+	EffectiveDate         time.Time                        `json:"effective_date,required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                        `json:"expiry_date,required,nullable" format:"date-time"`
+	MaximumInitialBalance float64                          `json:"maximum_initial_balance,required,nullable"`
+	PerUnitCostBasis      string                           `json:"per_unit_cost_basis,required,nullable"`
+	Status                CustomerCreditListResponseStatus `json:"status,required"`
+	JSON                  customerCreditListResponseJSON   `json:"-"`
 }
 
 // customerCreditListResponseJSON contains the JSON metadata for the struct
 // [CustomerCreditListResponse]
 type customerCreditListResponseJSON struct {
-	ID               apijson.Field
-	Balance          apijson.Field
-	EffectiveDate    apijson.Field
-	ExpiryDate       apijson.Field
-	PerUnitCostBasis apijson.Field
-	Status           apijson.Field
-	raw              string
-	ExtraFields      map[string]apijson.Field
+	ID                    apijson.Field
+	Balance               apijson.Field
+	EffectiveDate         apijson.Field
+	ExpiryDate            apijson.Field
+	MaximumInitialBalance apijson.Field
+	PerUnitCostBasis      apijson.Field
+	Status                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *CustomerCreditListResponse) UnmarshalJSON(data []byte) (err error) {
@@ -145,26 +147,28 @@ func (r CustomerCreditListResponseStatus) IsKnown() bool {
 }
 
 type CustomerCreditListByExternalIDResponse struct {
-	ID               string                                       `json:"id,required"`
-	Balance          float64                                      `json:"balance,required"`
-	EffectiveDate    time.Time                                    `json:"effective_date,required,nullable" format:"date-time"`
-	ExpiryDate       time.Time                                    `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string                                       `json:"per_unit_cost_basis,required,nullable"`
-	Status           CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
-	JSON             customerCreditListByExternalIDResponseJSON   `json:"-"`
+	ID                    string                                       `json:"id,required"`
+	Balance               float64                                      `json:"balance,required"`
+	EffectiveDate         time.Time                                    `json:"effective_date,required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                    `json:"expiry_date,required,nullable" format:"date-time"`
+	MaximumInitialBalance float64                                      `json:"maximum_initial_balance,required,nullable"`
+	PerUnitCostBasis      string                                       `json:"per_unit_cost_basis,required,nullable"`
+	Status                CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
+	JSON                  customerCreditListByExternalIDResponseJSON   `json:"-"`
 }
 
 // customerCreditListByExternalIDResponseJSON contains the JSON metadata for the
 // struct [CustomerCreditListByExternalIDResponse]
 type customerCreditListByExternalIDResponseJSON struct {
-	ID               apijson.Field
-	Balance          apijson.Field
-	EffectiveDate    apijson.Field
-	ExpiryDate       apijson.Field
-	PerUnitCostBasis apijson.Field
-	Status           apijson.Field
-	raw              string
-	ExtraFields      map[string]apijson.Field
+	ID                    apijson.Field
+	Balance               apijson.Field
+	EffectiveDate         apijson.Field
+	ExpiryDate            apijson.Field
+	MaximumInitialBalance apijson.Field
+	PerUnitCostBasis      apijson.Field
+	Status                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *CustomerCreditListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
@@ -196,6 +200,8 @@ type CustomerCreditListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`
+	// Include all blocks, not just active ones.
+	IncludeAllBlocks param.Field[bool] `query:"include_all_blocks"`
 	// The number of items to fetch. Defaults to 20.
 	Limit param.Field[int64] `query:"limit"`
 }
@@ -215,6 +221,8 @@ type CustomerCreditListByExternalIDParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`
+	// Include all blocks, not just active ones.
+	IncludeAllBlocks param.Field[bool] `query:"include_all_blocks"`
 	// The number of items to fetch. Defaults to 20.
 	Limit param.Field[int64] `query:"limit"`
 }
