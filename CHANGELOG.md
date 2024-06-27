@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.40.0 (2024-06-27)
+
+Full Changelog: [v0.39.0...v0.40.0](https://github.com/orbcorp/orb-go/compare/v0.39.0...v0.40.0)
+
+### Features
+
+* **api:** add support for query param include_all_blocks ([#204](https://github.com/orbcorp/orb-go/issues/204)) ([4713752](https://github.com/orbcorp/orb-go/commit/4713752051d29f8025599290052199340bd23829))
+
 ## 0.39.0 (2024-06-25)
 
 Full Changelog: [v0.38.0...v0.39.0](https://github.com/orbcorp/orb-go/compare/v0.38.0...v0.39.0)
