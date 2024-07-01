@@ -888,6 +888,21 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 // interval. This will only apply to this price interval, not any other price
 // intervals on the subscription.
 //
+// ## Adjustment intervals
+//
+// An adjustment interval represents the time period that a particular adjustment
+// (a discount, minimum, or maximum) applies to the prices on a subscription.
+// Adjustment intervals can be added to a subscription by specifying them in the
+// `add_adjustments` array, or modified via the `edit_adjustments` array. When
+// creating an adjustment interval, you'll need to provide the definition of the
+// new adjustment (the type of adjustment, and which prices it applies to), as well
+// as the start and end dates for the adjustment interval. The start and end dates
+// of an existing adjustment interval can be edited via the `edit_adjustments`
+// field (just like price intervals). (To "change" the amount of a discount,
+// minimum, or maximum, then, you'll need to end the existing interval, and create
+// a new adjustment interval with the new amount and a start date that matches the
+// end date of the previous interval.)
+//
 // ## Editing price intervals
 //
 // Price intervals can be adjusted by specifying edits to make in the `edit` array.
@@ -1241,6 +1256,7 @@ func (r subscriptionAdjustmentIntervalJSON) RawJSON() string {
 }
 
 type SubscriptionAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The reason for the adjustment.
 	Reason         string                                                  `json:"reason,required,nullable"`
@@ -1294,6 +1310,15 @@ func (r *SubscriptionAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (
 	return apijson.Port(r.union, &r)
 }
 
+// AsUnion returns a [SubscriptionAdjustmentIntervalsAdjustmentUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionAdjustmentIntervalsAdjustmentMaximumAdjustment].
 func (r SubscriptionAdjustmentIntervalsAdjustment) AsUnion() SubscriptionAdjustmentIntervalsAdjustmentUnion {
 	return r.union
 }
@@ -1613,8 +1638,10 @@ type SubscriptionDiscountInterval struct {
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// The end date of the discount interval.
-	EndDate                   time.Time   `json:"end_date,required,nullable" format:"date-time"`
-	AppliesToPriceIDs         interface{} `json:"applies_to_price_ids"`
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
 	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
@@ -1653,6 +1680,13 @@ func (r *SubscriptionDiscountInterval) UnmarshalJSON(data []byte) (err error) {
 	return apijson.Port(r.union, &r)
 }
 
+// AsUnion returns a [SubscriptionDiscountIntervalsUnion] interface which you can
+// cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionDiscountIntervalsUsageDiscountInterval].
 func (r SubscriptionDiscountInterval) AsUnion() SubscriptionDiscountIntervalsUnion {
 	return r.union
 }
@@ -2349,6 +2383,9 @@ func (r subscriptionTrialInfoJSON) RawJSON() string {
 }
 
 type SubscriptionUsage struct {
+	// This field can have the runtime type of
+	// [[]SubscriptionUsageUngroupedSubscriptionUsageData],
+	// [[]SubscriptionUsageGroupedSubscriptionUsageData].
 	Data               interface{}               `json:"data"`
 	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata,nullable"`
 	JSON               subscriptionUsageJSON     `json:"-"`
@@ -2376,6 +2413,12 @@ func (r *SubscriptionUsage) UnmarshalJSON(data []byte) (err error) {
 	return apijson.Port(r.union, &r)
 }
 
+// AsUnion returns a [SubscriptionUsageUnion] interface which you can cast to the
+// specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUsageUngroupedSubscriptionUsage],
+// [SubscriptionUsageGroupedSubscriptionUsage].
 func (r SubscriptionUsage) AsUnion() SubscriptionUsageUnion {
 	return r.union
 }

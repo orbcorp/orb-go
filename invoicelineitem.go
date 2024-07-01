@@ -411,15 +411,23 @@ func (r invoiceLineItemNewResponseMinimumJSON) RawJSON() string {
 
 type InvoiceLineItemNewResponseSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount       string                                     `json:"amount,required"`
-	Name         string                                     `json:"name,required"`
-	Quantity     float64                                    `json:"quantity,required"`
-	Grouping     interface{}                                `json:"grouping"`
-	Type         InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
-	MatrixConfig interface{}                                `json:"matrix_config,required"`
-	TierConfig   interface{}                                `json:"tier_config,required"`
-	JSON         invoiceLineItemNewResponseSubLineItemJSON  `json:"-"`
-	union        InvoiceLineItemNewResponseSubLineItemsUnion
+	Amount   string  `json:"amount,required"`
+	Name     string  `json:"name,required"`
+	Quantity float64 `json:"quantity,required"`
+	// This field can have the runtime type of
+	// [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGrouping],
+	// [InvoiceLineItemNewResponseSubLineItemsTierSubLineItemGrouping],
+	// [InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemGrouping].
+	Grouping interface{}                                `json:"grouping"`
+	Type     InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
+	// This field can have the runtime type of
+	// [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfig].
+	MatrixConfig interface{} `json:"matrix_config,required"`
+	// This field can have the runtime type of
+	// [InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfig].
+	TierConfig interface{}                               `json:"tier_config,required"`
+	JSON       invoiceLineItemNewResponseSubLineItemJSON `json:"-"`
+	union      InvoiceLineItemNewResponseSubLineItemsUnion
 }
 
 // invoiceLineItemNewResponseSubLineItemJSON contains the JSON metadata for the
@@ -448,6 +456,13 @@ func (r *InvoiceLineItemNewResponseSubLineItem) UnmarshalJSON(data []byte) (err 
 	return apijson.Port(r.union, &r)
 }
 
+// AsUnion returns a [InvoiceLineItemNewResponseSubLineItemsUnion] interface which
+// you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItem],
+// [InvoiceLineItemNewResponseSubLineItemsTierSubLineItem],
+// [InvoiceLineItemNewResponseSubLineItemsOtherSubLineItem].
 func (r InvoiceLineItemNewResponseSubLineItem) AsUnion() InvoiceLineItemNewResponseSubLineItemsUnion {
 	return r.union
 }
