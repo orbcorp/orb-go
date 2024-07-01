@@ -46,9 +46,10 @@ func (r BillingCycleRelativeDate) ImplementsSubscriptionPriceIntervalsParamsEdit
 }
 
 type Discount struct {
-	DiscountType      DiscountDiscountType `json:"discount_type,required"`
-	AppliesToPriceIDs interface{}          `json:"applies_to_price_ids"`
-	Reason            string               `json:"reason,nullable"`
+	DiscountType DiscountDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	Reason            string      `json:"reason,nullable"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -91,6 +92,12 @@ func (r *Discount) UnmarshalJSON(data []byte) (err error) {
 	return apijson.Port(r.union, &r)
 }
 
+// AsUnion returns a [DiscountUnion] interface which you can cast to the specific
+// types for more type safety.
+//
+// Possible runtime types of the union are [shared.DiscountPercentageDiscount],
+// [shared.DiscountTrialDiscount], [shared.DiscountUsageDiscount],
+// [shared.DiscountAmountDiscount].
 func (r Discount) AsUnion() DiscountUnion {
 	return r.union
 }
