@@ -435,45 +435,122 @@ func init() {
 //
 // ```
 type Price struct {
-	ID                             string          `json:"id,required"`
-	Name                           string          `json:"name,required"`
-	ExternalPriceID                string          `json:"external_price_id,required,nullable"`
-	PriceType                      PricePriceType  `json:"price_type,required"`
-	ModelType                      PriceModelType  `json:"model_type,required"`
-	CreatedAt                      time.Time       `json:"created_at,required" format:"date-time"`
-	Cadence                        PriceCadence    `json:"cadence,required"`
-	BillableMetric                 interface{}     `json:"billable_metric"`
-	FixedPriceQuantity             float64         `json:"fixed_price_quantity,required,nullable"`
-	PlanPhaseOrder                 int64           `json:"plan_phase_order,required,nullable"`
-	Currency                       string          `json:"currency,required"`
-	ConversionRate                 float64         `json:"conversion_rate,required,nullable"`
-	Item                           interface{}     `json:"item"`
-	CreditAllocation               interface{}     `json:"credit_allocation"`
-	Discount                       shared.Discount `json:"discount,required,nullable"`
-	Minimum                        interface{}     `json:"minimum"`
-	MinimumAmount                  string          `json:"minimum_amount,required,nullable"`
-	Maximum                        interface{}     `json:"maximum"`
-	MaximumAmount                  string          `json:"maximum_amount,required,nullable"`
-	UnitConfig                     interface{}     `json:"unit_config,required"`
-	PackageConfig                  interface{}     `json:"package_config,required"`
-	MatrixConfig                   interface{}     `json:"matrix_config,required"`
-	TieredConfig                   interface{}     `json:"tiered_config,required"`
-	TieredBpsConfig                interface{}     `json:"tiered_bps_config,required"`
-	BpsConfig                      interface{}     `json:"bps_config,required"`
-	BulkBpsConfig                  interface{}     `json:"bulk_bps_config,required"`
-	BulkConfig                     interface{}     `json:"bulk_config,required"`
-	ThresholdTotalAmountConfig     interface{}     `json:"threshold_total_amount_config,required"`
-	TieredPackageConfig            interface{}     `json:"tiered_package_config,required"`
-	GroupedTieredConfig            interface{}     `json:"grouped_tiered_config,required"`
-	TieredWithMinimumConfig        interface{}     `json:"tiered_with_minimum_config,required"`
-	TieredPackageWithMinimumConfig interface{}     `json:"tiered_package_with_minimum_config,required"`
-	PackageWithAllocationConfig    interface{}     `json:"package_with_allocation_config,required"`
-	UnitWithPercentConfig          interface{}     `json:"unit_with_percent_config,required"`
-	MatrixWithAllocationConfig     interface{}     `json:"matrix_with_allocation_config,required"`
-	TieredWithProrationConfig      interface{}     `json:"tiered_with_proration_config,required"`
-	UnitWithProrationConfig        interface{}     `json:"unit_with_proration_config,required"`
-	JSON                           priceJSON       `json:"-"`
-	union                          PriceUnion
+	ID              string         `json:"id,required"`
+	Name            string         `json:"name,required"`
+	ExternalPriceID string         `json:"external_price_id,required,nullable"`
+	PriceType       PricePriceType `json:"price_type,required"`
+	ModelType       PriceModelType `json:"model_type,required"`
+	CreatedAt       time.Time      `json:"created_at,required" format:"date-time"`
+	Cadence         PriceCadence   `json:"cadence,required"`
+	// This field can have the runtime type of [PriceUnitPriceBillableMetric],
+	// [PricePackagePriceBillableMetric], [PriceMatrixPriceBillableMetric],
+	// [PriceTieredPriceBillableMetric], [PriceTieredBpsPriceBillableMetric],
+	// [PriceBpsPriceBillableMetric], [PriceBulkBpsPriceBillableMetric],
+	// [PriceBulkPriceBillableMetric], [PriceThresholdTotalAmountPriceBillableMetric],
+	// [PriceTieredPackagePriceBillableMetric],
+	// [PriceGroupedTieredPriceBillableMetric],
+	// [PriceTieredWithMinimumPriceBillableMetric],
+	// [PriceTieredPackageWithMinimumPriceBillableMetric],
+	// [PricePackageWithAllocationPriceBillableMetric],
+	// [PriceUnitWithPercentPriceBillableMetric],
+	// [PriceMatrixWithAllocationPriceBillableMetric],
+	// [PriceTieredWithProrationPriceBillableMetric],
+	// [PriceUnitWithProrationPriceBillableMetric].
+	BillableMetric     interface{} `json:"billable_metric"`
+	FixedPriceQuantity float64     `json:"fixed_price_quantity,required,nullable"`
+	PlanPhaseOrder     int64       `json:"plan_phase_order,required,nullable"`
+	Currency           string      `json:"currency,required"`
+	ConversionRate     float64     `json:"conversion_rate,required,nullable"`
+	// This field can have the runtime type of [PriceUnitPriceItem],
+	// [PricePackagePriceItem], [PriceMatrixPriceItem], [PriceTieredPriceItem],
+	// [PriceTieredBpsPriceItem], [PriceBpsPriceItem], [PriceBulkBpsPriceItem],
+	// [PriceBulkPriceItem], [PriceThresholdTotalAmountPriceItem],
+	// [PriceTieredPackagePriceItem], [PriceGroupedTieredPriceItem],
+	// [PriceTieredWithMinimumPriceItem], [PriceTieredPackageWithMinimumPriceItem],
+	// [PricePackageWithAllocationPriceItem], [PriceUnitWithPercentPriceItem],
+	// [PriceMatrixWithAllocationPriceItem], [PriceTieredWithProrationPriceItem],
+	// [PriceUnitWithProrationPriceItem].
+	Item interface{} `json:"item"`
+	// This field can have the runtime type of [PriceUnitPriceCreditAllocation],
+	// [PricePackagePriceCreditAllocation], [PriceMatrixPriceCreditAllocation],
+	// [PriceTieredPriceCreditAllocation], [PriceTieredBpsPriceCreditAllocation],
+	// [PriceBpsPriceCreditAllocation], [PriceBulkBpsPriceCreditAllocation],
+	// [PriceBulkPriceCreditAllocation],
+	// [PriceThresholdTotalAmountPriceCreditAllocation],
+	// [PriceTieredPackagePriceCreditAllocation],
+	// [PriceGroupedTieredPriceCreditAllocation],
+	// [PriceTieredWithMinimumPriceCreditAllocation],
+	// [PriceTieredPackageWithMinimumPriceCreditAllocation],
+	// [PricePackageWithAllocationPriceCreditAllocation],
+	// [PriceUnitWithPercentPriceCreditAllocation],
+	// [PriceMatrixWithAllocationPriceCreditAllocation],
+	// [PriceTieredWithProrationPriceCreditAllocation],
+	// [PriceUnitWithProrationPriceCreditAllocation].
+	CreditAllocation interface{}     `json:"credit_allocation"`
+	Discount         shared.Discount `json:"discount,required,nullable"`
+	// This field can have the runtime type of [PriceUnitPriceMinimum],
+	// [PricePackagePriceMinimum], [PriceMatrixPriceMinimum],
+	// [PriceTieredPriceMinimum], [PriceTieredBpsPriceMinimum], [PriceBpsPriceMinimum],
+	// [PriceBulkBpsPriceMinimum], [PriceBulkPriceMinimum],
+	// [PriceThresholdTotalAmountPriceMinimum], [PriceTieredPackagePriceMinimum],
+	// [PriceGroupedTieredPriceMinimum], [PriceTieredWithMinimumPriceMinimum],
+	// [PriceTieredPackageWithMinimumPriceMinimum],
+	// [PricePackageWithAllocationPriceMinimum], [PriceUnitWithPercentPriceMinimum],
+	// [PriceMatrixWithAllocationPriceMinimum], [PriceTieredWithProrationPriceMinimum],
+	// [PriceUnitWithProrationPriceMinimum].
+	Minimum       interface{} `json:"minimum"`
+	MinimumAmount string      `json:"minimum_amount,required,nullable"`
+	// This field can have the runtime type of [PriceUnitPriceMaximum],
+	// [PricePackagePriceMaximum], [PriceMatrixPriceMaximum],
+	// [PriceTieredPriceMaximum], [PriceTieredBpsPriceMaximum], [PriceBpsPriceMaximum],
+	// [PriceBulkBpsPriceMaximum], [PriceBulkPriceMaximum],
+	// [PriceThresholdTotalAmountPriceMaximum], [PriceTieredPackagePriceMaximum],
+	// [PriceGroupedTieredPriceMaximum], [PriceTieredWithMinimumPriceMaximum],
+	// [PriceTieredPackageWithMinimumPriceMaximum],
+	// [PricePackageWithAllocationPriceMaximum], [PriceUnitWithPercentPriceMaximum],
+	// [PriceMatrixWithAllocationPriceMaximum], [PriceTieredWithProrationPriceMaximum],
+	// [PriceUnitWithProrationPriceMaximum].
+	Maximum       interface{} `json:"maximum"`
+	MaximumAmount string      `json:"maximum_amount,required,nullable"`
+	// This field can have the runtime type of [PriceUnitPriceUnitConfig].
+	UnitConfig interface{} `json:"unit_config,required"`
+	// This field can have the runtime type of [PricePackagePricePackageConfig].
+	PackageConfig interface{} `json:"package_config,required"`
+	// This field can have the runtime type of [PriceMatrixPriceMatrixConfig].
+	MatrixConfig interface{} `json:"matrix_config,required"`
+	// This field can have the runtime type of [PriceTieredPriceTieredConfig].
+	TieredConfig interface{} `json:"tiered_config,required"`
+	// This field can have the runtime type of [PriceTieredBpsPriceTieredBpsConfig].
+	TieredBpsConfig interface{} `json:"tiered_bps_config,required"`
+	// This field can have the runtime type of [PriceBpsPriceBpsConfig].
+	BpsConfig interface{} `json:"bps_config,required"`
+	// This field can have the runtime type of [PriceBulkBpsPriceBulkBpsConfig].
+	BulkBpsConfig interface{} `json:"bulk_bps_config,required"`
+	// This field can have the runtime type of [PriceBulkPriceBulkConfig].
+	BulkConfig interface{} `json:"bulk_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	ThresholdTotalAmountConfig interface{} `json:"threshold_total_amount_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	TieredPackageConfig interface{} `json:"tiered_package_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	GroupedTieredConfig interface{} `json:"grouped_tiered_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	TieredWithMinimumConfig interface{} `json:"tiered_with_minimum_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	TieredPackageWithMinimumConfig interface{} `json:"tiered_package_with_minimum_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	PackageWithAllocationConfig interface{} `json:"package_with_allocation_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	UnitWithPercentConfig interface{} `json:"unit_with_percent_config,required"`
+	// This field can have the runtime type of
+	// [PriceMatrixWithAllocationPriceMatrixWithAllocationConfig].
+	MatrixWithAllocationConfig interface{} `json:"matrix_with_allocation_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	TieredWithProrationConfig interface{} `json:"tiered_with_proration_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
+	UnitWithProrationConfig interface{} `json:"unit_with_proration_config,required"`
+	JSON                    priceJSON   `json:"-"`
+	union                   PriceUnion
 }
 
 // priceJSON contains the JSON metadata for the struct [Price]
@@ -531,6 +608,17 @@ func (r *Price) UnmarshalJSON(data []byte) (err error) {
 	return apijson.Port(r.union, &r)
 }
 
+// AsUnion returns a [PriceUnion] interface which you can cast to the specific
+// types for more type safety.
+//
+// Possible runtime types of the union are [PriceUnitPrice], [PricePackagePrice],
+// [PriceMatrixPrice], [PriceTieredPrice], [PriceTieredBpsPrice], [PriceBpsPrice],
+// [PriceBulkBpsPrice], [PriceBulkPrice], [PriceThresholdTotalAmountPrice],
+// [PriceTieredPackagePrice], [PriceGroupedTieredPrice],
+// [PriceTieredWithMinimumPrice], [PriceTieredPackageWithMinimumPrice],
+// [PricePackageWithAllocationPrice], [PriceUnitWithPercentPrice],
+// [PriceMatrixWithAllocationPrice], [PriceTieredWithProrationPrice],
+// [PriceUnitWithProrationPrice].
 func (r Price) AsUnion() PriceUnion {
 	return r.union
 }
