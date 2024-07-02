@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.40.1 (2024-07-02)
+
+Full Changelog: [v0.40.0...v0.40.1](https://github.com/orbcorp/orb-go/compare/v0.40.0...v0.40.1)
+
+### Bug Fixes
+
+* use slice instead of appending to r.Options ([#210](https://github.com/orbcorp/orb-go/issues/210)) ([1127d17](https://github.com/orbcorp/orb-go/commit/1127d17eb8ffe2356b4e1b374f9aa29a2a6e7ee5))
+
+
+### Chores
+
+* **docs:** updates price intervals docs ([#206](https://github.com/orbcorp/orb-go/issues/206)) ([32e9ec4](https://github.com/orbcorp/orb-go/commit/32e9ec4e07072ced06158b159b8e033421799319))
+* gitignore test server logs ([#208](https://github.com/orbcorp/orb-go/issues/208)) ([cc91357](https://github.com/orbcorp/orb-go/commit/cc91357b099a5bc4dddb3d0cef573207f2b5a0ae))
+
+
+### Documentation
+
+* add better documentation for flattened enum types ([#209](https://github.com/orbcorp/orb-go/issues/209)) ([a9007fd](https://github.com/orbcorp/orb-go/commit/a9007fd912009977e4a0b887469437390be50ca8))
+
 ## 0.40.0 (2024-06-27)
 
 Full Changelog: [v0.39.0...v0.40.0](https://github.com/orbcorp/orb-go/compare/v0.39.0...v0.40.0)
