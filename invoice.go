@@ -59,7 +59,7 @@ func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ..
 // By default, this only returns invoices that are `issued`, `paid`, or `synced`.
 func (r *InvoiceService) List(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) (res *pagination.Page[Invoice], err error) {
 	var raw *http.Response
-	opts = append(r.Options, opts...)
+	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "invoices"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

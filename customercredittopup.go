@@ -57,8 +57,12 @@ func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string,
 // List top-ups
 func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options, opts...)
+	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/%s/credits/top_ups", customerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {
@@ -132,8 +136,12 @@ func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, ext
 // List top-ups by external ID
 func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListByExternalIDResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options, opts...)
+	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return
+	}
 	path := fmt.Sprintf("customers/external_customer_id/%s/credits/top_ups", externalCustomerID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {

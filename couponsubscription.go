@@ -4,6 +4,7 @@ package orb
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -40,8 +41,12 @@ func NewCouponSubscriptionService(opts ...option.RequestOption) (r *CouponSubscr
 // resource, see [Subscription](../guides/concepts#subscription).
 func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
-	opts = append(r.Options, opts...)
+	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	if couponID == "" {
+		err = errors.New("missing required coupon_id parameter")
+		return
+	}
 	path := fmt.Sprintf("coupons/%s/subscriptions", couponID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {
