@@ -488,7 +488,7 @@ func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string,
 // `customer_id` query parameter or the `external_customer_id` query parameter.
 func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
-	opts = append(r.Options, opts...)
+	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "subscriptions"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -630,8 +630,12 @@ func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID str
 // changes.
 func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) (res *pagination.Page[SubscriptionFetchScheduleResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options, opts...)
+	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
 	path := fmt.Sprintf("subscriptions/%s/schedule", subscriptionID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {

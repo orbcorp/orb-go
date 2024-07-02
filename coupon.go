@@ -58,7 +58,7 @@ func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...o
 // found in the Pagination-metadata schema.
 func (r *CouponService) List(ctx context.Context, query CouponListParams, opts ...option.RequestOption) (res *pagination.Page[Coupon], err error) {
 	var raw *http.Response
-	opts = append(r.Options, opts...)
+	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "coupons"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
