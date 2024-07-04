@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.41.0 (2024-07-04)
+
+Full Changelog: [v0.40.1...v0.41.0](https://github.com/orbcorp/orb-go/compare/v0.40.1...v0.41.0)
+
+### Features
+
+* **api:** add 'status' to plan creation params ([#213](https://github.com/orbcorp/orb-go/issues/213)) ([c4f571d](https://github.com/orbcorp/orb-go/commit/c4f571d577ec4fa9a2ada7c8803e9f84746404a6))
+
+
+### Chores
+
+* **internal:** improve deserialization of embedded structs ([#211](https://github.com/orbcorp/orb-go/issues/211)) ([284ccbc](https://github.com/orbcorp/orb-go/commit/284ccbc27f3e0997afcbb18282400d5198ac4523))
+
 ## 0.40.1 (2024-07-02)
 
 Full Changelog: [v0.40.0...v0.40.1](https://github.com/orbcorp/orb-go/compare/v0.40.0...v0.40.1)
