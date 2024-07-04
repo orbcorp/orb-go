@@ -497,6 +497,9 @@ type PlanNewParams struct {
 	// date for the invoice. If you intend the invoice to be due on issue, set this
 	// to 0.
 	NetTerms param.Field[int64] `json:"net_terms"`
+	// The status of the plan to create (either active or draft). If not specified,
+	// this defaults to active.
+	Status param.Field[PlanNewParamsStatus] `json:"status"`
 }
 
 func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
@@ -1780,6 +1783,23 @@ const (
 func (r PlanNewParamsPricesModelType) IsKnown() bool {
 	switch r {
 	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
+// The status of the plan to create (either active or draft). If not specified,
+// this defaults to active.
+type PlanNewParamsStatus string
+
+const (
+	PlanNewParamsStatusActive PlanNewParamsStatus = "active"
+	PlanNewParamsStatusDraft  PlanNewParamsStatus = "draft"
+)
+
+func (r PlanNewParamsStatus) IsKnown() bool {
+	switch r {
+	case PlanNewParamsStatusActive, PlanNewParamsStatusDraft:
 		return true
 	}
 	return false
