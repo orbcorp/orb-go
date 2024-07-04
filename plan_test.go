@@ -51,6 +51,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			"foo": "string",
 		}),
 		NetTerms: orb.F(int64(0)),
+		Status:   orb.F(orb.PlanNewParamsStatusActive),
 	})
 	if err != nil {
 		var apierr *orb.Error
