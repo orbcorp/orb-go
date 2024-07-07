@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.41.1 (2024-07-07)
+
+Full Changelog: [v0.41.0...v0.41.1](https://github.com/orbcorp/orb-go/compare/v0.41.0...v0.41.1)
+
+### Bug Fixes
+
+* **internal:** fix MarshalJSON logic for interface elemnets ([#214](https://github.com/orbcorp/orb-go/issues/214)) ([2fbfedf](https://github.com/orbcorp/orb-go/commit/2fbfedfeb78a23ae8973f69713e25fa334487625))
+
 ## 0.41.0 (2024-07-04)
 
 Full Changelog: [v0.40.1...v0.41.0](https://github.com/orbcorp/orb-go/compare/v0.40.1...v0.41.0)
