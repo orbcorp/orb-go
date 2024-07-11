@@ -27,56 +27,56 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
-		Email: orb.F("string"),
-		Name:  orb.F("string"),
+		Email: orb.F("email"),
+		Name:  orb.F("name"),
 		AccountingSyncConfiguration: orb.F(orb.CustomerNewParamsAccountingSyncConfiguration{
 			Excluded: orb.F(true),
 			AccountingProviders: orb.F([]orb.CustomerNewParamsAccountingSyncConfigurationAccountingProvider{{
-				ProviderType:       orb.F("string"),
-				ExternalProviderID: orb.F("string"),
+				ProviderType:       orb.F("provider_type"),
+				ExternalProviderID: orb.F("external_provider_id"),
 			}, {
-				ProviderType:       orb.F("string"),
-				ExternalProviderID: orb.F("string"),
+				ProviderType:       orb.F("provider_type"),
+				ExternalProviderID: orb.F("external_provider_id"),
 			}, {
-				ProviderType:       orb.F("string"),
-				ExternalProviderID: orb.F("string"),
+				ProviderType:       orb.F("provider_type"),
+				ExternalProviderID: orb.F("external_provider_id"),
 			}}),
 		}),
 		AdditionalEmails: orb.F([]string{"string", "string", "string"}),
 		AutoCollection:   orb.F(true),
 		BillingAddress: orb.F(orb.CustomerNewParamsBillingAddress{
-			Line1:      orb.F("string"),
-			Line2:      orb.F("string"),
-			City:       orb.F("string"),
-			State:      orb.F("string"),
-			PostalCode: orb.F("string"),
-			Country:    orb.F("string"),
+			Line1:      orb.F("line1"),
+			Line2:      orb.F("line2"),
+			City:       orb.F("city"),
+			State:      orb.F("state"),
+			PostalCode: orb.F("postal_code"),
+			Country:    orb.F("country"),
 		}),
-		Currency:           orb.F("string"),
+		Currency:           orb.F("currency"),
 		EmailDelivery:      orb.F(true),
-		ExternalCustomerID: orb.F("string"),
+		ExternalCustomerID: orb.F("external_customer_id"),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
 		PaymentProvider:   orb.F(orb.CustomerNewParamsPaymentProviderQuickbooks),
-		PaymentProviderID: orb.F("string"),
+		PaymentProviderID: orb.F("payment_provider_id"),
 		ReportingConfiguration: orb.F(orb.CustomerNewParamsReportingConfiguration{
 			Exempt: orb.F(true),
 		}),
 		ShippingAddress: orb.F(orb.CustomerNewParamsShippingAddress{
-			Line1:      orb.F("string"),
-			Line2:      orb.F("string"),
-			City:       orb.F("string"),
-			State:      orb.F("string"),
-			PostalCode: orb.F("string"),
-			Country:    orb.F("string"),
+			Line1:      orb.F("line1"),
+			Line2:      orb.F("line2"),
+			City:       orb.F("city"),
+			State:      orb.F("state"),
+			PostalCode: orb.F("postal_code"),
+			Country:    orb.F("country"),
 		}),
 		TaxID: orb.F(orb.CustomerNewParamsTaxID{
 			Country: orb.F(orb.CustomerNewParamsTaxIDCountryAd),
 			Type:    orb.F(orb.CustomerNewParamsTaxIDTypeAdNrt),
-			Value:   orb.F("string"),
+			Value:   orb.F("value"),
 		}),
-		Timezone: orb.F("string"),
+		Timezone: orb.F("timezone"),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -101,56 +101,56 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Update(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.CustomerUpdateParams{
 			AccountingSyncConfiguration: orb.F(orb.CustomerUpdateParamsAccountingSyncConfiguration{
 				Excluded: orb.F(true),
 				AccountingProviders: orb.F([]orb.CustomerUpdateParamsAccountingSyncConfigurationAccountingProvider{{
-					ProviderType:       orb.F("string"),
-					ExternalProviderID: orb.F("string"),
+					ProviderType:       orb.F("provider_type"),
+					ExternalProviderID: orb.F("external_provider_id"),
 				}, {
-					ProviderType:       orb.F("string"),
-					ExternalProviderID: orb.F("string"),
+					ProviderType:       orb.F("provider_type"),
+					ExternalProviderID: orb.F("external_provider_id"),
 				}, {
-					ProviderType:       orb.F("string"),
-					ExternalProviderID: orb.F("string"),
+					ProviderType:       orb.F("provider_type"),
+					ExternalProviderID: orb.F("external_provider_id"),
 				}}),
 			}),
 			AdditionalEmails: orb.F([]string{"string"}),
 			AutoCollection:   orb.F(true),
 			BillingAddress: orb.F(orb.CustomerUpdateParamsBillingAddress{
-				Line1:      orb.F("string"),
-				Line2:      orb.F("string"),
-				City:       orb.F("string"),
-				State:      orb.F("string"),
-				PostalCode: orb.F("string"),
-				Country:    orb.F("string"),
+				Line1:      orb.F("line1"),
+				Line2:      orb.F("line2"),
+				City:       orb.F("city"),
+				State:      orb.F("state"),
+				PostalCode: orb.F("postal_code"),
+				Country:    orb.F("country"),
 			}),
-			Currency:           orb.F("string"),
-			Email:              orb.F("string"),
+			Currency:           orb.F("currency"),
+			Email:              orb.F("email"),
 			EmailDelivery:      orb.F(true),
-			ExternalCustomerID: orb.F("string"),
+			ExternalCustomerID: orb.F("external_customer_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
-			Name:              orb.F("string"),
+			Name:              orb.F("name"),
 			PaymentProvider:   orb.F(orb.CustomerUpdateParamsPaymentProviderQuickbooks),
-			PaymentProviderID: orb.F("string"),
+			PaymentProviderID: orb.F("payment_provider_id"),
 			ReportingConfiguration: orb.F(orb.CustomerUpdateParamsReportingConfiguration{
 				Exempt: orb.F(true),
 			}),
 			ShippingAddress: orb.F(orb.CustomerUpdateParamsShippingAddress{
-				Line1:      orb.F("string"),
-				Line2:      orb.F("string"),
-				City:       orb.F("string"),
-				State:      orb.F("string"),
-				PostalCode: orb.F("string"),
-				Country:    orb.F("string"),
+				Line1:      orb.F("line1"),
+				Line2:      orb.F("line2"),
+				City:       orb.F("city"),
+				State:      orb.F("state"),
+				PostalCode: orb.F("postal_code"),
+				Country:    orb.F("country"),
 			}),
 			TaxID: orb.F(orb.CustomerUpdateParamsTaxID{
 				Country: orb.F(orb.CustomerUpdateParamsTaxIDCountryAd),
 				Type:    orb.F(orb.CustomerUpdateParamsTaxIDTypeAdNrt),
-				Value:   orb.F("string"),
+				Value:   orb.F("value"),
 			}),
 		},
 	)
@@ -180,7 +180,7 @@ func TestCustomerListWithOptionalParams(t *testing.T) {
 		CreatedAtGte: orb.F(time.Now()),
 		CreatedAtLt:  orb.F(time.Now()),
 		CreatedAtLte: orb.F(time.Now()),
-		Cursor:       orb.F("string"),
+		Cursor:       orb.F("cursor"),
 		Limit:        orb.F(int64(1)),
 	})
 	if err != nil {
@@ -204,7 +204,7 @@ func TestCustomerDelete(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.Customers.Delete(context.TODO(), "string")
+	err := client.Customers.Delete(context.TODO(), "customer_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -226,7 +226,7 @@ func TestCustomerFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Customers.Fetch(context.TODO(), "string")
+	_, err := client.Customers.Fetch(context.TODO(), "customer_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -248,7 +248,7 @@ func TestCustomerFetchByExternalID(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Customers.FetchByExternalID(context.TODO(), "string")
+	_, err := client.Customers.FetchByExternalID(context.TODO(), "external_customer_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -272,56 +272,56 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.UpdateByExternalID(
 		context.TODO(),
-		"string",
+		"external_customer_id",
 		orb.CustomerUpdateByExternalIDParams{
 			AccountingSyncConfiguration: orb.F(orb.CustomerUpdateByExternalIDParamsAccountingSyncConfiguration{
 				Excluded: orb.F(true),
 				AccountingProviders: orb.F([]orb.CustomerUpdateByExternalIDParamsAccountingSyncConfigurationAccountingProvider{{
-					ProviderType:       orb.F("string"),
-					ExternalProviderID: orb.F("string"),
+					ProviderType:       orb.F("provider_type"),
+					ExternalProviderID: orb.F("external_provider_id"),
 				}, {
-					ProviderType:       orb.F("string"),
-					ExternalProviderID: orb.F("string"),
+					ProviderType:       orb.F("provider_type"),
+					ExternalProviderID: orb.F("external_provider_id"),
 				}, {
-					ProviderType:       orb.F("string"),
-					ExternalProviderID: orb.F("string"),
+					ProviderType:       orb.F("provider_type"),
+					ExternalProviderID: orb.F("external_provider_id"),
 				}}),
 			}),
 			AdditionalEmails: orb.F([]string{"string"}),
 			AutoCollection:   orb.F(true),
 			BillingAddress: orb.F(orb.CustomerUpdateByExternalIDParamsBillingAddress{
-				Line1:      orb.F("string"),
-				Line2:      orb.F("string"),
-				City:       orb.F("string"),
-				State:      orb.F("string"),
-				PostalCode: orb.F("string"),
-				Country:    orb.F("string"),
+				Line1:      orb.F("line1"),
+				Line2:      orb.F("line2"),
+				City:       orb.F("city"),
+				State:      orb.F("state"),
+				PostalCode: orb.F("postal_code"),
+				Country:    orb.F("country"),
 			}),
-			Currency:           orb.F("string"),
-			Email:              orb.F("string"),
+			Currency:           orb.F("currency"),
+			Email:              orb.F("email"),
 			EmailDelivery:      orb.F(true),
-			ExternalCustomerID: orb.F("string"),
+			ExternalCustomerID: orb.F("external_customer_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
-			Name:              orb.F("string"),
+			Name:              orb.F("name"),
 			PaymentProvider:   orb.F(orb.CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks),
-			PaymentProviderID: orb.F("string"),
+			PaymentProviderID: orb.F("payment_provider_id"),
 			ReportingConfiguration: orb.F(orb.CustomerUpdateByExternalIDParamsReportingConfiguration{
 				Exempt: orb.F(true),
 			}),
 			ShippingAddress: orb.F(orb.CustomerUpdateByExternalIDParamsShippingAddress{
-				Line1:      orb.F("string"),
-				Line2:      orb.F("string"),
-				City:       orb.F("string"),
-				State:      orb.F("string"),
-				PostalCode: orb.F("string"),
-				Country:    orb.F("string"),
+				Line1:      orb.F("line1"),
+				Line2:      orb.F("line2"),
+				City:       orb.F("city"),
+				State:      orb.F("state"),
+				PostalCode: orb.F("postal_code"),
+				Country:    orb.F("country"),
 			}),
 			TaxID: orb.F(orb.CustomerUpdateByExternalIDParamsTaxID{
 				Country: orb.F(orb.CustomerUpdateByExternalIDParamsTaxIDCountryAd),
 				Type:    orb.F(orb.CustomerUpdateByExternalIDParamsTaxIDTypeAdNrt),
-				Value:   orb.F("string"),
+				Value:   orb.F("value"),
 			}),
 		},
 	)

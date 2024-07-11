@@ -28,13 +28,13 @@ func TestEventUpdateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Events.Update(
 		context.TODO(),
-		"string",
+		"event_id",
 		orb.EventUpdateParams{
-			EventName:          orb.F("string"),
+			EventName:          orb.F("event_name"),
 			Properties:         orb.F[any](map[string]interface{}{}),
 			Timestamp:          orb.F(time.Now()),
-			CustomerID:         orb.F("string"),
-			ExternalCustomerID: orb.F("string"),
+			CustomerID:         orb.F("customer_id"),
+			ExternalCustomerID: orb.F("external_customer_id"),
 		},
 	)
 	if err != nil {
@@ -58,7 +58,7 @@ func TestEventDeprecate(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Events.Deprecate(context.TODO(), "string")
+	_, err := client.Events.Deprecate(context.TODO(), "event_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -82,28 +82,28 @@ func TestEventIngestWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Events.Ingest(context.TODO(), orb.EventIngestParams{
 		Events: orb.F([]orb.EventIngestParamsEvent{{
-			CustomerID:         orb.F("string"),
-			ExternalCustomerID: orb.F("string"),
-			EventName:          orb.F("string"),
+			CustomerID:         orb.F("customer_id"),
+			ExternalCustomerID: orb.F("external_customer_id"),
+			EventName:          orb.F("event_name"),
 			Timestamp:          orb.F(time.Now()),
 			Properties:         orb.F[any](map[string]interface{}{}),
-			IdempotencyKey:     orb.F("string"),
+			IdempotencyKey:     orb.F("idempotency_key"),
 		}, {
-			CustomerID:         orb.F("string"),
-			ExternalCustomerID: orb.F("string"),
-			EventName:          orb.F("string"),
+			CustomerID:         orb.F("customer_id"),
+			ExternalCustomerID: orb.F("external_customer_id"),
+			EventName:          orb.F("event_name"),
 			Timestamp:          orb.F(time.Now()),
 			Properties:         orb.F[any](map[string]interface{}{}),
-			IdempotencyKey:     orb.F("string"),
+			IdempotencyKey:     orb.F("idempotency_key"),
 		}, {
-			CustomerID:         orb.F("string"),
-			ExternalCustomerID: orb.F("string"),
-			EventName:          orb.F("string"),
+			CustomerID:         orb.F("customer_id"),
+			ExternalCustomerID: orb.F("external_customer_id"),
+			EventName:          orb.F("event_name"),
 			Timestamp:          orb.F(time.Now()),
 			Properties:         orb.F[any](map[string]interface{}{}),
-			IdempotencyKey:     orb.F("string"),
+			IdempotencyKey:     orb.F("idempotency_key"),
 		}}),
-		BackfillID: orb.F("string"),
+		BackfillID: orb.F("backfill_id"),
 		Debug:      orb.F(true),
 	})
 	if err != nil {
