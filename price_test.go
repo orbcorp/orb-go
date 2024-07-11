@@ -28,19 +28,19 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Prices.New(context.TODO(), orb.PriceNewParamsNewFloatingUnitPrice{
 		Cadence:   orb.F(orb.PriceNewParamsNewFloatingUnitPriceCadenceAnnual),
-		Currency:  orb.F("string"),
-		ItemID:    orb.F("string"),
+		Currency:  orb.F("currency"),
+		ItemID:    orb.F("item_id"),
 		ModelType: orb.F(orb.PriceNewParamsNewFloatingUnitPriceModelTypeUnit),
 		Name:      orb.F("Annual fee"),
 		UnitConfig: orb.F(orb.PriceNewParamsNewFloatingUnitPriceUnitConfig{
-			UnitAmount: orb.F("string"),
+			UnitAmount: orb.F("unit_amount"),
 		}),
-		BillableMetricID:   orb.F("string"),
+		BillableMetricID:   orb.F("billable_metric_id"),
 		BilledInAdvance:    orb.F(true),
 		ConversionRate:     orb.F(0.000000),
-		ExternalPriceID:    orb.F("string"),
+		ExternalPriceID:    orb.F("external_price_id"),
 		FixedPriceQuantity: orb.F(0.000000),
-		InvoiceGroupingKey: orb.F("string"),
+		InvoiceGroupingKey: orb.F("invoice_grouping_key"),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -64,7 +64,7 @@ func TestPriceListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Prices.List(context.TODO(), orb.PriceListParams{
-		Cursor: orb.F("string"),
+		Cursor: orb.F("cursor"),
 		Limit:  orb.F(int64(1)),
 	})
 	if err != nil {
@@ -90,12 +90,12 @@ func TestPriceEvaluateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Prices.Evaluate(
 		context.TODO(),
-		"string",
+		"price_id",
 		orb.PriceEvaluateParams{
 			TimeframeEnd:       orb.F(time.Now()),
 			TimeframeStart:     orb.F(time.Now()),
-			CustomerID:         orb.F("string"),
-			ExternalCustomerID: orb.F("string"),
+			CustomerID:         orb.F("customer_id"),
+			ExternalCustomerID: orb.F("external_customer_id"),
 			Filter:             orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
 			GroupingKeys:       orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
 		},
@@ -121,7 +121,7 @@ func TestPriceFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Prices.Fetch(context.TODO(), "string")
+	_, err := client.Prices.Fetch(context.TODO(), "price_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

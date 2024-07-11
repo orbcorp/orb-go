@@ -38,7 +38,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			ItemID:    orb.F("4khy3nwzktxv7"),
 			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
 			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount: orb.F("string"),
+				UnitAmount: orb.F("unit_amount"),
 			}),
 		}, {
 			StartDate: orb.F(time.Now()),
@@ -48,7 +48,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			ItemID:    orb.F("4khy3nwzktxv7"),
 			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
 			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount: orb.F("string"),
+				UnitAmount: orb.F("unit_amount"),
 			}),
 		}, {
 			StartDate: orb.F(time.Now()),
@@ -58,7 +58,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			ItemID:    orb.F("4khy3nwzktxv7"),
 			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
 			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount: orb.F("string"),
+				UnitAmount: orb.F("unit_amount"),
 			}),
 		}}),
 		NetTerms:   orb.F(int64(0)),
@@ -66,7 +66,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 		Discount: orb.F[shared.DiscountUnionParam](shared.DiscountPercentageDiscountParam{
 			DiscountType:       orb.F(shared.DiscountPercentageDiscountDiscountTypePercentage),
 			AppliesToPriceIDs:  orb.F([]string{"h74gfhdjvn7ujokd", "7hfgtgjnbvc3ujkl"}),
-			Reason:             orb.F("string"),
+			Reason:             orb.F("reason"),
 			PercentageDiscount: orb.F(0.150000),
 		}),
 		ExternalCustomerID: orb.F("external-customer-id"),
@@ -98,17 +98,17 @@ func TestInvoiceListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Invoices.List(context.TODO(), orb.InvoiceListParams{
-		Amount:             orb.F("string"),
-		AmountGt:           orb.F("string"),
-		AmountLt:           orb.F("string"),
-		Cursor:             orb.F("string"),
-		CustomerID:         orb.F("string"),
+		Amount:             orb.F("amount"),
+		AmountGt:           orb.F("amount[gt]"),
+		AmountLt:           orb.F("amount[lt]"),
+		Cursor:             orb.F("cursor"),
+		CustomerID:         orb.F("customer_id"),
 		DateType:           orb.F(orb.InvoiceListParamsDateTypeDueDate),
 		DueDate:            orb.F(time.Now()),
-		DueDateWindow:      orb.F("string"),
+		DueDateWindow:      orb.F("due_date_window"),
 		DueDateGt:          orb.F(time.Now()),
 		DueDateLt:          orb.F(time.Now()),
-		ExternalCustomerID: orb.F("string"),
+		ExternalCustomerID: orb.F("external_customer_id"),
 		InvoiceDateGt:      orb.F(time.Now()),
 		InvoiceDateGte:     orb.F(time.Now()),
 		InvoiceDateLt:      orb.F(time.Now()),
@@ -116,7 +116,7 @@ func TestInvoiceListWithOptionalParams(t *testing.T) {
 		IsRecurring:        orb.F(true),
 		Limit:              orb.F(int64(1)),
 		Status:             orb.F([]orb.InvoiceListParamsStatus{orb.InvoiceListParamsStatusDraft, orb.InvoiceListParamsStatusIssued, orb.InvoiceListParamsStatusPaid}),
-		SubscriptionID:     orb.F("string"),
+		SubscriptionID:     orb.F("subscription_id"),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -139,7 +139,7 @@ func TestInvoiceFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Invoices.Fetch(context.TODO(), "string")
+	_, err := client.Invoices.Fetch(context.TODO(), "invoice_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -162,7 +162,7 @@ func TestInvoiceFetchUpcomingWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Invoices.FetchUpcoming(context.TODO(), orb.InvoiceFetchUpcomingParams{
-		SubscriptionID: orb.F("string"),
+		SubscriptionID: orb.F("subscription_id"),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -185,7 +185,7 @@ func TestInvoiceIssue(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Invoices.Issue(context.TODO(), "string")
+	_, err := client.Invoices.Issue(context.TODO(), "invoice_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -209,11 +209,11 @@ func TestInvoiceMarkPaidWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Invoices.MarkPaid(
 		context.TODO(),
-		"string",
+		"invoice_id",
 		orb.InvoiceMarkPaidParams{
 			PaymentReceivedDate: orb.F(time.Now()),
 			ExternalID:          orb.F("external_payment_id_123"),
-			Notes:               orb.F("string"),
+			Notes:               orb.F("notes"),
 		},
 	)
 	if err != nil {
@@ -237,7 +237,7 @@ func TestInvoiceVoid(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Invoices.Void(context.TODO(), "string")
+	_, err := client.Invoices.Void(context.TODO(), "invoice_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

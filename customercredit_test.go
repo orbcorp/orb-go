@@ -27,10 +27,10 @@ func TestCustomerCreditListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Credits.List(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.CustomerCreditListParams{
-			Currency:         orb.F("string"),
-			Cursor:           orb.F("string"),
+			Currency:         orb.F("currency"),
+			Cursor:           orb.F("cursor"),
 			IncludeAllBlocks: orb.F(true),
 			Limit:            orb.F(int64(1)),
 		},
@@ -58,10 +58,10 @@ func TestCustomerCreditListByExternalIDWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Credits.ListByExternalID(
 		context.TODO(),
-		"string",
+		"external_customer_id",
 		orb.CustomerCreditListByExternalIDParams{
-			Currency:         orb.F("string"),
-			Cursor:           orb.F("string"),
+			Currency:         orb.F("currency"),
+			Cursor:           orb.F("cursor"),
 			IncludeAllBlocks: orb.F(true),
 			Limit:            orb.F(int64(1)),
 		},

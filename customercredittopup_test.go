@@ -27,18 +27,18 @@ func TestCustomerCreditTopUpNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Credits.TopUps.New(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.CustomerCreditTopUpNewParams{
-			Amount:   orb.F("string"),
-			Currency: orb.F("string"),
+			Amount:   orb.F("amount"),
+			Currency: orb.F("currency"),
 			InvoiceSettings: orb.F(orb.CustomerCreditTopUpNewParamsInvoiceSettings{
 				AutoCollection:           orb.F(true),
 				NetTerms:                 orb.F(int64(0)),
-				Memo:                     orb.F("string"),
+				Memo:                     orb.F("memo"),
 				RequireSuccessfulPayment: orb.F(true),
 			}),
-			PerUnitCostBasis: orb.F("string"),
-			Threshold:        orb.F("string"),
+			PerUnitCostBasis: orb.F("per_unit_cost_basis"),
+			Threshold:        orb.F("threshold"),
 			ExpiresAfter:     orb.F(int64(0)),
 			ExpiresAfterUnit: orb.F(orb.CustomerCreditTopUpNewParamsExpiresAfterUnitDay),
 		},
@@ -66,9 +66,9 @@ func TestCustomerCreditTopUpListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Credits.TopUps.List(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.CustomerCreditTopUpListParams{
-			Cursor: orb.F("string"),
+			Cursor: orb.F("cursor"),
 			Limit:  orb.F(int64(1)),
 		},
 	)
@@ -95,8 +95,8 @@ func TestCustomerCreditTopUpDelete(t *testing.T) {
 	)
 	err := client.Customers.Credits.TopUps.Delete(
 		context.TODO(),
-		"string",
-		"string",
+		"customer_id",
+		"top_up_id",
 	)
 	if err != nil {
 		var apierr *orb.Error
@@ -121,18 +121,18 @@ func TestCustomerCreditTopUpNewByExternalIDWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Credits.TopUps.NewByExternalID(
 		context.TODO(),
-		"string",
+		"external_customer_id",
 		orb.CustomerCreditTopUpNewByExternalIDParams{
-			Amount:   orb.F("string"),
-			Currency: orb.F("string"),
+			Amount:   orb.F("amount"),
+			Currency: orb.F("currency"),
 			InvoiceSettings: orb.F(orb.CustomerCreditTopUpNewByExternalIDParamsInvoiceSettings{
 				AutoCollection:           orb.F(true),
 				NetTerms:                 orb.F(int64(0)),
-				Memo:                     orb.F("string"),
+				Memo:                     orb.F("memo"),
 				RequireSuccessfulPayment: orb.F(true),
 			}),
-			PerUnitCostBasis: orb.F("string"),
-			Threshold:        orb.F("string"),
+			PerUnitCostBasis: orb.F("per_unit_cost_basis"),
+			Threshold:        orb.F("threshold"),
 			ExpiresAfter:     orb.F(int64(0)),
 			ExpiresAfterUnit: orb.F(orb.CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnitDay),
 		},
@@ -160,8 +160,8 @@ func TestCustomerCreditTopUpDeleteByExternalID(t *testing.T) {
 	)
 	err := client.Customers.Credits.TopUps.DeleteByExternalID(
 		context.TODO(),
-		"string",
-		"string",
+		"external_customer_id",
+		"top_up_id",
 	)
 	if err != nil {
 		var apierr *orb.Error
@@ -186,9 +186,9 @@ func TestCustomerCreditTopUpListByExternalIDWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Credits.TopUps.ListByExternalID(
 		context.TODO(),
-		"string",
+		"external_customer_id",
 		orb.CustomerCreditTopUpListByExternalIDParams{
-			Cursor: orb.F("string"),
+			Cursor: orb.F("cursor"),
 			Limit:  orb.F(int64(1)),
 		},
 	)

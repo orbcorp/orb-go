@@ -51,19 +51,19 @@ func TestItemUpdateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Items.Update(
 		context.TODO(),
-		"string",
+		"item_id",
 		orb.ItemUpdateParams{
 			ExternalConnections: orb.F([]orb.ItemUpdateParamsExternalConnection{{
 				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
-				ExternalEntityID:       orb.F("string"),
+				ExternalEntityID:       orb.F("external_entity_id"),
 			}, {
 				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
-				ExternalEntityID:       orb.F("string"),
+				ExternalEntityID:       orb.F("external_entity_id"),
 			}, {
 				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
-				ExternalEntityID:       orb.F("string"),
+				ExternalEntityID:       orb.F("external_entity_id"),
 			}}),
-			Name: orb.F("string"),
+			Name: orb.F("name"),
 		},
 	)
 	if err != nil {
@@ -88,7 +88,7 @@ func TestItemListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Items.List(context.TODO(), orb.ItemListParams{
-		Cursor: orb.F("string"),
+		Cursor: orb.F("cursor"),
 		Limit:  orb.F(int64(1)),
 	})
 	if err != nil {
@@ -112,7 +112,7 @@ func TestItemFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Items.Fetch(context.TODO(), "string")
+	_, err := client.Items.Fetch(context.TODO(), "item_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

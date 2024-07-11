@@ -27,9 +27,9 @@ func TestPlanExternalPlanIDUpdateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Plans.ExternalPlanID.Update(
 		context.TODO(),
-		"string",
+		"external_plan_id",
 		orb.PlanExternalPlanIDUpdateParams{
-			ExternalPlanID: orb.F("string"),
+			ExternalPlanID: orb.F("external_plan_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
@@ -56,7 +56,7 @@ func TestPlanExternalPlanIDFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Plans.ExternalPlanID.Fetch(context.TODO(), "string")
+	_, err := client.Plans.ExternalPlanID.Fetch(context.TODO(), "external_plan_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
