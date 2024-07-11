@@ -28,11 +28,11 @@ func TestCustomerBalanceTransactionNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.BalanceTransactions.New(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.CustomerBalanceTransactionNewParams{
-			Amount:      orb.F("string"),
+			Amount:      orb.F("amount"),
 			Type:        orb.F(orb.CustomerBalanceTransactionNewParamsTypeIncrement),
-			Description: orb.F("string"),
+			Description: orb.F("description"),
 		},
 	)
 	if err != nil {
@@ -58,9 +58,9 @@ func TestCustomerBalanceTransactionListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.BalanceTransactions.List(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.CustomerBalanceTransactionListParams{
-			Cursor:           orb.F("string"),
+			Cursor:           orb.F("cursor"),
 			Limit:            orb.F(int64(1)),
 			OperationTimeGt:  orb.F(time.Now()),
 			OperationTimeGte: orb.F(time.Now()),

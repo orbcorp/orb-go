@@ -27,26 +27,26 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Plans.New(context.TODO(), orb.PlanNewParams{
-		Currency: orb.F("string"),
-		Name:     orb.F("string"),
+		Currency: orb.F("currency"),
+		Name:     orb.F("name"),
 		Prices: orb.F([]orb.PlanNewParamsPriceUnion{orb.PlanNewParamsPricesNewPlanUnitPrice{
-			ExternalPriceID:    orb.F("string"),
+			ExternalPriceID:    orb.F("external_price_id"),
 			Name:               orb.F("Annual fee"),
-			BillableMetricID:   orb.F("string"),
-			ItemID:             orb.F("string"),
+			BillableMetricID:   orb.F("billable_metric_id"),
+			ItemID:             orb.F("item_id"),
 			BilledInAdvance:    orb.F(true),
 			FixedPriceQuantity: orb.F(0.000000),
-			InvoiceGroupingKey: orb.F("string"),
+			InvoiceGroupingKey: orb.F("invoice_grouping_key"),
 			Cadence:            orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceCadenceAnnual),
 			ConversionRate:     orb.F(0.000000),
 			ModelType:          orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceModelTypeUnit),
 			UnitConfig: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceUnitConfig{
-				UnitAmount: orb.F("string"),
+				UnitAmount: orb.F("unit_amount"),
 			}),
-			Currency: orb.F("string"),
+			Currency: orb.F("currency"),
 		}}),
-		DefaultInvoiceMemo: orb.F("string"),
-		ExternalPlanID:     orb.F("string"),
+		DefaultInvoiceMemo: orb.F("default_invoice_memo"),
+		ExternalPlanID:     orb.F("external_plan_id"),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
@@ -76,9 +76,9 @@ func TestPlanUpdateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Plans.Update(
 		context.TODO(),
-		"string",
+		"plan_id",
 		orb.PlanUpdateParams{
-			ExternalPlanID: orb.F("string"),
+			ExternalPlanID: orb.F("external_plan_id"),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
@@ -110,7 +110,7 @@ func TestPlanListWithOptionalParams(t *testing.T) {
 		CreatedAtGte: orb.F(time.Now()),
 		CreatedAtLt:  orb.F(time.Now()),
 		CreatedAtLte: orb.F(time.Now()),
-		Cursor:       orb.F("string"),
+		Cursor:       orb.F("cursor"),
 		Limit:        orb.F(int64(1)),
 		Status:       orb.F(orb.PlanListParamsStatusActive),
 	})
@@ -135,7 +135,7 @@ func TestPlanFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Plans.Fetch(context.TODO(), "string")
+	_, err := client.Plans.Fetch(context.TODO(), "plan_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

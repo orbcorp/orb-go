@@ -28,7 +28,7 @@ func TestMetricNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Metrics.New(context.TODO(), orb.MetricNewParams{
 		Description: orb.F("Sum of bytes downloaded in fast mode"),
-		ItemID:      orb.F("string"),
+		ItemID:      orb.F("item_id"),
 		Name:        orb.F("Bytes downloaded"),
 		Sql:         orb.F("SELECT sum(bytes_downloaded) FROM events WHERE download_speed = 'fast'"),
 		Metadata: orb.F(map[string]string{
@@ -61,7 +61,7 @@ func TestMetricListWithOptionalParams(t *testing.T) {
 		CreatedAtGte: orb.F(time.Now()),
 		CreatedAtLt:  orb.F(time.Now()),
 		CreatedAtLte: orb.F(time.Now()),
-		Cursor:       orb.F("string"),
+		Cursor:       orb.F("cursor"),
 		Limit:        orb.F(int64(1)),
 	})
 	if err != nil {
@@ -85,7 +85,7 @@ func TestMetricFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Metrics.Fetch(context.TODO(), "string")
+	_, err := client.Metrics.Fetch(context.TODO(), "metric_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

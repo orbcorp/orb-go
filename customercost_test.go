@@ -28,7 +28,7 @@ func TestCustomerCostListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Costs.List(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.CustomerCostListParams{
 			TimeframeEnd:   orb.F(time.Now()),
 			TimeframeStart: orb.F(time.Now()),
@@ -58,7 +58,7 @@ func TestCustomerCostListByExternalIDWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.Costs.ListByExternalID(
 		context.TODO(),
-		"string",
+		"external_customer_id",
 		orb.CustomerCostListByExternalIDParams{
 			TimeframeEnd:   orb.F(time.Now()),
 			TimeframeStart: orb.F(time.Now()),

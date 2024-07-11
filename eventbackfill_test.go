@@ -30,8 +30,8 @@ func TestEventBackfillNewWithOptionalParams(t *testing.T) {
 		TimeframeEnd:          orb.F(time.Now()),
 		TimeframeStart:        orb.F(time.Now()),
 		CloseTime:             orb.F(time.Now()),
-		CustomerID:            orb.F("string"),
-		ExternalCustomerID:    orb.F("string"),
+		CustomerID:            orb.F("customer_id"),
+		ExternalCustomerID:    orb.F("external_customer_id"),
 		ReplaceExistingEvents: orb.F(true),
 	})
 	if err != nil {
@@ -56,7 +56,7 @@ func TestEventBackfillListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Events.Backfills.List(context.TODO(), orb.EventBackfillListParams{
-		Cursor: orb.F("string"),
+		Cursor: orb.F("cursor"),
 		Limit:  orb.F(int64(1)),
 	})
 	if err != nil {
@@ -80,7 +80,7 @@ func TestEventBackfillClose(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Events.Backfills.Close(context.TODO(), "string")
+	_, err := client.Events.Backfills.Close(context.TODO(), "backfill_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -102,7 +102,7 @@ func TestEventBackfillFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Events.Backfills.Fetch(context.TODO(), "string")
+	_, err := client.Events.Backfills.Fetch(context.TODO(), "backfill_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -124,7 +124,7 @@ func TestEventBackfillRevert(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Events.Backfills.Revert(context.TODO(), "string")
+	_, err := client.Events.Backfills.Revert(context.TODO(), "backfill_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

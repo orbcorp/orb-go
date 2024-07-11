@@ -56,9 +56,9 @@ func TestCouponListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Coupons.List(context.TODO(), orb.CouponListParams{
-		Cursor:         orb.F("string"),
+		Cursor:         orb.F("cursor"),
 		Limit:          orb.F(int64(1)),
-		RedemptionCode: orb.F("string"),
+		RedemptionCode: orb.F("redemption_code"),
 		ShowArchived:   orb.F(true),
 	})
 	if err != nil {
@@ -82,7 +82,7 @@ func TestCouponArchive(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Coupons.Archive(context.TODO(), "string")
+	_, err := client.Coupons.Archive(context.TODO(), "coupon_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -104,7 +104,7 @@ func TestCouponFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Coupons.Fetch(context.TODO(), "string")
+	_, err := client.Coupons.Fetch(context.TODO(), "coupon_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

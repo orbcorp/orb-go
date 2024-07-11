@@ -26,7 +26,7 @@ func TestCreditNoteListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.CreditNotes.List(context.TODO(), orb.CreditNoteListParams{
-		Cursor: orb.F("string"),
+		Cursor: orb.F("cursor"),
 		Limit:  orb.F(int64(1)),
 	})
 	if err != nil {
@@ -50,7 +50,7 @@ func TestCreditNoteFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.CreditNotes.Fetch(context.TODO(), "string")
+	_, err := client.CreditNotes.Fetch(context.TODO(), "credit_note_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
