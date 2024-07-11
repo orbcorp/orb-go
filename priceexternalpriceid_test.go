@@ -25,7 +25,7 @@ func TestPriceExternalPriceIDFetch(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Prices.ExternalPriceID.Fetch(context.TODO(), "string")
+	_, err := client.Prices.ExternalPriceID.Fetch(context.TODO(), "external_price_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

@@ -26,7 +26,7 @@ func TestAlertGet(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Alerts.Get(context.TODO(), "string")
+	_, err := client.Alerts.Get(context.TODO(), "alert_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -54,11 +54,11 @@ func TestAlertListWithOptionalParams(t *testing.T) {
 		CreatedAtGte:       orb.F(time.Now()),
 		CreatedAtLt:        orb.F(time.Now()),
 		CreatedAtLte:       orb.F(time.Now()),
-		Cursor:             orb.F("string"),
-		CustomerID:         orb.F("string"),
-		ExternalCustomerID: orb.F("string"),
+		Cursor:             orb.F("cursor"),
+		CustomerID:         orb.F("customer_id"),
+		ExternalCustomerID: orb.F("external_customer_id"),
 		Limit:              orb.F(int64(1)),
-		SubscriptionID:     orb.F("string"),
+		SubscriptionID:     orb.F("subscription_id"),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -83,10 +83,10 @@ func TestAlertNewForCustomerWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Alerts.NewForCustomer(
 		context.TODO(),
-		"string",
+		"customer_id",
 		orb.AlertNewForCustomerParams{
-			Currency: orb.F("string"),
-			Type:     orb.F("string"),
+			Currency: orb.F("currency"),
+			Type:     orb.F("type"),
 			Thresholds: orb.F([]orb.AlertNewForCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
 			}, {
@@ -119,10 +119,10 @@ func TestAlertNewForExternalCustomerWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Alerts.NewForExternalCustomer(
 		context.TODO(),
-		"string",
+		"external_customer_id",
 		orb.AlertNewForExternalCustomerParams{
-			Currency: orb.F("string"),
-			Type:     orb.F("string"),
+			Currency: orb.F("currency"),
+			Type:     orb.F("type"),
 			Thresholds: orb.F([]orb.AlertNewForExternalCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
 			}, {
@@ -155,7 +155,7 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Alerts.NewForSubscription(
 		context.TODO(),
-		"string",
+		"subscription_id",
 		orb.AlertNewForSubscriptionParams{
 			Thresholds: orb.F([]orb.AlertNewForSubscriptionParamsThreshold{{
 				Value: orb.F(0.000000),
@@ -164,8 +164,8 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 			}, {
 				Value: orb.F(0.000000),
 			}}),
-			Type:     orb.F("string"),
-			MetricID: orb.F("string"),
+			Type:     orb.F("type"),
+			MetricID: orb.F("metric_id"),
 		},
 	)
 	if err != nil {
@@ -189,7 +189,7 @@ func TestAlertDisable(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Alerts.Disable(context.TODO(), "string")
+	_, err := client.Alerts.Disable(context.TODO(), "alert_configuration_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -211,7 +211,7 @@ func TestAlertEnable(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Alerts.Enable(context.TODO(), "string")
+	_, err := client.Alerts.Enable(context.TODO(), "alert_configuration_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

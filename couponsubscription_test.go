@@ -27,9 +27,9 @@ func TestCouponSubscriptionListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Coupons.Subscriptions.List(
 		context.TODO(),
-		"string",
+		"coupon_id",
 		orb.CouponSubscriptionListParams{
-			Cursor: orb.F("string"),
+			Cursor: orb.F("cursor"),
 			Limit:  orb.F(int64(1)),
 		},
 	)
