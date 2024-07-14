@@ -739,6 +739,7 @@ func (r customerCreditLedgerListResponseJSON) RawJSON() string {
 }
 
 func (r *CustomerCreditLedgerListResponse) UnmarshalJSON(data []byte) (err error) {
+	*r = CustomerCreditLedgerListResponse{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
@@ -1864,6 +1865,7 @@ func (r customerCreditLedgerNewEntryResponseJSON) RawJSON() string {
 }
 
 func (r *CustomerCreditLedgerNewEntryResponse) UnmarshalJSON(data []byte) (err error) {
+	*r = CustomerCreditLedgerNewEntryResponse{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
@@ -2992,6 +2994,7 @@ func (r customerCreditLedgerNewEntryByExternalIDResponseJSON) RawJSON() string {
 }
 
 func (r *CustomerCreditLedgerNewEntryByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	*r = CustomerCreditLedgerNewEntryByExternalIDResponse{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
@@ -4122,6 +4125,7 @@ func (r customerCreditLedgerListByExternalIDResponseJSON) RawJSON() string {
 }
 
 func (r *CustomerCreditLedgerListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	*r = CustomerCreditLedgerListByExternalIDResponse{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err

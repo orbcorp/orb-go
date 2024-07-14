@@ -449,6 +449,7 @@ func (r invoiceLineItemNewResponseSubLineItemJSON) RawJSON() string {
 }
 
 func (r *InvoiceLineItemNewResponseSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	*r = InvoiceLineItemNewResponseSubLineItem{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err

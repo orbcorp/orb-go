@@ -601,6 +601,7 @@ func (r priceJSON) RawJSON() string {
 }
 
 func (r *Price) UnmarshalJSON(data []byte) (err error) {
+	*r = Price{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
