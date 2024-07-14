@@ -1307,6 +1307,7 @@ func (r subscriptionAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
 }
 
 func (r *SubscriptionAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionAdjustmentIntervalsAdjustment{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
@@ -1677,6 +1678,7 @@ func (r subscriptionDiscountIntervalJSON) RawJSON() string {
 }
 
 func (r *SubscriptionDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionDiscountInterval{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
@@ -2410,6 +2412,7 @@ func (r subscriptionUsageJSON) RawJSON() string {
 }
 
 func (r *SubscriptionUsage) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUsage{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err

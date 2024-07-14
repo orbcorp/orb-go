@@ -1388,6 +1388,7 @@ func (r invoiceLineItemsSubLineItemJSON) RawJSON() string {
 }
 
 func (r *InvoiceLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	*r = InvoiceLineItemsSubLineItem{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
@@ -3091,6 +3092,7 @@ func (r invoiceFetchUpcomingResponseLineItemsSubLineItemJSON) RawJSON() string {
 }
 
 func (r *InvoiceFetchUpcomingResponseLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	*r = InvoiceFetchUpcomingResponseLineItemsSubLineItem{}
 	err = apijson.UnmarshalRoot(data, &r.union)
 	if err != nil {
 		return err
