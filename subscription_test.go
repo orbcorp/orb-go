@@ -358,6 +358,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				PriceID:         orb.F("h74gfhdjvn7ujokd"),
 				ExternalPriceID: orb.F("external_price_id"),
 				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
+					Metadata: orb.F(map[string]string{
+						"foo": "string",
+					}),
 					ExternalPriceID:    orb.F("external_price_id"),
 					Name:               orb.F("Annual fee"),
 					BillableMetricID:   orb.F("billable_metric_id"),
@@ -407,6 +410,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				PriceID:         orb.F("h74gfhdjvn7ujokd"),
 				ExternalPriceID: orb.F("external_price_id"),
 				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
+					Metadata: orb.F(map[string]string{
+						"foo": "string",
+					}),
 					ExternalPriceID:    orb.F("external_price_id"),
 					Name:               orb.F("Annual fee"),
 					BillableMetricID:   orb.F("billable_metric_id"),
@@ -456,6 +462,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				PriceID:         orb.F("h74gfhdjvn7ujokd"),
 				ExternalPriceID: orb.F("external_price_id"),
 				Price: orb.F[orb.SubscriptionPriceIntervalsParamsAddPriceUnion](orb.SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice{
+					Metadata: orb.F(map[string]string{
+						"foo": "string",
+					}),
 					ExternalPriceID:    orb.F("external_price_id"),
 					Name:               orb.F("Annual fee"),
 					BillableMetricID:   orb.F("billable_metric_id"),

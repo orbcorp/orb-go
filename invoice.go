@@ -48,6 +48,22 @@ func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ..
 	return
 }
 
+// This endpoint allows you to update the `metadata` property on an invoice. If you
+// pass null for the metadata value, it will clear any existing metadata for that
+// invoice.
+//
+// `metadata` can be modified regardless of invoice state.
+func (r *InvoiceService) Update(ctx context.Context, invoiceID string, body InvoiceUpdateParams, opts ...option.RequestOption) (res *Invoice, err error) {
+	opts = append(r.Options[:], opts...)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return
+	}
+	path := fmt.Sprintf("invoices/%s", invoiceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // This endpoint returns a list of all [`Invoice`](../guides/concepts#invoice)s for
 // an account in a list format.
 //
@@ -3653,6 +3669,17 @@ type InvoiceNewParamsLineItemsUnitConfig struct {
 }
 
 func (r InvoiceNewParamsLineItemsUnitConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type InvoiceUpdateParams struct {
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r InvoiceUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
