@@ -30,6 +30,9 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 		Currency: orb.F("currency"),
 		Name:     orb.F("name"),
 		Prices: orb.F([]orb.PlanNewParamsPriceUnion{orb.PlanNewParamsPricesNewPlanUnitPrice{
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
 			ExternalPriceID:    orb.F("external_price_id"),
 			Name:               orb.F("Annual fee"),
 			BillableMetricID:   orb.F("billable_metric_id"),

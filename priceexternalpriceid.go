@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/orbcorp/orb-go/internal/apijson"
+	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 )
@@ -31,6 +33,20 @@ func NewPriceExternalPriceIDService(opts ...option.RequestOption) (r *PriceExter
 	return
 }
 
+// This endpoint allows you to update the `metadata` property on a price. If you
+// pass null for the metadata value, it will clear any existing metadata for that
+// price.
+func (r *PriceExternalPriceIDService) Update(ctx context.Context, externalPriceID string, body PriceExternalPriceIDUpdateParams, opts ...option.RequestOption) (res *Price, err error) {
+	opts = append(r.Options[:], opts...)
+	if externalPriceID == "" {
+		err = errors.New("missing required external_price_id parameter")
+		return
+	}
+	path := fmt.Sprintf("prices/external_price_id/%s", externalPriceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // This endpoint returns a price given an external price id. See the
 // [price creation API](../reference/create-price) for more information about
 // external price aliases.
@@ -43,4 +59,15 @@ func (r *PriceExternalPriceIDService) Fetch(ctx context.Context, externalPriceID
 	path := fmt.Sprintf("prices/external_price_id/%s", externalPriceID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
+}
+
+type PriceExternalPriceIDUpdateParams struct {
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceExternalPriceIDUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
