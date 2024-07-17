@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.42.0 (2024-07-17)
+
+Full Changelog: [v0.41.1...v0.42.0](https://github.com/orbcorp/orb-go/compare/v0.41.1...v0.42.0)
+
+### Features
+
+* **api:** add methods to prices and invoices ([#222](https://github.com/orbcorp/orb-go/issues/222)) ([3aa1578](https://github.com/orbcorp/orb-go/commit/3aa15782af3fd395108b8f22a68112181ff14d7e))
+
+
+### Chores
+
+* **ci:** also run workflows for PRs targeting `next` ([#216](https://github.com/orbcorp/orb-go/issues/216)) ([ad84622](https://github.com/orbcorp/orb-go/commit/ad846226497168fb2b4201541c45f3361b621465))
+* **internal:** minor changes to tests ([#219](https://github.com/orbcorp/orb-go/issues/219)) ([e05c21a](https://github.com/orbcorp/orb-go/commit/e05c21ad7cc86a9be5ee4e12bd9831c38c9e6334))
+* **internal:** update formatting ([#220](https://github.com/orbcorp/orb-go/issues/220)) ([53b5f77](https://github.com/orbcorp/orb-go/commit/53b5f77487bcfb08cd4fe629e41c19bb6a646031))
+* **internal:** update formatting ([#221](https://github.com/orbcorp/orb-go/issues/221)) ([f19f7f4](https://github.com/orbcorp/orb-go/commit/f19f7f4614e64d2da4aa1f309c9f9cb6441b7f2a))
+
+
+### Documentation
+
+* **examples:** update example values ([#218](https://github.com/orbcorp/orb-go/issues/218)) ([c79ba84](https://github.com/orbcorp/orb-go/commit/c79ba84b0748f85d21e9ed516759234c68eae04d))
+
 ## 0.41.1 (2024-07-07)
 
 Full Changelog: [v0.41.0...v0.41.1](https://github.com/orbcorp/orb-go/compare/v0.41.0...v0.41.1)
