@@ -507,6 +507,7 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type PlanNewParamsPrice struct {
+	Metadata param.Field[interface{}] `json:"metadata,required"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// The name of the price.
@@ -600,6 +601,10 @@ type PlanNewParamsPricesNewPlanUnitPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanUnitPrice) MarshalJSON() (data []byte, err error) {
@@ -677,6 +682,10 @@ type PlanNewParamsPricesNewPlanPackagePrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -757,6 +766,10 @@ type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanMatrixPrice) MarshalJSON() (data []byte, err error) {
@@ -851,6 +864,10 @@ type PlanNewParamsPricesNewPlanTieredPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanTieredPrice) MarshalJSON() (data []byte, err error) {
@@ -941,6 +958,10 @@ type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanTieredBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -1034,6 +1055,10 @@ type PlanNewParamsPricesNewPlanBpsPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -1113,6 +1138,10 @@ type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanBulkBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -1204,6 +1233,10 @@ type PlanNewParamsPricesNewPlanBulkPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanBulkPrice) MarshalJSON() (data []byte, err error) {
@@ -1292,6 +1325,10 @@ type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
@@ -1360,6 +1397,10 @@ type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanTieredPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -1428,6 +1469,10 @@ type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -1496,6 +1541,10 @@ type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
@@ -1564,6 +1613,10 @@ type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -1632,6 +1685,10 @@ type PlanNewParamsPricesNewPlanTierWithProrationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -1700,6 +1757,10 @@ type PlanNewParamsPricesNewPlanUnitWithProrationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r PlanNewParamsPricesNewPlanUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
