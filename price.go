@@ -1094,11 +1094,12 @@ const (
 	PriceUnitPriceCadenceQuarterly  PriceUnitPriceCadence = "quarterly"
 	PriceUnitPriceCadenceSemiAnnual PriceUnitPriceCadence = "semi_annual"
 	PriceUnitPriceCadenceAnnual     PriceUnitPriceCadence = "annual"
+	PriceUnitPriceCadenceCustom     PriceUnitPriceCadence = "custom"
 )
 
 func (r PriceUnitPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceUnitPriceCadenceOneTime, PriceUnitPriceCadenceMonthly, PriceUnitPriceCadenceQuarterly, PriceUnitPriceCadenceSemiAnnual, PriceUnitPriceCadenceAnnual:
+	case PriceUnitPriceCadenceOneTime, PriceUnitPriceCadenceMonthly, PriceUnitPriceCadenceQuarterly, PriceUnitPriceCadenceSemiAnnual, PriceUnitPriceCadenceAnnual, PriceUnitPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -1349,11 +1350,12 @@ const (
 	PricePackagePriceCadenceQuarterly  PricePackagePriceCadence = "quarterly"
 	PricePackagePriceCadenceSemiAnnual PricePackagePriceCadence = "semi_annual"
 	PricePackagePriceCadenceAnnual     PricePackagePriceCadence = "annual"
+	PricePackagePriceCadenceCustom     PricePackagePriceCadence = "custom"
 )
 
 func (r PricePackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PricePackagePriceCadenceOneTime, PricePackagePriceCadenceMonthly, PricePackagePriceCadenceQuarterly, PricePackagePriceCadenceSemiAnnual, PricePackagePriceCadenceAnnual:
+	case PricePackagePriceCadenceOneTime, PricePackagePriceCadenceMonthly, PricePackagePriceCadenceQuarterly, PricePackagePriceCadenceSemiAnnual, PricePackagePriceCadenceAnnual, PricePackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -1608,11 +1610,12 @@ const (
 	PriceMatrixPriceCadenceQuarterly  PriceMatrixPriceCadence = "quarterly"
 	PriceMatrixPriceCadenceSemiAnnual PriceMatrixPriceCadence = "semi_annual"
 	PriceMatrixPriceCadenceAnnual     PriceMatrixPriceCadence = "annual"
+	PriceMatrixPriceCadenceCustom     PriceMatrixPriceCadence = "custom"
 )
 
 func (r PriceMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceMatrixPriceCadenceOneTime, PriceMatrixPriceCadenceMonthly, PriceMatrixPriceCadenceQuarterly, PriceMatrixPriceCadenceSemiAnnual, PriceMatrixPriceCadenceAnnual:
+	case PriceMatrixPriceCadenceOneTime, PriceMatrixPriceCadenceMonthly, PriceMatrixPriceCadenceQuarterly, PriceMatrixPriceCadenceSemiAnnual, PriceMatrixPriceCadenceAnnual, PriceMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -1896,11 +1899,12 @@ const (
 	PriceTieredPriceCadenceQuarterly  PriceTieredPriceCadence = "quarterly"
 	PriceTieredPriceCadenceSemiAnnual PriceTieredPriceCadence = "semi_annual"
 	PriceTieredPriceCadenceAnnual     PriceTieredPriceCadence = "annual"
+	PriceTieredPriceCadenceCustom     PriceTieredPriceCadence = "custom"
 )
 
 func (r PriceTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredPriceCadenceOneTime, PriceTieredPriceCadenceMonthly, PriceTieredPriceCadenceQuarterly, PriceTieredPriceCadenceSemiAnnual, PriceTieredPriceCadenceAnnual:
+	case PriceTieredPriceCadenceOneTime, PriceTieredPriceCadenceMonthly, PriceTieredPriceCadenceQuarterly, PriceTieredPriceCadenceSemiAnnual, PriceTieredPriceCadenceAnnual, PriceTieredPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2179,11 +2183,12 @@ const (
 	PriceTieredBpsPriceCadenceQuarterly  PriceTieredBpsPriceCadence = "quarterly"
 	PriceTieredBpsPriceCadenceSemiAnnual PriceTieredBpsPriceCadence = "semi_annual"
 	PriceTieredBpsPriceCadenceAnnual     PriceTieredBpsPriceCadence = "annual"
+	PriceTieredBpsPriceCadenceCustom     PriceTieredBpsPriceCadence = "custom"
 )
 
 func (r PriceTieredBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredBpsPriceCadenceOneTime, PriceTieredBpsPriceCadenceMonthly, PriceTieredBpsPriceCadenceQuarterly, PriceTieredBpsPriceCadenceSemiAnnual, PriceTieredBpsPriceCadenceAnnual:
+	case PriceTieredBpsPriceCadenceOneTime, PriceTieredBpsPriceCadenceMonthly, PriceTieredBpsPriceCadenceQuarterly, PriceTieredBpsPriceCadenceSemiAnnual, PriceTieredBpsPriceCadenceAnnual, PriceTieredBpsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2490,11 +2495,12 @@ const (
 	PriceBpsPriceCadenceQuarterly  PriceBpsPriceCadence = "quarterly"
 	PriceBpsPriceCadenceSemiAnnual PriceBpsPriceCadence = "semi_annual"
 	PriceBpsPriceCadenceAnnual     PriceBpsPriceCadence = "annual"
+	PriceBpsPriceCadenceCustom     PriceBpsPriceCadence = "custom"
 )
 
 func (r PriceBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceBpsPriceCadenceOneTime, PriceBpsPriceCadenceMonthly, PriceBpsPriceCadenceQuarterly, PriceBpsPriceCadenceSemiAnnual, PriceBpsPriceCadenceAnnual:
+	case PriceBpsPriceCadenceOneTime, PriceBpsPriceCadenceMonthly, PriceBpsPriceCadenceQuarterly, PriceBpsPriceCadenceSemiAnnual, PriceBpsPriceCadenceAnnual, PriceBpsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -2774,11 +2780,12 @@ const (
 	PriceBulkBpsPriceCadenceQuarterly  PriceBulkBpsPriceCadence = "quarterly"
 	PriceBulkBpsPriceCadenceSemiAnnual PriceBulkBpsPriceCadence = "semi_annual"
 	PriceBulkBpsPriceCadenceAnnual     PriceBulkBpsPriceCadence = "annual"
+	PriceBulkBpsPriceCadenceCustom     PriceBulkBpsPriceCadence = "custom"
 )
 
 func (r PriceBulkBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceBulkBpsPriceCadenceOneTime, PriceBulkBpsPriceCadenceMonthly, PriceBulkBpsPriceCadenceQuarterly, PriceBulkBpsPriceCadenceSemiAnnual, PriceBulkBpsPriceCadenceAnnual:
+	case PriceBulkBpsPriceCadenceOneTime, PriceBulkBpsPriceCadenceMonthly, PriceBulkBpsPriceCadenceQuarterly, PriceBulkBpsPriceCadenceSemiAnnual, PriceBulkBpsPriceCadenceAnnual, PriceBulkBpsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3053,11 +3060,12 @@ const (
 	PriceBulkPriceCadenceQuarterly  PriceBulkPriceCadence = "quarterly"
 	PriceBulkPriceCadenceSemiAnnual PriceBulkPriceCadence = "semi_annual"
 	PriceBulkPriceCadenceAnnual     PriceBulkPriceCadence = "annual"
+	PriceBulkPriceCadenceCustom     PriceBulkPriceCadence = "custom"
 )
 
 func (r PriceBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceBulkPriceCadenceOneTime, PriceBulkPriceCadenceMonthly, PriceBulkPriceCadenceQuarterly, PriceBulkPriceCadenceSemiAnnual, PriceBulkPriceCadenceAnnual:
+	case PriceBulkPriceCadenceOneTime, PriceBulkPriceCadenceMonthly, PriceBulkPriceCadenceQuarterly, PriceBulkPriceCadenceSemiAnnual, PriceBulkPriceCadenceAnnual, PriceBulkPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3286,11 +3294,12 @@ const (
 	PriceThresholdTotalAmountPriceCadenceQuarterly  PriceThresholdTotalAmountPriceCadence = "quarterly"
 	PriceThresholdTotalAmountPriceCadenceSemiAnnual PriceThresholdTotalAmountPriceCadence = "semi_annual"
 	PriceThresholdTotalAmountPriceCadenceAnnual     PriceThresholdTotalAmountPriceCadence = "annual"
+	PriceThresholdTotalAmountPriceCadenceCustom     PriceThresholdTotalAmountPriceCadence = "custom"
 )
 
 func (r PriceThresholdTotalAmountPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceThresholdTotalAmountPriceCadenceOneTime, PriceThresholdTotalAmountPriceCadenceMonthly, PriceThresholdTotalAmountPriceCadenceQuarterly, PriceThresholdTotalAmountPriceCadenceSemiAnnual, PriceThresholdTotalAmountPriceCadenceAnnual:
+	case PriceThresholdTotalAmountPriceCadenceOneTime, PriceThresholdTotalAmountPriceCadenceMonthly, PriceThresholdTotalAmountPriceCadenceQuarterly, PriceThresholdTotalAmountPriceCadenceSemiAnnual, PriceThresholdTotalAmountPriceCadenceAnnual, PriceThresholdTotalAmountPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3519,11 +3528,12 @@ const (
 	PriceTieredPackagePriceCadenceQuarterly  PriceTieredPackagePriceCadence = "quarterly"
 	PriceTieredPackagePriceCadenceSemiAnnual PriceTieredPackagePriceCadence = "semi_annual"
 	PriceTieredPackagePriceCadenceAnnual     PriceTieredPackagePriceCadence = "annual"
+	PriceTieredPackagePriceCadenceCustom     PriceTieredPackagePriceCadence = "custom"
 )
 
 func (r PriceTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredPackagePriceCadenceOneTime, PriceTieredPackagePriceCadenceMonthly, PriceTieredPackagePriceCadenceQuarterly, PriceTieredPackagePriceCadenceSemiAnnual, PriceTieredPackagePriceCadenceAnnual:
+	case PriceTieredPackagePriceCadenceOneTime, PriceTieredPackagePriceCadenceMonthly, PriceTieredPackagePriceCadenceQuarterly, PriceTieredPackagePriceCadenceSemiAnnual, PriceTieredPackagePriceCadenceAnnual, PriceTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3752,11 +3762,12 @@ const (
 	PriceGroupedTieredPriceCadenceQuarterly  PriceGroupedTieredPriceCadence = "quarterly"
 	PriceGroupedTieredPriceCadenceSemiAnnual PriceGroupedTieredPriceCadence = "semi_annual"
 	PriceGroupedTieredPriceCadenceAnnual     PriceGroupedTieredPriceCadence = "annual"
+	PriceGroupedTieredPriceCadenceCustom     PriceGroupedTieredPriceCadence = "custom"
 )
 
 func (r PriceGroupedTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceGroupedTieredPriceCadenceOneTime, PriceGroupedTieredPriceCadenceMonthly, PriceGroupedTieredPriceCadenceQuarterly, PriceGroupedTieredPriceCadenceSemiAnnual, PriceGroupedTieredPriceCadenceAnnual:
+	case PriceGroupedTieredPriceCadenceOneTime, PriceGroupedTieredPriceCadenceMonthly, PriceGroupedTieredPriceCadenceQuarterly, PriceGroupedTieredPriceCadenceSemiAnnual, PriceGroupedTieredPriceCadenceAnnual, PriceGroupedTieredPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -3985,11 +3996,12 @@ const (
 	PriceTieredWithMinimumPriceCadenceQuarterly  PriceTieredWithMinimumPriceCadence = "quarterly"
 	PriceTieredWithMinimumPriceCadenceSemiAnnual PriceTieredWithMinimumPriceCadence = "semi_annual"
 	PriceTieredWithMinimumPriceCadenceAnnual     PriceTieredWithMinimumPriceCadence = "annual"
+	PriceTieredWithMinimumPriceCadenceCustom     PriceTieredWithMinimumPriceCadence = "custom"
 )
 
 func (r PriceTieredWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredWithMinimumPriceCadenceOneTime, PriceTieredWithMinimumPriceCadenceMonthly, PriceTieredWithMinimumPriceCadenceQuarterly, PriceTieredWithMinimumPriceCadenceSemiAnnual, PriceTieredWithMinimumPriceCadenceAnnual:
+	case PriceTieredWithMinimumPriceCadenceOneTime, PriceTieredWithMinimumPriceCadenceMonthly, PriceTieredWithMinimumPriceCadenceQuarterly, PriceTieredWithMinimumPriceCadenceSemiAnnual, PriceTieredWithMinimumPriceCadenceAnnual, PriceTieredWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4218,11 +4230,12 @@ const (
 	PriceTieredPackageWithMinimumPriceCadenceQuarterly  PriceTieredPackageWithMinimumPriceCadence = "quarterly"
 	PriceTieredPackageWithMinimumPriceCadenceSemiAnnual PriceTieredPackageWithMinimumPriceCadence = "semi_annual"
 	PriceTieredPackageWithMinimumPriceCadenceAnnual     PriceTieredPackageWithMinimumPriceCadence = "annual"
+	PriceTieredPackageWithMinimumPriceCadenceCustom     PriceTieredPackageWithMinimumPriceCadence = "custom"
 )
 
 func (r PriceTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredPackageWithMinimumPriceCadenceOneTime, PriceTieredPackageWithMinimumPriceCadenceMonthly, PriceTieredPackageWithMinimumPriceCadenceQuarterly, PriceTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceTieredPackageWithMinimumPriceCadenceAnnual:
+	case PriceTieredPackageWithMinimumPriceCadenceOneTime, PriceTieredPackageWithMinimumPriceCadenceMonthly, PriceTieredPackageWithMinimumPriceCadenceQuarterly, PriceTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceTieredPackageWithMinimumPriceCadenceAnnual, PriceTieredPackageWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4451,11 +4464,12 @@ const (
 	PricePackageWithAllocationPriceCadenceQuarterly  PricePackageWithAllocationPriceCadence = "quarterly"
 	PricePackageWithAllocationPriceCadenceSemiAnnual PricePackageWithAllocationPriceCadence = "semi_annual"
 	PricePackageWithAllocationPriceCadenceAnnual     PricePackageWithAllocationPriceCadence = "annual"
+	PricePackageWithAllocationPriceCadenceCustom     PricePackageWithAllocationPriceCadence = "custom"
 )
 
 func (r PricePackageWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PricePackageWithAllocationPriceCadenceOneTime, PricePackageWithAllocationPriceCadenceMonthly, PricePackageWithAllocationPriceCadenceQuarterly, PricePackageWithAllocationPriceCadenceSemiAnnual, PricePackageWithAllocationPriceCadenceAnnual:
+	case PricePackageWithAllocationPriceCadenceOneTime, PricePackageWithAllocationPriceCadenceMonthly, PricePackageWithAllocationPriceCadenceQuarterly, PricePackageWithAllocationPriceCadenceSemiAnnual, PricePackageWithAllocationPriceCadenceAnnual, PricePackageWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4684,11 +4698,12 @@ const (
 	PriceUnitWithPercentPriceCadenceQuarterly  PriceUnitWithPercentPriceCadence = "quarterly"
 	PriceUnitWithPercentPriceCadenceSemiAnnual PriceUnitWithPercentPriceCadence = "semi_annual"
 	PriceUnitWithPercentPriceCadenceAnnual     PriceUnitWithPercentPriceCadence = "annual"
+	PriceUnitWithPercentPriceCadenceCustom     PriceUnitWithPercentPriceCadence = "custom"
 )
 
 func (r PriceUnitWithPercentPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceUnitWithPercentPriceCadenceOneTime, PriceUnitWithPercentPriceCadenceMonthly, PriceUnitWithPercentPriceCadenceQuarterly, PriceUnitWithPercentPriceCadenceSemiAnnual, PriceUnitWithPercentPriceCadenceAnnual:
+	case PriceUnitWithPercentPriceCadenceOneTime, PriceUnitWithPercentPriceCadenceMonthly, PriceUnitWithPercentPriceCadenceQuarterly, PriceUnitWithPercentPriceCadenceSemiAnnual, PriceUnitWithPercentPriceCadenceAnnual, PriceUnitWithPercentPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -4917,11 +4932,12 @@ const (
 	PriceMatrixWithAllocationPriceCadenceQuarterly  PriceMatrixWithAllocationPriceCadence = "quarterly"
 	PriceMatrixWithAllocationPriceCadenceSemiAnnual PriceMatrixWithAllocationPriceCadence = "semi_annual"
 	PriceMatrixWithAllocationPriceCadenceAnnual     PriceMatrixWithAllocationPriceCadence = "annual"
+	PriceMatrixWithAllocationPriceCadenceCustom     PriceMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r PriceMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceMatrixWithAllocationPriceCadenceOneTime, PriceMatrixWithAllocationPriceCadenceMonthly, PriceMatrixWithAllocationPriceCadenceQuarterly, PriceMatrixWithAllocationPriceCadenceSemiAnnual, PriceMatrixWithAllocationPriceCadenceAnnual:
+	case PriceMatrixWithAllocationPriceCadenceOneTime, PriceMatrixWithAllocationPriceCadenceMonthly, PriceMatrixWithAllocationPriceCadenceQuarterly, PriceMatrixWithAllocationPriceCadenceSemiAnnual, PriceMatrixWithAllocationPriceCadenceAnnual, PriceMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -5210,11 +5226,12 @@ const (
 	PriceTieredWithProrationPriceCadenceQuarterly  PriceTieredWithProrationPriceCadence = "quarterly"
 	PriceTieredWithProrationPriceCadenceSemiAnnual PriceTieredWithProrationPriceCadence = "semi_annual"
 	PriceTieredWithProrationPriceCadenceAnnual     PriceTieredWithProrationPriceCadence = "annual"
+	PriceTieredWithProrationPriceCadenceCustom     PriceTieredWithProrationPriceCadence = "custom"
 )
 
 func (r PriceTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceTieredWithProrationPriceCadenceOneTime, PriceTieredWithProrationPriceCadenceMonthly, PriceTieredWithProrationPriceCadenceQuarterly, PriceTieredWithProrationPriceCadenceSemiAnnual, PriceTieredWithProrationPriceCadenceAnnual:
+	case PriceTieredWithProrationPriceCadenceOneTime, PriceTieredWithProrationPriceCadenceMonthly, PriceTieredWithProrationPriceCadenceQuarterly, PriceTieredWithProrationPriceCadenceSemiAnnual, PriceTieredWithProrationPriceCadenceAnnual, PriceTieredWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -5443,11 +5460,12 @@ const (
 	PriceUnitWithProrationPriceCadenceQuarterly  PriceUnitWithProrationPriceCadence = "quarterly"
 	PriceUnitWithProrationPriceCadenceSemiAnnual PriceUnitWithProrationPriceCadence = "semi_annual"
 	PriceUnitWithProrationPriceCadenceAnnual     PriceUnitWithProrationPriceCadence = "annual"
+	PriceUnitWithProrationPriceCadenceCustom     PriceUnitWithProrationPriceCadence = "custom"
 )
 
 func (r PriceUnitWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceUnitWithProrationPriceCadenceOneTime, PriceUnitWithProrationPriceCadenceMonthly, PriceUnitWithProrationPriceCadenceQuarterly, PriceUnitWithProrationPriceCadenceSemiAnnual, PriceUnitWithProrationPriceCadenceAnnual:
+	case PriceUnitWithProrationPriceCadenceOneTime, PriceUnitWithProrationPriceCadenceMonthly, PriceUnitWithProrationPriceCadenceQuarterly, PriceUnitWithProrationPriceCadenceSemiAnnual, PriceUnitWithProrationPriceCadenceAnnual, PriceUnitWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -5634,11 +5652,12 @@ const (
 	PriceCadenceQuarterly  PriceCadence = "quarterly"
 	PriceCadenceSemiAnnual PriceCadence = "semi_annual"
 	PriceCadenceAnnual     PriceCadence = "annual"
+	PriceCadenceCustom     PriceCadence = "custom"
 )
 
 func (r PriceCadence) IsKnown() bool {
 	switch r {
-	case PriceCadenceOneTime, PriceCadenceMonthly, PriceCadenceQuarterly, PriceCadenceSemiAnnual, PriceCadenceAnnual:
+	case PriceCadenceOneTime, PriceCadenceMonthly, PriceCadenceQuarterly, PriceCadenceSemiAnnual, PriceCadenceAnnual, PriceCadenceCustom:
 		return true
 	}
 	return false
