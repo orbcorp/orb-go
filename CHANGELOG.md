@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.43.0 (2024-07-29)
+
+Full Changelog: [v0.42.0...v0.43.0](https://github.com/orbcorp/orb-go/compare/v0.42.0...v0.43.0)
+
+### Features
+
+* **api:** add cadence enum value 'custom' ([#227](https://github.com/orbcorp/orb-go/issues/227)) ([83e1bb0](https://github.com/orbcorp/orb-go/commit/83e1bb0391c865abe8e3ef8eebb650dca8e9e727))
+
+
+### Chores
+
+* **ci:** limit release doctor target branches ([#223](https://github.com/orbcorp/orb-go/issues/223)) ([bf1b04b](https://github.com/orbcorp/orb-go/commit/bf1b04b58f2b668d566dc446e13871e1050be854))
+* **ci:** remove unused release doctor ([#225](https://github.com/orbcorp/orb-go/issues/225)) ([d1ab093](https://github.com/orbcorp/orb-go/commit/d1ab0937f77dbb041339943357a514e3da0d34ba))
+* **tests:** update prism version ([#226](https://github.com/orbcorp/orb-go/issues/226)) ([8c38c02](https://github.com/orbcorp/orb-go/commit/8c38c02769bc722636c133140daa7e1df71ac401))
+
 ## 0.42.0 (2024-07-17)
 
 Full Changelog: [v0.41.1...v0.42.0](https://github.com/orbcorp/orb-go/compare/v0.41.1...v0.42.0)
