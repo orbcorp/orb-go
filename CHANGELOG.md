@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.43.1 (2024-07-31)
+
+Full Changelog: [v0.43.0...v0.43.1](https://github.com/orbcorp/orb-go/compare/v0.43.0...v0.43.1)
+
+### Bug Fixes
+
+* handle nil pagination responses when HTTP status is 200 ([#228](https://github.com/orbcorp/orb-go/issues/228)) ([ac7c34f](https://github.com/orbcorp/orb-go/commit/ac7c34fdebb870ce0a2dc7e55d1f9317ba2294b5))
+
 ## 0.43.0 (2024-07-29)
 
 Full Changelog: [v0.42.0...v0.43.0](https://github.com/orbcorp/orb-go/compare/v0.42.0...v0.43.0)
