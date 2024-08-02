@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.44.0 (2024-08-02)
+
+Full Changelog: [v0.43.1...v0.44.0](https://github.com/orbcorp/orb-go/compare/v0.43.1...v0.44.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** remove methods 'customers.usage.create' and 'customers.usage.update_by_external_id' ([#233](https://github.com/orbcorp/orb-go/issues/233))
+
+### Features
+
+* **api:** deprecate methods 'customers.usage.create' and 'customers.usage.update_by_external_id' ([#231](https://github.com/orbcorp/orb-go/issues/231)) ([aebefd5](https://github.com/orbcorp/orb-go/commit/aebefd568204450ed27766020e1b12290ea9a717))
+* **api:** remove methods 'customers.usage.create' and 'customers.usage.update_by_external_id' ([#233](https://github.com/orbcorp/orb-go/issues/233)) ([f29d9f2](https://github.com/orbcorp/orb-go/commit/f29d9f2942208dcc5dd3521c27c42bce8df848bb))
+
 ## 0.43.1 (2024-07-31)
 
 Full Changelog: [v0.43.0...v0.43.1](https://github.com/orbcorp/orb-go/compare/v0.43.0...v0.43.1)
