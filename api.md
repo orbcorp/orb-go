@@ -76,18 +76,6 @@ Methods:
 - <code title="get /customers/{customer_id}/costs">client.Customers.Costs.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCostService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, customerID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCostListParams">CustomerCostListParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCostListResponse">CustomerCostListResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /customers/external_customer_id/{external_customer_id}/costs">client.Customers.Costs.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCostService.ListByExternalID">ListByExternalID</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, externalCustomerID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCostListByExternalIDParams">CustomerCostListByExternalIDParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerCostListByExternalIDResponse">CustomerCostListByExternalIDResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
-## Usage
-
-Response Types:
-
-- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageUpdateResponse">CustomerUsageUpdateResponse</a>
-- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageUpdateByExternalIDResponse">CustomerUsageUpdateByExternalIDResponse</a>
-
-Methods:
-
-- <code title="patch /customers/{customer_id}/usage">client.Customers.Usage.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageService.Update">Update</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, id <a href="https://pkg.go.dev/builtin#string">string</a>, params <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageUpdateParams">CustomerUsageUpdateParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageUpdateResponse">CustomerUsageUpdateResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
-- <code title="patch /customers/external_customer_id/{external_customer_id}/usage">client.Customers.Usage.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageService.UpdateByExternalID">UpdateByExternalID</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, id <a href="https://pkg.go.dev/builtin#string">string</a>, params <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageUpdateByExternalIDParams">CustomerUsageUpdateByExternalIDParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#CustomerUsageUpdateByExternalIDResponse">CustomerUsageUpdateByExternalIDResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
-
 ## Credits
 
 Response Types:

@@ -458,6 +458,26 @@ type Price struct {
 	ModelType       PriceModelType `json:"model_type,required"`
 	CreatedAt       time.Time      `json:"created_at,required" format:"date-time"`
 	Cadence         PriceCadence   `json:"cadence,required"`
+	// This field can have the runtime type of
+	// [PriceUnitPriceBillingCycleConfiguration],
+	// [PricePackagePriceBillingCycleConfiguration],
+	// [PriceMatrixPriceBillingCycleConfiguration],
+	// [PriceTieredPriceBillingCycleConfiguration],
+	// [PriceTieredBpsPriceBillingCycleConfiguration],
+	// [PriceBpsPriceBillingCycleConfiguration],
+	// [PriceBulkBpsPriceBillingCycleConfiguration],
+	// [PriceBulkPriceBillingCycleConfiguration],
+	// [PriceThresholdTotalAmountPriceBillingCycleConfiguration],
+	// [PriceTieredPackagePriceBillingCycleConfiguration],
+	// [PriceGroupedTieredPriceBillingCycleConfiguration],
+	// [PriceTieredWithMinimumPriceBillingCycleConfiguration],
+	// [PriceTieredPackageWithMinimumPriceBillingCycleConfiguration],
+	// [PricePackageWithAllocationPriceBillingCycleConfiguration],
+	// [PriceUnitWithPercentPriceBillingCycleConfiguration],
+	// [PriceMatrixWithAllocationPriceBillingCycleConfiguration],
+	// [PriceTieredWithProrationPriceBillingCycleConfiguration],
+	// [PriceUnitWithProrationPriceBillingCycleConfiguration].
+	BillingCycleConfiguration interface{} `json:"billing_cycle_configuration"`
 	// This field can have the runtime type of [PriceUnitPriceBillableMetric],
 	// [PricePackagePriceBillableMetric], [PriceMatrixPriceBillableMetric],
 	// [PriceTieredPriceBillableMetric], [PriceTieredBpsPriceBillableMetric],
@@ -579,6 +599,7 @@ type priceJSON struct {
 	ModelType                      apijson.Field
 	CreatedAt                      apijson.Field
 	Cadence                        apijson.Field
+	BillingCycleConfiguration      apijson.Field
 	BillableMetric                 apijson.Field
 	FixedPriceQuantity             apijson.Field
 	PlanPhaseOrder                 apijson.Field
@@ -1000,19 +1021,20 @@ func init() {
 }
 
 type PriceUnitPrice struct {
-	ID                 string                         `json:"id,required"`
-	BillableMetric     PriceUnitPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceUnitPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                        `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                      `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceUnitPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                         `json:"currency,required"`
-	Discount           shared.Discount                `json:"discount,required,nullable"`
-	ExternalPriceID    string                         `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                        `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceUnitPriceItem             `json:"item,required"`
-	Maximum            PriceUnitPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                         `json:"maximum_amount,required,nullable"`
+	ID                        string                                  `json:"id,required"`
+	BillableMetric            PriceUnitPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceUnitPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceUnitPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                 `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                               `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceUnitPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                  `json:"currency,required"`
+	Discount                  shared.Discount                         `json:"discount,required,nullable"`
+	ExternalPriceID           string                                  `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                 `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceUnitPriceItem                      `json:"item,required"`
+	Maximum                   PriceUnitPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                  `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -1030,29 +1052,30 @@ type PriceUnitPrice struct {
 
 // priceUnitPriceJSON contains the JSON metadata for the struct [PriceUnitPrice]
 type priceUnitPriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	UnitConfig                apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceUnitPrice) UnmarshalJSON(data []byte) (err error) {
@@ -1084,6 +1107,44 @@ func (r *PriceUnitPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 
 func (r priceUnitPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceUnitPriceBillingCycleConfiguration struct {
+	Duration     int64                                               `json:"duration,required"`
+	DurationUnit PriceUnitPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceUnitPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceUnitPriceBillingCycleConfigurationJSON contains the JSON metadata for the
+// struct [PriceUnitPriceBillingCycleConfiguration]
+type priceUnitPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceUnitPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceUnitPriceBillingCycleConfigurationDurationUnitDay   PriceUnitPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceUnitPriceBillingCycleConfigurationDurationUnitMonth PriceUnitPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceUnitPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceUnitPriceBillingCycleConfigurationDurationUnitDay, PriceUnitPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceUnitPriceCadence string
@@ -1255,19 +1316,20 @@ func (r priceUnitPriceUnitConfigJSON) RawJSON() string {
 }
 
 type PricePackagePrice struct {
-	ID                 string                            `json:"id,required"`
-	BillableMetric     PricePackagePriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PricePackagePriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                           `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PricePackagePriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                            `json:"currency,required"`
-	Discount           shared.Discount                   `json:"discount,required,nullable"`
-	ExternalPriceID    string                            `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                           `json:"fixed_price_quantity,required,nullable"`
-	Item               PricePackagePriceItem             `json:"item,required"`
-	Maximum            PricePackagePriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                            `json:"maximum_amount,required,nullable"`
+	ID                        string                                     `json:"id,required"`
+	BillableMetric            PricePackagePriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PricePackagePriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PricePackagePriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                    `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                  `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PricePackagePriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                     `json:"currency,required"`
+	Discount                  shared.Discount                            `json:"discount,required,nullable"`
+	ExternalPriceID           string                                     `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                    `json:"fixed_price_quantity,required,nullable"`
+	Item                      PricePackagePriceItem                      `json:"item,required"`
+	Maximum                   PricePackagePriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                     `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -1286,29 +1348,30 @@ type PricePackagePrice struct {
 // pricePackagePriceJSON contains the JSON metadata for the struct
 // [PricePackagePrice]
 type pricePackagePriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PackageConfig      apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PackageConfig             apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PricePackagePrice) UnmarshalJSON(data []byte) (err error) {
@@ -1340,6 +1403,44 @@ func (r *PricePackagePriceBillableMetric) UnmarshalJSON(data []byte) (err error)
 
 func (r pricePackagePriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PricePackagePriceBillingCycleConfiguration struct {
+	Duration     int64                                                  `json:"duration,required"`
+	DurationUnit PricePackagePriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         pricePackagePriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// pricePackagePriceBillingCycleConfigurationJSON contains the JSON metadata for
+// the struct [PricePackagePriceBillingCycleConfiguration]
+type pricePackagePriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PricePackagePriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackagePriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PricePackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PricePackagePriceBillingCycleConfigurationDurationUnitDay   PricePackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PricePackagePriceBillingCycleConfigurationDurationUnitMonth PricePackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PricePackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PricePackagePriceBillingCycleConfigurationDurationUnitDay, PricePackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PricePackagePriceCadence string
@@ -1515,20 +1616,21 @@ func (r PricePackagePricePriceType) IsKnown() bool {
 }
 
 type PriceMatrixPrice struct {
-	ID                 string                           `json:"id,required"`
-	BillableMetric     PriceMatrixPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceMatrixPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                          `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                        `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceMatrixPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                           `json:"currency,required"`
-	Discount           shared.Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID    string                           `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                          `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceMatrixPriceItem             `json:"item,required"`
-	MatrixConfig       PriceMatrixPriceMatrixConfig     `json:"matrix_config,required"`
-	Maximum            PriceMatrixPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                           `json:"maximum_amount,required,nullable"`
+	ID                        string                                    `json:"id,required"`
+	BillableMetric            PriceMatrixPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceMatrixPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceMatrixPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceMatrixPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                    `json:"currency,required"`
+	Discount                  shared.Discount                           `json:"discount,required,nullable"`
+	ExternalPriceID           string                                    `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                   `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceMatrixPriceItem                      `json:"item,required"`
+	MatrixConfig              PriceMatrixPriceMatrixConfig              `json:"matrix_config,required"`
+	Maximum                   PriceMatrixPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                    `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -1546,29 +1648,30 @@ type PriceMatrixPrice struct {
 // priceMatrixPriceJSON contains the JSON metadata for the struct
 // [PriceMatrixPrice]
 type priceMatrixPriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	MatrixConfig       apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	MatrixConfig              apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceMatrixPrice) UnmarshalJSON(data []byte) (err error) {
@@ -1600,6 +1703,44 @@ func (r *PriceMatrixPriceBillableMetric) UnmarshalJSON(data []byte) (err error) 
 
 func (r priceMatrixPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceMatrixPriceBillingCycleConfiguration struct {
+	Duration     int64                                                 `json:"duration,required"`
+	DurationUnit PriceMatrixPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceMatrixPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceMatrixPriceBillingCycleConfigurationJSON contains the JSON metadata for the
+// struct [PriceMatrixPriceBillingCycleConfiguration]
+type priceMatrixPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceMatrixPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceMatrixPriceBillingCycleConfigurationDurationUnitDay   PriceMatrixPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceMatrixPriceBillingCycleConfigurationDurationUnitMonth PriceMatrixPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceMatrixPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceMatrixPriceBillingCycleConfigurationDurationUnitDay, PriceMatrixPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceMatrixPriceCadence string
@@ -1804,19 +1945,20 @@ func (r PriceMatrixPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPrice struct {
-	ID                 string                           `json:"id,required"`
-	BillableMetric     PriceTieredPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceTieredPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                          `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                        `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceTieredPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                           `json:"currency,required"`
-	Discount           shared.Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID    string                           `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                          `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceTieredPriceItem             `json:"item,required"`
-	Maximum            PriceTieredPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                           `json:"maximum_amount,required,nullable"`
+	ID                        string                                    `json:"id,required"`
+	BillableMetric            PriceTieredPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceTieredPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceTieredPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceTieredPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                    `json:"currency,required"`
+	Discount                  shared.Discount                           `json:"discount,required,nullable"`
+	ExternalPriceID           string                                    `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                   `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceTieredPriceItem                      `json:"item,required"`
+	Maximum                   PriceTieredPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                    `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -1835,29 +1977,30 @@ type PriceTieredPrice struct {
 // priceTieredPriceJSON contains the JSON metadata for the struct
 // [PriceTieredPrice]
 type priceTieredPriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	TieredConfig              apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceTieredPrice) UnmarshalJSON(data []byte) (err error) {
@@ -1889,6 +2032,44 @@ func (r *PriceTieredPriceBillableMetric) UnmarshalJSON(data []byte) (err error) 
 
 func (r priceTieredPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredPriceBillingCycleConfiguration struct {
+	Duration     int64                                                 `json:"duration,required"`
+	DurationUnit PriceTieredPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceTieredPriceBillingCycleConfigurationJSON contains the JSON metadata for the
+// struct [PriceTieredPriceBillingCycleConfiguration]
+type priceTieredPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceTieredPriceBillingCycleConfigurationDurationUnitDay   PriceTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceTieredPriceBillingCycleConfigurationDurationUnitMonth PriceTieredPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredPriceBillingCycleConfigurationDurationUnitDay, PriceTieredPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredPriceCadence string
@@ -2088,19 +2269,20 @@ func (r priceTieredPriceTieredConfigTierJSON) RawJSON() string {
 }
 
 type PriceTieredBpsPrice struct {
-	ID                 string                              `json:"id,required"`
-	BillableMetric     PriceTieredBpsPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceTieredBpsPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                             `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceTieredBpsPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                              `json:"currency,required"`
-	Discount           shared.Discount                     `json:"discount,required,nullable"`
-	ExternalPriceID    string                              `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                             `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceTieredBpsPriceItem             `json:"item,required"`
-	Maximum            PriceTieredBpsPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                              `json:"maximum_amount,required,nullable"`
+	ID                        string                                       `json:"id,required"`
+	BillableMetric            PriceTieredBpsPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceTieredBpsPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceTieredBpsPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                      `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                    `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceTieredBpsPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                       `json:"currency,required"`
+	Discount                  shared.Discount                              `json:"discount,required,nullable"`
+	ExternalPriceID           string                                       `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                      `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceTieredBpsPriceItem                      `json:"item,required"`
+	Maximum                   PriceTieredBpsPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                       `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -2119,29 +2301,30 @@ type PriceTieredBpsPrice struct {
 // priceTieredBpsPriceJSON contains the JSON metadata for the struct
 // [PriceTieredBpsPrice]
 type priceTieredBpsPriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	TieredBpsConfig    apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	TieredBpsConfig           apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceTieredBpsPrice) UnmarshalJSON(data []byte) (err error) {
@@ -2173,6 +2356,44 @@ func (r *PriceTieredBpsPriceBillableMetric) UnmarshalJSON(data []byte) (err erro
 
 func (r priceTieredBpsPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredBpsPriceBillingCycleConfiguration struct {
+	Duration     int64                                                    `json:"duration,required"`
+	DurationUnit PriceTieredBpsPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredBpsPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceTieredBpsPriceBillingCycleConfigurationJSON contains the JSON metadata for
+// the struct [PriceTieredBpsPriceBillingCycleConfiguration]
+type priceTieredBpsPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredBpsPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredBpsPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceTieredBpsPriceBillingCycleConfigurationDurationUnitDay   PriceTieredBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceTieredBpsPriceBillingCycleConfigurationDurationUnitMonth PriceTieredBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceTieredBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredBpsPriceBillingCycleConfigurationDurationUnitDay, PriceTieredBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredBpsPriceCadence string
@@ -2376,20 +2597,21 @@ func (r priceTieredBpsPriceTieredBpsConfigTierJSON) RawJSON() string {
 }
 
 type PriceBpsPrice struct {
-	ID                 string                        `json:"id,required"`
-	BillableMetric     PriceBpsPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	BpsConfig          PriceBpsPriceBpsConfig        `json:"bps_config,required"`
-	Cadence            PriceBpsPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                       `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceBpsPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                        `json:"currency,required"`
-	Discount           shared.Discount               `json:"discount,required,nullable"`
-	ExternalPriceID    string                        `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                       `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceBpsPriceItem             `json:"item,required"`
-	Maximum            PriceBpsPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                        `json:"maximum_amount,required,nullable"`
+	ID                        string                                 `json:"id,required"`
+	BillableMetric            PriceBpsPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceBpsPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	BpsConfig                 PriceBpsPriceBpsConfig                 `json:"bps_config,required"`
+	Cadence                   PriceBpsPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceBpsPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                 `json:"currency,required"`
+	Discount                  shared.Discount                        `json:"discount,required,nullable"`
+	ExternalPriceID           string                                 `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceBpsPriceItem                      `json:"item,required"`
+	Maximum                   PriceBpsPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                 `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -2406,29 +2628,30 @@ type PriceBpsPrice struct {
 
 // priceBpsPriceJSON contains the JSON metadata for the struct [PriceBpsPrice]
 type priceBpsPriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	BpsConfig          apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	BpsConfig                 apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceBpsPrice) UnmarshalJSON(data []byte) (err error) {
@@ -2460,6 +2683,44 @@ func (r *PriceBpsPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 
 func (r priceBpsPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceBpsPriceBillingCycleConfiguration struct {
+	Duration     int64                                              `json:"duration,required"`
+	DurationUnit PriceBpsPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceBpsPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceBpsPriceBillingCycleConfigurationJSON contains the JSON metadata for the
+// struct [PriceBpsPriceBillingCycleConfiguration]
+type priceBpsPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceBpsPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBpsPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceBpsPriceBillingCycleConfigurationDurationUnitDay   PriceBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceBpsPriceBillingCycleConfigurationDurationUnitMonth PriceBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceBpsPriceBillingCycleConfigurationDurationUnitDay, PriceBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceBpsPriceBpsConfig struct {
@@ -2634,20 +2895,21 @@ func (r PriceBpsPricePriceType) IsKnown() bool {
 }
 
 type PriceBulkBpsPrice struct {
-	ID                 string                            `json:"id,required"`
-	BillableMetric     PriceBulkBpsPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	BulkBpsConfig      PriceBulkBpsPriceBulkBpsConfig    `json:"bulk_bps_config,required"`
-	Cadence            PriceBulkBpsPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                           `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceBulkBpsPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                            `json:"currency,required"`
-	Discount           shared.Discount                   `json:"discount,required,nullable"`
-	ExternalPriceID    string                            `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                           `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceBulkBpsPriceItem             `json:"item,required"`
-	Maximum            PriceBulkBpsPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                            `json:"maximum_amount,required,nullable"`
+	ID                        string                                     `json:"id,required"`
+	BillableMetric            PriceBulkBpsPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceBulkBpsPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	BulkBpsConfig             PriceBulkBpsPriceBulkBpsConfig             `json:"bulk_bps_config,required"`
+	Cadence                   PriceBulkBpsPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                    `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                  `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceBulkBpsPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                     `json:"currency,required"`
+	Discount                  shared.Discount                            `json:"discount,required,nullable"`
+	ExternalPriceID           string                                     `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                    `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceBulkBpsPriceItem                      `json:"item,required"`
+	Maximum                   PriceBulkBpsPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                     `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -2665,29 +2927,30 @@ type PriceBulkBpsPrice struct {
 // priceBulkBpsPriceJSON contains the JSON metadata for the struct
 // [PriceBulkBpsPrice]
 type priceBulkBpsPriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	BulkBpsConfig      apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	BulkBpsConfig             apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceBulkBpsPrice) UnmarshalJSON(data []byte) (err error) {
@@ -2719,6 +2982,44 @@ func (r *PriceBulkBpsPriceBillableMetric) UnmarshalJSON(data []byte) (err error)
 
 func (r priceBulkBpsPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceBulkBpsPriceBillingCycleConfiguration struct {
+	Duration     int64                                                  `json:"duration,required"`
+	DurationUnit PriceBulkBpsPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceBulkBpsPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceBulkBpsPriceBillingCycleConfigurationJSON contains the JSON metadata for
+// the struct [PriceBulkBpsPriceBillingCycleConfiguration]
+type priceBulkBpsPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceBulkBpsPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkBpsPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceBulkBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceBulkBpsPriceBillingCycleConfigurationDurationUnitDay   PriceBulkBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceBulkBpsPriceBillingCycleConfigurationDurationUnitMonth PriceBulkBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceBulkBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceBulkBpsPriceBillingCycleConfigurationDurationUnitDay, PriceBulkBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceBulkBpsPriceBulkBpsConfig struct {
@@ -2919,20 +3220,21 @@ func (r PriceBulkBpsPricePriceType) IsKnown() bool {
 }
 
 type PriceBulkPrice struct {
-	ID                 string                         `json:"id,required"`
-	BillableMetric     PriceBulkPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	BulkConfig         PriceBulkPriceBulkConfig       `json:"bulk_config,required"`
-	Cadence            PriceBulkPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                        `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                      `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceBulkPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                         `json:"currency,required"`
-	Discount           shared.Discount                `json:"discount,required,nullable"`
-	ExternalPriceID    string                         `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                        `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceBulkPriceItem             `json:"item,required"`
-	Maximum            PriceBulkPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                         `json:"maximum_amount,required,nullable"`
+	ID                        string                                  `json:"id,required"`
+	BillableMetric            PriceBulkPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceBulkPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	BulkConfig                PriceBulkPriceBulkConfig                `json:"bulk_config,required"`
+	Cadence                   PriceBulkPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                 `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                               `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceBulkPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                  `json:"currency,required"`
+	Discount                  shared.Discount                         `json:"discount,required,nullable"`
+	ExternalPriceID           string                                  `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                 `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceBulkPriceItem                      `json:"item,required"`
+	Maximum                   PriceBulkPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                  `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -2949,29 +3251,30 @@ type PriceBulkPrice struct {
 
 // priceBulkPriceJSON contains the JSON metadata for the struct [PriceBulkPrice]
 type priceBulkPriceJSON struct {
-	ID                 apijson.Field
-	BillableMetric     apijson.Field
-	BulkConfig         apijson.Field
-	Cadence            apijson.Field
-	ConversionRate     apijson.Field
-	CreatedAt          apijson.Field
-	CreditAllocation   apijson.Field
-	Currency           apijson.Field
-	Discount           apijson.Field
-	ExternalPriceID    apijson.Field
-	FixedPriceQuantity apijson.Field
-	Item               apijson.Field
-	Maximum            apijson.Field
-	MaximumAmount      apijson.Field
-	Metadata           apijson.Field
-	Minimum            apijson.Field
-	MinimumAmount      apijson.Field
-	ModelType          apijson.Field
-	Name               apijson.Field
-	PlanPhaseOrder     apijson.Field
-	PriceType          apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	BulkConfig                apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceBulkPrice) UnmarshalJSON(data []byte) (err error) {
@@ -3003,6 +3306,44 @@ func (r *PriceBulkPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
 
 func (r priceBulkPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceBulkPriceBillingCycleConfiguration struct {
+	Duration     int64                                               `json:"duration,required"`
+	DurationUnit PriceBulkPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceBulkPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceBulkPriceBillingCycleConfigurationJSON contains the JSON metadata for the
+// struct [PriceBulkPriceBillingCycleConfiguration]
+type priceBulkPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceBulkPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceBulkPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceBulkPriceBillingCycleConfigurationDurationUnitDay   PriceBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceBulkPriceBillingCycleConfigurationDurationUnitMonth PriceBulkPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceBulkPriceBillingCycleConfigurationDurationUnitDay, PriceBulkPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceBulkPriceBulkConfig struct {
@@ -3199,19 +3540,20 @@ func (r PriceBulkPricePriceType) IsKnown() bool {
 }
 
 type PriceThresholdTotalAmountPrice struct {
-	ID                 string                                         `json:"id,required"`
-	BillableMetric     PriceThresholdTotalAmountPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceThresholdTotalAmountPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                        `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                                      `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceThresholdTotalAmountPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                         `json:"currency,required"`
-	Discount           shared.Discount                                `json:"discount,required,nullable"`
-	ExternalPriceID    string                                         `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                        `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceThresholdTotalAmountPriceItem             `json:"item,required"`
-	Maximum            PriceThresholdTotalAmountPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                         `json:"maximum_amount,required,nullable"`
+	ID                        string                                                  `json:"id,required"`
+	BillableMetric            PriceThresholdTotalAmountPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceThresholdTotalAmountPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceThresholdTotalAmountPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                                 `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                               `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceThresholdTotalAmountPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                  `json:"currency,required"`
+	Discount                  shared.Discount                                         `json:"discount,required,nullable"`
+	ExternalPriceID           string                                                  `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                                 `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceThresholdTotalAmountPriceItem                      `json:"item,required"`
+	Maximum                   PriceThresholdTotalAmountPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                                  `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -3232,6 +3574,7 @@ type PriceThresholdTotalAmountPrice struct {
 type priceThresholdTotalAmountPriceJSON struct {
 	ID                         apijson.Field
 	BillableMetric             apijson.Field
+	BillingCycleConfiguration  apijson.Field
 	Cadence                    apijson.Field
 	ConversionRate             apijson.Field
 	CreatedAt                  apijson.Field
@@ -3284,6 +3627,45 @@ func (r *PriceThresholdTotalAmountPriceBillableMetric) UnmarshalJSON(data []byte
 
 func (r priceThresholdTotalAmountPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceThresholdTotalAmountPriceBillingCycleConfiguration struct {
+	Duration     int64                                                               `json:"duration,required"`
+	DurationUnit PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceThresholdTotalAmountPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceThresholdTotalAmountPriceBillingCycleConfigurationJSON contains the JSON
+// metadata for the struct
+// [PriceThresholdTotalAmountPriceBillingCycleConfiguration]
+type priceThresholdTotalAmountPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceThresholdTotalAmountPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceThresholdTotalAmountPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay   PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay, PriceThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceThresholdTotalAmountPriceCadence string
@@ -3433,19 +3815,20 @@ func (r PriceThresholdTotalAmountPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPackagePrice struct {
-	ID                 string                                  `json:"id,required"`
-	BillableMetric     PriceTieredPackagePriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceTieredPackagePriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                 `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                               `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceTieredPackagePriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                  `json:"currency,required"`
-	Discount           shared.Discount                         `json:"discount,required,nullable"`
-	ExternalPriceID    string                                  `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                 `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceTieredPackagePriceItem             `json:"item,required"`
-	Maximum            PriceTieredPackagePriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                  `json:"maximum_amount,required,nullable"`
+	ID                        string                                           `json:"id,required"`
+	BillableMetric            PriceTieredPackagePriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceTieredPackagePriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceTieredPackagePriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                          `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                        `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceTieredPackagePriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                           `json:"currency,required"`
+	Discount                  shared.Discount                                  `json:"discount,required,nullable"`
+	ExternalPriceID           string                                           `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                          `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceTieredPackagePriceItem                      `json:"item,required"`
+	Maximum                   PriceTieredPackagePriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                           `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -3464,29 +3847,30 @@ type PriceTieredPackagePrice struct {
 // priceTieredPackagePriceJSON contains the JSON metadata for the struct
 // [PriceTieredPackagePrice]
 type priceTieredPackagePriceJSON struct {
-	ID                  apijson.Field
-	BillableMetric      apijson.Field
-	Cadence             apijson.Field
-	ConversionRate      apijson.Field
-	CreatedAt           apijson.Field
-	CreditAllocation    apijson.Field
-	Currency            apijson.Field
-	Discount            apijson.Field
-	ExternalPriceID     apijson.Field
-	FixedPriceQuantity  apijson.Field
-	Item                apijson.Field
-	Maximum             apijson.Field
-	MaximumAmount       apijson.Field
-	Metadata            apijson.Field
-	Minimum             apijson.Field
-	MinimumAmount       apijson.Field
-	ModelType           apijson.Field
-	Name                apijson.Field
-	PlanPhaseOrder      apijson.Field
-	PriceType           apijson.Field
-	TieredPackageConfig apijson.Field
-	raw                 string
-	ExtraFields         map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	TieredPackageConfig       apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceTieredPackagePrice) UnmarshalJSON(data []byte) (err error) {
@@ -3518,6 +3902,44 @@ func (r *PriceTieredPackagePriceBillableMetric) UnmarshalJSON(data []byte) (err 
 
 func (r priceTieredPackagePriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredPackagePriceBillingCycleConfiguration struct {
+	Duration     int64                                                        `json:"duration,required"`
+	DurationUnit PriceTieredPackagePriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredPackagePriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceTieredPackagePriceBillingCycleConfigurationJSON contains the JSON metadata
+// for the struct [PriceTieredPackagePriceBillingCycleConfiguration]
+type priceTieredPackagePriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredPackagePriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackagePriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PriceTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PriceTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PriceTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PriceTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredPackagePriceCadence string
@@ -3667,20 +4089,21 @@ func (r PriceTieredPackagePricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedTieredPrice struct {
-	ID                  string                                  `json:"id,required"`
-	BillableMetric      PriceGroupedTieredPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence             PriceGroupedTieredPriceCadence          `json:"cadence,required"`
-	ConversionRate      float64                                 `json:"conversion_rate,required,nullable"`
-	CreatedAt           time.Time                               `json:"created_at,required" format:"date-time"`
-	CreditAllocation    PriceGroupedTieredPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency            string                                  `json:"currency,required"`
-	Discount            shared.Discount                         `json:"discount,required,nullable"`
-	ExternalPriceID     string                                  `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity  float64                                 `json:"fixed_price_quantity,required,nullable"`
-	GroupedTieredConfig map[string]interface{}                  `json:"grouped_tiered_config,required"`
-	Item                PriceGroupedTieredPriceItem             `json:"item,required"`
-	Maximum             PriceGroupedTieredPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount       string                                  `json:"maximum_amount,required,nullable"`
+	ID                        string                                           `json:"id,required"`
+	BillableMetric            PriceGroupedTieredPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceGroupedTieredPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceGroupedTieredPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                          `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                        `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceGroupedTieredPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                           `json:"currency,required"`
+	Discount                  shared.Discount                                  `json:"discount,required,nullable"`
+	ExternalPriceID           string                                           `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                          `json:"fixed_price_quantity,required,nullable"`
+	GroupedTieredConfig       map[string]interface{}                           `json:"grouped_tiered_config,required"`
+	Item                      PriceGroupedTieredPriceItem                      `json:"item,required"`
+	Maximum                   PriceGroupedTieredPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                           `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -3698,29 +4121,30 @@ type PriceGroupedTieredPrice struct {
 // priceGroupedTieredPriceJSON contains the JSON metadata for the struct
 // [PriceGroupedTieredPrice]
 type priceGroupedTieredPriceJSON struct {
-	ID                  apijson.Field
-	BillableMetric      apijson.Field
-	Cadence             apijson.Field
-	ConversionRate      apijson.Field
-	CreatedAt           apijson.Field
-	CreditAllocation    apijson.Field
-	Currency            apijson.Field
-	Discount            apijson.Field
-	ExternalPriceID     apijson.Field
-	FixedPriceQuantity  apijson.Field
-	GroupedTieredConfig apijson.Field
-	Item                apijson.Field
-	Maximum             apijson.Field
-	MaximumAmount       apijson.Field
-	Metadata            apijson.Field
-	Minimum             apijson.Field
-	MinimumAmount       apijson.Field
-	ModelType           apijson.Field
-	Name                apijson.Field
-	PlanPhaseOrder      apijson.Field
-	PriceType           apijson.Field
-	raw                 string
-	ExtraFields         map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	GroupedTieredConfig       apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceGroupedTieredPrice) UnmarshalJSON(data []byte) (err error) {
@@ -3752,6 +4176,44 @@ func (r *PriceGroupedTieredPriceBillableMetric) UnmarshalJSON(data []byte) (err 
 
 func (r priceGroupedTieredPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceGroupedTieredPriceBillingCycleConfiguration struct {
+	Duration     int64                                                        `json:"duration,required"`
+	DurationUnit PriceGroupedTieredPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedTieredPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceGroupedTieredPriceBillingCycleConfigurationJSON contains the JSON metadata
+// for the struct [PriceGroupedTieredPriceBillingCycleConfiguration]
+type priceGroupedTieredPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedTieredPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceGroupedTieredPriceBillingCycleConfigurationDurationUnitDay   PriceGroupedTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth PriceGroupedTieredPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceGroupedTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPriceBillingCycleConfigurationDurationUnitDay, PriceGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceGroupedTieredPriceCadence string
@@ -3901,19 +4363,20 @@ func (r PriceGroupedTieredPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredWithMinimumPrice struct {
-	ID                 string                                      `json:"id,required"`
-	BillableMetric     PriceTieredWithMinimumPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceTieredWithMinimumPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                     `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceTieredWithMinimumPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                      `json:"currency,required"`
-	Discount           shared.Discount                             `json:"discount,required,nullable"`
-	ExternalPriceID    string                                      `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                     `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceTieredWithMinimumPriceItem             `json:"item,required"`
-	Maximum            PriceTieredWithMinimumPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                      `json:"maximum_amount,required,nullable"`
+	ID                        string                                               `json:"id,required"`
+	BillableMetric            PriceTieredWithMinimumPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceTieredWithMinimumPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceTieredWithMinimumPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceTieredWithMinimumPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                               `json:"currency,required"`
+	Discount                  shared.Discount                                      `json:"discount,required,nullable"`
+	ExternalPriceID           string                                               `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                              `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceTieredWithMinimumPriceItem                      `json:"item,required"`
+	Maximum                   PriceTieredWithMinimumPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                               `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -3932,29 +4395,30 @@ type PriceTieredWithMinimumPrice struct {
 // priceTieredWithMinimumPriceJSON contains the JSON metadata for the struct
 // [PriceTieredWithMinimumPrice]
 type priceTieredWithMinimumPriceJSON struct {
-	ID                      apijson.Field
-	BillableMetric          apijson.Field
-	Cadence                 apijson.Field
-	ConversionRate          apijson.Field
-	CreatedAt               apijson.Field
-	CreditAllocation        apijson.Field
-	Currency                apijson.Field
-	Discount                apijson.Field
-	ExternalPriceID         apijson.Field
-	FixedPriceQuantity      apijson.Field
-	Item                    apijson.Field
-	Maximum                 apijson.Field
-	MaximumAmount           apijson.Field
-	Metadata                apijson.Field
-	Minimum                 apijson.Field
-	MinimumAmount           apijson.Field
-	ModelType               apijson.Field
-	Name                    apijson.Field
-	PlanPhaseOrder          apijson.Field
-	PriceType               apijson.Field
-	TieredWithMinimumConfig apijson.Field
-	raw                     string
-	ExtraFields             map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	TieredWithMinimumConfig   apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceTieredWithMinimumPrice) UnmarshalJSON(data []byte) (err error) {
@@ -3986,6 +4450,44 @@ func (r *PriceTieredWithMinimumPriceBillableMetric) UnmarshalJSON(data []byte) (
 
 func (r priceTieredWithMinimumPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredWithMinimumPriceBillingCycleConfiguration struct {
+	Duration     int64                                                            `json:"duration,required"`
+	DurationUnit PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredWithMinimumPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceTieredWithMinimumPriceBillingCycleConfigurationJSON contains the JSON
+// metadata for the struct [PriceTieredWithMinimumPriceBillingCycleConfiguration]
+type priceTieredWithMinimumPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredWithMinimumPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithMinimumPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredWithMinimumPriceCadence string
@@ -4135,19 +4637,20 @@ func (r PriceTieredWithMinimumPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPackageWithMinimumPrice struct {
-	ID                 string                                             `json:"id,required"`
-	BillableMetric     PriceTieredPackageWithMinimumPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceTieredPackageWithMinimumPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                            `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceTieredPackageWithMinimumPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                             `json:"currency,required"`
-	Discount           shared.Discount                                    `json:"discount,required,nullable"`
-	ExternalPriceID    string                                             `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                            `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceTieredPackageWithMinimumPriceItem             `json:"item,required"`
-	Maximum            PriceTieredPackageWithMinimumPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                             `json:"maximum_amount,required,nullable"`
+	ID                        string                                                      `json:"id,required"`
+	BillableMetric            PriceTieredPackageWithMinimumPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceTieredPackageWithMinimumPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceTieredPackageWithMinimumPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                                   `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceTieredPackageWithMinimumPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                      `json:"currency,required"`
+	Discount                  shared.Discount                                             `json:"discount,required,nullable"`
+	ExternalPriceID           string                                                      `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                                     `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceTieredPackageWithMinimumPriceItem                      `json:"item,required"`
+	Maximum                   PriceTieredPackageWithMinimumPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                                      `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -4168,6 +4671,7 @@ type PriceTieredPackageWithMinimumPrice struct {
 type priceTieredPackageWithMinimumPriceJSON struct {
 	ID                             apijson.Field
 	BillableMetric                 apijson.Field
+	BillingCycleConfiguration      apijson.Field
 	Cadence                        apijson.Field
 	ConversionRate                 apijson.Field
 	CreatedAt                      apijson.Field
@@ -4220,6 +4724,45 @@ func (r *PriceTieredPackageWithMinimumPriceBillableMetric) UnmarshalJSON(data []
 
 func (r priceTieredPackageWithMinimumPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceBillingCycleConfiguration struct {
+	Duration     int64                                                                   `json:"duration,required"`
+	DurationUnit PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredPackageWithMinimumPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceBillingCycleConfigurationJSON contains the
+// JSON metadata for the struct
+// [PriceTieredPackageWithMinimumPriceBillingCycleConfiguration]
+type priceTieredPackageWithMinimumPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredPackageWithMinimumPriceCadence string
@@ -4369,19 +4912,20 @@ func (r PriceTieredPackageWithMinimumPricePriceType) IsKnown() bool {
 }
 
 type PricePackageWithAllocationPrice struct {
-	ID                 string                                          `json:"id,required"`
-	BillableMetric     PricePackageWithAllocationPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PricePackageWithAllocationPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                         `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PricePackageWithAllocationPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                          `json:"currency,required"`
-	Discount           shared.Discount                                 `json:"discount,required,nullable"`
-	ExternalPriceID    string                                          `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                         `json:"fixed_price_quantity,required,nullable"`
-	Item               PricePackageWithAllocationPriceItem             `json:"item,required"`
-	Maximum            PricePackageWithAllocationPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                          `json:"maximum_amount,required,nullable"`
+	ID                        string                                                   `json:"id,required"`
+	BillableMetric            PricePackageWithAllocationPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PricePackageWithAllocationPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PricePackageWithAllocationPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                                  `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                                `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PricePackageWithAllocationPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                   `json:"currency,required"`
+	Discount                  shared.Discount                                          `json:"discount,required,nullable"`
+	ExternalPriceID           string                                                   `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                                  `json:"fixed_price_quantity,required,nullable"`
+	Item                      PricePackageWithAllocationPriceItem                      `json:"item,required"`
+	Maximum                   PricePackageWithAllocationPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                                   `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -4402,6 +4946,7 @@ type PricePackageWithAllocationPrice struct {
 type pricePackageWithAllocationPriceJSON struct {
 	ID                          apijson.Field
 	BillableMetric              apijson.Field
+	BillingCycleConfiguration   apijson.Field
 	Cadence                     apijson.Field
 	ConversionRate              apijson.Field
 	CreatedAt                   apijson.Field
@@ -4454,6 +4999,45 @@ func (r *PricePackageWithAllocationPriceBillableMetric) UnmarshalJSON(data []byt
 
 func (r pricePackageWithAllocationPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PricePackageWithAllocationPriceBillingCycleConfiguration struct {
+	Duration     int64                                                                `json:"duration,required"`
+	DurationUnit PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         pricePackageWithAllocationPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// pricePackageWithAllocationPriceBillingCycleConfigurationJSON contains the JSON
+// metadata for the struct
+// [PricePackageWithAllocationPriceBillingCycleConfiguration]
+type pricePackageWithAllocationPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PricePackageWithAllocationPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackageWithAllocationPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PricePackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PricePackageWithAllocationPriceCadence string
@@ -4603,19 +5187,20 @@ func (r PricePackageWithAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceUnitWithPercentPrice struct {
-	ID                 string                                    `json:"id,required"`
-	BillableMetric     PriceUnitWithPercentPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceUnitWithPercentPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                   `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                                 `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceUnitWithPercentPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                    `json:"currency,required"`
-	Discount           shared.Discount                           `json:"discount,required,nullable"`
-	ExternalPriceID    string                                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                   `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceUnitWithPercentPriceItem             `json:"item,required"`
-	Maximum            PriceUnitWithPercentPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                    `json:"maximum_amount,required,nullable"`
+	ID                        string                                             `json:"id,required"`
+	BillableMetric            PriceUnitWithPercentPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceUnitWithPercentPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceUnitWithPercentPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceUnitWithPercentPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                             `json:"currency,required"`
+	Discount                  shared.Discount                                    `json:"discount,required,nullable"`
+	ExternalPriceID           string                                             `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                            `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceUnitWithPercentPriceItem                      `json:"item,required"`
+	Maximum                   PriceUnitWithPercentPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                             `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -4634,29 +5219,30 @@ type PriceUnitWithPercentPrice struct {
 // priceUnitWithPercentPriceJSON contains the JSON metadata for the struct
 // [PriceUnitWithPercentPrice]
 type priceUnitWithPercentPriceJSON struct {
-	ID                    apijson.Field
-	BillableMetric        apijson.Field
-	Cadence               apijson.Field
-	ConversionRate        apijson.Field
-	CreatedAt             apijson.Field
-	CreditAllocation      apijson.Field
-	Currency              apijson.Field
-	Discount              apijson.Field
-	ExternalPriceID       apijson.Field
-	FixedPriceQuantity    apijson.Field
-	Item                  apijson.Field
-	Maximum               apijson.Field
-	MaximumAmount         apijson.Field
-	Metadata              apijson.Field
-	Minimum               apijson.Field
-	MinimumAmount         apijson.Field
-	ModelType             apijson.Field
-	Name                  apijson.Field
-	PlanPhaseOrder        apijson.Field
-	PriceType             apijson.Field
-	UnitWithPercentConfig apijson.Field
-	raw                   string
-	ExtraFields           map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	UnitWithPercentConfig     apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceUnitWithPercentPrice) UnmarshalJSON(data []byte) (err error) {
@@ -4688,6 +5274,44 @@ func (r *PriceUnitWithPercentPriceBillableMetric) UnmarshalJSON(data []byte) (er
 
 func (r priceUnitWithPercentPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceUnitWithPercentPriceBillingCycleConfiguration struct {
+	Duration     int64                                                          `json:"duration,required"`
+	DurationUnit PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceUnitWithPercentPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceUnitWithPercentPriceBillingCycleConfigurationJSON contains the JSON
+// metadata for the struct [PriceUnitWithPercentPriceBillingCycleConfiguration]
+type priceUnitWithPercentPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay   PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay, PriceUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceUnitWithPercentPriceCadence string
@@ -4839,6 +5463,7 @@ func (r PriceUnitWithPercentPricePriceType) IsKnown() bool {
 type PriceMatrixWithAllocationPrice struct {
 	ID                         string                                                   `json:"id,required"`
 	BillableMetric             PriceMatrixWithAllocationPriceBillableMetric             `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration  PriceMatrixWithAllocationPriceBillingCycleConfiguration  `json:"billing_cycle_configuration,required,nullable"`
 	Cadence                    PriceMatrixWithAllocationPriceCadence                    `json:"cadence,required"`
 	ConversionRate             float64                                                  `json:"conversion_rate,required,nullable"`
 	CreatedAt                  time.Time                                                `json:"created_at,required" format:"date-time"`
@@ -4870,6 +5495,7 @@ type PriceMatrixWithAllocationPrice struct {
 type priceMatrixWithAllocationPriceJSON struct {
 	ID                         apijson.Field
 	BillableMetric             apijson.Field
+	BillingCycleConfiguration  apijson.Field
 	Cadence                    apijson.Field
 	ConversionRate             apijson.Field
 	CreatedAt                  apijson.Field
@@ -4922,6 +5548,45 @@ func (r *PriceMatrixWithAllocationPriceBillableMetric) UnmarshalJSON(data []byte
 
 func (r priceMatrixWithAllocationPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceBillingCycleConfiguration struct {
+	Duration     int64                                                               `json:"duration,required"`
+	DurationUnit PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceMatrixWithAllocationPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceBillingCycleConfigurationJSON contains the JSON
+// metadata for the struct
+// [PriceMatrixWithAllocationPriceBillingCycleConfiguration]
+type priceMatrixWithAllocationPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PriceMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceMatrixWithAllocationPriceCadence string
@@ -5131,19 +5796,20 @@ func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredWithProrationPrice struct {
-	ID                 string                                        `json:"id,required"`
-	BillableMetric     PriceTieredWithProrationPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceTieredWithProrationPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                       `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceTieredWithProrationPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                        `json:"currency,required"`
-	Discount           shared.Discount                               `json:"discount,required,nullable"`
-	ExternalPriceID    string                                        `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                       `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceTieredWithProrationPriceItem             `json:"item,required"`
-	Maximum            PriceTieredWithProrationPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                        `json:"maximum_amount,required,nullable"`
+	ID                        string                                                 `json:"id,required"`
+	BillableMetric            PriceTieredWithProrationPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceTieredWithProrationPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceTieredWithProrationPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                                `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceTieredWithProrationPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                 `json:"currency,required"`
+	Discount                  shared.Discount                                        `json:"discount,required,nullable"`
+	ExternalPriceID           string                                                 `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                                `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceTieredWithProrationPriceItem                      `json:"item,required"`
+	Maximum                   PriceTieredWithProrationPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                                 `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -5164,6 +5830,7 @@ type PriceTieredWithProrationPrice struct {
 type priceTieredWithProrationPriceJSON struct {
 	ID                        apijson.Field
 	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
 	Cadence                   apijson.Field
 	ConversionRate            apijson.Field
 	CreatedAt                 apijson.Field
@@ -5216,6 +5883,44 @@ func (r *PriceTieredWithProrationPriceBillableMetric) UnmarshalJSON(data []byte)
 
 func (r priceTieredWithProrationPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredWithProrationPriceBillingCycleConfiguration struct {
+	Duration     int64                                                              `json:"duration,required"`
+	DurationUnit PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredWithProrationPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceTieredWithProrationPriceBillingCycleConfigurationJSON contains the JSON
+// metadata for the struct [PriceTieredWithProrationPriceBillingCycleConfiguration]
+type priceTieredWithProrationPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredWithProrationPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithProrationPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceTieredWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredWithProrationPriceCadence string
@@ -5365,19 +6070,20 @@ func (r PriceTieredWithProrationPricePriceType) IsKnown() bool {
 }
 
 type PriceUnitWithProrationPrice struct {
-	ID                 string                                      `json:"id,required"`
-	BillableMetric     PriceUnitWithProrationPriceBillableMetric   `json:"billable_metric,required,nullable"`
-	Cadence            PriceUnitWithProrationPriceCadence          `json:"cadence,required"`
-	ConversionRate     float64                                     `json:"conversion_rate,required,nullable"`
-	CreatedAt          time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation   PriceUnitWithProrationPriceCreditAllocation `json:"credit_allocation,required,nullable"`
-	Currency           string                                      `json:"currency,required"`
-	Discount           shared.Discount                             `json:"discount,required,nullable"`
-	ExternalPriceID    string                                      `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity float64                                     `json:"fixed_price_quantity,required,nullable"`
-	Item               PriceUnitWithProrationPriceItem             `json:"item,required"`
-	Maximum            PriceUnitWithProrationPriceMaximum          `json:"maximum,required,nullable"`
-	MaximumAmount      string                                      `json:"maximum_amount,required,nullable"`
+	ID                        string                                               `json:"id,required"`
+	BillableMetric            PriceUnitWithProrationPriceBillableMetric            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration PriceUnitWithProrationPriceBillingCycleConfiguration `json:"billing_cycle_configuration,required,nullable"`
+	Cadence                   PriceUnitWithProrationPriceCadence                   `json:"cadence,required"`
+	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation          PriceUnitWithProrationPriceCreditAllocation          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                               `json:"currency,required"`
+	Discount                  shared.Discount                                      `json:"discount,required,nullable"`
+	ExternalPriceID           string                                               `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity        float64                                              `json:"fixed_price_quantity,required,nullable"`
+	Item                      PriceUnitWithProrationPriceItem                      `json:"item,required"`
+	Maximum                   PriceUnitWithProrationPriceMaximum                   `json:"maximum,required,nullable"`
+	MaximumAmount             string                                               `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -5396,29 +6102,30 @@ type PriceUnitWithProrationPrice struct {
 // priceUnitWithProrationPriceJSON contains the JSON metadata for the struct
 // [PriceUnitWithProrationPrice]
 type priceUnitWithProrationPriceJSON struct {
-	ID                      apijson.Field
-	BillableMetric          apijson.Field
-	Cadence                 apijson.Field
-	ConversionRate          apijson.Field
-	CreatedAt               apijson.Field
-	CreditAllocation        apijson.Field
-	Currency                apijson.Field
-	Discount                apijson.Field
-	ExternalPriceID         apijson.Field
-	FixedPriceQuantity      apijson.Field
-	Item                    apijson.Field
-	Maximum                 apijson.Field
-	MaximumAmount           apijson.Field
-	Metadata                apijson.Field
-	Minimum                 apijson.Field
-	MinimumAmount           apijson.Field
-	ModelType               apijson.Field
-	Name                    apijson.Field
-	PlanPhaseOrder          apijson.Field
-	PriceType               apijson.Field
-	UnitWithProrationConfig apijson.Field
-	raw                     string
-	ExtraFields             map[string]apijson.Field
+	ID                        apijson.Field
+	BillableMetric            apijson.Field
+	BillingCycleConfiguration apijson.Field
+	Cadence                   apijson.Field
+	ConversionRate            apijson.Field
+	CreatedAt                 apijson.Field
+	CreditAllocation          apijson.Field
+	Currency                  apijson.Field
+	Discount                  apijson.Field
+	ExternalPriceID           apijson.Field
+	FixedPriceQuantity        apijson.Field
+	Item                      apijson.Field
+	Maximum                   apijson.Field
+	MaximumAmount             apijson.Field
+	Metadata                  apijson.Field
+	Minimum                   apijson.Field
+	MinimumAmount             apijson.Field
+	ModelType                 apijson.Field
+	Name                      apijson.Field
+	PlanPhaseOrder            apijson.Field
+	PriceType                 apijson.Field
+	UnitWithProrationConfig   apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
 }
 
 func (r *PriceUnitWithProrationPrice) UnmarshalJSON(data []byte) (err error) {
@@ -5450,6 +6157,44 @@ func (r *PriceUnitWithProrationPriceBillableMetric) UnmarshalJSON(data []byte) (
 
 func (r priceUnitWithProrationPriceBillableMetricJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceUnitWithProrationPriceBillingCycleConfiguration struct {
+	Duration     int64                                                            `json:"duration,required"`
+	DurationUnit PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceUnitWithProrationPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceUnitWithProrationPriceBillingCycleConfigurationJSON contains the JSON
+// metadata for the struct [PriceUnitWithProrationPriceBillingCycleConfiguration]
+type priceUnitWithProrationPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceUnitWithProrationPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithProrationPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceUnitWithProrationPriceCadence string
@@ -5753,11 +6498,12 @@ const (
 	PriceNewParamsNewFloatingUnitPriceCadenceMonthly    PriceNewParamsNewFloatingUnitPriceCadence = "monthly"
 	PriceNewParamsNewFloatingUnitPriceCadenceQuarterly  PriceNewParamsNewFloatingUnitPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingUnitPriceCadenceOneTime    PriceNewParamsNewFloatingUnitPriceCadence = "one_time"
+	PriceNewParamsNewFloatingUnitPriceCadenceCustom     PriceNewParamsNewFloatingUnitPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingUnitPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingUnitPriceCadenceAnnual, PriceNewParamsNewFloatingUnitPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitPriceCadenceMonthly, PriceNewParamsNewFloatingUnitPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingUnitPriceCadenceAnnual, PriceNewParamsNewFloatingUnitPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitPriceCadenceMonthly, PriceNewParamsNewFloatingUnitPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitPriceCadenceOneTime, PriceNewParamsNewFloatingUnitPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -5835,11 +6581,12 @@ const (
 	PriceNewParamsNewFloatingPackagePriceCadenceMonthly    PriceNewParamsNewFloatingPackagePriceCadence = "monthly"
 	PriceNewParamsNewFloatingPackagePriceCadenceQuarterly  PriceNewParamsNewFloatingPackagePriceCadence = "quarterly"
 	PriceNewParamsNewFloatingPackagePriceCadenceOneTime    PriceNewParamsNewFloatingPackagePriceCadence = "one_time"
+	PriceNewParamsNewFloatingPackagePriceCadenceCustom     PriceNewParamsNewFloatingPackagePriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingPackagePriceCadenceAnnual, PriceNewParamsNewFloatingPackagePriceCadenceSemiAnnual, PriceNewParamsNewFloatingPackagePriceCadenceMonthly, PriceNewParamsNewFloatingPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingPackagePriceCadenceOneTime:
+	case PriceNewParamsNewFloatingPackagePriceCadenceAnnual, PriceNewParamsNewFloatingPackagePriceCadenceSemiAnnual, PriceNewParamsNewFloatingPackagePriceCadenceMonthly, PriceNewParamsNewFloatingPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingPackagePriceCadenceOneTime, PriceNewParamsNewFloatingPackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -5920,11 +6667,12 @@ const (
 	PriceNewParamsNewFloatingMatrixPriceCadenceMonthly    PriceNewParamsNewFloatingMatrixPriceCadence = "monthly"
 	PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly  PriceNewParamsNewFloatingMatrixPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingMatrixPriceCadenceOneTime    PriceNewParamsNewFloatingMatrixPriceCadence = "one_time"
+	PriceNewParamsNewFloatingMatrixPriceCadenceCustom     PriceNewParamsNewFloatingMatrixPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingMatrixPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceSemiAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingMatrixPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceSemiAnnual, PriceNewParamsNewFloatingMatrixPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixPriceCadenceOneTime, PriceNewParamsNewFloatingMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6019,11 +6767,12 @@ const (
 	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly    PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "monthly"
 	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly  PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime    PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceCustom     PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceOneTime, PriceNewParamsNewFloatingMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6120,11 +6869,12 @@ const (
 	PriceNewParamsNewFloatingTieredPriceCadenceMonthly    PriceNewParamsNewFloatingTieredPriceCadence = "monthly"
 	PriceNewParamsNewFloatingTieredPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingTieredPriceCadenceOneTime    PriceNewParamsNewFloatingTieredPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredPriceCadenceCustom     PriceNewParamsNewFloatingTieredPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPriceCadenceOneTime, PriceNewParamsNewFloatingTieredPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6215,11 +6965,12 @@ const (
 	PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly    PriceNewParamsNewFloatingTieredBpsPriceCadence = "monthly"
 	PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredBpsPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime    PriceNewParamsNewFloatingTieredBpsPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredBpsPriceCadenceCustom     PriceNewParamsNewFloatingTieredBpsPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingTieredBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly, PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredBpsPriceCadenceAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredBpsPriceCadenceMonthly, PriceNewParamsNewFloatingTieredBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredBpsPriceCadenceOneTime, PriceNewParamsNewFloatingTieredBpsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6324,11 +7075,12 @@ const (
 	PriceNewParamsNewFloatingBpsPriceCadenceMonthly    PriceNewParamsNewFloatingBpsPriceCadence = "monthly"
 	PriceNewParamsNewFloatingBpsPriceCadenceQuarterly  PriceNewParamsNewFloatingBpsPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingBpsPriceCadenceOneTime    PriceNewParamsNewFloatingBpsPriceCadence = "one_time"
+	PriceNewParamsNewFloatingBpsPriceCadenceCustom     PriceNewParamsNewFloatingBpsPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBpsPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBpsPriceCadenceOneTime, PriceNewParamsNewFloatingBpsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6420,11 +7172,12 @@ const (
 	PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly    PriceNewParamsNewFloatingBulkBpsPriceCadence = "monthly"
 	PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly  PriceNewParamsNewFloatingBulkBpsPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime    PriceNewParamsNewFloatingBulkBpsPriceCadence = "one_time"
+	PriceNewParamsNewFloatingBulkBpsPriceCadenceCustom     PriceNewParamsNewFloatingBulkBpsPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingBulkBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingBulkBpsPriceCadenceAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBulkBpsPriceCadenceMonthly, PriceNewParamsNewFloatingBulkBpsPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkBpsPriceCadenceOneTime, PriceNewParamsNewFloatingBulkBpsPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6513,11 +7266,12 @@ const (
 	PriceNewParamsNewFloatingBulkPriceCadenceMonthly    PriceNewParamsNewFloatingBulkPriceCadence = "monthly"
 	PriceNewParamsNewFloatingBulkPriceCadenceQuarterly  PriceNewParamsNewFloatingBulkPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingBulkPriceCadenceOneTime    PriceNewParamsNewFloatingBulkPriceCadence = "one_time"
+	PriceNewParamsNewFloatingBulkPriceCadenceCustom     PriceNewParamsNewFloatingBulkPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingBulkPriceCadenceAnnual, PriceNewParamsNewFloatingBulkPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBulkPriceCadenceMonthly, PriceNewParamsNewFloatingBulkPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingBulkPriceCadenceAnnual, PriceNewParamsNewFloatingBulkPriceCadenceSemiAnnual, PriceNewParamsNewFloatingBulkPriceCadenceMonthly, PriceNewParamsNewFloatingBulkPriceCadenceQuarterly, PriceNewParamsNewFloatingBulkPriceCadenceOneTime, PriceNewParamsNewFloatingBulkPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6586,11 +7340,12 @@ const (
 	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly    PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "monthly"
 	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly  PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime    PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "one_time"
+	PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceCustom     PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceMonthly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceQuarterly, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceOneTime, PriceNewParamsNewFloatingThresholdTotalAmountPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6659,11 +7414,12 @@ const (
 	PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly    PriceNewParamsNewFloatingTieredPackagePriceCadence = "monthly"
 	PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly  PriceNewParamsNewFloatingTieredPackagePriceCadence = "quarterly"
 	PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime    PriceNewParamsNewFloatingTieredPackagePriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredPackagePriceCadenceCustom     PriceNewParamsNewFloatingTieredPackagePriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredPackagePriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPackagePriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackagePriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackagePriceCadenceOneTime, PriceNewParamsNewFloatingTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6732,11 +7488,12 @@ const (
 	PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly    PriceNewParamsNewFloatingGroupedTieredPriceCadence = "monthly"
 	PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly  PriceNewParamsNewFloatingGroupedTieredPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime    PriceNewParamsNewFloatingGroupedTieredPriceCadence = "one_time"
+	PriceNewParamsNewFloatingGroupedTieredPriceCadenceCustom     PriceNewParamsNewFloatingGroupedTieredPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingGroupedTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceSemiAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingGroupedTieredPriceCadenceAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceSemiAnnual, PriceNewParamsNewFloatingGroupedTieredPriceCadenceMonthly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingGroupedTieredPriceCadenceOneTime, PriceNewParamsNewFloatingGroupedTieredPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6805,11 +7562,12 @@ const (
 	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly    PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "monthly"
 	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime    PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceCustom     PriceNewParamsNewFloatingTieredWithMinimumPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingTieredWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceOneTime, PriceNewParamsNewFloatingTieredWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6878,11 +7636,12 @@ const (
 	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly    PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "monthly"
 	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly  PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime    PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceCustom     PriceNewParamsNewFloatingPackageWithAllocationPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingPackageWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceMonthly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceQuarterly, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceOneTime, PriceNewParamsNewFloatingPackageWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -6951,11 +7710,12 @@ const (
 	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly    PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "monthly"
 	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime    PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceCustom     PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceOneTime, PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7024,11 +7784,12 @@ const (
 	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly    PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "monthly"
 	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly  PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime    PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "one_time"
+	PriceNewParamsNewFloatingUnitWithPercentPriceCadenceCustom     PriceNewParamsNewFloatingUnitWithPercentPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingUnitWithPercentPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingUnitWithPercentPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceOneTime, PriceNewParamsNewFloatingUnitWithPercentPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7097,11 +7858,12 @@ const (
 	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceMonthly    PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "monthly"
 	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceQuarterly  PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceOneTime    PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingTieredWithProrationPriceCadenceCustom     PriceNewParamsNewFloatingTieredWithProrationPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingTieredWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingTieredWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceOneTime, PriceNewParamsNewFloatingTieredWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
@@ -7170,11 +7932,12 @@ const (
 	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceMonthly    PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "monthly"
 	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceQuarterly  PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "quarterly"
 	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceOneTime    PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "one_time"
+	PriceNewParamsNewFloatingUnitWithProrationPriceCadenceCustom     PriceNewParamsNewFloatingUnitWithProrationPriceCadence = "custom"
 )
 
 func (r PriceNewParamsNewFloatingUnitWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceNewParamsNewFloatingUnitWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceOneTime:
+	case PriceNewParamsNewFloatingUnitWithProrationPriceCadenceAnnual, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceSemiAnnual, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceMonthly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceQuarterly, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceOneTime, PriceNewParamsNewFloatingUnitWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false

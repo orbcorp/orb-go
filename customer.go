@@ -27,7 +27,6 @@ import (
 type CustomerService struct {
 	Options             []option.RequestOption
 	Costs               *CustomerCostService
-	Usage               *CustomerUsageService
 	Credits             *CustomerCreditService
 	BalanceTransactions *CustomerBalanceTransactionService
 }
@@ -39,7 +38,6 @@ func NewCustomerService(opts ...option.RequestOption) (r *CustomerService) {
 	r = &CustomerService{}
 	r.Options = opts
 	r.Costs = NewCustomerCostService(opts...)
-	r.Usage = NewCustomerUsageService(opts...)
 	r.Credits = NewCustomerCreditService(opts...)
 	r.BalanceTransactions = NewCustomerBalanceTransactionService(opts...)
 	return
