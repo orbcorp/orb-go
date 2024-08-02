@@ -134,6 +134,9 @@ func NewCustomerUsageService(opts ...option.RequestOption) (r *CustomerUsageServ
 //
 // In order to overwrite timeframes with a very large number of events, we suggest
 // using multiple calls with small adjacent (e.g. every hour) timeframes.
+//
+// Deprecated: This method will be removed in a future release. Please use the
+// 'events.backfills.create' instead.
 func (r *CustomerUsageService) Update(ctx context.Context, id string, params CustomerUsageUpdateParams, opts ...option.RequestOption) (res *CustomerUsageUpdateResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
@@ -243,6 +246,9 @@ func (r *CustomerUsageService) Update(ctx context.Context, id string, params Cus
 //
 // In order to overwrite timeframes with a very large number of events, we suggest
 // using multiple calls with small adjacent (e.g. every hour) timeframes.
+//
+// Deprecated: This method will be removed in a future release. Please use the
+// 'events.backfills.create' instead.
 func (r *CustomerUsageService) UpdateByExternalID(ctx context.Context, id string, params CustomerUsageUpdateByExternalIDParams, opts ...option.RequestOption) (res *CustomerUsageUpdateByExternalIDResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if id == "" {
