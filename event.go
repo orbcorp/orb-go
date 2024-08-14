@@ -259,6 +259,10 @@ func (r *EventService) Deprecate(ctx context.Context, eventID string, opts ...op
 // accurately map usage to the correct billing cycle and ensure that all usage is
 // billed for in the corresponding billing period.
 //
+// In general, Orb does not expect events with future dated timestamps. In cases
+// where the timestamp is at least 24 hours ahead of the current time, the event
+// will not be accepted as a valid event, and will throw validation errors.
+//
 // ## Event validation
 //
 // Orb’s validation ensures that you recognize errors in your events as quickly as
