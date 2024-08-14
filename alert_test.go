@@ -86,7 +86,7 @@ func TestAlertNewForCustomerWithOptionalParams(t *testing.T) {
 		"customer_id",
 		orb.AlertNewForCustomerParams{
 			Currency: orb.F("currency"),
-			Type:     orb.F("type"),
+			Type:     orb.F(orb.AlertNewForCustomerParamsTypeUsageExceeded),
 			Thresholds: orb.F([]orb.AlertNewForCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
 			}, {
@@ -122,7 +122,7 @@ func TestAlertNewForExternalCustomerWithOptionalParams(t *testing.T) {
 		"external_customer_id",
 		orb.AlertNewForExternalCustomerParams{
 			Currency: orb.F("currency"),
-			Type:     orb.F("type"),
+			Type:     orb.F(orb.AlertNewForExternalCustomerParamsTypeUsageExceeded),
 			Thresholds: orb.F([]orb.AlertNewForExternalCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
 			}, {
@@ -164,7 +164,7 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 			}, {
 				Value: orb.F(0.000000),
 			}}),
-			Type:     orb.F("type"),
+			Type:     orb.F(orb.AlertNewForSubscriptionParamsTypeUsageExceeded),
 			MetricID: orb.F("metric_id"),
 		},
 	)

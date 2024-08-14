@@ -311,14 +311,33 @@ func (r AlertListParams) URLQuery() (v url.Values) {
 type AlertNewForCustomerParams struct {
 	// The case sensitive currency or custom pricing unit to use for this alert.
 	Currency param.Field[string] `json:"currency,required"`
+	// The type of alert to create. This must be a valid alert type.
+	Type param.Field[AlertNewForCustomerParamsType] `json:"type,required"`
 	// The thresholds that define the values at which the alert will be triggered.
-	Type param.Field[string] `json:"type,required"`
-	// The thresholds for the alert.
 	Thresholds param.Field[[]AlertNewForCustomerParamsThreshold] `json:"thresholds"`
 }
 
 func (r AlertNewForCustomerParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The type of alert to create. This must be a valid alert type.
+type AlertNewForCustomerParamsType string
+
+const (
+	AlertNewForCustomerParamsTypeUsageExceeded          AlertNewForCustomerParamsType = "usage_exceeded"
+	AlertNewForCustomerParamsTypeCostExceeded           AlertNewForCustomerParamsType = "cost_exceeded"
+	AlertNewForCustomerParamsTypeCreditBalanceDepleted  AlertNewForCustomerParamsType = "credit_balance_depleted"
+	AlertNewForCustomerParamsTypeCreditBalanceDropped   AlertNewForCustomerParamsType = "credit_balance_dropped"
+	AlertNewForCustomerParamsTypeCreditBalanceRecovered AlertNewForCustomerParamsType = "credit_balance_recovered"
+)
+
+func (r AlertNewForCustomerParamsType) IsKnown() bool {
+	switch r {
+	case AlertNewForCustomerParamsTypeUsageExceeded, AlertNewForCustomerParamsTypeCostExceeded, AlertNewForCustomerParamsTypeCreditBalanceDepleted, AlertNewForCustomerParamsTypeCreditBalanceDropped, AlertNewForCustomerParamsTypeCreditBalanceRecovered:
+		return true
+	}
+	return false
 }
 
 // Thresholds are used to define the conditions under which an alert will be
@@ -337,14 +356,33 @@ func (r AlertNewForCustomerParamsThreshold) MarshalJSON() (data []byte, err erro
 type AlertNewForExternalCustomerParams struct {
 	// The case sensitive currency or custom pricing unit to use for this alert.
 	Currency param.Field[string] `json:"currency,required"`
+	// The type of alert to create. This must be a valid alert type.
+	Type param.Field[AlertNewForExternalCustomerParamsType] `json:"type,required"`
 	// The thresholds that define the values at which the alert will be triggered.
-	Type param.Field[string] `json:"type,required"`
-	// The thresholds for the alert.
 	Thresholds param.Field[[]AlertNewForExternalCustomerParamsThreshold] `json:"thresholds"`
 }
 
 func (r AlertNewForExternalCustomerParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The type of alert to create. This must be a valid alert type.
+type AlertNewForExternalCustomerParamsType string
+
+const (
+	AlertNewForExternalCustomerParamsTypeUsageExceeded          AlertNewForExternalCustomerParamsType = "usage_exceeded"
+	AlertNewForExternalCustomerParamsTypeCostExceeded           AlertNewForExternalCustomerParamsType = "cost_exceeded"
+	AlertNewForExternalCustomerParamsTypeCreditBalanceDepleted  AlertNewForExternalCustomerParamsType = "credit_balance_depleted"
+	AlertNewForExternalCustomerParamsTypeCreditBalanceDropped   AlertNewForExternalCustomerParamsType = "credit_balance_dropped"
+	AlertNewForExternalCustomerParamsTypeCreditBalanceRecovered AlertNewForExternalCustomerParamsType = "credit_balance_recovered"
+)
+
+func (r AlertNewForExternalCustomerParamsType) IsKnown() bool {
+	switch r {
+	case AlertNewForExternalCustomerParamsTypeUsageExceeded, AlertNewForExternalCustomerParamsTypeCostExceeded, AlertNewForExternalCustomerParamsTypeCreditBalanceDepleted, AlertNewForExternalCustomerParamsTypeCreditBalanceDropped, AlertNewForExternalCustomerParamsTypeCreditBalanceRecovered:
+		return true
+	}
+	return false
 }
 
 // Thresholds are used to define the conditions under which an alert will be
@@ -361,10 +399,10 @@ func (r AlertNewForExternalCustomerParamsThreshold) MarshalJSON() (data []byte, 
 }
 
 type AlertNewForSubscriptionParams struct {
-	// The thresholds for the alert.
-	Thresholds param.Field[[]AlertNewForSubscriptionParamsThreshold] `json:"thresholds,required"`
 	// The thresholds that define the values at which the alert will be triggered.
-	Type param.Field[string] `json:"type,required"`
+	Thresholds param.Field[[]AlertNewForSubscriptionParamsThreshold] `json:"thresholds,required"`
+	// The type of alert to create. This must be a valid alert type.
+	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type,required"`
 	// The metric to track usage for.
 	MetricID param.Field[string] `json:"metric_id"`
 }
@@ -384,4 +422,23 @@ type AlertNewForSubscriptionParamsThreshold struct {
 
 func (r AlertNewForSubscriptionParamsThreshold) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The type of alert to create. This must be a valid alert type.
+type AlertNewForSubscriptionParamsType string
+
+const (
+	AlertNewForSubscriptionParamsTypeUsageExceeded          AlertNewForSubscriptionParamsType = "usage_exceeded"
+	AlertNewForSubscriptionParamsTypeCostExceeded           AlertNewForSubscriptionParamsType = "cost_exceeded"
+	AlertNewForSubscriptionParamsTypeCreditBalanceDepleted  AlertNewForSubscriptionParamsType = "credit_balance_depleted"
+	AlertNewForSubscriptionParamsTypeCreditBalanceDropped   AlertNewForSubscriptionParamsType = "credit_balance_dropped"
+	AlertNewForSubscriptionParamsTypeCreditBalanceRecovered AlertNewForSubscriptionParamsType = "credit_balance_recovered"
+)
+
+func (r AlertNewForSubscriptionParamsType) IsKnown() bool {
+	switch r {
+	case AlertNewForSubscriptionParamsTypeUsageExceeded, AlertNewForSubscriptionParamsTypeCostExceeded, AlertNewForSubscriptionParamsTypeCreditBalanceDepleted, AlertNewForSubscriptionParamsTypeCreditBalanceDropped, AlertNewForSubscriptionParamsTypeCreditBalanceRecovered:
+		return true
+	}
+	return false
 }
