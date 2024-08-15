@@ -250,6 +250,7 @@ func TestSubscriptionFetchCostsWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"subscription_id",
 		orb.SubscriptionFetchCostsParams{
+			Currency:       orb.F("currency"),
 			TimeframeEnd:   orb.F(time.Now()),
 			TimeframeStart: orb.F(time.Now()),
 			ViewMode:       orb.F(orb.SubscriptionFetchCostsParamsViewModePeriodic),
