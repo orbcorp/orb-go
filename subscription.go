@@ -4513,6 +4513,8 @@ func (r SubscriptionCancelParamsCancelOption) IsKnown() bool {
 }
 
 type SubscriptionFetchCostsParams struct {
+	// The currency or custom pricing unit to use.
+	Currency param.Field[string] `query:"currency"`
 	// Costs returned are exclusive of `timeframe_end`.
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
 	// Costs returned are inclusive of `timeframe_start`.
