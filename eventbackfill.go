@@ -66,6 +66,12 @@ func NewEventBackfillService(opts ...option.RequestOption) (r *EventBackfillServ
 // If a `customer_id` or `external_customer_id` is specified, the backfill will
 // only affect events for that customer. If neither is specified, the backfill will
 // affect all customers.
+//
+// When `replace_existing_events` is `true`, the field `filter` can be optionally
+// added which enables filtering using
+// [computed properties](../guides/extensibility/advanced-metrics#computed-properties).
+// The expressiveness of computed properties allows you to deprecate existing
+// events based on both a period of time and specific property values.
 func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewParams, opts ...option.RequestOption) (res *EventBackfillNewResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "events/backfills"
@@ -172,23 +178,28 @@ type EventBackfillNewResponse struct {
 	Status         EventBackfillNewResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                      `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                      `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillNewResponseJSON   `json:"-"`
+	// A boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
+	// used to filter the set of events to deprecate
+	DeprecationFilter string                       `json:"deprecation_filter,nullable"`
+	JSON              eventBackfillNewResponseJSON `json:"-"`
 }
 
 // eventBackfillNewResponseJSON contains the JSON metadata for the struct
 // [EventBackfillNewResponse]
 type eventBackfillNewResponseJSON struct {
-	ID             apijson.Field
-	CloseTime      apijson.Field
-	CreatedAt      apijson.Field
-	CustomerID     apijson.Field
-	EventsIngested apijson.Field
-	RevertedAt     apijson.Field
-	Status         apijson.Field
-	TimeframeEnd   apijson.Field
-	TimeframeStart apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                apijson.Field
+	CloseTime         apijson.Field
+	CreatedAt         apijson.Field
+	CustomerID        apijson.Field
+	EventsIngested    apijson.Field
+	RevertedAt        apijson.Field
+	Status            apijson.Field
+	TimeframeEnd      apijson.Field
+	TimeframeStart    apijson.Field
+	DeprecationFilter apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
 }
 
 func (r *EventBackfillNewResponse) UnmarshalJSON(data []byte) (err error) {
@@ -236,23 +247,28 @@ type EventBackfillListResponse struct {
 	Status         EventBackfillListResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                       `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                       `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillListResponseJSON   `json:"-"`
+	// A boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
+	// used to filter the set of events to deprecate
+	DeprecationFilter string                        `json:"deprecation_filter,nullable"`
+	JSON              eventBackfillListResponseJSON `json:"-"`
 }
 
 // eventBackfillListResponseJSON contains the JSON metadata for the struct
 // [EventBackfillListResponse]
 type eventBackfillListResponseJSON struct {
-	ID             apijson.Field
-	CloseTime      apijson.Field
-	CreatedAt      apijson.Field
-	CustomerID     apijson.Field
-	EventsIngested apijson.Field
-	RevertedAt     apijson.Field
-	Status         apijson.Field
-	TimeframeEnd   apijson.Field
-	TimeframeStart apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                apijson.Field
+	CloseTime         apijson.Field
+	CreatedAt         apijson.Field
+	CustomerID        apijson.Field
+	EventsIngested    apijson.Field
+	RevertedAt        apijson.Field
+	Status            apijson.Field
+	TimeframeEnd      apijson.Field
+	TimeframeStart    apijson.Field
+	DeprecationFilter apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
 }
 
 func (r *EventBackfillListResponse) UnmarshalJSON(data []byte) (err error) {
@@ -300,23 +316,28 @@ type EventBackfillCloseResponse struct {
 	Status         EventBackfillCloseResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillCloseResponseJSON   `json:"-"`
+	// A boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
+	// used to filter the set of events to deprecate
+	DeprecationFilter string                         `json:"deprecation_filter,nullable"`
+	JSON              eventBackfillCloseResponseJSON `json:"-"`
 }
 
 // eventBackfillCloseResponseJSON contains the JSON metadata for the struct
 // [EventBackfillCloseResponse]
 type eventBackfillCloseResponseJSON struct {
-	ID             apijson.Field
-	CloseTime      apijson.Field
-	CreatedAt      apijson.Field
-	CustomerID     apijson.Field
-	EventsIngested apijson.Field
-	RevertedAt     apijson.Field
-	Status         apijson.Field
-	TimeframeEnd   apijson.Field
-	TimeframeStart apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                apijson.Field
+	CloseTime         apijson.Field
+	CreatedAt         apijson.Field
+	CustomerID        apijson.Field
+	EventsIngested    apijson.Field
+	RevertedAt        apijson.Field
+	Status            apijson.Field
+	TimeframeEnd      apijson.Field
+	TimeframeStart    apijson.Field
+	DeprecationFilter apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
 }
 
 func (r *EventBackfillCloseResponse) UnmarshalJSON(data []byte) (err error) {
@@ -364,23 +385,28 @@ type EventBackfillFetchResponse struct {
 	Status         EventBackfillFetchResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillFetchResponseJSON   `json:"-"`
+	// A boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
+	// used to filter the set of events to deprecate
+	DeprecationFilter string                         `json:"deprecation_filter,nullable"`
+	JSON              eventBackfillFetchResponseJSON `json:"-"`
 }
 
 // eventBackfillFetchResponseJSON contains the JSON metadata for the struct
 // [EventBackfillFetchResponse]
 type eventBackfillFetchResponseJSON struct {
-	ID             apijson.Field
-	CloseTime      apijson.Field
-	CreatedAt      apijson.Field
-	CustomerID     apijson.Field
-	EventsIngested apijson.Field
-	RevertedAt     apijson.Field
-	Status         apijson.Field
-	TimeframeEnd   apijson.Field
-	TimeframeStart apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                apijson.Field
+	CloseTime         apijson.Field
+	CreatedAt         apijson.Field
+	CustomerID        apijson.Field
+	EventsIngested    apijson.Field
+	RevertedAt        apijson.Field
+	Status            apijson.Field
+	TimeframeEnd      apijson.Field
+	TimeframeStart    apijson.Field
+	DeprecationFilter apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
 }
 
 func (r *EventBackfillFetchResponse) UnmarshalJSON(data []byte) (err error) {
@@ -428,23 +454,28 @@ type EventBackfillRevertResponse struct {
 	Status         EventBackfillRevertResponseStatus `json:"status,required"`
 	TimeframeEnd   time.Time                         `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                         `json:"timeframe_start,required" format:"date-time"`
-	JSON           eventBackfillRevertResponseJSON   `json:"-"`
+	// A boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
+	// used to filter the set of events to deprecate
+	DeprecationFilter string                          `json:"deprecation_filter,nullable"`
+	JSON              eventBackfillRevertResponseJSON `json:"-"`
 }
 
 // eventBackfillRevertResponseJSON contains the JSON metadata for the struct
 // [EventBackfillRevertResponse]
 type eventBackfillRevertResponseJSON struct {
-	ID             apijson.Field
-	CloseTime      apijson.Field
-	CreatedAt      apijson.Field
-	CustomerID     apijson.Field
-	EventsIngested apijson.Field
-	RevertedAt     apijson.Field
-	Status         apijson.Field
-	TimeframeEnd   apijson.Field
-	TimeframeStart apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                apijson.Field
+	CloseTime         apijson.Field
+	CreatedAt         apijson.Field
+	CustomerID        apijson.Field
+	EventsIngested    apijson.Field
+	RevertedAt        apijson.Field
+	Status            apijson.Field
+	TimeframeEnd      apijson.Field
+	TimeframeStart    apijson.Field
+	DeprecationFilter apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
 }
 
 func (r *EventBackfillRevertResponse) UnmarshalJSON(data []byte) (err error) {
@@ -484,6 +515,10 @@ type EventBackfillNewParams struct {
 	CloseTime param.Field[time.Time] `json:"close_time" format:"date-time"`
 	// The ID of the customer to which this backfill is scoped.
 	CustomerID param.Field[string] `json:"customer_id"`
+	// A boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
+	// used to filter the set of events to deprecate
+	DeprecationFilter param.Field[string] `json:"deprecation_filter"`
 	// The external customer ID of the customer to which this backfill is scoped.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
 	// If true, replaces all existing events in the timeframe with the newly ingested

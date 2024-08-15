@@ -31,6 +31,7 @@ func TestEventBackfillNewWithOptionalParams(t *testing.T) {
 		TimeframeStart:        orb.F(time.Now()),
 		CloseTime:             orb.F(time.Now()),
 		CustomerID:            orb.F("customer_id"),
+		DeprecationFilter:     orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
 		ExternalCustomerID:    orb.F("external_customer_id"),
 		ReplaceExistingEvents: orb.F(true),
 	})
