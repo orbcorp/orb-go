@@ -6775,9 +6775,9 @@ type SubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion interface {
 type SubscriptionSchedulePlanChangeParams struct {
 	ChangeOption param.Field[SubscriptionSchedulePlanChangeParamsChangeOption] `json:"change_option,required"`
 	// [DEPRECATED] Use billing_cycle_alignment instead. Reset billing periods to be
-	// aligned with the plan change’s effective date.
+	// aligned with the plan change's effective date.
 	AlignBillingWithPlanChangeDate param.Field[bool] `json:"align_billing_with_plan_change_date"`
-	// Reset billing periods to be aligned with the plan change’s effective date or
+	// Reset billing periods to be aligned with the plan change's effective date or
 	// start of the month. Defaults to `unchanged` which keeps subscription's existing
 	// billing cycle alignment.
 	BillingCycleAlignment param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAlignment] `json:"billing_cycle_alignment"`
@@ -6826,7 +6826,7 @@ func (r SubscriptionSchedulePlanChangeParamsChangeOption) IsKnown() bool {
 	return false
 }
 
-// Reset billing periods to be aligned with the plan change’s effective date or
+// Reset billing periods to be aligned with the plan change's effective date or
 // start of the month. Defaults to `unchanged` which keeps subscription's existing
 // billing cycle alignment.
 type SubscriptionSchedulePlanChangeParamsBillingCycleAlignment string
