@@ -30,6 +30,7 @@ func TestCustomerCostListWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"customer_id",
 		orb.CustomerCostListParams{
+			Currency:       orb.F("currency"),
 			TimeframeEnd:   orb.F(time.Now()),
 			TimeframeStart: orb.F(time.Now()),
 			ViewMode:       orb.F(orb.CustomerCostListParamsViewModePeriodic),
@@ -60,6 +61,7 @@ func TestCustomerCostListByExternalIDWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"external_customer_id",
 		orb.CustomerCostListByExternalIDParams{
+			Currency:       orb.F("currency"),
 			TimeframeEnd:   orb.F(time.Now()),
 			TimeframeStart: orb.F(time.Now()),
 			ViewMode:       orb.F(orb.CustomerCostListByExternalIDParamsViewModePeriodic),
