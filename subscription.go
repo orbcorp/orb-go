@@ -4925,6 +4925,7 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	UnitWithPercentConfig          param.Field[interface{}] `json:"unit_with_percent_config,required"`
 	TieredWithProrationConfig      param.Field[interface{}] `json:"tiered_with_proration_config,required"`
 	UnitWithProrationConfig        param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	GroupedAllocationConfig        param.Field[interface{}] `json:"grouped_allocation_config,required"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPrice) MarshalJSON() (data []byte, err error) {
@@ -4954,6 +4955,7 @@ func (r SubscriptionPriceIntervalsParamsAddPrice) implementsSubscriptionPriceInt
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithProrationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithProrationPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPrice],
 // [SubscriptionPriceIntervalsParamsAddPrice].
 type SubscriptionPriceIntervalsParamsAddPriceUnion interface {
 	implementsSubscriptionPriceIntervalsParamsAddPriceUnion()
@@ -6449,6 +6451,79 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithProrationPric
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency                param.Field[string]                 `json:"currency,required"`
+	GroupedAllocationConfig param.Field[map[string]interface{}] `json:"grouped_allocation_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceModelType = "grouped_allocation"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation:
+		return true
+	}
+	return false
+}
+
 // The cadence to bill for this price on.
 type SubscriptionPriceIntervalsParamsAddPriceCadence string
 
@@ -6490,11 +6565,12 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent          SubscriptionPriceIntervalsParamsAddPriceModelType = "unit_with_percent"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration      SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_with_proration"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration        SubscriptionPriceIntervalsParamsAddPriceModelType = "unit_with_proration"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation        SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_allocation"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration:
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation:
 		return true
 	}
 	return false
