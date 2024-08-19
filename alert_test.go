@@ -36,6 +36,40 @@ func TestAlertGet(t *testing.T) {
 	}
 }
 
+func TestAlertUpdate(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Alerts.Update(
+		context.TODO(),
+		"alert_configuration_id",
+		orb.AlertUpdateParams{
+			Thresholds: orb.F([]orb.AlertUpdateParamsThreshold{{
+				Value: orb.F(0.000000),
+			}, {
+				Value: orb.F(0.000000),
+			}, {
+				Value: orb.F(0.000000),
+			}}),
+		},
+	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestAlertListWithOptionalParams(t *testing.T) {
 	t.Skip("plan_version=0 breaks Prism")
 	baseURL := "http://localhost:4010"

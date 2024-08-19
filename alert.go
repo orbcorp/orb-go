@@ -49,6 +49,18 @@ func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.R
 	return
 }
 
+// This endpoint updates the thresholds of an alert.
+func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, body AlertUpdateParams, opts ...option.RequestOption) (res *Alert, err error) {
+	opts = append(r.Options[:], opts...)
+	if alertConfigurationID == "" {
+		err = errors.New("missing required alert_configuration_id parameter")
+		return
+	}
+	path := fmt.Sprintf("alerts/%s", alertConfigurationID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // This endpoint returns a list of alerts within Orb.
 //
 // The request must specify one of `customer_id`, `external_customer_id`, or
@@ -280,6 +292,28 @@ func (r AlertType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type AlertUpdateParams struct {
+	// The thresholds that define the values at which the alert will be triggered.
+	Thresholds param.Field[[]AlertUpdateParamsThreshold] `json:"thresholds,required"`
+}
+
+func (r AlertUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Thresholds are used to define the conditions under which an alert will be
+// triggered.
+type AlertUpdateParamsThreshold struct {
+	// The value at which an alert will fire. For credit balance alerts, the alert will
+	// fire at or below this value. For usage and cost alerts, the alert will fire at
+	// or above this value.
+	Value param.Field[float64] `json:"value,required"`
+}
+
+func (r AlertUpdateParamsThreshold) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type AlertListParams struct {

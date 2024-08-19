@@ -41,17 +41,31 @@ func NewMetricService(opts ...option.RequestOption) (r *MetricService) {
 // SQL string. See
 // [SQL support](../guides/extensibility/advanced-metrics#sql-support) for a
 // description of constructing SQL queries with examples.
-func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...option.RequestOption) (res *MetricNewResponse, err error) {
+func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "metrics"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
+// This endpoint allows you to update the `metadata` property on a metric. If you
+// pass `null` for the metadata value, it will clear any existing metadata for that
+// invoice.
+func (r *MetricService) Update(ctx context.Context, metricID string, body MetricUpdateParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
+	opts = append(r.Options[:], opts...)
+	if metricID == "" {
+		err = errors.New("missing required metric_id parameter")
+		return
+	}
+	path := fmt.Sprintf("metrics/%s", metricID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // This endpoint is used to fetch [metric](../guides/concepts#metric) details given
 // a metric identifier. It returns information about the metrics including its
 // name, description, and item.
-func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[MetricListResponse], err error) {
+func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[BillableMetric], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -71,13 +85,13 @@ func (r *MetricService) List(ctx context.Context, query MetricListParams, opts .
 // This endpoint is used to fetch [metric](../guides/concepts#metric) details given
 // a metric identifier. It returns information about the metrics including its
 // name, description, and item.
-func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[MetricListResponse] {
+func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[BillableMetric] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint is used to list [metrics](../guides/concepts##metric). It returns
 // information about the metrics including its name, description, and item.
-func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *MetricFetchResponse, err error) {
+func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
 	opts = append(r.Options[:], opts...)
 	if metricID == "" {
 		err = errors.New("missing required metric_id parameter")
@@ -91,7 +105,7 @@ func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...opti
 // The Metric resource represents a calculation of a quantity based on events.
 // Metrics are defined by the query that transforms raw usage events into
 // meaningful values for your customers.
-type MetricNewResponse struct {
+type BillableMetric struct {
 	ID          string `json:"id,required"`
 	Description string `json:"description,required,nullable"`
 	// The Item resource represents a sellable product or good. Items are associated
@@ -102,15 +116,14 @@ type MetricNewResponse struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata map[string]string       `json:"metadata,required"`
-	Name     string                  `json:"name,required"`
-	Status   MetricNewResponseStatus `json:"status,required"`
-	JSON     metricNewResponseJSON   `json:"-"`
+	Metadata map[string]string    `json:"metadata,required"`
+	Name     string               `json:"name,required"`
+	Status   BillableMetricStatus `json:"status,required"`
+	JSON     billableMetricJSON   `json:"-"`
 }
 
-// metricNewResponseJSON contains the JSON metadata for the struct
-// [MetricNewResponse]
-type metricNewResponseJSON struct {
+// billableMetricJSON contains the JSON metadata for the struct [BillableMetric]
+type billableMetricJSON struct {
 	ID          apijson.Field
 	Description apijson.Field
 	Item        apijson.Field
@@ -121,139 +134,25 @@ type metricNewResponseJSON struct {
 	ExtraFields map[string]apijson.Field
 }
 
-func (r *MetricNewResponse) UnmarshalJSON(data []byte) (err error) {
+func (r *BillableMetric) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r metricNewResponseJSON) RawJSON() string {
+func (r billableMetricJSON) RawJSON() string {
 	return r.raw
 }
 
-type MetricNewResponseStatus string
+type BillableMetricStatus string
 
 const (
-	MetricNewResponseStatusActive   MetricNewResponseStatus = "active"
-	MetricNewResponseStatusDraft    MetricNewResponseStatus = "draft"
-	MetricNewResponseStatusArchived MetricNewResponseStatus = "archived"
+	BillableMetricStatusActive   BillableMetricStatus = "active"
+	BillableMetricStatusDraft    BillableMetricStatus = "draft"
+	BillableMetricStatusArchived BillableMetricStatus = "archived"
 )
 
-func (r MetricNewResponseStatus) IsKnown() bool {
+func (r BillableMetricStatus) IsKnown() bool {
 	switch r {
-	case MetricNewResponseStatusActive, MetricNewResponseStatusDraft, MetricNewResponseStatusArchived:
-		return true
-	}
-	return false
-}
-
-// The Metric resource represents a calculation of a quantity based on events.
-// Metrics are defined by the query that transforms raw usage events into
-// meaningful values for your customers.
-type MetricListResponse struct {
-	ID          string `json:"id,required"`
-	Description string `json:"description,required,nullable"`
-	// The Item resource represents a sellable product or good. Items are associated
-	// with all line items, billable metrics, and prices and are used for defining
-	// external sync behavior for invoices and tax calculation purposes.
-	Item Item `json:"item,required"`
-	// User specified key-value pairs for the resource. If not present, this defaults
-	// to an empty dictionary. Individual keys can be removed by setting the value to
-	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
-	// `null`.
-	Metadata map[string]string        `json:"metadata,required"`
-	Name     string                   `json:"name,required"`
-	Status   MetricListResponseStatus `json:"status,required"`
-	JSON     metricListResponseJSON   `json:"-"`
-}
-
-// metricListResponseJSON contains the JSON metadata for the struct
-// [MetricListResponse]
-type metricListResponseJSON struct {
-	ID          apijson.Field
-	Description apijson.Field
-	Item        apijson.Field
-	Metadata    apijson.Field
-	Name        apijson.Field
-	Status      apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *MetricListResponse) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r metricListResponseJSON) RawJSON() string {
-	return r.raw
-}
-
-type MetricListResponseStatus string
-
-const (
-	MetricListResponseStatusActive   MetricListResponseStatus = "active"
-	MetricListResponseStatusDraft    MetricListResponseStatus = "draft"
-	MetricListResponseStatusArchived MetricListResponseStatus = "archived"
-)
-
-func (r MetricListResponseStatus) IsKnown() bool {
-	switch r {
-	case MetricListResponseStatusActive, MetricListResponseStatusDraft, MetricListResponseStatusArchived:
-		return true
-	}
-	return false
-}
-
-// The Metric resource represents a calculation of a quantity based on events.
-// Metrics are defined by the query that transforms raw usage events into
-// meaningful values for your customers.
-type MetricFetchResponse struct {
-	ID          string `json:"id,required"`
-	Description string `json:"description,required,nullable"`
-	// The Item resource represents a sellable product or good. Items are associated
-	// with all line items, billable metrics, and prices and are used for defining
-	// external sync behavior for invoices and tax calculation purposes.
-	Item Item `json:"item,required"`
-	// User specified key-value pairs for the resource. If not present, this defaults
-	// to an empty dictionary. Individual keys can be removed by setting the value to
-	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
-	// `null`.
-	Metadata map[string]string         `json:"metadata,required"`
-	Name     string                    `json:"name,required"`
-	Status   MetricFetchResponseStatus `json:"status,required"`
-	JSON     metricFetchResponseJSON   `json:"-"`
-}
-
-// metricFetchResponseJSON contains the JSON metadata for the struct
-// [MetricFetchResponse]
-type metricFetchResponseJSON struct {
-	ID          apijson.Field
-	Description apijson.Field
-	Item        apijson.Field
-	Metadata    apijson.Field
-	Name        apijson.Field
-	Status      apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *MetricFetchResponse) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r metricFetchResponseJSON) RawJSON() string {
-	return r.raw
-}
-
-type MetricFetchResponseStatus string
-
-const (
-	MetricFetchResponseStatusActive   MetricFetchResponseStatus = "active"
-	MetricFetchResponseStatusDraft    MetricFetchResponseStatus = "draft"
-	MetricFetchResponseStatusArchived MetricFetchResponseStatus = "archived"
-)
-
-func (r MetricFetchResponseStatus) IsKnown() bool {
-	switch r {
-	case MetricFetchResponseStatusActive, MetricFetchResponseStatusDraft, MetricFetchResponseStatusArchived:
+	case BillableMetricStatusActive, BillableMetricStatusDraft, BillableMetricStatusArchived:
 		return true
 	}
 	return false
@@ -275,6 +174,17 @@ type MetricNewParams struct {
 }
 
 func (r MetricNewParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type MetricUpdateParams struct {
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r MetricUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
