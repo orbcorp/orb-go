@@ -536,6 +536,8 @@ type EventSearchResponseData struct {
 	ID string `json:"id,required"`
 	// The Orb Customer identifier
 	CustomerID string `json:"customer_id,required,nullable"`
+	// A boolean indicating whether the event is currently deprecated.
+	Deprecated bool `json:"deprecated,required"`
 	// A name to meaningfully identify the action or event type.
 	EventName string `json:"event_name,required"`
 	// An alias for the Orb customer, whose mapping is specified when creating the
@@ -556,6 +558,7 @@ type EventSearchResponseData struct {
 type eventSearchResponseDataJSON struct {
 	ID                 apijson.Field
 	CustomerID         apijson.Field
+	Deprecated         apijson.Field
 	EventName          apijson.Field
 	ExternalCustomerID apijson.Field
 	Properties         apijson.Field
