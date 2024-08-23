@@ -40,26 +40,6 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
 				UnitAmount: orb.F("unit_amount"),
 			}),
-		}, {
-			EndDate:   orb.F(time.Now()),
-			ItemID:    orb.F("4khy3nwzktxv7"),
-			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
-			Name:      orb.F("Line Item Name"),
-			Quantity:  orb.F(1.000000),
-			StartDate: orb.F(time.Now()),
-			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount: orb.F("unit_amount"),
-			}),
-		}, {
-			EndDate:   orb.F(time.Now()),
-			ItemID:    orb.F("4khy3nwzktxv7"),
-			ModelType: orb.F(orb.InvoiceNewParamsLineItemsModelTypeUnit),
-			Name:      orb.F("Line Item Name"),
-			Quantity:  orb.F(1.000000),
-			StartDate: orb.F(time.Now()),
-			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
-				UnitAmount: orb.F("unit_amount"),
-			}),
 		}}),
 		NetTerms:   orb.F(int64(0)),
 		CustomerID: orb.F("4khy3nwzktxv7"),
