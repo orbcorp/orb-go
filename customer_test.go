@@ -28,7 +28,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
 		Email: orb.F("email"),
-		Name:  orb.F("name"),
+		Name:  orb.F("x"),
 		AccountingSyncConfiguration: orb.F(orb.CustomerNewParamsAccountingSyncConfiguration{
 			AccountingProviders: orb.F([]orb.CustomerNewParamsAccountingSyncConfigurationAccountingProvider{{
 				ExternalProviderID: orb.F("external_provider_id"),
