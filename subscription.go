@@ -484,8 +484,10 @@ func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string,
 // recently created subscription. For a full discussion of the subscription
 // resource, see [Subscription](../guides/concepts#subscription).
 //
-// Subscriptions can be filtered to a single customer by passing in the
-// `customer_id` query parameter or the `external_customer_id` query parameter.
+// Subscriptions can be filtered for a specific customer by using either the
+// customer_id or external_customer_id query parameters. To filter subscriptions
+// for multiple customers, use the customer_id[] or external_customer_id[] query
+// parameters.
 func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
@@ -508,8 +510,10 @@ func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListPa
 // recently created subscription. For a full discussion of the subscription
 // resource, see [Subscription](../guides/concepts#subscription).
 //
-// Subscriptions can be filtered to a single customer by passing in the
-// `customer_id` query parameter or the `external_customer_id` query parameter.
+// Subscriptions can be filtered for a specific customer by using either the
+// customer_id or external_customer_id query parameters. To filter subscriptions
+// for multiple customers, use the customer_id[] or external_customer_id[] query
+// parameters.
 func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Subscription] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
@@ -4451,9 +4455,11 @@ type SubscriptionListParams struct {
 	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor             param.Field[string] `query:"cursor"`
-	CustomerID         param.Field[string] `query:"customer_id"`
-	ExternalCustomerID param.Field[string] `query:"external_customer_id"`
+	Cursor                  param.Field[string]   `query:"cursor"`
+	QueryCustomerID         param.Field[string]   `query:"customer_id"`
+	QueryCustomerID         param.Field[[]string] `query:"customer_id"`
+	QueryExternalCustomerID param.Field[string]   `query:"external_customer_id"`
+	QueryExternalCustomerID param.Field[[]string] `query:"external_customer_id"`
 	// The number of items to fetch. Defaults to 20.
 	Limit  param.Field[int64]                        `query:"limit"`
 	Status param.Field[SubscriptionListParamsStatus] `query:"status"`

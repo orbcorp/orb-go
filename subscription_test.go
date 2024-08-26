@@ -164,15 +164,17 @@ func TestSubscriptionListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Subscriptions.List(context.TODO(), orb.SubscriptionListParams{
-		CreatedAtGt:        orb.F(time.Now()),
-		CreatedAtGte:       orb.F(time.Now()),
-		CreatedAtLt:        orb.F(time.Now()),
-		CreatedAtLte:       orb.F(time.Now()),
-		Cursor:             orb.F("cursor"),
-		CustomerID:         orb.F("customer_id"),
-		ExternalCustomerID: orb.F("external_customer_id"),
-		Limit:              orb.F(int64(1)),
-		Status:             orb.F(orb.SubscriptionListParamsStatusActive),
+		CreatedAtGt:             orb.F(time.Now()),
+		CreatedAtGte:            orb.F(time.Now()),
+		CreatedAtLt:             orb.F(time.Now()),
+		CreatedAtLte:            orb.F(time.Now()),
+		Cursor:                  orb.F("cursor"),
+		QueryCustomerID:         orb.F("customer_id"),
+		QueryCustomerID:         orb.F([]string{"string", "string", "string"}),
+		QueryExternalCustomerID: orb.F("external_customer_id"),
+		QueryExternalCustomerID: orb.F([]string{"string", "string", "string"}),
+		Limit:                   orb.F(int64(1)),
+		Status:                  orb.F(orb.SubscriptionListParamsStatusActive),
 	})
 	if err != nil {
 		var apierr *orb.Error
