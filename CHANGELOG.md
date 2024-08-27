@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.55.0 (2024-08-27)
+
+Full Changelog: [v0.54.0...v0.55.0](https://github.com/orbcorp/orb-go/compare/v0.54.0...v0.55.0)
+
+### Features
+
+* **api:** codegen changes ([#264](https://github.com/orbcorp/orb-go/issues/264)) ([801b508](https://github.com/orbcorp/orb-go/commit/801b5088a83482a389accd2cacfb9b09cbfddb8b))
+
 ## 0.54.0 (2024-08-26)
 
 Full Changelog: [v0.53.0...v0.54.0](https://github.com/orbcorp/orb-go/compare/v0.53.0...v0.54.0)
