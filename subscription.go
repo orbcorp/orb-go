@@ -4455,11 +4455,9 @@ type SubscriptionListParams struct {
 	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor                  param.Field[string]   `query:"cursor"`
-	QueryCustomerID         param.Field[string]   `query:"customer_id"`
-	QueryCustomerID         param.Field[[]string] `query:"customer_id"`
-	QueryExternalCustomerID param.Field[string]   `query:"external_customer_id"`
-	QueryExternalCustomerID param.Field[[]string] `query:"external_customer_id"`
+	Cursor             param.Field[string]   `query:"cursor"`
+	CustomerID         param.Field[[]string] `query:"customer_id"`
+	ExternalCustomerID param.Field[string]   `query:"external_customer_id"`
 	// The number of items to fetch. Defaults to 20.
 	Limit  param.Field[int64]                        `query:"limit"`
 	Status param.Field[SubscriptionListParamsStatus] `query:"status"`
