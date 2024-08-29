@@ -526,7 +526,9 @@ type PlanNewParamsPrice struct {
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
+	Cadence                     param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
+	BillingCycleConfiguration   param.Field[interface{}]                `json:"billing_cycle_configuration,required"`
+	InvoicingCycleConfiguration param.Field[interface{}]                `json:"invoicing_cycle_configuration,required"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64]                      `json:"conversion_rate"`
 	ModelType      param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
@@ -593,6 +595,9 @@ type PlanNewParamsPricesNewPlanUnitPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -605,6 +610,9 @@ type PlanNewParamsPricesNewPlanUnitPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -660,6 +668,64 @@ func (r PlanNewParamsPricesNewPlanUnitPriceUnitConfig) MarshalJSON() (data []byt
 	return apijson.MarshalRoot(r)
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanPackagePriceCadence] `json:"cadence,required"`
@@ -675,6 +741,9 @@ type PlanNewParamsPricesNewPlanPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -687,6 +756,9 @@ type PlanNewParamsPricesNewPlanPackagePrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -745,6 +817,64 @@ func (r PlanNewParamsPricesNewPlanPackagePricePackageConfig) MarshalJSON() (data
 	return apijson.MarshalRoot(r)
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanMatrixPriceCadence] `json:"cadence,required"`
@@ -760,6 +890,9 @@ type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -772,6 +905,9 @@ type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -844,6 +980,64 @@ func (r PlanNewParamsPricesNewPlanMatrixPriceModelType) IsKnown() bool {
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanTieredPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredPriceCadence] `json:"cadence,required"`
@@ -859,6 +1053,9 @@ type PlanNewParamsPricesNewPlanTieredPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -871,6 +1068,9 @@ type PlanNewParamsPricesNewPlanTieredPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -939,6 +1139,64 @@ func (r PlanNewParamsPricesNewPlanTieredPriceTieredConfigTier) MarshalJSON() (da
 	return apijson.MarshalRoot(r)
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceCadence] `json:"cadence,required"`
@@ -954,6 +1212,9 @@ type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -966,6 +1227,9 @@ type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1037,6 +1301,64 @@ func (r PlanNewParamsPricesNewPlanTieredBpsPriceTieredBpsConfigTier) MarshalJSON
 	return apijson.MarshalRoot(r)
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanBpsPrice struct {
 	BpsConfig param.Field[PlanNewParamsPricesNewPlanBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
@@ -1052,6 +1374,9 @@ type PlanNewParamsPricesNewPlanBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1064,6 +1389,9 @@ type PlanNewParamsPricesNewPlanBpsPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1121,6 +1449,64 @@ func (r PlanNewParamsPricesNewPlanBpsPriceModelType) IsKnown() bool {
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	BulkBpsConfig param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
@@ -1136,6 +1522,9 @@ type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1148,6 +1537,9 @@ type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1217,6 +1609,64 @@ func (r PlanNewParamsPricesNewPlanBulkBpsPriceModelType) IsKnown() bool {
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanBulkPrice struct {
 	BulkConfig param.Field[PlanNewParamsPricesNewPlanBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
@@ -1232,6 +1682,9 @@ type PlanNewParamsPricesNewPlanBulkPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1244,6 +1697,9 @@ type PlanNewParamsPricesNewPlanBulkPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1310,6 +1766,64 @@ func (r PlanNewParamsPricesNewPlanBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceCadence] `json:"cadence,required"`
@@ -1325,6 +1839,9 @@ type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1337,6 +1854,9 @@ type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1383,6 +1903,64 @@ func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceModelType) IsKnown() 
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceCadence] `json:"cadence,required"`
@@ -1398,6 +1976,9 @@ type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1410,6 +1991,9 @@ type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1456,6 +2040,64 @@ func (r PlanNewParamsPricesNewPlanTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceCadence] `json:"cadence,required"`
@@ -1471,6 +2113,9 @@ type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1483,6 +2128,9 @@ type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1529,6 +2177,64 @@ func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceModelType) IsKnown() boo
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence] `json:"cadence,required"`
@@ -1544,6 +2250,9 @@ type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1556,6 +2265,9 @@ type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1602,6 +2314,64 @@ func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceModelType) IsKnown() bool 
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceCadence] `json:"cadence,required"`
@@ -1617,6 +2387,9 @@ type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1629,6 +2402,9 @@ type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1675,6 +2451,64 @@ func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceModelType) IsKnown()
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanTierWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceCadence] `json:"cadence,required"`
@@ -1690,6 +2524,9 @@ type PlanNewParamsPricesNewPlanTierWithProrationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1702,6 +2539,9 @@ type PlanNewParamsPricesNewPlanTierWithProrationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1748,6 +2588,64 @@ func (r PlanNewParamsPricesNewPlanTierWithProrationPriceModelType) IsKnown() boo
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence] `json:"cadence,required"`
@@ -1763,6 +2661,9 @@ type PlanNewParamsPricesNewPlanUnitWithProrationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1775,6 +2676,9 @@ type PlanNewParamsPricesNewPlanUnitWithProrationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1821,6 +2725,64 @@ func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceModelType) IsKnown() boo
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence                 param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceCadence] `json:"cadence,required"`
@@ -1836,6 +2798,9 @@ type PlanNewParamsPricesNewPlanGroupedAllocationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1848,6 +2813,9 @@ type PlanNewParamsPricesNewPlanGroupedAllocationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1894,6 +2862,64 @@ func (r PlanNewParamsPricesNewPlanGroupedAllocationPriceModelType) IsKnown() boo
 	return false
 }
 
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type PlanNewParamsPricesNewPlanBulkWithProrationPrice struct {
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
@@ -1909,6 +2935,9 @@ type PlanNewParamsPricesNewPlanBulkWithProrationPrice struct {
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -1921,6 +2950,9 @@ type PlanNewParamsPricesNewPlanBulkWithProrationPrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1962,6 +2994,64 @@ const (
 func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceModelType) IsKnown() bool {
 	switch r {
 	case PlanNewParamsPricesNewPlanBulkWithProrationPriceModelTypeBulkWithProration:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
