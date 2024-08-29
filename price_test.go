@@ -35,12 +35,20 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		UnitConfig: orb.F(orb.PriceNewParamsNewFloatingUnitPriceUnitConfig{
 			UnitAmount: orb.F("unit_amount"),
 		}),
-		BillableMetricID:   orb.F("billable_metric_id"),
-		BilledInAdvance:    orb.F(true),
+		BillableMetricID: orb.F("billable_metric_id"),
+		BilledInAdvance:  orb.F(true),
+		BillingCycleConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceBillingCycleConfiguration{
+			Duration:     orb.F(int64(0)),
+			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay),
+		}),
 		ConversionRate:     orb.F(0.000000),
 		ExternalPriceID:    orb.F("external_price_id"),
 		FixedPriceQuantity: orb.F(0.000000),
 		InvoiceGroupingKey: orb.F("invoice_grouping_key"),
+		InvoicingCycleConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfiguration{
+			Duration:     orb.F(int64(0)),
+			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+		}),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
