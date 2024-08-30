@@ -478,6 +478,7 @@ type Price struct {
 	// [PriceTieredWithProrationPriceBillingCycleConfiguration],
 	// [PriceUnitWithProrationPriceBillingCycleConfiguration],
 	// [PriceGroupedAllocationPriceBillingCycleConfiguration],
+	// [PriceGroupedWithProratedMinimumPriceBillingCycleConfiguration],
 	// [PriceBulkWithProrationPriceBillingCycleConfiguration].
 	BillingCycleConfiguration interface{} `json:"billing_cycle_configuration"`
 	// This field can have the runtime type of
@@ -500,6 +501,7 @@ type Price struct {
 	// [PriceTieredWithProrationPriceInvoicingCycleConfiguration],
 	// [PriceUnitWithProrationPriceInvoicingCycleConfiguration],
 	// [PriceGroupedAllocationPriceInvoicingCycleConfiguration],
+	// [PriceGroupedWithProratedMinimumPriceInvoicingCycleConfiguration],
 	// [PriceBulkWithProrationPriceInvoicingCycleConfiguration].
 	InvoicingCycleConfiguration interface{} `json:"invoicing_cycle_configuration"`
 	// This field can have the runtime type of [PriceUnitPriceBillableMetric],
@@ -517,6 +519,7 @@ type Price struct {
 	// [PriceTieredWithProrationPriceBillableMetric],
 	// [PriceUnitWithProrationPriceBillableMetric],
 	// [PriceGroupedAllocationPriceBillableMetric],
+	// [PriceGroupedWithProratedMinimumPriceBillableMetric],
 	// [PriceBulkWithProrationPriceBillableMetric].
 	BillableMetric     interface{} `json:"billable_metric"`
 	FixedPriceQuantity float64     `json:"fixed_price_quantity,required,nullable"`
@@ -532,7 +535,7 @@ type Price struct {
 	// [PricePackageWithAllocationPriceItem], [PriceUnitWithPercentPriceItem],
 	// [PriceMatrixWithAllocationPriceItem], [PriceTieredWithProrationPriceItem],
 	// [PriceUnitWithProrationPriceItem], [PriceGroupedAllocationPriceItem],
-	// [PriceBulkWithProrationPriceItem].
+	// [PriceGroupedWithProratedMinimumPriceItem], [PriceBulkWithProrationPriceItem].
 	Item interface{} `json:"item"`
 	// This field can have the runtime type of [PriceUnitPriceCreditAllocation],
 	// [PricePackagePriceCreditAllocation], [PriceMatrixPriceCreditAllocation],
@@ -550,6 +553,7 @@ type Price struct {
 	// [PriceTieredWithProrationPriceCreditAllocation],
 	// [PriceUnitWithProrationPriceCreditAllocation],
 	// [PriceGroupedAllocationPriceCreditAllocation],
+	// [PriceGroupedWithProratedMinimumPriceCreditAllocation],
 	// [PriceBulkWithProrationPriceCreditAllocation].
 	CreditAllocation interface{}     `json:"credit_allocation"`
 	Discount         shared.Discount `json:"discount,required,nullable"`
@@ -563,6 +567,7 @@ type Price struct {
 	// [PricePackageWithAllocationPriceMinimum], [PriceUnitWithPercentPriceMinimum],
 	// [PriceMatrixWithAllocationPriceMinimum], [PriceTieredWithProrationPriceMinimum],
 	// [PriceUnitWithProrationPriceMinimum], [PriceGroupedAllocationPriceMinimum],
+	// [PriceGroupedWithProratedMinimumPriceMinimum],
 	// [PriceBulkWithProrationPriceMinimum].
 	Minimum       interface{} `json:"minimum"`
 	MinimumAmount string      `json:"minimum_amount,required,nullable"`
@@ -576,6 +581,7 @@ type Price struct {
 	// [PricePackageWithAllocationPriceMaximum], [PriceUnitWithPercentPriceMaximum],
 	// [PriceMatrixWithAllocationPriceMaximum], [PriceTieredWithProrationPriceMaximum],
 	// [PriceUnitWithProrationPriceMaximum], [PriceGroupedAllocationPriceMaximum],
+	// [PriceGroupedWithProratedMinimumPriceMaximum],
 	// [PriceBulkWithProrationPriceMaximum].
 	Maximum       interface{} `json:"maximum"`
 	MaximumAmount string      `json:"maximum_amount,required,nullable"`
@@ -619,6 +625,8 @@ type Price struct {
 	// This field can have the runtime type of [map[string]interface{}].
 	GroupedAllocationConfig interface{} `json:"grouped_allocation_config,required"`
 	// This field can have the runtime type of [map[string]interface{}].
+	GroupedWithProratedMinimumConfig interface{} `json:"grouped_with_prorated_minimum_config,required"`
+	// This field can have the runtime type of [map[string]interface{}].
 	BulkWithProrationConfig interface{} `json:"bulk_with_proration_config,required"`
 	JSON                    priceJSON   `json:"-"`
 	union                   PriceUnion
@@ -626,50 +634,51 @@ type Price struct {
 
 // priceJSON contains the JSON metadata for the struct [Price]
 type priceJSON struct {
-	Metadata                       apijson.Field
-	ID                             apijson.Field
-	Name                           apijson.Field
-	ExternalPriceID                apijson.Field
-	PriceType                      apijson.Field
-	ModelType                      apijson.Field
-	CreatedAt                      apijson.Field
-	Cadence                        apijson.Field
-	BillingCycleConfiguration      apijson.Field
-	InvoicingCycleConfiguration    apijson.Field
-	BillableMetric                 apijson.Field
-	FixedPriceQuantity             apijson.Field
-	PlanPhaseOrder                 apijson.Field
-	Currency                       apijson.Field
-	ConversionRate                 apijson.Field
-	Item                           apijson.Field
-	CreditAllocation               apijson.Field
-	Discount                       apijson.Field
-	Minimum                        apijson.Field
-	MinimumAmount                  apijson.Field
-	Maximum                        apijson.Field
-	MaximumAmount                  apijson.Field
-	UnitConfig                     apijson.Field
-	PackageConfig                  apijson.Field
-	MatrixConfig                   apijson.Field
-	TieredConfig                   apijson.Field
-	TieredBpsConfig                apijson.Field
-	BpsConfig                      apijson.Field
-	BulkBpsConfig                  apijson.Field
-	BulkConfig                     apijson.Field
-	ThresholdTotalAmountConfig     apijson.Field
-	TieredPackageConfig            apijson.Field
-	GroupedTieredConfig            apijson.Field
-	TieredWithMinimumConfig        apijson.Field
-	TieredPackageWithMinimumConfig apijson.Field
-	PackageWithAllocationConfig    apijson.Field
-	UnitWithPercentConfig          apijson.Field
-	MatrixWithAllocationConfig     apijson.Field
-	TieredWithProrationConfig      apijson.Field
-	UnitWithProrationConfig        apijson.Field
-	GroupedAllocationConfig        apijson.Field
-	BulkWithProrationConfig        apijson.Field
-	raw                            string
-	ExtraFields                    map[string]apijson.Field
+	Metadata                         apijson.Field
+	ID                               apijson.Field
+	Name                             apijson.Field
+	ExternalPriceID                  apijson.Field
+	PriceType                        apijson.Field
+	ModelType                        apijson.Field
+	CreatedAt                        apijson.Field
+	Cadence                          apijson.Field
+	BillingCycleConfiguration        apijson.Field
+	InvoicingCycleConfiguration      apijson.Field
+	BillableMetric                   apijson.Field
+	FixedPriceQuantity               apijson.Field
+	PlanPhaseOrder                   apijson.Field
+	Currency                         apijson.Field
+	ConversionRate                   apijson.Field
+	Item                             apijson.Field
+	CreditAllocation                 apijson.Field
+	Discount                         apijson.Field
+	Minimum                          apijson.Field
+	MinimumAmount                    apijson.Field
+	Maximum                          apijson.Field
+	MaximumAmount                    apijson.Field
+	UnitConfig                       apijson.Field
+	PackageConfig                    apijson.Field
+	MatrixConfig                     apijson.Field
+	TieredConfig                     apijson.Field
+	TieredBpsConfig                  apijson.Field
+	BpsConfig                        apijson.Field
+	BulkBpsConfig                    apijson.Field
+	BulkConfig                       apijson.Field
+	ThresholdTotalAmountConfig       apijson.Field
+	TieredPackageConfig              apijson.Field
+	GroupedTieredConfig              apijson.Field
+	TieredWithMinimumConfig          apijson.Field
+	TieredPackageWithMinimumConfig   apijson.Field
+	PackageWithAllocationConfig      apijson.Field
+	UnitWithPercentConfig            apijson.Field
+	MatrixWithAllocationConfig       apijson.Field
+	TieredWithProrationConfig        apijson.Field
+	UnitWithProrationConfig          apijson.Field
+	GroupedAllocationConfig          apijson.Field
+	GroupedWithProratedMinimumConfig apijson.Field
+	BulkWithProrationConfig          apijson.Field
+	raw                              string
+	ExtraFields                      map[string]apijson.Field
 }
 
 func (r priceJSON) RawJSON() string {
@@ -696,7 +705,7 @@ func (r *Price) UnmarshalJSON(data []byte) (err error) {
 // [PricePackageWithAllocationPrice], [PriceUnitWithPercentPrice],
 // [PriceMatrixWithAllocationPrice], [PriceTieredWithProrationPrice],
 // [PriceUnitWithProrationPrice], [PriceGroupedAllocationPrice],
-// [PriceBulkWithProrationPrice].
+// [PriceGroupedWithProratedMinimumPrice], [PriceBulkWithProrationPrice].
 func (r Price) AsUnion() PriceUnion {
 	return r.union
 }
@@ -958,7 +967,8 @@ func (r Price) AsUnion() PriceUnion {
 // [PriceTieredPackageWithMinimumPrice], [PricePackageWithAllocationPrice],
 // [PriceUnitWithPercentPrice], [PriceMatrixWithAllocationPrice],
 // [PriceTieredWithProrationPrice], [PriceUnitWithProrationPrice],
-// [PriceGroupedAllocationPrice] or [PriceBulkWithProrationPrice].
+// [PriceGroupedAllocationPrice], [PriceGroupedWithProratedMinimumPrice] or
+// [PriceBulkWithProrationPrice].
 type PriceUnion interface {
 	implementsPrice()
 }
@@ -1061,6 +1071,11 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceGroupedAllocationPrice{}),
 			DiscriminatorValue: "grouped_allocation",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceGroupedWithProratedMinimumPrice{}),
+			DiscriminatorValue: "grouped_with_prorated_minimum",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -7432,6 +7447,322 @@ func (r PriceGroupedAllocationPricePriceType) IsKnown() bool {
 	return false
 }
 
+type PriceGroupedWithProratedMinimumPrice struct {
+	ID                               string                                                          `json:"id,required"`
+	BillableMetric                   PriceGroupedWithProratedMinimumPriceBillableMetric              `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration        PriceGroupedWithProratedMinimumPriceBillingCycleConfiguration   `json:"billing_cycle_configuration,required"`
+	Cadence                          PriceGroupedWithProratedMinimumPriceCadence                     `json:"cadence,required"`
+	ConversionRate                   float64                                                         `json:"conversion_rate,required,nullable"`
+	CreatedAt                        time.Time                                                       `json:"created_at,required" format:"date-time"`
+	CreditAllocation                 PriceGroupedWithProratedMinimumPriceCreditAllocation            `json:"credit_allocation,required,nullable"`
+	Currency                         string                                                          `json:"currency,required"`
+	Discount                         shared.Discount                                                 `json:"discount,required,nullable"`
+	ExternalPriceID                  string                                                          `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity               float64                                                         `json:"fixed_price_quantity,required,nullable"`
+	GroupedWithProratedMinimumConfig map[string]interface{}                                          `json:"grouped_with_prorated_minimum_config,required"`
+	InvoicingCycleConfiguration      PriceGroupedWithProratedMinimumPriceInvoicingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Item                             PriceGroupedWithProratedMinimumPriceItem                        `json:"item,required"`
+	Maximum                          PriceGroupedWithProratedMinimumPriceMaximum                     `json:"maximum,required,nullable"`
+	MaximumAmount                    string                                                          `json:"maximum_amount,required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata       map[string]string                             `json:"metadata,required"`
+	Minimum        PriceGroupedWithProratedMinimumPriceMinimum   `json:"minimum,required,nullable"`
+	MinimumAmount  string                                        `json:"minimum_amount,required,nullable"`
+	ModelType      PriceGroupedWithProratedMinimumPriceModelType `json:"model_type,required"`
+	Name           string                                        `json:"name,required"`
+	PlanPhaseOrder int64                                         `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceGroupedWithProratedMinimumPricePriceType `json:"price_type,required"`
+	JSON           priceGroupedWithProratedMinimumPriceJSON      `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceJSON contains the JSON metadata for the
+// struct [PriceGroupedWithProratedMinimumPrice]
+type priceGroupedWithProratedMinimumPriceJSON struct {
+	ID                               apijson.Field
+	BillableMetric                   apijson.Field
+	BillingCycleConfiguration        apijson.Field
+	Cadence                          apijson.Field
+	ConversionRate                   apijson.Field
+	CreatedAt                        apijson.Field
+	CreditAllocation                 apijson.Field
+	Currency                         apijson.Field
+	Discount                         apijson.Field
+	ExternalPriceID                  apijson.Field
+	FixedPriceQuantity               apijson.Field
+	GroupedWithProratedMinimumConfig apijson.Field
+	InvoicingCycleConfiguration      apijson.Field
+	Item                             apijson.Field
+	Maximum                          apijson.Field
+	MaximumAmount                    apijson.Field
+	Metadata                         apijson.Field
+	Minimum                          apijson.Field
+	MinimumAmount                    apijson.Field
+	ModelType                        apijson.Field
+	Name                             apijson.Field
+	PlanPhaseOrder                   apijson.Field
+	PriceType                        apijson.Field
+	raw                              string
+	ExtraFields                      map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceGroupedWithProratedMinimumPrice) implementsPrice() {}
+
+type PriceGroupedWithProratedMinimumPriceBillableMetric struct {
+	ID   string                                                 `json:"id,required"`
+	JSON priceGroupedWithProratedMinimumPriceBillableMetricJSON `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceBillableMetricJSON contains the JSON
+// metadata for the struct [PriceGroupedWithProratedMinimumPriceBillableMetric]
+type priceGroupedWithProratedMinimumPriceBillableMetricJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceBillableMetricJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceBillingCycleConfiguration struct {
+	Duration     int64                                                                     `json:"duration,required"`
+	DurationUnit PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedWithProratedMinimumPriceBillingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceBillingCycleConfigurationJSON contains the
+// JSON metadata for the struct
+// [PriceGroupedWithProratedMinimumPriceBillingCycleConfiguration]
+type priceGroupedWithProratedMinimumPriceBillingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceBillingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedWithProratedMinimumPriceCadence string
+
+const (
+	PriceGroupedWithProratedMinimumPriceCadenceOneTime    PriceGroupedWithProratedMinimumPriceCadence = "one_time"
+	PriceGroupedWithProratedMinimumPriceCadenceMonthly    PriceGroupedWithProratedMinimumPriceCadence = "monthly"
+	PriceGroupedWithProratedMinimumPriceCadenceQuarterly  PriceGroupedWithProratedMinimumPriceCadence = "quarterly"
+	PriceGroupedWithProratedMinimumPriceCadenceSemiAnnual PriceGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	PriceGroupedWithProratedMinimumPriceCadenceAnnual     PriceGroupedWithProratedMinimumPriceCadence = "annual"
+	PriceGroupedWithProratedMinimumPriceCadenceCustom     PriceGroupedWithProratedMinimumPriceCadence = "custom"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceCadenceOneTime, PriceGroupedWithProratedMinimumPriceCadenceMonthly, PriceGroupedWithProratedMinimumPriceCadenceQuarterly, PriceGroupedWithProratedMinimumPriceCadenceSemiAnnual, PriceGroupedWithProratedMinimumPriceCadenceAnnual, PriceGroupedWithProratedMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedWithProratedMinimumPriceCreditAllocation struct {
+	AllowsRollover bool                                                     `json:"allows_rollover,required"`
+	Currency       string                                                   `json:"currency,required"`
+	JSON           priceGroupedWithProratedMinimumPriceCreditAllocationJSON `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceCreditAllocationJSON contains the JSON
+// metadata for the struct [PriceGroupedWithProratedMinimumPriceCreditAllocation]
+type priceGroupedWithProratedMinimumPriceCreditAllocationJSON struct {
+	AllowsRollover apijson.Field
+	Currency       apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceCreditAllocationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
+	Duration     int64                                                                       `json:"duration,required"`
+	DurationUnit PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationJSON         `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationJSON contains the
+// JSON metadata for the struct
+// [PriceGroupedWithProratedMinimumPriceInvoicingCycleConfiguration]
+type priceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceInvoicingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedWithProratedMinimumPriceItem struct {
+	ID   string                                       `json:"id,required"`
+	Name string                                       `json:"name,required"`
+	JSON priceGroupedWithProratedMinimumPriceItemJSON `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceItemJSON contains the JSON metadata for the
+// struct [PriceGroupedWithProratedMinimumPriceItem]
+type priceGroupedWithProratedMinimumPriceItemJSON struct {
+	ID          apijson.Field
+	Name        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceItemJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceMaximum struct {
+	// List of price_ids that this maximum amount applies to. For plan/plan phase
+	// maximums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Maximum amount applied
+	MaximumAmount string                                          `json:"maximum_amount,required"`
+	JSON          priceGroupedWithProratedMinimumPriceMaximumJSON `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceMaximumJSON contains the JSON metadata for
+// the struct [PriceGroupedWithProratedMinimumPriceMaximum]
+type priceGroupedWithProratedMinimumPriceMaximumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceMaximum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceMaximumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceMinimum struct {
+	// List of price_ids that this minimum amount applies to. For plan/plan phase
+	// minimums, this can be a subset of prices.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// Minimum amount applied
+	MinimumAmount string                                          `json:"minimum_amount,required"`
+	JSON          priceGroupedWithProratedMinimumPriceMinimumJSON `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceMinimumJSON contains the JSON metadata for
+// the struct [PriceGroupedWithProratedMinimumPriceMinimum]
+type priceGroupedWithProratedMinimumPriceMinimumJSON struct {
+	AppliesToPriceIDs apijson.Field
+	MinimumAmount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceMinimum) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceMinimumJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceModelType string
+
+const (
+	PriceGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum PriceGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedWithProratedMinimumPricePriceType string
+
+const (
+	PriceGroupedWithProratedMinimumPricePriceTypeUsagePrice PriceGroupedWithProratedMinimumPricePriceType = "usage_price"
+	PriceGroupedWithProratedMinimumPricePriceTypeFixedPrice PriceGroupedWithProratedMinimumPricePriceType = "fixed_price"
+)
+
+func (r PriceGroupedWithProratedMinimumPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPricePriceTypeUsagePrice, PriceGroupedWithProratedMinimumPricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
+
 type PriceBulkWithProrationPrice struct {
 	ID                          string                                                 `json:"id,required"`
 	BillableMetric              PriceBulkWithProrationPriceBillableMetric              `json:"billable_metric,required,nullable"`
@@ -7764,31 +8095,32 @@ func (r PricePriceType) IsKnown() bool {
 type PriceModelType string
 
 const (
-	PriceModelTypeUnit                     PriceModelType = "unit"
-	PriceModelTypePackage                  PriceModelType = "package"
-	PriceModelTypeMatrix                   PriceModelType = "matrix"
-	PriceModelTypeTiered                   PriceModelType = "tiered"
-	PriceModelTypeTieredBps                PriceModelType = "tiered_bps"
-	PriceModelTypeBps                      PriceModelType = "bps"
-	PriceModelTypeBulkBps                  PriceModelType = "bulk_bps"
-	PriceModelTypeBulk                     PriceModelType = "bulk"
-	PriceModelTypeThresholdTotalAmount     PriceModelType = "threshold_total_amount"
-	PriceModelTypeTieredPackage            PriceModelType = "tiered_package"
-	PriceModelTypeGroupedTiered            PriceModelType = "grouped_tiered"
-	PriceModelTypeTieredWithMinimum        PriceModelType = "tiered_with_minimum"
-	PriceModelTypeTieredPackageWithMinimum PriceModelType = "tiered_package_with_minimum"
-	PriceModelTypePackageWithAllocation    PriceModelType = "package_with_allocation"
-	PriceModelTypeUnitWithPercent          PriceModelType = "unit_with_percent"
-	PriceModelTypeMatrixWithAllocation     PriceModelType = "matrix_with_allocation"
-	PriceModelTypeTieredWithProration      PriceModelType = "tiered_with_proration"
-	PriceModelTypeUnitWithProration        PriceModelType = "unit_with_proration"
-	PriceModelTypeGroupedAllocation        PriceModelType = "grouped_allocation"
-	PriceModelTypeBulkWithProration        PriceModelType = "bulk_with_proration"
+	PriceModelTypeUnit                       PriceModelType = "unit"
+	PriceModelTypePackage                    PriceModelType = "package"
+	PriceModelTypeMatrix                     PriceModelType = "matrix"
+	PriceModelTypeTiered                     PriceModelType = "tiered"
+	PriceModelTypeTieredBps                  PriceModelType = "tiered_bps"
+	PriceModelTypeBps                        PriceModelType = "bps"
+	PriceModelTypeBulkBps                    PriceModelType = "bulk_bps"
+	PriceModelTypeBulk                       PriceModelType = "bulk"
+	PriceModelTypeThresholdTotalAmount       PriceModelType = "threshold_total_amount"
+	PriceModelTypeTieredPackage              PriceModelType = "tiered_package"
+	PriceModelTypeGroupedTiered              PriceModelType = "grouped_tiered"
+	PriceModelTypeTieredWithMinimum          PriceModelType = "tiered_with_minimum"
+	PriceModelTypeTieredPackageWithMinimum   PriceModelType = "tiered_package_with_minimum"
+	PriceModelTypePackageWithAllocation      PriceModelType = "package_with_allocation"
+	PriceModelTypeUnitWithPercent            PriceModelType = "unit_with_percent"
+	PriceModelTypeMatrixWithAllocation       PriceModelType = "matrix_with_allocation"
+	PriceModelTypeTieredWithProration        PriceModelType = "tiered_with_proration"
+	PriceModelTypeUnitWithProration          PriceModelType = "unit_with_proration"
+	PriceModelTypeGroupedAllocation          PriceModelType = "grouped_allocation"
+	PriceModelTypeGroupedWithProratedMinimum PriceModelType = "grouped_with_prorated_minimum"
+	PriceModelTypeBulkWithProration          PriceModelType = "bulk_with_proration"
 )
 
 func (r PriceModelType) IsKnown() bool {
 	switch r {
-	case PriceModelTypeUnit, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeTiered, PriceModelTypeTieredBps, PriceModelTypeBps, PriceModelTypeBulkBps, PriceModelTypeBulk, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeGroupedTiered, PriceModelTypeTieredWithMinimum, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeBulkWithProration:
+	case PriceModelTypeUnit, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeTiered, PriceModelTypeTieredBps, PriceModelTypeBps, PriceModelTypeBulkBps, PriceModelTypeBulk, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeGroupedTiered, PriceModelTypeTieredWithMinimum, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeBulkWithProration:
 		return true
 	}
 	return false
@@ -7851,6 +8183,7 @@ func (r priceEvaluateResponseJSON) RawJSON() string {
 // [PriceNewParamsNewFloatingTieredWithProrationPrice],
 // [PriceNewParamsNewFloatingUnitWithProrationPrice],
 // [PriceNewParamsNewFloatingGroupedAllocationPrice],
+// [PriceNewParamsNewFloatingGroupedWithProratedMinimumPrice],
 // [PriceNewParamsNewFloatingBulkWithProrationPrice].
 type PriceNewParams interface {
 	ImplementsPriceNewParams()
@@ -10649,6 +10982,144 @@ const (
 func (r PriceNewParamsNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
 	case PriceNewParamsNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PriceNewParamsNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type PriceNewParamsNewFloatingGroupedWithProratedMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency                         param.Field[string]                 `json:"currency,required"`
+	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_prorated_minimum_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                            `json:"item_id,required"`
+	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (PriceNewParamsNewFloatingGroupedWithProratedMinimumPrice) ImplementsPriceNewParams() {
+
+}
+
+// The cadence to bill for this price on.
+type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence string
+
+const (
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual     PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence = "annual"
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly    PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence = "monthly"
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly  PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence = "quarterly"
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime    PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence = "one_time"
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceCustom     PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence = "custom"
+)
+
+func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual, PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual, PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly, PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly, PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime, PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType string
+
+const (
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
+)
+
+func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
