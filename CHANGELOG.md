@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.57.0 (2024-08-30)
+
+Full Changelog: [v0.56.0...v0.57.0](https://github.com/orbcorp/orb-go/compare/v0.56.0...v0.57.0)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#270](https://github.com/orbcorp/orb-go/issues/270)) ([aab8274](https://github.com/orbcorp/orb-go/commit/aab82741ac5433886d5f76fb592e1e20026fb843))
+
 ## 0.56.0 (2024-08-29)
 
 Full Changelog: [v0.55.0...v0.56.0](https://github.com/orbcorp/orb-go/compare/v0.55.0...v0.56.0)
