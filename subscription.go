@@ -1041,7 +1041,8 @@ func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscr
 // This endpoint can be used to clear scheduled updates to the quantity for a fixed
 // fee.
 //
-// If there are no updates scheduled, this endpoint is a no-op.
+// If there are no updates scheduled, a request validation error will be returned
+// with a 400 status code.
 func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Context, subscriptionID string, body SubscriptionUnscheduleFixedFeeQuantityUpdatesParams, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
