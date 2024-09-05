@@ -3153,29 +3153,44 @@ func (r subscriptionFetchScheduleResponsePlanJSON) RawJSON() string {
 }
 
 type SubscriptionNewParams struct {
-	AlignBillingWithSubscriptionStartDate param.Field[bool]                                                 `json:"align_billing_with_subscription_start_date"`
-	AutoCollection                        param.Field[bool]                                                 `json:"auto_collection"`
-	AwsRegion                             param.Field[string]                                               `json:"aws_region"`
-	BillingCycleAnchorConfiguration       param.Field[SubscriptionNewParamsBillingCycleAnchorConfiguration] `json:"billing_cycle_anchor_configuration"`
-	CouponRedemptionCode                  param.Field[string]                                               `json:"coupon_redemption_code"`
-	CreditsOverageRate                    param.Field[float64]                                              `json:"credits_overage_rate"`
-	CustomerID                            param.Field[string]                                               `json:"customer_id"`
-	DefaultInvoiceMemo                    param.Field[string]                                               `json:"default_invoice_memo"`
-	EndDate                               param.Field[time.Time]                                            `json:"end_date" format:"date-time"`
-	ExternalCustomerID                    param.Field[string]                                               `json:"external_customer_id"`
-	ExternalMarketplace                   param.Field[SubscriptionNewParamsExternalMarketplace]             `json:"external_marketplace"`
-	ExternalMarketplaceReportingID        param.Field[string]                                               `json:"external_marketplace_reporting_id"`
+	AlignBillingWithSubscriptionStartDate param.Field[bool] `json:"align_billing_with_subscription_start_date"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. If not specified, this
+	// defaults to the behavior configured for this customer.
+	AutoCollection                  param.Field[bool]                                                 `json:"auto_collection"`
+	AwsRegion                       param.Field[string]                                               `json:"aws_region"`
+	BillingCycleAnchorConfiguration param.Field[SubscriptionNewParamsBillingCycleAnchorConfiguration] `json:"billing_cycle_anchor_configuration"`
+	// Redemption code to be used for this subscription. If the coupon cannot be found
+	// by its redemption code, or cannot be redeemed, an error response will be
+	// returned and the subscription creation or plan change will not be scheduled.
+	CouponRedemptionCode param.Field[string]  `json:"coupon_redemption_code"`
+	CreditsOverageRate   param.Field[float64] `json:"credits_overage_rate"`
+	CustomerID           param.Field[string]  `json:"customer_id"`
+	// Determines the default memo on this subscription's invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo             param.Field[string]                                   `json:"default_invoice_memo"`
+	EndDate                        param.Field[time.Time]                                `json:"end_date" format:"date-time"`
+	ExternalCustomerID             param.Field[string]                                   `json:"external_customer_id"`
+	ExternalMarketplace            param.Field[SubscriptionNewParamsExternalMarketplace] `json:"external_marketplace"`
+	ExternalMarketplaceReportingID param.Field[string]                                   `json:"external_marketplace_reporting_id"`
 	// The external_plan_id of the plan that the given subscription should be switched
 	// to. Note that either this property or `plan_id` must be specified.
-	ExternalPlanID     param.Field[string] `json:"external_plan_id"`
-	InitialPhaseOrder  param.Field[int64]  `json:"initial_phase_order"`
+	ExternalPlanID param.Field[string] `json:"external_plan_id"`
+	// The phase of the plan to start with
+	InitialPhaseOrder param.Field[int64] `json:"initial_phase_order"`
+	// When this subscription's accrued usage reaches this threshold, an invoice will
+	// be issued for the subscription. If not specified, invoices will only be issued
+	// at the end of the billing period.
 	InvoicingThreshold param.Field[string] `json:"invoicing_threshold"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
-	Metadata               param.Field[map[string]string] `json:"metadata"`
-	NetTerms               param.Field[int64]             `json:"net_terms"`
-	PerCreditOverageAmount param.Field[float64]           `json:"per_credit_overage_amount"`
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// The net terms determines the difference between the invoice date and the issue
+	// date for the invoice. If you intend the invoice to be due on issue, set this
+	// to 0. If not provided, this defaults to the value specified in the plan.
+	NetTerms               param.Field[int64]   `json:"net_terms"`
+	PerCreditOverageAmount param.Field[float64] `json:"per_credit_overage_amount"`
 	// The plan that the given subscription should be switched to. Note that either
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`
@@ -8660,6 +8675,10 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// [DEPRECATED] Use billing_cycle_alignment instead. Reset billing periods to be
 	// aligned with the plan change's effective date.
 	AlignBillingWithPlanChangeDate param.Field[bool] `json:"align_billing_with_plan_change_date"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. If not specified, this
+	// defaults to the behavior configured for this customer.
+	AutoCollection param.Field[bool] `json:"auto_collection"`
 	// Reset billing periods to be aligned with the plan change's effective date or
 	// start of the month. Defaults to `unchanged` which keeps subscription's existing
 	// billing cycle alignment.
@@ -8669,9 +8688,12 @@ type SubscriptionSchedulePlanChangeParams struct {
 	ChangeDate param.Field[time.Time] `json:"change_date" format:"date-time"`
 	// Redemption code to be used for this subscription. If the coupon cannot be found
 	// by its redemption code, or cannot be redeemed, an error response will be
-	// returned and the plan change will not be scheduled.
+	// returned and the subscription creation or plan change will not be scheduled.
 	CouponRedemptionCode param.Field[string]  `json:"coupon_redemption_code"`
 	CreditsOverageRate   param.Field[float64] `json:"credits_overage_rate"`
+	// Determines the default memo on this subscription's invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
 	// The external_plan_id of the plan that the given subscription should be switched
 	// to. Note that either this property or `plan_id` must be specified.
 	ExternalPlanID param.Field[string] `json:"external_plan_id"`
@@ -8680,7 +8702,11 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// When this subscription's accrued usage reaches this threshold, an invoice will
 	// be issued for the subscription. If not specified, invoices will only be issued
 	// at the end of the billing period.
-	InvoicingThreshold     param.Field[string]  `json:"invoicing_threshold"`
+	InvoicingThreshold param.Field[string] `json:"invoicing_threshold"`
+	// The net terms determines the difference between the invoice date and the issue
+	// date for the invoice. If you intend the invoice to be due on issue, set this
+	// to 0. If not provided, this defaults to the value specified in the plan.
+	NetTerms               param.Field[int64]   `json:"net_terms"`
 	PerCreditOverageAmount param.Field[float64] `json:"per_credit_overage_amount"`
 	// The plan that the given subscription should be switched to. Note that either
 	// this property or `external_plan_id` must be specified.
