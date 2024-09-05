@@ -45,8 +45,8 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		ExternalMarketplace:            orb.F(orb.SubscriptionNewParamsExternalMarketplaceGoogle),
 		ExternalMarketplaceReportingID: orb.F("external_marketplace_reporting_id"),
 		ExternalPlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
-		InitialPhaseOrder:              orb.F(int64(0)),
-		InvoicingThreshold:             orb.F("invoicing_threshold"),
+		InitialPhaseOrder:              orb.F(int64(2)),
+		InvoicingThreshold:             orb.F("10.00"),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
@@ -652,13 +652,16 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 		orb.SubscriptionSchedulePlanChangeParams{
 			ChangeOption:                   orb.F(orb.SubscriptionSchedulePlanChangeParamsChangeOptionRequestedDate),
 			AlignBillingWithPlanChangeDate: orb.F(true),
+			AutoCollection:                 orb.F(true),
 			BillingCycleAlignment:          orb.F(orb.SubscriptionSchedulePlanChangeParamsBillingCycleAlignmentUnchanged),
 			ChangeDate:                     orb.F(time.Now()),
 			CouponRedemptionCode:           orb.F("coupon_redemption_code"),
 			CreditsOverageRate:             orb.F(0.000000),
+			DefaultInvoiceMemo:             orb.F("default_invoice_memo"),
 			ExternalPlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
 			InitialPhaseOrder:              orb.F(int64(2)),
 			InvoicingThreshold:             orb.F("10.00"),
+			NetTerms:                       orb.F(int64(0)),
 			PerCreditOverageAmount:         orb.F(0.000000),
 			PlanID:                         orb.F("ZMwNQefe7J3ecf7W"),
 			PriceOverrides: orb.F([]orb.SubscriptionSchedulePlanChangeParamsPriceOverrideUnion{orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
