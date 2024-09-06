@@ -3269,6 +3269,8 @@ type SubscriptionNewParamsPriceOverride struct {
 	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
 	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
 	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
+	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	TieredWithProrationConfig        param.Field[interface{}] `json:"tiered_with_proration_config,required"`
 }
 
 func (r SubscriptionNewParamsPriceOverride) MarshalJSON() (data []byte, err error) {
@@ -3293,6 +3295,8 @@ func (r SubscriptionNewParamsPriceOverride) implementsSubscriptionNewParamsPrice
 // [SubscriptionNewParamsPriceOverridesOverrideGroupedAllocationPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideGroupedWithProratedMinimumPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideBulkWithProrationPrice],
+// [SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPrice],
+// [SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPrice],
 // [SubscriptionNewParamsPriceOverride].
 type SubscriptionNewParamsPriceOverrideUnion interface {
 	implementsSubscriptionNewParamsPriceOverrideUnion()
@@ -4710,6 +4714,164 @@ func (r SubscriptionNewParamsPriceOverridesOverrideBulkWithProrationPriceDiscoun
 	return false
 }
 
+type SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPrice struct {
+	ID                      param.Field[string]                                                                     `json:"id,required"`
+	ModelType               param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceModelType] `json:"model_type,required"`
+	UnitWithProrationConfig param.Field[map[string]interface{}]                                                     `json:"unit_with_proration_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The subscription's override discount for the plan.
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscount] `json:"discount"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceModelTypeUnitWithProration SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceModelType = "unit_with_proration"
+)
+
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "amount"
+)
+
+func (r SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPrice struct {
+	ID                        param.Field[string]                                                                       `json:"id,required"`
+	ModelType                 param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceModelType] `json:"model_type,required"`
+	TieredWithProrationConfig param.Field[map[string]interface{}]                                                       `json:"tiered_with_proration_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The subscription's override discount for the plan.
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscount] `json:"discount"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceModelTypeTieredWithProration SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "amount"
+)
+
+func (r SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesModelType string
 
 const (
@@ -4729,11 +4891,13 @@ const (
 	SubscriptionNewParamsPriceOverridesModelTypeGroupedAllocation          SubscriptionNewParamsPriceOverridesModelType = "grouped_allocation"
 	SubscriptionNewParamsPriceOverridesModelTypeGroupedWithProratedMinimum SubscriptionNewParamsPriceOverridesModelType = "grouped_with_prorated_minimum"
 	SubscriptionNewParamsPriceOverridesModelTypeBulkWithProration          SubscriptionNewParamsPriceOverridesModelType = "bulk_with_proration"
+	SubscriptionNewParamsPriceOverridesModelTypeUnitWithProration          SubscriptionNewParamsPriceOverridesModelType = "unit_with_proration"
+	SubscriptionNewParamsPriceOverridesModelTypeTieredWithProration        SubscriptionNewParamsPriceOverridesModelType = "tiered_with_proration"
 )
 
 func (r SubscriptionNewParamsPriceOverridesModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsPriceOverridesModelTypeUnit, SubscriptionNewParamsPriceOverridesModelTypePackage, SubscriptionNewParamsPriceOverridesModelTypeMatrix, SubscriptionNewParamsPriceOverridesModelTypeTiered, SubscriptionNewParamsPriceOverridesModelTypeTieredBps, SubscriptionNewParamsPriceOverridesModelTypeBps, SubscriptionNewParamsPriceOverridesModelTypeBulkBps, SubscriptionNewParamsPriceOverridesModelTypeBulk, SubscriptionNewParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionNewParamsPriceOverridesModelTypeTieredPackage, SubscriptionNewParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionNewParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionNewParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionNewParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionNewParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsPriceOverridesModelTypeBulkWithProration:
+	case SubscriptionNewParamsPriceOverridesModelTypeUnit, SubscriptionNewParamsPriceOverridesModelTypePackage, SubscriptionNewParamsPriceOverridesModelTypeMatrix, SubscriptionNewParamsPriceOverridesModelTypeTiered, SubscriptionNewParamsPriceOverridesModelTypeTieredBps, SubscriptionNewParamsPriceOverridesModelTypeBps, SubscriptionNewParamsPriceOverridesModelTypeBulkBps, SubscriptionNewParamsPriceOverridesModelTypeBulk, SubscriptionNewParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionNewParamsPriceOverridesModelTypeTieredPackage, SubscriptionNewParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionNewParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionNewParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionNewParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionNewParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsPriceOverridesModelTypeBulkWithProration, SubscriptionNewParamsPriceOverridesModelTypeUnitWithProration, SubscriptionNewParamsPriceOverridesModelTypeTieredWithProration:
 		return true
 	}
 	return false
@@ -8785,6 +8949,8 @@ type SubscriptionSchedulePlanChangeParamsPriceOverride struct {
 	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
 	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
 	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
+	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	TieredWithProrationConfig        param.Field[interface{}] `json:"tiered_with_proration_config,required"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsPriceOverride) MarshalJSON() (data []byte, err error) {
@@ -8811,6 +8977,8 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverride) implementsSubscriptio
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedAllocationPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithProratedMinimumPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkWithProrationPrice],
+// [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPrice],
+// [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverride].
 type SubscriptionSchedulePlanChangeParamsPriceOverrideUnion interface {
 	implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion()
@@ -10228,6 +10396,164 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkWithProrat
 	return false
 }
 
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPrice struct {
+	ID                      param.Field[string]                                                                                    `json:"id,required"`
+	ModelType               param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceModelType] `json:"model_type,required"`
+	UnitWithProrationConfig param.Field[map[string]interface{}]                                                                    `json:"unit_with_proration_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The subscription's override discount for the plan.
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscount] `json:"discount"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceModelTypeUnitWithProration SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceModelType = "unit_with_proration"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType = "amount"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPrice struct {
+	ID                        param.Field[string]                                                                                      `json:"id,required"`
+	ModelType                 param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceModelType] `json:"model_type,required"`
+	TieredWithProrationConfig param.Field[map[string]interface{}]                                                                      `json:"tiered_with_proration_config,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The subscription's override discount for the plan.
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscount] `json:"discount"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceModelTypeTieredWithProration SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType = "amount"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesModelType string
 
 const (
@@ -10247,11 +10573,13 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedAllocation          SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "grouped_allocation"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithProratedMinimum SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "grouped_with_prorated_minimum"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkWithProration          SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "bulk_with_proration"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithProration          SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "unit_with_proration"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithProration        SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "tiered_with_proration"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsPriceOverridesModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnit, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeMatrix, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTiered, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulk, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkWithProration:
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnit, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeMatrix, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTiered, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulk, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithProration:
 		return true
 	}
 	return false
