@@ -300,8 +300,11 @@ type Invoice struct {
 	// | Venezuela            | `ve_rif`     | Venezuelan RIF Number                                                                                   |
 	// | Vietnam              | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	CustomerTaxID InvoiceCustomerTaxID `json:"customer_tax_id,required,nullable"`
-	Discount      shared.Discount      `json:"discount,required,nullable"`
-	Discounts     []shared.Discount    `json:"discounts,required"`
+	// This field is deprecated in favor of `discounts`. If a `discounts` list is
+	// provided, the first discount in the list will be returned. If the list is empty,
+	// `None` will be returned.
+	Discount  shared.Discount   `json:"discount,required,nullable"`
+	Discounts []shared.Discount `json:"discounts,required"`
 	// When the invoice payment is due.
 	DueDate time.Time `json:"due_date,required" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
@@ -1999,8 +2002,11 @@ type InvoiceFetchUpcomingResponse struct {
 	// | Venezuela            | `ve_rif`     | Venezuelan RIF Number                                                                                   |
 	// | Vietnam              | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
 	CustomerTaxID InvoiceFetchUpcomingResponseCustomerTaxID `json:"customer_tax_id,required,nullable"`
-	Discount      shared.Discount                           `json:"discount,required,nullable"`
-	Discounts     []shared.Discount                         `json:"discounts,required"`
+	// This field is deprecated in favor of `discounts`. If a `discounts` list is
+	// provided, the first discount in the list will be returned. If the list is empty,
+	// `None` will be returned.
+	Discount  shared.Discount   `json:"discount,required,nullable"`
+	Discounts []shared.Discount `json:"discounts,required"`
 	// When the invoice payment is due.
 	DueDate time.Time `json:"due_date,required" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
