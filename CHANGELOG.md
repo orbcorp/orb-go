@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.61.1 (2024-09-11)
+
+Full Changelog: [v0.61.0...v0.61.1](https://github.com/orbcorp/orb-go/compare/v0.61.0...v0.61.1)
+
+### Bug Fixes
+
+* **requestconfig:** copy over more fields when cloning ([#285](https://github.com/orbcorp/orb-go/issues/285)) ([688b422](https://github.com/orbcorp/orb-go/commit/688b422d222b9aad167be8f5a295192c56fd9e7e))
+
 ## 0.61.0 (2024-09-11)
 
 Full Changelog: [v0.60.0...v0.61.0](https://github.com/orbcorp/orb-go/compare/v0.60.0...v0.61.0)
