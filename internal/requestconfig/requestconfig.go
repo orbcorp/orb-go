@@ -470,10 +470,15 @@ func (cfg *RequestConfig) Clone(ctx context.Context) *RequestConfig {
 		return nil
 	}
 	new := &RequestConfig{
-		MaxRetries: cfg.MaxRetries,
-		Context:    ctx,
-		Request:    req,
-		HTTPClient: cfg.HTTPClient,
+		MaxRetries:     cfg.MaxRetries,
+		RequestTimeout: cfg.RequestTimeout,
+		Context:        ctx,
+		Request:        req,
+		BaseURL:        cfg.BaseURL,
+		HTTPClient:     cfg.HTTPClient,
+		Middlewares:    cfg.Middlewares,
+		APIKey:         cfg.APIKey,
+		WebhookSecret:  cfg.WebhookSecret,
 	}
 	new.Request.Header.Set("Idempotency-Key", "stainless-go-"+uuid.New().String())
 	return new
