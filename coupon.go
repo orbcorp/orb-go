@@ -136,6 +136,20 @@ func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...opti
 // "UPGRADE20" that offers a 20% discount on the first month of the new plan. This
 // code can be applied during the upgrade process in your billing portal, making it
 // straightforward for users to benefit from the new features at a reduced cost.
+//
+// ## Coupon scoping
+//
+// When a coupon is applied on a subscription, it creates a discount adjustment
+// that applies to all of the prices on the subscription at the time of the coupon
+// application. Notably, coupons do not scope in new price additions to a
+// subscription automatically — if a new price is added to the subscription with a
+// subscription edit or plan version migration, the discount created with the
+// coupon will not apply to it automatically. If you'd like the coupon to apply to
+// newly added prices, you can
+// [edit the adjustment intervals](add-edit-price-intervals.api.mdx) to end the
+// discount interval created by the coupon at the time of the migration and add a
+// new one starting at the time of the migration that includes the newly added
+// prices you'd like the coupon to apply to.
 type Coupon struct {
 	// Also referred to as coupon_id in this documentation.
 	ID string `json:"id,required"`
