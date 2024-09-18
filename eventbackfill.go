@@ -167,8 +167,8 @@ type EventBackfillNewResponse struct {
 	// the past, the time at which the backfill was closed.
 	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
 	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
-	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
-	// to a single customer.
+	// The Orb-generated ID of the customer to which this backfill is scoped. If
+	// `null`, this backfill is scoped to all customers.
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
@@ -236,8 +236,8 @@ type EventBackfillListResponse struct {
 	// the past, the time at which the backfill was closed.
 	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
 	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
-	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
-	// to a single customer.
+	// The Orb-generated ID of the customer to which this backfill is scoped. If
+	// `null`, this backfill is scoped to all customers.
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
@@ -305,8 +305,8 @@ type EventBackfillCloseResponse struct {
 	// the past, the time at which the backfill was closed.
 	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
 	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
-	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
-	// to a single customer.
+	// The Orb-generated ID of the customer to which this backfill is scoped. If
+	// `null`, this backfill is scoped to all customers.
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
@@ -374,8 +374,8 @@ type EventBackfillFetchResponse struct {
 	// the past, the time at which the backfill was closed.
 	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
 	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
-	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
-	// to a single customer.
+	// The Orb-generated ID of the customer to which this backfill is scoped. If
+	// `null`, this backfill is scoped to all customers.
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
@@ -443,8 +443,8 @@ type EventBackfillRevertResponse struct {
 	// the past, the time at which the backfill was closed.
 	CloseTime time.Time `json:"close_time,required,nullable" format:"date-time"`
 	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
-	// The customer ID this backfill is scoped to. If null, this backfill is not scoped
-	// to a single customer.
+	// The Orb-generated ID of the customer to which this backfill is scoped. If
+	// `null`, this backfill is scoped to all customers.
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
@@ -513,13 +513,15 @@ type EventBackfillNewParams struct {
 	// backfill will automatically begin reflecting throughout Orb at the close time.
 	// If not specified, it will default to 1 day after the creation of the backfill.
 	CloseTime param.Field[time.Time] `json:"close_time" format:"date-time"`
-	// The ID of the customer to which this backfill is scoped.
+	// The Orb-generated ID of the customer to which this backfill is scoped. Omitting
+	// this field will scope the backfill to all customers.
 	CustomerID param.Field[string] `json:"customer_id"`
 	// A boolean
 	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
 	// used to filter the set of events to deprecate
 	DeprecationFilter param.Field[string] `json:"deprecation_filter"`
 	// The external customer ID of the customer to which this backfill is scoped.
+	// Omitting this field will scope the backfill to all customers.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
 	// If true, replaces all existing events in the timeframe with the newly ingested
 	// events. If false, adds the newly ingested events to the existing events.
