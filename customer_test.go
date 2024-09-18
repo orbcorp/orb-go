@@ -147,6 +147,12 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 				PostalCode: orb.F("postal_code"),
 				State:      orb.F("state"),
 			}),
+			TaxConfiguration: orb.F[orb.CustomerUpdateParamsTaxConfigurationUnion](orb.CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfiguration{
+				TaxExempt:        orb.F(true),
+				TaxProvider:      orb.F(orb.CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara),
+				TaxExemptionCode: orb.F("tax_exemption_code"),
+				TaxExemptionName: orb.F("tax_exemption_name"),
+			}),
 			TaxID: orb.F(orb.CustomerUpdateParamsTaxID{
 				Country: orb.F(orb.CustomerUpdateParamsTaxIDCountryAd),
 				Type:    orb.F(orb.CustomerUpdateParamsTaxIDTypeAdNrt),
@@ -317,6 +323,12 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 				Line2:      orb.F("line2"),
 				PostalCode: orb.F("postal_code"),
 				State:      orb.F("state"),
+			}),
+			TaxConfiguration: orb.F[orb.CustomerUpdateByExternalIDParamsTaxConfigurationUnion](orb.CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfiguration{
+				TaxExempt:        orb.F(true),
+				TaxProvider:      orb.F(orb.CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara),
+				TaxExemptionCode: orb.F("tax_exemption_code"),
+				TaxExemptionName: orb.F("tax_exemption_name"),
 			}),
 			TaxID: orb.F(orb.CustomerUpdateByExternalIDParamsTaxID{
 				Country: orb.F(orb.CustomerUpdateByExternalIDParamsTaxIDCountryAd),
