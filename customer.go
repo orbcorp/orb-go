@@ -217,8 +217,9 @@ type Customer struct {
 	// A valid customer email, to be used for notifications. When Orb triggers payment
 	// through a payment gateway, this email will be used for any automatically issued
 	// receipts.
-	Email         string `json:"email,required"`
-	EmailDelivery bool   `json:"email_delivery,required"`
+	Email                  string `json:"email,required"`
+	EmailDelivery          bool   `json:"email_delivery,required"`
+	ExemptFromAutomatedTax bool   `json:"exempt_from_automated_tax,required,nullable"`
 	// An optional user-defined ID for this customer resource, used throughout the
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
@@ -365,6 +366,7 @@ type customerJSON struct {
 	Currency                    apijson.Field
 	Email                       apijson.Field
 	EmailDelivery               apijson.Field
+	ExemptFromAutomatedTax      apijson.Field
 	ExternalCustomerID          apijson.Field
 	Metadata                    apijson.Field
 	Name                        apijson.Field
@@ -894,6 +896,7 @@ type CustomerNewParams struct {
 	PaymentProviderID      param.Field[string]                                  `json:"payment_provider_id"`
 	ReportingConfiguration param.Field[CustomerNewParamsReportingConfiguration] `json:"reporting_configuration"`
 	ShippingAddress        param.Field[CustomerNewParamsShippingAddress]        `json:"shipping_address"`
+	TaxConfiguration       param.Field[CustomerNewParamsTaxConfigurationUnion]  `json:"tax_configuration"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -1081,6 +1084,93 @@ type CustomerNewParamsShippingAddress struct {
 
 func (r CustomerNewParamsShippingAddress) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type CustomerNewParamsTaxConfiguration struct {
+	TaxExempt        param.Field[bool]                                         `json:"tax_exempt,required"`
+	TaxProvider      param.Field[CustomerNewParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExemptionCode param.Field[string]                                       `json:"tax_exemption_code"`
+}
+
+func (r CustomerNewParamsTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerNewParamsTaxConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {}
+
+// Satisfied by [CustomerNewParamsTaxConfigurationNewAvalaraTaxConfiguration],
+// [CustomerNewParamsTaxConfigurationNewTaxJarConfiguration],
+// [CustomerNewParamsTaxConfiguration].
+type CustomerNewParamsTaxConfigurationUnion interface {
+	implementsCustomerNewParamsTaxConfigurationUnion()
+}
+
+type CustomerNewParamsTaxConfigurationNewAvalaraTaxConfiguration struct {
+	TaxExempt        param.Field[bool]                                                                   `json:"tax_exempt,required"`
+	TaxProvider      param.Field[CustomerNewParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExemptionCode param.Field[string]                                                                 `json:"tax_exemption_code"`
+}
+
+func (r CustomerNewParamsTaxConfigurationNewAvalaraTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerNewParamsTaxConfigurationNewAvalaraTaxConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {
+}
+
+type CustomerNewParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider string
+
+const (
+	CustomerNewParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara CustomerNewParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider = "avalara"
+)
+
+func (r CustomerNewParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara:
+		return true
+	}
+	return false
+}
+
+type CustomerNewParamsTaxConfigurationNewTaxJarConfiguration struct {
+	TaxExempt   param.Field[bool]                                                               `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewTaxJarConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerNewParamsTaxConfigurationNewTaxJarConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerNewParamsTaxConfigurationNewTaxJarConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {
+}
+
+type CustomerNewParamsTaxConfigurationNewTaxJarConfigurationTaxProvider string
+
+const (
+	CustomerNewParamsTaxConfigurationNewTaxJarConfigurationTaxProviderTaxjar CustomerNewParamsTaxConfigurationNewTaxJarConfigurationTaxProvider = "taxjar"
+)
+
+func (r CustomerNewParamsTaxConfigurationNewTaxJarConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxConfigurationNewTaxJarConfigurationTaxProviderTaxjar:
+		return true
+	}
+	return false
+}
+
+type CustomerNewParamsTaxConfigurationTaxProvider string
+
+const (
+	CustomerNewParamsTaxConfigurationTaxProviderAvalara CustomerNewParamsTaxConfigurationTaxProvider = "avalara"
+	CustomerNewParamsTaxConfigurationTaxProviderTaxjar  CustomerNewParamsTaxConfigurationTaxProvider = "taxjar"
+)
+
+func (r CustomerNewParamsTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar:
+		return true
+	}
+	return false
 }
 
 // Tax IDs are commonly required to be displayed on customer invoices, which are
@@ -1411,6 +1501,7 @@ type CustomerUpdateParams struct {
 	PaymentProviderID      param.Field[string]                                     `json:"payment_provider_id"`
 	ReportingConfiguration param.Field[CustomerUpdateParamsReportingConfiguration] `json:"reporting_configuration"`
 	ShippingAddress        param.Field[CustomerUpdateParamsShippingAddress]        `json:"shipping_address"`
+	TaxConfiguration       param.Field[CustomerUpdateParamsTaxConfigurationUnion]  `json:"tax_configuration"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -1598,6 +1689,93 @@ type CustomerUpdateParamsShippingAddress struct {
 
 func (r CustomerUpdateParamsShippingAddress) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type CustomerUpdateParamsTaxConfiguration struct {
+	TaxExempt        param.Field[bool]                                            `json:"tax_exempt,required"`
+	TaxProvider      param.Field[CustomerUpdateParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExemptionCode param.Field[string]                                          `json:"tax_exemption_code"`
+}
+
+func (r CustomerUpdateParamsTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateParamsTaxConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {}
+
+// Satisfied by [CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfiguration],
+// [CustomerUpdateParamsTaxConfigurationNewTaxJarConfiguration],
+// [CustomerUpdateParamsTaxConfiguration].
+type CustomerUpdateParamsTaxConfigurationUnion interface {
+	implementsCustomerUpdateParamsTaxConfigurationUnion()
+}
+
+type CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfiguration struct {
+	TaxExempt        param.Field[bool]                                                                      `json:"tax_exempt,required"`
+	TaxProvider      param.Field[CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExemptionCode param.Field[string]                                                                    `json:"tax_exemption_code"`
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider string
+
+const (
+	CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider = "avalara"
+)
+
+func (r CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara:
+		return true
+	}
+	return false
+}
+
+type CustomerUpdateParamsTaxConfigurationNewTaxJarConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                  `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewTaxJarConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewTaxJarConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewTaxJarConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateParamsTaxConfigurationNewTaxJarConfigurationTaxProvider string
+
+const (
+	CustomerUpdateParamsTaxConfigurationNewTaxJarConfigurationTaxProviderTaxjar CustomerUpdateParamsTaxConfigurationNewTaxJarConfigurationTaxProvider = "taxjar"
+)
+
+func (r CustomerUpdateParamsTaxConfigurationNewTaxJarConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxConfigurationNewTaxJarConfigurationTaxProviderTaxjar:
+		return true
+	}
+	return false
+}
+
+type CustomerUpdateParamsTaxConfigurationTaxProvider string
+
+const (
+	CustomerUpdateParamsTaxConfigurationTaxProviderAvalara CustomerUpdateParamsTaxConfigurationTaxProvider = "avalara"
+	CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateParamsTaxConfigurationTaxProvider = "taxjar"
+)
+
+func (r CustomerUpdateParamsTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar:
+		return true
+	}
+	return false
 }
 
 // Tax IDs are commonly required to be displayed on customer invoices, which are
@@ -1948,6 +2126,7 @@ type CustomerUpdateByExternalIDParams struct {
 	PaymentProviderID      param.Field[string]                                                 `json:"payment_provider_id"`
 	ReportingConfiguration param.Field[CustomerUpdateByExternalIDParamsReportingConfiguration] `json:"reporting_configuration"`
 	ShippingAddress        param.Field[CustomerUpdateByExternalIDParamsShippingAddress]        `json:"shipping_address"`
+	TaxConfiguration       param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationUnion]  `json:"tax_configuration"`
 	// Tax IDs are commonly required to be displayed on customer invoices, which are
 	// added to the headers of invoices.
 	//
@@ -2135,6 +2314,95 @@ type CustomerUpdateByExternalIDParamsShippingAddress struct {
 
 func (r CustomerUpdateByExternalIDParamsShippingAddress) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfiguration struct {
+	TaxExempt        param.Field[bool]                                                        `json:"tax_exempt,required"`
+	TaxProvider      param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExemptionCode param.Field[string]                                                      `json:"tax_exemption_code"`
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfiguration) implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion() {
+}
+
+// Satisfied by
+// [CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfiguration],
+// [CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfiguration],
+// [CustomerUpdateByExternalIDParamsTaxConfiguration].
+type CustomerUpdateByExternalIDParamsTaxConfigurationUnion interface {
+	implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion()
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfiguration struct {
+	TaxExempt        param.Field[bool]                                                                                  `json:"tax_exempt,required"`
+	TaxProvider      param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	TaxExemptionCode param.Field[string]                                                                                `json:"tax_exemption_code"`
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfiguration) implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider string
+
+const (
+	CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider = "avalara"
+)
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara:
+		return true
+	}
+	return false
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                              `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfiguration) implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfigurationTaxProvider string
+
+const (
+	CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfigurationTaxProviderTaxjar CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfigurationTaxProvider = "taxjar"
+)
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfigurationTaxProviderTaxjar:
+		return true
+	}
+	return false
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider string
+
+const (
+	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "avalara"
+	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "taxjar"
+)
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar:
+		return true
+	}
+	return false
 }
 
 // Tax IDs are commonly required to be displayed on customer invoices, which are
