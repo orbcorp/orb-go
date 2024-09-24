@@ -147,23 +147,6 @@ func NewCustomerCostService(opts ...option.RequestOption) (r *CustomerCostServic
 // You can see this sliced timeframe visualized
 // [here](https://i.imgur.com/TXhYgme.png).
 //
-// ## Grouping by custom attributes
-//
-// In order to view costs grouped by a specific _attribute_ that each event is
-// tagged with (i.e. `cluster`), you can additionally specify a `group_by` key. The
-// `group_by` key denotes the event property on which to group.
-//
-// When returning grouped costs, a separate `price_group` object in the
-// `per_price_costs` array is returned for each value of the `group_by` key present
-// in your events. The `subtotal` value of the `per_price_costs` object is the sum
-// of each `price_group`'s total.
-//
-// Orb expects events will contain values in the `properties` dictionary that
-// correspond to the `group_by` key specified. By default, Orb will return a `null`
-// group (i.e. events that match the metric but do not have the key set).
-// Currently, it is only possible to view costs grouped by a single attribute at a
-// time.
-//
 // ### Matrix prices
 //
 // When a price uses matrix pricing, it's important to view costs grouped by those
@@ -291,23 +274,6 @@ func (r *CustomerCostService) List(ctx context.Context, customerID string, query
 //
 // You can see this sliced timeframe visualized
 // [here](https://i.imgur.com/TXhYgme.png).
-//
-// ## Grouping by custom attributes
-//
-// In order to view costs grouped by a specific _attribute_ that each event is
-// tagged with (i.e. `cluster`), you can additionally specify a `group_by` key. The
-// `group_by` key denotes the event property on which to group.
-//
-// When returning grouped costs, a separate `price_group` object in the
-// `per_price_costs` array is returned for each value of the `group_by` key present
-// in your events. The `subtotal` value of the `per_price_costs` object is the sum
-// of each `price_group`'s total.
-//
-// Orb expects events will contain values in the `properties` dictionary that
-// correspond to the `group_by` key specified. By default, Orb will return a `null`
-// group (i.e. events that match the metric but do not have the key set).
-// Currently, it is only possible to view costs grouped by a single attribute at a
-// time.
 //
 // ### Matrix prices
 //

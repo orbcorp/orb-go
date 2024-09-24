@@ -3153,7 +3153,11 @@ func (r subscriptionFetchScheduleResponsePlanJSON) RawJSON() string {
 }
 
 type SubscriptionNewParams struct {
-	AlignBillingWithSubscriptionStartDate param.Field[bool] `json:"align_billing_with_subscription_start_date"`
+	// Additional adjustments to be added to the subscription
+	AddAdjustments param.Field[[]SubscriptionNewParamsAddAdjustment] `json:"add_adjustments"`
+	// Additional prices to be added to the subscription
+	AddPrices                             param.Field[[]SubscriptionNewParamsAddPrice] `json:"add_prices"`
+	AlignBillingWithSubscriptionStartDate param.Field[bool]                            `json:"align_billing_with_subscription_start_date"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. If not specified, this
 	// defaults to the behavior configured for this customer.
@@ -3196,11 +3200,2987 @@ type SubscriptionNewParams struct {
 	PlanID param.Field[string] `json:"plan_id"`
 	// Optionally provide a list of overrides for prices on the plan
 	PriceOverrides param.Field[[]SubscriptionNewParamsPriceOverrideUnion] `json:"price_overrides"`
-	StartDate      param.Field[time.Time]                                 `json:"start_date" format:"date-time"`
+	// Plan adjustments to be removed from the subscription
+	RemoveAdjustments param.Field[[]SubscriptionNewParamsRemoveAdjustment] `json:"remove_adjustments"`
+	// Plan prices to be removed from the subscription
+	RemovePrices param.Field[[]SubscriptionNewParamsRemovePrice] `json:"remove_prices"`
+	// Plan adjustments to be replaced with additional adjustments on the subscription
+	ReplaceAdjustments param.Field[[]SubscriptionNewParamsReplaceAdjustment] `json:"replace_adjustments"`
+	// Plan prices to be replaced with additional prices on the subscription
+	ReplacePrices param.Field[[]SubscriptionNewParamsReplacePrice] `json:"replace_prices"`
+	StartDate     param.Field[time.Time]                           `json:"start_date" format:"date-time"`
 }
 
 func (r SubscriptionNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddAdjustment struct {
+	// The definition of a new adjustment to create and add to the subscription.
+	Adjustment param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	// The end date of the adjustment interval. This is the date that the adjustment
+	// will stop affecting prices on the subscription. If null, the adjustment will
+	// start when the phase or subscription starts.
+	EndDate param.Field[time.Time] `json:"end_date" format:"date-time"`
+	// The phase to add this adjustment to.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
+	// The start date of the adjustment interval. This is the date that the adjustment
+	// will start affecting prices on the subscription. If null, the adjustment will
+	// start when the phase or subscription starts.
+	StartDate param.Field[time.Time] `json:"start_date" format:"date-time"`
+}
+
+func (r SubscriptionNewParamsAddAdjustment) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new adjustment to create and add to the subscription.
+type SubscriptionNewParamsAddAdjustmentsAdjustment struct {
+	AppliesToPriceIDs  param.Field[interface{}]                                                 `json:"applies_to_price_ids"`
+	AdjustmentType     param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	PercentageDiscount param.Field[float64]                                                     `json:"percentage_discount"`
+	AmountDiscount     param.Field[string]                                                      `json:"amount_discount"`
+	MinimumAmount      param.Field[string]                                                      `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID        param.Field[string] `json:"item_id"`
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustment) implementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+// The definition of a new adjustment to create and add to the subscription.
+//
+// Satisfied by
+// [SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount],
+// [SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscount],
+// [SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimum],
+// [SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximum],
+// [SubscriptionNewParamsAddAdjustmentsAdjustment].
+type SubscriptionNewParamsAddAdjustmentsAdjustmentUnion interface {
+	implementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion()
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount struct {
+	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs  param.Field[[]string] `json:"applies_to_price_ids,required"`
+	PercentageDiscount param.Field[float64]  `json:"percentage_discount,required"`
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount) implementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType string
+
+const (
+	SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscount struct {
+	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
+	AmountDiscount param.Field[string]                                                                       `json:"amount_discount,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscount) implementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType string
+
+const (
+	SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimum struct {
+	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID        param.Field[string] `json:"item_id,required"`
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimum) implementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentType string
+
+const (
+	SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentTypeMinimum SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentType = "minimum"
+)
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximum struct {
+	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	MaximumAmount     param.Field[string]   `json:"maximum_amount,required"`
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximum) implementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentType string
+
+const (
+	SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentTypeMaximum SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentType = "maximum"
+)
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum            SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "minimum"
+	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum            SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPrice struct {
+	// The end date of the price interval. This is the date that the price will stop
+	// billing on the subscription. If null, billing will end when the phase or
+	// subscription ends.
+	EndDate param.Field[time.Time] `json:"end_date" format:"date-time"`
+	// The external price id of the price to add to the subscription.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The phase to add this price to.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
+	// The definition of a new price to create and add to the subscription.
+	Price param.Field[SubscriptionNewParamsAddPricesPriceUnion] `json:"price"`
+	// The id of the price to add to the subscription.
+	PriceID param.Field[string] `json:"price_id"`
+	// The start date of the price interval. This is the date that the price will start
+	// billing on the subscription. If null, billing will start when the phase or
+	// subscription starts.
+	StartDate param.Field[time.Time] `json:"start_date" format:"date-time"`
+}
+
+func (r SubscriptionNewParamsAddPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new price to create and add to the subscription.
+type SubscriptionNewParamsAddPricesPrice struct {
+	Metadata param.Field[interface{}] `json:"metadata,required"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// The id of the item the plan will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// The cadence to bill for this price on.
+	Cadence                     param.Field[SubscriptionNewParamsAddPricesPriceCadence] `json:"cadence,required"`
+	BillingCycleConfiguration   param.Field[interface{}]                                `json:"billing_cycle_configuration,required"`
+	InvoicingCycleConfiguration param.Field[interface{}]                                `json:"invoicing_cycle_configuration,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64]                                      `json:"conversion_rate"`
+	ModelType      param.Field[SubscriptionNewParamsAddPricesPriceModelType] `json:"model_type,required"`
+	UnitConfig     param.Field[interface{}]                                  `json:"unit_config,required"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency                         param.Field[string]      `json:"currency"`
+	PackageConfig                    param.Field[interface{}] `json:"package_config,required"`
+	MatrixConfig                     param.Field[interface{}] `json:"matrix_config,required"`
+	TieredConfig                     param.Field[interface{}] `json:"tiered_config,required"`
+	TieredBpsConfig                  param.Field[interface{}] `json:"tiered_bps_config,required"`
+	BpsConfig                        param.Field[interface{}] `json:"bps_config,required"`
+	BulkBpsConfig                    param.Field[interface{}] `json:"bulk_bps_config,required"`
+	BulkConfig                       param.Field[interface{}] `json:"bulk_config,required"`
+	ThresholdTotalAmountConfig       param.Field[interface{}] `json:"threshold_total_amount_config,required"`
+	TieredPackageConfig              param.Field[interface{}] `json:"tiered_package_config,required"`
+	TieredWithMinimumConfig          param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
+	UnitWithPercentConfig            param.Field[interface{}] `json:"unit_with_percent_config,required"`
+	PackageWithAllocationConfig      param.Field[interface{}] `json:"package_with_allocation_config,required"`
+	TieredWithProrationConfig        param.Field[interface{}] `json:"tiered_with_proration_config,required"`
+	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
+	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {}
+
+// The definition of a new price to create and add to the subscription.
+//
+// Satisfied by [SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPrice],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice],
+// [SubscriptionNewParamsAddPricesPrice].
+type SubscriptionNewParamsAddPricesPriceUnion interface {
+	implementsSubscriptionNewParamsAddPricesPriceUnion()
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                               `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name       param.Field[string]                                                                `json:"name,required"`
+	UnitConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceUnitConfig] `json:"unit_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelTypeUnit SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelType = "unit"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceUnitConfig struct {
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name          param.Field[string]                                                                      `json:"name,required"`
+	PackageConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePricePackageConfig] `json:"package_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceModelTypePackage SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceModelType = "package"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePricePackageConfig struct {
+	// A currency amount to rate usage by
+	PackageAmount param.Field[string] `json:"package_amount,required"`
+	// An integer amount to represent package size. For example, 1000 here would divide
+	// usage by 1000 before multiplying by package_amount in rating
+	PackageSize param.Field[int64] `json:"package_size,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID       param.Field[string]                                                                    `json:"item_id,required"`
+	MatrixConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfig] `json:"matrix_config,required"`
+	ModelType    param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceModelType]    `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfig struct {
+	// Default per unit rate for any usage not bucketed into a specified matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions,required"`
+	// Matrix values for specified matrix grouping keys
+	MatrixValues param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this Matrix value by. For example,
+	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
+	// instance tier.
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// Unit price for the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceModelTypeMatrix SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceModelType = "matrix"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                 `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name         param.Field[string]                                                                    `json:"name,required"`
+	TieredConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfig] `json:"tiered_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceModelTypeTiered SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceModelType = "tiered"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier
+	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfigTier struct {
+	// Inclusive tier starting value
+	FirstUnit param.Field[float64] `json:"first_unit,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// Exclusive tier ending value. If null, this is treated as the last tier
+	LastUnit param.Field[float64] `json:"last_unit"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                    `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name            param.Field[string]                                                                          `json:"name,required"`
+	TieredBpsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelType = "tiered_bps"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfig struct {
+	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
+	// tiers
+	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier struct {
+	// Per-event basis point rate
+	Bps param.Field[float64] `json:"bps,required"`
+	// Inclusive tier starting value
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// Exclusive tier ending value
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Per unit maximum to charge
+	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPrice struct {
+	BpsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBpsConfig] `json:"bps_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                              `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBpsConfig struct {
+	// Basis point take rate per event
+	Bps param.Field[float64] `json:"bps,required"`
+	// Optional currency amount maximum to cap spend per event
+	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceModelTypeBps SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceModelType = "bps"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceModelTypeBps:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPrice struct {
+	BulkBpsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig struct {
+	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
+	// tier based on total volume
+	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier struct {
+	// Basis points to rate on
+	Bps param.Field[float64] `json:"bps,required"`
+	// Upper bound for tier
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The maximum amount to charge for any one event
+	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelType = "bulk_bps"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPrice struct {
+	BulkConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfig] `json:"bulk_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                               `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfig struct {
+	// Bulk tiers for rating based on total usage volume
+	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfigTier struct {
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// Upper bound for this tier
+	MaximumUnits param.Field[float64] `json:"maximum_units"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceModelTypeBulk SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceModelType = "bulk"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                               `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                       param.Field[string]                 `json:"name,required"`
+	ThresholdTotalAmountConfig param.Field[map[string]interface{}] `json:"threshold_total_amount_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelType = "threshold_total_amount"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                        `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                param.Field[string]                 `json:"name,required"`
+	TieredPackageConfig param.Field[map[string]interface{}] `json:"tiered_package_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelType = "tiered_package"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                    param.Field[string]                 `json:"name,required"`
+	TieredWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_with_minimum_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelType = "tiered_with_minimum"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                          `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                  param.Field[string]                 `json:"name,required"`
+	UnitWithPercentConfig param.Field[map[string]interface{}] `json:"unit_with_percent_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelType = "unit_with_percent"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                        param.Field[string]                 `json:"name,required"`
+	PackageWithAllocationConfig param.Field[map[string]interface{}] `json:"package_with_allocation_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                      param.Field[string]                 `json:"name,required"`
+	TieredWithProrationConfig param.Field[map[string]interface{}] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                    param.Field[string]                 `json:"name,required"`
+	UnitWithProrationConfig param.Field[map[string]interface{}] `json:"unit_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelType = "unit_with_proration"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence                 param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
+	GroupedAllocationConfig param.Field[map[string]interface{}]                                                          `json:"grouped_allocation_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelType = "grouped_allocation"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence                          param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                                                   `json:"grouped_with_prorated_minimum_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice struct {
+	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelType = "bulk_with_proration"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsAddPricesPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceModelTypeUnit                       SubscriptionNewParamsAddPricesPriceModelType = "unit"
+	SubscriptionNewParamsAddPricesPriceModelTypePackage                    SubscriptionNewParamsAddPricesPriceModelType = "package"
+	SubscriptionNewParamsAddPricesPriceModelTypeMatrix                     SubscriptionNewParamsAddPricesPriceModelType = "matrix"
+	SubscriptionNewParamsAddPricesPriceModelTypeTiered                     SubscriptionNewParamsAddPricesPriceModelType = "tiered"
+	SubscriptionNewParamsAddPricesPriceModelTypeTieredBps                  SubscriptionNewParamsAddPricesPriceModelType = "tiered_bps"
+	SubscriptionNewParamsAddPricesPriceModelTypeBps                        SubscriptionNewParamsAddPricesPriceModelType = "bps"
+	SubscriptionNewParamsAddPricesPriceModelTypeBulkBps                    SubscriptionNewParamsAddPricesPriceModelType = "bulk_bps"
+	SubscriptionNewParamsAddPricesPriceModelTypeBulk                       SubscriptionNewParamsAddPricesPriceModelType = "bulk"
+	SubscriptionNewParamsAddPricesPriceModelTypeThresholdTotalAmount       SubscriptionNewParamsAddPricesPriceModelType = "threshold_total_amount"
+	SubscriptionNewParamsAddPricesPriceModelTypeTieredPackage              SubscriptionNewParamsAddPricesPriceModelType = "tiered_package"
+	SubscriptionNewParamsAddPricesPriceModelTypeTieredWithMinimum          SubscriptionNewParamsAddPricesPriceModelType = "tiered_with_minimum"
+	SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent            SubscriptionNewParamsAddPricesPriceModelType = "unit_with_percent"
+	SubscriptionNewParamsAddPricesPriceModelTypePackageWithAllocation      SubscriptionNewParamsAddPricesPriceModelType = "package_with_allocation"
+	SubscriptionNewParamsAddPricesPriceModelTypeTieredWithProration        SubscriptionNewParamsAddPricesPriceModelType = "tiered_with_proration"
+	SubscriptionNewParamsAddPricesPriceModelTypeUnitWithProration          SubscriptionNewParamsAddPricesPriceModelType = "unit_with_proration"
+	SubscriptionNewParamsAddPricesPriceModelTypeGroupedAllocation          SubscriptionNewParamsAddPricesPriceModelType = "grouped_allocation"
+	SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum SubscriptionNewParamsAddPricesPriceModelType = "grouped_with_prorated_minimum"
+	SubscriptionNewParamsAddPricesPriceModelTypeBulkWithProration          SubscriptionNewParamsAddPricesPriceModelType = "bulk_with_proration"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceModelTypeUnit, SubscriptionNewParamsAddPricesPriceModelTypePackage, SubscriptionNewParamsAddPricesPriceModelTypeMatrix, SubscriptionNewParamsAddPricesPriceModelTypeTiered, SubscriptionNewParamsAddPricesPriceModelTypeTieredBps, SubscriptionNewParamsAddPricesPriceModelTypeBps, SubscriptionNewParamsAddPricesPriceModelTypeBulkBps, SubscriptionNewParamsAddPricesPriceModelTypeBulk, SubscriptionNewParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsAddPricesPriceModelTypeBulkWithProration:
+		return true
+	}
+	return false
 }
 
 type SubscriptionNewParamsBillingCycleAnchorConfiguration struct {
@@ -3268,6 +6248,7 @@ type SubscriptionNewParamsPriceOverride struct {
 	UnitWithPercentConfig            param.Field[interface{}] `json:"unit_with_percent_config,required"`
 	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
 	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
+	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config,required"`
 	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
 	TieredWithProrationConfig        param.Field[interface{}] `json:"tiered_with_proration_config,required"`
@@ -3294,6 +6275,7 @@ func (r SubscriptionNewParamsPriceOverride) implementsSubscriptionNewParamsPrice
 // [SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideGroupedAllocationPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideGroupedWithProratedMinimumPrice],
+// [SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideBulkWithProrationPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPrice],
 // [SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPrice],
@@ -4635,6 +7617,85 @@ func (r SubscriptionNewParamsPriceOverridesOverrideGroupedWithProratedMinimumPri
 	return false
 }
 
+type SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice struct {
+	ID                              param.Field[string]                                                                             `json:"id,required"`
+	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}]                                                             `json:"grouped_with_metered_minimum_config,required"`
+	ModelType                       param.Field[SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The subscription's override discount for the plan.
+	Discount param.Field[SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscount] `json:"discount"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice) implementsSubscriptionNewParamsPriceOverrideUnion() {
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType = "grouped_with_metered_minimum"
+)
+
+func (r SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum:
+		return true
+	}
+	return false
+}
+
+// The subscription's override discount for the plan.
+type SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscount struct {
+	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType string
+
+const (
+	SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypePercentage SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "percentage"
+	SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeTrial      SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "trial"
+	SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeUsage      SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "usage"
+	SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeAmount     SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "amount"
+)
+
+func (r SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypePercentage, SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeTrial, SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeUsage, SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsPriceOverridesOverrideBulkWithProrationPrice struct {
 	ID                      param.Field[string]                                                                     `json:"id,required"`
 	BulkWithProrationConfig param.Field[map[string]interface{}]                                                     `json:"bulk_with_proration_config,required"`
@@ -4890,6 +7951,7 @@ const (
 	SubscriptionNewParamsPriceOverridesModelTypeUnitWithPercent            SubscriptionNewParamsPriceOverridesModelType = "unit_with_percent"
 	SubscriptionNewParamsPriceOverridesModelTypeGroupedAllocation          SubscriptionNewParamsPriceOverridesModelType = "grouped_allocation"
 	SubscriptionNewParamsPriceOverridesModelTypeGroupedWithProratedMinimum SubscriptionNewParamsPriceOverridesModelType = "grouped_with_prorated_minimum"
+	SubscriptionNewParamsPriceOverridesModelTypeGroupedWithMeteredMinimum  SubscriptionNewParamsPriceOverridesModelType = "grouped_with_metered_minimum"
 	SubscriptionNewParamsPriceOverridesModelTypeBulkWithProration          SubscriptionNewParamsPriceOverridesModelType = "bulk_with_proration"
 	SubscriptionNewParamsPriceOverridesModelTypeUnitWithProration          SubscriptionNewParamsPriceOverridesModelType = "unit_with_proration"
 	SubscriptionNewParamsPriceOverridesModelTypeTieredWithProration        SubscriptionNewParamsPriceOverridesModelType = "tiered_with_proration"
@@ -4897,7 +7959,2976 @@ const (
 
 func (r SubscriptionNewParamsPriceOverridesModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsPriceOverridesModelTypeUnit, SubscriptionNewParamsPriceOverridesModelTypePackage, SubscriptionNewParamsPriceOverridesModelTypeMatrix, SubscriptionNewParamsPriceOverridesModelTypeTiered, SubscriptionNewParamsPriceOverridesModelTypeTieredBps, SubscriptionNewParamsPriceOverridesModelTypeBps, SubscriptionNewParamsPriceOverridesModelTypeBulkBps, SubscriptionNewParamsPriceOverridesModelTypeBulk, SubscriptionNewParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionNewParamsPriceOverridesModelTypeTieredPackage, SubscriptionNewParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionNewParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionNewParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionNewParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionNewParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsPriceOverridesModelTypeBulkWithProration, SubscriptionNewParamsPriceOverridesModelTypeUnitWithProration, SubscriptionNewParamsPriceOverridesModelTypeTieredWithProration:
+	case SubscriptionNewParamsPriceOverridesModelTypeUnit, SubscriptionNewParamsPriceOverridesModelTypePackage, SubscriptionNewParamsPriceOverridesModelTypeMatrix, SubscriptionNewParamsPriceOverridesModelTypeTiered, SubscriptionNewParamsPriceOverridesModelTypeTieredBps, SubscriptionNewParamsPriceOverridesModelTypeBps, SubscriptionNewParamsPriceOverridesModelTypeBulkBps, SubscriptionNewParamsPriceOverridesModelTypeBulk, SubscriptionNewParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionNewParamsPriceOverridesModelTypeTieredPackage, SubscriptionNewParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionNewParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionNewParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionNewParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionNewParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsPriceOverridesModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsPriceOverridesModelTypeBulkWithProration, SubscriptionNewParamsPriceOverridesModelTypeUnitWithProration, SubscriptionNewParamsPriceOverridesModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsRemoveAdjustment struct {
+	// The id of the adjustment to remove on the subscription.
+	AdjustmentID param.Field[string] `json:"adjustment_id,required"`
+}
+
+func (r SubscriptionNewParamsRemoveAdjustment) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsRemovePrice struct {
+	// The external price id of the price to remove on the subscription.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The id of the price to remove on the subscription.
+	PriceID param.Field[string] `json:"price_id"`
+}
+
+func (r SubscriptionNewParamsRemovePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplaceAdjustment struct {
+	// The definition of a new adjustment to create and add to the subscription.
+	Adjustment param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	// The id of the adjustment on the plan to replace in the subscription.
+	ReplacesAdjustmentID param.Field[string] `json:"replaces_adjustment_id,required"`
+}
+
+func (r SubscriptionNewParamsReplaceAdjustment) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new adjustment to create and add to the subscription.
+type SubscriptionNewParamsReplaceAdjustmentsAdjustment struct {
+	AppliesToPriceIDs  param.Field[interface{}]                                                     `json:"applies_to_price_ids"`
+	AdjustmentType     param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	PercentageDiscount param.Field[float64]                                                         `json:"percentage_discount"`
+	AmountDiscount     param.Field[string]                                                          `json:"amount_discount"`
+	MinimumAmount      param.Field[string]                                                          `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID        param.Field[string] `json:"item_id"`
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustment) implementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+// The definition of a new adjustment to create and add to the subscription.
+//
+// Satisfied by
+// [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount],
+// [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscount],
+// [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimum],
+// [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximum],
+// [SubscriptionNewParamsReplaceAdjustmentsAdjustment].
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion interface {
+	implementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion()
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount struct {
+	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs  param.Field[[]string] `json:"applies_to_price_ids,required"`
+	PercentageDiscount param.Field[float64]  `json:"percentage_discount,required"`
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount) implementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType string
+
+const (
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscount struct {
+	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
+	AmountDiscount param.Field[string]                                                                           `json:"amount_discount,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscount) implementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentType string
+
+const (
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimum struct {
+	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID        param.Field[string] `json:"item_id,required"`
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimum) implementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustmentType string
+
+const (
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustmentTypeMinimum SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustmentType = "minimum"
+)
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximum struct {
+	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	MaximumAmount     param.Field[string]   `json:"maximum_amount,required"`
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximum) implementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustmentType string
+
+const (
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustmentTypeMaximum SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustmentType = "maximum"
+)
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum            SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "minimum"
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum            SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePrice struct {
+	// The definition of a new price to create and add to the subscription.
+	Price param.Field[SubscriptionNewParamsReplacePricesPriceUnion] `json:"price,required"`
+	// The id of the price on the plan to replace in the subscription.
+	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+}
+
+func (r SubscriptionNewParamsReplacePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new price to create and add to the subscription.
+type SubscriptionNewParamsReplacePricesPrice struct {
+	Metadata param.Field[interface{}] `json:"metadata,required"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// The id of the item the plan will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// The cadence to bill for this price on.
+	Cadence                     param.Field[SubscriptionNewParamsReplacePricesPriceCadence] `json:"cadence,required"`
+	BillingCycleConfiguration   param.Field[interface{}]                                    `json:"billing_cycle_configuration,required"`
+	InvoicingCycleConfiguration param.Field[interface{}]                                    `json:"invoicing_cycle_configuration,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64]                                          `json:"conversion_rate"`
+	ModelType      param.Field[SubscriptionNewParamsReplacePricesPriceModelType] `json:"model_type,required"`
+	UnitConfig     param.Field[interface{}]                                      `json:"unit_config,required"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency                         param.Field[string]      `json:"currency"`
+	PackageConfig                    param.Field[interface{}] `json:"package_config,required"`
+	MatrixConfig                     param.Field[interface{}] `json:"matrix_config,required"`
+	TieredConfig                     param.Field[interface{}] `json:"tiered_config,required"`
+	TieredBpsConfig                  param.Field[interface{}] `json:"tiered_bps_config,required"`
+	BpsConfig                        param.Field[interface{}] `json:"bps_config,required"`
+	BulkBpsConfig                    param.Field[interface{}] `json:"bulk_bps_config,required"`
+	BulkConfig                       param.Field[interface{}] `json:"bulk_config,required"`
+	ThresholdTotalAmountConfig       param.Field[interface{}] `json:"threshold_total_amount_config,required"`
+	TieredPackageConfig              param.Field[interface{}] `json:"tiered_package_config,required"`
+	TieredWithMinimumConfig          param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
+	UnitWithPercentConfig            param.Field[interface{}] `json:"unit_with_percent_config,required"`
+	PackageWithAllocationConfig      param.Field[interface{}] `json:"package_with_allocation_config,required"`
+	TieredWithProrationConfig        param.Field[interface{}] `json:"tiered_with_proration_config,required"`
+	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
+	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The definition of a new price to create and add to the subscription.
+//
+// Satisfied by [SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPrice],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPrice],
+// [SubscriptionNewParamsReplacePricesPrice].
+type SubscriptionNewParamsReplacePricesPriceUnion interface {
+	implementsSubscriptionNewParamsReplacePricesPriceUnion()
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name       param.Field[string]                                                                    `json:"name,required"`
+	UnitConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceUnitConfig] `json:"unit_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelTypeUnit SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelType = "unit"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelTypeUnit:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceUnitConfig struct {
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                      `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name          param.Field[string]                                                                          `json:"name,required"`
+	PackageConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePricePackageConfig] `json:"package_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceModelTypePackage SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceModelType = "package"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceModelTypePackage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePricePackageConfig struct {
+	// A currency amount to rate usage by
+	PackageAmount param.Field[string] `json:"package_amount,required"`
+	// An integer amount to represent package size. For example, 1000 here would divide
+	// usage by 1000 before multiplying by package_amount in rating
+	PackageSize param.Field[int64] `json:"package_size,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID       param.Field[string]                                                                        `json:"item_id,required"`
+	MatrixConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfig] `json:"matrix_config,required"`
+	ModelType    param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceModelType]    `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfig struct {
+	// Default per unit rate for any usage not bucketed into a specified matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions,required"`
+	// Matrix values for specified matrix grouping keys
+	MatrixValues param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this Matrix value by. For example,
+	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
+	// instance tier.
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// Unit price for the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceModelTypeMatrix SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceModelType = "matrix"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceModelTypeMatrix:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                     `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name         param.Field[string]                                                                        `json:"name,required"`
+	TieredConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfig] `json:"tiered_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceModelTypeTiered SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceModelType = "tiered"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceModelTypeTiered:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier
+	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfigTier struct {
+	// Inclusive tier starting value
+	FirstUnit param.Field[float64] `json:"first_unit,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// Exclusive tier ending value. If null, this is treated as the last tier
+	LastUnit param.Field[float64] `json:"last_unit"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                        `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name            param.Field[string]                                                                              `json:"name,required"`
+	TieredBpsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelType = "tiered_bps"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfig struct {
+	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
+	// tiers
+	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier struct {
+	// Per-event basis point rate
+	Bps param.Field[float64] `json:"bps,required"`
+	// Inclusive tier starting value
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// Exclusive tier ending value
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// Per unit maximum to charge
+	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPrice struct {
+	BpsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBpsConfig] `json:"bps_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBpsConfig struct {
+	// Basis point take rate per event
+	Bps param.Field[float64] `json:"bps,required"`
+	// Optional currency amount maximum to cap spend per event
+	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceModelTypeBps SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceModelType = "bps"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceModelTypeBps:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPrice struct {
+	BulkBpsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                      `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig struct {
+	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
+	// tier based on total volume
+	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier struct {
+	// Basis points to rate on
+	Bps param.Field[float64] `json:"bps,required"`
+	// Upper bound for tier
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The maximum amount to charge for any one event
+	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelType = "bulk_bps"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPrice struct {
+	BulkConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfig] `json:"bulk_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfig struct {
+	// Bulk tiers for rating based on total usage volume
+	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfigTier struct {
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// Upper bound for this tier
+	MaximumUnits param.Field[float64] `json:"maximum_units"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceModelTypeBulk SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceModelType = "bulk"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceModelTypeBulk:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                   `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                       param.Field[string]                 `json:"name,required"`
+	ThresholdTotalAmountConfig param.Field[map[string]interface{}] `json:"threshold_total_amount_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelType = "threshold_total_amount"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                param.Field[string]                 `json:"name,required"`
+	TieredPackageConfig param.Field[map[string]interface{}] `json:"tiered_package_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelType = "tiered_package"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                    param.Field[string]                 `json:"name,required"`
+	TieredWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_with_minimum_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelType = "tiered_with_minimum"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                              `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                  param.Field[string]                 `json:"name,required"`
+	UnitWithPercentConfig param.Field[map[string]interface{}] `json:"unit_with_percent_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelType = "unit_with_percent"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                    `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                        param.Field[string]                 `json:"name,required"`
+	PackageWithAllocationConfig param.Field[map[string]interface{}] `json:"package_with_allocation_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelType = "package_with_allocation"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                      param.Field[string]                 `json:"name,required"`
+	TieredWithProrationConfig param.Field[map[string]interface{}] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                    param.Field[string]                 `json:"name,required"`
+	UnitWithProrationConfig param.Field[map[string]interface{}] `json:"unit_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelType = "unit_with_proration"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence                 param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
+	GroupedAllocationConfig param.Field[map[string]interface{}]                                                              `json:"grouped_allocation_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelType = "grouped_allocation"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence                          param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                                                       `json:"grouped_with_prorated_minimum_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                         `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPrice struct {
+	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelType = "bulk_with_proration"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewParamsReplacePricesPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceModelTypeUnit                       SubscriptionNewParamsReplacePricesPriceModelType = "unit"
+	SubscriptionNewParamsReplacePricesPriceModelTypePackage                    SubscriptionNewParamsReplacePricesPriceModelType = "package"
+	SubscriptionNewParamsReplacePricesPriceModelTypeMatrix                     SubscriptionNewParamsReplacePricesPriceModelType = "matrix"
+	SubscriptionNewParamsReplacePricesPriceModelTypeTiered                     SubscriptionNewParamsReplacePricesPriceModelType = "tiered"
+	SubscriptionNewParamsReplacePricesPriceModelTypeTieredBps                  SubscriptionNewParamsReplacePricesPriceModelType = "tiered_bps"
+	SubscriptionNewParamsReplacePricesPriceModelTypeBps                        SubscriptionNewParamsReplacePricesPriceModelType = "bps"
+	SubscriptionNewParamsReplacePricesPriceModelTypeBulkBps                    SubscriptionNewParamsReplacePricesPriceModelType = "bulk_bps"
+	SubscriptionNewParamsReplacePricesPriceModelTypeBulk                       SubscriptionNewParamsReplacePricesPriceModelType = "bulk"
+	SubscriptionNewParamsReplacePricesPriceModelTypeThresholdTotalAmount       SubscriptionNewParamsReplacePricesPriceModelType = "threshold_total_amount"
+	SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackage              SubscriptionNewParamsReplacePricesPriceModelType = "tiered_package"
+	SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithMinimum          SubscriptionNewParamsReplacePricesPriceModelType = "tiered_with_minimum"
+	SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent            SubscriptionNewParamsReplacePricesPriceModelType = "unit_with_percent"
+	SubscriptionNewParamsReplacePricesPriceModelTypePackageWithAllocation      SubscriptionNewParamsReplacePricesPriceModelType = "package_with_allocation"
+	SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithProration        SubscriptionNewParamsReplacePricesPriceModelType = "tiered_with_proration"
+	SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithProration          SubscriptionNewParamsReplacePricesPriceModelType = "unit_with_proration"
+	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedAllocation          SubscriptionNewParamsReplacePricesPriceModelType = "grouped_allocation"
+	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum SubscriptionNewParamsReplacePricesPriceModelType = "grouped_with_prorated_minimum"
+	SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithProration          SubscriptionNewParamsReplacePricesPriceModelType = "bulk_with_proration"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceModelTypeUnit, SubscriptionNewParamsReplacePricesPriceModelTypePackage, SubscriptionNewParamsReplacePricesPriceModelTypeMatrix, SubscriptionNewParamsReplacePricesPriceModelTypeTiered, SubscriptionNewParamsReplacePricesPriceModelTypeTieredBps, SubscriptionNewParamsReplacePricesPriceModelTypeBps, SubscriptionNewParamsReplacePricesPriceModelTypeBulkBps, SubscriptionNewParamsReplacePricesPriceModelTypeBulk, SubscriptionNewParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithProration:
 		return true
 	}
 	return false
@@ -5415,6 +11446,7 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
 	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
 	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
+	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config,required"`
 	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 }
 
@@ -5447,6 +11479,7 @@ func (r SubscriptionPriceIntervalsParamsAddPrice) implementsSubscriptionPriceInt
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithProrationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithProratedMinimumPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithProrationPrice],
 // [SubscriptionPriceIntervalsParamsAddPrice].
 type SubscriptionPriceIntervalsParamsAddPriceUnion interface {
@@ -8369,6 +14402,143 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithProratedMi
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency                        param.Field[string]                 `json:"currency,required"`
+	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_metered_minimum_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "custom"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceModelType = "grouped_with_metered_minimum"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithProrationPrice struct {
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
@@ -8549,12 +14719,13 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration          SubscriptionPriceIntervalsParamsAddPriceModelType = "unit_with_proration"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation          SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_allocation"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_with_prorated_minimum"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum  SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_with_metered_minimum"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration          SubscriptionPriceIntervalsParamsAddPriceModelType = "bulk_with_proration"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration:
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration:
 		return true
 	}
 	return false
@@ -8948,6 +15119,7 @@ type SubscriptionSchedulePlanChangeParamsPriceOverride struct {
 	UnitWithPercentConfig            param.Field[interface{}] `json:"unit_with_percent_config,required"`
 	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
 	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
+	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config,required"`
 	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
 	TieredWithProrationConfig        param.Field[interface{}] `json:"tiered_with_proration_config,required"`
@@ -8976,6 +15148,7 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverride) implementsSubscriptio
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedAllocationPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithProratedMinimumPrice],
+// [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkWithProrationPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPrice],
 // [SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPrice],
@@ -10317,6 +16490,85 @@ func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithPro
 	return false
 }
 
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice struct {
+	ID                              param.Field[string]                                                                                            `json:"id,required"`
+	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}]                                                                            `json:"grouped_with_metered_minimum_config,required"`
+	ModelType                       param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The currency of the price. If not provided, the currency of the plan will be
+	// used.
+	Currency param.Field[string] `json:"currency"`
+	// The subscription's override discount for the plan.
+	Discount param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscount] `json:"discount"`
+	// The starting quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The subscription's override maximum amount for the plan.
+	MaximumAmount param.Field[string] `json:"maximum_amount"`
+	// The subscription's override minimum amount for the plan.
+	MinimumAmount param.Field[string] `json:"minimum_amount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPrice) implementsSubscriptionSchedulePlanChangeParamsPriceOverrideUnion() {
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType = "grouped_with_metered_minimum"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum:
+		return true
+	}
+	return false
+}
+
+// The subscription's override discount for the plan.
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscount struct {
+	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount param.Field[float64] `json:"usage_discount"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypePercentage SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeTrial      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "trial"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeUsage      SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "usage"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeAmount     SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType = "amount"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypePercentage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeTrial, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeUsage, SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkWithProrationPrice struct {
 	ID                      param.Field[string]                                                                                    `json:"id,required"`
 	BulkWithProrationConfig param.Field[map[string]interface{}]                                                                    `json:"bulk_with_proration_config,required"`
@@ -10572,6 +16824,7 @@ const (
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithPercent            SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "unit_with_percent"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedAllocation          SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "grouped_allocation"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithProratedMinimum SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "grouped_with_prorated_minimum"
+	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithMeteredMinimum  SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "grouped_with_metered_minimum"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkWithProration          SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "bulk_with_proration"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithProration          SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "unit_with_proration"
 	SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithProration        SubscriptionSchedulePlanChangeParamsPriceOverridesModelType = "tiered_with_proration"
@@ -10579,7 +16832,7 @@ const (
 
 func (r SubscriptionSchedulePlanChangeParamsPriceOverridesModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnit, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeMatrix, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTiered, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulk, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithProration:
+	case SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnit, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeMatrix, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTiered, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkBps, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulk, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsPriceOverridesModelTypeTieredWithProration:
 		return true
 	}
 	return false
