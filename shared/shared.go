@@ -10,6 +10,71 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+type AmountDiscount struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string                   `json:"applies_to_price_ids,required"`
+	DiscountType      AmountDiscountDiscountType `json:"discount_type,required"`
+	Reason            string                     `json:"reason,nullable"`
+	JSON              amountDiscountJSON         `json:"-"`
+}
+
+// amountDiscountJSON contains the JSON metadata for the struct [AmountDiscount]
+type amountDiscountJSON struct {
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	DiscountType      apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *AmountDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r amountDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r AmountDiscount) ImplementsSharedDiscount() {}
+
+func (r AmountDiscount) ImplementsSharedInvoiceLevelDiscount() {}
+
+func (r AmountDiscount) ImplementsCouponDiscount() {}
+
+type AmountDiscountDiscountType string
+
+const (
+	AmountDiscountDiscountTypeAmount AmountDiscountDiscountType = "amount"
+)
+
+func (r AmountDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case AmountDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type AmountDiscountParam struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount param.Field[string] `json:"amount_discount,required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string]                   `json:"applies_to_price_ids,required"`
+	DiscountType      param.Field[AmountDiscountDiscountType] `json:"discount_type,required"`
+	Reason            param.Field[string]                     `json:"reason"`
+}
+
+func (r AmountDiscountParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r AmountDiscountParam) ImplementsSharedDiscountUnionParam() {}
+
 type BillingCycleRelativeDate string
 
 const (
@@ -96,18 +161,16 @@ func (r *Discount) UnmarshalJSON(data []byte) (err error) {
 // AsUnion returns a [DiscountUnion] interface which you can cast to the specific
 // types for more type safety.
 //
-// Possible runtime types of the union are [shared.DiscountPercentageDiscount],
-// [shared.DiscountTrialDiscount], [shared.DiscountUsageDiscount],
-// [shared.DiscountAmountDiscount].
+// Possible runtime types of the union are [shared.PercentageDiscount],
+// [shared.TrialDiscount], [shared.DiscountUsageDiscount], [shared.AmountDiscount].
 func (r Discount) AsUnion() DiscountUnion {
 	return r.union
 }
 
-// Union satisfied by [shared.DiscountPercentageDiscount],
-// [shared.DiscountTrialDiscount], [shared.DiscountUsageDiscount] or
-// [shared.DiscountAmountDiscount].
+// Union satisfied by [shared.PercentageDiscount], [shared.TrialDiscount],
+// [shared.DiscountUsageDiscount] or [shared.AmountDiscount].
 type DiscountUnion interface {
-	implementsSharedDiscount()
+	ImplementsSharedDiscount()
 }
 
 func init() {
@@ -116,12 +179,12 @@ func init() {
 		"discount_type",
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(DiscountPercentageDiscount{}),
+			Type:               reflect.TypeOf(PercentageDiscount{}),
 			DiscriminatorValue: "percentage",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(DiscountTrialDiscount{}),
+			Type:               reflect.TypeOf(TrialDiscount{}),
 			DiscriminatorValue: "trial",
 		},
 		apijson.UnionVariant{
@@ -131,106 +194,10 @@ func init() {
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(DiscountAmountDiscount{}),
+			Type:               reflect.TypeOf(AmountDiscount{}),
 			DiscriminatorValue: "amount",
 		},
 	)
-}
-
-type DiscountPercentageDiscount struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs []string                               `json:"applies_to_price_ids,required"`
-	DiscountType      DiscountPercentageDiscountDiscountType `json:"discount_type,required"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount float64                        `json:"percentage_discount,required"`
-	Reason             string                         `json:"reason,nullable"`
-	JSON               discountPercentageDiscountJSON `json:"-"`
-}
-
-// discountPercentageDiscountJSON contains the JSON metadata for the struct
-// [DiscountPercentageDiscount]
-type discountPercentageDiscountJSON struct {
-	AppliesToPriceIDs  apijson.Field
-	DiscountType       apijson.Field
-	PercentageDiscount apijson.Field
-	Reason             apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *DiscountPercentageDiscount) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r discountPercentageDiscountJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r DiscountPercentageDiscount) implementsSharedDiscount() {}
-
-type DiscountPercentageDiscountDiscountType string
-
-const (
-	DiscountPercentageDiscountDiscountTypePercentage DiscountPercentageDiscountDiscountType = "percentage"
-)
-
-func (r DiscountPercentageDiscountDiscountType) IsKnown() bool {
-	switch r {
-	case DiscountPercentageDiscountDiscountTypePercentage:
-		return true
-	}
-	return false
-}
-
-type DiscountTrialDiscount struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs []string                          `json:"applies_to_price_ids,required"`
-	DiscountType      DiscountTrialDiscountDiscountType `json:"discount_type,required"`
-	Reason            string                            `json:"reason,nullable"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
-	// Only available if discount_type is `trial`
-	TrialPercentageDiscount float64                   `json:"trial_percentage_discount,nullable"`
-	JSON                    discountTrialDiscountJSON `json:"-"`
-}
-
-// discountTrialDiscountJSON contains the JSON metadata for the struct
-// [DiscountTrialDiscount]
-type discountTrialDiscountJSON struct {
-	AppliesToPriceIDs       apijson.Field
-	DiscountType            apijson.Field
-	Reason                  apijson.Field
-	TrialAmountDiscount     apijson.Field
-	TrialPercentageDiscount apijson.Field
-	raw                     string
-	ExtraFields             map[string]apijson.Field
-}
-
-func (r *DiscountTrialDiscount) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r discountTrialDiscountJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r DiscountTrialDiscount) implementsSharedDiscount() {}
-
-type DiscountTrialDiscountDiscountType string
-
-const (
-	DiscountTrialDiscountDiscountTypeTrial DiscountTrialDiscountDiscountType = "trial"
-)
-
-func (r DiscountTrialDiscountDiscountType) IsKnown() bool {
-	switch r {
-	case DiscountTrialDiscountDiscountTypeTrial:
-		return true
-	}
-	return false
 }
 
 type DiscountUsageDiscount struct {
@@ -264,7 +231,7 @@ func (r discountUsageDiscountJSON) RawJSON() string {
 	return r.raw
 }
 
-func (r DiscountUsageDiscount) implementsSharedDiscount() {}
+func (r DiscountUsageDiscount) ImplementsSharedDiscount() {}
 
 type DiscountUsageDiscountDiscountType string
 
@@ -275,52 +242,6 @@ const (
 func (r DiscountUsageDiscountDiscountType) IsKnown() bool {
 	switch r {
 	case DiscountUsageDiscountDiscountTypeUsage:
-		return true
-	}
-	return false
-}
-
-type DiscountAmountDiscount struct {
-	// Only available if discount_type is `amount`.
-	AmountDiscount string `json:"amount_discount,required"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs []string                           `json:"applies_to_price_ids,required"`
-	DiscountType      DiscountAmountDiscountDiscountType `json:"discount_type,required"`
-	Reason            string                             `json:"reason,nullable"`
-	JSON              discountAmountDiscountJSON         `json:"-"`
-}
-
-// discountAmountDiscountJSON contains the JSON metadata for the struct
-// [DiscountAmountDiscount]
-type discountAmountDiscountJSON struct {
-	AmountDiscount    apijson.Field
-	AppliesToPriceIDs apijson.Field
-	DiscountType      apijson.Field
-	Reason            apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
-}
-
-func (r *DiscountAmountDiscount) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r discountAmountDiscountJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r DiscountAmountDiscount) implementsSharedDiscount() {}
-
-type DiscountAmountDiscountDiscountType string
-
-const (
-	DiscountAmountDiscountDiscountTypeAmount DiscountAmountDiscountDiscountType = "amount"
-)
-
-func (r DiscountAmountDiscountDiscountType) IsKnown() bool {
-	switch r {
-	case DiscountAmountDiscountDiscountTypeAmount:
 		return true
 	}
 	return false
@@ -365,49 +286,14 @@ func (r DiscountParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r DiscountParam) implementsSharedDiscountUnionParam() {}
+func (r DiscountParam) ImplementsSharedDiscountUnionParam() {}
 
-// Satisfied by [shared.DiscountPercentageDiscountParam],
-// [shared.DiscountTrialDiscountParam], [shared.DiscountUsageDiscountParam],
-// [shared.DiscountAmountDiscountParam], [DiscountParam].
+// Satisfied by [shared.PercentageDiscountParam], [shared.TrialDiscountParam],
+// [shared.DiscountUsageDiscountParam], [shared.AmountDiscountParam],
+// [DiscountParam].
 type DiscountUnionParam interface {
-	implementsSharedDiscountUnionParam()
+	ImplementsSharedDiscountUnionParam()
 }
-
-type DiscountPercentageDiscountParam struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                               `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[DiscountPercentageDiscountDiscountType] `json:"discount_type,required"`
-	// Only available if discount_type is `percentage`. This is a number between 0
-	// and 1.
-	PercentageDiscount param.Field[float64] `json:"percentage_discount,required"`
-	Reason             param.Field[string]  `json:"reason"`
-}
-
-func (r DiscountPercentageDiscountParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r DiscountPercentageDiscountParam) implementsSharedDiscountUnionParam() {}
-
-type DiscountTrialDiscountParam struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                          `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[DiscountTrialDiscountDiscountType] `json:"discount_type,required"`
-	Reason            param.Field[string]                            `json:"reason"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
-	// Only available if discount_type is `trial`
-	TrialPercentageDiscount param.Field[float64] `json:"trial_percentage_discount"`
-}
-
-func (r DiscountTrialDiscountParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r DiscountTrialDiscountParam) implementsSharedDiscountUnionParam() {}
 
 type DiscountUsageDiscountParam struct {
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
@@ -424,23 +310,105 @@ func (r DiscountUsageDiscountParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r DiscountUsageDiscountParam) implementsSharedDiscountUnionParam() {}
+func (r DiscountUsageDiscountParam) ImplementsSharedDiscountUnionParam() {}
 
-type DiscountAmountDiscountParam struct {
+type InvoiceLevelDiscount struct {
+	DiscountType InvoiceLevelDiscountDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	Reason            string      `json:"reason,nullable"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
 	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount,required"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                           `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[DiscountAmountDiscountDiscountType] `json:"discount_type,required"`
-	Reason            param.Field[string]                             `json:"reason"`
+	AmountDiscount string `json:"amount_discount"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
+	// Only available if discount_type is `trial`
+	TrialPercentageDiscount float64                  `json:"trial_percentage_discount,nullable"`
+	JSON                    invoiceLevelDiscountJSON `json:"-"`
+	union                   InvoiceLevelDiscountUnion
 }
 
-func (r DiscountAmountDiscountParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
+// invoiceLevelDiscountJSON contains the JSON metadata for the struct
+// [InvoiceLevelDiscount]
+type invoiceLevelDiscountJSON struct {
+	DiscountType            apijson.Field
+	AppliesToPriceIDs       apijson.Field
+	Reason                  apijson.Field
+	PercentageDiscount      apijson.Field
+	AmountDiscount          apijson.Field
+	TrialAmountDiscount     apijson.Field
+	TrialPercentageDiscount apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
 }
 
-func (r DiscountAmountDiscountParam) implementsSharedDiscountUnionParam() {}
+func (r invoiceLevelDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *InvoiceLevelDiscount) UnmarshalJSON(data []byte) (err error) {
+	*r = InvoiceLevelDiscount{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [InvoiceLevelDiscountUnion] interface which you can cast to
+// the specific types for more type safety.
+//
+// Possible runtime types of the union are [shared.PercentageDiscount],
+// [shared.AmountDiscount], [shared.TrialDiscount].
+func (r InvoiceLevelDiscount) AsUnion() InvoiceLevelDiscountUnion {
+	return r.union
+}
+
+// Union satisfied by [shared.PercentageDiscount], [shared.AmountDiscount] or
+// [shared.TrialDiscount].
+type InvoiceLevelDiscountUnion interface {
+	ImplementsSharedInvoiceLevelDiscount()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*InvoiceLevelDiscountUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PercentageDiscount{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(AmountDiscount{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(TrialDiscount{}),
+			DiscriminatorValue: "trial",
+		},
+	)
+}
+
+type InvoiceLevelDiscountDiscountType string
+
+const (
+	InvoiceLevelDiscountDiscountTypePercentage InvoiceLevelDiscountDiscountType = "percentage"
+	InvoiceLevelDiscountDiscountTypeAmount     InvoiceLevelDiscountDiscountType = "amount"
+	InvoiceLevelDiscountDiscountTypeTrial      InvoiceLevelDiscountDiscountType = "trial"
+)
+
+func (r InvoiceLevelDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case InvoiceLevelDiscountDiscountTypePercentage, InvoiceLevelDiscountDiscountTypeAmount, InvoiceLevelDiscountDiscountTypeTrial:
+		return true
+	}
+	return false
+}
 
 type PaginationMetadata struct {
 	HasMore    bool                   `json:"has_more,required"`
@@ -464,3 +432,139 @@ func (r *PaginationMetadata) UnmarshalJSON(data []byte) (err error) {
 func (r paginationMetadataJSON) RawJSON() string {
 	return r.raw
 }
+
+type PercentageDiscount struct {
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string                       `json:"applies_to_price_ids,required"`
+	DiscountType      PercentageDiscountDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount float64                `json:"percentage_discount,required"`
+	Reason             string                 `json:"reason,nullable"`
+	JSON               percentageDiscountJSON `json:"-"`
+}
+
+// percentageDiscountJSON contains the JSON metadata for the struct
+// [PercentageDiscount]
+type percentageDiscountJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	DiscountType       apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *PercentageDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r percentageDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PercentageDiscount) ImplementsSharedDiscount() {}
+
+func (r PercentageDiscount) ImplementsSharedInvoiceLevelDiscount() {}
+
+func (r PercentageDiscount) ImplementsCouponDiscount() {}
+
+type PercentageDiscountDiscountType string
+
+const (
+	PercentageDiscountDiscountTypePercentage PercentageDiscountDiscountType = "percentage"
+)
+
+func (r PercentageDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case PercentageDiscountDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type PercentageDiscountParam struct {
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string]                       `json:"applies_to_price_ids,required"`
+	DiscountType      param.Field[PercentageDiscountDiscountType] `json:"discount_type,required"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount param.Field[float64] `json:"percentage_discount,required"`
+	Reason             param.Field[string]  `json:"reason"`
+}
+
+func (r PercentageDiscountParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PercentageDiscountParam) ImplementsSharedDiscountUnionParam() {}
+
+type TrialDiscount struct {
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string                  `json:"applies_to_price_ids,required"`
+	DiscountType      TrialDiscountDiscountType `json:"discount_type,required"`
+	Reason            string                    `json:"reason,nullable"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
+	// Only available if discount_type is `trial`
+	TrialPercentageDiscount float64           `json:"trial_percentage_discount,nullable"`
+	JSON                    trialDiscountJSON `json:"-"`
+}
+
+// trialDiscountJSON contains the JSON metadata for the struct [TrialDiscount]
+type trialDiscountJSON struct {
+	AppliesToPriceIDs       apijson.Field
+	DiscountType            apijson.Field
+	Reason                  apijson.Field
+	TrialAmountDiscount     apijson.Field
+	TrialPercentageDiscount apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
+}
+
+func (r *TrialDiscount) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r trialDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r TrialDiscount) ImplementsSharedDiscount() {}
+
+func (r TrialDiscount) ImplementsSharedInvoiceLevelDiscount() {}
+
+type TrialDiscountDiscountType string
+
+const (
+	TrialDiscountDiscountTypeTrial TrialDiscountDiscountType = "trial"
+)
+
+func (r TrialDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case TrialDiscountDiscountTypeTrial:
+		return true
+	}
+	return false
+}
+
+type TrialDiscountParam struct {
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string]                  `json:"applies_to_price_ids,required"`
+	DiscountType      param.Field[TrialDiscountDiscountType] `json:"discount_type,required"`
+	Reason            param.Field[string]                    `json:"reason"`
+	// Only available if discount_type is `trial`
+	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
+	// Only available if discount_type is `trial`
+	TrialPercentageDiscount param.Field[float64] `json:"trial_percentage_discount"`
+}
+
+func (r TrialDiscountParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r TrialDiscountParam) ImplementsSharedDiscountUnionParam() {}
