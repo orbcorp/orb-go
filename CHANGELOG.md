@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.67.0 (2024-09-25)
+
+Full Changelog: [v0.66.0...v0.67.0](https://github.com/orbcorp/orb-go/compare/v0.66.0...v0.67.0)
+
+### Features
+
+* **api:** extract discounts to models ([#306](https://github.com/orbcorp/orb-go/issues/306)) ([f78f5f8](https://github.com/orbcorp/orb-go/commit/f78f5f8732655adfef12af92a75abc2ebf523651))
+
+
+### Chores
+
+* **internal:** codegen related update ([#304](https://github.com/orbcorp/orb-go/issues/304)) ([2d3c72f](https://github.com/orbcorp/orb-go/commit/2d3c72f257b3b3e3bac9f0baa8123bc2b512fd36))
+
 ## 0.66.0 (2024-09-24)
 
 Full Changelog: [v0.65.0...v0.66.0](https://github.com/orbcorp/orb-go/compare/v0.65.0...v0.66.0)
