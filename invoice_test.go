@@ -43,9 +43,9 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 		}}),
 		NetTerms:   orb.F(int64(0)),
 		CustomerID: orb.F("4khy3nwzktxv7"),
-		Discount: orb.F[shared.DiscountUnionParam](shared.DiscountPercentageDiscountParam{
+		Discount: orb.F[shared.DiscountUnionParam](shared.PercentageDiscountParam{
 			AppliesToPriceIDs:  orb.F([]string{"h74gfhdjvn7ujokd", "7hfgtgjnbvc3ujkl"}),
-			DiscountType:       orb.F(shared.DiscountPercentageDiscountDiscountTypePercentage),
+			DiscountType:       orb.F(shared.PercentageDiscountDiscountTypePercentage),
 			PercentageDiscount: orb.F(0.150000),
 			Reason:             orb.F("reason"),
 		}),

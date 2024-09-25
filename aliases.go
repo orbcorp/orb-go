@@ -34,6 +34,18 @@ const ErrorTypeDuplicateResourceCreation = apierror.ErrorTypeDuplicateResourceCr
 const ErrorTypeConstraintViolation = apierror.ErrorTypeConstraintViolation
 
 // This is an alias to an internal type.
+type AmountDiscount = shared.AmountDiscount
+
+// This is an alias to an internal type.
+type AmountDiscountDiscountType = shared.AmountDiscountDiscountType
+
+// This is an alias to an internal value.
+const AmountDiscountDiscountTypeAmount = shared.AmountDiscountDiscountTypeAmount
+
+// This is an alias to an internal type.
+type AmountDiscountParam = shared.AmountDiscountParam
+
+// This is an alias to an internal type.
 type BillingCycleRelativeDate = shared.BillingCycleRelativeDate
 
 // This is an alias to an internal value.
@@ -46,24 +58,6 @@ const BillingCycleRelativeDateEndOfTerm = shared.BillingCycleRelativeDateEndOfTe
 type Discount = shared.Discount
 
 // This is an alias to an internal type.
-type DiscountPercentageDiscount = shared.DiscountPercentageDiscount
-
-// This is an alias to an internal type.
-type DiscountPercentageDiscountDiscountType = shared.DiscountPercentageDiscountDiscountType
-
-// This is an alias to an internal value.
-const DiscountPercentageDiscountDiscountTypePercentage = shared.DiscountPercentageDiscountDiscountTypePercentage
-
-// This is an alias to an internal type.
-type DiscountTrialDiscount = shared.DiscountTrialDiscount
-
-// This is an alias to an internal type.
-type DiscountTrialDiscountDiscountType = shared.DiscountTrialDiscountDiscountType
-
-// This is an alias to an internal value.
-const DiscountTrialDiscountDiscountTypeTrial = shared.DiscountTrialDiscountDiscountTypeTrial
-
-// This is an alias to an internal type.
 type DiscountUsageDiscount = shared.DiscountUsageDiscount
 
 // This is an alias to an internal type.
@@ -71,15 +65,6 @@ type DiscountUsageDiscountDiscountType = shared.DiscountUsageDiscountDiscountTyp
 
 // This is an alias to an internal value.
 const DiscountUsageDiscountDiscountTypeUsage = shared.DiscountUsageDiscountDiscountTypeUsage
-
-// This is an alias to an internal type.
-type DiscountAmountDiscount = shared.DiscountAmountDiscount
-
-// This is an alias to an internal type.
-type DiscountAmountDiscountDiscountType = shared.DiscountAmountDiscountDiscountType
-
-// This is an alias to an internal value.
-const DiscountAmountDiscountDiscountTypeAmount = shared.DiscountAmountDiscountDiscountTypeAmount
 
 // This is an alias to an internal type.
 type DiscountDiscountType = shared.DiscountDiscountType
@@ -100,16 +85,46 @@ const DiscountDiscountTypeAmount = shared.DiscountDiscountTypeAmount
 type DiscountUnionParam = shared.DiscountUnionParam
 
 // This is an alias to an internal type.
-type DiscountPercentageDiscountParam = shared.DiscountPercentageDiscountParam
-
-// This is an alias to an internal type.
-type DiscountTrialDiscountParam = shared.DiscountTrialDiscountParam
-
-// This is an alias to an internal type.
 type DiscountUsageDiscountParam = shared.DiscountUsageDiscountParam
 
 // This is an alias to an internal type.
-type DiscountAmountDiscountParam = shared.DiscountAmountDiscountParam
+type InvoiceLevelDiscount = shared.InvoiceLevelDiscount
+
+// This is an alias to an internal type.
+type InvoiceLevelDiscountDiscountType = shared.InvoiceLevelDiscountDiscountType
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountDiscountTypePercentage = shared.InvoiceLevelDiscountDiscountTypePercentage
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountDiscountTypeAmount = shared.InvoiceLevelDiscountDiscountTypeAmount
+
+// This is an alias to an internal value.
+const InvoiceLevelDiscountDiscountTypeTrial = shared.InvoiceLevelDiscountDiscountTypeTrial
 
 // This is an alias to an internal type.
 type PaginationMetadata = shared.PaginationMetadata
+
+// This is an alias to an internal type.
+type PercentageDiscount = shared.PercentageDiscount
+
+// This is an alias to an internal type.
+type PercentageDiscountDiscountType = shared.PercentageDiscountDiscountType
+
+// This is an alias to an internal value.
+const PercentageDiscountDiscountTypePercentage = shared.PercentageDiscountDiscountTypePercentage
+
+// This is an alias to an internal type.
+type PercentageDiscountParam = shared.PercentageDiscountParam
+
+// This is an alias to an internal type.
+type TrialDiscount = shared.TrialDiscount
+
+// This is an alias to an internal type.
+type TrialDiscountDiscountType = shared.TrialDiscountDiscountType
+
+// This is an alias to an internal value.
+const TrialDiscountDiscountTypeTrial = shared.TrialDiscountDiscountTypeTrial
+
+// This is an alias to an internal type.
+type TrialDiscountParam = shared.TrialDiscountParam
