@@ -20,7 +20,7 @@ or products provided by Orb please follow the respective company's security repo
 
 ### Orb Terms and Policies
 
-Please contact team@withorb.com for any questions or concerns regarding security of our services.
+Please contact team-test@withorb.com for any questions or concerns regarding security of our services.
 
 ---
 
