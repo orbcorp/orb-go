@@ -1,12 +1,19 @@
 # Shared Params Types
 
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#AmountDiscountParam">AmountDiscountParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BillingCycleRelativeDate">BillingCycleRelativeDate</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#DiscountUnionParam">DiscountUnionParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#PercentageDiscountParam">PercentageDiscountParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TrialDiscountParam">TrialDiscountParam</a>
 
 # Shared Response Types
 
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#AmountDiscount">AmountDiscount</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#Discount">Discount</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#InvoiceLevelDiscount">InvoiceLevelDiscount</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#PaginationMetadata">PaginationMetadata</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#PercentageDiscount">PercentageDiscount</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TrialDiscount">TrialDiscount</a>
 
 # TopLevel
 
