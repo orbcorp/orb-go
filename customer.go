@@ -863,7 +863,7 @@ type CustomerNewParams struct {
 	// A valid customer email, to be used for notifications. When Orb triggers payment
 	// through a payment gateway, this email will be used for any automatically issued
 	// receipts.
-	Email param.Field[string] `json:"email,required"`
+	Email param.Field[string] `json:"email,required" format:"email"`
 	// The full name of the customer
 	Name                        param.Field[string]                                       `json:"name,required"`
 	AccountingSyncConfiguration param.Field[CustomerNewParamsAccountingSyncConfiguration] `json:"accounting_sync_configuration"`
@@ -1477,7 +1477,7 @@ type CustomerUpdateParams struct {
 	// set at creation time, will be set at subscription creation time.
 	Currency param.Field[string] `json:"currency"`
 	// A valid customer email, to be used for invoicing and notifications.
-	Email         param.Field[string] `json:"email"`
+	Email         param.Field[string] `json:"email" format:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
 	// The external customer ID. This can only be set if empty and the customer has no
 	// past or current subscriptions.
@@ -2102,7 +2102,7 @@ type CustomerUpdateByExternalIDParams struct {
 	// set at creation time, will be set at subscription creation time.
 	Currency param.Field[string] `json:"currency"`
 	// A valid customer email, to be used for invoicing and notifications.
-	Email         param.Field[string] `json:"email"`
+	Email         param.Field[string] `json:"email" format:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
 	// The external customer ID. This can only be set if empty and the customer has no
 	// past or current subscriptions.
