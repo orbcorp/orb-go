@@ -3449,7 +3449,10 @@ type SubscriptionNewParamsAddPricesPrice struct {
 	UnitConfig     param.Field[interface{}]                                  `json:"unit_config,required"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency                         param.Field[string]      `json:"currency"`
+	Currency param.Field[string] `json:"currency"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                      param.Field[string]      `json:"reference_id"`
 	PackageConfig                    param.Field[interface{}] `json:"package_config,required"`
 	MatrixConfig                     param.Field[interface{}] `json:"matrix_config,required"`
 	TieredConfig                     param.Field[interface{}] `json:"tiered_config,required"`
@@ -3537,6 +3540,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice) MarshalJSON() (data []byte, err error) {
@@ -3684,6 +3690,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -3834,6 +3843,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPrice) MarshalJSON() (data []byte, err error) {
@@ -3998,6 +4010,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPrice) MarshalJSON() (data []byte, err error) {
@@ -4158,6 +4173,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -4321,6 +4339,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -4470,6 +4491,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -4631,6 +4655,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPrice) MarshalJSON() (data []byte, err error) {
@@ -4789,6 +4816,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
@@ -4927,6 +4957,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePrice struct
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -5065,6 +5098,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice st
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -5203,6 +5239,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice stru
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
@@ -5341,6 +5380,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -5479,6 +5521,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice st
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -5617,6 +5662,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice st
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -5755,6 +5803,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice st
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -5893,6 +5944,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimu
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -6031,6 +6085,9 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice st
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -8159,10 +8216,16 @@ func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown
 }
 
 type SubscriptionNewParamsReplacePrice struct {
-	// The definition of a new price to create and add to the subscription.
-	Price param.Field[SubscriptionNewParamsReplacePricesPriceUnion] `json:"price,required"`
 	// The id of the price on the plan to replace in the subscription.
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+	// The external price id of the price to add to the subscription.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The new quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The definition of a new price to create and add to the subscription.
+	Price param.Field[SubscriptionNewParamsReplacePricesPriceUnion] `json:"price"`
+	// The id of the price to add to the subscription.
+	PriceID param.Field[string] `json:"price_id"`
 }
 
 func (r SubscriptionNewParamsReplacePrice) MarshalJSON() (data []byte, err error) {
@@ -8199,7 +8262,10 @@ type SubscriptionNewParamsReplacePricesPrice struct {
 	UnitConfig     param.Field[interface{}]                                      `json:"unit_config,required"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency                         param.Field[string]      `json:"currency"`
+	Currency param.Field[string] `json:"currency"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                      param.Field[string]      `json:"reference_id"`
 	PackageConfig                    param.Field[interface{}] `json:"package_config,required"`
 	MatrixConfig                     param.Field[interface{}] `json:"matrix_config,required"`
 	TieredConfig                     param.Field[interface{}] `json:"tiered_config,required"`
@@ -8288,6 +8354,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice) MarshalJSON() (data []byte, err error) {
@@ -8435,6 +8504,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -8585,6 +8657,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPrice) MarshalJSON() (data []byte, err error) {
@@ -8749,6 +8824,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPrice) MarshalJSON() (data []byte, err error) {
@@ -8909,6 +8987,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPrice struct
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -9072,6 +9153,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -9221,6 +9305,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -9382,6 +9469,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPrice struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPrice) MarshalJSON() (data []byte, err error) {
@@ -9540,6 +9630,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountP
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
@@ -9678,6 +9771,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice st
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -9816,6 +9912,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -9954,6 +10053,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice 
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
@@ -10092,6 +10194,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocation
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -10230,6 +10335,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -10368,6 +10476,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -10506,6 +10617,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -10644,6 +10758,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMi
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -10782,6 +10899,9 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -15316,7 +15436,10 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	UnitConfig     param.Field[interface{}]                                                 `json:"unit_config,required"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency                         param.Field[string]      `json:"currency"`
+	Currency param.Field[string] `json:"currency"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                      param.Field[string]      `json:"reference_id"`
 	PackageConfig                    param.Field[interface{}] `json:"package_config,required"`
 	MatrixConfig                     param.Field[interface{}] `json:"matrix_config,required"`
 	TieredConfig                     param.Field[interface{}] `json:"tiered_config,required"`
@@ -15406,6 +15529,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPrice 
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPrice) MarshalJSON() (data []byte, err error) {
@@ -15553,6 +15679,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackagePri
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -15703,6 +15832,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixPrice) MarshalJSON() (data []byte, err error) {
@@ -15867,6 +15999,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPric
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPrice) MarshalJSON() (data []byte, err error) {
@@ -16027,6 +16162,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredBpsP
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -16190,6 +16328,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBpsPrice s
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -16339,6 +16480,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkBpsPri
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -16500,6 +16644,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkPrice 
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkPrice) MarshalJSON() (data []byte, err error) {
@@ -16658,6 +16805,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionThresholdT
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
@@ -16796,6 +16946,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPack
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -16934,6 +17087,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWith
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -17072,6 +17228,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithPe
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
@@ -17210,6 +17369,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackageWit
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -17348,6 +17510,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTierWithPr
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -17486,6 +17651,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithPr
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -17624,6 +17792,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedAll
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -17762,6 +17933,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWit
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -17900,6 +18074,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithPr
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -20014,10 +20191,16 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustme
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
-	// The definition of a new price to create and add to the subscription.
-	Price param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion] `json:"price,required"`
 	// The id of the price on the plan to replace in the subscription.
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+	// The external price id of the price to add to the subscription.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// The new quantity of the price, if the price is a fixed price.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The definition of a new price to create and add to the subscription.
+	Price param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion] `json:"price"`
+	// The id of the price to add to the subscription.
+	PriceID param.Field[string] `json:"price_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePrice) MarshalJSON() (data []byte, err error) {
@@ -20054,7 +20237,10 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	UnitConfig     param.Field[interface{}]                                                     `json:"unit_config,required"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency                         param.Field[string]      `json:"currency"`
+	Currency param.Field[string] `json:"currency"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                      param.Field[string]      `json:"reference_id"`
 	PackageConfig                    param.Field[interface{}] `json:"package_config,required"`
 	MatrixConfig                     param.Field[interface{}] `json:"matrix_config,required"`
 	TieredConfig                     param.Field[interface{}] `json:"tiered_config,required"`
@@ -20144,6 +20330,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPr
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPrice) MarshalJSON() (data []byte, err error) {
@@ -20291,6 +20480,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackag
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -20441,6 +20633,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrix
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixPrice) MarshalJSON() (data []byte, err error) {
@@ -20605,6 +20800,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTiered
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPrice) MarshalJSON() (data []byte, err error) {
@@ -20765,6 +20963,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTiered
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -20928,6 +21129,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBpsPri
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -21077,6 +21281,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkBp
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkBpsPrice) MarshalJSON() (data []byte, err error) {
@@ -21238,6 +21445,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkPr
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkPrice) MarshalJSON() (data []byte, err error) {
@@ -21396,6 +21606,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionThresh
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
@@ -21534,6 +21747,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTiered
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPackagePrice) MarshalJSON() (data []byte, err error) {
@@ -21672,6 +21888,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTiered
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -21810,6 +22029,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWi
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
@@ -21948,6 +22170,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackag
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -22086,6 +22311,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTierWi
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -22224,6 +22452,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWi
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
@@ -22362,6 +22593,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupe
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -22500,6 +22734,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupe
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
@@ -22638,6 +22875,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWi
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
