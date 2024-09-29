@@ -86,6 +86,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
+				ReferenceID: orb.F("reference_id"),
 			}),
 			PriceID:   orb.F("h74gfhdjvn7ujokd"),
 			StartDate: orb.F(time.Now()),
@@ -119,6 +120,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
+				ReferenceID: orb.F("reference_id"),
 			}),
 			PriceID:   orb.F("h74gfhdjvn7ujokd"),
 			StartDate: orb.F(time.Now()),
@@ -152,6 +154,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
+				ReferenceID: orb.F("reference_id"),
 			}),
 			PriceID:   orb.F("h74gfhdjvn7ujokd"),
 			StartDate: orb.F(time.Now()),
@@ -279,6 +282,9 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			ReplacesAdjustmentID: orb.F("replaces_adjustment_id"),
 		}}),
 		ReplacePrices: orb.F([]orb.SubscriptionNewParamsReplacePrice{{
+			ReplacesPriceID:    orb.F("replaces_price_id"),
+			ExternalPriceID:    orb.F("external_price_id"),
+			FixedPriceQuantity: orb.F(2.000000),
 			Price: orb.F[orb.SubscriptionNewParamsReplacePricesPriceUnion](orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice{
 				Cadence:   orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 				ItemID:    orb.F("item_id"),
@@ -305,9 +311,13 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
+				ReferenceID: orb.F("reference_id"),
 			}),
-			ReplacesPriceID: orb.F("replaces_price_id"),
+			PriceID: orb.F("h74gfhdjvn7ujokd"),
 		}, {
+			ReplacesPriceID:    orb.F("replaces_price_id"),
+			ExternalPriceID:    orb.F("external_price_id"),
+			FixedPriceQuantity: orb.F(2.000000),
 			Price: orb.F[orb.SubscriptionNewParamsReplacePricesPriceUnion](orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice{
 				Cadence:   orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 				ItemID:    orb.F("item_id"),
@@ -334,9 +344,13 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
+				ReferenceID: orb.F("reference_id"),
 			}),
-			ReplacesPriceID: orb.F("replaces_price_id"),
+			PriceID: orb.F("h74gfhdjvn7ujokd"),
 		}, {
+			ReplacesPriceID:    orb.F("replaces_price_id"),
+			ExternalPriceID:    orb.F("external_price_id"),
+			FixedPriceQuantity: orb.F(2.000000),
 			Price: orb.F[orb.SubscriptionNewParamsReplacePricesPriceUnion](orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice{
 				Cadence:   orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 				ItemID:    orb.F("item_id"),
@@ -363,8 +377,9 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
 				}),
+				ReferenceID: orb.F("reference_id"),
 			}),
-			ReplacesPriceID: orb.F("replaces_price_id"),
+			PriceID: orb.F("h74gfhdjvn7ujokd"),
 		}}),
 		StartDate: orb.F(time.Now()),
 	})
@@ -964,6 +979,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
 				PriceID:   orb.F("h74gfhdjvn7ujokd"),
 				StartDate: orb.F(time.Now()),
@@ -997,6 +1013,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
 				PriceID:   orb.F("h74gfhdjvn7ujokd"),
 				StartDate: orb.F(time.Now()),
@@ -1030,6 +1047,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
 				PriceID:   orb.F("h74gfhdjvn7ujokd"),
 				StartDate: orb.F(time.Now()),
@@ -1145,6 +1163,9 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				ReplacesAdjustmentID: orb.F("replaces_adjustment_id"),
 			}}),
 			ReplacePrices: orb.F([]orb.SubscriptionSchedulePlanChangeParamsReplacePrice{{
+				ReplacesPriceID:    orb.F("replaces_price_id"),
+				ExternalPriceID:    orb.F("external_price_id"),
+				FixedPriceQuantity: orb.F(2.000000),
 				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion](orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPrice{
 					Cadence:   orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
@@ -1171,9 +1192,13 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
-				ReplacesPriceID: orb.F("replaces_price_id"),
+				PriceID: orb.F("h74gfhdjvn7ujokd"),
 			}, {
+				ReplacesPriceID:    orb.F("replaces_price_id"),
+				ExternalPriceID:    orb.F("external_price_id"),
+				FixedPriceQuantity: orb.F(2.000000),
 				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion](orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPrice{
 					Cadence:   orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
@@ -1200,9 +1225,13 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
-				ReplacesPriceID: orb.F("replaces_price_id"),
+				PriceID: orb.F("h74gfhdjvn7ujokd"),
 			}, {
+				ReplacesPriceID:    orb.F("replaces_price_id"),
+				ExternalPriceID:    orb.F("external_price_id"),
+				FixedPriceQuantity: orb.F(2.000000),
 				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion](orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPrice{
 					Cadence:   orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
@@ -1229,8 +1258,9 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
-				ReplacesPriceID: orb.F("replaces_price_id"),
+				PriceID: orb.F("h74gfhdjvn7ujokd"),
 			}}),
 		},
 	)
