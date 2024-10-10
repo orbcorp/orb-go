@@ -183,7 +183,7 @@ func TestInvoiceFetchUpcomingWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestInvoiceIssue(t *testing.T) {
+func TestInvoiceIssueWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -195,7 +195,13 @@ func TestInvoiceIssue(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Invoices.Issue(context.TODO(), "invoice_id")
+	_, err := client.Invoices.Issue(
+		context.TODO(),
+		"invoice_id",
+		orb.InvoiceIssueParams{
+			Synchronous: orb.F(true),
+		},
+	)
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
