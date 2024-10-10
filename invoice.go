@@ -140,14 +140,14 @@ func (r *InvoiceService) FetchUpcoming(ctx context.Context, query InvoiceFetchUp
 // possibly trigger side effects, some of which could be customer-visible (e.g.
 // sending emails, auto-collecting payment, syncing the invoice to external
 // providers, etc).
-func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *Invoice, err error) {
+func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, body InvoiceIssueParams, opts ...option.RequestOption) (res *Invoice, err error) {
 	opts = append(r.Options[:], opts...)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return
 	}
 	path := fmt.Sprintf("invoices/%s/issue", invoiceID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -3776,6 +3776,16 @@ func (r InvoiceFetchUpcomingParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type InvoiceIssueParams struct {
+	// If true, the invoice will be issued synchronously. If false, the invoice will be
+	// issued asynchronously.
+	Synchronous param.Field[bool] `json:"synchronous"`
+}
+
+func (r InvoiceIssueParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type InvoiceMarkPaidParams struct {
