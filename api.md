@@ -175,6 +175,16 @@ Methods:
 - <code title="get /events/backfills/{backfill_id}">client.Events.Backfills.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventBackfillService.Fetch">Fetch</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, backfillID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventBackfillFetchResponse">EventBackfillFetchResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="post /events/backfills/{backfill_id}/revert">client.Events.Backfills.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventBackfillService.Revert">Revert</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, backfillID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventBackfillRevertResponse">EventBackfillRevertResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
+## Volume
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventVolumes">EventVolumes</a>
+
+Methods:
+
+- <code title="get /events/volume">client.Events.Volume.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventVolumeService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventVolumeListParams">EventVolumeListParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EventVolumes">EventVolumes</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
 # InvoiceLineItems
 
 Response Types:
