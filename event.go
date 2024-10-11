@@ -26,6 +26,7 @@ import (
 type EventService struct {
 	Options   []option.RequestOption
 	Backfills *EventBackfillService
+	Volume    *EventVolumeService
 }
 
 // NewEventService generates a new service that applies the given options to each
@@ -35,6 +36,7 @@ func NewEventService(opts ...option.RequestOption) (r *EventService) {
 	r = &EventService{}
 	r.Options = opts
 	r.Backfills = NewEventBackfillService(opts...)
+	r.Volume = NewEventVolumeService(opts...)
 	return
 }
 
