@@ -10,10 +10,10 @@ import (
 	"net/url"
 
 	"github.com/orbcorp/orb-go/internal/apiquery"
-	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/packages/pagination"
 )
 
 // CouponSubscriptionService contains methods and other services that help with
