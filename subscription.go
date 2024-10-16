@@ -13,10 +13,10 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
-	"github.com/orbcorp/orb-go/internal/pagination"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/packages/pagination"
 	"github.com/orbcorp/orb-go/shared"
 	"github.com/tidwall/gjson"
 )
@@ -3358,14 +3358,9 @@ type SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -3449,14 +3444,9 @@ type SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverridePackagePriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -3554,14 +3544,9 @@ type SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -3655,14 +3640,9 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -3759,14 +3739,9 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -3849,14 +3824,9 @@ type SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBpsPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -3951,14 +3921,9 @@ type SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4050,14 +4015,9 @@ type SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscount struct {
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4129,14 +4089,9 @@ type SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscoun
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4208,14 +4163,9 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscount struc
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4287,14 +4237,9 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscount s
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4366,14 +4311,9 @@ type SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscou
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4445,14 +4385,9 @@ type SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscount str
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4524,14 +4459,9 @@ type SubscriptionNewParamsPriceOverridesOverrideGroupedAllocationPriceDiscount s
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideGroupedAllocationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4603,14 +4533,9 @@ type SubscriptionNewParamsPriceOverridesOverrideGroupedWithProratedMinimumPriceD
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideGroupedWithProratedMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4682,14 +4607,9 @@ type SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDi
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4761,14 +4681,9 @@ type SubscriptionNewParamsPriceOverridesOverrideBulkWithProrationPriceDiscount s
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideBulkWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4840,14 +4755,9 @@ type SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscount s
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -4919,14 +4829,9 @@ type SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscount
 	DiscountType param.Field[SubscriptionNewParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9262,14 +9167,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscount
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9353,14 +9253,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDisco
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackagePriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9458,14 +9353,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscou
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideMatrixPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9559,14 +9449,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscou
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9663,14 +9548,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDis
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredBpsPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9753,14 +9633,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscount 
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBpsPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9855,14 +9730,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDisco
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkBpsPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -9954,14 +9824,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscount
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10033,14 +9898,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmo
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideThresholdTotalAmountPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10112,14 +9972,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePric
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredPackagePriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10191,14 +10046,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimum
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10270,14 +10120,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAlloca
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverridePackageWithAllocationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10349,14 +10194,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPr
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithPercentPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10428,14 +10268,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedAllocation
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedAllocationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10507,14 +10342,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithProrat
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithProratedMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10586,14 +10416,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMetere
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideGroupedWithMeteredMinimumPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10665,14 +10490,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkWithProration
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideBulkWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10744,14 +10564,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProration
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
@@ -10823,14 +10638,9 @@ type SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrati
 	DiscountType param.Field[SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideTieredWithProrationPriceDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string] `json:"amount_discount"`
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	// Only available if discount_type is `trial`
-	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount"`
