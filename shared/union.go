@@ -16,6 +16,7 @@ func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditEndDateUnion()   
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditStartDateUnion()            {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion()   {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion() {}
+func (UnionTime) ImplementsSubscriptionUpdateTrialParamsTrialEndDateUnion()                {}
 
 type UnionString string
 
