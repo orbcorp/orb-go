@@ -1092,6 +1092,35 @@ func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscr
 	return
 }
 
+// This endpoint is used to update the trial end date for a subscription. The new
+// trial end date must be within the time range of the current plan (i.e. the new
+// trial end date must be on or after the subscription's start date on the current
+// plan, and on or before the subscription end date).
+//
+// In order to retroactively remove a trial completely, the end date can be set to
+// the transition date of the subscription to this plan (or, if this is the first
+// plan for this subscription, the subscription's start date). In order to end a
+// trial immediately, the keyword `immediate` can be provided as the trial end
+// date.
+//
+// By default, Orb will shift only the trial end date (and price intervals that
+// start or end on the previous trial end date), and leave all other future price
+// intervals untouched. If the `shift` parameter is set to `true`, Orb will shift
+// all subsequent price and adjustment intervals by the same amount as the trial
+// end date shift (so, e.g., if a plan change is scheduled or an add-on price was
+// added, that change will be pushed back by the same amount of time the trial is
+// extended).
+func (r *SubscriptionService) UpdateTrial(ctx context.Context, subscriptionID string, body SubscriptionUpdateTrialParams, opts ...option.RequestOption) (res *Subscription, err error) {
+	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
+	path := fmt.Sprintf("subscriptions/%s/update_trial", subscriptionID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // A [subscription](../guides/core-concepts.mdx#subscription) represents the
 // purchase of a plan by a customer.
 //
@@ -3194,9 +3223,16 @@ type SubscriptionNewParams struct {
 	// The plan that the given subscription should be switched to. Note that either
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`
+	// Specifies which version of the plan to subscribe to. If null, the default
+	// version will be used.
+	PlanVersionNumber param.Field[int64] `json:"plan_version_number"`
 	// Optionally provide a list of overrides for prices on the plan
 	PriceOverrides param.Field[[]SubscriptionNewParamsPriceOverrideUnion] `json:"price_overrides"`
 	StartDate      param.Field[time.Time]                                 `json:"start_date" format:"date-time"`
+	// The duration of the trial period in days. If not provided, this defaults to the
+	// value specified in the plan. If `0` is provided, the trial on the plan will be
+	// skipped.
+	TrialDurationDays param.Field[int64] `json:"trial_duration_days"`
 }
 
 func (r SubscriptionNewParams) MarshalJSON() (data []byte, err error) {
@@ -9002,8 +9038,15 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// The plan that the given subscription should be switched to. Note that either
 	// this property or `external_plan_id` must be specified.
 	PlanID param.Field[string] `json:"plan_id"`
+	// Specifies which version of the plan to change to. If null, the default version
+	// will be used.
+	PlanVersionNumber param.Field[int64] `json:"plan_version_number"`
 	// Optionally provide a list of overrides for prices on the plan
 	PriceOverrides param.Field[[]SubscriptionSchedulePlanChangeParamsPriceOverrideUnion] `json:"price_overrides"`
+	// The duration of the trial period in days. If not provided, this defaults to the
+	// value specified in the plan. If `0` is provided, the trial on the plan will be
+	// skipped.
+	TrialDurationDays param.Field[int64] `json:"trial_duration_days"`
 }
 
 func (r SubscriptionSchedulePlanChangeParams) MarshalJSON() (data []byte, err error) {
@@ -10753,4 +10796,43 @@ func (r SubscriptionUpdateFixedFeeQuantityParamsChangeOption) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type SubscriptionUpdateTrialParams struct {
+	// The new date that the trial should end, or the literal string `immediate` to end
+	// the trial immediately.
+	TrialEndDate param.Field[SubscriptionUpdateTrialParamsTrialEndDateUnion] `json:"trial_end_date,required" format:"date-time"`
+	// If true, shifts subsequent price and adjustment intervals (preserving their
+	// durations, but adjusting their absolute dates).
+	Shift param.Field[bool] `json:"shift"`
+}
+
+func (r SubscriptionUpdateTrialParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The new date that the trial should end, or the literal string `immediate` to end
+// the trial immediately.
+//
+// Satisfied by [shared.UnionTime],
+// [SubscriptionUpdateTrialParamsTrialEndDateString].
+type SubscriptionUpdateTrialParamsTrialEndDateUnion interface {
+	ImplementsSubscriptionUpdateTrialParamsTrialEndDateUnion()
+}
+
+type SubscriptionUpdateTrialParamsTrialEndDateString string
+
+const (
+	SubscriptionUpdateTrialParamsTrialEndDateStringImmediate SubscriptionUpdateTrialParamsTrialEndDateString = "immediate"
+)
+
+func (r SubscriptionUpdateTrialParamsTrialEndDateString) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialParamsTrialEndDateStringImmediate:
+		return true
+	}
+	return false
+}
+
+func (r SubscriptionUpdateTrialParamsTrialEndDateString) ImplementsSubscriptionUpdateTrialParamsTrialEndDateUnion() {
 }

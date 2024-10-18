@@ -53,6 +53,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		NetTerms:               orb.F(int64(0)),
 		PerCreditOverageAmount: orb.F(0.000000),
 		PlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
+		PlanVersionNumber:      orb.F(int64(0)),
 		PriceOverrides: orb.F([]orb.SubscriptionNewParamsPriceOverrideUnion{orb.SubscriptionNewParamsPriceOverridesOverrideUnitPrice{
 			ID:        orb.F("id"),
 			ModelType: orb.F(orb.SubscriptionNewParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
@@ -105,7 +106,8 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			MaximumAmount:      orb.F("1.23"),
 			MinimumAmount:      orb.F("1.23"),
 		}}),
-		StartDate: orb.F(time.Now()),
+		StartDate:         orb.F(time.Now()),
+		TrialDurationDays: orb.F(int64(0)),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -658,6 +660,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 			NetTerms:                       orb.F(int64(0)),
 			PerCreditOverageAmount:         orb.F(0.000000),
 			PlanID:                         orb.F("ZMwNQefe7J3ecf7W"),
+			PlanVersionNumber:              orb.F(int64(0)),
 			PriceOverrides: orb.F([]orb.SubscriptionSchedulePlanChangeParamsPriceOverrideUnion{orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPrice{
 				ID:        orb.F("id"),
 				ModelType: orb.F(orb.SubscriptionSchedulePlanChangeParamsPriceOverridesOverrideUnitPriceModelTypeUnit),
@@ -710,6 +713,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				MaximumAmount:      orb.F("1.23"),
 				MinimumAmount:      orb.F("1.23"),
 			}}),
+			TrialDurationDays: orb.F(int64(0)),
 		},
 	)
 	if err != nil {
@@ -841,6 +845,35 @@ func TestSubscriptionUpdateFixedFeeQuantityWithOptionalParams(t *testing.T) {
 			Quantity:      orb.F(0.000000),
 			ChangeOption:  orb.F(orb.SubscriptionUpdateFixedFeeQuantityParamsChangeOptionImmediate),
 			EffectiveDate: orb.F(time.Now()),
+		},
+	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestSubscriptionUpdateTrialWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Subscriptions.UpdateTrial(
+		context.TODO(),
+		"subscription_id",
+		orb.SubscriptionUpdateTrialParams{
+			TrialEndDate: orb.F[orb.SubscriptionUpdateTrialParamsTrialEndDateUnion](shared.UnionTime(time.Now())),
+			Shift:        orb.F(true),
 		},
 	)
 	if err != nil {
