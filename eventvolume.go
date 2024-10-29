@@ -103,6 +103,11 @@ func (r eventVolumesDataJSON) RawJSON() string {
 }
 
 type EventVolumeListParams struct {
+	// The start of the timeframe, inclusive, in which to return event volume. All
+	// datetime values are converted to UTC time. If the specified time isn't
+	// hour-aligned, the response includes the event volume count for the hour the time
+	// falls in.
+	TimeframeStart param.Field[time.Time] `query:"timeframe_start,required" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`
@@ -113,11 +118,6 @@ type EventVolumeListParams struct {
 	// time.If the specified time isn't hour-aligned, the response includes the event
 	// volumecount for the hour the time falls in.
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
-	// The start of the timeframe, inclusive, in which to return event volume. All
-	// datetime values are converted to UTC time. If the specified time isn't
-	// hour-aligned, the response includes the event volume count for the hour the time
-	// falls in.
-	TimeframeStart param.Field[time.Time] `query:"timeframe_start" format:"date-time"`
 }
 
 // URLQuery serializes [EventVolumeListParams]'s query parameters as `url.Values`.
