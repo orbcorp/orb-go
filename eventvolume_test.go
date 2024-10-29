@@ -27,10 +27,10 @@ func TestEventVolumeListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Events.Volume.List(context.TODO(), orb.EventVolumeListParams{
+		TimeframeStart: orb.F(time.Now()),
 		Cursor:         orb.F("cursor"),
 		Limit:          orb.F(int64(1)),
 		TimeframeEnd:   orb.F(time.Now()),
-		TimeframeStart: orb.F(time.Now()),
 	})
 	if err != nil {
 		var apierr *orb.Error
