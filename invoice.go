@@ -3766,7 +3766,7 @@ func (r InvoiceListParamsStatus) IsKnown() bool {
 }
 
 type InvoiceFetchUpcomingParams struct {
-	SubscriptionID param.Field[string] `query:"subscription_id"`
+	SubscriptionID param.Field[string] `query:"subscription_id,required"`
 }
 
 // URLQuery serializes [InvoiceFetchUpcomingParams]'s query parameters as
