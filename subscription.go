@@ -304,7 +304,7 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // specified in the subscription's invoicing currency, when creating a
 // subscription. E.g. pass in `10.00` to issue an invoice when usage amounts hit
 // $10.00 for a subscription that invoices in USD.
-func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParams, opts ...option.RequestOption) (res *SubscriptionNewResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "subscriptions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
@@ -429,7 +429,7 @@ func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query Subscrip
 // Orb will void the intervening invoice and generate a new one based on the new
 // dates for the subscription. See the section on
 // [cancellation behaviors](../guides/product-catalog/creating-subscriptions.md#cancellation-behaviors).
-func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string, body SubscriptionCancelParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string, body SubscriptionCancelParams, opts ...option.RequestOption) (res *SubscriptionCancelResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -788,7 +788,7 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 // existing list of transitions can be retrieved using the
 // `fixed_fee_quantity_transitions` property on a subscription’s serialized price
 // intervals.
-func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID string, body SubscriptionPriceIntervalsParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID string, body SubscriptionPriceIntervalsParams, opts ...option.RequestOption) (res *SubscriptionPriceIntervalsResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -979,7 +979,7 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // a plan change, adjusting the customer balance as needed. For details on this
 // behavior, see
 // [Modifying subscriptions](../guides/product-catalog/modifying-subscriptions.md#prorations-for-in-advance-fees).
-func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscriptionID string, body SubscriptionSchedulePlanChangeParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscriptionID string, body SubscriptionSchedulePlanChangeParams, opts ...option.RequestOption) (res *SubscriptionSchedulePlanChangeResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -992,7 +992,7 @@ func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscripti
 
 // Manually trigger a phase, effective the given date (or the current time, if not
 // specified).
-func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID string, body SubscriptionTriggerPhaseParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID string, body SubscriptionTriggerPhaseParams, opts ...option.RequestOption) (res *SubscriptionTriggerPhaseResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -1009,7 +1009,7 @@ func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID s
 // To be eligible, the subscription must currently be active and have a future
 // cancellation. This operation will turn on auto-renew, ensuring that the
 // subscription does not end at the currently scheduled cancellation time.
-func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *SubscriptionUnscheduleCancellationResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -1025,7 +1025,7 @@ func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscr
 //
 // If there are no updates scheduled, a request validation error will be returned
 // with a 400 status code.
-func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Context, subscriptionID string, body SubscriptionUnscheduleFixedFeeQuantityUpdatesParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Context, subscriptionID string, body SubscriptionUnscheduleFixedFeeQuantityUpdatesParams, opts ...option.RequestOption) (res *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -1038,7 +1038,7 @@ func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Cont
 
 // This endpoint can be used to unschedule any pending plan changes on an existing
 // subscription.
-func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *SubscriptionUnschedulePendingPlanChangesResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -1063,7 +1063,7 @@ func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, 
 //
 // If the fee is an in-advance fixed fee, it will also issue an immediate invoice
 // for the difference for the remainder of the billing period.
-func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscriptionID string, body SubscriptionUpdateFixedFeeQuantityParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscriptionID string, body SubscriptionUpdateFixedFeeQuantityParams, opts ...option.RequestOption) (res *SubscriptionUpdateFixedFeeQuantityResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -1092,7 +1092,7 @@ func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscr
 // end date shift (so, e.g., if a plan change is scheduled or an add-on price was
 // added, that change will be pushed back by the same amount of time the trial is
 // extended).
-func (r *SubscriptionService) UpdateTrial(ctx context.Context, subscriptionID string, body SubscriptionUpdateTrialParams, opts ...option.RequestOption) (res *Subscription, err error) {
+func (r *SubscriptionService) UpdateTrial(ctx context.Context, subscriptionID string, body SubscriptionUpdateTrialParams, opts ...option.RequestOption) (res *SubscriptionUpdateTrialResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -2777,6 +2777,2654 @@ func (r subscriptionsJSON) RawJSON() string {
 	return r.raw
 }
 
+type SubscriptionNewResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionNewResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                   `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionNewResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionNewResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                         `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionNewResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                            `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionNewResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionNewResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionNewResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionNewResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                        `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionNewResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionNewResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionNewResponseJSON      `json:"-"`
+}
+
+// subscriptionNewResponseJSON contains the JSON metadata for the struct
+// [SubscriptionNewResponse]
+type subscriptionNewResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponseAdjustmentInterval struct {
+	ID         string                                               `json:"id,required"`
+	Adjustment SubscriptionNewResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionNewResponseAdjustmentIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionNewResponseAdjustmentInterval]
+type subscriptionNewResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                             `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                   `json:"maximum_amount"`
+	JSON          subscriptionNewResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionNewResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionNewResponseAdjustmentIntervalsAdjustmentJSON contains the JSON
+// metadata for the struct [SubscriptionNewResponseAdjustmentIntervalsAdjustment]
+type subscriptionNewResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionNewResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionNewResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionNewResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionNewResponseAdjustmentIntervalsAdjustmentUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionNewResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment] or
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionNewResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionNewResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                           `json:"reason,required,nullable"`
+	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionNewResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                               `json:"reason,required,nullable"`
+	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionNewResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                         `json:"usage_discount,required"`
+	JSON          subscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionNewResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                    `json:"reason,required,nullable"`
+	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionNewResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                    `json:"reason,required,nullable"`
+	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionNewResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                      `json:"year,nullable"`
+	JSON subscriptionNewResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionNewResponseBillingCycleAnchorConfigurationJSON contains the JSON
+// metadata for the struct [SubscriptionNewResponseBillingCycleAnchorConfiguration]
+type subscriptionNewResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponseDiscountInterval struct {
+	DiscountType SubscriptionNewResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                     `json:"usage_discount"`
+	JSON          subscriptionNewResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionNewResponseDiscountIntervalsUnion
+}
+
+// subscriptionNewResponseDiscountIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionNewResponseDiscountInterval]
+type subscriptionNewResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionNewResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionNewResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionNewResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionNewResponseDiscountIntervalsUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionNewResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionNewResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionNewResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionNewResponseDiscountInterval) AsUnion() SubscriptionNewResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionNewResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionNewResponseDiscountIntervalsPercentageDiscountInterval] or
+// [SubscriptionNewResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionNewResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionNewResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionNewResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionNewResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionNewResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                   `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionNewResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                          `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionNewResponseDiscountIntervalsAmountDiscountIntervalJSON contains the
+// JSON metadata for the struct
+// [SubscriptionNewResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionNewResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionNewResponseDiscountInterval() {
+}
+
+type SubscriptionNewResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionNewResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionNewResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionNewResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                       `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalJSON contains
+// the JSON metadata for the struct
+// [SubscriptionNewResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionNewResponseDiscountInterval() {
+}
+
+type SubscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                  `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionNewResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                           `json:"usage_discount,required"`
+	JSON          subscriptionNewResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionNewResponseDiscountIntervalsUsageDiscountIntervalJSON contains the
+// JSON metadata for the struct
+// [SubscriptionNewResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionNewResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionNewResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionNewResponseDiscountInterval() {
+}
+
+type SubscriptionNewResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionNewResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionNewResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionNewResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionNewResponseDiscountIntervalsDiscountTypeAmount     SubscriptionNewResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionNewResponseDiscountIntervalsDiscountTypePercentage SubscriptionNewResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionNewResponseDiscountIntervalsDiscountTypeUsage      SubscriptionNewResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionNewResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseDiscountIntervalsDiscountTypeAmount, SubscriptionNewResponseDiscountIntervalsDiscountTypePercentage, SubscriptionNewResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                           `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                              `json:"price_id,required"`
+	Quantity  float64                                             `json:"quantity,required"`
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionNewResponseFixedFeeQuantityScheduleJSON contains the JSON metadata
+// for the struct [SubscriptionNewResponseFixedFeeQuantitySchedule]
+type subscriptionNewResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                  `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionNewResponseMaximumIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionNewResponseMaximumInterval]
+type subscriptionNewResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                  `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionNewResponseMinimumIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionNewResponseMinimumInterval]
+type subscriptionNewResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionNewResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionNewResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionNewResponsePriceIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionNewResponsePriceInterval]
+type subscriptionNewResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                           `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                              `json:"price_id,required"`
+	Quantity      int64                                                               `json:"quantity,required"`
+	JSON          subscriptionNewResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionNewResponsePriceIntervalsFixedFeeQuantityTransitionJSON contains the
+// JSON metadata for the struct
+// [SubscriptionNewResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionNewResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponseRedeemedCoupon struct {
+	CouponID  string                                    `json:"coupon_id,required"`
+	EndDate   time.Time                                 `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                 `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionNewResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionNewResponseRedeemedCouponJSON contains the JSON metadata for the
+// struct [SubscriptionNewResponseRedeemedCoupon]
+type subscriptionNewResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionNewResponseStatus string
+
+const (
+	SubscriptionNewResponseStatusActive   SubscriptionNewResponseStatus = "active"
+	SubscriptionNewResponseStatusEnded    SubscriptionNewResponseStatus = "ended"
+	SubscriptionNewResponseStatusUpcoming SubscriptionNewResponseStatus = "upcoming"
+)
+
+func (r SubscriptionNewResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionNewResponseStatusActive, SubscriptionNewResponseStatusEnded, SubscriptionNewResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionNewResponseTrialInfo struct {
+	EndDate time.Time                            `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionNewResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionNewResponseTrialInfoJSON contains the JSON metadata for the struct
+// [SubscriptionNewResponseTrialInfo]
+type subscriptionNewResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionCancelResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                      `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionCancelResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionCancelResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                            `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionCancelResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                               `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionCancelResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionCancelResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionCancelResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionCancelResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                           `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionCancelResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionCancelResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionCancelResponseJSON      `json:"-"`
+}
+
+// subscriptionCancelResponseJSON contains the JSON metadata for the struct
+// [SubscriptionCancelResponse]
+type subscriptionCancelResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponseAdjustmentInterval struct {
+	ID         string                                                  `json:"id,required"`
+	Adjustment SubscriptionCancelResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                        `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionCancelResponseAdjustmentIntervalJSON contains the JSON metadata for
+// the struct [SubscriptionCancelResponseAdjustmentInterval]
+type subscriptionCancelResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                      `json:"maximum_amount"`
+	JSON          subscriptionCancelResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionCancelResponseAdjustmentIntervalsAdjustmentJSON contains the JSON
+// metadata for the struct
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustment]
+type subscriptionCancelResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionCancelResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionCancelResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionCancelResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment] or
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionCancelResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                              `json:"reason,required,nullable"`
+	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionCancelResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                  `json:"reason,required,nullable"`
+	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionCancelResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                            `json:"usage_discount,required"`
+	JSON          subscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionCancelResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                       `json:"reason,required,nullable"`
+	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionCancelResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                       `json:"reason,required,nullable"`
+	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionCancelResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                         `json:"year,nullable"`
+	JSON subscriptionCancelResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionCancelResponseBillingCycleAnchorConfigurationJSON contains the JSON
+// metadata for the struct
+// [SubscriptionCancelResponseBillingCycleAnchorConfiguration]
+type subscriptionCancelResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponseDiscountInterval struct {
+	DiscountType SubscriptionCancelResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                        `json:"usage_discount"`
+	JSON          subscriptionCancelResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionCancelResponseDiscountIntervalsUnion
+}
+
+// subscriptionCancelResponseDiscountIntervalJSON contains the JSON metadata for
+// the struct [SubscriptionCancelResponseDiscountInterval]
+type subscriptionCancelResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionCancelResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionCancelResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionCancelResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionCancelResponseDiscountIntervalsUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionCancelResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionCancelResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionCancelResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionCancelResponseDiscountInterval) AsUnion() SubscriptionCancelResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionCancelResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionCancelResponseDiscountIntervalsPercentageDiscountInterval] or
+// [SubscriptionCancelResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionCancelResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionCancelResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionCancelResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionCancelResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionCancelResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                      `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                             `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalJSON contains
+// the JSON metadata for the struct
+// [SubscriptionCancelResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionCancelResponseDiscountInterval() {
+}
+
+type SubscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                          `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                 `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionCancelResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionCancelResponseDiscountInterval() {
+}
+
+type SubscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                     `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                              `json:"usage_discount,required"`
+	JSON          subscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalJSON contains
+// the JSON metadata for the struct
+// [SubscriptionCancelResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionCancelResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionCancelResponseDiscountInterval() {
+}
+
+type SubscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionCancelResponseDiscountIntervalsDiscountTypeAmount     SubscriptionCancelResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionCancelResponseDiscountIntervalsDiscountTypePercentage SubscriptionCancelResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionCancelResponseDiscountIntervalsDiscountTypeUsage      SubscriptionCancelResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionCancelResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseDiscountIntervalsDiscountTypeAmount, SubscriptionCancelResponseDiscountIntervalsDiscountTypePercentage, SubscriptionCancelResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                              `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                 `json:"price_id,required"`
+	Quantity  float64                                                `json:"quantity,required"`
+	StartDate time.Time                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionCancelResponseFixedFeeQuantityScheduleJSON contains the JSON
+// metadata for the struct [SubscriptionCancelResponseFixedFeeQuantitySchedule]
+type subscriptionCancelResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionCancelResponseMaximumIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionCancelResponseMaximumInterval]
+type subscriptionCancelResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionCancelResponseMinimumIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionCancelResponseMinimumInterval]
+type subscriptionCancelResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionCancelResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionCancelResponsePriceIntervalJSON contains the JSON metadata for the
+// struct [SubscriptionCancelResponsePriceInterval]
+type subscriptionCancelResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                              `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                 `json:"price_id,required"`
+	Quantity      int64                                                                  `json:"quantity,required"`
+	JSON          subscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransitionJSON contains
+// the JSON metadata for the struct
+// [SubscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponseRedeemedCoupon struct {
+	CouponID  string                                       `json:"coupon_id,required"`
+	EndDate   time.Time                                    `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                    `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionCancelResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionCancelResponseRedeemedCouponJSON contains the JSON metadata for the
+// struct [SubscriptionCancelResponseRedeemedCoupon]
+type subscriptionCancelResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionCancelResponseStatus string
+
+const (
+	SubscriptionCancelResponseStatusActive   SubscriptionCancelResponseStatus = "active"
+	SubscriptionCancelResponseStatusEnded    SubscriptionCancelResponseStatus = "ended"
+	SubscriptionCancelResponseStatusUpcoming SubscriptionCancelResponseStatus = "upcoming"
+)
+
+func (r SubscriptionCancelResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionCancelResponseStatusActive, SubscriptionCancelResponseStatusEnded, SubscriptionCancelResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionCancelResponseTrialInfo struct {
+	EndDate time.Time                               `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionCancelResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionCancelResponseTrialInfoJSON contains the JSON metadata for the
+// struct [SubscriptionCancelResponseTrialInfo]
+type subscriptionCancelResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionFetchCostsResponse struct {
 	Data []SubscriptionFetchCostsResponseData `json:"data,required"`
 	JSON subscriptionFetchCostsResponseJSON   `json:"-"`
@@ -3160,6 +5808,10666 @@ func (r *SubscriptionFetchScheduleResponsePlan) UnmarshalJSON(data []byte) (err 
 }
 
 func (r subscriptionFetchScheduleResponsePlanJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionPriceIntervalsResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                              `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionPriceIntervalsResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionPriceIntervalsResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                    `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionPriceIntervalsResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                       `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionPriceIntervalsResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionPriceIntervalsResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionPriceIntervalsResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionPriceIntervalsResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                   `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionPriceIntervalsResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionPriceIntervalsResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionPriceIntervalsResponseJSON      `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseJSON contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponse]
+type subscriptionPriceIntervalsResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentInterval struct {
+	ID         string                                                          `json:"id,required"`
+	Adjustment SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                                `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseAdjustmentIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionPriceIntervalsResponseAdjustmentInterval]
+type subscriptionPriceIntervalsResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                        `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                              `json:"maximum_amount"`
+	JSON          subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentJSON contains the
+// JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment]
+type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                      `json:"reason,required,nullable"`
+	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                          `json:"reason,required,nullable"`
+	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                    `json:"usage_discount,required"`
+	JSON          subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                               `json:"reason,required,nullable"`
+	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                               `json:"reason,required,nullable"`
+	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                                 `json:"year,nullable"`
+	JSON subscriptionPriceIntervalsResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseBillingCycleAnchorConfigurationJSON contains
+// the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseBillingCycleAnchorConfiguration]
+type subscriptionPriceIntervalsResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponseDiscountInterval struct {
+	DiscountType SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                `json:"usage_discount"`
+	JSON          subscriptionPriceIntervalsResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionPriceIntervalsResponseDiscountIntervalsUnion
+}
+
+// subscriptionPriceIntervalsResponseDiscountIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionPriceIntervalsResponseDiscountInterval]
+type subscriptionPriceIntervalsResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionPriceIntervalsResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionPriceIntervalsResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionPriceIntervalsResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionPriceIntervalsResponseDiscountIntervalsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionPriceIntervalsResponseDiscountInterval) AsUnion() SubscriptionPriceIntervalsResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountInterval]
+// or [SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionPriceIntervalsResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionPriceIntervalsResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionPriceIntervalsResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                              `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionPriceIntervalsResponseDiscountInterval() {
+}
+
+type SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                  `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                         `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionPriceIntervalsResponseDiscountInterval() {
+}
+
+type SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                             `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                      `json:"usage_discount,required"`
+	JSON          subscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionPriceIntervalsResponseDiscountInterval() {
+}
+
+type SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountTypeAmount     SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountTypePercentage SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountTypeUsage      SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountTypeAmount, SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountTypePercentage, SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                      `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                         `json:"price_id,required"`
+	Quantity  float64                                                        `json:"quantity,required"`
+	StartDate time.Time                                                      `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseFixedFeeQuantityScheduleJSON contains the JSON
+// metadata for the struct
+// [SubscriptionPriceIntervalsResponseFixedFeeQuantitySchedule]
+type subscriptionPriceIntervalsResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                             `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseMaximumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionPriceIntervalsResponseMaximumInterval]
+type subscriptionPriceIntervalsResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                             `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseMinimumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionPriceIntervalsResponseMinimumInterval]
+type subscriptionPriceIntervalsResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionPriceIntervalsResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponsePriceIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionPriceIntervalsResponsePriceInterval]
+type subscriptionPriceIntervalsResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                      `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                         `json:"price_id,required"`
+	Quantity      int64                                                                          `json:"quantity,required"`
+	JSON          subscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponseRedeemedCoupon struct {
+	CouponID  string                                               `json:"coupon_id,required"`
+	EndDate   time.Time                                            `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                            `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionPriceIntervalsResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseRedeemedCouponJSON contains the JSON metadata
+// for the struct [SubscriptionPriceIntervalsResponseRedeemedCoupon]
+type subscriptionPriceIntervalsResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionPriceIntervalsResponseStatus string
+
+const (
+	SubscriptionPriceIntervalsResponseStatusActive   SubscriptionPriceIntervalsResponseStatus = "active"
+	SubscriptionPriceIntervalsResponseStatusEnded    SubscriptionPriceIntervalsResponseStatus = "ended"
+	SubscriptionPriceIntervalsResponseStatusUpcoming SubscriptionPriceIntervalsResponseStatus = "upcoming"
+)
+
+func (r SubscriptionPriceIntervalsResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsResponseStatusActive, SubscriptionPriceIntervalsResponseStatusEnded, SubscriptionPriceIntervalsResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsResponseTrialInfo struct {
+	EndDate time.Time                                       `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionPriceIntervalsResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseTrialInfoJSON contains the JSON metadata for
+// the struct [SubscriptionPriceIntervalsResponseTrialInfo]
+type subscriptionPriceIntervalsResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionSchedulePlanChangeResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                                  `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionSchedulePlanChangeResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionSchedulePlanChangeResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                        `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionSchedulePlanChangeResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                           `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionSchedulePlanChangeResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionSchedulePlanChangeResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionSchedulePlanChangeResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionSchedulePlanChangeResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                       `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionSchedulePlanChangeResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionSchedulePlanChangeResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionSchedulePlanChangeResponseJSON      `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseJSON contains the JSON metadata for the
+// struct [SubscriptionSchedulePlanChangeResponse]
+type subscriptionSchedulePlanChangeResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentInterval struct {
+	ID         string                                                              `json:"id,required"`
+	Adjustment SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                                    `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseAdjustmentIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseAdjustmentInterval]
+type subscriptionSchedulePlanChangeResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                            `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                                  `json:"maximum_amount"`
+	JSON          subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentJSON contains
+// the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment]
+type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                          `json:"reason,required,nullable"`
+	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                              `json:"reason,required,nullable"`
+	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                        `json:"usage_discount,required"`
+	JSON          subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                   `json:"reason,required,nullable"`
+	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                   `json:"reason,required,nullable"`
+	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                                     `json:"year,nullable"`
+	JSON subscriptionSchedulePlanChangeResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseBillingCycleAnchorConfigurationJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseBillingCycleAnchorConfiguration]
+type subscriptionSchedulePlanChangeResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountInterval struct {
+	DiscountType SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                    `json:"usage_discount"`
+	JSON          subscriptionSchedulePlanChangeResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionSchedulePlanChangeResponseDiscountIntervalsUnion
+}
+
+// subscriptionSchedulePlanChangeResponseDiscountIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionSchedulePlanChangeResponseDiscountInterval]
+type subscriptionSchedulePlanChangeResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionSchedulePlanChangeResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionSchedulePlanChangeResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionSchedulePlanChangeResponseDiscountIntervalsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionSchedulePlanChangeResponseDiscountInterval) AsUnion() SubscriptionSchedulePlanChangeResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountInterval]
+// or
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionSchedulePlanChangeResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionSchedulePlanChangeResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                  `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                         `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionSchedulePlanChangeResponseDiscountInterval() {
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                      `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                             `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionSchedulePlanChangeResponseDiscountInterval() {
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                 `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                          `json:"usage_discount,required"`
+	JSON          subscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionSchedulePlanChangeResponseDiscountInterval() {
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountTypeAmount     SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountTypePercentage SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountTypeUsage      SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountTypeAmount, SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountTypePercentage, SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                          `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                             `json:"price_id,required"`
+	Quantity  float64                                                            `json:"quantity,required"`
+	StartDate time.Time                                                          `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseFixedFeeQuantityScheduleJSON contains the
+// JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponseFixedFeeQuantitySchedule]
+type subscriptionSchedulePlanChangeResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                                 `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseMaximumIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionSchedulePlanChangeResponseMaximumInterval]
+type subscriptionSchedulePlanChangeResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                                 `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseMinimumIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionSchedulePlanChangeResponseMinimumInterval]
+type subscriptionSchedulePlanChangeResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionSchedulePlanChangeResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                               `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponsePriceIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionSchedulePlanChangeResponsePriceInterval]
+type subscriptionSchedulePlanChangeResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                          `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                             `json:"price_id,required"`
+	Quantity      int64                                                                              `json:"quantity,required"`
+	JSON          subscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponseRedeemedCoupon struct {
+	CouponID  string                                                   `json:"coupon_id,required"`
+	EndDate   time.Time                                                `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                                `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionSchedulePlanChangeResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseRedeemedCouponJSON contains the JSON
+// metadata for the struct [SubscriptionSchedulePlanChangeResponseRedeemedCoupon]
+type subscriptionSchedulePlanChangeResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionSchedulePlanChangeResponseStatus string
+
+const (
+	SubscriptionSchedulePlanChangeResponseStatusActive   SubscriptionSchedulePlanChangeResponseStatus = "active"
+	SubscriptionSchedulePlanChangeResponseStatusEnded    SubscriptionSchedulePlanChangeResponseStatus = "ended"
+	SubscriptionSchedulePlanChangeResponseStatusUpcoming SubscriptionSchedulePlanChangeResponseStatus = "upcoming"
+)
+
+func (r SubscriptionSchedulePlanChangeResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeResponseStatusActive, SubscriptionSchedulePlanChangeResponseStatusEnded, SubscriptionSchedulePlanChangeResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionSchedulePlanChangeResponseTrialInfo struct {
+	EndDate time.Time                                           `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionSchedulePlanChangeResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseTrialInfoJSON contains the JSON metadata
+// for the struct [SubscriptionSchedulePlanChangeResponseTrialInfo]
+type subscriptionSchedulePlanChangeResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionTriggerPhaseResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                            `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionTriggerPhaseResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionTriggerPhaseResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                  `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionTriggerPhaseResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                     `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionTriggerPhaseResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionTriggerPhaseResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionTriggerPhaseResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionTriggerPhaseResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                 `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionTriggerPhaseResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionTriggerPhaseResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionTriggerPhaseResponseJSON      `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseJSON contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponse]
+type subscriptionTriggerPhaseResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentInterval struct {
+	ID         string                                                        `json:"id,required"`
+	Adjustment SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseAdjustmentIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionTriggerPhaseResponseAdjustmentInterval]
+type subscriptionTriggerPhaseResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                      `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                            `json:"maximum_amount"`
+	JSON          subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentJSON contains the
+// JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment]
+type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                    `json:"reason,required,nullable"`
+	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                        `json:"reason,required,nullable"`
+	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                  `json:"usage_discount,required"`
+	JSON          subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                             `json:"reason,required,nullable"`
+	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                             `json:"reason,required,nullable"`
+	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                               `json:"year,nullable"`
+	JSON subscriptionTriggerPhaseResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseBillingCycleAnchorConfigurationJSON contains the
+// JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseBillingCycleAnchorConfiguration]
+type subscriptionTriggerPhaseResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponseDiscountInterval struct {
+	DiscountType SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                              `json:"usage_discount"`
+	JSON          subscriptionTriggerPhaseResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionTriggerPhaseResponseDiscountIntervalsUnion
+}
+
+// subscriptionTriggerPhaseResponseDiscountIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionTriggerPhaseResponseDiscountInterval]
+type subscriptionTriggerPhaseResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionTriggerPhaseResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionTriggerPhaseResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionTriggerPhaseResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionTriggerPhaseResponseDiscountIntervalsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionTriggerPhaseResponseDiscountInterval) AsUnion() SubscriptionTriggerPhaseResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountInterval] or
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionTriggerPhaseResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionTriggerPhaseResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionTriggerPhaseResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                            `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionTriggerPhaseResponseDiscountInterval() {
+}
+
+type SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                       `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionTriggerPhaseResponseDiscountInterval() {
+}
+
+type SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                           `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                    `json:"usage_discount,required"`
+	JSON          subscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionTriggerPhaseResponseDiscountInterval() {
+}
+
+type SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountTypeAmount     SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountTypePercentage SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountTypeUsage      SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountTypeAmount, SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountTypePercentage, SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                    `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                       `json:"price_id,required"`
+	Quantity  float64                                                      `json:"quantity,required"`
+	StartDate time.Time                                                    `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseFixedFeeQuantityScheduleJSON contains the JSON
+// metadata for the struct
+// [SubscriptionTriggerPhaseResponseFixedFeeQuantitySchedule]
+type subscriptionTriggerPhaseResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseMaximumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionTriggerPhaseResponseMaximumInterval]
+type subscriptionTriggerPhaseResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseMinimumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionTriggerPhaseResponseMinimumInterval]
+type subscriptionTriggerPhaseResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionTriggerPhaseResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                         `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponsePriceIntervalJSON contains the JSON metadata for
+// the struct [SubscriptionTriggerPhaseResponsePriceInterval]
+type subscriptionTriggerPhaseResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                    `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                       `json:"price_id,required"`
+	Quantity      int64                                                                        `json:"quantity,required"`
+	JSON          subscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponseRedeemedCoupon struct {
+	CouponID  string                                             `json:"coupon_id,required"`
+	EndDate   time.Time                                          `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                          `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionTriggerPhaseResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseRedeemedCouponJSON contains the JSON metadata
+// for the struct [SubscriptionTriggerPhaseResponseRedeemedCoupon]
+type subscriptionTriggerPhaseResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionTriggerPhaseResponseStatus string
+
+const (
+	SubscriptionTriggerPhaseResponseStatusActive   SubscriptionTriggerPhaseResponseStatus = "active"
+	SubscriptionTriggerPhaseResponseStatusEnded    SubscriptionTriggerPhaseResponseStatus = "ended"
+	SubscriptionTriggerPhaseResponseStatusUpcoming SubscriptionTriggerPhaseResponseStatus = "upcoming"
+)
+
+func (r SubscriptionTriggerPhaseResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionTriggerPhaseResponseStatusActive, SubscriptionTriggerPhaseResponseStatusEnded, SubscriptionTriggerPhaseResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionTriggerPhaseResponseTrialInfo struct {
+	EndDate time.Time                                     `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionTriggerPhaseResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseTrialInfoJSON contains the JSON metadata for the
+// struct [SubscriptionTriggerPhaseResponseTrialInfo]
+type subscriptionTriggerPhaseResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionUnscheduleCancellationResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                                      `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionUnscheduleCancellationResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionUnscheduleCancellationResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                            `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionUnscheduleCancellationResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                               `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionUnscheduleCancellationResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionUnscheduleCancellationResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionUnscheduleCancellationResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionUnscheduleCancellationResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionUnscheduleCancellationResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionUnscheduleCancellationResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionUnscheduleCancellationResponseJSON      `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseJSON contains the JSON metadata for
+// the struct [SubscriptionUnscheduleCancellationResponse]
+type subscriptionUnscheduleCancellationResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentInterval struct {
+	ID         string                                                                  `json:"id,required"`
+	Adjustment SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                                        `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseAdjustmentIntervalJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseAdjustmentInterval]
+type subscriptionUnscheduleCancellationResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                                `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                                      `json:"maximum_amount"`
+	JSON          subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment]
+type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                              `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                  `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                            `json:"usage_discount,required"`
+	JSON          subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                       `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                       `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                                         `json:"year,nullable"`
+	JSON subscriptionUnscheduleCancellationResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseBillingCycleAnchorConfigurationJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseBillingCycleAnchorConfiguration]
+type subscriptionUnscheduleCancellationResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountInterval struct {
+	DiscountType SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                        `json:"usage_discount"`
+	JSON          subscriptionUnscheduleCancellationResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionUnscheduleCancellationResponseDiscountIntervalsUnion
+}
+
+// subscriptionUnscheduleCancellationResponseDiscountIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseDiscountInterval]
+type subscriptionUnscheduleCancellationResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionUnscheduleCancellationResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUnscheduleCancellationResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionUnscheduleCancellationResponseDiscountInterval) AsUnion() SubscriptionUnscheduleCancellationResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountInterval]
+// or
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionUnscheduleCancellationResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUnscheduleCancellationResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                      `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                             `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionUnscheduleCancellationResponseDiscountInterval() {
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                          `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                                 `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionUnscheduleCancellationResponseDiscountInterval() {
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                     `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                              `json:"usage_discount,required"`
+	JSON          subscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionUnscheduleCancellationResponseDiscountInterval() {
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountTypeAmount     SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountTypePercentage SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountTypeUsage      SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountTypeAmount, SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountTypePercentage, SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                              `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                                 `json:"price_id,required"`
+	Quantity  float64                                                                `json:"quantity,required"`
+	StartDate time.Time                                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseFixedFeeQuantityScheduleJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseFixedFeeQuantitySchedule]
+type subscriptionUnscheduleCancellationResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseMaximumIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseMaximumInterval]
+type subscriptionUnscheduleCancellationResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseMinimumIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseMinimumInterval]
+type subscriptionUnscheduleCancellationResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionUnscheduleCancellationResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponsePriceIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUnscheduleCancellationResponsePriceInterval]
+type subscriptionUnscheduleCancellationResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                              `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                                 `json:"price_id,required"`
+	Quantity      int64                                                                                  `json:"quantity,required"`
+	JSON          subscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponseRedeemedCoupon struct {
+	CouponID  string                                                       `json:"coupon_id,required"`
+	EndDate   time.Time                                                    `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                                    `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleCancellationResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseRedeemedCouponJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseRedeemedCoupon]
+type subscriptionUnscheduleCancellationResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleCancellationResponseStatus string
+
+const (
+	SubscriptionUnscheduleCancellationResponseStatusActive   SubscriptionUnscheduleCancellationResponseStatus = "active"
+	SubscriptionUnscheduleCancellationResponseStatusEnded    SubscriptionUnscheduleCancellationResponseStatus = "ended"
+	SubscriptionUnscheduleCancellationResponseStatusUpcoming SubscriptionUnscheduleCancellationResponseStatus = "upcoming"
+)
+
+func (r SubscriptionUnscheduleCancellationResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleCancellationResponseStatusActive, SubscriptionUnscheduleCancellationResponseStatusEnded, SubscriptionUnscheduleCancellationResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleCancellationResponseTrialInfo struct {
+	EndDate time.Time                                               `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionUnscheduleCancellationResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseTrialInfoJSON contains the JSON
+// metadata for the struct [SubscriptionUnscheduleCancellationResponseTrialInfo]
+type subscriptionUnscheduleCancellationResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                                                 `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                                       `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                                          `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                                      `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON      `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON contains the JSON
+// metadata for the struct [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentInterval struct {
+	ID         string                                                                             `json:"id,required"`
+	Adjustment SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                                           `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                                                 `json:"maximum_amount"`
+	JSON          subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                         `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                             `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                                       `json:"usage_discount,required"`
+	JSON          subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                  `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                  `json:"reason,required,nullable"`
+	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                                                    `json:"year,nullable"`
+	JSON subscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfigurationJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfiguration]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval struct {
+	DiscountType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                   `json:"usage_discount"`
+	JSON          subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUnion
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval) AsUnion() SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountInterval]
+// or
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                                 `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                                        `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                                     `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                                            `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                                `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                                         `json:"usage_discount,required"`
+	JSON          subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval() {
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountTypeAmount     SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountTypePercentage SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountTypeUsage      SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountTypeAmount, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountTypePercentage, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                                         `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                                            `json:"price_id,required"`
+	Quantity  float64                                                                           `json:"quantity,required"`
+	StartDate time.Time                                                                         `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantityScheduleJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantitySchedule]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                                                `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                                                `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceInterval]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                                         `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                                            `json:"price_id,required"`
+	Quantity      int64                                                                                             `json:"quantity,required"`
+	JSON          subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCoupon struct {
+	CouponID  string                                                                  `json:"coupon_id,required"`
+	EndDate   time.Time                                                               `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                                               `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCouponJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCoupon]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatus string
+
+const (
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatusActive   SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatus = "active"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatusEnded    SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatus = "ended"
+	SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatusUpcoming SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatus = "upcoming"
+)
+
+func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatusActive, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatusEnded, SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfo struct {
+	EndDate time.Time                                                          `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfoJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfo]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionUnschedulePendingPlanChangesResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                                            `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                                  `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                                     `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionUnschedulePendingPlanChangesResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionUnschedulePendingPlanChangesResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionUnschedulePendingPlanChangesResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionUnschedulePendingPlanChangesResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                                 `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionUnschedulePendingPlanChangesResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionUnschedulePendingPlanChangesResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseJSON      `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseJSON contains the JSON metadata
+// for the struct [SubscriptionUnschedulePendingPlanChangesResponse]
+type subscriptionUnschedulePendingPlanChangesResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentInterval struct {
+	ID         string                                                                        `json:"id,required"`
+	Adjustment SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentInterval]
+type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                                      `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                                            `json:"maximum_amount"`
+	JSON          subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment]
+type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                    `json:"reason,required,nullable"`
+	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                        `json:"reason,required,nullable"`
+	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                                  `json:"usage_discount,required"`
+	JSON          subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                             `json:"reason,required,nullable"`
+	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                             `json:"reason,required,nullable"`
+	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                                               `json:"year,nullable"`
+	JSON subscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfigurationJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfiguration]
+type subscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval struct {
+	DiscountType SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                              `json:"usage_discount"`
+	JSON          subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUnion
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval]
+type subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval) AsUnion() SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountInterval]
+// or
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionUnschedulePendingPlanChangesResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                            `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionUnschedulePendingPlanChangesResponseDiscountInterval() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                                `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                                       `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionUnschedulePendingPlanChangesResponseDiscountInterval() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                           `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                                    `json:"usage_discount,required"`
+	JSON          subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionUnschedulePendingPlanChangesResponseDiscountInterval() {
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountTypeAmount     SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountTypePercentage SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountTypeUsage      SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountTypeAmount, SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountTypePercentage, SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                                    `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                                       `json:"price_id,required"`
+	Quantity  float64                                                                      `json:"quantity,required"`
+	StartDate time.Time                                                                    `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantityScheduleJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantitySchedule]
+type subscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseMaximumIntervalJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseMaximumInterval]
+type subscriptionUnschedulePendingPlanChangesResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseMinimumIntervalJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseMinimumInterval]
+type subscriptionUnschedulePendingPlanChangesResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionUnschedulePendingPlanChangesResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                                         `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponsePriceInterval]
+type subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                                    `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                                       `json:"price_id,required"`
+	Quantity      int64                                                                                        `json:"quantity,required"`
+	JSON          subscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseRedeemedCoupon struct {
+	CouponID  string                                                             `json:"coupon_id,required"`
+	EndDate   time.Time                                                          `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                                          `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUnschedulePendingPlanChangesResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseRedeemedCouponJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseRedeemedCoupon]
+type subscriptionUnschedulePendingPlanChangesResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseStatus string
+
+const (
+	SubscriptionUnschedulePendingPlanChangesResponseStatusActive   SubscriptionUnschedulePendingPlanChangesResponseStatus = "active"
+	SubscriptionUnschedulePendingPlanChangesResponseStatusEnded    SubscriptionUnschedulePendingPlanChangesResponseStatus = "ended"
+	SubscriptionUnschedulePendingPlanChangesResponseStatusUpcoming SubscriptionUnschedulePendingPlanChangesResponseStatus = "upcoming"
+)
+
+func (r SubscriptionUnschedulePendingPlanChangesResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionUnschedulePendingPlanChangesResponseStatusActive, SubscriptionUnschedulePendingPlanChangesResponseStatusEnded, SubscriptionUnschedulePendingPlanChangesResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUnschedulePendingPlanChangesResponseTrialInfo struct {
+	EndDate time.Time                                                     `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionUnschedulePendingPlanChangesResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseTrialInfoJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseTrialInfo]
+type subscriptionUnschedulePendingPlanChangesResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionUpdateFixedFeeQuantityResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                                      `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                            `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                               `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionUpdateFixedFeeQuantityResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionUpdateFixedFeeQuantityResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionUpdateFixedFeeQuantityResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionUpdateFixedFeeQuantityResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionUpdateFixedFeeQuantityResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionUpdateFixedFeeQuantityResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseJSON      `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseJSON contains the JSON metadata for
+// the struct [SubscriptionUpdateFixedFeeQuantityResponse]
+type subscriptionUpdateFixedFeeQuantityResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentInterval struct {
+	ID         string                                                                  `json:"id,required"`
+	Adjustment SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                                        `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentInterval]
+type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                                `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                                      `json:"maximum_amount"`
+	JSON          subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment]
+type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                              `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                                  `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                            `json:"usage_discount,required"`
+	JSON          subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                       `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                       `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                                         `json:"year,nullable"`
+	JSON subscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfigurationJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfiguration]
+type subscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval struct {
+	DiscountType SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                        `json:"usage_discount"`
+	JSON          subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUnion
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval]
+type subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval) AsUnion() SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountInterval]
+// or
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionUpdateFixedFeeQuantityResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                      `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                             `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionUpdateFixedFeeQuantityResponseDiscountInterval() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                          `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                                 `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionUpdateFixedFeeQuantityResponseDiscountInterval() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                     `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                              `json:"usage_discount,required"`
+	JSON          subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionUpdateFixedFeeQuantityResponseDiscountInterval() {
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountTypeAmount     SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountTypePercentage SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountTypeUsage      SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountTypeAmount, SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountTypePercentage, SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                              `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                                 `json:"price_id,required"`
+	Quantity  float64                                                                `json:"quantity,required"`
+	StartDate time.Time                                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantityScheduleJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantitySchedule]
+type subscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseMaximumIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseMaximumInterval]
+type subscriptionUpdateFixedFeeQuantityResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                                     `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseMinimumIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseMinimumInterval]
+type subscriptionUpdateFixedFeeQuantityResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionUpdateFixedFeeQuantityResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponsePriceInterval]
+type subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                              `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                                 `json:"price_id,required"`
+	Quantity      int64                                                                                  `json:"quantity,required"`
+	JSON          subscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseRedeemedCoupon struct {
+	CouponID  string                                                       `json:"coupon_id,required"`
+	EndDate   time.Time                                                    `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                                    `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateFixedFeeQuantityResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseRedeemedCouponJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseRedeemedCoupon]
+type subscriptionUpdateFixedFeeQuantityResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseStatus string
+
+const (
+	SubscriptionUpdateFixedFeeQuantityResponseStatusActive   SubscriptionUpdateFixedFeeQuantityResponseStatus = "active"
+	SubscriptionUpdateFixedFeeQuantityResponseStatusEnded    SubscriptionUpdateFixedFeeQuantityResponseStatus = "ended"
+	SubscriptionUpdateFixedFeeQuantityResponseStatusUpcoming SubscriptionUpdateFixedFeeQuantityResponseStatus = "upcoming"
+)
+
+func (r SubscriptionUpdateFixedFeeQuantityResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateFixedFeeQuantityResponseStatusActive, SubscriptionUpdateFixedFeeQuantityResponseStatusEnded, SubscriptionUpdateFixedFeeQuantityResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateFixedFeeQuantityResponseTrialInfo struct {
+	EndDate time.Time                                               `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionUpdateFixedFeeQuantityResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseTrialInfoJSON contains the JSON
+// metadata for the struct [SubscriptionUpdateFixedFeeQuantityResponseTrialInfo]
+type subscriptionUpdateFixedFeeQuantityResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription.
+	AdjustmentIntervals []SubscriptionUpdateTrialResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                           `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionUpdateTrialResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See
+	// [Timezone localization](../guides/product-catalog/timezones.md) for information
+	// on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription.
+	DiscountIntervals []SubscriptionUpdateTrialResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                 `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionUpdateTrialResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                    `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription.
+	MaximumIntervals []SubscriptionUpdateTrialResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription.
+	MinimumIntervals []SubscriptionUpdateTrialResponseMinimumInterval `json:"minimum_intervals,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
+	// plan that can be subscribed to by a customer. Plans define the billing behavior
+	// of the subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionUpdateTrialResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionUpdateTrialResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionUpdateTrialResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionUpdateTrialResponseTrialInfo `json:"trial_info,required"`
+	JSON      subscriptionUpdateTrialResponseJSON      `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseJSON contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponse]
+type subscriptionUpdateTrialResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	NetTerms                        apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentInterval struct {
+	ID         string                                                       `json:"id,required"`
+	Adjustment SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                             `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseAdjustmentIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionUpdateTrialResponseAdjustmentInterval]
+type subscriptionUpdateTrialResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// The reason for the adjustment.
+	Reason         string                                                                     `json:"reason,required,nullable"`
+	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64 `json:"usage_discount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string                                                           `json:"maximum_amount"`
+	JSON          subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment]
+type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	Reason             apijson.Field
+	AdjustmentType     apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	MinimumAmount      apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment],
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment],
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment],
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment],
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+// or
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment].
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                   `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
+type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment) implementsSubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                                       `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
+type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment) implementsSubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                 `json:"usage_discount,required"`
+	JSON          subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
+type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment) implementsSubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                            `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
+type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment) implementsSubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The reason for the adjustment.
+	Reason string                                                                            `json:"reason,required,nullable"`
+	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
+type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	MaximumAmount     apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment) implementsSubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                              `json:"year,nullable"`
+	JSON subscriptionUpdateTrialResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseBillingCycleAnchorConfigurationJSON contains the
+// JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseBillingCycleAnchorConfiguration]
+type subscriptionUpdateTrialResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponseDiscountInterval struct {
+	DiscountType SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                             `json:"usage_discount"`
+	JSON          subscriptionUpdateTrialResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionUpdateTrialResponseDiscountIntervalsUnion
+}
+
+// subscriptionUpdateTrialResponseDiscountIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionUpdateTrialResponseDiscountInterval]
+type subscriptionUpdateTrialResponseDiscountIntervalJSON struct {
+	DiscountType              apijson.Field
+	AmountDiscount            apijson.Field
+	StartDate                 apijson.Field
+	EndDate                   apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionUpdateTrialResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionUpdateTrialResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionUpdateTrialResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionUpdateTrialResponseDiscountIntervalsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionUpdateTrialResponseDiscountInterval) AsUnion() SubscriptionUpdateTrialResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountInterval] or
+// [SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionUpdateTrialResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionUpdateTrialResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionUpdateTrialResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                           `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                  `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionUpdateTrialResponseDiscountInterval() {
+}
+
+type SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                               `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                      `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionUpdateTrialResponseDiscountInterval() {
+}
+
+type SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price ids that this discount interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                          `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                   `json:"usage_discount,required"`
+	JSON          subscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionUpdateTrialResponseDiscountInterval() {
+}
+
+type SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionUpdateTrialResponseDiscountIntervalsDiscountTypeAmount     SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionUpdateTrialResponseDiscountIntervalsDiscountTypePercentage SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionUpdateTrialResponseDiscountIntervalsDiscountTypeUsage      SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseDiscountIntervalsDiscountTypeAmount, SubscriptionUpdateTrialResponseDiscountIntervalsDiscountTypePercentage, SubscriptionUpdateTrialResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                   `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                      `json:"price_id,required"`
+	Quantity  float64                                                     `json:"quantity,required"`
+	StartDate time.Time                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseFixedFeeQuantityScheduleJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateTrialResponseFixedFeeQuantitySchedule]
+type subscriptionUpdateTrialResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponseMaximumInterval struct {
+	// The price ids that this maximum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                          `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseMaximumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionUpdateTrialResponseMaximumInterval]
+type subscriptionUpdateTrialResponseMaximumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponseMinimumInterval struct {
+	// The price ids that this minimum interval applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                          `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseMinimumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionUpdateTrialResponseMinimumInterval]
+type subscriptionUpdateTrialResponseMinimumIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionUpdateTrialResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// ## Unit pricing
+	//
+	// With unit pricing, each unit costs a fixed amount.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	        "unit_amount": "0.50"
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered pricing
+	//
+	// In tiered pricing, the cost of a given unit depends on the tier range that it
+	// falls into, where each tier range is defined by an upper and lower bound. For
+	// example, the first ten units may cost $0.50 each and all units thereafter may
+	// cost $0.10 each.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "tiered",
+	//	    "tiered_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "first_unit": 1,
+	//	                "last_unit": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "first_unit": 11,
+	//	                "last_unit": null,
+	//	                "unit_amount": "0.10"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//
+	// ```
+	//
+	// ## Bulk pricing
+	//
+	// Bulk pricing applies when the number of units determine the cost of all units.
+	// For example, if you've bought less than 10 units, they may each be $0.50 for a
+	// total of $5.00. Once you've bought more than 10 units, all units may now be
+	// priced at $0.40 (i.e. 101 units total would be $40.40).
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bulk",
+	//	    "bulk_config": {
+	//	        "tiers": [
+	//	            {
+	//	                "maximum_units": 10,
+	//	                "unit_amount": "0.50"
+	//	            },
+	//	            {
+	//	                "maximum_units": 1000,
+	//	                "unit_amount": "0.40"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Package pricing
+	//
+	// Package pricing defines the size or granularity of a unit for billing purposes.
+	// For example, if the package size is set to 5, then 4 units will be billed as 5
+	// and 6 units will be billed at 10.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "package",
+	//	    "package_config": {
+	//	        "package_amount": "0.80",
+	//	        "package_size": 10
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## BPS pricing
+	//
+	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
+	// percent (the number of basis points to charge), as well as a cap per event to
+	// assess. For example, this would allow you to assess a fee of 0.25% on every
+	// payment you process, with a maximum charge of $25 per payment.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "model_type": "bps",
+	//	    "bps_config": {
+	//	       "bps": 125,
+	//	       "per_unit_maximum": "11.00"
+	//	    }
+	//	    ...
+	//	 }
+	//
+	// ```
+	//
+	// ## Bulk BPS pricing
+	//
+	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
+	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
+	// a given event depends on the tier range that the billing period falls into. Each
+	// tier range is defined by an upper bound. For example, after $1.5M of payment
+	// volume is reached, each individual payment may have a lower cap or a smaller
+	// take-rate.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "bulk_bps",
+	//	    "bulk_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Tiered BPS pricing
+	//
+	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
+	// event's applicable parameter is a function of its marginal addition to the
+	// period total. Similar to tiered pricing, the BPS parameters of a given event
+	// depends on the tier range that it falls into, where each tier range is defined
+	// by an upper and lower bound. For example, the first few payments may have a 0.8
+	// BPS take-rate and all payments after a specific volume may incur a take-rate of
+	// 0.5 BPS each.
+	//
+	// ```json
+	//
+	//	    ...
+	//	    "model_type": "tiered_bps",
+	//	    "tiered_bps_config": {
+	//	        "tiers": [
+	//	           {
+	//	                "minimum_amount": "0",
+	//	                "maximum_amount": "1000000.00",
+	//	                "bps": 125,
+	//	                "per_unit_maximum": "19.00"
+	//	           },
+	//	          {
+	//	                "minimum_amount": "1000000.00",
+	//	                "maximum_amount": null,
+	//	                "bps": 115,
+	//	                "per_unit_maximum": "4.00"
+	//	            }
+	//	        ]
+	//	    }
+	//	    ...
+	//	}
+	//
+	// ```
+	//
+	// ## Matrix pricing
+	//
+	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
+	// `dimensions` defines the two event property values evaluated in this pricing
+	// model. In a one-dimensional matrix, the second value is `null`. Every
+	// configuration has a list of `matrix_values` which give the unit prices for
+	// specified property values. In a one-dimensional matrix, the matrix values will
+	// have `dimension_values` where the second value of the pair is null. If an event
+	// does not match any of the dimension values in the matrix, it will resort to the
+	// `default_unit_amount`.
+	//
+	// ```json
+	//
+	//	{
+	//	    "model_type": "matrix"
+	//	    "matrix_config": {
+	//	        "default_unit_amount": "3.00",
+	//	        "dimensions": [
+	//	            "cluster_name",
+	//	            "region"
+	//	        ],
+	//	        "matrix_values": [
+	//	            {
+	//	                "dimension_values": [
+	//	                    "alpha",
+	//	                    "west"
+	//	                ],
+	//	                "unit_amount": "2.00"
+	//	            },
+	//	            ...
+	//	        ]
+	//	    }
+	//	}
+	//
+	// ```
+	//
+	// ## Fixed fees
+	//
+	// Fixed fees are prices that are applied independent of usage quantities, and
+	// follow unit pricing. They also have an additional parameter
+	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
+	// the quantity of units applied.
+	//
+	// ```json
+	//
+	//	{
+	//	    ...
+	//	    "id": "price_id",
+	//	    "model_type": "unit",
+	//	    "unit_config": {
+	//	       "unit_amount": "2.00"
+	//	    },
+	//	    "fixed_price_quantity": 3.0
+	//	    ...
+	//	}
+	//
+	// ```
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time                                        `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponsePriceIntervalJSON contains the JSON metadata for
+// the struct [SubscriptionUpdateTrialResponsePriceInterval]
+type subscriptionUpdateTrialResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                   `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                      `json:"price_id,required"`
+	Quantity      int64                                                                       `json:"quantity,required"`
+	JSON          subscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponseRedeemedCoupon struct {
+	CouponID  string                                            `json:"coupon_id,required"`
+	EndDate   time.Time                                         `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                         `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionUpdateTrialResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseRedeemedCouponJSON contains the JSON metadata for
+// the struct [SubscriptionUpdateTrialResponseRedeemedCoupon]
+type subscriptionUpdateTrialResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionUpdateTrialResponseStatus string
+
+const (
+	SubscriptionUpdateTrialResponseStatusActive   SubscriptionUpdateTrialResponseStatus = "active"
+	SubscriptionUpdateTrialResponseStatusEnded    SubscriptionUpdateTrialResponseStatus = "ended"
+	SubscriptionUpdateTrialResponseStatusUpcoming SubscriptionUpdateTrialResponseStatus = "upcoming"
+)
+
+func (r SubscriptionUpdateTrialResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionUpdateTrialResponseStatusActive, SubscriptionUpdateTrialResponseStatusEnded, SubscriptionUpdateTrialResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionUpdateTrialResponseTrialInfo struct {
+	EndDate time.Time                                    `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionUpdateTrialResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseTrialInfoJSON contains the JSON metadata for the
+// struct [SubscriptionUpdateTrialResponseTrialInfo]
+type subscriptionUpdateTrialResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseTrialInfoJSON) RawJSON() string {
 	return r.raw
 }
 
