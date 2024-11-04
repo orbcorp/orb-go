@@ -37,6 +37,15 @@ func NewCreditNoteService(opts ...option.RequestOption) (r *CreditNoteService) {
 	return
 }
 
+// This endpoint is used to create a single
+// [`Credit Note`](../guides/invoicing/credit-notes).
+func (r *CreditNoteService) New(ctx context.Context, body CreditNoteNewParams, opts ...option.RequestOption) (res *CreditNote, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "credit_notes"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Get a paginated list of CreditNotes. Users can also filter by customer_id,
 // subscription_id, or external_customer_id. The credit notes will be returned in
 // reverse chronological order by `creation_time`.
@@ -444,6 +453,47 @@ func (r *CreditNoteDiscountsAppliesToPrice) UnmarshalJSON(data []byte) (err erro
 
 func (r creditNoteDiscountsAppliesToPriceJSON) RawJSON() string {
 	return r.raw
+}
+
+type CreditNoteNewParams struct {
+	LineItems param.Field[[]CreditNoteNewParamsLineItem] `json:"line_items,required"`
+	// An optional memo to attach to the credit note.
+	Memo param.Field[string] `json:"memo"`
+	// An optional reason for the credit note.
+	Reason param.Field[CreditNoteNewParamsReason] `json:"reason"`
+}
+
+func (r CreditNoteNewParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type CreditNoteNewParamsLineItem struct {
+	// The total amount in the invoice's currency to credit this line item.
+	Amount param.Field[string] `json:"amount,required"`
+	// The ID of the line item to credit.
+	InvoiceLineItemID param.Field[string] `json:"invoice_line_item_id,required"`
+}
+
+func (r CreditNoteNewParamsLineItem) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// An optional reason for the credit note.
+type CreditNoteNewParamsReason string
+
+const (
+	CreditNoteNewParamsReasonDuplicate             CreditNoteNewParamsReason = "duplicate"
+	CreditNoteNewParamsReasonFraudulent            CreditNoteNewParamsReason = "fraudulent"
+	CreditNoteNewParamsReasonOrderChange           CreditNoteNewParamsReason = "order_change"
+	CreditNoteNewParamsReasonProductUnsatisfactory CreditNoteNewParamsReason = "product_unsatisfactory"
+)
+
+func (r CreditNoteNewParamsReason) IsKnown() bool {
+	switch r {
+	case CreditNoteNewParamsReasonDuplicate, CreditNoteNewParamsReasonFraudulent, CreditNoteNewParamsReasonOrderChange, CreditNoteNewParamsReasonProductUnsatisfactory:
+		return true
+	}
+	return false
 }
 
 type CreditNoteListParams struct {
