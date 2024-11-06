@@ -507,54 +507,55 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type PlanNewParamsPrice struct {
-	Metadata param.Field[interface{}] `json:"metadata,required"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration,required"`
+	BpsConfig                 param.Field[interface{}] `json:"bps_config,required"`
+	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config,required"`
+	BulkConfig                param.Field[interface{}] `json:"bulk_config,required"`
+	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config,required"`
+	// The cadence to bill for this price on.
+	Cadence                          param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
+	GroupedAllocationConfig          param.Field[interface{}]                `json:"grouped_allocation_config,required"`
+	GroupedTieredPackageConfig       param.Field[interface{}]                `json:"grouped_tiered_package_config,required"`
+	GroupedWithMeteredMinimumConfig  param.Field[interface{}]                `json:"grouped_with_metered_minimum_config,required"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}]                `json:"grouped_with_prorated_minimum_config,required"`
+	InvoicingCycleConfiguration      param.Field[interface{}]                `json:"invoicing_cycle_configuration,required"`
+	// The id of the item the plan will be associated with.
+	ItemID                      param.Field[string]                       `json:"item_id,required"`
+	MatrixConfig                param.Field[interface{}]                  `json:"matrix_config,required"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                  `json:"matrix_with_display_name_config,required"`
+	Metadata                    param.Field[interface{}]                  `json:"metadata,required"`
+	ModelType                   param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
+	Name                        param.Field[string]      `json:"name,required"`
+	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
+	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
+	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
+	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
+	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
+	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
+	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config,required"`
+	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
+	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
+	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// The id of the item the plan will be associated with.
-	ItemID param.Field[string] `json:"item_id,required"`
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// The property used to group this price on an invoice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// The cadence to bill for this price on.
-	Cadence                     param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
-	BillingCycleConfiguration   param.Field[interface{}]                `json:"billing_cycle_configuration,required"`
-	InvoicingCycleConfiguration param.Field[interface{}]                `json:"invoicing_cycle_configuration,required"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64]                      `json:"conversion_rate"`
-	ModelType      param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
-	UnitConfig     param.Field[interface{}]                  `json:"unit_config,required"`
-	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
-	// price is billed.
-	Currency                         param.Field[string]      `json:"currency"`
-	PackageConfig                    param.Field[interface{}] `json:"package_config,required"`
-	MatrixConfig                     param.Field[interface{}] `json:"matrix_config,required"`
-	TieredConfig                     param.Field[interface{}] `json:"tiered_config,required"`
-	TieredBpsConfig                  param.Field[interface{}] `json:"tiered_bps_config,required"`
-	BpsConfig                        param.Field[interface{}] `json:"bps_config,required"`
-	BulkBpsConfig                    param.Field[interface{}] `json:"bulk_bps_config,required"`
-	BulkConfig                       param.Field[interface{}] `json:"bulk_config,required"`
-	ThresholdTotalAmountConfig       param.Field[interface{}] `json:"threshold_total_amount_config,required"`
-	TieredPackageConfig              param.Field[interface{}] `json:"tiered_package_config,required"`
-	TieredWithMinimumConfig          param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
-	UnitWithPercentConfig            param.Field[interface{}] `json:"unit_with_percent_config,required"`
-	PackageWithAllocationConfig      param.Field[interface{}] `json:"package_with_allocation_config,required"`
-	TieredWithProrationConfig        param.Field[interface{}] `json:"tiered_with_proration_config,required"`
-	UnitWithProrationConfig          param.Field[interface{}] `json:"unit_with_proration_config,required"`
-	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
-	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
-	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config,required"`
-	MatrixWithDisplayNameConfig      param.Field[interface{}] `json:"matrix_with_display_name_config,required"`
-	BulkWithProrationConfig          param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 }
 
 func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
@@ -581,7 +582,8 @@ func (r PlanNewParamsPrice) implementsPlanNewParamsPriceUnion() {}
 // [PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPrice],
 // [PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPrice],
 // [PlanNewParamsPricesNewPlanMatrixWithDisplayNamePrice],
-// [PlanNewParamsPricesNewPlanBulkWithProrationPrice], [PlanNewParamsPrice].
+// [PlanNewParamsPricesNewPlanBulkWithProrationPrice],
+// [PlanNewParamsPricesNewPlanGroupedTieredPackagePrice], [PlanNewParamsPrice].
 type PlanNewParamsPriceUnion interface {
 	implementsPlanNewParamsPriceUnion()
 }
@@ -3476,6 +3478,143 @@ func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfigurat
 	return false
 }
 
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePrice struct {
+	// The cadence to bill for this price on.
+	Cadence                    param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence] `json:"cadence,required"`
+	GroupedTieredPackageConfig param.Field[map[string]interface{}]                                     `json:"grouped_tiered_package_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                       `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePrice) implementsPlanNewParamsPriceUnion() {}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceAnnual     PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence = "annual"
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceSemiAnnual PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence = "semi_annual"
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceMonthly    PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceQuarterly  PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceOneTime    PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence = "one_time"
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceCustom     PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence = "custom"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceAnnual, PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceSemiAnnual, PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceMonthly, PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceQuarterly, PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceOneTime, PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceModelTypeGroupedTieredPackage PlanNewParamsPricesNewPlanGroupedTieredPackagePriceModelType = "grouped_tiered_package"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPackagePriceModelTypeGroupedTieredPackage:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 // The cadence to bill for this price on.
 type PlanNewParamsPricesCadence string
 
@@ -3519,11 +3658,12 @@ const (
 	PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum  PlanNewParamsPricesModelType = "grouped_with_metered_minimum"
 	PlanNewParamsPricesModelTypeMatrixWithDisplayName      PlanNewParamsPricesModelType = "matrix_with_display_name"
 	PlanNewParamsPricesModelTypeBulkWithProration          PlanNewParamsPricesModelType = "bulk_with_proration"
+	PlanNewParamsPricesModelTypeGroupedTieredPackage       PlanNewParamsPricesModelType = "grouped_tiered_package"
 )
 
 func (r PlanNewParamsPricesModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration:
+	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage:
 		return true
 	}
 	return false

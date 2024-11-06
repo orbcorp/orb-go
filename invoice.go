@@ -1378,35 +1378,35 @@ func (r invoiceLineItemsMinimumJSON) RawJSON() string {
 
 type InvoiceLineItemsSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount   string  `json:"amount,required"`
-	Name     string  `json:"name,required"`
-	Quantity float64 `json:"quantity,required"`
+	Amount string `json:"amount,required"`
+	// This field can have the runtime type of
+	// [InvoiceLineItemsSubLineItemsMatrixSubLineItemMatrixConfig].
+	MatrixConfig interface{} `json:"matrix_config,required"`
+	Name         string      `json:"name,required"`
+	Quantity     float64     `json:"quantity,required"`
+	// This field can have the runtime type of
+	// [InvoiceLineItemsSubLineItemsTierSubLineItemTierConfig].
+	TierConfig interface{}                      `json:"tier_config,required"`
+	Type       InvoiceLineItemsSubLineItemsType `json:"type,required"`
 	// This field can have the runtime type of
 	// [InvoiceLineItemsSubLineItemsMatrixSubLineItemGrouping],
 	// [InvoiceLineItemsSubLineItemsTierSubLineItemGrouping],
 	// [InvoiceLineItemsSubLineItemsOtherSubLineItemGrouping].
-	Grouping interface{}                      `json:"grouping"`
-	Type     InvoiceLineItemsSubLineItemsType `json:"type,required"`
-	// This field can have the runtime type of
-	// [InvoiceLineItemsSubLineItemsMatrixSubLineItemMatrixConfig].
-	MatrixConfig interface{} `json:"matrix_config,required"`
-	// This field can have the runtime type of
-	// [InvoiceLineItemsSubLineItemsTierSubLineItemTierConfig].
-	TierConfig interface{}                     `json:"tier_config,required"`
-	JSON       invoiceLineItemsSubLineItemJSON `json:"-"`
-	union      InvoiceLineItemsSubLineItemsUnion
+	Grouping interface{}                     `json:"grouping"`
+	JSON     invoiceLineItemsSubLineItemJSON `json:"-"`
+	union    InvoiceLineItemsSubLineItemsUnion
 }
 
 // invoiceLineItemsSubLineItemJSON contains the JSON metadata for the struct
 // [InvoiceLineItemsSubLineItem]
 type invoiceLineItemsSubLineItemJSON struct {
 	Amount       apijson.Field
+	MatrixConfig apijson.Field
 	Name         apijson.Field
 	Quantity     apijson.Field
-	Grouping     apijson.Field
-	Type         apijson.Field
-	MatrixConfig apijson.Field
 	TierConfig   apijson.Field
+	Type         apijson.Field
+	Grouping     apijson.Field
 	raw          string
 	ExtraFields  map[string]apijson.Field
 }
@@ -3086,35 +3086,35 @@ func (r invoiceFetchUpcomingResponseLineItemsMinimumJSON) RawJSON() string {
 
 type InvoiceFetchUpcomingResponseLineItemsSubLineItem struct {
 	// The total amount for this sub line item.
-	Amount   string  `json:"amount,required"`
-	Name     string  `json:"name,required"`
-	Quantity float64 `json:"quantity,required"`
+	Amount string `json:"amount,required"`
+	// This field can have the runtime type of
+	// [InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemMatrixConfig].
+	MatrixConfig interface{} `json:"matrix_config,required"`
+	Name         string      `json:"name,required"`
+	Quantity     float64     `json:"quantity,required"`
+	// This field can have the runtime type of
+	// [InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTierConfig].
+	TierConfig interface{}                                           `json:"tier_config,required"`
+	Type       InvoiceFetchUpcomingResponseLineItemsSubLineItemsType `json:"type,required"`
 	// This field can have the runtime type of
 	// [InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemGrouping],
 	// [InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemGrouping],
 	// [InvoiceFetchUpcomingResponseLineItemsSubLineItemsOtherSubLineItemGrouping].
-	Grouping interface{}                                           `json:"grouping"`
-	Type     InvoiceFetchUpcomingResponseLineItemsSubLineItemsType `json:"type,required"`
-	// This field can have the runtime type of
-	// [InvoiceFetchUpcomingResponseLineItemsSubLineItemsMatrixSubLineItemMatrixConfig].
-	MatrixConfig interface{} `json:"matrix_config,required"`
-	// This field can have the runtime type of
-	// [InvoiceFetchUpcomingResponseLineItemsSubLineItemsTierSubLineItemTierConfig].
-	TierConfig interface{}                                          `json:"tier_config,required"`
-	JSON       invoiceFetchUpcomingResponseLineItemsSubLineItemJSON `json:"-"`
-	union      InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion
+	Grouping interface{}                                          `json:"grouping"`
+	JSON     invoiceFetchUpcomingResponseLineItemsSubLineItemJSON `json:"-"`
+	union    InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemJSON contains the JSON metadata
 // for the struct [InvoiceFetchUpcomingResponseLineItemsSubLineItem]
 type invoiceFetchUpcomingResponseLineItemsSubLineItemJSON struct {
 	Amount       apijson.Field
+	MatrixConfig apijson.Field
 	Name         apijson.Field
 	Quantity     apijson.Field
-	Grouping     apijson.Field
-	Type         apijson.Field
-	MatrixConfig apijson.Field
 	TierConfig   apijson.Field
+	Type         apijson.Field
+	Grouping     apijson.Field
 	raw          string
 	ExtraFields  map[string]apijson.Field
 }
