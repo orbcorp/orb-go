@@ -668,26 +668,16 @@ func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Con
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
 type CustomerCreditLedgerListResponse struct {
-	// This field can have the runtime type of [map[string]string].
-	Metadata             interface{}                                 `json:"metadata"`
 	ID                   string                                      `json:"id,required"`
-	LedgerSequenceNumber int64                                       `json:"ledger_sequence_number,required"`
+	Amount               float64                                     `json:"amount,required"`
+	CreatedAt            time.Time                                   `json:"created_at,required" format:"date-time"`
+	Currency             string                                      `json:"currency,required"`
+	Description          string                                      `json:"description,required,nullable"`
+	EndingBalance        float64                                     `json:"ending_balance,required"`
 	EntryStatus          CustomerCreditLedgerListResponseEntryStatus `json:"entry_status,required"`
-	// This field can have the runtime type of
-	// [CustomerCreditLedgerListResponseIncrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerListResponseDecrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCustomer],
-	// [CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomer],
-	// [CustomerCreditLedgerListResponseVoidLedgerEntryCustomer],
-	// [CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomer],
-	// [CustomerCreditLedgerListResponseAmendmentLedgerEntryCustomer].
-	Customer        interface{} `json:"customer"`
-	StartingBalance float64     `json:"starting_balance,required"`
-	EndingBalance   float64     `json:"ending_balance,required"`
-	Amount          float64     `json:"amount,required"`
-	Currency        string      `json:"currency,required"`
-	CreatedAt       time.Time   `json:"created_at,required" format:"date-time"`
-	Description     string      `json:"description,required,nullable"`
+	EntryType            CustomerCreditLedgerListResponseEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                       `json:"ledger_sequence_number,required"`
+	StartingBalance      float64                                     `json:"starting_balance,required"`
 	// This field can have the runtime type of
 	// [CustomerCreditLedgerListResponseIncrementLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerListResponseDecrementLedgerEntryCreditBlock],
@@ -696,40 +686,50 @@ type CustomerCreditLedgerListResponse struct {
 	// [CustomerCreditLedgerListResponseVoidLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerListResponseAmendmentLedgerEntryCreditBlock].
-	CreditBlock        interface{}                               `json:"credit_block"`
-	EntryType          CustomerCreditLedgerListResponseEntryType `json:"entry_type,required"`
-	PriceID            string                                    `json:"price_id,nullable"`
-	EventID            string                                    `json:"event_id,nullable"`
-	InvoiceID          string                                    `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                 `json:"new_block_expiry_date" format:"date-time"`
-	VoidReason         string                                    `json:"void_reason,nullable"`
-	VoidAmount         float64                                   `json:"void_amount"`
-	JSON               customerCreditLedgerListResponseJSON      `json:"-"`
+	CreditBlock interface{} `json:"credit_block"`
+	// This field can have the runtime type of
+	// [CustomerCreditLedgerListResponseIncrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerListResponseDecrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerListResponseExpirationChangeLedgerEntryCustomer],
+	// [CustomerCreditLedgerListResponseCreditBlockExpiryLedgerEntryCustomer],
+	// [CustomerCreditLedgerListResponseVoidLedgerEntryCustomer],
+	// [CustomerCreditLedgerListResponseVoidInitiatedLedgerEntryCustomer],
+	// [CustomerCreditLedgerListResponseAmendmentLedgerEntryCustomer].
+	Customer  interface{} `json:"customer"`
+	EventID   string      `json:"event_id,nullable"`
+	InvoiceID string      `json:"invoice_id,nullable"`
+	// This field can have the runtime type of [map[string]string].
+	Metadata           interface{}                          `json:"metadata"`
+	NewBlockExpiryDate time.Time                            `json:"new_block_expiry_date" format:"date-time"`
+	PriceID            string                               `json:"price_id,nullable"`
+	VoidAmount         float64                              `json:"void_amount"`
+	VoidReason         string                               `json:"void_reason,nullable"`
+	JSON               customerCreditLedgerListResponseJSON `json:"-"`
 	union              CustomerCreditLedgerListResponseUnion
 }
 
 // customerCreditLedgerListResponseJSON contains the JSON metadata for the struct
 // [CustomerCreditLedgerListResponse]
 type customerCreditLedgerListResponseJSON struct {
-	Metadata             apijson.Field
 	ID                   apijson.Field
-	LedgerSequenceNumber apijson.Field
-	EntryStatus          apijson.Field
-	Customer             apijson.Field
-	StartingBalance      apijson.Field
-	EndingBalance        apijson.Field
 	Amount               apijson.Field
-	Currency             apijson.Field
 	CreatedAt            apijson.Field
+	Currency             apijson.Field
 	Description          apijson.Field
-	CreditBlock          apijson.Field
+	EndingBalance        apijson.Field
+	EntryStatus          apijson.Field
 	EntryType            apijson.Field
-	PriceID              apijson.Field
+	LedgerSequenceNumber apijson.Field
+	StartingBalance      apijson.Field
+	CreditBlock          apijson.Field
+	Customer             apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
+	Metadata             apijson.Field
 	NewBlockExpiryDate   apijson.Field
-	VoidReason           apijson.Field
+	PriceID              apijson.Field
 	VoidAmount           apijson.Field
+	VoidReason           apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
@@ -1794,26 +1794,16 @@ func (r CustomerCreditLedgerListResponseEntryType) IsKnown() bool {
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
 type CustomerCreditLedgerNewEntryResponse struct {
-	// This field can have the runtime type of [map[string]string].
-	Metadata             interface{}                                     `json:"metadata"`
 	ID                   string                                          `json:"id,required"`
-	LedgerSequenceNumber int64                                           `json:"ledger_sequence_number,required"`
+	Amount               float64                                         `json:"amount,required"`
+	CreatedAt            time.Time                                       `json:"created_at,required" format:"date-time"`
+	Currency             string                                          `json:"currency,required"`
+	Description          string                                          `json:"description,required,nullable"`
+	EndingBalance        float64                                         `json:"ending_balance,required"`
 	EntryStatus          CustomerCreditLedgerNewEntryResponseEntryStatus `json:"entry_status,required"`
-	// This field can have the runtime type of
-	// [CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomer].
-	Customer        interface{} `json:"customer"`
-	StartingBalance float64     `json:"starting_balance,required"`
-	EndingBalance   float64     `json:"ending_balance,required"`
-	Amount          float64     `json:"amount,required"`
-	Currency        string      `json:"currency,required"`
-	CreatedAt       time.Time   `json:"created_at,required" format:"date-time"`
-	Description     string      `json:"description,required,nullable"`
+	EntryType            CustomerCreditLedgerNewEntryResponseEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                           `json:"ledger_sequence_number,required"`
+	StartingBalance      float64                                         `json:"starting_balance,required"`
 	// This field can have the runtime type of
 	// [CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCreditBlock],
@@ -1822,40 +1812,50 @@ type CustomerCreditLedgerNewEntryResponse struct {
 	// [CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCreditBlock].
-	CreditBlock        interface{}                                   `json:"credit_block"`
-	EntryType          CustomerCreditLedgerNewEntryResponseEntryType `json:"entry_type,required"`
-	PriceID            string                                        `json:"price_id,nullable"`
-	EventID            string                                        `json:"event_id,nullable"`
-	InvoiceID          string                                        `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                     `json:"new_block_expiry_date" format:"date-time"`
-	VoidReason         string                                        `json:"void_reason,nullable"`
-	VoidAmount         float64                                       `json:"void_amount"`
-	JSON               customerCreditLedgerNewEntryResponseJSON      `json:"-"`
+	CreditBlock interface{} `json:"credit_block"`
+	// This field can have the runtime type of
+	// [CustomerCreditLedgerNewEntryResponseIncrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryResponseDecrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryResponseCreditBlockExpiryLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryResponseVoidLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryResponseVoidInitiatedLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryResponseAmendmentLedgerEntryCustomer].
+	Customer  interface{} `json:"customer"`
+	EventID   string      `json:"event_id,nullable"`
+	InvoiceID string      `json:"invoice_id,nullable"`
+	// This field can have the runtime type of [map[string]string].
+	Metadata           interface{}                              `json:"metadata"`
+	NewBlockExpiryDate time.Time                                `json:"new_block_expiry_date" format:"date-time"`
+	PriceID            string                                   `json:"price_id,nullable"`
+	VoidAmount         float64                                  `json:"void_amount"`
+	VoidReason         string                                   `json:"void_reason,nullable"`
+	JSON               customerCreditLedgerNewEntryResponseJSON `json:"-"`
 	union              CustomerCreditLedgerNewEntryResponseUnion
 }
 
 // customerCreditLedgerNewEntryResponseJSON contains the JSON metadata for the
 // struct [CustomerCreditLedgerNewEntryResponse]
 type customerCreditLedgerNewEntryResponseJSON struct {
-	Metadata             apijson.Field
 	ID                   apijson.Field
-	LedgerSequenceNumber apijson.Field
-	EntryStatus          apijson.Field
-	Customer             apijson.Field
-	StartingBalance      apijson.Field
-	EndingBalance        apijson.Field
 	Amount               apijson.Field
-	Currency             apijson.Field
 	CreatedAt            apijson.Field
+	Currency             apijson.Field
 	Description          apijson.Field
-	CreditBlock          apijson.Field
+	EndingBalance        apijson.Field
+	EntryStatus          apijson.Field
 	EntryType            apijson.Field
-	PriceID              apijson.Field
+	LedgerSequenceNumber apijson.Field
+	StartingBalance      apijson.Field
+	CreditBlock          apijson.Field
+	Customer             apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
+	Metadata             apijson.Field
 	NewBlockExpiryDate   apijson.Field
-	VoidReason           apijson.Field
+	PriceID              apijson.Field
 	VoidAmount           apijson.Field
+	VoidReason           apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
@@ -2923,26 +2923,16 @@ func (r CustomerCreditLedgerNewEntryResponseEntryType) IsKnown() bool {
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
 type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
-	// This field can have the runtime type of [map[string]string].
-	Metadata             interface{}                                                 `json:"metadata"`
 	ID                   string                                                      `json:"id,required"`
-	LedgerSequenceNumber int64                                                       `json:"ledger_sequence_number,required"`
+	Amount               float64                                                     `json:"amount,required"`
+	CreatedAt            time.Time                                                   `json:"created_at,required" format:"date-time"`
+	Currency             string                                                      `json:"currency,required"`
+	Description          string                                                      `json:"description,required,nullable"`
+	EndingBalance        float64                                                     `json:"ending_balance,required"`
 	EntryStatus          CustomerCreditLedgerNewEntryByExternalIDResponseEntryStatus `json:"entry_status,required"`
-	// This field can have the runtime type of
-	// [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer],
-	// [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer].
-	Customer        interface{} `json:"customer"`
-	StartingBalance float64     `json:"starting_balance,required"`
-	EndingBalance   float64     `json:"ending_balance,required"`
-	Amount          float64     `json:"amount,required"`
-	Currency        string      `json:"currency,required"`
-	CreatedAt       time.Time   `json:"created_at,required" format:"date-time"`
-	Description     string      `json:"description,required,nullable"`
+	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                       `json:"ledger_sequence_number,required"`
+	StartingBalance      float64                                                     `json:"starting_balance,required"`
 	// This field can have the runtime type of
 	// [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCreditBlock],
@@ -2951,40 +2941,50 @@ type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
 	// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCreditBlock].
-	CreditBlock        interface{}                                               `json:"credit_block"`
-	EntryType          CustomerCreditLedgerNewEntryByExternalIDResponseEntryType `json:"entry_type,required"`
-	PriceID            string                                                    `json:"price_id,nullable"`
-	EventID            string                                                    `json:"event_id,nullable"`
-	InvoiceID          string                                                    `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                                 `json:"new_block_expiry_date" format:"date-time"`
-	VoidReason         string                                                    `json:"void_reason,nullable"`
-	VoidAmount         float64                                                   `json:"void_amount"`
-	JSON               customerCreditLedgerNewEntryByExternalIDResponseJSON      `json:"-"`
+	CreditBlock interface{} `json:"credit_block"`
+	// This field can have the runtime type of
+	// [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryByExternalIDResponseDecrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryByExternalIDResponseVoidInitiatedLedgerEntryCustomer],
+	// [CustomerCreditLedgerNewEntryByExternalIDResponseAmendmentLedgerEntryCustomer].
+	Customer  interface{} `json:"customer"`
+	EventID   string      `json:"event_id,nullable"`
+	InvoiceID string      `json:"invoice_id,nullable"`
+	// This field can have the runtime type of [map[string]string].
+	Metadata           interface{}                                          `json:"metadata"`
+	NewBlockExpiryDate time.Time                                            `json:"new_block_expiry_date" format:"date-time"`
+	PriceID            string                                               `json:"price_id,nullable"`
+	VoidAmount         float64                                              `json:"void_amount"`
+	VoidReason         string                                               `json:"void_reason,nullable"`
+	JSON               customerCreditLedgerNewEntryByExternalIDResponseJSON `json:"-"`
 	union              CustomerCreditLedgerNewEntryByExternalIDResponseUnion
 }
 
 // customerCreditLedgerNewEntryByExternalIDResponseJSON contains the JSON metadata
 // for the struct [CustomerCreditLedgerNewEntryByExternalIDResponse]
 type customerCreditLedgerNewEntryByExternalIDResponseJSON struct {
-	Metadata             apijson.Field
 	ID                   apijson.Field
-	LedgerSequenceNumber apijson.Field
-	EntryStatus          apijson.Field
-	Customer             apijson.Field
-	StartingBalance      apijson.Field
-	EndingBalance        apijson.Field
 	Amount               apijson.Field
-	Currency             apijson.Field
 	CreatedAt            apijson.Field
+	Currency             apijson.Field
 	Description          apijson.Field
-	CreditBlock          apijson.Field
+	EndingBalance        apijson.Field
+	EntryStatus          apijson.Field
 	EntryType            apijson.Field
-	PriceID              apijson.Field
+	LedgerSequenceNumber apijson.Field
+	StartingBalance      apijson.Field
+	CreditBlock          apijson.Field
+	Customer             apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
+	Metadata             apijson.Field
 	NewBlockExpiryDate   apijson.Field
-	VoidReason           apijson.Field
+	PriceID              apijson.Field
 	VoidAmount           apijson.Field
+	VoidReason           apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
@@ -4054,26 +4054,16 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseEntryType) IsKnown() boo
 // The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
 // prepaid credits within Orb.
 type CustomerCreditLedgerListByExternalIDResponse struct {
-	// This field can have the runtime type of [map[string]string].
-	Metadata             interface{}                                             `json:"metadata"`
 	ID                   string                                                  `json:"id,required"`
-	LedgerSequenceNumber int64                                                   `json:"ledger_sequence_number,required"`
+	Amount               float64                                                 `json:"amount,required"`
+	CreatedAt            time.Time                                               `json:"created_at,required" format:"date-time"`
+	Currency             string                                                  `json:"currency,required"`
+	Description          string                                                  `json:"description,required,nullable"`
+	EndingBalance        float64                                                 `json:"ending_balance,required"`
 	EntryStatus          CustomerCreditLedgerListByExternalIDResponseEntryStatus `json:"entry_status,required"`
-	// This field can have the runtime type of
-	// [CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomer],
-	// [CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomer],
-	// [CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer],
-	// [CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomer],
-	// [CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomer],
-	// [CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomer].
-	Customer        interface{} `json:"customer"`
-	StartingBalance float64     `json:"starting_balance,required"`
-	EndingBalance   float64     `json:"ending_balance,required"`
-	Amount          float64     `json:"amount,required"`
-	Currency        string      `json:"currency,required"`
-	CreatedAt       time.Time   `json:"created_at,required" format:"date-time"`
-	Description     string      `json:"description,required,nullable"`
+	EntryType            CustomerCreditLedgerListByExternalIDResponseEntryType   `json:"entry_type,required"`
+	LedgerSequenceNumber int64                                                   `json:"ledger_sequence_number,required"`
+	StartingBalance      float64                                                 `json:"starting_balance,required"`
 	// This field can have the runtime type of
 	// [CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCreditBlock],
@@ -4082,40 +4072,50 @@ type CustomerCreditLedgerListByExternalIDResponse struct {
 	// [CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCreditBlock],
 	// [CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCreditBlock].
-	CreditBlock        interface{}                                           `json:"credit_block"`
-	EntryType          CustomerCreditLedgerListByExternalIDResponseEntryType `json:"entry_type,required"`
-	PriceID            string                                                `json:"price_id,nullable"`
-	EventID            string                                                `json:"event_id,nullable"`
-	InvoiceID          string                                                `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                             `json:"new_block_expiry_date" format:"date-time"`
-	VoidReason         string                                                `json:"void_reason,nullable"`
-	VoidAmount         float64                                               `json:"void_amount"`
-	JSON               customerCreditLedgerListByExternalIDResponseJSON      `json:"-"`
+	CreditBlock interface{} `json:"credit_block"`
+	// This field can have the runtime type of
+	// [CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerListByExternalIDResponseDecrementLedgerEntryCustomer],
+	// [CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryCustomer],
+	// [CustomerCreditLedgerListByExternalIDResponseCreditBlockExpiryLedgerEntryCustomer],
+	// [CustomerCreditLedgerListByExternalIDResponseVoidLedgerEntryCustomer],
+	// [CustomerCreditLedgerListByExternalIDResponseVoidInitiatedLedgerEntryCustomer],
+	// [CustomerCreditLedgerListByExternalIDResponseAmendmentLedgerEntryCustomer].
+	Customer  interface{} `json:"customer"`
+	EventID   string      `json:"event_id,nullable"`
+	InvoiceID string      `json:"invoice_id,nullable"`
+	// This field can have the runtime type of [map[string]string].
+	Metadata           interface{}                                      `json:"metadata"`
+	NewBlockExpiryDate time.Time                                        `json:"new_block_expiry_date" format:"date-time"`
+	PriceID            string                                           `json:"price_id,nullable"`
+	VoidAmount         float64                                          `json:"void_amount"`
+	VoidReason         string                                           `json:"void_reason,nullable"`
+	JSON               customerCreditLedgerListByExternalIDResponseJSON `json:"-"`
 	union              CustomerCreditLedgerListByExternalIDResponseUnion
 }
 
 // customerCreditLedgerListByExternalIDResponseJSON contains the JSON metadata for
 // the struct [CustomerCreditLedgerListByExternalIDResponse]
 type customerCreditLedgerListByExternalIDResponseJSON struct {
-	Metadata             apijson.Field
 	ID                   apijson.Field
-	LedgerSequenceNumber apijson.Field
-	EntryStatus          apijson.Field
-	Customer             apijson.Field
-	StartingBalance      apijson.Field
-	EndingBalance        apijson.Field
 	Amount               apijson.Field
-	Currency             apijson.Field
 	CreatedAt            apijson.Field
+	Currency             apijson.Field
 	Description          apijson.Field
-	CreditBlock          apijson.Field
+	EndingBalance        apijson.Field
+	EntryStatus          apijson.Field
 	EntryType            apijson.Field
-	PriceID              apijson.Field
+	LedgerSequenceNumber apijson.Field
+	StartingBalance      apijson.Field
+	CreditBlock          apijson.Field
+	Customer             apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
+	Metadata             apijson.Field
 	NewBlockExpiryDate   apijson.Field
-	VoidReason           apijson.Field
+	PriceID              apijson.Field
 	VoidAmount           apijson.Field
+	VoidReason           apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
