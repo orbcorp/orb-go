@@ -194,25 +194,25 @@ func (r couponJSON) RawJSON() string {
 
 type CouponDiscount struct {
 	DiscountType CouponDiscountDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	Reason            string      `json:"reason,nullable"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount float64 `json:"percentage_discount"`
-	// Only available if discount_type is `amount`.
-	AmountDiscount string             `json:"amount_discount"`
-	JSON           couponDiscountJSON `json:"-"`
-	union          CouponDiscountUnion
+	PercentageDiscount float64            `json:"percentage_discount"`
+	Reason             string             `json:"reason,nullable"`
+	JSON               couponDiscountJSON `json:"-"`
+	union              CouponDiscountUnion
 }
 
 // couponDiscountJSON contains the JSON metadata for the struct [CouponDiscount]
 type couponDiscountJSON struct {
 	DiscountType       apijson.Field
-	AppliesToPriceIDs  apijson.Field
-	Reason             apijson.Field
-	PercentageDiscount apijson.Field
 	AmountDiscount     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -294,8 +294,8 @@ func (r CouponNewParams) MarshalJSON() (data []byte, err error) {
 
 type CouponNewParamsDiscount struct {
 	DiscountType       param.Field[CouponNewParamsDiscountDiscountType] `json:"discount_type,required"`
-	PercentageDiscount param.Field[float64]                             `json:"percentage_discount"`
 	AmountDiscount     param.Field[string]                              `json:"amount_discount"`
+	PercentageDiscount param.Field[float64]                             `json:"percentage_discount"`
 }
 
 func (r CouponNewParamsDiscount) MarshalJSON() (data []byte, err error) {
