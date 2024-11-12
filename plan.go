@@ -507,43 +507,24 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type PlanNewParamsPrice struct {
-	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration,required"`
-	BpsConfig                 param.Field[interface{}] `json:"bps_config,required"`
-	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config,required"`
-	BulkConfig                param.Field[interface{}] `json:"bulk_config,required"`
-	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
-	Cadence                          param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
-	GroupedAllocationConfig          param.Field[interface{}]                `json:"grouped_allocation_config,required"`
-	GroupedTieredPackageConfig       param.Field[interface{}]                `json:"grouped_tiered_package_config,required"`
-	GroupedWithMeteredMinimumConfig  param.Field[interface{}]                `json:"grouped_with_metered_minimum_config,required"`
-	GroupedWithProratedMinimumConfig param.Field[interface{}]                `json:"grouped_with_prorated_minimum_config,required"`
-	InvoicingCycleConfiguration      param.Field[interface{}]                `json:"invoicing_cycle_configuration,required"`
+	Cadence param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
 	// The id of the item the plan will be associated with.
-	ItemID                      param.Field[string]                       `json:"item_id,required"`
-	MatrixConfig                param.Field[interface{}]                  `json:"matrix_config,required"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                  `json:"matrix_with_display_name_config,required"`
-	Metadata                    param.Field[interface{}]                  `json:"metadata,required"`
-	ModelType                   param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                       `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                        param.Field[string]      `json:"name,required"`
-	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
-	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
-	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
-	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
-	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
-	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
-	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
-	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config,required"`
-	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
-	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
-	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	BilledInAdvance           param.Field[bool]        `json:"billed_in_advance"`
+	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration"`
+	BpsConfig                 param.Field[interface{}] `json:"bps_config"`
+	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config"`
+	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
+	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -553,9 +534,28 @@ type PlanNewParamsPrice struct {
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	FixedPriceQuantity               param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedTieredPackageConfig       param.Field[interface{}] `json:"grouped_tiered_package_config"`
+	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
 	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	InvoiceGroupingKey          param.Field[string]      `json:"invoice_grouping_key"`
+	InvoicingCycleConfiguration param.Field[interface{}] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}] `json:"matrix_with_display_name_config"`
+	Metadata                    param.Field[interface{}] `json:"metadata"`
+	PackageConfig               param.Field[interface{}] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config"`
+	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config"`
+	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config"`
+	TieredConfig                param.Field[interface{}] `json:"tiered_config"`
+	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config"`
+	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config"`
+	UnitConfig                  param.Field[interface{}] `json:"unit_config"`
+	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config"`
+	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config"`
 }
 
 func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
