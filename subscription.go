@@ -1279,13 +1279,13 @@ func (r subscriptionAdjustmentIntervalJSON) RawJSON() string {
 
 type SubscriptionAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -1308,9 +1308,9 @@ type SubscriptionAdjustmentIntervalsAdjustment struct {
 // struct [SubscriptionAdjustmentIntervalsAdjustment]
 type subscriptionAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -1689,17 +1689,17 @@ func (r subscriptionBillingCycleAnchorConfigurationJSON) RawJSON() string {
 }
 
 type SubscriptionDiscountInterval struct {
-	DiscountType SubscriptionDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                               `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -1713,12 +1713,12 @@ type SubscriptionDiscountInterval struct {
 // subscriptionDiscountIntervalJSON contains the JSON metadata for the struct
 // [SubscriptionDiscountInterval]
 type subscriptionDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -2444,7 +2444,7 @@ type SubscriptionUsage struct {
 	// This field can have the runtime type of
 	// [[]SubscriptionUsageUngroupedSubscriptionUsageData],
 	// [[]SubscriptionUsageGroupedSubscriptionUsageData].
-	Data               interface{}               `json:"data"`
+	Data               interface{}               `json:"data,required"`
 	PaginationMetadata shared.PaginationMetadata `json:"pagination_metadata,nullable"`
 	JSON               subscriptionUsageJSON     `json:"-"`
 	union              SubscriptionUsageUnion
@@ -2935,13 +2935,13 @@ func (r subscriptionNewResponseAdjustmentIntervalJSON) RawJSON() string {
 
 type SubscriptionNewResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -2964,9 +2964,9 @@ type SubscriptionNewResponseAdjustmentIntervalsAdjustment struct {
 // metadata for the struct [SubscriptionNewResponseAdjustmentIntervalsAdjustment]
 type subscriptionNewResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -3345,17 +3345,17 @@ func (r subscriptionNewResponseBillingCycleAnchorConfigurationJSON) RawJSON() st
 }
 
 type SubscriptionNewResponseDiscountInterval struct {
-	DiscountType SubscriptionNewResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                          `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionNewResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -3369,12 +3369,12 @@ type SubscriptionNewResponseDiscountInterval struct {
 // subscriptionNewResponseDiscountIntervalJSON contains the JSON metadata for the
 // struct [SubscriptionNewResponseDiscountInterval]
 type subscriptionNewResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -4258,13 +4258,13 @@ func (r subscriptionCancelResponseAdjustmentIntervalJSON) RawJSON() string {
 
 type SubscriptionCancelResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -4288,9 +4288,9 @@ type SubscriptionCancelResponseAdjustmentIntervalsAdjustment struct {
 // [SubscriptionCancelResponseAdjustmentIntervalsAdjustment]
 type subscriptionCancelResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -4670,17 +4670,17 @@ func (r subscriptionCancelResponseBillingCycleAnchorConfigurationJSON) RawJSON()
 }
 
 type SubscriptionCancelResponseDiscountInterval struct {
-	DiscountType SubscriptionCancelResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                             `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionCancelResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -4694,12 +4694,12 @@ type SubscriptionCancelResponseDiscountInterval struct {
 // subscriptionCancelResponseDiscountIntervalJSON contains the JSON metadata for
 // the struct [SubscriptionCancelResponseDiscountInterval]
 type subscriptionCancelResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -5969,13 +5969,13 @@ func (r subscriptionPriceIntervalsResponseAdjustmentIntervalJSON) RawJSON() stri
 
 type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -5999,9 +5999,9 @@ type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment struct {
 // [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment]
 type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -6383,17 +6383,17 @@ func (r subscriptionPriceIntervalsResponseBillingCycleAnchorConfigurationJSON) R
 }
 
 type SubscriptionPriceIntervalsResponseDiscountInterval struct {
-	DiscountType SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                     `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionPriceIntervalsResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -6407,12 +6407,12 @@ type SubscriptionPriceIntervalsResponseDiscountInterval struct {
 // subscriptionPriceIntervalsResponseDiscountIntervalJSON contains the JSON
 // metadata for the struct [SubscriptionPriceIntervalsResponseDiscountInterval]
 type subscriptionPriceIntervalsResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -7298,13 +7298,13 @@ func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalJSON) RawJSON() 
 
 type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -7328,9 +7328,9 @@ type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment struct 
 // [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment]
 type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -7712,17 +7712,17 @@ func (r subscriptionSchedulePlanChangeResponseBillingCycleAnchorConfigurationJSO
 }
 
 type SubscriptionSchedulePlanChangeResponseDiscountInterval struct {
-	DiscountType SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                         `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionSchedulePlanChangeResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -7736,12 +7736,12 @@ type SubscriptionSchedulePlanChangeResponseDiscountInterval struct {
 // subscriptionSchedulePlanChangeResponseDiscountIntervalJSON contains the JSON
 // metadata for the struct [SubscriptionSchedulePlanChangeResponseDiscountInterval]
 type subscriptionSchedulePlanChangeResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -8627,13 +8627,13 @@ func (r subscriptionTriggerPhaseResponseAdjustmentIntervalJSON) RawJSON() string
 
 type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -8657,9 +8657,9 @@ type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment struct {
 // [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment]
 type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -9041,17 +9041,17 @@ func (r subscriptionTriggerPhaseResponseBillingCycleAnchorConfigurationJSON) Raw
 }
 
 type SubscriptionTriggerPhaseResponseDiscountInterval struct {
-	DiscountType SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                   `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionTriggerPhaseResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -9065,12 +9065,12 @@ type SubscriptionTriggerPhaseResponseDiscountInterval struct {
 // subscriptionTriggerPhaseResponseDiscountIntervalJSON contains the JSON metadata
 // for the struct [SubscriptionTriggerPhaseResponseDiscountInterval]
 type subscriptionTriggerPhaseResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -9956,13 +9956,13 @@ func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalJSON) RawJSO
 
 type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -9986,9 +9986,9 @@ type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment str
 // [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment]
 type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -10370,17 +10370,17 @@ func (r subscriptionUnscheduleCancellationResponseBillingCycleAnchorConfiguratio
 }
 
 type SubscriptionUnscheduleCancellationResponseDiscountInterval struct {
-	DiscountType SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                             `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleCancellationResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -10395,12 +10395,12 @@ type SubscriptionUnscheduleCancellationResponseDiscountInterval struct {
 // metadata for the struct
 // [SubscriptionUnscheduleCancellationResponseDiscountInterval]
 type subscriptionUnscheduleCancellationResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -11292,13 +11292,13 @@ func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalJ
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -11322,9 +11322,9 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdj
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -11706,17 +11706,17 @@ func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseBillingCycleAnchorC
 }
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval struct {
-	DiscountType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                                        `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -11731,12 +11731,12 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval struc
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -12629,13 +12629,13 @@ func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalJSON) 
 
 type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -12659,9 +12659,9 @@ type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustme
 // [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment]
 type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -13043,17 +13043,17 @@ func (r subscriptionUnschedulePendingPlanChangesResponseBillingCycleAnchorConfig
 }
 
 type SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval struct {
-	DiscountType SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                                   `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUnschedulePendingPlanChangesResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -13068,12 +13068,12 @@ type SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval struct {
 // the JSON metadata for the struct
 // [SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval]
 type subscriptionUnschedulePendingPlanChangesResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -13966,13 +13966,13 @@ func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalJSON) RawJSO
 
 type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -13996,9 +13996,9 @@ type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment str
 // [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment]
 type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -14380,17 +14380,17 @@ func (r subscriptionUpdateFixedFeeQuantityResponseBillingCycleAnchorConfiguratio
 }
 
 type SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval struct {
-	DiscountType SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                             `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateFixedFeeQuantityResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -14405,12 +14405,12 @@ type SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval struct {
 // metadata for the struct
 // [SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval]
 type subscriptionUpdateFixedFeeQuantityResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -15301,13 +15301,13 @@ func (r subscriptionUpdateTrialResponseAdjustmentIntervalJSON) RawJSON() string 
 
 type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment struct {
 	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id"`
 	// The maximum amount to charge in a given billing period for the prices this
@@ -15331,9 +15331,9 @@ type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment struct {
 // [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment]
 type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	ItemID             apijson.Field
 	MaximumAmount      apijson.Field
 	MinimumAmount      apijson.Field
@@ -15715,17 +15715,17 @@ func (r subscriptionUpdateTrialResponseBillingCycleAnchorConfigurationJSON) RawJ
 }
 
 type SubscriptionUpdateTrialResponseDiscountInterval struct {
-	DiscountType SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                  `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionUpdateTrialResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIntervalIDs interface{} `json:"applies_to_price_interval_ids"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -15739,12 +15739,12 @@ type SubscriptionUpdateTrialResponseDiscountInterval struct {
 // subscriptionUpdateTrialResponseDiscountIntervalJSON contains the JSON metadata
 // for the struct [SubscriptionUpdateTrialResponseDiscountInterval]
 type subscriptionUpdateTrialResponseDiscountIntervalJSON struct {
+	AppliesToPriceIDs         apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
 	DiscountType              apijson.Field
 	EndDate                   apijson.Field
 	StartDate                 apijson.Field
 	AmountDiscount            apijson.Field
-	AppliesToPriceIDs         apijson.Field
-	AppliesToPriceIntervalIDs apijson.Field
 	PercentageDiscount        apijson.Field
 	UsageDiscount             apijson.Field
 	raw                       string
@@ -16570,8 +16570,8 @@ func (r SubscriptionNewParamsAddAdjustment) MarshalJSON() (data []byte, err erro
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionNewParamsAddAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AppliesToPriceIDs param.Field[interface{}]                                                 `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                      `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}]                                                 `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
@@ -16792,40 +16792,24 @@ func (r SubscriptionNewParamsAddPricesDiscountsDiscountType) IsKnown() bool {
 
 // The definition of a new price to create and add to the subscription.
 type SubscriptionNewParamsAddPricesPrice struct {
-	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration,required"`
-	BpsConfig                 param.Field[interface{}] `json:"bps_config,required"`
-	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config,required"`
-	BulkConfig                param.Field[interface{}] `json:"bulk_config,required"`
-	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
-	Cadence                          param.Field[SubscriptionNewParamsAddPricesPriceCadence] `json:"cadence,required"`
-	GroupedAllocationConfig          param.Field[interface{}]                                `json:"grouped_allocation_config,required"`
-	GroupedWithProratedMinimumConfig param.Field[interface{}]                                `json:"grouped_with_prorated_minimum_config,required"`
-	InvoicingCycleConfiguration      param.Field[interface{}]                                `json:"invoicing_cycle_configuration,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the plan will be associated with.
-	ItemID       param.Field[string]                                       `json:"item_id,required"`
-	MatrixConfig param.Field[interface{}]                                  `json:"matrix_config,required"`
-	Metadata     param.Field[interface{}]                                  `json:"metadata,required"`
-	ModelType    param.Field[SubscriptionNewParamsAddPricesPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                       `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                        param.Field[string]      `json:"name,required"`
-	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
-	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
-	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
-	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
-	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
-	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
-	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
-	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config,required"`
-	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
-	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
-	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	BilledInAdvance           param.Field[bool]        `json:"billed_in_advance"`
+	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration"`
+	BpsConfig                 param.Field[interface{}] `json:"bps_config"`
+	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config"`
+	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
+	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -16835,12 +16819,28 @@ type SubscriptionNewParamsAddPricesPrice struct {
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	FixedPriceQuantity               param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
 	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	InvoiceGroupingKey          param.Field[string]      `json:"invoice_grouping_key"`
+	InvoicingCycleConfiguration param.Field[interface{}] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config"`
+	Metadata                    param.Field[interface{}] `json:"metadata"`
+	PackageConfig               param.Field[interface{}] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
+	ReferenceID                param.Field[string]      `json:"reference_id"`
+	ThresholdTotalAmountConfig param.Field[interface{}] `json:"threshold_total_amount_config"`
+	TieredBpsConfig            param.Field[interface{}] `json:"tiered_bps_config"`
+	TieredConfig               param.Field[interface{}] `json:"tiered_config"`
+	TieredPackageConfig        param.Field[interface{}] `json:"tiered_package_config"`
+	TieredWithMinimumConfig    param.Field[interface{}] `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig  param.Field[interface{}] `json:"tiered_with_proration_config"`
+	UnitConfig                 param.Field[interface{}] `json:"unit_config"`
+	UnitWithPercentConfig      param.Field[interface{}] `json:"unit_with_percent_config"`
+	UnitWithProrationConfig    param.Field[interface{}] `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionNewParamsAddPricesPrice) MarshalJSON() (data []byte, err error) {
@@ -19680,8 +19680,8 @@ func (r SubscriptionNewParamsReplaceAdjustment) MarshalJSON() (data []byte, err 
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionNewParamsReplaceAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AppliesToPriceIDs param.Field[interface{}]                                                     `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                          `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}]                                                     `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
@@ -19896,40 +19896,24 @@ func (r SubscriptionNewParamsReplacePricesDiscountsDiscountType) IsKnown() bool 
 
 // The definition of a new price to create and add to the subscription.
 type SubscriptionNewParamsReplacePricesPrice struct {
-	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration,required"`
-	BpsConfig                 param.Field[interface{}] `json:"bps_config,required"`
-	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config,required"`
-	BulkConfig                param.Field[interface{}] `json:"bulk_config,required"`
-	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
-	Cadence                          param.Field[SubscriptionNewParamsReplacePricesPriceCadence] `json:"cadence,required"`
-	GroupedAllocationConfig          param.Field[interface{}]                                    `json:"grouped_allocation_config,required"`
-	GroupedWithProratedMinimumConfig param.Field[interface{}]                                    `json:"grouped_with_prorated_minimum_config,required"`
-	InvoicingCycleConfiguration      param.Field[interface{}]                                    `json:"invoicing_cycle_configuration,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the plan will be associated with.
-	ItemID       param.Field[string]                                           `json:"item_id,required"`
-	MatrixConfig param.Field[interface{}]                                      `json:"matrix_config,required"`
-	Metadata     param.Field[interface{}]                                      `json:"metadata,required"`
-	ModelType    param.Field[SubscriptionNewParamsReplacePricesPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                           `json:"item_id,required"`
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                        param.Field[string]      `json:"name,required"`
-	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
-	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
-	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
-	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
-	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
-	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
-	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
-	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config,required"`
-	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
-	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
-	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	BilledInAdvance           param.Field[bool]        `json:"billed_in_advance"`
+	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration"`
+	BpsConfig                 param.Field[interface{}] `json:"bps_config"`
+	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config"`
+	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
+	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -19939,12 +19923,28 @@ type SubscriptionNewParamsReplacePricesPrice struct {
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	FixedPriceQuantity               param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
 	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	InvoiceGroupingKey          param.Field[string]      `json:"invoice_grouping_key"`
+	InvoicingCycleConfiguration param.Field[interface{}] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config"`
+	Metadata                    param.Field[interface{}] `json:"metadata"`
+	PackageConfig               param.Field[interface{}] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
+	ReferenceID                param.Field[string]      `json:"reference_id"`
+	ThresholdTotalAmountConfig param.Field[interface{}] `json:"threshold_total_amount_config"`
+	TieredBpsConfig            param.Field[interface{}] `json:"tiered_bps_config"`
+	TieredConfig               param.Field[interface{}] `json:"tiered_config"`
+	TieredPackageConfig        param.Field[interface{}] `json:"tiered_package_config"`
+	TieredWithMinimumConfig    param.Field[interface{}] `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig  param.Field[interface{}] `json:"tiered_with_proration_config"`
+	UnitConfig                 param.Field[interface{}] `json:"unit_config"`
+	UnitWithPercentConfig      param.Field[interface{}] `json:"unit_with_percent_config"`
+	UnitWithProrationConfig    param.Field[interface{}] `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPrice) MarshalJSON() (data []byte, err error) {
@@ -23181,57 +23181,57 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 
 // The definition of a new price to create and add to the subscription.
 type SubscriptionPriceIntervalsParamsAddPrice struct {
-	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration,required"`
-	BpsConfig                 param.Field[interface{}] `json:"bps_config,required"`
-	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config,required"`
-	BulkConfig                param.Field[interface{}] `json:"bulk_config,required"`
-	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency                         param.Field[string]      `json:"currency,required"`
-	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config,required"`
-	GroupedTieredConfig              param.Field[interface{}] `json:"grouped_tiered_config,required"`
-	GroupedTieredPackageConfig       param.Field[interface{}] `json:"grouped_tiered_package_config,required"`
-	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config,required"`
-	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config,required"`
-	InvoicingCycleConfiguration      param.Field[interface{}] `json:"invoicing_cycle_configuration,required"`
+	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the plan will be associated with.
-	ItemID                      param.Field[string]                                            `json:"item_id,required"`
-	MatrixConfig                param.Field[interface{}]                                       `json:"matrix_config,required"`
-	MatrixWithAllocationConfig  param.Field[interface{}]                                       `json:"matrix_with_allocation_config,required"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                                       `json:"matrix_with_display_name_config,required"`
-	Metadata                    param.Field[interface{}]                                       `json:"metadata,required"`
-	ModelType                   param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                            `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                           param.Field[string]      `json:"name,required"`
-	PackageConfig                  param.Field[interface{}] `json:"package_config,required"`
-	PackageWithAllocationConfig    param.Field[interface{}] `json:"package_with_allocation_config,required"`
-	ThresholdTotalAmountConfig     param.Field[interface{}] `json:"threshold_total_amount_config,required"`
-	TieredBpsConfig                param.Field[interface{}] `json:"tiered_bps_config,required"`
-	TieredConfig                   param.Field[interface{}] `json:"tiered_config,required"`
-	TieredPackageConfig            param.Field[interface{}] `json:"tiered_package_config,required"`
-	TieredPackageWithMinimumConfig param.Field[interface{}] `json:"tiered_package_with_minimum_config,required"`
-	TieredWithMinimumConfig        param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
-	TieredWithProrationConfig      param.Field[interface{}] `json:"tiered_with_proration_config,required"`
-	UnitConfig                     param.Field[interface{}] `json:"unit_config,required"`
-	UnitWithPercentConfig          param.Field[interface{}] `json:"unit_with_percent_config,required"`
-	UnitWithProrationConfig        param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	BilledInAdvance           param.Field[bool]        `json:"billed_in_advance"`
+	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration"`
+	BpsConfig                 param.Field[interface{}] `json:"bps_config"`
+	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config"`
+	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
+	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	FixedPriceQuantity               param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedTieredConfig              param.Field[interface{}] `json:"grouped_tiered_config"`
+	GroupedTieredPackageConfig       param.Field[interface{}] `json:"grouped_tiered_package_config"`
+	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
 	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	InvoiceGroupingKey             param.Field[string]      `json:"invoice_grouping_key"`
+	InvoicingCycleConfiguration    param.Field[interface{}] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                   param.Field[interface{}] `json:"matrix_config"`
+	MatrixWithAllocationConfig     param.Field[interface{}] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig    param.Field[interface{}] `json:"matrix_with_display_name_config"`
+	Metadata                       param.Field[interface{}] `json:"metadata"`
+	PackageConfig                  param.Field[interface{}] `json:"package_config"`
+	PackageWithAllocationConfig    param.Field[interface{}] `json:"package_with_allocation_config"`
+	ThresholdTotalAmountConfig     param.Field[interface{}] `json:"threshold_total_amount_config"`
+	TieredBpsConfig                param.Field[interface{}] `json:"tiered_bps_config"`
+	TieredConfig                   param.Field[interface{}] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}] `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}] `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}] `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}] `json:"tiered_with_proration_config"`
+	UnitConfig                     param.Field[interface{}] `json:"unit_config"`
+	UnitWithPercentConfig          param.Field[interface{}] `json:"unit_with_percent_config"`
+	UnitWithProrationConfig        param.Field[interface{}] `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPrice) MarshalJSON() (data []byte, err error) {
@@ -26811,8 +26811,8 @@ func (r SubscriptionPriceIntervalsParamsAddAdjustment) MarshalJSON() (data []byt
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AppliesToPriceIDs param.Field[interface{}]                                                            `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                                 `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}]                                                            `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
@@ -27180,8 +27180,8 @@ func (r SubscriptionSchedulePlanChangeParamsAddAdjustment) MarshalJSON() (data [
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AppliesToPriceIDs param.Field[interface{}]                                                                `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                                     `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}]                                                                `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
@@ -27402,40 +27402,24 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesDiscountsDiscountType) IsKn
 
 // The definition of a new price to create and add to the subscription.
 type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
-	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration,required"`
-	BpsConfig                 param.Field[interface{}] `json:"bps_config,required"`
-	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config,required"`
-	BulkConfig                param.Field[interface{}] `json:"bulk_config,required"`
-	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
-	Cadence                          param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence] `json:"cadence,required"`
-	GroupedAllocationConfig          param.Field[interface{}]                                               `json:"grouped_allocation_config,required"`
-	GroupedWithProratedMinimumConfig param.Field[interface{}]                                               `json:"grouped_with_prorated_minimum_config,required"`
-	InvoicingCycleConfiguration      param.Field[interface{}]                                               `json:"invoicing_cycle_configuration,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the plan will be associated with.
-	ItemID       param.Field[string]                                                      `json:"item_id,required"`
-	MatrixConfig param.Field[interface{}]                                                 `json:"matrix_config,required"`
-	Metadata     param.Field[interface{}]                                                 `json:"metadata,required"`
-	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                      `json:"item_id,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                        param.Field[string]      `json:"name,required"`
-	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
-	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
-	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
-	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
-	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
-	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
-	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
-	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config,required"`
-	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
-	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
-	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	BilledInAdvance           param.Field[bool]        `json:"billed_in_advance"`
+	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration"`
+	BpsConfig                 param.Field[interface{}] `json:"bps_config"`
+	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config"`
+	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
+	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -27445,12 +27429,28 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	FixedPriceQuantity               param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
 	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	InvoiceGroupingKey          param.Field[string]      `json:"invoice_grouping_key"`
+	InvoicingCycleConfiguration param.Field[interface{}] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config"`
+	Metadata                    param.Field[interface{}] `json:"metadata"`
+	PackageConfig               param.Field[interface{}] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
+	ReferenceID                param.Field[string]      `json:"reference_id"`
+	ThresholdTotalAmountConfig param.Field[interface{}] `json:"threshold_total_amount_config"`
+	TieredBpsConfig            param.Field[interface{}] `json:"tiered_bps_config"`
+	TieredConfig               param.Field[interface{}] `json:"tiered_config"`
+	TieredPackageConfig        param.Field[interface{}] `json:"tiered_package_config"`
+	TieredWithMinimumConfig    param.Field[interface{}] `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig  param.Field[interface{}] `json:"tiered_with_proration_config"`
+	UnitConfig                 param.Field[interface{}] `json:"unit_config"`
+	UnitWithPercentConfig      param.Field[interface{}] `json:"unit_with_percent_config"`
+	UnitWithProrationConfig    param.Field[interface{}] `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPrice) MarshalJSON() (data []byte, err error) {
@@ -30276,8 +30276,8 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustment) MarshalJSON() (da
 // The definition of a new adjustment to create and add to the subscription.
 type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AppliesToPriceIDs param.Field[interface{}]                                                                    `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                                         `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}]                                                                    `json:"applies_to_price_ids"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
@@ -30492,40 +30492,24 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesDiscountsDiscountType) 
 
 // The definition of a new price to create and add to the subscription.
 type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
-	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration,required"`
-	BpsConfig                 param.Field[interface{}] `json:"bps_config,required"`
-	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config,required"`
-	BulkConfig                param.Field[interface{}] `json:"bulk_config,required"`
-	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
-	Cadence                          param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence] `json:"cadence,required"`
-	GroupedAllocationConfig          param.Field[interface{}]                                                   `json:"grouped_allocation_config,required"`
-	GroupedWithProratedMinimumConfig param.Field[interface{}]                                                   `json:"grouped_with_prorated_minimum_config,required"`
-	InvoicingCycleConfiguration      param.Field[interface{}]                                                   `json:"invoicing_cycle_configuration,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the plan will be associated with.
-	ItemID       param.Field[string]                                                          `json:"item_id,required"`
-	MatrixConfig param.Field[interface{}]                                                     `json:"matrix_config,required"`
-	Metadata     param.Field[interface{}]                                                     `json:"metadata,required"`
-	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                          `json:"item_id,required"`
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                        param.Field[string]      `json:"name,required"`
-	PackageConfig               param.Field[interface{}] `json:"package_config,required"`
-	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config,required"`
-	ThresholdTotalAmountConfig  param.Field[interface{}] `json:"threshold_total_amount_config,required"`
-	TieredBpsConfig             param.Field[interface{}] `json:"tiered_bps_config,required"`
-	TieredConfig                param.Field[interface{}] `json:"tiered_config,required"`
-	TieredPackageConfig         param.Field[interface{}] `json:"tiered_package_config,required"`
-	TieredWithMinimumConfig     param.Field[interface{}] `json:"tiered_with_minimum_config,required"`
-	TieredWithProrationConfig   param.Field[interface{}] `json:"tiered_with_proration_config,required"`
-	UnitConfig                  param.Field[interface{}] `json:"unit_config,required"`
-	UnitWithPercentConfig       param.Field[interface{}] `json:"unit_with_percent_config,required"`
-	UnitWithProrationConfig     param.Field[interface{}] `json:"unit_with_proration_config,required"`
+	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
 	// If the Price represents a fixed cost, the price will be billed in-advance if
 	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	BilledInAdvance           param.Field[bool]        `json:"billed_in_advance"`
+	BillingCycleConfiguration param.Field[interface{}] `json:"billing_cycle_configuration"`
+	BpsConfig                 param.Field[interface{}] `json:"bps_config"`
+	BulkBpsConfig             param.Field[interface{}] `json:"bulk_bps_config"`
+	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
+	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -30535,12 +30519,28 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	FixedPriceQuantity               param.Field[float64]     `json:"fixed_price_quantity"`
+	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
 	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	InvoiceGroupingKey          param.Field[string]      `json:"invoice_grouping_key"`
+	InvoicingCycleConfiguration param.Field[interface{}] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[interface{}] `json:"matrix_config"`
+	Metadata                    param.Field[interface{}] `json:"metadata"`
+	PackageConfig               param.Field[interface{}] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
+	ReferenceID                param.Field[string]      `json:"reference_id"`
+	ThresholdTotalAmountConfig param.Field[interface{}] `json:"threshold_total_amount_config"`
+	TieredBpsConfig            param.Field[interface{}] `json:"tiered_bps_config"`
+	TieredConfig               param.Field[interface{}] `json:"tiered_config"`
+	TieredPackageConfig        param.Field[interface{}] `json:"tiered_package_config"`
+	TieredWithMinimumConfig    param.Field[interface{}] `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig  param.Field[interface{}] `json:"tiered_with_proration_config"`
+	UnitConfig                 param.Field[interface{}] `json:"unit_config"`
+	UnitWithPercentConfig      param.Field[interface{}] `json:"unit_with_percent_config"`
+	UnitWithProrationConfig    param.Field[interface{}] `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPrice) MarshalJSON() (data []byte, err error) {

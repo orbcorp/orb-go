@@ -413,33 +413,33 @@ type InvoiceLineItemNewResponseSubLineItem struct {
 	// The total amount for this sub line item.
 	Amount string `json:"amount,required"`
 	// This field can have the runtime type of
-	// [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfig].
-	MatrixConfig interface{} `json:"matrix_config,required"`
-	Name         string      `json:"name,required"`
-	Quantity     float64     `json:"quantity,required"`
-	// This field can have the runtime type of
-	// [InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfig].
-	TierConfig interface{}                                `json:"tier_config,required"`
-	Type       InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
-	// This field can have the runtime type of
 	// [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemGrouping],
 	// [InvoiceLineItemNewResponseSubLineItemsTierSubLineItemGrouping],
 	// [InvoiceLineItemNewResponseSubLineItemsOtherSubLineItemGrouping].
-	Grouping interface{}                               `json:"grouping"`
-	JSON     invoiceLineItemNewResponseSubLineItemJSON `json:"-"`
-	union    InvoiceLineItemNewResponseSubLineItemsUnion
+	Grouping interface{}                                `json:"grouping,required"`
+	Name     string                                     `json:"name,required"`
+	Quantity float64                                    `json:"quantity,required"`
+	Type     InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
+	// This field can have the runtime type of
+	// [InvoiceLineItemNewResponseSubLineItemsMatrixSubLineItemMatrixConfig].
+	MatrixConfig interface{} `json:"matrix_config"`
+	// This field can have the runtime type of
+	// [InvoiceLineItemNewResponseSubLineItemsTierSubLineItemTierConfig].
+	TierConfig interface{}                               `json:"tier_config"`
+	JSON       invoiceLineItemNewResponseSubLineItemJSON `json:"-"`
+	union      InvoiceLineItemNewResponseSubLineItemsUnion
 }
 
 // invoiceLineItemNewResponseSubLineItemJSON contains the JSON metadata for the
 // struct [InvoiceLineItemNewResponseSubLineItem]
 type invoiceLineItemNewResponseSubLineItemJSON struct {
 	Amount       apijson.Field
-	MatrixConfig apijson.Field
+	Grouping     apijson.Field
 	Name         apijson.Field
 	Quantity     apijson.Field
-	TierConfig   apijson.Field
 	Type         apijson.Field
-	Grouping     apijson.Field
+	MatrixConfig apijson.Field
+	TierConfig   apijson.Field
 	raw          string
 	ExtraFields  map[string]apijson.Field
 }

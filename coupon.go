@@ -193,11 +193,11 @@ func (r couponJSON) RawJSON() string {
 }
 
 type CouponDiscount struct {
-	DiscountType CouponDiscountDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{}                `json:"applies_to_price_ids,required"`
+	DiscountType      CouponDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64            `json:"percentage_discount"`
@@ -208,9 +208,9 @@ type CouponDiscount struct {
 
 // couponDiscountJSON contains the JSON metadata for the struct [CouponDiscount]
 type couponDiscountJSON struct {
+	AppliesToPriceIDs  apijson.Field
 	DiscountType       apijson.Field
 	AmountDiscount     apijson.Field
-	AppliesToPriceIDs  apijson.Field
 	PercentageDiscount apijson.Field
 	Reason             apijson.Field
 	raw                string
