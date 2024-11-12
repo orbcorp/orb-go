@@ -111,11 +111,11 @@ func (r BillingCycleRelativeDate) ImplementsSubscriptionPriceIntervalsParamsEdit
 }
 
 type Discount struct {
-	DiscountType DiscountDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{}          `json:"applies_to_price_ids,required"`
+	DiscountType      DiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -133,9 +133,9 @@ type Discount struct {
 
 // discountJSON contains the JSON metadata for the struct [Discount]
 type discountJSON struct {
+	AppliesToPriceIDs       apijson.Field
 	DiscountType            apijson.Field
 	AmountDiscount          apijson.Field
-	AppliesToPriceIDs       apijson.Field
 	PercentageDiscount      apijson.Field
 	Reason                  apijson.Field
 	TrialAmountDiscount     apijson.Field
@@ -265,10 +265,10 @@ func (r DiscountDiscountType) IsKnown() bool {
 }
 
 type DiscountParam struct {
-	DiscountType param.Field[DiscountDiscountType] `json:"discount_type,required"`
+	AppliesToPriceIDs param.Field[interface{}]          `json:"applies_to_price_ids,required"`
+	DiscountType      param.Field[DiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
-	AmountDiscount    param.Field[string]      `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}] `json:"applies_to_price_ids"`
+	AmountDiscount param.Field[string] `json:"amount_discount"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
@@ -313,11 +313,11 @@ func (r DiscountUsageDiscountParam) MarshalJSON() (data []byte, err error) {
 func (r DiscountUsageDiscountParam) ImplementsSharedDiscountUnionParam() {}
 
 type InvoiceLevelDiscount struct {
-	DiscountType InvoiceLevelDiscountDiscountType `json:"discount_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{}                      `json:"applies_to_price_ids,required"`
+	DiscountType      InvoiceLevelDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -333,9 +333,9 @@ type InvoiceLevelDiscount struct {
 // invoiceLevelDiscountJSON contains the JSON metadata for the struct
 // [InvoiceLevelDiscount]
 type invoiceLevelDiscountJSON struct {
+	AppliesToPriceIDs       apijson.Field
 	DiscountType            apijson.Field
 	AmountDiscount          apijson.Field
-	AppliesToPriceIDs       apijson.Field
 	PercentageDiscount      apijson.Field
 	Reason                  apijson.Field
 	TrialAmountDiscount     apijson.Field
