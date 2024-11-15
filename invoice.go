@@ -164,6 +164,19 @@ func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body In
 	return
 }
 
+// This endpoint collects payment for an invoice using the customer's default
+// payment method. This action can only be taken on invoices with status "issued".
+func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *Invoice, err error) {
+	opts = append(r.Options[:], opts...)
+	if invoiceID == "" {
+		err = errors.New("missing required invoice_id parameter")
+		return
+	}
+	path := fmt.Sprintf("invoices/%s/pay", invoiceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
 // This endpoint allows an invoice's status to be set the `void` status. This can
 // only be done to invoices that are in the `issued` status.
 //
@@ -353,6 +366,8 @@ type Invoice struct {
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
 	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	// A list of payment attempts associated with the invoice
+	PaymentAttempts []InvoicePaymentAttempt `json:"payment_attempts,required"`
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
 	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
@@ -414,6 +429,7 @@ type invoiceJSON struct {
 	Minimum                     apijson.Field
 	MinimumAmount               apijson.Field
 	PaidAt                      apijson.Field
+	PaymentAttempts             apijson.Field
 	PaymentFailedAt             apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
@@ -1820,6 +1836,58 @@ func (r invoiceMinimumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoicePaymentAttempt struct {
+	// The ID of the payment attempt.
+	ID string `json:"id,required"`
+	// The amount of the payment attempt.
+	Amount string `json:"amount,required"`
+	// The time at which the payment attempt was created.
+	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	// The payment provider that attempted to collect the payment.
+	PaymentProvider InvoicePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	// The ID of the payment attempt in the payment provider.
+	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	// Whether the payment attempt succeeded.
+	Succeeded bool                      `json:"succeeded,required"`
+	JSON      invoicePaymentAttemptJSON `json:"-"`
+}
+
+// invoicePaymentAttemptJSON contains the JSON metadata for the struct
+// [InvoicePaymentAttempt]
+type invoicePaymentAttemptJSON struct {
+	ID                apijson.Field
+	Amount            apijson.Field
+	CreatedAt         apijson.Field
+	PaymentProvider   apijson.Field
+	PaymentProviderID apijson.Field
+	Succeeded         apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoicePaymentAttempt) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoicePaymentAttemptJSON) RawJSON() string {
+	return r.raw
+}
+
+// The payment provider that attempted to collect the payment.
+type InvoicePaymentAttemptsPaymentProvider string
+
+const (
+	InvoicePaymentAttemptsPaymentProviderStripe InvoicePaymentAttemptsPaymentProvider = "stripe"
+)
+
+func (r InvoicePaymentAttemptsPaymentProvider) IsKnown() bool {
+	switch r {
+	case InvoicePaymentAttemptsPaymentProviderStripe:
+		return true
+	}
+	return false
+}
+
 type InvoiceShippingAddress struct {
 	City       string                     `json:"city,required,nullable"`
 	Country    string                     `json:"country,required,nullable"`
@@ -2054,6 +2122,8 @@ type InvoiceFetchUpcomingResponse struct {
 	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
 	// was paid.
 	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	// A list of payment attempts associated with the invoice
+	PaymentAttempts []InvoiceFetchUpcomingResponsePaymentAttempt `json:"payment_attempts,required"`
 	// If payment was attempted on this invoice but failed, this will be the time of
 	// the most recent attempt.
 	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
@@ -2117,6 +2187,7 @@ type invoiceFetchUpcomingResponseJSON struct {
 	Minimum                     apijson.Field
 	MinimumAmount               apijson.Field
 	PaidAt                      apijson.Field
+	PaymentAttempts             apijson.Field
 	PaymentFailedAt             apijson.Field
 	PaymentStartedAt            apijson.Field
 	ScheduledIssueAt            apijson.Field
@@ -3539,6 +3610,58 @@ func (r *InvoiceFetchUpcomingResponseMinimum) UnmarshalJSON(data []byte) (err er
 
 func (r invoiceFetchUpcomingResponseMinimumJSON) RawJSON() string {
 	return r.raw
+}
+
+type InvoiceFetchUpcomingResponsePaymentAttempt struct {
+	// The ID of the payment attempt.
+	ID string `json:"id,required"`
+	// The amount of the payment attempt.
+	Amount string `json:"amount,required"`
+	// The time at which the payment attempt was created.
+	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	// The payment provider that attempted to collect the payment.
+	PaymentProvider InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	// The ID of the payment attempt in the payment provider.
+	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	// Whether the payment attempt succeeded.
+	Succeeded bool                                           `json:"succeeded,required"`
+	JSON      invoiceFetchUpcomingResponsePaymentAttemptJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponsePaymentAttemptJSON contains the JSON metadata for
+// the struct [InvoiceFetchUpcomingResponsePaymentAttempt]
+type invoiceFetchUpcomingResponsePaymentAttemptJSON struct {
+	ID                apijson.Field
+	Amount            apijson.Field
+	CreatedAt         apijson.Field
+	PaymentProvider   apijson.Field
+	PaymentProviderID apijson.Field
+	Succeeded         apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponsePaymentAttempt) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponsePaymentAttemptJSON) RawJSON() string {
+	return r.raw
+}
+
+// The payment provider that attempted to collect the payment.
+type InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider string
+
+const (
+	InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProviderStripe InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider = "stripe"
+)
+
+func (r InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProviderStripe:
+		return true
+	}
+	return false
 }
 
 type InvoiceFetchUpcomingResponseShippingAddress struct {
