@@ -33,16 +33,10 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 			AccountingProviders: orb.F([]orb.CustomerNewParamsAccountingSyncConfigurationAccountingProvider{{
 				ExternalProviderID: orb.F("external_provider_id"),
 				ProviderType:       orb.F("provider_type"),
-			}, {
-				ExternalProviderID: orb.F("external_provider_id"),
-				ProviderType:       orb.F("provider_type"),
-			}, {
-				ExternalProviderID: orb.F("external_provider_id"),
-				ProviderType:       orb.F("provider_type"),
 			}}),
 			Excluded: orb.F(true),
 		}),
-		AdditionalEmails: orb.F([]string{"string", "string", "string"}),
+		AdditionalEmails: orb.F([]string{"string"}),
 		AutoCollection:   orb.F(true),
 		BillingAddress: orb.F(orb.CustomerNewParamsBillingAddress{
 			City:       orb.F("city"),
@@ -110,12 +104,6 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 		orb.CustomerUpdateParams{
 			AccountingSyncConfiguration: orb.F(orb.CustomerUpdateParamsAccountingSyncConfiguration{
 				AccountingProviders: orb.F([]orb.CustomerUpdateParamsAccountingSyncConfigurationAccountingProvider{{
-					ExternalProviderID: orb.F("external_provider_id"),
-					ProviderType:       orb.F("provider_type"),
-				}, {
-					ExternalProviderID: orb.F("external_provider_id"),
-					ProviderType:       orb.F("provider_type"),
-				}, {
 					ExternalProviderID: orb.F("external_provider_id"),
 					ProviderType:       orb.F("provider_type"),
 				}}),
@@ -286,12 +274,6 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 		orb.CustomerUpdateByExternalIDParams{
 			AccountingSyncConfiguration: orb.F(orb.CustomerUpdateByExternalIDParamsAccountingSyncConfiguration{
 				AccountingProviders: orb.F([]orb.CustomerUpdateByExternalIDParamsAccountingSyncConfigurationAccountingProvider{{
-					ExternalProviderID: orb.F("external_provider_id"),
-					ProviderType:       orb.F("provider_type"),
-				}, {
-					ExternalProviderID: orb.F("external_provider_id"),
-					ProviderType:       orb.F("provider_type"),
-				}, {
 					ExternalProviderID: orb.F("external_provider_id"),
 					ProviderType:       orb.F("provider_type"),
 				}}),

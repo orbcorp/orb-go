@@ -56,12 +56,6 @@ func TestItemUpdateWithOptionalParams(t *testing.T) {
 			ExternalConnections: orb.F([]orb.ItemUpdateParamsExternalConnection{{
 				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
 				ExternalEntityID:       orb.F("external_entity_id"),
-			}, {
-				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
-				ExternalEntityID:       orb.F("external_entity_id"),
-			}, {
-				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
-				ExternalEntityID:       orb.F("external_entity_id"),
 			}}),
 			Name: orb.F("name"),
 		},
