@@ -54,10 +54,6 @@ func TestAlertUpdate(t *testing.T) {
 		orb.AlertUpdateParams{
 			Thresholds: orb.F([]orb.AlertUpdateParamsThreshold{{
 				Value: orb.F(0.000000),
-			}, {
-				Value: orb.F(0.000000),
-			}, {
-				Value: orb.F(0.000000),
 			}}),
 		},
 	)
@@ -123,10 +119,6 @@ func TestAlertNewForCustomerWithOptionalParams(t *testing.T) {
 			Type:     orb.F(orb.AlertNewForCustomerParamsTypeUsageExceeded),
 			Thresholds: orb.F([]orb.AlertNewForCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
-			}, {
-				Value: orb.F(0.000000),
-			}, {
-				Value: orb.F(0.000000),
 			}}),
 		},
 	)
@@ -159,10 +151,6 @@ func TestAlertNewForExternalCustomerWithOptionalParams(t *testing.T) {
 			Type:     orb.F(orb.AlertNewForExternalCustomerParamsTypeUsageExceeded),
 			Thresholds: orb.F([]orb.AlertNewForExternalCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
-			}, {
-				Value: orb.F(0.000000),
-			}, {
-				Value: orb.F(0.000000),
 			}}),
 		},
 	)
@@ -192,10 +180,6 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 		"subscription_id",
 		orb.AlertNewForSubscriptionParams{
 			Thresholds: orb.F([]orb.AlertNewForSubscriptionParamsThreshold{{
-				Value: orb.F(0.000000),
-			}, {
-				Value: orb.F(0.000000),
-			}, {
 				Value: orb.F(0.000000),
 			}}),
 			Type:     orb.F(orb.AlertNewForSubscriptionParamsTypeUsageExceeded),
