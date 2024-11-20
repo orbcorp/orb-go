@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.82.1 (2024-11-19)
+
+Full Changelog: [v0.82.0...v0.82.1](https://github.com/orbcorp/orb-go/compare/v0.82.0...v0.82.1)
+
+### Chores
+
+* rebuild project due to codegen change ([#358](https://github.com/orbcorp/orb-go/issues/358)) ([829cd0b](https://github.com/orbcorp/orb-go/commit/829cd0b453326bf14e47e02b13e5b4081f8803cb))
+
 ## 0.82.0 (2024-11-15)
 
 Full Changelog: [v0.81.0...v0.82.0](https://github.com/orbcorp/orb-go/compare/v0.81.0...v0.82.0)
