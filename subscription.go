@@ -27085,7 +27085,8 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// Reset billing periods to be aligned with the plan change's effective date or
 	// start of the month. Defaults to `unchanged` which keeps subscription's existing
 	// billing cycle alignment.
-	BillingCycleAlignment param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAlignment] `json:"billing_cycle_alignment"`
+	BillingCycleAlignment           param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAlignment]           `json:"billing_cycle_alignment"`
+	BillingCycleAnchorConfiguration param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAnchorConfiguration] `json:"billing_cycle_anchor_configuration"`
 	// The date that the plan change should take effect. This parameter can only be
 	// passed if the `change_option` is `requested_date`.
 	ChangeDate param.Field[time.Time] `json:"change_date" format:"date-time"`
@@ -30240,6 +30241,25 @@ func (r SubscriptionSchedulePlanChangeParamsBillingCycleAlignment) IsKnown() boo
 		return true
 	}
 	return false
+}
+
+type SubscriptionSchedulePlanChangeParamsBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day param.Field[int64] `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month param.Field[int64] `json:"month"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year param.Field[int64] `json:"year"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsBillingCycleAnchorConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type SubscriptionSchedulePlanChangeParamsRemoveAdjustment struct {
