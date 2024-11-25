@@ -98,6 +98,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		ExternalMarketplace:            orb.F(orb.SubscriptionNewParamsExternalMarketplaceGoogle),
 		ExternalMarketplaceReportingID: orb.F("external_marketplace_reporting_id"),
 		ExternalPlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
+		Filter:                         orb.F("my_property > 100 AND my_other_property = 'bar'"),
 		InitialPhaseOrder:              orb.F(int64(2)),
 		InvoicingThreshold:             orb.F("10.00"),
 		Metadata: orb.F(map[string]string{
@@ -580,6 +581,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 			CreditsOverageRate:     orb.F(0.000000),
 			DefaultInvoiceMemo:     orb.F("default_invoice_memo"),
 			ExternalPlanID:         orb.F("ZMwNQefe7J3ecf7W"),
+			Filter:                 orb.F("my_property > 100 AND my_other_property = 'bar'"),
 			InitialPhaseOrder:      orb.F(int64(2)),
 			InvoicingThreshold:     orb.F("10.00"),
 			NetTerms:               orb.F(int64(0)),
