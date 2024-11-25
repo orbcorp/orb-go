@@ -16501,6 +16501,11 @@ type SubscriptionNewParams struct {
 	// The external_plan_id of the plan that the given subscription should be switched
 	// to. Note that either this property or `plan_id` must be specified.
 	ExternalPlanID param.Field[string] `json:"external_plan_id"`
+	// An additional filter to apply to usage queries. This filter must be expressed as
+	// a boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties).
+	// If null, usage queries will not include any additional filter.
+	Filter param.Field[string] `json:"filter"`
 	// The phase of the plan to start with
 	InitialPhaseOrder param.Field[int64] `json:"initial_phase_order"`
 	// When this subscription's accrued usage reaches this threshold, an invoice will
@@ -27101,6 +27106,11 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// The external_plan_id of the plan that the given subscription should be switched
 	// to. Note that either this property or `plan_id` must be specified.
 	ExternalPlanID param.Field[string] `json:"external_plan_id"`
+	// An additional filter to apply to usage queries. This filter must be expressed as
+	// a boolean
+	// [computed property](../guides/extensibility/advanced-metrics#computed-properties).
+	// If null, usage queries will not include any additional filter.
+	Filter param.Field[string] `json:"filter"`
 	// The phase of the plan to start with
 	InitialPhaseOrder param.Field[int64] `json:"initial_phase_order"`
 	// When this subscription's accrued usage reaches this threshold, an invoice will
