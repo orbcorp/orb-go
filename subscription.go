@@ -1278,9 +1278,15 @@ func (r subscriptionAdjustmentIntervalJSON) RawJSON() string {
 }
 
 type SubscriptionAdjustmentIntervalsAdjustment struct {
+	ID             string                                                  `json:"id,required"`
 	AdjustmentType SubscriptionAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -1307,8 +1313,11 @@ type SubscriptionAdjustmentIntervalsAdjustment struct {
 // subscriptionAdjustmentIntervalsAdjustmentJSON contains the JSON metadata for the
 // struct [SubscriptionAdjustmentIntervalsAdjustment]
 type subscriptionAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -1389,12 +1398,18 @@ func init() {
 }
 
 type SubscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                          `json:"id,required"`
 	AdjustmentType SubscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                `json:"reason,required,nullable"`
 	JSON   subscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -1404,9 +1419,12 @@ type SubscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
 // the JSON metadata for the struct
 // [SubscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -1438,12 +1456,18 @@ func (r SubscriptionAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustm
 }
 
 type SubscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                              `json:"id,required"`
 	AdjustmentType SubscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                    `json:"reason,required,nullable"`
 	JSON   subscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -1453,9 +1477,12 @@ type SubscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struc
 // contains the JSON metadata for the struct
 // [SubscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -1487,9 +1514,15 @@ func (r SubscriptionAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdj
 }
 
 type SubscriptionAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                         `json:"id,required"`
 	AdjustmentType SubscriptionAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -1502,8 +1535,11 @@ type SubscriptionAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
 // the JSON metadata for the struct
 // [SubscriptionAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -1536,14 +1572,20 @@ func (r SubscriptionAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustme
 }
 
 type SubscriptionAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                   `json:"id,required"`
 	AdjustmentType SubscriptionAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                         `json:"reason,required,nullable"`
 	JSON   subscriptionAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -1553,10 +1595,13 @@ type SubscriptionAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
 // metadata for the struct
 // [SubscriptionAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -1588,12 +1633,18 @@ func (r SubscriptionAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType
 }
 
 type SubscriptionAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                   `json:"id,required"`
 	AdjustmentType SubscriptionAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                         `json:"reason,required,nullable"`
 	JSON   subscriptionAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -1603,9 +1654,12 @@ type SubscriptionAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
 // metadata for the struct
 // [SubscriptionAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -2934,9 +2988,15 @@ func (r subscriptionNewResponseAdjustmentIntervalJSON) RawJSON() string {
 }
 
 type SubscriptionNewResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                             `json:"id,required"`
 	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -2963,8 +3023,11 @@ type SubscriptionNewResponseAdjustmentIntervalsAdjustment struct {
 // subscriptionNewResponseAdjustmentIntervalsAdjustmentJSON contains the JSON
 // metadata for the struct [SubscriptionNewResponseAdjustmentIntervalsAdjustment]
 type subscriptionNewResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -3045,12 +3108,18 @@ func init() {
 }
 
 type SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                     `json:"id,required"`
 	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                           `json:"reason,required,nullable"`
 	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -3060,9 +3129,12 @@ type SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmen
 // contains the JSON metadata for the struct
 // [SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -3094,12 +3166,18 @@ func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjust
 }
 
 type SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                         `json:"id,required"`
 	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                               `json:"reason,required,nullable"`
 	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -3109,9 +3187,12 @@ type SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjus
 // contains the JSON metadata for the struct
 // [SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -3143,9 +3224,15 @@ func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentPercentageDiscountAd
 }
 
 type SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                    `json:"id,required"`
 	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -3158,8 +3245,11 @@ type SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment
 // contains the JSON metadata for the struct
 // [SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -3192,14 +3282,20 @@ func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustm
 }
 
 type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                              `json:"id,required"`
 	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                    `json:"reason,required,nullable"`
 	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -3209,10 +3305,13 @@ type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struc
 // contains the JSON metadata for the struct
 // [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -3244,12 +3343,18 @@ func (r SubscriptionNewResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdj
 }
 
 type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                              `json:"id,required"`
 	AdjustmentType SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                    `json:"reason,required,nullable"`
 	JSON   subscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -3259,9 +3364,12 @@ type SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struc
 // contains the JSON metadata for the struct
 // [SubscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionNewResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -4257,9 +4365,15 @@ func (r subscriptionCancelResponseAdjustmentIntervalJSON) RawJSON() string {
 }
 
 type SubscriptionCancelResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                `json:"id,required"`
 	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -4287,8 +4401,11 @@ type SubscriptionCancelResponseAdjustmentIntervalsAdjustment struct {
 // metadata for the struct
 // [SubscriptionCancelResponseAdjustmentIntervalsAdjustment]
 type subscriptionCancelResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -4369,12 +4486,18 @@ func init() {
 }
 
 type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                        `json:"id,required"`
 	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                              `json:"reason,required,nullable"`
 	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -4384,9 +4507,12 @@ type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjust
 // contains the JSON metadata for the struct
 // [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -4418,12 +4544,18 @@ func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentAmountDiscountAdj
 }
 
 type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                            `json:"id,required"`
 	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                  `json:"reason,required,nullable"`
 	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -4433,9 +4565,12 @@ type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAd
 // contains the JSON metadata for the struct
 // [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -4467,9 +4602,15 @@ func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentPercentageDiscoun
 }
 
 type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -4482,8 +4623,11 @@ type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustm
 // contains the JSON metadata for the struct
 // [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -4516,14 +4660,20 @@ func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentUsageDiscountAdju
 }
 
 type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                 `json:"id,required"`
 	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                       `json:"reason,required,nullable"`
 	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -4533,10 +4683,13 @@ type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment st
 // contains the JSON metadata for the struct
 // [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -4568,12 +4721,18 @@ func (r SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMinimumAdjustment
 }
 
 type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                 `json:"id,required"`
 	AdjustmentType SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                       `json:"reason,required,nullable"`
 	JSON   subscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -4583,9 +4742,12 @@ type SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment st
 // contains the JSON metadata for the struct
 // [SubscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionCancelResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -5968,9 +6130,15 @@ func (r subscriptionPriceIntervalsResponseAdjustmentIntervalJSON) RawJSON() stri
 }
 
 type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                        `json:"id,required"`
 	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -5998,8 +6166,11 @@ type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment struct {
 // JSON metadata for the struct
 // [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustment]
 type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -6082,12 +6253,18 @@ func init() {
 }
 
 type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                                `json:"id,required"`
 	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                      `json:"reason,required,nullable"`
 	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -6097,9 +6274,12 @@ type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscou
 // contains the JSON metadata for the struct
 // [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -6131,12 +6311,18 @@ func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentAmountDis
 }
 
 type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                    `json:"id,required"`
 	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                          `json:"reason,required,nullable"`
 	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -6146,9 +6332,12 @@ type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDi
 // contains the JSON metadata for the struct
 // [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -6180,9 +6369,15 @@ func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentPercentag
 }
 
 type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                               `json:"id,required"`
 	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -6195,8 +6390,11 @@ type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscoun
 // contains the JSON metadata for the struct
 // [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -6229,14 +6427,20 @@ func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentUsageDisc
 }
 
 type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                         `json:"id,required"`
 	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                               `json:"reason,required,nullable"`
 	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -6246,10 +6450,13 @@ type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjus
 // contains the JSON metadata for the struct
 // [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -6281,12 +6488,18 @@ func (r SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMinimumAd
 }
 
 type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                         `json:"id,required"`
 	AdjustmentType SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                               `json:"reason,required,nullable"`
 	JSON   subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -6296,9 +6509,12 @@ type SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjus
 // contains the JSON metadata for the struct
 // [SubscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionPriceIntervalsResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -7297,9 +7513,15 @@ func (r subscriptionSchedulePlanChangeResponseAdjustmentIntervalJSON) RawJSON() 
 }
 
 type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                            `json:"id,required"`
 	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -7327,8 +7549,11 @@ type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment struct 
 // the JSON metadata for the struct
 // [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustment]
 type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -7411,12 +7636,18 @@ func init() {
 }
 
 type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                                    `json:"id,required"`
 	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                          `json:"reason,required,nullable"`
 	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -7426,9 +7657,12 @@ type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDi
 // contains the JSON metadata for the struct
 // [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -7460,12 +7694,18 @@ func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentAmoun
 }
 
 type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                        `json:"id,required"`
 	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                              `json:"reason,required,nullable"`
 	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -7475,9 +7715,12 @@ type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercenta
 // contains the JSON metadata for the struct
 // [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -7509,9 +7752,15 @@ func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentPerce
 }
 
 type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                                   `json:"id,required"`
 	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -7524,8 +7773,11 @@ type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDis
 // contains the JSON metadata for the struct
 // [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -7558,14 +7810,20 @@ func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentUsage
 }
 
 type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                             `json:"id,required"`
 	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                   `json:"reason,required,nullable"`
 	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -7575,10 +7833,13 @@ type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumA
 // contains the JSON metadata for the struct
 // [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -7610,12 +7871,18 @@ func (r SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMinim
 }
 
 type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                             `json:"id,required"`
 	AdjustmentType SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                   `json:"reason,required,nullable"`
 	JSON   subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -7625,9 +7892,12 @@ type SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumA
 // contains the JSON metadata for the struct
 // [SubscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionSchedulePlanChangeResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -8626,9 +8896,15 @@ func (r subscriptionTriggerPhaseResponseAdjustmentIntervalJSON) RawJSON() string
 }
 
 type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                      `json:"id,required"`
 	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -8656,8 +8932,11 @@ type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment struct {
 // JSON metadata for the struct
 // [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustment]
 type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -8740,12 +9019,18 @@ func init() {
 }
 
 type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                              `json:"id,required"`
 	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                    `json:"reason,required,nullable"`
 	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -8755,9 +9040,12 @@ type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscount
 // contains the JSON metadata for the struct
 // [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -8789,12 +9077,18 @@ func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentAmountDisco
 }
 
 type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                  `json:"id,required"`
 	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                        `json:"reason,required,nullable"`
 	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -8804,9 +9098,12 @@ type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDisc
 // contains the JSON metadata for the struct
 // [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -8838,9 +9135,15 @@ func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentPercentageD
 }
 
 type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                             `json:"id,required"`
 	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -8853,8 +9156,11 @@ type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountA
 // contains the JSON metadata for the struct
 // [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -8887,14 +9193,20 @@ func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentUsageDiscou
 }
 
 type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                             `json:"reason,required,nullable"`
 	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -8904,10 +9216,13 @@ type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustm
 // contains the JSON metadata for the struct
 // [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -8939,12 +9254,18 @@ func (r SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMinimumAdju
 }
 
 type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                             `json:"reason,required,nullable"`
 	JSON   subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -8954,9 +9275,12 @@ type SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustm
 // contains the JSON metadata for the struct
 // [SubscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionTriggerPhaseResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -9955,9 +10279,15 @@ func (r subscriptionUnscheduleCancellationResponseAdjustmentIntervalJSON) RawJSO
 }
 
 type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                                `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -9985,8 +10315,11 @@ type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment str
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustment]
 type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -10069,12 +10402,18 @@ func init() {
 }
 
 type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                                        `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                              `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -10084,9 +10423,12 @@ type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmou
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -10118,12 +10460,18 @@ func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentA
 }
 
 type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                            `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                  `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -10133,9 +10481,12 @@ type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPerc
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -10167,9 +10518,15 @@ func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentP
 }
 
 type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -10182,8 +10539,11 @@ type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsag
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -10216,14 +10576,20 @@ func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentU
 }
 
 type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                                 `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                       `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -10233,10 +10599,13 @@ type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMini
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -10268,12 +10637,18 @@ func (r SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentM
 }
 
 type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                                 `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                       `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -10283,9 +10658,12 @@ type SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaxi
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionUnscheduleCancellationResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -11291,9 +11669,15 @@ func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalJ
 }
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                                           `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -11321,8 +11705,11 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdj
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustment]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -11405,12 +11792,18 @@ func init() {
 }
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                                                   `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                         `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -11420,9 +11813,12 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdj
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -11454,12 +11850,18 @@ func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervals
 }
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                             `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -11469,9 +11871,12 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdj
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -11503,9 +11908,15 @@ func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervals
 }
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                                                  `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -11518,8 +11929,11 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdj
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -11552,14 +11966,20 @@ func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervals
 }
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                                            `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                  `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -11569,10 +11989,13 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdj
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -11604,12 +12027,18 @@ func (r SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervals
 }
 
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                                            `json:"id,required"`
 	AdjustmentType SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                  `json:"reason,required,nullable"`
 	JSON   subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -11619,9 +12048,12 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdj
 // contains the JSON metadata for the struct
 // [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -12628,9 +13060,15 @@ func (r subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalJSON) 
 }
 
 type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                                      `json:"id,required"`
 	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -12658,8 +13096,11 @@ type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustment]
 type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -12742,12 +13183,18 @@ func init() {
 }
 
 type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                                              `json:"id,required"`
 	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                    `json:"reason,required,nullable"`
 	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -12757,9 +13204,12 @@ type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -12791,12 +13241,18 @@ func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjus
 }
 
 type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                                  `json:"id,required"`
 	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                        `json:"reason,required,nullable"`
 	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -12806,9 +13262,12 @@ type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -12840,9 +13299,15 @@ func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjus
 }
 
 type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                                             `json:"id,required"`
 	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -12855,8 +13320,11 @@ type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -12889,14 +13357,20 @@ func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjus
 }
 
 type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                             `json:"reason,required,nullable"`
 	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -12906,10 +13380,13 @@ type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -12941,12 +13418,18 @@ func (r SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjus
 }
 
 type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                             `json:"reason,required,nullable"`
 	JSON   subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -12956,9 +13439,12 @@ type SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionUnschedulePendingPlanChangesResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -13965,9 +14451,15 @@ func (r subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalJSON) RawJSO
 }
 
 type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                                `json:"id,required"`
 	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -13995,8 +14487,11 @@ type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment str
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustment]
 type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -14079,12 +14574,18 @@ func init() {
 }
 
 type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                                        `json:"id,required"`
 	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                              `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -14094,9 +14595,12 @@ type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmou
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -14128,12 +14632,18 @@ func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentA
 }
 
 type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                            `json:"id,required"`
 	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                                  `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -14143,9 +14653,12 @@ type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPerc
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -14177,9 +14690,15 @@ func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentP
 }
 
 type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                                       `json:"id,required"`
 	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -14192,8 +14711,11 @@ type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsag
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -14226,14 +14748,20 @@ func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentU
 }
 
 type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                                 `json:"id,required"`
 	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                       `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -14243,10 +14771,13 @@ type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMini
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -14278,12 +14809,18 @@ func (r SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentM
 }
 
 type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                                 `json:"id,required"`
 	AdjustmentType SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                       `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -14293,9 +14830,12 @@ type SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaxi
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionUpdateFixedFeeQuantityResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -15300,9 +15840,15 @@ func (r subscriptionUpdateTrialResponseAdjustmentIntervalJSON) RawJSON() string 
 }
 
 type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                     `json:"id,required"`
 	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
@@ -15330,8 +15876,11 @@ type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment struct {
 // JSON metadata for the struct
 // [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustment]
 type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
 	ItemID             apijson.Field
@@ -15414,12 +15963,18 @@ func init() {
 }
 
 type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment struct {
+	ID             string                                                                                             `json:"id,required"`
 	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                   `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON `json:"-"`
@@ -15429,9 +15984,12 @@ type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountA
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustment]
 type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -15463,12 +16021,18 @@ func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentAmountDiscou
 }
 
 type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment struct {
+	ID             string                                                                                                 `json:"id,required"`
 	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                                       `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON `json:"-"`
@@ -15478,9 +16042,12 @@ type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDisco
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustment]
 type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -15512,9 +16079,15 @@ func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentPercentageDi
 }
 
 type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment struct {
+	ID             string                                                                                            `json:"id,required"`
 	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
@@ -15527,8 +16100,11 @@ type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAd
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustment]
 type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
 	raw               string
@@ -15561,14 +16137,20 @@ func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentUsageDiscoun
 }
 
 type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment struct {
+	ID             string                                                                                      `json:"id,required"`
 	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
 	// The minimum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                            `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON `json:"-"`
@@ -15578,10 +16160,13 @@ type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustment]
 type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -15613,12 +16198,18 @@ func (r SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMinimumAdjus
 }
 
 type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment struct {
+	ID             string                                                                                      `json:"id,required"`
 	AdjustmentType SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string                                                                            `json:"reason,required,nullable"`
 	JSON   subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON `json:"-"`
@@ -15628,9 +16219,12 @@ type SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustme
 // contains the JSON metadata for the struct
 // [SubscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustment]
 type subscriptionUpdateTrialResponseAdjustmentIntervalsAdjustmentMaximumAdjustmentJSON struct {
+	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -16577,11 +17171,15 @@ type SubscriptionNewParamsAddAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
 	AppliesToPriceIDs param.Field[interface{}]                                                 `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                      `json:"amount_discount"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
 	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	UsageDiscount      param.Field[float64] `json:"usage_discount"`
 }
 
 func (r SubscriptionNewParamsAddAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
@@ -16595,6 +17193,7 @@ func (r SubscriptionNewParamsAddAdjustmentsAdjustment) implementsSubscriptionNew
 //
 // Satisfied by
 // [SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount],
+// [SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscount],
 // [SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscount],
 // [SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimum],
 // [SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximum],
@@ -16608,6 +17207,9 @@ type SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount struct {
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs  param.Field[[]string] `json:"applies_to_price_ids,required"`
 	PercentageDiscount param.Field[float64]  `json:"percentage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -16631,11 +17233,45 @@ func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjust
 	return false
 }
 
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscount struct {
+	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	UsageDiscount     param.Field[float64]  `json:"usage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscount) implementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType string
+
+const (
+	SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscount struct {
 	AdjustmentType param.Field[SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
 	AmountDiscount param.Field[string]                                                                       `json:"amount_discount,required"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
@@ -16666,6 +17302,9 @@ type SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimum struct {
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID        param.Field[string] `json:"item_id,required"`
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
@@ -16694,6 +17333,9 @@ type SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximum struct {
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
 	MaximumAmount     param.Field[string]   `json:"maximum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsAddAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
@@ -16721,6 +17363,7 @@ type SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType string
 
 const (
 	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "usage_discount"
 	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "amount_discount"
 	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum            SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "minimum"
 	SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum            SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType = "maximum"
@@ -16728,14 +17371,15 @@ const (
 
 func (r SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
 		return true
 	}
 	return false
 }
 
 type SubscriptionNewParamsAddPrice struct {
-	// The subscription's discounts for this price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for this
+	// price.
 	Discounts param.Field[[]SubscriptionNewParamsAddPricesDiscount] `json:"discounts"`
 	// The end date of the price interval. This is the date that the price will stop
 	// billing on the subscription. If null, billing will end when the phase or
@@ -16743,9 +17387,11 @@ type SubscriptionNewParamsAddPrice struct {
 	EndDate param.Field[time.Time] `json:"end_date" format:"date-time"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// The subscription's maximum amount for this price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
+	// this price.
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's minimum amount for this price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
+	// this price.
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
@@ -19687,11 +20333,15 @@ type SubscriptionNewParamsReplaceAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
 	AppliesToPriceIDs param.Field[interface{}]                                                     `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                          `json:"amount_discount"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
 	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	UsageDiscount      param.Field[float64] `json:"usage_discount"`
 }
 
 func (r SubscriptionNewParamsReplaceAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
@@ -19705,6 +20355,7 @@ func (r SubscriptionNewParamsReplaceAdjustmentsAdjustment) implementsSubscriptio
 //
 // Satisfied by
 // [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount],
+// [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscount],
 // [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscount],
 // [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimum],
 // [SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximum],
@@ -19718,6 +20369,9 @@ type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount stru
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs  param.Field[[]string] `json:"applies_to_price_ids,required"`
 	PercentageDiscount param.Field[float64]  `json:"percentage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -19741,11 +20395,45 @@ func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAd
 	return false
 }
 
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscount struct {
+	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	UsageDiscount     param.Field[float64]  `json:"usage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscount) implementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType string
+
+const (
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscount struct {
 	AdjustmentType param.Field[SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
 	AmountDiscount param.Field[string]                                                                           `json:"amount_discount,required"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
@@ -19776,6 +20464,9 @@ type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimum struct {
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID        param.Field[string] `json:"item_id,required"`
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
@@ -19804,6 +20495,9 @@ type SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximum struct {
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
 	MaximumAmount     param.Field[string]   `json:"maximum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
@@ -19831,6 +20525,7 @@ type SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType string
 
 const (
 	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "usage_discount"
 	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "amount_discount"
 	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum            SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "minimum"
 	SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum            SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType = "maximum"
@@ -19838,7 +20533,7 @@ const (
 
 func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum:
 		return true
 	}
 	return false
@@ -19847,15 +20542,18 @@ func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown
 type SubscriptionNewParamsReplacePrice struct {
 	// The id of the price on the plan to replace in the subscription.
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
-	// The subscription's discounts for the replacement price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
+	// replacement price.
 	Discounts param.Field[[]SubscriptionNewParamsReplacePricesDiscount] `json:"discounts"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// The new quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The subscription's maximum amount for the replacement price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
+	// the replacement price.
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's minimum amount for the replacement price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
+	// the replacement price.
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The definition of a new price to create and add to the subscription.
 	Price param.Field[SubscriptionNewParamsReplacePricesPriceUnion] `json:"price"`
@@ -26818,11 +27516,15 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
 	AppliesToPriceIDs param.Field[interface{}]                                                            `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                                 `json:"amount_discount"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
 	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	UsageDiscount      param.Field[float64] `json:"usage_discount"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
@@ -26836,6 +27538,7 @@ func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustment) implementsSubs
 //
 // Satisfied by
 // [SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewPercentageDiscount],
+// [SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscount],
 // [SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewAmountDiscount],
 // [SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewMinimum],
 // [SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewMaximum],
@@ -26849,6 +27552,9 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewPercentageDiscou
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs  param.Field[[]string] `json:"applies_to_price_ids,required"`
 	PercentageDiscount param.Field[float64]  `json:"percentage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -26872,11 +27578,45 @@ func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewPercentageDis
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscount struct {
+	AdjustmentType param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	UsageDiscount     param.Field[float64]  `json:"usage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscount) implementsSubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewAmountDiscount struct {
 	AdjustmentType param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
 	AmountDiscount param.Field[string]                                                                                  `json:"amount_discount,required"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
@@ -26907,6 +27647,9 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewMinimum struct {
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID        param.Field[string] `json:"item_id,required"`
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
@@ -26935,6 +27678,9 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewMaximum struct {
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
 	MaximumAmount     param.Field[string]   `json:"maximum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
@@ -26962,6 +27708,7 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType stri
 
 const (
 	SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType = "usage_discount"
 	SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType = "amount_discount"
 	SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum            SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType = "minimum"
 	SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum            SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType = "maximum"
@@ -26969,7 +27716,7 @@ const (
 
 func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
 		return true
 	}
 	return false
@@ -27193,11 +27940,15 @@ type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
 	AppliesToPriceIDs param.Field[interface{}]                                                                `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                                     `json:"amount_discount"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
 	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	UsageDiscount      param.Field[float64] `json:"usage_discount"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
@@ -27211,6 +27962,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustment) implements
 //
 // Satisfied by
 // [SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewPercentageDiscount],
+// [SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscount],
 // [SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewAmountDiscount],
 // [SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewMinimum],
 // [SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewMaximum],
@@ -27224,6 +27976,9 @@ type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewPercentageDi
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs  param.Field[[]string] `json:"applies_to_price_ids,required"`
 	PercentageDiscount param.Field[float64]  `json:"percentage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -27247,11 +28002,45 @@ func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewPercentag
 	return false
 }
 
+type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscount struct {
+	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	UsageDiscount     param.Field[float64]  `json:"usage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscount) implementsSubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewAmountDiscount struct {
 	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
 	AmountDiscount param.Field[string]                                                                                      `json:"amount_discount,required"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
@@ -27282,6 +28071,9 @@ type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewMinimum stru
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID        param.Field[string] `json:"item_id,required"`
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
@@ -27310,6 +28102,9 @@ type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewMaximum stru
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
 	MaximumAmount     param.Field[string]   `json:"maximum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
@@ -27337,6 +28132,7 @@ type SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType 
 
 const (
 	SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType = "usage_discount"
 	SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType = "amount_discount"
 	SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum            SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType = "minimum"
 	SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum            SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType = "maximum"
@@ -27344,14 +28140,15 @@ const (
 
 func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
 		return true
 	}
 	return false
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPrice struct {
-	// The subscription's discounts for this price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for this
+	// price.
 	Discounts param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesDiscount] `json:"discounts"`
 	// The end date of the price interval. This is the date that the price will stop
 	// billing on the subscription. If null, billing will end when the phase or
@@ -27359,9 +28156,11 @@ type SubscriptionSchedulePlanChangeParamsAddPrice struct {
 	EndDate param.Field[time.Time] `json:"end_date" format:"date-time"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// The subscription's maximum amount for this price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
+	// this price.
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's minimum amount for this price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
+	// this price.
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
@@ -30308,11 +31107,15 @@ type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustment struct {
 	AdjustmentType    param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
 	AppliesToPriceIDs param.Field[interface{}]                                                                    `json:"applies_to_price_ids,required"`
 	AmountDiscount    param.Field[string]                                                                         `json:"amount_discount"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID             param.Field[string]  `json:"item_id"`
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
 	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	UsageDiscount      param.Field[float64] `json:"usage_discount"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
@@ -30326,6 +31129,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustment) implem
 //
 // Satisfied by
 // [SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount],
+// [SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscount],
 // [SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewAmountDiscount],
 // [SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewMinimum],
 // [SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewMaximum],
@@ -30339,6 +31143,9 @@ type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewPercenta
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs  param.Field[[]string] `json:"applies_to_price_ids,required"`
 	PercentageDiscount param.Field[float64]  `json:"percentage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -30362,11 +31169,45 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewPerce
 	return false
 }
 
+type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscount struct {
+	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
+	// The set of price IDs to which this adjustment applies.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	UsageDiscount     param.Field[float64]  `json:"usage_discount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscount) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscount) implementsSubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentUnion() {
+}
+
+type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewAmountDiscount struct {
 	AdjustmentType param.Field[SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
 	AmountDiscount param.Field[string]                                                                                          `json:"amount_discount,required"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
@@ -30397,6 +31238,9 @@ type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewMinimum 
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID        param.Field[string] `json:"item_id,required"`
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
@@ -30425,6 +31269,9 @@ type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewMaximum 
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids,required"`
 	MaximumAmount     param.Field[string]   `json:"maximum_amount,required"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
@@ -30452,6 +31299,7 @@ type SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentT
 
 const (
 	SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType = "usage_discount"
 	SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType = "amount_discount"
 	SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum            SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType = "minimum"
 	SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum            SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType = "maximum"
@@ -30459,7 +31307,7 @@ const (
 
 func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum:
+	case SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum:
 		return true
 	}
 	return false
@@ -30468,15 +31316,18 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustme
 type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	// The id of the price on the plan to replace in the subscription.
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
-	// The subscription's discounts for the replacement price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
+	// replacement price.
 	Discounts param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesDiscount] `json:"discounts"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// The new quantity of the price, if the price is a fixed price.
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The subscription's maximum amount for the replacement price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
+	// the replacement price.
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The subscription's minimum amount for the replacement price.
+	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
+	// the replacement price.
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The definition of a new price to create and add to the subscription.
 	Price param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion] `json:"price"`
