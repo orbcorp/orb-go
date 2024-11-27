@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"reflect"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -17,6 +18,7 @@ import (
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
 	"github.com/orbcorp/orb-go/shared"
+	"github.com/tidwall/gjson"
 )
 
 // PlanService contains methods and other services that help with interacting with
@@ -127,8 +129,11 @@ func (r *PlanService) Fetch(ctx context.Context, planID string, opts ...option.R
 // of the subscription. You can see more about how to configure prices in the
 // [Price resource](/reference/price).
 type Plan struct {
-	ID       string       `json:"id,required"`
-	BasePlan PlanBasePlan `json:"base_plan,required,nullable"`
+	ID string `json:"id,required"`
+	// Adjustments for this plan. If the plan has phases, this includes adjustments
+	// across all phases of the plan.
+	Adjustments []PlanAdjustment `json:"adjustments,required"`
+	BasePlan    PlanBasePlan     `json:"base_plan,required,nullable"`
 	// The parent plan id if the given plan was created by overriding one or more of
 	// the parent's prices
 	BasePlanID string    `json:"base_plan_id,required,nullable"`
@@ -178,6 +183,7 @@ type Plan struct {
 // planJSON contains the JSON metadata for the struct [Plan]
 type planJSON struct {
 	ID                 apijson.Field
+	Adjustments        apijson.Field
 	BasePlan           apijson.Field
 	BasePlanID         apijson.Field
 	CreatedAt          apijson.Field
@@ -210,6 +216,423 @@ func (r *Plan) UnmarshalJSON(data []byte) (err error) {
 
 func (r planJSON) RawJSON() string {
 	return r.raw
+}
+
+type PlanAdjustment struct {
+	ID             string                        `json:"id,required"`
+	AdjustmentType PlanAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64            `json:"usage_discount"`
+	JSON          planAdjustmentJSON `json:"-"`
+	union         PlanAdjustmentsUnion
+}
+
+// planAdjustmentJSON contains the JSON metadata for the struct [PlanAdjustment]
+type planAdjustmentJSON struct {
+	ID                 apijson.Field
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
+	Reason             apijson.Field
+	AmountDiscount     apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	MinimumAmount      apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r planAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *PlanAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = PlanAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [PlanAdjustmentsUnion] interface which you can cast to the
+// specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [PlanAdjustmentsAmountDiscountAdjustment],
+// [PlanAdjustmentsPercentageDiscountAdjustment],
+// [PlanAdjustmentsUsageDiscountAdjustment], [PlanAdjustmentsMinimumAdjustment],
+// [PlanAdjustmentsMaximumAdjustment].
+func (r PlanAdjustment) AsUnion() PlanAdjustmentsUnion {
+	return r.union
+}
+
+// Union satisfied by [PlanAdjustmentsAmountDiscountAdjustment],
+// [PlanAdjustmentsPercentageDiscountAdjustment],
+// [PlanAdjustmentsUsageDiscountAdjustment], [PlanAdjustmentsMinimumAdjustment] or
+// [PlanAdjustmentsMaximumAdjustment].
+type PlanAdjustmentsUnion interface {
+	implementsPlanAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*PlanAdjustmentsUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PlanAdjustmentsAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PlanAdjustmentsPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PlanAdjustmentsUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PlanAdjustmentsMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PlanAdjustmentsMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type PlanAdjustmentsAmountDiscountAdjustment struct {
+	ID             string                                                `json:"id,required"`
+	AdjustmentType PlanAdjustmentsAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                      `json:"reason,required,nullable"`
+	JSON   planAdjustmentsAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// planAdjustmentsAmountDiscountAdjustmentJSON contains the JSON metadata for the
+// struct [PlanAdjustmentsAmountDiscountAdjustment]
+type planAdjustmentsAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanAdjustmentsAmountDiscountAdjustment) implementsPlanAdjustment() {}
+
+type PlanAdjustmentsAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	PlanAdjustmentsAmountDiscountAdjustmentAdjustmentTypeAmountDiscount PlanAdjustmentsAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r PlanAdjustmentsAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type PlanAdjustmentsPercentageDiscountAdjustment struct {
+	ID             string                                                    `json:"id,required"`
+	AdjustmentType PlanAdjustmentsPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                          `json:"reason,required,nullable"`
+	JSON   planAdjustmentsPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// planAdjustmentsPercentageDiscountAdjustmentJSON contains the JSON metadata for
+// the struct [PlanAdjustmentsPercentageDiscountAdjustment]
+type planAdjustmentsPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanAdjustmentsPercentageDiscountAdjustment) implementsPlanAdjustment() {}
+
+type PlanAdjustmentsPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	PlanAdjustmentsPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount PlanAdjustmentsPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r PlanAdjustmentsPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type PlanAdjustmentsUsageDiscountAdjustment struct {
+	ID             string                                               `json:"id,required"`
+	AdjustmentType PlanAdjustmentsUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                    `json:"usage_discount,required"`
+	JSON          planAdjustmentsUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// planAdjustmentsUsageDiscountAdjustmentJSON contains the JSON metadata for the
+// struct [PlanAdjustmentsUsageDiscountAdjustment]
+type planAdjustmentsUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanAdjustmentsUsageDiscountAdjustment) implementsPlanAdjustment() {}
+
+type PlanAdjustmentsUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	PlanAdjustmentsUsageDiscountAdjustmentAdjustmentTypeUsageDiscount PlanAdjustmentsUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r PlanAdjustmentsUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type PlanAdjustmentsMinimumAdjustment struct {
+	ID             string                                         `json:"id,required"`
+	AdjustmentType PlanAdjustmentsMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                               `json:"reason,required,nullable"`
+	JSON   planAdjustmentsMinimumAdjustmentJSON `json:"-"`
+}
+
+// planAdjustmentsMinimumAdjustmentJSON contains the JSON metadata for the struct
+// [PlanAdjustmentsMinimumAdjustment]
+type planAdjustmentsMinimumAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanAdjustmentsMinimumAdjustment) implementsPlanAdjustment() {}
+
+type PlanAdjustmentsMinimumAdjustmentAdjustmentType string
+
+const (
+	PlanAdjustmentsMinimumAdjustmentAdjustmentTypeMinimum PlanAdjustmentsMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r PlanAdjustmentsMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type PlanAdjustmentsMaximumAdjustment struct {
+	ID             string                                         `json:"id,required"`
+	AdjustmentType PlanAdjustmentsMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                               `json:"reason,required,nullable"`
+	JSON   planAdjustmentsMaximumAdjustmentJSON `json:"-"`
+}
+
+// planAdjustmentsMaximumAdjustmentJSON contains the JSON metadata for the struct
+// [PlanAdjustmentsMaximumAdjustment]
+type planAdjustmentsMaximumAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PlanAdjustmentsMaximumAdjustment) implementsPlanAdjustment() {}
+
+type PlanAdjustmentsMaximumAdjustmentAdjustmentType string
+
+const (
+	PlanAdjustmentsMaximumAdjustmentAdjustmentTypeMaximum PlanAdjustmentsMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r PlanAdjustmentsMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type PlanAdjustmentsAdjustmentType string
+
+const (
+	PlanAdjustmentsAdjustmentTypeAmountDiscount     PlanAdjustmentsAdjustmentType = "amount_discount"
+	PlanAdjustmentsAdjustmentTypePercentageDiscount PlanAdjustmentsAdjustmentType = "percentage_discount"
+	PlanAdjustmentsAdjustmentTypeUsageDiscount      PlanAdjustmentsAdjustmentType = "usage_discount"
+	PlanAdjustmentsAdjustmentTypeMinimum            PlanAdjustmentsAdjustmentType = "minimum"
+	PlanAdjustmentsAdjustmentTypeMaximum            PlanAdjustmentsAdjustmentType = "maximum"
+)
+
+func (r PlanAdjustmentsAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsAdjustmentTypeAmountDiscount, PlanAdjustmentsAdjustmentTypePercentageDiscount, PlanAdjustmentsAdjustmentTypeUsageDiscount, PlanAdjustmentsAdjustmentTypeMinimum, PlanAdjustmentsAdjustmentTypeMaximum:
+		return true
+	}
+	return false
 }
 
 type PlanBasePlan struct {
