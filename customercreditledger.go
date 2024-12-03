@@ -700,7 +700,7 @@ type CustomerCreditLedgerListResponse struct {
 	StartingBalance    float64                              `json:"starting_balance,required"`
 	EventID            string                               `json:"event_id,nullable"`
 	InvoiceID          string                               `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                            `json:"new_block_expiry_date" format:"date-time"`
+	NewBlockExpiryDate time.Time                            `json:"new_block_expiry_date,nullable" format:"date-time"`
 	PriceID            string                               `json:"price_id,nullable"`
 	VoidAmount         float64                              `json:"void_amount"`
 	VoidReason         string                               `json:"void_reason,nullable"`
@@ -1103,7 +1103,7 @@ type CustomerCreditLedgerListResponseExpirationChangeLedgerEntry struct {
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata           map[string]string                                               `json:"metadata,required"`
-	NewBlockExpiryDate time.Time                                                       `json:"new_block_expiry_date,required" format:"date-time"`
+	NewBlockExpiryDate time.Time                                                       `json:"new_block_expiry_date,required,nullable" format:"date-time"`
 	StartingBalance    float64                                                         `json:"starting_balance,required"`
 	JSON               customerCreditLedgerListResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
@@ -1826,7 +1826,7 @@ type CustomerCreditLedgerNewEntryResponse struct {
 	StartingBalance    float64                                  `json:"starting_balance,required"`
 	EventID            string                                   `json:"event_id,nullable"`
 	InvoiceID          string                                   `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                `json:"new_block_expiry_date" format:"date-time"`
+	NewBlockExpiryDate time.Time                                `json:"new_block_expiry_date,nullable" format:"date-time"`
 	PriceID            string                                   `json:"price_id,nullable"`
 	VoidAmount         float64                                  `json:"void_amount"`
 	VoidReason         string                                   `json:"void_reason,nullable"`
@@ -2231,7 +2231,7 @@ type CustomerCreditLedgerNewEntryResponseExpirationChangeLedgerEntry struct {
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata           map[string]string                                                   `json:"metadata,required"`
-	NewBlockExpiryDate time.Time                                                           `json:"new_block_expiry_date,required" format:"date-time"`
+	NewBlockExpiryDate time.Time                                                           `json:"new_block_expiry_date,required,nullable" format:"date-time"`
 	StartingBalance    float64                                                             `json:"starting_balance,required"`
 	JSON               customerCreditLedgerNewEntryResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
@@ -2955,7 +2955,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
 	StartingBalance    float64                                              `json:"starting_balance,required"`
 	EventID            string                                               `json:"event_id,nullable"`
 	InvoiceID          string                                               `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                            `json:"new_block_expiry_date" format:"date-time"`
+	NewBlockExpiryDate time.Time                                            `json:"new_block_expiry_date,nullable" format:"date-time"`
 	PriceID            string                                               `json:"price_id,nullable"`
 	VoidAmount         float64                                              `json:"void_amount"`
 	VoidReason         string                                               `json:"void_reason,nullable"`
@@ -3361,7 +3361,7 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntry
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata           map[string]string                                                               `json:"metadata,required"`
-	NewBlockExpiryDate time.Time                                                                       `json:"new_block_expiry_date,required" format:"date-time"`
+	NewBlockExpiryDate time.Time                                                                       `json:"new_block_expiry_date,required,nullable" format:"date-time"`
 	StartingBalance    float64                                                                         `json:"starting_balance,required"`
 	JSON               customerCreditLedgerNewEntryByExternalIDResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
@@ -4086,7 +4086,7 @@ type CustomerCreditLedgerListByExternalIDResponse struct {
 	StartingBalance    float64                                          `json:"starting_balance,required"`
 	EventID            string                                           `json:"event_id,nullable"`
 	InvoiceID          string                                           `json:"invoice_id,nullable"`
-	NewBlockExpiryDate time.Time                                        `json:"new_block_expiry_date" format:"date-time"`
+	NewBlockExpiryDate time.Time                                        `json:"new_block_expiry_date,nullable" format:"date-time"`
 	PriceID            string                                           `json:"price_id,nullable"`
 	VoidAmount         float64                                          `json:"void_amount"`
 	VoidReason         string                                           `json:"void_reason,nullable"`
@@ -4492,7 +4492,7 @@ type CustomerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntry str
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata           map[string]string                                                           `json:"metadata,required"`
-	NewBlockExpiryDate time.Time                                                                   `json:"new_block_expiry_date,required" format:"date-time"`
+	NewBlockExpiryDate time.Time                                                                   `json:"new_block_expiry_date,required,nullable" format:"date-time"`
 	StartingBalance    float64                                                                     `json:"starting_balance,required"`
 	JSON               customerCreditLedgerListByExternalIDResponseExpirationChangeLedgerEntryJSON `json:"-"`
 }
