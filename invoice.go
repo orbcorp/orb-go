@@ -3828,19 +3828,23 @@ type InvoiceListParams struct {
 	AmountLt param.Field[string] `query:"amount[lt]"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
-	Cursor             param.Field[string]                    `query:"cursor"`
-	CustomerID         param.Field[string]                    `query:"customer_id"`
-	DateType           param.Field[InvoiceListParamsDateType] `query:"date_type"`
-	DueDate            param.Field[time.Time]                 `query:"due_date" format:"date"`
-	DueDateWindow      param.Field[string]                    `query:"due_date_window"`
-	DueDateGt          param.Field[time.Time]                 `query:"due_date[gt]" format:"date"`
-	DueDateLt          param.Field[time.Time]                 `query:"due_date[lt]" format:"date"`
-	ExternalCustomerID param.Field[string]                    `query:"external_customer_id"`
-	InvoiceDateGt      param.Field[time.Time]                 `query:"invoice_date[gt]" format:"date-time"`
-	InvoiceDateGte     param.Field[time.Time]                 `query:"invoice_date[gte]" format:"date-time"`
-	InvoiceDateLt      param.Field[time.Time]                 `query:"invoice_date[lt]" format:"date-time"`
-	InvoiceDateLte     param.Field[time.Time]                 `query:"invoice_date[lte]" format:"date-time"`
-	IsRecurring        param.Field[bool]                      `query:"is_recurring"`
+	Cursor     param.Field[string]                    `query:"cursor"`
+	CustomerID param.Field[string]                    `query:"customer_id"`
+	DateType   param.Field[InvoiceListParamsDateType] `query:"date_type"`
+	DueDate    param.Field[time.Time]                 `query:"due_date" format:"date"`
+	// Filters invoices by their due dates within a specific time range in the past.
+	// Specify the range as a number followed by 'd' (days) or 'm' (months). For
+	// example, '7d' filters invoices due in the last 7 days, and '2m' filters those
+	// due in the last 2 months.
+	DueDateWindow      param.Field[string]    `query:"due_date_window"`
+	DueDateGt          param.Field[time.Time] `query:"due_date[gt]" format:"date"`
+	DueDateLt          param.Field[time.Time] `query:"due_date[lt]" format:"date"`
+	ExternalCustomerID param.Field[string]    `query:"external_customer_id"`
+	InvoiceDateGt      param.Field[time.Time] `query:"invoice_date[gt]" format:"date-time"`
+	InvoiceDateGte     param.Field[time.Time] `query:"invoice_date[gte]" format:"date-time"`
+	InvoiceDateLt      param.Field[time.Time] `query:"invoice_date[lt]" format:"date-time"`
+	InvoiceDateLte     param.Field[time.Time] `query:"invoice_date[lte]" format:"date-time"`
+	IsRecurring        param.Field[bool]      `query:"is_recurring"`
 	// The number of items to fetch. Defaults to 20.
 	Limit          param.Field[int64]                     `query:"limit"`
 	Status         param.Field[[]InvoiceListParamsStatus] `query:"status"`
