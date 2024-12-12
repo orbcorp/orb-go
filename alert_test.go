@@ -195,7 +195,7 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestAlertDisable(t *testing.T) {
+func TestAlertDisableWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -207,7 +207,13 @@ func TestAlertDisable(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Alerts.Disable(context.TODO(), "alert_configuration_id")
+	_, err := client.Alerts.Disable(
+		context.TODO(),
+		"alert_configuration_id",
+		orb.AlertDisableParams{
+			SubscriptionID: orb.F("subscription_id"),
+		},
+	)
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -217,7 +223,7 @@ func TestAlertDisable(t *testing.T) {
 	}
 }
 
-func TestAlertEnable(t *testing.T) {
+func TestAlertEnableWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -229,7 +235,13 @@ func TestAlertEnable(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Alerts.Enable(context.TODO(), "alert_configuration_id")
+	_, err := client.Alerts.Enable(
+		context.TODO(),
+		"alert_configuration_id",
+		orb.AlertEnableParams{
+			SubscriptionID: orb.F("subscription_id"),
+		},
+	)
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
