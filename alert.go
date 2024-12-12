@@ -166,27 +166,31 @@ func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID st
 	return
 }
 
-// This endpoint can be used to disable an alert.
-func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, opts ...option.RequestOption) (res *Alert, err error) {
+// This endpoint allows you to disable an alert. To disable a plan-level alert for
+// a specific subscription, you must include the `subscription_id`. The
+// `subscription_id` is not required for customer or subscription level alerts.
+func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, body AlertDisableParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
 		return
 	}
 	path := fmt.Sprintf("alerts/%s/disable", alertConfigurationID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
-// This endpoint can be used to enable an alert.
-func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, opts ...option.RequestOption) (res *Alert, err error) {
+// This endpoint allows you to enable an alert. To enable a plan-level alert for a
+// specific subscription, you must include the `subscription_id`. The
+// `subscription_id` is not required for customer or subscription level alerts.
+func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, body AlertEnableParams, opts ...option.RequestOption) (res *Alert, err error) {
 	opts = append(r.Options[:], opts...)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
 		return
 	}
 	path := fmt.Sprintf("alerts/%s/enable", alertConfigurationID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -475,4 +479,30 @@ func (r AlertNewForSubscriptionParamsType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type AlertDisableParams struct {
+	// Used to update the status of a plan alert scoped to this subscription_id
+	SubscriptionID param.Field[string] `query:"subscription_id"`
+}
+
+// URLQuery serializes [AlertDisableParams]'s query parameters as `url.Values`.
+func (r AlertDisableParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type AlertEnableParams struct {
+	// Used to update the status of a plan alert scoped to this subscription_id
+	SubscriptionID param.Field[string] `query:"subscription_id"`
+}
+
+// URLQuery serializes [AlertEnableParams]'s query parameters as `url.Values`.
+func (r AlertEnableParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatBrackets,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
