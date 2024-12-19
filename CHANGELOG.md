@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.85.0 (2024-12-19)
+
+Full Changelog: [v0.84.0...v0.85.0](https://github.com/orbcorp/orb-go/compare/v0.84.0...v0.85.0)
+
+### Features
+
+* **api:** api update ([#368](https://github.com/orbcorp/orb-go/issues/368)) ([45346fe](https://github.com/orbcorp/orb-go/commit/45346fef4fd7b64c81f690de8d55743f6b33829a))
+* **api:** api update ([#370](https://github.com/orbcorp/orb-go/issues/370)) ([5a67e58](https://github.com/orbcorp/orb-go/commit/5a67e58c9185a5e0d29a9f60b7ee8860a6337965))
+* **api:** api update ([#371](https://github.com/orbcorp/orb-go/issues/371)) ([27a2227](https://github.com/orbcorp/orb-go/commit/27a22273195d214967e168ea47469d2ff6fe0241))
+* **api:** api update ([#372](https://github.com/orbcorp/orb-go/issues/372)) ([2a8b0b2](https://github.com/orbcorp/orb-go/commit/2a8b0b2fd1ca22926b701d5d93846aa26402fcd4))
+
+
+### Chores
+
+* **internal:** codegen related update ([#373](https://github.com/orbcorp/orb-go/issues/373)) ([d31d45a](https://github.com/orbcorp/orb-go/commit/d31d45afa189fa821497c8c6bf6a8af5d4a73b07))
+
 ## 0.84.0 (2024-11-26)
 
 Full Changelog: [v0.83.0...v0.84.0](https://github.com/orbcorp/orb-go/compare/v0.83.0...v0.84.0)

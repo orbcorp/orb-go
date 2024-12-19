@@ -22,7 +22,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/orbcorp/orb-go@v0.84.0'
+go get -u 'github.com/orbcorp/orb-go@v0.85.0'
 ```
 
 <!-- x-release-please-end -->
@@ -107,7 +107,7 @@ if res.Name == "" {
 	// true if `"name"` is either not present or explicitly null
 	res.JSON.Name.IsNull()
 
-	// true if the `"name"` key was not present in the repsonse JSON at all
+	// true if the `"name"` key was not present in the response JSON at all
 	res.JSON.Name.IsMissing()
 
 	// When the API returns data that cannot be coerced to the expected type:
