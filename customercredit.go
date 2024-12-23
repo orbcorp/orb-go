@@ -43,6 +43,9 @@ func NewCustomerCreditService(opts ...option.RequestOption) (r *CustomerCreditSe
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
 //
+// If `include_all_blocks` is set to `true`, all credit blocks (including expired
+// and depleted blocks) will be included in the response.
+//
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
 func (r *CustomerCreditService) List(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListResponse], err error) {
@@ -68,6 +71,9 @@ func (r *CustomerCreditService) List(ctx context.Context, customerID string, que
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
 //
+// If `include_all_blocks` is set to `true`, all credit blocks (including expired
+// and depleted blocks) will be included in the response.
+//
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
 func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListResponse] {
@@ -75,6 +81,9 @@ func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID s
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
+//
+// If `include_all_blocks` is set to `true`, all credit blocks (including expired
+// and depleted blocks) will be included in the response.
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
@@ -100,6 +109,9 @@ func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCu
 }
 
 // Returns a paginated list of unexpired, non-zero credit blocks for a customer.
+//
+// If `include_all_blocks` is set to `true`, all credit blocks (including expired
+// and depleted blocks) will be included in the response.
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
@@ -209,7 +221,8 @@ type CustomerCreditListParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`
-	// Include all blocks, not just active ones.
+	// If set to True, all expired and depleted blocks, as well as active block will be
+	// returned.
 	IncludeAllBlocks param.Field[bool] `query:"include_all_blocks"`
 	// The number of items to fetch. Defaults to 20.
 	Limit param.Field[int64] `query:"limit"`
@@ -230,7 +243,8 @@ type CustomerCreditListByExternalIDParams struct {
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`
-	// Include all blocks, not just active ones.
+	// If set to True, all expired and depleted blocks, as well as active block will be
+	// returned.
 	IncludeAllBlocks param.Field[bool] `query:"include_all_blocks"`
 	// The number of items to fetch. Defaults to 20.
 	Limit param.Field[int64] `query:"limit"`
