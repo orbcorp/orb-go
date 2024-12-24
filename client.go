@@ -15,20 +15,21 @@ import (
 // interacting with the orb API. You should not instantiate this client directly,
 // and instead use the [NewClient] method instead.
 type Client struct {
-	Options          []option.RequestOption
-	TopLevel         *TopLevelService
-	Coupons          *CouponService
-	CreditNotes      *CreditNoteService
-	Customers        *CustomerService
-	Events           *EventService
-	InvoiceLineItems *InvoiceLineItemService
-	Invoices         *InvoiceService
-	Items            *ItemService
-	Metrics          *MetricService
-	Plans            *PlanService
-	Prices           *PriceService
-	Subscriptions    *SubscriptionService
-	Alerts           *AlertService
+	Options                []option.RequestOption
+	TopLevel               *TopLevelService
+	Coupons                *CouponService
+	CreditNotes            *CreditNoteService
+	Customers              *CustomerService
+	Events                 *EventService
+	InvoiceLineItems       *InvoiceLineItemService
+	Invoices               *InvoiceService
+	Items                  *ItemService
+	Metrics                *MetricService
+	Plans                  *PlanService
+	Prices                 *PriceService
+	Subscriptions          *SubscriptionService
+	Alerts                 *AlertService
+	DimensionalPriceGroups *DimensionalPriceGroupService
 }
 
 // NewClient generates a new client with the default option read from the
@@ -60,6 +61,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.Prices = NewPriceService(opts...)
 	r.Subscriptions = NewSubscriptionService(opts...)
 	r.Alerts = NewAlertService(opts...)
+	r.DimensionalPriceGroups = NewDimensionalPriceGroupService(opts...)
 
 	return
 }
