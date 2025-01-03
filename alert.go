@@ -200,11 +200,6 @@ func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, 
 //
 // Alerts created through the API can be scoped to either customers or
 // subscriptions.
-//
-// | Scope        | Monitors                       | Vaild Alert Types                                                                   |
-// | ------------ | ------------------------------ | ----------------------------------------------------------------------------------- |
-// | Customer     | A customer's credit balance    | `credit_balance_depleted`, `credit_balance_recovered`, and `credit_balance_dropped` |
-// | Subscription | A subscription's usage or cost | `usage_exceeded` and `cost_exceeded`                                                |
 type Alert struct {
 	// Also referred to as alert_id in this documentation.
 	ID string `json:"id,required"`
@@ -213,15 +208,15 @@ type Alert struct {
 	// The name of the currency the credit balance or invoice cost is denominated in.
 	Currency string `json:"currency,required,nullable"`
 	// The customer the alert applies to.
-	Customer map[string]string `json:"customer,required,nullable"`
+	Customer AlertCustomer `json:"customer,required,nullable"`
 	// Whether the alert is enabled or disabled.
 	Enabled bool `json:"enabled,required"`
 	// The metric the alert applies to.
-	Metric map[string]string `json:"metric,required,nullable"`
+	Metric AlertMetric `json:"metric,required,nullable"`
 	// The plan the alert applies to.
-	Plan map[string]string `json:"plan,required,nullable"`
+	Plan AlertPlan `json:"plan,required,nullable"`
 	// The subscription the alert applies to.
-	Subscription map[string]string `json:"subscription,required,nullable"`
+	Subscription AlertSubscription `json:"subscription,required,nullable"`
 	// The thresholds that define the conditions under which the alert will be
 	// triggered.
 	Thresholds []AlertThreshold `json:"thresholds,required,nullable"`
@@ -251,6 +246,102 @@ func (r *Alert) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r alertJSON) RawJSON() string {
+	return r.raw
+}
+
+// The customer the alert applies to.
+type AlertCustomer struct {
+	ID                 string            `json:"id,required"`
+	ExternalCustomerID string            `json:"external_customer_id,required,nullable"`
+	JSON               alertCustomerJSON `json:"-"`
+}
+
+// alertCustomerJSON contains the JSON metadata for the struct [AlertCustomer]
+type alertCustomerJSON struct {
+	ID                 apijson.Field
+	ExternalCustomerID apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *AlertCustomer) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r alertCustomerJSON) RawJSON() string {
+	return r.raw
+}
+
+// The metric the alert applies to.
+type AlertMetric struct {
+	ID   string          `json:"id,required"`
+	JSON alertMetricJSON `json:"-"`
+}
+
+// alertMetricJSON contains the JSON metadata for the struct [AlertMetric]
+type alertMetricJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AlertMetric) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r alertMetricJSON) RawJSON() string {
+	return r.raw
+}
+
+// The plan the alert applies to.
+type AlertPlan struct {
+	ID string `json:"id,required,nullable"`
+	// An optional user-defined ID for this plan resource, used throughout the system
+	// as an alias for this Plan. Use this field to identify a plan by an existing
+	// identifier in your system.
+	ExternalPlanID string        `json:"external_plan_id,required,nullable"`
+	Name           string        `json:"name,required,nullable"`
+	PlanVersion    string        `json:"plan_version,required"`
+	JSON           alertPlanJSON `json:"-"`
+}
+
+// alertPlanJSON contains the JSON metadata for the struct [AlertPlan]
+type alertPlanJSON struct {
+	ID             apijson.Field
+	ExternalPlanID apijson.Field
+	Name           apijson.Field
+	PlanVersion    apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *AlertPlan) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r alertPlanJSON) RawJSON() string {
+	return r.raw
+}
+
+// The subscription the alert applies to.
+type AlertSubscription struct {
+	ID   string                `json:"id,required"`
+	JSON alertSubscriptionJSON `json:"-"`
+}
+
+// alertSubscriptionJSON contains the JSON metadata for the struct
+// [AlertSubscription]
+type alertSubscriptionJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AlertSubscription) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r alertSubscriptionJSON) RawJSON() string {
 	return r.raw
 }
 
