@@ -326,8 +326,9 @@ type Invoice struct {
 	// `None` will be returned.
 	Discount  interface{}                   `json:"discount,required"`
 	Discounts []shared.InvoiceLevelDiscount `json:"discounts,required"`
-	// When the invoice payment is due.
-	DueDate time.Time `json:"due_date,required" format:"date-time"`
+	// When the invoice payment is due. The due date is null if the invoice is not yet
+	// finalized.
+	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
@@ -2084,8 +2085,9 @@ type InvoiceFetchUpcomingResponse struct {
 	// `None` will be returned.
 	Discount  interface{}                   `json:"discount,required"`
 	Discounts []shared.InvoiceLevelDiscount `json:"discounts,required"`
-	// When the invoice payment is due.
-	DueDate time.Time `json:"due_date,required" format:"date-time"`
+	// When the invoice payment is due. The due date is null if the invoice is not yet
+	// finalized.
+	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
 	// If the invoice has a status of `draft`, this will be the time that the invoice
 	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
 	// true, the invoice will automatically begin issuing at this time.
