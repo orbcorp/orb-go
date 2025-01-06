@@ -324,7 +324,7 @@ type Invoice struct {
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
 	// `None` will be returned.
-	Discount  interface{}                   `json:"discount,required,nullable"`
+	Discount  interface{}                   `json:"discount,required"`
 	Discounts []shared.InvoiceLevelDiscount `json:"discounts,required"`
 	// When the invoice payment is due.
 	DueDate time.Time `json:"due_date,required" format:"date-time"`
@@ -2082,7 +2082,7 @@ type InvoiceFetchUpcomingResponse struct {
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
 	// `None` will be returned.
-	Discount  interface{}                   `json:"discount,required,nullable"`
+	Discount  interface{}                   `json:"discount,required"`
 	Discounts []shared.InvoiceLevelDiscount `json:"discounts,required"`
 	// When the invoice payment is due.
 	DueDate time.Time `json:"due_date,required" format:"date-time"`
