@@ -27840,7 +27840,8 @@ type SubscriptionSchedulePlanChangeParams struct {
 	BillingCycleAlignment           param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAlignment]           `json:"billing_cycle_alignment"`
 	BillingCycleAnchorConfiguration param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAnchorConfiguration] `json:"billing_cycle_anchor_configuration"`
 	// The date that the plan change should take effect. This parameter can only be
-	// passed if the `change_option` is `requested_date`.
+	// passed if the `change_option` is `requested_date`. If a date with no time is
+	// passed, the plan change will happen at midnight in the customer's timezone.
 	ChangeDate param.Field[time.Time] `json:"change_date" format:"date-time"`
 	// Redemption code to be used for this subscription. If the coupon cannot be found
 	// by its redemption code, or cannot be redeemed, an error response will be
