@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.85.0 (2025-01-15)
+
+Full Changelog: [v0.84.0...v0.85.0](https://github.com/orbcorp/orb-go/compare/v0.84.0...v0.85.0)
+
+### Features
+
+* **api:** api update ([#368](https://github.com/orbcorp/orb-go/issues/368)) ([45346fe](https://github.com/orbcorp/orb-go/commit/45346fef4fd7b64c81f690de8d55743f6b33829a))
+* **api:** api update ([#370](https://github.com/orbcorp/orb-go/issues/370)) ([5a67e58](https://github.com/orbcorp/orb-go/commit/5a67e58c9185a5e0d29a9f60b7ee8860a6337965))
+* **api:** api update ([#371](https://github.com/orbcorp/orb-go/issues/371)) ([27a2227](https://github.com/orbcorp/orb-go/commit/27a22273195d214967e168ea47469d2ff6fe0241))
+* **api:** api update ([#372](https://github.com/orbcorp/orb-go/issues/372)) ([2a8b0b2](https://github.com/orbcorp/orb-go/commit/2a8b0b2fd1ca22926b701d5d93846aa26402fcd4))
+* **api:** api update ([#374](https://github.com/orbcorp/orb-go/issues/374)) ([135be68](https://github.com/orbcorp/orb-go/commit/135be68f5f51af8e5ad540e5c1db33beb1226888))
+* **api:** api update ([#375](https://github.com/orbcorp/orb-go/issues/375)) ([ac01f7e](https://github.com/orbcorp/orb-go/commit/ac01f7e0ce4499f8e53e72bdca18de8909a45eae))
+* **api:** api update ([#378](https://github.com/orbcorp/orb-go/issues/378)) ([22dd815](https://github.com/orbcorp/orb-go/commit/22dd815467a06a8b1f6d4a511c411dbb718b99c8))
+* **api:** api update ([#380](https://github.com/orbcorp/orb-go/issues/380)) ([252d61a](https://github.com/orbcorp/orb-go/commit/252d61aecdec03cd54fd2bf6be8b8b30c4deed44))
+* **api:** api update ([#381](https://github.com/orbcorp/orb-go/issues/381)) ([386bafe](https://github.com/orbcorp/orb-go/commit/386bafe7534dc191a464e234a1d918786e35732c))
+* **api:** api update ([#383](https://github.com/orbcorp/orb-go/issues/383)) ([908e3a0](https://github.com/orbcorp/orb-go/commit/908e3a017d9523e10ec202db87878d98f1ea18bc))
+
+
+### Chores
+
+* **client:** remove unnecessary `nullable` struct tags ([#379](https://github.com/orbcorp/orb-go/issues/379)) ([920fe46](https://github.com/orbcorp/orb-go/commit/920fe46ed03fafb6f95064d8ffca1518a0393e10))
+* **internal:** codegen related update ([#373](https://github.com/orbcorp/orb-go/issues/373)) ([d31d45a](https://github.com/orbcorp/orb-go/commit/d31d45afa189fa821497c8c6bf6a8af5d4a73b07))
+* **internal:** codegen related update ([#377](https://github.com/orbcorp/orb-go/issues/377)) ([2b655c0](https://github.com/orbcorp/orb-go/commit/2b655c0e382a307b158bbc629677a5a918ecafe6))
+* **internal:** codegen related update ([#382](https://github.com/orbcorp/orb-go/issues/382)) ([d89d147](https://github.com/orbcorp/orb-go/commit/d89d147fccaebf2955b018b974e0a1a8d50641e1))
+
 ## 0.84.0 (2024-11-26)
 
 Full Changelog: [v0.83.0...v0.84.0](https://github.com/orbcorp/orb-go/compare/v0.83.0...v0.84.0)
