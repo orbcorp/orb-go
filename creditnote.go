@@ -38,7 +38,7 @@ func NewCreditNoteService(opts ...option.RequestOption) (r *CreditNoteService) {
 }
 
 // This endpoint is used to create a single
-// [`Credit Note`](../guides/invoicing/credit-notes).
+// [`Credit Note`](/invoicing/credit-notes).
 func (r *CreditNoteService) New(ctx context.Context, body CreditNoteNewParams, opts ...option.RequestOption) (res *CreditNote, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "credit_notes"
@@ -73,8 +73,8 @@ func (r *CreditNoteService) ListAutoPaging(ctx context.Context, query CreditNote
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
-// This endpoint is used to fetch a single
-// [`Credit Note`](../guides/invoicing/credit-notes) given an identifier.
+// This endpoint is used to fetch a single [`Credit Note`](/invoicing/credit-notes)
+// given an identifier.
 func (r *CreditNoteService) Fetch(ctx context.Context, creditNoteID string, opts ...option.RequestOption) (res *CreditNote, err error) {
 	opts = append(r.Options[:], opts...)
 	if creditNoteID == "" {
@@ -86,8 +86,8 @@ func (r *CreditNoteService) Fetch(ctx context.Context, creditNoteID string, opts
 	return
 }
 
-// The [Credit Note](/guides/invoicing/credit-notes) resource represents a credit
-// that has been applied to a particular invoice.
+// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
+// been applied to a particular invoice.
 type CreditNote struct {
 	// The Orb id of this credit note.
 	ID string `json:"id,required"`

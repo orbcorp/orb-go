@@ -41,11 +41,11 @@ func NewCustomerCreditLedgerService(opts ...option.RequestOption) (r *CustomerCr
 
 // The credits ledger provides _auditing_ functionality over Orb's credits system
 // with a list of actions that have taken place to modify a customer's credit
-// balance. This [paginated endpoint](../reference/pagination) lists these entries,
-// starting from the most recent ledger entry.
+// balance. This [paginated endpoint](/api-reference/pagination) lists these
+// entries, starting from the most recent ledger entry.
 //
 // More details on using Orb's real-time credit feature are
-// [here](../guides/product-catalog/prepurchase.md).
+// [here](/product-catalog/prepurchase).
 //
 // There are four major types of modifications to credit balance, detailed below.
 //
@@ -143,11 +143,11 @@ func (r *CustomerCreditLedgerService) List(ctx context.Context, customerID strin
 
 // The credits ledger provides _auditing_ functionality over Orb's credits system
 // with a list of actions that have taken place to modify a customer's credit
-// balance. This [paginated endpoint](../reference/pagination) lists these entries,
-// starting from the most recent ledger entry.
+// balance. This [paginated endpoint](/api-reference/pagination) lists these
+// entries, starting from the most recent ledger entry.
 //
 // More details on using Orb's real-time credit feature are
-// [here](../guides/product-catalog/prepurchase.md).
+// [here](/product-catalog/prepurchase).
 //
 // There are four major types of modifications to credit balance, detailed below.
 //
@@ -482,11 +482,11 @@ func (r *CustomerCreditLedgerService) NewEntryByExternalID(ctx context.Context, 
 
 // The credits ledger provides _auditing_ functionality over Orb's credits system
 // with a list of actions that have taken place to modify a customer's credit
-// balance. This [paginated endpoint](../reference/pagination) lists these entries,
-// starting from the most recent ledger entry.
+// balance. This [paginated endpoint](/api-reference/pagination) lists these
+// entries, starting from the most recent ledger entry.
 //
 // More details on using Orb's real-time credit feature are
-// [here](../guides/product-catalog/prepurchase.md).
+// [here](/product-catalog/prepurchase).
 //
 // There are four major types of modifications to credit balance, detailed below.
 //
@@ -584,11 +584,11 @@ func (r *CustomerCreditLedgerService) ListByExternalID(ctx context.Context, exte
 
 // The credits ledger provides _auditing_ functionality over Orb's credits system
 // with a list of actions that have taken place to modify a customer's credit
-// balance. This [paginated endpoint](../reference/pagination) lists these entries,
-// starting from the most recent ledger entry.
+// balance. This [paginated endpoint](/api-reference/pagination) lists these
+// entries, starting from the most recent ledger entry.
 //
 // More details on using Orb's real-time credit feature are
-// [here](../guides/product-catalog/prepurchase.md).
+// [here](/product-catalog/prepurchase).
 //
 // There are four major types of modifications to credit balance, detailed below.
 //
@@ -667,8 +667,8 @@ func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Con
 	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 type CustomerCreditLedgerListResponse struct {
 	ID        string    `json:"id,required"`
 	Amount    float64   `json:"amount,required"`
@@ -764,8 +764,8 @@ func (r CustomerCreditLedgerListResponse) AsUnion() CustomerCreditLedgerListResp
 	return r.union
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 //
 // Union satisfied by [CustomerCreditLedgerListResponseIncrementLedgerEntry],
 // [CustomerCreditLedgerListResponseDecrementLedgerEntry],
@@ -1793,8 +1793,8 @@ func (r CustomerCreditLedgerListResponseEntryType) IsKnown() bool {
 	return false
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 type CustomerCreditLedgerNewEntryResponse struct {
 	ID        string    `json:"id,required"`
 	Amount    float64   `json:"amount,required"`
@@ -1890,8 +1890,8 @@ func (r CustomerCreditLedgerNewEntryResponse) AsUnion() CustomerCreditLedgerNewE
 	return r.union
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 //
 // Union satisfied by [CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry],
 // [CustomerCreditLedgerNewEntryResponseDecrementLedgerEntry],
@@ -2922,8 +2922,8 @@ func (r CustomerCreditLedgerNewEntryResponseEntryType) IsKnown() bool {
 	return false
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
 	ID        string    `json:"id,required"`
 	Amount    float64   `json:"amount,required"`
@@ -3019,8 +3019,8 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponse) AsUnion() CustomerCred
 	return r.union
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 //
 // Union satisfied by
 // [CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry],
@@ -4053,8 +4053,8 @@ func (r CustomerCreditLedgerNewEntryByExternalIDResponseEntryType) IsKnown() boo
 	return false
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 type CustomerCreditLedgerListByExternalIDResponse struct {
 	ID        string    `json:"id,required"`
 	Amount    float64   `json:"amount,required"`
@@ -4150,8 +4150,8 @@ func (r CustomerCreditLedgerListByExternalIDResponse) AsUnion() CustomerCreditLe
 	return r.union
 }
 
-// The [Credit Ledger Entry resource](/guides/product-catalog/prepurchase) models
-// prepaid credits within Orb.
+// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
+// credits within Orb.
 //
 // Union satisfied by
 // [CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry],

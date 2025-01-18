@@ -37,7 +37,7 @@ func NewItemService(opts ...option.RequestOption) (r *ItemService) {
 	return
 }
 
-// This endpoint is used to create an [Item](../guides/concepts#item).
+// This endpoint is used to create an [Item](/core-concepts#item).
 func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...option.RequestOption) (res *Item, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "items"

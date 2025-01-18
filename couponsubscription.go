@@ -36,9 +36,9 @@ func NewCouponSubscriptionService(opts ...option.RequestOption) (r *CouponSubscr
 }
 
 // This endpoint returns a list of all subscriptions that have redeemed a given
-// coupon as a [paginated](../reference/pagination) list, ordered starting from the
-// most recently created subscription. For a full discussion of the subscription
-// resource, see [Subscription](../guides/concepts#subscription).
+// coupon as a [paginated](/api-reference/pagination) list, ordered starting from
+// the most recently created subscription. For a full discussion of the
+// subscription resource, see [Subscription](/core-concepts#subscription).
 func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
@@ -61,9 +61,9 @@ func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, q
 }
 
 // This endpoint returns a list of all subscriptions that have redeemed a given
-// coupon as a [paginated](../reference/pagination) list, ordered starting from the
-// most recently created subscription. For a full discussion of the subscription
-// resource, see [Subscription](../guides/concepts#subscription).
+// coupon as a [paginated](/api-reference/pagination) list, ordered starting from
+// the most recently created subscription. For a full discussion of the
+// subscription resource, see [Subscription](/core-concepts#subscription).
 func (r *CouponSubscriptionService) ListAutoPaging(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Subscription] {
 	return pagination.NewPageAutoPager(r.List(ctx, couponID, query, opts...))
 }
