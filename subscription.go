@@ -50,7 +50,7 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 //
 // The default configuration for subscriptions in Orb is **In-advance billing** and
 // **Beginning of month alignment** (see
-// [Subscription](../guides/concepts#subscription) for more details).
+// [Subscription](/core-concepts##subscription) for more details).
 //
 // In order to change the alignment behavior, Orb also supports billing
 // subscriptions on the day of the month they are created. If
@@ -75,9 +75,10 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // subscription being created. This is useful when a customer has prices that
 // differ from the default prices for a specific plan.
 //
-// :::info This feature is only available for accounts that have migrated to
-// Subscription Overrides Version 2. You can find your Subscription Overrides
-// Version at the bottom of your [Plans page](https://app.withorb.com/plans) :::
+// <Note>
+// This feature is only available for accounts that have migrated to Subscription Overrides Version 2. You can find your
+// Subscription Overrides Version at the bottom of your [Plans page](https://app.withorb.com/plans)
+// </Note>
 //
 // ### Adding Prices
 //
@@ -85,17 +86,17 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // the list must specify an existing add-on price with a `price_id` or
 // `external_price_id` field, or create a new add-on price by including an object
 // with the key `price`, identical to what would be used in the request body for
-// the [create price endpoint](../reference/create-price). See the
-// [Price resource](../reference/price) for the specification of different price
-// model configurations possible in this object.
+// the [create price endpoint](/api-reference/price/create-price). See the
+// [Price resource](/product-catalog/price-configuration) for the specification of
+// different price model configurations possible in this object.
 //
 // If the plan has phases, each object in the list must include a number with
 // `plan_phase_order` key to indicate which phase the price should be added to.
 //
 // An object in the list can specify an optional `start_date` and optional
 // `end_date`. This is equivalent to creating a price interval with the
-// [add/edit price intervals endpoint](../reference/add-edit-price-intervals). If
-// unspecified, the start or end date of the phase or subscription will be used.
+// [add/edit price intervals endpoint](/api-reference/price-interval/add-or-edit-price-intervals).
+// If unspecified, the start or end date of the phase or subscription will be used.
 //
 // An object in the list can specify an optional `minimum_amount`,
 // `maximum_amount`, or `discounts`. This will create adjustments which apply only
@@ -120,14 +121,15 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // either referencing an existing add-on price with a `price_id` or
 // `external_price_id` field, or by creating a new add-on price by including an
 // object with the key `price`, identical to what would be used in the request body
-// for the [create price endpoint](../reference/create-price). See the
-// [Price resource](../reference/price) for the specification of different price
-// model configurations possible in this object.
+// for the [create price endpoint](/api-reference/price/create-price). See the
+// [Price resource](/product-catalog/price-configuration) for the specification of
+// different price model configurations possible in this object.
 //
 // For fixed fees, an object in the list can supply a `fixed_price_quantity`
 // instead of a `price`, `price_id`, or `external_price_id` field. This will update
 // only the quantity for the price, similar to the
-// [Update price quantity](../reference/update-fixed-fee-quantity) endpoint.
+// [Update price quantity](/api-reference/subscription/update-price-quantity)
+// endpoint.
 //
 // The replacement price will have the same phase, if applicable, and the same
 // start and end dates as the price it replaces.
@@ -146,7 +148,7 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // To add adjustments, provide a list of objects with the key `add_adjustments`. An
 // object in the list must include an object with the key `adjustment`, identical
 // to the adjustment object in the
-// [add/edit price intervals endpoint](../reference/add-edit-price-intervals).
+// [add/edit price intervals endpoint](/api-reference/price-interval/add-or-edit-price-intervals).
 //
 // If the plan has phases, each object in the list must include a number with
 // `plan_phase_order` key to indicate which phase the adjustment should be added
@@ -169,17 +171,17 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // replace with the `replaces_adjustment_id` key, and it must specify an adjustment
 // to replace it with by including an object with the key `adjustment`, identical
 // to the adjustment object in the
-// [add/edit price intervals endpoint](../reference/add-edit-price-intervals).
+// [add/edit price intervals endpoint](/api-reference/price-interval/add-or-edit-price-intervals).
 //
 // The replacement adjustment will have the same phase, if applicable, and the same
 // start and end dates as the adjustment it replaces.
 //
 // ## Price overrides (DEPRECATED)
 //
-// :::info Price overrides are being phased out in favor adding/removing/replacing
-// prices. (See
-// [Customize your customer's subscriptions](../reference/create-subscription#customize-your-customers-subscriptions))
-// :::
+// <Note>
+// Price overrides are being phased out in favor adding/removing/replacing prices. (See
+// [Customize your customer's subscriptions](/api-reference/subscription/create-subscription))
+// </Note>
 //
 // Price overrides are used to update some or all prices in a plan for the specific
 // subscription being created. This is useful when a new customer has negotiated a
@@ -188,9 +190,9 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // To override prices, provide a list of objects with the key `price_overrides`.
 // The price object in the list of overrides is expected to contain the existing
 // price id, the `model_type` and configuration. (See the
-// [Price resource](../reference/price) for the specification of different price
-// model configurations.) The numerical values can be updated, but the billable
-// metric, cadence, type, and name of a price can not be overridden.
+// [Price resource](/product-catalog/price-configuration) for the specification of
+// different price model configurations.) The numerical values can be updated, but
+// the billable metric, cadence, type, and name of a price can not be overridden.
 //
 // ### Maximums and Minimums
 //
@@ -326,9 +328,9 @@ func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string,
 }
 
 // This endpoint returns a list of all subscriptions for an account as a
-// [paginated](../reference/pagination) list, ordered starting from the most
+// [paginated](/api-reference/pagination) list, ordered starting from the most
 // recently created subscription. For a full discussion of the subscription
-// resource, see [Subscription](../guides/concepts#subscription).
+// resource, see [Subscription](/core-concepts##subscription).
 //
 // Subscriptions can be filtered for a specific customer by using either the
 // customer_id or external_customer_id query parameters. To filter subscriptions
@@ -352,9 +354,9 @@ func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListPa
 }
 
 // This endpoint returns a list of all subscriptions for an account as a
-// [paginated](../reference/pagination) list, ordered starting from the most
+// [paginated](/api-reference/pagination) list, ordered starting from the most
 // recently created subscription. For a full discussion of the subscription
-// resource, see [Subscription](../guides/concepts#subscription).
+// resource, see [Subscription](/core-concepts##subscription).
 //
 // Subscriptions can be filtered for a specific customer by using either the
 // customer_id or external_customer_id query parameters. To filter subscriptions
@@ -428,7 +430,7 @@ func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query Subscrip
 // current period. If the cancellation is before the most recently issued invoice,
 // Orb will void the intervening invoice and generate a new one based on the new
 // dates for the subscription. See the section on
-// [cancellation behaviors](../guides/product-catalog/creating-subscriptions.md#cancellation-behaviors).
+// [cancellation behaviors](/product-catalog/creating-subscriptions#cancellation-behaviors).
 func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string, body SubscriptionCancelParams, opts ...option.RequestOption) (res *SubscriptionCancelResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
@@ -440,7 +442,7 @@ func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string,
 	return
 }
 
-// This endpoint is used to fetch a [Subscription](../guides/concepts#subscription)
+// This endpoint is used to fetch a [Subscription](/core-concepts##subscription)
 // given an identifier.
 func (r *SubscriptionService) Fetch(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *Subscription, err error) {
 	opts = append(r.Options[:], opts...)
@@ -474,7 +476,7 @@ func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID str
 	return
 }
 
-// This endpoint returns a [paginated](../reference/pagination) list of all plans
+// This endpoint returns a [paginated](/api-reference/pagination) list of all plans
 // associated with a subscription along with their start and end dates. This list
 // contains the subscription's initial plan along with past and future plan
 // changes.
@@ -499,7 +501,7 @@ func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID 
 	return res, nil
 }
 
-// This endpoint returns a [paginated](../reference/pagination) list of all plans
+// This endpoint returns a [paginated](/api-reference/pagination) list of all plans
 // associated with a subscription along with their start and end dates. This list
 // contains the subscription's initial plan along with past and future plan
 // changes.
@@ -717,9 +719,9 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 }
 
 // This endpoint is used to add and edit subscription
-// [price intervals](../reference/price-interval). By making modifications to a
-// subscription’s price intervals, you can
-// [flexibly and atomically control the billing behavior of a subscription](../guides/product-catalog/modifying-subscriptions).
+// [price intervals](/api-reference/price-interval/add-or-edit-price-intervals). By
+// making modifications to a subscription’s price intervals, you can
+// [flexibly and atomically control the billing behavior of a subscription](/product-catalog/modifying-subscriptions).
 //
 // ## Adding price intervals
 //
@@ -843,9 +845,10 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // subscription when you schedule the plan change. This is useful when a customer
 // has prices that differ from the default prices for a specific plan.
 //
-// :::info This feature is only available for accounts that have migrated to
-// Subscription Overrides Version 2. You can find your Subscription Overrides
-// Version at the bottom of your [Plans page](https://app.withorb.com/plans) :::
+// <Note>
+// This feature is only available for accounts that have migrated to Subscription Overrides Version 2. You can find your
+// Subscription Overrides Version at the bottom of your [Plans page](https://app.withorb.com/plans)
+// </Note>
 //
 // ### Adding Prices
 //
@@ -853,17 +856,17 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // the list must specify an existing add-on price with a `price_id` or
 // `external_price_id` field, or create a new add-on price by including an object
 // with the key `price`, identical to what would be used in the request body for
-// the [create price endpoint](../reference/create-price). See the
-// [Price resource](../reference/price) for the specification of different price
-// model configurations possible in this object.
+// the [create price endpoint](/api-reference/price/create-price). See the
+// [Price resource](/product-catalog/price-configuration) for the specification of
+// different price model configurations possible in this object.
 //
 // If the plan has phases, each object in the list must include a number with
 // `plan_phase_order` key to indicate which phase the price should be added to.
 //
 // An object in the list can specify an optional `start_date` and optional
 // `end_date`. This is equivalent to creating a price interval with the
-// [add/edit price intervals endpoint](../reference/add-edit-price-intervals). If
-// unspecified, the start or end date of the phase or subscription will be used.
+// [add/edit price intervals endpoint](/api-reference/price-interval/add-or-edit-price-intervals).
+// If unspecified, the start or end date of the phase or subscription will be used.
 //
 // An object in the list can specify an optional `minimum_amount`,
 // `maximum_amount`, or `discounts`. This will create adjustments which apply only
@@ -888,14 +891,15 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // either referencing an existing add-on price with a `price_id` or
 // `external_price_id` field, or by creating a new add-on price by including an
 // object with the key `price`, identical to what would be used in the request body
-// for the [create price endpoint](../reference/create-price). See the
-// [Price resource](../reference/price) for the specification of different price
-// model configurations possible in this object.
+// for the [create price endpoint](/api-reference/price/create-price). See the
+// [Price resource](/product-catalog/price-configuration) for the specification of
+// different price model configurations possible in this object.
 //
 // For fixed fees, an object in the list can supply a `fixed_price_quantity`
 // instead of a `price`, `price_id`, or `external_price_id` field. This will update
 // only the quantity for the price, similar to the
-// [Update price quantity](../reference/update-fixed-fee-quantity) endpoint.
+// [Update price quantity](/api-reference/subscription/update-price-quantity)
+// endpoint.
 //
 // The replacement price will have the same phase, if applicable, and the same
 // start and end dates as the price it replaces.
@@ -914,7 +918,7 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // To add adjustments, provide a list of objects with the key `add_adjustments`. An
 // object in the list must include an object with the key `adjustment`, identical
 // to the adjustment object in the
-// [add/edit price intervals endpoint](../reference/add-edit-price-intervals).
+// [add/edit price intervals endpoint](/api-reference/price-interval/add-or-edit-price-intervals).
 //
 // If the plan has phases, each object in the list must include a number with
 // `plan_phase_order` key to indicate which phase the adjustment should be added
@@ -937,17 +941,17 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // replace with the `replaces_adjustment_id` key, and it must specify an adjustment
 // to replace it with by including an object with the key `adjustment`, identical
 // to the adjustment object in the
-// [add/edit price intervals endpoint](../reference/add-edit-price-intervals).
+// [add/edit price intervals endpoint](/api-reference/price-interval/add-or-edit-price-intervals).
 //
 // The replacement adjustment will have the same phase, if applicable, and the same
 // start and end dates as the adjustment it replaces.
 //
 // ## Price overrides (DEPRECATED)
 //
-// :::info Price overrides are being phased out in favor adding/removing/replacing
-// prices. (See
-// [Customize your customer's subscriptions](../reference/schedule-plan-change#customize-your-customers-subscriptions))
-// :::
+// <Note>
+// Price overrides are being phased out in favor adding/removing/replacing prices. (See
+// [Customize your customer's subscriptions](/api-reference/subscription/schedule-plan-change))
+// </Note>
 //
 // Price overrides are used to update some or all prices in a plan for the specific
 // subscription being created. This is useful when a new customer has negotiated a
@@ -956,9 +960,9 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // To override prices, provide a list of objects with the key `price_overrides`.
 // The price object in the list of overrides is expected to contain the existing
 // price id, the `model_type` and configuration. (See the
-// [Price resource](../reference/price) for the specification of different price
-// model configurations.) The numerical values can be updated, but the billable
-// metric, cadence, type, and name of a price can not be overridden.
+// [Price resource](/product-catalog/price-configuration) for the specification of
+// different price model configurations.) The numerical values can be updated, but
+// the billable metric, cadence, type, and name of a price can not be overridden.
 //
 // ### Maximums, and minimums
 //
@@ -978,7 +982,7 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // By default, Orb calculates the prorated difference in any fixed fees when making
 // a plan change, adjusting the customer balance as needed. For details on this
 // behavior, see
-// [Modifying subscriptions](../guides/product-catalog/modifying-subscriptions.md#prorations-for-in-advance-fees).
+// [Modifying subscriptions](/product-catalog/modifying-subscriptions#prorations-for-in-advance-fees).
 func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscriptionID string, body SubscriptionSchedulePlanChangeParams, opts ...option.RequestOption) (res *SubscriptionSchedulePlanChangeResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
@@ -1103,8 +1107,8 @@ func (r *SubscriptionService) UpdateTrial(ctx context.Context, subscriptionID st
 	return
 }
 
-// A [subscription](../guides/core-concepts.mdx#subscription) represents the
-// purchase of a plan by a customer.
+// A [subscription](/core-concepts#subscription) represents the purchase of a plan
+// by a customer.
 //
 // By default, subscriptions begin on the day that they're created and renew
 // automatically for each billing cycle at the cadence that's configured in the
@@ -1155,7 +1159,7 @@ type Subscription struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -1164,9 +1168,8 @@ type Subscription struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -1191,9 +1194,9 @@ type Subscription struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -2136,247 +2139,8 @@ type SubscriptionPriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -2864,7 +2628,7 @@ type SubscriptionNewResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -2873,9 +2637,8 @@ type SubscriptionNewResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -2900,9 +2663,9 @@ type SubscriptionNewResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -3849,247 +3612,8 @@ type SubscriptionNewResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -4241,7 +3765,7 @@ type SubscriptionCancelResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -4250,9 +3774,8 @@ type SubscriptionCancelResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -4277,9 +3800,9 @@ type SubscriptionCancelResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -5228,247 +4751,8 @@ type SubscriptionCancelResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -5648,247 +4932,8 @@ type SubscriptionFetchCostsResponseDataPerPriceCost struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// Price's contributions for the timeframe, excluding any minimums and discounts.
 	Subtotal string `json:"subtotal,required"`
@@ -6006,7 +5051,7 @@ type SubscriptionPriceIntervalsResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -6015,9 +5060,8 @@ type SubscriptionPriceIntervalsResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -6042,9 +5086,9 @@ type SubscriptionPriceIntervalsResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -6996,247 +6040,8 @@ type SubscriptionPriceIntervalsResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -7388,7 +6193,7 @@ type SubscriptionSchedulePlanChangeResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -7397,9 +6202,8 @@ type SubscriptionSchedulePlanChangeResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -7424,9 +6228,9 @@ type SubscriptionSchedulePlanChangeResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -8380,247 +7184,8 @@ type SubscriptionSchedulePlanChangeResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -8772,7 +7337,7 @@ type SubscriptionTriggerPhaseResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -8781,9 +7346,8 @@ type SubscriptionTriggerPhaseResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -8808,9 +7372,9 @@ type SubscriptionTriggerPhaseResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -9762,247 +8326,8 @@ type SubscriptionTriggerPhaseResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -10154,7 +8479,7 @@ type SubscriptionUnscheduleCancellationResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -10163,9 +8488,8 @@ type SubscriptionUnscheduleCancellationResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -10190,9 +8514,9 @@ type SubscriptionUnscheduleCancellationResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -11150,247 +9474,8 @@ type SubscriptionUnscheduleCancellationResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -11544,7 +9629,7 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -11553,9 +9638,8 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -11580,9 +9664,9 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -12540,247 +10624,8 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -12935,7 +10780,7 @@ type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -12944,9 +10789,8 @@ type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -12971,9 +10815,9 @@ type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -13931,247 +11775,8 @@ type SubscriptionUnschedulePendingPlanChangesResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -14326,7 +11931,7 @@ type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -14335,9 +11940,8 @@ type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -14362,9 +11966,9 @@ type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -15322,247 +12926,8 @@ type SubscriptionUpdateFixedFeeQuantityResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -15716,7 +13081,7 @@ type SubscriptionUpdateTrialResponse struct {
 	// it's often desirable to have these match existing identifiers in your system. To
 	// avoid having to denormalize Orb ID information, you can pass in an
 	// `external_customer_id` with your own identifier. See
-	// [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) for further
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
 	// information about how these aliases work in Orb.
 	//
 	// In addition to having an identifier in your system, a customer may exist in a
@@ -15725,9 +13090,8 @@ type SubscriptionUpdateTrialResponse struct {
 	//
 	// A customer also has a timezone (from the standard
 	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-	// your account's timezone. See
-	// [Timezone localization](../guides/product-catalog/timezones.md) for information
-	// on what this timezone parameter influences within Orb.
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
 	Customer Customer `json:"customer,required"`
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
@@ -15752,9 +13116,9 @@ type SubscriptionUpdateTrialResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
-	// The [Plan](../guides/core-concepts.mdx#plan-and-price) resource represents a
-	// plan that can be subscribed to by a customer. Plans define the billing behavior
-	// of the subscription. You can see more about how to configure prices in the
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
 	// [Price resource](/reference/price).
 	Plan Plan `json:"plan,required"`
 	// The price intervals for this subscription.
@@ -16706,247 +14070,8 @@ type SubscriptionUpdateTrialResponsePriceInterval struct {
 	// is serialized differently in a given Price object. The model_type field
 	// determines the key for the configuration object that is present.
 	//
-	// ## Unit pricing
-	//
-	// With unit pricing, each unit costs a fixed amount.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	        "unit_amount": "0.50"
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered pricing
-	//
-	// In tiered pricing, the cost of a given unit depends on the tier range that it
-	// falls into, where each tier range is defined by an upper and lower bound. For
-	// example, the first ten units may cost $0.50 each and all units thereafter may
-	// cost $0.10 each.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "tiered",
-	//	    "tiered_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "first_unit": 1,
-	//	                "last_unit": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "first_unit": 11,
-	//	                "last_unit": null,
-	//	                "unit_amount": "0.10"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//
-	// ```
-	//
-	// ## Bulk pricing
-	//
-	// Bulk pricing applies when the number of units determine the cost of all units.
-	// For example, if you've bought less than 10 units, they may each be $0.50 for a
-	// total of $5.00. Once you've bought more than 10 units, all units may now be
-	// priced at $0.40 (i.e. 101 units total would be $40.40).
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bulk",
-	//	    "bulk_config": {
-	//	        "tiers": [
-	//	            {
-	//	                "maximum_units": 10,
-	//	                "unit_amount": "0.50"
-	//	            },
-	//	            {
-	//	                "maximum_units": 1000,
-	//	                "unit_amount": "0.40"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Package pricing
-	//
-	// Package pricing defines the size or granularity of a unit for billing purposes.
-	// For example, if the package size is set to 5, then 4 units will be billed as 5
-	// and 6 units will be billed at 10.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "package",
-	//	    "package_config": {
-	//	        "package_amount": "0.80",
-	//	        "package_size": 10
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## BPS pricing
-	//
-	// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-	// percent (the number of basis points to charge), as well as a cap per event to
-	// assess. For example, this would allow you to assess a fee of 0.25% on every
-	// payment you process, with a maximum charge of $25 per payment.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "model_type": "bps",
-	//	    "bps_config": {
-	//	       "bps": 125,
-	//	       "per_unit_maximum": "11.00"
-	//	    }
-	//	    ...
-	//	 }
-	//
-	// ```
-	//
-	// ## Bulk BPS pricing
-	//
-	// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-	// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-	// a given event depends on the tier range that the billing period falls into. Each
-	// tier range is defined by an upper bound. For example, after $1.5M of payment
-	// volume is reached, each individual payment may have a lower cap or a smaller
-	// take-rate.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "bulk_bps",
-	//	    "bulk_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Tiered BPS pricing
-	//
-	// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-	// event's applicable parameter is a function of its marginal addition to the
-	// period total. Similar to tiered pricing, the BPS parameters of a given event
-	// depends on the tier range that it falls into, where each tier range is defined
-	// by an upper and lower bound. For example, the first few payments may have a 0.8
-	// BPS take-rate and all payments after a specific volume may incur a take-rate of
-	// 0.5 BPS each.
-	//
-	// ```json
-	//
-	//	    ...
-	//	    "model_type": "tiered_bps",
-	//	    "tiered_bps_config": {
-	//	        "tiers": [
-	//	           {
-	//	                "minimum_amount": "0",
-	//	                "maximum_amount": "1000000.00",
-	//	                "bps": 125,
-	//	                "per_unit_maximum": "19.00"
-	//	           },
-	//	          {
-	//	                "minimum_amount": "1000000.00",
-	//	                "maximum_amount": null,
-	//	                "bps": 115,
-	//	                "per_unit_maximum": "4.00"
-	//	            }
-	//	        ]
-	//	    }
-	//	    ...
-	//	}
-	//
-	// ```
-	//
-	// ## Matrix pricing
-	//
-	// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-	// `dimensions` defines the two event property values evaluated in this pricing
-	// model. In a one-dimensional matrix, the second value is `null`. Every
-	// configuration has a list of `matrix_values` which give the unit prices for
-	// specified property values. In a one-dimensional matrix, the matrix values will
-	// have `dimension_values` where the second value of the pair is null. If an event
-	// does not match any of the dimension values in the matrix, it will resort to the
-	// `default_unit_amount`.
-	//
-	// ```json
-	//
-	//	{
-	//	    "model_type": "matrix"
-	//	    "matrix_config": {
-	//	        "default_unit_amount": "3.00",
-	//	        "dimensions": [
-	//	            "cluster_name",
-	//	            "region"
-	//	        ],
-	//	        "matrix_values": [
-	//	            {
-	//	                "dimension_values": [
-	//	                    "alpha",
-	//	                    "west"
-	//	                ],
-	//	                "unit_amount": "2.00"
-	//	            },
-	//	            ...
-	//	        ]
-	//	    }
-	//	}
-	//
-	// ```
-	//
-	// ## Fixed fees
-	//
-	// Fixed fees are prices that are applied independent of usage quantities, and
-	// follow unit pricing. They also have an additional parameter
-	// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-	// the quantity of units applied.
-	//
-	// ```json
-	//
-	//	{
-	//	    ...
-	//	    "id": "price_id",
-	//	    "model_type": "unit",
-	//	    "unit_config": {
-	//	       "unit_amount": "2.00"
-	//	    },
-	//	    "fixed_price_quantity": 3.0
-	//	    ...
-	//	}
-	//
-	// ```
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
@@ -17097,8 +14222,8 @@ type SubscriptionNewParams struct {
 	ExternalPlanID param.Field[string] `json:"external_plan_id"`
 	// An additional filter to apply to usage queries. This filter must be expressed as
 	// a boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties).
-	// If null, usage queries will not include any additional filter.
+	// [computed property](/extensibility/advanced-metrics#computed-properties). If
+	// null, usage queries will not include any additional filter.
 	Filter param.Field[string] `json:"filter"`
 	// The phase of the plan to start with
 	InitialPhaseOrder param.Field[int64] `json:"initial_phase_order"`
@@ -23922,7 +21047,6 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	MatrixConfig                   param.Field[interface{}] `json:"matrix_config"`
 	MatrixWithAllocationConfig     param.Field[interface{}] `json:"matrix_with_allocation_config"`
 	MatrixWithDisplayNameConfig    param.Field[interface{}] `json:"matrix_with_display_name_config"`
-	MaxGroupTieredConfig           param.Field[interface{}] `json:"max_group_tiered_config"`
 	Metadata                       param.Field[interface{}] `json:"metadata"`
 	PackageConfig                  param.Field[interface{}] `json:"package_config"`
 	PackageWithAllocationConfig    param.Field[interface{}] `json:"package_with_allocation_config"`
@@ -23959,7 +21083,6 @@ func (r SubscriptionPriceIntervalsParamsAddPrice) implementsSubscriptionPriceInt
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice],
-// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPrice],
@@ -25797,143 +22920,6 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceInv
 	return false
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice struct {
-	// The cadence to bill for this price on.
-	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence] `json:"cadence,required"`
-	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
-	ItemID               param.Field[string]                                                                          `json:"item_id,required"`
-	MaxGroupTieredConfig param.Field[map[string]interface{}]                                                          `json:"max_group_tiered_config,required"`
-	ModelType            param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-}
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
-}
-
-// The cadence to bill for this price on.
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence string
-
-const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "semi_annual"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "monthly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "quarterly"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "one_time"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "custom"
-)
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType string
-
-const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelTypeMaxGroupTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType = "max_group_tiered"
-)
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelTypeMaxGroupTiered:
-		return true
-	}
-	return false
-}
-
-// For custom cadence: specifies the duration of the billing period in days or
-// months.
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfiguration struct {
-	// The duration of the billing period.
-	Duration param.Field[int64] `json:"duration,required"`
-	// The unit of billing period duration.
-	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
-}
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// The unit of billing period duration.
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit string
-
-const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "day"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "month"
-)
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth:
-		return true
-	}
-	return false
-}
-
-// Within each billing cycle, specifies the cadence at which invoices are produced.
-// If unspecified, a single invoice is produced per billing cycle.
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration struct {
-	// The duration of the billing period.
-	Duration param.Field[int64] `json:"duration,required"`
-	// The unit of billing period duration.
-	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
-}
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// The unit of billing period duration.
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit string
-
-const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
-)
-
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
-	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
-		return true
-	}
-	return false
-}
-
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
@@ -27613,7 +24599,6 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount       SubscriptionPriceIntervalsParamsAddPriceModelType = "threshold_total_amount"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage              SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered              SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_tiered"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTiered             SubscriptionPriceIntervalsParamsAddPriceModelType = "max_group_tiered"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum          SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_with_minimum"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation      SubscriptionPriceIntervalsParamsAddPriceModelType = "package_with_allocation"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum   SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package_with_minimum"
@@ -27630,7 +24615,7 @@ const (
 
 func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage:
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage:
 		return true
 	}
 	return false
@@ -27980,8 +24965,7 @@ type SubscriptionSchedulePlanChangeParams struct {
 	BillingCycleAlignment           param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAlignment]           `json:"billing_cycle_alignment"`
 	BillingCycleAnchorConfiguration param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAnchorConfiguration] `json:"billing_cycle_anchor_configuration"`
 	// The date that the plan change should take effect. This parameter can only be
-	// passed if the `change_option` is `requested_date`. If a date with no time is
-	// passed, the plan change will happen at midnight in the customer's timezone.
+	// passed if the `change_option` is `requested_date`.
 	ChangeDate param.Field[time.Time] `json:"change_date" format:"date-time"`
 	// Redemption code to be used for this subscription. If the coupon cannot be found
 	// by its redemption code, or cannot be redeemed, an error response will be
@@ -27996,8 +24980,8 @@ type SubscriptionSchedulePlanChangeParams struct {
 	ExternalPlanID param.Field[string] `json:"external_plan_id"`
 	// An additional filter to apply to usage queries. This filter must be expressed as
 	// a boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties).
-	// If null, usage queries will not include any additional filter.
+	// [computed property](/extensibility/advanced-metrics#computed-properties). If
+	// null, usage queries will not include any additional filter.
 	Filter param.Field[string] `json:"filter"`
 	// The phase of the plan to start with
 	InitialPhaseOrder param.Field[int64] `json:"initial_phase_order"`

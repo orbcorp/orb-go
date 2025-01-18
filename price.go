@@ -42,16 +42,16 @@ func NewPriceService(opts ...option.RequestOption) (r *PriceService) {
 	return
 }
 
-// This endpoint is used to create a [price](../reference/price). A price created
-// using this endpoint is always an add-on, meaning that it’s not associated with a
-// specific plan and can instead be individually added to subscriptions, including
-// subscriptions on different plans.
+// This endpoint is used to create a [price](/product-catalog/price-configuration).
+// A price created using this endpoint is always an add-on, meaning that it’s not
+// associated with a specific plan and can instead be individually added to
+// subscriptions, including subscriptions on different plans.
 //
 // An `external_price_id` can be optionally specified as an alias to allow
 // ergonomic interaction with prices in the Orb API.
 //
-// See the [Price resource](../reference/price) for the specification of different
-// price model configurations possible in this endpoint.
+// See the [Price resource](/product-catalog/price-configuration) for the
+// specification of different price model configurations possible in this endpoint.
 func (r *PriceService) New(ctx context.Context, body PriceNewParams, opts ...option.RequestOption) (res *Price, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "prices"
@@ -74,7 +74,7 @@ func (r *PriceService) Update(ctx context.Context, priceID string, body PriceUpd
 }
 
 // This endpoint is used to list all add-on prices created using the
-// [price creation endpoint](../reference/create-price).
+// [price creation endpoint](/api-reference/price/create-price).
 func (r *PriceService) List(ctx context.Context, query PriceListParams, opts ...option.RequestOption) (res *pagination.Page[Price], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
@@ -93,14 +93,14 @@ func (r *PriceService) List(ctx context.Context, query PriceListParams, opts ...
 }
 
 // This endpoint is used to list all add-on prices created using the
-// [price creation endpoint](../reference/create-price).
+// [price creation endpoint](/api-reference/price/create-price).
 func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Price] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint is used to evaluate the output of a price for a given customer and
 // time range. It enables filtering and grouping the output using
-// [computed properties](../guides/extensibility/advanced-metrics#computed-properties),
+// [computed properties](/extensibility/advanced-metrics#computed-properties),
 // supporting the following workflows:
 //
 // 1. Showing detailed usage and costs to the end customer.
@@ -207,247 +207,8 @@ func init() {
 // is serialized differently in a given Price object. The model_type field
 // determines the key for the configuration object that is present.
 //
-// ## Unit pricing
-//
-// With unit pricing, each unit costs a fixed amount.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "unit",
-//	    "unit_config": {
-//	        "unit_amount": "0.50"
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Tiered pricing
-//
-// In tiered pricing, the cost of a given unit depends on the tier range that it
-// falls into, where each tier range is defined by an upper and lower bound. For
-// example, the first ten units may cost $0.50 each and all units thereafter may
-// cost $0.10 each.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "tiered",
-//	    "tiered_config": {
-//	        "tiers": [
-//	            {
-//	                "first_unit": 1,
-//	                "last_unit": 10,
-//	                "unit_amount": "0.50"
-//	            },
-//	            {
-//	                "first_unit": 11,
-//	                "last_unit": null,
-//	                "unit_amount": "0.10"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//
-// ```
-//
-// ## Bulk pricing
-//
-// Bulk pricing applies when the number of units determine the cost of all units.
-// For example, if you've bought less than 10 units, they may each be $0.50 for a
-// total of $5.00. Once you've bought more than 10 units, all units may now be
-// priced at $0.40 (i.e. 101 units total would be $40.40).
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "bulk",
-//	    "bulk_config": {
-//	        "tiers": [
-//	            {
-//	                "maximum_units": 10,
-//	                "unit_amount": "0.50"
-//	            },
-//	            {
-//	                "maximum_units": 1000,
-//	                "unit_amount": "0.40"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Package pricing
-//
-// Package pricing defines the size or granularity of a unit for billing purposes.
-// For example, if the package size is set to 5, then 4 units will be billed as 5
-// and 6 units will be billed at 10.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "package",
-//	    "package_config": {
-//	        "package_amount": "0.80",
-//	        "package_size": 10
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## BPS pricing
-//
-// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-// percent (the number of basis points to charge), as well as a cap per event to
-// assess. For example, this would allow you to assess a fee of 0.25% on every
-// payment you process, with a maximum charge of $25 per payment.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "bps",
-//	    "bps_config": {
-//	       "bps": 125,
-//	       "per_unit_maximum": "11.00"
-//	    }
-//	    ...
-//	 }
-//
-// ```
-//
-// ## Bulk BPS pricing
-//
-// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-// a given event depends on the tier range that the billing period falls into. Each
-// tier range is defined by an upper bound. For example, after $1.5M of payment
-// volume is reached, each individual payment may have a lower cap or a smaller
-// take-rate.
-//
-// ```json
-//
-//	    ...
-//	    "model_type": "bulk_bps",
-//	    "bulk_bps_config": {
-//	        "tiers": [
-//	           {
-//	                "maximum_amount": "1000000.00",
-//	                "bps": 125,
-//	                "per_unit_maximum": "19.00"
-//	           },
-//	          {
-//	                "maximum_amount": null,
-//	                "bps": 115,
-//	                "per_unit_maximum": "4.00"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Tiered BPS pricing
-//
-// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-// event's applicable parameter is a function of its marginal addition to the
-// period total. Similar to tiered pricing, the BPS parameters of a given event
-// depends on the tier range that it falls into, where each tier range is defined
-// by an upper and lower bound. For example, the first few payments may have a 0.8
-// BPS take-rate and all payments after a specific volume may incur a take-rate of
-// 0.5 BPS each.
-//
-// ```json
-//
-//	    ...
-//	    "model_type": "tiered_bps",
-//	    "tiered_bps_config": {
-//	        "tiers": [
-//	           {
-//	                "minimum_amount": "0",
-//	                "maximum_amount": "1000000.00",
-//	                "bps": 125,
-//	                "per_unit_maximum": "19.00"
-//	           },
-//	          {
-//	                "minimum_amount": "1000000.00",
-//	                "maximum_amount": null,
-//	                "bps": 115,
-//	                "per_unit_maximum": "4.00"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Matrix pricing
-//
-// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-// `dimensions` defines the two event property values evaluated in this pricing
-// model. In a one-dimensional matrix, the second value is `null`. Every
-// configuration has a list of `matrix_values` which give the unit prices for
-// specified property values. In a one-dimensional matrix, the matrix values will
-// have `dimension_values` where the second value of the pair is null. If an event
-// does not match any of the dimension values in the matrix, it will resort to the
-// `default_unit_amount`.
-//
-// ```json
-//
-//	{
-//	    "model_type": "matrix"
-//	    "matrix_config": {
-//	        "default_unit_amount": "3.00",
-//	        "dimensions": [
-//	            "cluster_name",
-//	            "region"
-//	        ],
-//	        "matrix_values": [
-//	            {
-//	                "dimension_values": [
-//	                    "alpha",
-//	                    "west"
-//	                ],
-//	                "unit_amount": "2.00"
-//	            },
-//	            ...
-//	        ]
-//	    }
-//	}
-//
-// ```
-//
-// ## Fixed fees
-//
-// Fixed fees are prices that are applied independent of usage quantities, and
-// follow unit pricing. They also have an additional parameter
-// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-// the quantity of units applied.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "id": "price_id",
-//	    "model_type": "unit",
-//	    "unit_config": {
-//	       "unit_amount": "2.00"
-//	    },
-//	    "fixed_price_quantity": 3.0
-//	    ...
-//	}
-//
-// ```
+// For more on the types of prices, see
+// [the core concepts documentation](/core-concepts#plan-and-price)
 type Price struct {
 	ID string `json:"id,required"`
 	// This field can have the runtime type of [PriceUnitPriceBillableMetric],
@@ -469,8 +230,7 @@ type Price struct {
 	// [PriceGroupedWithMeteredMinimumPriceBillableMetric],
 	// [PriceMatrixWithDisplayNamePriceBillableMetric],
 	// [PriceBulkWithProrationPriceBillableMetric],
-	// [PriceGroupedTieredPackagePriceBillableMetric],
-	// [PriceMaxGroupTieredPriceBillableMetric].
+	// [PriceGroupedTieredPackagePriceBillableMetric].
 	BillableMetric interface{} `json:"billable_metric,required"`
 	// This field can have the runtime type of
 	// [PriceUnitPriceBillingCycleConfiguration],
@@ -496,8 +256,7 @@ type Price struct {
 	// [PriceGroupedWithMeteredMinimumPriceBillingCycleConfiguration],
 	// [PriceMatrixWithDisplayNamePriceBillingCycleConfiguration],
 	// [PriceBulkWithProrationPriceBillingCycleConfiguration],
-	// [PriceGroupedTieredPackagePriceBillingCycleConfiguration],
-	// [PriceMaxGroupTieredPriceBillingCycleConfiguration].
+	// [PriceGroupedTieredPackagePriceBillingCycleConfiguration].
 	BillingCycleConfiguration interface{}  `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceCadence `json:"cadence,required"`
 	ConversionRate            float64      `json:"conversion_rate,required,nullable"`
@@ -522,8 +281,7 @@ type Price struct {
 	// [PriceGroupedWithMeteredMinimumPriceCreditAllocation],
 	// [PriceMatrixWithDisplayNamePriceCreditAllocation],
 	// [PriceBulkWithProrationPriceCreditAllocation],
-	// [PriceGroupedTieredPackagePriceCreditAllocation],
-	// [PriceMaxGroupTieredPriceCreditAllocation].
+	// [PriceGroupedTieredPackagePriceCreditAllocation].
 	CreditAllocation   interface{}     `json:"credit_allocation,required"`
 	Currency           string          `json:"currency,required"`
 	Discount           shared.Discount `json:"discount,required,nullable"`
@@ -553,8 +311,7 @@ type Price struct {
 	// [PriceGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration],
 	// [PriceMatrixWithDisplayNamePriceInvoicingCycleConfiguration],
 	// [PriceBulkWithProrationPriceInvoicingCycleConfiguration],
-	// [PriceGroupedTieredPackagePriceInvoicingCycleConfiguration],
-	// [PriceMaxGroupTieredPriceInvoicingCycleConfiguration].
+	// [PriceGroupedTieredPackagePriceInvoicingCycleConfiguration].
 	InvoicingCycleConfiguration interface{} `json:"invoicing_cycle_configuration,required"`
 	// This field can have the runtime type of [PriceUnitPriceItem],
 	// [PricePackagePriceItem], [PriceMatrixPriceItem], [PriceTieredPriceItem],
@@ -568,7 +325,7 @@ type Price struct {
 	// [PriceGroupedWithProratedMinimumPriceItem],
 	// [PriceGroupedWithMeteredMinimumPriceItem],
 	// [PriceMatrixWithDisplayNamePriceItem], [PriceBulkWithProrationPriceItem],
-	// [PriceGroupedTieredPackagePriceItem], [PriceMaxGroupTieredPriceItem].
+	// [PriceGroupedTieredPackagePriceItem].
 	Item interface{} `json:"item,required"`
 	// This field can have the runtime type of [PriceUnitPriceMaximum],
 	// [PricePackagePriceMaximum], [PriceMatrixPriceMaximum],
@@ -583,7 +340,7 @@ type Price struct {
 	// [PriceGroupedWithProratedMinimumPriceMaximum],
 	// [PriceGroupedWithMeteredMinimumPriceMaximum],
 	// [PriceMatrixWithDisplayNamePriceMaximum], [PriceBulkWithProrationPriceMaximum],
-	// [PriceGroupedTieredPackagePriceMaximum], [PriceMaxGroupTieredPriceMaximum].
+	// [PriceGroupedTieredPackagePriceMaximum].
 	Maximum       interface{} `json:"maximum,required"`
 	MaximumAmount string      `json:"maximum_amount,required,nullable"`
 	// This field can have the runtime type of [map[string]string].
@@ -601,7 +358,7 @@ type Price struct {
 	// [PriceGroupedWithProratedMinimumPriceMinimum],
 	// [PriceGroupedWithMeteredMinimumPriceMinimum],
 	// [PriceMatrixWithDisplayNamePriceMinimum], [PriceBulkWithProrationPriceMinimum],
-	// [PriceGroupedTieredPackagePriceMinimum], [PriceMaxGroupTieredPriceMinimum].
+	// [PriceGroupedTieredPackagePriceMinimum].
 	Minimum        interface{}    `json:"minimum,required"`
 	MinimumAmount  string         `json:"minimum_amount,required,nullable"`
 	ModelType      PriceModelType `json:"model_type,required"`
@@ -633,8 +390,6 @@ type Price struct {
 	MatrixWithAllocationConfig interface{} `json:"matrix_with_allocation_config"`
 	// This field can have the runtime type of [map[string]interface{}].
 	MatrixWithDisplayNameConfig interface{} `json:"matrix_with_display_name_config"`
-	// This field can have the runtime type of [map[string]interface{}].
-	MaxGroupTieredConfig interface{} `json:"max_group_tiered_config"`
 	// This field can have the runtime type of [PricePackagePricePackageConfig].
 	PackageConfig interface{} `json:"package_config"`
 	// This field can have the runtime type of [map[string]interface{}].
@@ -699,7 +454,6 @@ type priceJSON struct {
 	MatrixConfig                     apijson.Field
 	MatrixWithAllocationConfig       apijson.Field
 	MatrixWithDisplayNameConfig      apijson.Field
-	MaxGroupTieredConfig             apijson.Field
 	PackageConfig                    apijson.Field
 	PackageWithAllocationConfig      apijson.Field
 	ThresholdTotalAmountConfig       apijson.Field
@@ -742,7 +496,7 @@ func (r *Price) UnmarshalJSON(data []byte) (err error) {
 // [PriceUnitWithProrationPrice], [PriceGroupedAllocationPrice],
 // [PriceGroupedWithProratedMinimumPrice], [PriceGroupedWithMeteredMinimumPrice],
 // [PriceMatrixWithDisplayNamePrice], [PriceBulkWithProrationPrice],
-// [PriceGroupedTieredPackagePrice], [PriceMaxGroupTieredPrice].
+// [PriceGroupedTieredPackagePrice].
 func (r Price) AsUnion() PriceUnion {
 	return r.union
 }
@@ -755,247 +509,8 @@ func (r Price) AsUnion() PriceUnion {
 // is serialized differently in a given Price object. The model_type field
 // determines the key for the configuration object that is present.
 //
-// ## Unit pricing
-//
-// With unit pricing, each unit costs a fixed amount.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "unit",
-//	    "unit_config": {
-//	        "unit_amount": "0.50"
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Tiered pricing
-//
-// In tiered pricing, the cost of a given unit depends on the tier range that it
-// falls into, where each tier range is defined by an upper and lower bound. For
-// example, the first ten units may cost $0.50 each and all units thereafter may
-// cost $0.10 each.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "tiered",
-//	    "tiered_config": {
-//	        "tiers": [
-//	            {
-//	                "first_unit": 1,
-//	                "last_unit": 10,
-//	                "unit_amount": "0.50"
-//	            },
-//	            {
-//	                "first_unit": 11,
-//	                "last_unit": null,
-//	                "unit_amount": "0.10"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//
-// ```
-//
-// ## Bulk pricing
-//
-// Bulk pricing applies when the number of units determine the cost of all units.
-// For example, if you've bought less than 10 units, they may each be $0.50 for a
-// total of $5.00. Once you've bought more than 10 units, all units may now be
-// priced at $0.40 (i.e. 101 units total would be $40.40).
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "bulk",
-//	    "bulk_config": {
-//	        "tiers": [
-//	            {
-//	                "maximum_units": 10,
-//	                "unit_amount": "0.50"
-//	            },
-//	            {
-//	                "maximum_units": 1000,
-//	                "unit_amount": "0.40"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Package pricing
-//
-// Package pricing defines the size or granularity of a unit for billing purposes.
-// For example, if the package size is set to 5, then 4 units will be billed as 5
-// and 6 units will be billed at 10.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "package",
-//	    "package_config": {
-//	        "package_amount": "0.80",
-//	        "package_size": 10
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## BPS pricing
-//
-// BPS pricing specifies a per-event (e.g. per-payment) rate in one hundredth of a
-// percent (the number of basis points to charge), as well as a cap per event to
-// assess. For example, this would allow you to assess a fee of 0.25% on every
-// payment you process, with a maximum charge of $25 per payment.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "model_type": "bps",
-//	    "bps_config": {
-//	       "bps": 125,
-//	       "per_unit_maximum": "11.00"
-//	    }
-//	    ...
-//	 }
-//
-// ```
-//
-// ## Bulk BPS pricing
-//
-// Bulk BPS pricing specifies BPS parameters in a tiered manner, dependent on the
-// total quantity across all events. Similar to bulk pricing, the BPS parameters of
-// a given event depends on the tier range that the billing period falls into. Each
-// tier range is defined by an upper bound. For example, after $1.5M of payment
-// volume is reached, each individual payment may have a lower cap or a smaller
-// take-rate.
-//
-// ```json
-//
-//	    ...
-//	    "model_type": "bulk_bps",
-//	    "bulk_bps_config": {
-//	        "tiers": [
-//	           {
-//	                "maximum_amount": "1000000.00",
-//	                "bps": 125,
-//	                "per_unit_maximum": "19.00"
-//	           },
-//	          {
-//	                "maximum_amount": null,
-//	                "bps": 115,
-//	                "per_unit_maximum": "4.00"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Tiered BPS pricing
-//
-// Tiered BPS pricing specifies BPS parameters in a graduated manner, where an
-// event's applicable parameter is a function of its marginal addition to the
-// period total. Similar to tiered pricing, the BPS parameters of a given event
-// depends on the tier range that it falls into, where each tier range is defined
-// by an upper and lower bound. For example, the first few payments may have a 0.8
-// BPS take-rate and all payments after a specific volume may incur a take-rate of
-// 0.5 BPS each.
-//
-// ```json
-//
-//	    ...
-//	    "model_type": "tiered_bps",
-//	    "tiered_bps_config": {
-//	        "tiers": [
-//	           {
-//	                "minimum_amount": "0",
-//	                "maximum_amount": "1000000.00",
-//	                "bps": 125,
-//	                "per_unit_maximum": "19.00"
-//	           },
-//	          {
-//	                "minimum_amount": "1000000.00",
-//	                "maximum_amount": null,
-//	                "bps": 115,
-//	                "per_unit_maximum": "4.00"
-//	            }
-//	        ]
-//	    }
-//	    ...
-//	}
-//
-// ```
-//
-// ## Matrix pricing
-//
-// Matrix pricing defines a set of unit prices in a one or two-dimensional matrix.
-// `dimensions` defines the two event property values evaluated in this pricing
-// model. In a one-dimensional matrix, the second value is `null`. Every
-// configuration has a list of `matrix_values` which give the unit prices for
-// specified property values. In a one-dimensional matrix, the matrix values will
-// have `dimension_values` where the second value of the pair is null. If an event
-// does not match any of the dimension values in the matrix, it will resort to the
-// `default_unit_amount`.
-//
-// ```json
-//
-//	{
-//	    "model_type": "matrix"
-//	    "matrix_config": {
-//	        "default_unit_amount": "3.00",
-//	        "dimensions": [
-//	            "cluster_name",
-//	            "region"
-//	        ],
-//	        "matrix_values": [
-//	            {
-//	                "dimension_values": [
-//	                    "alpha",
-//	                    "west"
-//	                ],
-//	                "unit_amount": "2.00"
-//	            },
-//	            ...
-//	        ]
-//	    }
-//	}
-//
-// ```
-//
-// ## Fixed fees
-//
-// Fixed fees are prices that are applied independent of usage quantities, and
-// follow unit pricing. They also have an additional parameter
-// `fixed_price_quantity`. If the Price represents a fixed cost, this represents
-// the quantity of units applied.
-//
-// ```json
-//
-//	{
-//	    ...
-//	    "id": "price_id",
-//	    "model_type": "unit",
-//	    "unit_config": {
-//	       "unit_amount": "2.00"
-//	    },
-//	    "fixed_price_quantity": 3.0
-//	    ...
-//	}
-//
-// ```
+// For more on the types of prices, see
+// [the core concepts documentation](/core-concepts#plan-and-price)
 //
 // Union satisfied by [PriceUnitPrice], [PricePackagePrice], [PriceMatrixPrice],
 // [PriceTieredPrice], [PriceTieredBpsPrice], [PriceBpsPrice], [PriceBulkBpsPrice],
@@ -1006,8 +521,7 @@ func (r Price) AsUnion() PriceUnion {
 // [PriceTieredWithProrationPrice], [PriceUnitWithProrationPrice],
 // [PriceGroupedAllocationPrice], [PriceGroupedWithProratedMinimumPrice],
 // [PriceGroupedWithMeteredMinimumPrice], [PriceMatrixWithDisplayNamePrice],
-// [PriceBulkWithProrationPrice], [PriceGroupedTieredPackagePrice] or
-// [PriceMaxGroupTieredPrice].
+// [PriceBulkWithProrationPrice] or [PriceGroupedTieredPackagePrice].
 type PriceUnion interface {
 	implementsPrice()
 }
@@ -1135,11 +649,6 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceGroupedTieredPackagePrice{}),
 			DiscriminatorValue: "grouped_tiered_package",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMaxGroupTieredPrice{}),
-			DiscriminatorValue: "max_group_tiered",
 		},
 	)
 }
@@ -9084,320 +8593,6 @@ func (r PriceGroupedTieredPackagePricePriceType) IsKnown() bool {
 	return false
 }
 
-type PriceMaxGroupTieredPrice struct {
-	ID                          string                                              `json:"id,required"`
-	BillableMetric              PriceMaxGroupTieredPriceBillableMetric              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration   PriceMaxGroupTieredPriceBillingCycleConfiguration   `json:"billing_cycle_configuration,required"`
-	Cadence                     PriceMaxGroupTieredPriceCadence                     `json:"cadence,required"`
-	ConversionRate              float64                                             `json:"conversion_rate,required,nullable"`
-	CreatedAt                   time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation            PriceMaxGroupTieredPriceCreditAllocation            `json:"credit_allocation,required,nullable"`
-	Currency                    string                                              `json:"currency,required"`
-	Discount                    shared.Discount                                     `json:"discount,required,nullable"`
-	ExternalPriceID             string                                              `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                                             `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration PriceMaxGroupTieredPriceInvoicingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        PriceMaxGroupTieredPriceItem                        `json:"item,required"`
-	MaxGroupTieredConfig        map[string]interface{}                              `json:"max_group_tiered_config,required"`
-	Maximum                     PriceMaxGroupTieredPriceMaximum                     `json:"maximum,required,nullable"`
-	MaximumAmount               string                                              `json:"maximum_amount,required,nullable"`
-	// User specified key-value pairs for the resource. If not present, this defaults
-	// to an empty dictionary. Individual keys can be removed by setting the value to
-	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
-	// `null`.
-	Metadata       map[string]string                 `json:"metadata,required"`
-	Minimum        PriceMaxGroupTieredPriceMinimum   `json:"minimum,required,nullable"`
-	MinimumAmount  string                            `json:"minimum_amount,required,nullable"`
-	ModelType      PriceMaxGroupTieredPriceModelType `json:"model_type,required"`
-	Name           string                            `json:"name,required"`
-	PlanPhaseOrder int64                             `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceMaxGroupTieredPricePriceType `json:"price_type,required"`
-	JSON           priceMaxGroupTieredPriceJSON      `json:"-"`
-}
-
-// priceMaxGroupTieredPriceJSON contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPrice]
-type priceMaxGroupTieredPriceJSON struct {
-	ID                          apijson.Field
-	BillableMetric              apijson.Field
-	BillingCycleConfiguration   apijson.Field
-	Cadence                     apijson.Field
-	ConversionRate              apijson.Field
-	CreatedAt                   apijson.Field
-	CreditAllocation            apijson.Field
-	Currency                    apijson.Field
-	Discount                    apijson.Field
-	ExternalPriceID             apijson.Field
-	FixedPriceQuantity          apijson.Field
-	InvoicingCycleConfiguration apijson.Field
-	Item                        apijson.Field
-	MaxGroupTieredConfig        apijson.Field
-	Maximum                     apijson.Field
-	MaximumAmount               apijson.Field
-	Metadata                    apijson.Field
-	Minimum                     apijson.Field
-	MinimumAmount               apijson.Field
-	ModelType                   apijson.Field
-	Name                        apijson.Field
-	PlanPhaseOrder              apijson.Field
-	PriceType                   apijson.Field
-	raw                         string
-	ExtraFields                 map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPrice) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMaxGroupTieredPrice) implementsPrice() {}
-
-type PriceMaxGroupTieredPriceBillableMetric struct {
-	ID   string                                     `json:"id,required"`
-	JSON priceMaxGroupTieredPriceBillableMetricJSON `json:"-"`
-}
-
-// priceMaxGroupTieredPriceBillableMetricJSON contains the JSON metadata for the
-// struct [PriceMaxGroupTieredPriceBillableMetric]
-type priceMaxGroupTieredPriceBillableMetricJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPriceBillableMetric) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceBillableMetricJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPriceBillingCycleConfiguration struct {
-	Duration     int64                                                         `json:"duration,required"`
-	DurationUnit PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnit `json:"duration_unit,required"`
-	JSON         priceMaxGroupTieredPriceBillingCycleConfigurationJSON         `json:"-"`
-}
-
-// priceMaxGroupTieredPriceBillingCycleConfigurationJSON contains the JSON metadata
-// for the struct [PriceMaxGroupTieredPriceBillingCycleConfiguration]
-type priceMaxGroupTieredPriceBillingCycleConfigurationJSON struct {
-	Duration     apijson.Field
-	DurationUnit apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPriceBillingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceBillingCycleConfigurationJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnit string
-
-const (
-	PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay   PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "month"
-)
-
-func (r PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay, PriceMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth:
-		return true
-	}
-	return false
-}
-
-type PriceMaxGroupTieredPriceCadence string
-
-const (
-	PriceMaxGroupTieredPriceCadenceOneTime    PriceMaxGroupTieredPriceCadence = "one_time"
-	PriceMaxGroupTieredPriceCadenceMonthly    PriceMaxGroupTieredPriceCadence = "monthly"
-	PriceMaxGroupTieredPriceCadenceQuarterly  PriceMaxGroupTieredPriceCadence = "quarterly"
-	PriceMaxGroupTieredPriceCadenceSemiAnnual PriceMaxGroupTieredPriceCadence = "semi_annual"
-	PriceMaxGroupTieredPriceCadenceAnnual     PriceMaxGroupTieredPriceCadence = "annual"
-	PriceMaxGroupTieredPriceCadenceCustom     PriceMaxGroupTieredPriceCadence = "custom"
-)
-
-func (r PriceMaxGroupTieredPriceCadence) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPriceCadenceOneTime, PriceMaxGroupTieredPriceCadenceMonthly, PriceMaxGroupTieredPriceCadenceQuarterly, PriceMaxGroupTieredPriceCadenceSemiAnnual, PriceMaxGroupTieredPriceCadenceAnnual, PriceMaxGroupTieredPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type PriceMaxGroupTieredPriceCreditAllocation struct {
-	AllowsRollover bool                                         `json:"allows_rollover,required"`
-	Currency       string                                       `json:"currency,required"`
-	JSON           priceMaxGroupTieredPriceCreditAllocationJSON `json:"-"`
-}
-
-// priceMaxGroupTieredPriceCreditAllocationJSON contains the JSON metadata for the
-// struct [PriceMaxGroupTieredPriceCreditAllocation]
-type priceMaxGroupTieredPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceCreditAllocationJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPriceInvoicingCycleConfiguration struct {
-	Duration     int64                                                           `json:"duration,required"`
-	DurationUnit PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit `json:"duration_unit,required"`
-	JSON         priceMaxGroupTieredPriceInvoicingCycleConfigurationJSON         `json:"-"`
-}
-
-// priceMaxGroupTieredPriceInvoicingCycleConfigurationJSON contains the JSON
-// metadata for the struct [PriceMaxGroupTieredPriceInvoicingCycleConfiguration]
-type priceMaxGroupTieredPriceInvoicingCycleConfigurationJSON struct {
-	Duration     apijson.Field
-	DurationUnit apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPriceInvoicingCycleConfiguration) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceInvoicingCycleConfigurationJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit string
-
-const (
-	PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay   PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
-)
-
-func (r PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay, PriceMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
-		return true
-	}
-	return false
-}
-
-type PriceMaxGroupTieredPriceItem struct {
-	ID   string                           `json:"id,required"`
-	Name string                           `json:"name,required"`
-	JSON priceMaxGroupTieredPriceItemJSON `json:"-"`
-}
-
-// priceMaxGroupTieredPriceItemJSON contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPriceItem]
-type priceMaxGroupTieredPriceItemJSON struct {
-	ID          apijson.Field
-	Name        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPriceItem) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceItemJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPriceMaximum struct {
-	// List of price_ids that this maximum amount applies to. For plan/plan phase
-	// maximums, this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
-	// Maximum amount applied
-	MaximumAmount string                              `json:"maximum_amount,required"`
-	JSON          priceMaxGroupTieredPriceMaximumJSON `json:"-"`
-}
-
-// priceMaxGroupTieredPriceMaximumJSON contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPriceMaximum]
-type priceMaxGroupTieredPriceMaximumJSON struct {
-	AppliesToPriceIDs apijson.Field
-	MaximumAmount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPriceMaximum) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceMaximumJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPriceMinimum struct {
-	// List of price_ids that this minimum amount applies to. For plan/plan phase
-	// minimums, this can be a subset of prices.
-	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
-	// Minimum amount applied
-	MinimumAmount string                              `json:"minimum_amount,required"`
-	JSON          priceMaxGroupTieredPriceMinimumJSON `json:"-"`
-}
-
-// priceMaxGroupTieredPriceMinimumJSON contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPriceMinimum]
-type priceMaxGroupTieredPriceMinimumJSON struct {
-	AppliesToPriceIDs apijson.Field
-	MinimumAmount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPriceMinimum) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPriceMinimumJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPriceModelType string
-
-const (
-	PriceMaxGroupTieredPriceModelTypeMaxGroupTiered PriceMaxGroupTieredPriceModelType = "max_group_tiered"
-)
-
-func (r PriceMaxGroupTieredPriceModelType) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPriceModelTypeMaxGroupTiered:
-		return true
-	}
-	return false
-}
-
-type PriceMaxGroupTieredPricePriceType string
-
-const (
-	PriceMaxGroupTieredPricePriceTypeUsagePrice PriceMaxGroupTieredPricePriceType = "usage_price"
-	PriceMaxGroupTieredPricePriceTypeFixedPrice PriceMaxGroupTieredPricePriceType = "fixed_price"
-)
-
-func (r PriceMaxGroupTieredPricePriceType) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPricePriceTypeUsagePrice, PriceMaxGroupTieredPricePriceTypeFixedPrice:
-		return true
-	}
-	return false
-}
-
 type PriceCadence string
 
 const (
@@ -9444,12 +8639,11 @@ const (
 	PriceModelTypeMatrixWithDisplayName      PriceModelType = "matrix_with_display_name"
 	PriceModelTypeBulkWithProration          PriceModelType = "bulk_with_proration"
 	PriceModelTypeGroupedTieredPackage       PriceModelType = "grouped_tiered_package"
-	PriceModelTypeMaxGroupTiered             PriceModelType = "max_group_tiered"
 )
 
 func (r PriceModelType) IsKnown() bool {
 	switch r {
-	case PriceModelTypeUnit, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeTiered, PriceModelTypeTieredBps, PriceModelTypeBps, PriceModelTypeBulkBps, PriceModelTypeBulk, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeGroupedTiered, PriceModelTypeTieredWithMinimum, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeMatrixWithDisplayName, PriceModelTypeBulkWithProration, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTiered:
+	case PriceModelTypeUnit, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeTiered, PriceModelTypeTieredBps, PriceModelTypeBps, PriceModelTypeBulkBps, PriceModelTypeBulk, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeGroupedTiered, PriceModelTypeTieredWithMinimum, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeMatrixWithDisplayName, PriceModelTypeBulkWithProration, PriceModelTypeGroupedTieredPackage:
 		return true
 	}
 	return false
@@ -9501,7 +8695,6 @@ func (r priceEvaluateResponseJSON) RawJSON() string {
 // [PriceNewParamsNewFloatingThresholdTotalAmountPrice],
 // [PriceNewParamsNewFloatingTieredPackagePrice],
 // [PriceNewParamsNewFloatingGroupedTieredPrice],
-// [PriceNewParamsNewFloatingMaxGroupTieredPrice],
 // [PriceNewParamsNewFloatingTieredWithMinimumPrice],
 // [PriceNewParamsNewFloatingPackageWithAllocationPrice],
 // [PriceNewParamsNewFloatingTieredPackageWithMinimumPrice],
@@ -11350,144 +10543,6 @@ func (r PriceNewParamsNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDu
 	return false
 }
 
-type PriceNewParamsNewFloatingMaxGroupTieredPrice struct {
-	// The cadence to bill for this price on.
-	Cadence param.Field[PriceNewParamsNewFloatingMaxGroupTieredPriceCadence] `json:"cadence,required"`
-	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
-	ItemID               param.Field[string]                                                `json:"item_id,required"`
-	MaxGroupTieredConfig param.Field[map[string]interface{}]                                `json:"max_group_tiered_config,required"`
-	ModelType            param.Field[PriceNewParamsNewFloatingMaxGroupTieredPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-}
-
-func (r PriceNewParamsNewFloatingMaxGroupTieredPrice) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (PriceNewParamsNewFloatingMaxGroupTieredPrice) ImplementsPriceNewParams() {
-
-}
-
-// The cadence to bill for this price on.
-type PriceNewParamsNewFloatingMaxGroupTieredPriceCadence string
-
-const (
-	PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceAnnual     PriceNewParamsNewFloatingMaxGroupTieredPriceCadence = "annual"
-	PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceSemiAnnual PriceNewParamsNewFloatingMaxGroupTieredPriceCadence = "semi_annual"
-	PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceMonthly    PriceNewParamsNewFloatingMaxGroupTieredPriceCadence = "monthly"
-	PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceQuarterly  PriceNewParamsNewFloatingMaxGroupTieredPriceCadence = "quarterly"
-	PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceOneTime    PriceNewParamsNewFloatingMaxGroupTieredPriceCadence = "one_time"
-	PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceCustom     PriceNewParamsNewFloatingMaxGroupTieredPriceCadence = "custom"
-)
-
-func (r PriceNewParamsNewFloatingMaxGroupTieredPriceCadence) IsKnown() bool {
-	switch r {
-	case PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceAnnual, PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceSemiAnnual, PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceMonthly, PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceQuarterly, PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceOneTime, PriceNewParamsNewFloatingMaxGroupTieredPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type PriceNewParamsNewFloatingMaxGroupTieredPriceModelType string
-
-const (
-	PriceNewParamsNewFloatingMaxGroupTieredPriceModelTypeMaxGroupTiered PriceNewParamsNewFloatingMaxGroupTieredPriceModelType = "max_group_tiered"
-)
-
-func (r PriceNewParamsNewFloatingMaxGroupTieredPriceModelType) IsKnown() bool {
-	switch r {
-	case PriceNewParamsNewFloatingMaxGroupTieredPriceModelTypeMaxGroupTiered:
-		return true
-	}
-	return false
-}
-
-// For custom cadence: specifies the duration of the billing period in days or
-// months.
-type PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfiguration struct {
-	// The duration of the billing period.
-	Duration param.Field[int64] `json:"duration,required"`
-	// The unit of billing period duration.
-	DurationUnit param.Field[PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
-}
-
-func (r PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// The unit of billing period duration.
-type PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit string
-
-const (
-	PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay   PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "month"
-)
-
-func (r PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
-	switch r {
-	case PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay, PriceNewParamsNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth:
-		return true
-	}
-	return false
-}
-
-// Within each billing cycle, specifies the cadence at which invoices are produced.
-// If unspecified, a single invoice is produced per billing cycle.
-type PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration struct {
-	// The duration of the billing period.
-	Duration param.Field[int64] `json:"duration,required"`
-	// The unit of billing period duration.
-	DurationUnit param.Field[PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
-}
-
-func (r PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// The unit of billing period duration.
-type PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit string
-
-const (
-	PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay   PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
-)
-
-func (r PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
-	switch r {
-	case PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay, PriceNewParamsNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
-		return true
-	}
-	return false
-}
-
 type PriceNewParamsNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
@@ -13181,12 +12236,12 @@ type PriceEvaluateParams struct {
 	// The external customer ID of the customer to which this evaluation is scoped.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
 	// A boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
-	// used to filter the underlying billable metric
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the underlying billable metric
 	Filter param.Field[string] `json:"filter"`
 	// Properties (or
-	// [computed properties](../guides/extensibility/advanced-metrics#computed-properties))
-	// used to group the underlying billable metric
+	// [computed properties](/extensibility/advanced-metrics#computed-properties)) used
+	// to group the underlying billable metric
 	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
 }
 
