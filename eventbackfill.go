@@ -68,12 +68,12 @@ func NewEventBackfillService(opts ...option.RequestOption) (r *EventBackfillServ
 // affect all customers.
 //
 // When `replace_existing_events` is `true`, this indicates that existing events in
-// the timeframe should no longer be counted towards invoiced usage. In this
+// the timeframe should no longer be counter towards invoiced usage. In this
 // scenario, the parameter `filter` can be optionally added which enables filtering
 // using
-// [computed properties](../guides/extensibility/advanced-metrics#computed-properties).
-// The expressiveness of computed properties allows you to deprecate existing
-// events based on both a period of time and specific property values.
+// [computed properties](/extensibility/advanced-metrics#computed-properties). The
+// expressiveness of computed properties allows you to deprecate existing events
+// based on both a period of time and specific property values.
 func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewParams, opts ...option.RequestOption) (res *EventBackfillNewResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "events/backfills"
@@ -85,9 +85,9 @@ func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewPar
 //
 // The list of backfills is ordered starting from the most recently created
 // backfill. The response also includes
-// [`pagination_metadata`](../reference/pagination), which lets the caller retrieve
-// the next page of results if they exist. More information about pagination can be
-// found in the [Pagination-metadata schema](pagination).
+// [`pagination_metadata`](/api-reference/pagination), which lets the caller
+// retrieve the next page of results if they exist. More information about
+// pagination can be found in the [Pagination-metadata schema](pagination).
 func (r *EventBackfillService) List(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) (res *pagination.Page[EventBackfillListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
@@ -109,9 +109,9 @@ func (r *EventBackfillService) List(ctx context.Context, query EventBackfillList
 //
 // The list of backfills is ordered starting from the most recently created
 // backfill. The response also includes
-// [`pagination_metadata`](../reference/pagination), which lets the caller retrieve
-// the next page of results if they exist. More information about pagination can be
-// found in the [Pagination-metadata schema](pagination).
+// [`pagination_metadata`](/api-reference/pagination), which lets the caller
+// retrieve the next page of results if they exist. More information about
+// pagination can be found in the [Pagination-metadata schema](pagination).
 func (r *EventBackfillService) ListAutoPaging(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) *pagination.PageAutoPager[EventBackfillListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
@@ -181,8 +181,8 @@ type EventBackfillNewResponse struct {
 	TimeframeEnd   time.Time                      `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                      `json:"timeframe_start,required" format:"date-time"`
 	// A boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
-	// used to filter the set of events to deprecate
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the set of events to deprecate
 	DeprecationFilter string                       `json:"deprecation_filter,nullable"`
 	JSON              eventBackfillNewResponseJSON `json:"-"`
 }
@@ -250,8 +250,8 @@ type EventBackfillListResponse struct {
 	TimeframeEnd   time.Time                       `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                       `json:"timeframe_start,required" format:"date-time"`
 	// A boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
-	// used to filter the set of events to deprecate
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the set of events to deprecate
 	DeprecationFilter string                        `json:"deprecation_filter,nullable"`
 	JSON              eventBackfillListResponseJSON `json:"-"`
 }
@@ -319,8 +319,8 @@ type EventBackfillCloseResponse struct {
 	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
 	// A boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
-	// used to filter the set of events to deprecate
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the set of events to deprecate
 	DeprecationFilter string                         `json:"deprecation_filter,nullable"`
 	JSON              eventBackfillCloseResponseJSON `json:"-"`
 }
@@ -388,8 +388,8 @@ type EventBackfillFetchResponse struct {
 	TimeframeEnd   time.Time                        `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                        `json:"timeframe_start,required" format:"date-time"`
 	// A boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
-	// used to filter the set of events to deprecate
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the set of events to deprecate
 	DeprecationFilter string                         `json:"deprecation_filter,nullable"`
 	JSON              eventBackfillFetchResponseJSON `json:"-"`
 }
@@ -457,8 +457,8 @@ type EventBackfillRevertResponse struct {
 	TimeframeEnd   time.Time                         `json:"timeframe_end,required" format:"date-time"`
 	TimeframeStart time.Time                         `json:"timeframe_start,required" format:"date-time"`
 	// A boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
-	// used to filter the set of events to deprecate
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the set of events to deprecate
 	DeprecationFilter string                          `json:"deprecation_filter,nullable"`
 	JSON              eventBackfillRevertResponseJSON `json:"-"`
 }
@@ -519,8 +519,8 @@ type EventBackfillNewParams struct {
 	// this field will scope the backfill to all customers.
 	CustomerID param.Field[string] `json:"customer_id"`
 	// A boolean
-	// [computed property](../guides/extensibility/advanced-metrics#computed-properties)
-	// used to filter the set of events to deprecate
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the set of events to deprecate
 	DeprecationFilter param.Field[string] `json:"deprecation_filter"`
 	// The external customer ID of the customer to which this backfill is scoped.
 	// Omitting this field will scope the backfill to all customers.

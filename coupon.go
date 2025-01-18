@@ -117,40 +117,6 @@ func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...opti
 // activated using a redemption code, which applies the discount to a subscription
 // or invoice. The duration of a coupon determines how long it remains available
 // for use by end users.
-//
-// ## How to use coupons
-//
-// Coupons can be created using the Orb dashboard or programmatically through the
-// API. Once a coupon is created, it can be managed and applied programmatically
-// via the API. To redeem a coupon, use the `redemption_code` property when
-// [creating a subscription](create-subscription.api.mdx) or when scheduling a
-// [plan change](schedule-plan-change.api.mdx).
-//
-// ## When to use coupons
-//
-// A common use case for coupons is through self-serve signup or upgrade flows in
-// your checkout experience or billing portal. Coupons can also be used as one-off
-// to incentivize use for custom agreements.
-//
-// Coupons are effective when launching new features and encouraging existing users
-// to upgrade to a higher tier. For example, you could create a coupon code
-// "UPGRADE20" that offers a 20% discount on the first month of the new plan. This
-// code can be applied during the upgrade process in your billing portal, making it
-// straightforward for users to benefit from the new features at a reduced cost.
-//
-// ## Coupon scoping
-//
-// When a coupon is applied on a subscription, it creates a discount adjustment
-// that applies to all of the prices on the subscription at the time of the coupon
-// application. Notably, coupons do not scope in new price additions to a
-// subscription automatically — if a new price is added to the subscription with a
-// subscription edit or plan version migration, the discount created with the
-// coupon will not apply to it automatically. If you'd like the coupon to apply to
-// newly added prices, you can
-// [edit the adjustment intervals](add-edit-price-intervals.api.mdx) to end the
-// discount interval created by the coupon at the time of the migration and add a
-// new one starting at the time of the migration that includes the newly added
-// prices you'd like the coupon to apply to.
 type Coupon struct {
 	// Also referred to as coupon_id in this documentation.
 	ID string `json:"id,required"`

@@ -37,9 +37,8 @@ func NewMetricService(opts ...option.RequestOption) (r *MetricService) {
 	return
 }
 
-// This endpoint is used to create a [metric](../guides/concepts##metric) using a
-// SQL string. See
-// [SQL support](../guides/extensibility/advanced-metrics#sql-support) for a
+// This endpoint is used to create a [metric](/core-concepts###metric) using a SQL
+// string. See [SQL support](/extensibility/advanced-metrics#sql-support) for a
 // description of constructing SQL queries with examples.
 func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
 	opts = append(r.Options[:], opts...)
@@ -62,9 +61,9 @@ func (r *MetricService) Update(ctx context.Context, metricID string, body Metric
 	return
 }
 
-// This endpoint is used to fetch [metric](../guides/concepts#metric) details given
-// a metric identifier. It returns information about the metrics including its
-// name, description, and item.
+// This endpoint is used to fetch [metric](/core-concepts##metric) details given a
+// metric identifier. It returns information about the metrics including its name,
+// description, and item.
 func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[BillableMetric], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
@@ -82,14 +81,14 @@ func (r *MetricService) List(ctx context.Context, query MetricListParams, opts .
 	return res, nil
 }
 
-// This endpoint is used to fetch [metric](../guides/concepts#metric) details given
-// a metric identifier. It returns information about the metrics including its
-// name, description, and item.
+// This endpoint is used to fetch [metric](/core-concepts##metric) details given a
+// metric identifier. It returns information about the metrics including its name,
+// description, and item.
 func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[BillableMetric] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
-// This endpoint is used to list [metrics](../guides/concepts##metric). It returns
+// This endpoint is used to list [metrics](/core-concepts#metric). It returns
 // information about the metrics including its name, description, and item.
 func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
 	opts = append(r.Options[:], opts...)
