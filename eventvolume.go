@@ -35,13 +35,13 @@ func NewEventVolumeService(opts ...option.RequestOption) (r *EventVolumeService)
 }
 
 // This endpoint returns the event volume for an account in a
-// [paginated list format](../reference/pagination).
+// [paginated list format](/api-reference/pagination).
 //
 // The event volume is aggregated by the hour and the
-// [timestamp](../reference/ingest#determining-event-timestamp) field is used to
-// determine which hour an event is associated with. Note, this means that
-// late-arriving events increment the volume count for the hour window the
-// timestamp is in, not the latest hour window.
+// [timestamp](/api-reference/event/ingest-events) field is used to determine which
+// hour an event is associated with. Note, this means that late-arriving events
+// increment the volume count for the hour window the timestamp is in, not the
+// latest hour window.
 //
 // Each item in the response contains the count of events aggregated by the hour
 // where the start and end time are hour-aligned and in UTC. When a specific
