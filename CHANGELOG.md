@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.87.1 (2025-01-20)
+
+Full Changelog: [v0.87.0...v0.87.1](https://github.com/orbcorp/orb-go/compare/v0.87.0...v0.87.1)
+
+### Bug Fixes
+
+* fix apijson.Port for embedded structs ([#391](https://github.com/orbcorp/orb-go/issues/391)) ([2f62a3e](https://github.com/orbcorp/orb-go/commit/2f62a3ea91fd1bb901e28f90af3e9340183d4990))
+
 ## 0.87.0 (2025-01-18)
 
 Full Changelog: [v0.86.0...v0.87.0](https://github.com/orbcorp/orb-go/compare/v0.86.0...v0.87.0)
