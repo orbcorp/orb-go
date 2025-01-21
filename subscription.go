@@ -21047,6 +21047,7 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	MatrixConfig                   param.Field[interface{}] `json:"matrix_config"`
 	MatrixWithAllocationConfig     param.Field[interface{}] `json:"matrix_with_allocation_config"`
 	MatrixWithDisplayNameConfig    param.Field[interface{}] `json:"matrix_with_display_name_config"`
+	MaxGroupTieredConfig           param.Field[interface{}] `json:"max_group_tiered_config"`
 	Metadata                       param.Field[interface{}] `json:"metadata"`
 	PackageConfig                  param.Field[interface{}] `json:"package_config"`
 	PackageWithAllocationConfig    param.Field[interface{}] `json:"package_with_allocation_config"`
@@ -21083,6 +21084,7 @@ func (r SubscriptionPriceIntervalsParamsAddPrice) implementsSubscriptionPriceInt
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPrice],
@@ -22920,6 +22922,143 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceInv
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the plan will be associated with.
+	ItemID               param.Field[string]                                                                          `json:"item_id,required"`
+	MaxGroupTieredConfig param.Field[map[string]interface{}]                                                          `json:"max_group_tiered_config,required"`
+	ModelType            param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence = "custom"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelTypeMaxGroupTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType = "max_group_tiered"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceModelTypeMaxGroupTiered:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
@@ -24599,6 +24738,7 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount       SubscriptionPriceIntervalsParamsAddPriceModelType = "threshold_total_amount"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage              SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered              SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_tiered"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTiered             SubscriptionPriceIntervalsParamsAddPriceModelType = "max_group_tiered"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum          SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_with_minimum"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation      SubscriptionPriceIntervalsParamsAddPriceModelType = "package_with_allocation"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum   SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package_with_minimum"
@@ -24615,7 +24755,7 @@ const (
 
 func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage:
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage:
 		return true
 	}
 	return false
@@ -24965,7 +25105,8 @@ type SubscriptionSchedulePlanChangeParams struct {
 	BillingCycleAlignment           param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAlignment]           `json:"billing_cycle_alignment"`
 	BillingCycleAnchorConfiguration param.Field[SubscriptionSchedulePlanChangeParamsBillingCycleAnchorConfiguration] `json:"billing_cycle_anchor_configuration"`
 	// The date that the plan change should take effect. This parameter can only be
-	// passed if the `change_option` is `requested_date`.
+	// passed if the `change_option` is `requested_date`. If a date with no time is
+	// passed, the plan change will happen at midnight in the customer's timezone.
 	ChangeDate param.Field[time.Time] `json:"change_date" format:"date-time"`
 	// Redemption code to be used for this subscription. If the coupon cannot be found
 	// by its redemption code, or cannot be redeemed, an error response will be
