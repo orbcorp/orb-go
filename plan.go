@@ -140,6 +140,8 @@ type Plan struct {
 	CreatedAt  time.Time `json:"created_at,required" format:"date-time"`
 	// An ISO 4217 currency string or custom pricing unit (`credits`) for this plan's
 	// prices.
+	//
+	// Deprecated: deprecated
 	Currency string `json:"currency,required"`
 	// The default memo text on the invoices corresponding to subscriptions on this
 	// plan. Note that each subscription may configure its own memo.

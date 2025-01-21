@@ -324,6 +324,8 @@ type Invoice struct {
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
 	// `None` will be returned.
+	//
+	// Deprecated: deprecated
 	Discount  interface{}                   `json:"discount,required"`
 	Discounts []shared.InvoiceLevelDiscount `json:"discounts,required"`
 	// When the invoice payment is due.
@@ -1843,6 +1845,8 @@ type InvoiceFetchUpcomingResponse struct {
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
 	// `None` will be returned.
+	//
+	// Deprecated: deprecated
 	Discount  interface{}                   `json:"discount,required"`
 	Discounts []shared.InvoiceLevelDiscount `json:"discounts,required"`
 	// When the invoice payment is due.
@@ -3294,8 +3298,8 @@ func (r InvoiceNewParams) MarshalJSON() (data []byte, err error) {
 
 type InvoiceNewParamsLineItem struct {
 	// A date string to specify the line item's end date in the customer's timezone.
-	EndDate param.Field[time.Time] `json:"end_date,required" format:"date"`
-	ItemID param.Field[string] `json:"item_id,required"`
+	EndDate   param.Field[time.Time]                          `json:"end_date,required" format:"date"`
+	ItemID    param.Field[string]                             `json:"item_id,required"`
 	ModelType param.Field[InvoiceNewParamsLineItemsModelType] `json:"model_type,required"`
 	// The name of the line item.
 	Name param.Field[string] `json:"name,required"`
