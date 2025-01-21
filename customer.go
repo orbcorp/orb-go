@@ -115,7 +115,9 @@ func (r *CustomerService) ListAutoPaging(ctx context.Context, query CustomerList
 // provided the customer does not have any issued invoices. Customers with issued
 // invoices cannot be deleted. This operation is irreversible. Note that this is a
 // _soft_ deletion, but the data will be inaccessible through the API and Orb
-// dashboard. For a hard-deletion, please reach out to the Orb team directly.
+// dashboard.
+//
+// For a hard-deletion, please reach out to the Orb team directly.
 //
 // **Note**: This operation happens asynchronously and can be expected to take a
 // few minutes to propagate to related resources. However, querying for the
