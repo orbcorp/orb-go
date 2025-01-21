@@ -14505,6 +14505,8 @@ func (r SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() b
 type SubscriptionNewParamsAddPrice struct {
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for this
 	// price.
+	//
+	// Deprecated: deprecated
 	Discounts param.Field[[]SubscriptionNewParamsAddPricesDiscount] `json:"discounts"`
 	// The end date of the price interval. This is the date that the price will stop
 	// billing on the subscription. If null, billing will end when the phase or
@@ -14514,9 +14516,13 @@ type SubscriptionNewParamsAddPrice struct {
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
 	// this price.
+	//
+	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// this price.
+	//
+	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
@@ -17669,6 +17675,8 @@ type SubscriptionNewParamsReplacePrice struct {
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
 	// replacement price.
+	//
+	// Deprecated: deprecated
 	Discounts param.Field[[]SubscriptionNewParamsReplacePricesDiscount] `json:"discounts"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
@@ -17676,9 +17684,13 @@ type SubscriptionNewParamsReplacePrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
 	// the replacement price.
+	//
+	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// the replacement price.
+	//
+	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The definition of a new price to create and add to the subscription.
 	Price param.Field[SubscriptionNewParamsReplacePricesPriceUnion] `json:"price"`
@@ -25415,6 +25427,8 @@ func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTy
 type SubscriptionSchedulePlanChangeParamsAddPrice struct {
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for this
 	// price.
+	//
+	// Deprecated: deprecated
 	Discounts param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesDiscount] `json:"discounts"`
 	// The end date of the price interval. This is the date that the price will stop
 	// billing on the subscription. If null, billing will end when the phase or
@@ -25424,9 +25438,13 @@ type SubscriptionSchedulePlanChangeParamsAddPrice struct {
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
 	// this price.
+	//
+	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// this price.
+	//
+	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
@@ -28584,6 +28602,8 @@ type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
 	// replacement price.
+	//
+	// Deprecated: deprecated
 	Discounts param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesDiscount] `json:"discounts"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
@@ -28591,9 +28611,13 @@ type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's maximum amount for
 	// the replacement price.
+	//
+	// Deprecated: deprecated
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's minimum amount for
 	// the replacement price.
+	//
+	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The definition of a new price to create and add to the subscription.
 	Price param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion] `json:"price"`
