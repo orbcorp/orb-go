@@ -171,6 +171,42 @@ func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustome
 	return
 }
 
+// Sync Orb's payment methods for the customer with their gateway.
+//
+// This method can be called before taking an action that may cause the customer to
+// be charged, ensuring that the most up-to-date payment method is charged.
+//
+// **Note**: This functionality is currently only available for Stripe.
+func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, externalCustomerID string, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
+		return
+	}
+	path := fmt.Sprintf("customers/external_customer_id/%s/sync_payment_methods_from_gateway", externalCustomerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	return
+}
+
+// Sync Orb's payment methods for the customer with their gateway.
+//
+// This method can be called before taking an action that may cause the customer to
+// be charged, ensuring that the most up-to-date payment method is charged.
+//
+// **Note**: This functionality is currently only available for Stripe.
+func (r *CustomerService) SyncPaymentMethodsFromGatewayByExternalCustomerID(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
+	opts = append(r.Options[:], opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
+		return
+	}
+	path := fmt.Sprintf("customers/%s/sync_payment_methods_from_gateway", customerID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
+	return
+}
+
 // This endpoint is used to update customer details given an `external_customer_id`
 // (see [Customer ID Aliases](/events-and-metrics/customer-aliases)). Note that the
 // resource and semantics of this endpoint exactly mirror
