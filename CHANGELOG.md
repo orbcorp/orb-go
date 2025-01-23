@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.89.0 (2025-01-23)
+
+Full Changelog: [v0.88.0...v0.89.0](https://github.com/orbcorp/orb-go/compare/v0.88.0...v0.89.0)
+
+### Features
+
+* **api:** api update ([#402](https://github.com/orbcorp/orb-go/issues/402)) ([5e3d906](https://github.com/orbcorp/orb-go/commit/5e3d90603079824939cd0000f43514ed379da700))
+* support deprecated markers ([#400](https://github.com/orbcorp/orb-go/issues/400)) ([44aad58](https://github.com/orbcorp/orb-go/commit/44aad58a98dea75f5457a3c62c01406923fc42a8))
+
 ## 0.88.0 (2025-01-21)
 
 Full Changelog: [v0.87.2...v0.88.0](https://github.com/orbcorp/orb-go/compare/v0.87.2...v0.88.0)
