@@ -169,7 +169,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			PriceID: orb.F("h74gfhdjvn7ujokd"),
 		}}),
 		StartDate:         orb.F(time.Now()),
-		TrialDurationDays: orb.F(int64(0)),
+		TrialDurationDays: orb.F(int64(999999)),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -651,7 +651,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				}),
 				PriceID: orb.F("h74gfhdjvn7ujokd"),
 			}}),
-			TrialDurationDays: orb.F(int64(0)),
+			TrialDurationDays: orb.F(int64(999999)),
 		},
 	)
 	if err != nil {
