@@ -39,9 +39,9 @@ func (r amountDiscountJSON) RawJSON() string {
 	return r.raw
 }
 
-func (r AmountDiscount) ImplementsSharedDiscount() {}
+func (r AmountDiscount) ImplementsDiscount() {}
 
-func (r AmountDiscount) ImplementsSharedInvoiceLevelDiscount() {}
+func (r AmountDiscount) ImplementsInvoiceLevelDiscount() {}
 
 func (r AmountDiscount) ImplementsCouponDiscount() {}
 
@@ -73,7 +73,7 @@ func (r AmountDiscountParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r AmountDiscountParam) ImplementsSharedDiscountUnionParam() {}
+func (r AmountDiscountParam) ImplementsDiscountUnionParam() {}
 
 type BillingCycleRelativeDate string
 
@@ -170,7 +170,7 @@ func (r Discount) AsUnion() DiscountUnion {
 // Union satisfied by [shared.PercentageDiscount], [shared.TrialDiscount],
 // [shared.DiscountUsageDiscount] or [shared.AmountDiscount].
 type DiscountUnion interface {
-	ImplementsSharedDiscount()
+	ImplementsDiscount()
 }
 
 func init() {
@@ -231,7 +231,7 @@ func (r discountUsageDiscountJSON) RawJSON() string {
 	return r.raw
 }
 
-func (r DiscountUsageDiscount) ImplementsSharedDiscount() {}
+func (r DiscountUsageDiscount) ImplementsDiscount() {}
 
 type DiscountUsageDiscountDiscountType string
 
@@ -286,13 +286,13 @@ func (r DiscountParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r DiscountParam) ImplementsSharedDiscountUnionParam() {}
+func (r DiscountParam) ImplementsDiscountUnionParam() {}
 
 // Satisfied by [shared.PercentageDiscountParam], [shared.TrialDiscountParam],
 // [shared.DiscountUsageDiscountParam], [shared.AmountDiscountParam],
 // [DiscountParam].
 type DiscountUnionParam interface {
-	ImplementsSharedDiscountUnionParam()
+	ImplementsDiscountUnionParam()
 }
 
 type DiscountUsageDiscountParam struct {
@@ -310,7 +310,7 @@ func (r DiscountUsageDiscountParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r DiscountUsageDiscountParam) ImplementsSharedDiscountUnionParam() {}
+func (r DiscountUsageDiscountParam) ImplementsDiscountUnionParam() {}
 
 type InvoiceLevelDiscount struct {
 	// This field can have the runtime type of [[]string].
@@ -369,7 +369,7 @@ func (r InvoiceLevelDiscount) AsUnion() InvoiceLevelDiscountUnion {
 // Union satisfied by [shared.PercentageDiscount], [shared.AmountDiscount] or
 // [shared.TrialDiscount].
 type InvoiceLevelDiscountUnion interface {
-	ImplementsSharedInvoiceLevelDiscount()
+	ImplementsInvoiceLevelDiscount()
 }
 
 func init() {
@@ -464,9 +464,9 @@ func (r percentageDiscountJSON) RawJSON() string {
 	return r.raw
 }
 
-func (r PercentageDiscount) ImplementsSharedDiscount() {}
+func (r PercentageDiscount) ImplementsDiscount() {}
 
-func (r PercentageDiscount) ImplementsSharedInvoiceLevelDiscount() {}
+func (r PercentageDiscount) ImplementsInvoiceLevelDiscount() {}
 
 func (r PercentageDiscount) ImplementsCouponDiscount() {}
 
@@ -499,7 +499,7 @@ func (r PercentageDiscountParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PercentageDiscountParam) ImplementsSharedDiscountUnionParam() {}
+func (r PercentageDiscountParam) ImplementsDiscountUnionParam() {}
 
 type TrialDiscount struct {
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
@@ -533,9 +533,9 @@ func (r trialDiscountJSON) RawJSON() string {
 	return r.raw
 }
 
-func (r TrialDiscount) ImplementsSharedDiscount() {}
+func (r TrialDiscount) ImplementsDiscount() {}
 
-func (r TrialDiscount) ImplementsSharedInvoiceLevelDiscount() {}
+func (r TrialDiscount) ImplementsInvoiceLevelDiscount() {}
 
 type TrialDiscountDiscountType string
 
@@ -567,4 +567,4 @@ func (r TrialDiscountParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r TrialDiscountParam) ImplementsSharedDiscountUnionParam() {}
+func (r TrialDiscountParam) ImplementsDiscountUnionParam() {}
