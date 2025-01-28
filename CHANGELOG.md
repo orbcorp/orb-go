@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.89.1 (2025-01-28)
+
+Full Changelog: [v0.89.0...v0.89.1](https://github.com/orbcorp/orb-go/compare/v0.89.0...v0.89.1)
+
+### Bug Fixes
+
+* fix interface implementation stub names for unions ([#406](https://github.com/orbcorp/orb-go/issues/406)) ([4ccc9ba](https://github.com/orbcorp/orb-go/commit/4ccc9ba6cf4aa1846e3c865e4bc86b9a9d2ff9e9))
+
+
+### Chores
+
+* **internal:** codegen related update ([#404](https://github.com/orbcorp/orb-go/issues/404)) ([58440f1](https://github.com/orbcorp/orb-go/commit/58440f1e00b4cd7dfbc64dc0bdcc48ffdfe70b40))
+
 ## 0.89.0 (2025-01-23)
 
 Full Changelog: [v0.88.0...v0.89.0](https://github.com/orbcorp/orb-go/compare/v0.88.0...v0.89.0)
