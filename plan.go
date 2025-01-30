@@ -969,7 +969,7 @@ type PlanNewParamsPrice struct {
 	InvoicingCycleConfiguration param.Field[interface{}] `json:"invoicing_cycle_configuration"`
 	MatrixConfig                param.Field[interface{}] `json:"matrix_config"`
 	MatrixWithDisplayNameConfig param.Field[interface{}] `json:"matrix_with_display_name_config"`
-	MaxGroupTieredConfig        param.Field[interface{}] `json:"max_group_tiered_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}] `json:"max_group_tiered_package_config"`
 	Metadata                    param.Field[interface{}] `json:"metadata"`
 	PackageConfig               param.Field[interface{}] `json:"package_config"`
 	PackageWithAllocationConfig param.Field[interface{}] `json:"package_with_allocation_config"`
@@ -1010,7 +1010,7 @@ func (r PlanNewParamsPrice) implementsPlanNewParamsPriceUnion() {}
 // [PlanNewParamsPricesNewPlanMatrixWithDisplayNamePrice],
 // [PlanNewParamsPricesNewPlanBulkWithProrationPrice],
 // [PlanNewParamsPricesNewPlanGroupedTieredPackagePrice],
-// [PlanNewParamsPricesNewPlanMaxGroupTieredPrice], [PlanNewParamsPrice].
+// [PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice], [PlanNewParamsPrice].
 type PlanNewParamsPriceUnion interface {
 	implementsPlanNewParamsPriceUnion()
 }
@@ -4042,13 +4042,13 @@ func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigu
 	return false
 }
 
-type PlanNewParamsPricesNewPlanMaxGroupTieredPrice struct {
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
 	// The id of the item the plan will be associated with.
-	ItemID               param.Field[string]                                                 `json:"item_id,required"`
-	MaxGroupTieredConfig param.Field[map[string]interface{}]                                 `json:"max_group_tiered_config,required"`
-	ModelType            param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPriceModelType] `json:"model_type,required"`
+	ItemID                      param.Field[string]                                                        `json:"item_id,required"`
+	MaxGroupTieredPackageConfig param.Field[map[string]interface{}]                                        `json:"max_group_tiered_package_config,required"`
+	ModelType                   param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -4059,7 +4059,7 @@ type PlanNewParamsPricesNewPlanMaxGroupTieredPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
@@ -4074,48 +4074,48 @@ type PlanNewParamsPricesNewPlanMaxGroupTieredPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPrice) MarshalJSON() (data []byte, err error) {
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPrice) implementsPlanNewParamsPriceUnion() {}
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice) implementsPlanNewParamsPriceUnion() {}
 
 // The cadence to bill for this price on.
-type PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence string
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence string
 
 const (
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceAnnual     PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence = "annual"
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceSemiAnnual PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence = "semi_annual"
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceMonthly    PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence = "monthly"
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceQuarterly  PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence = "quarterly"
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceOneTime    PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence = "one_time"
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceCustom     PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence = "custom"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceAnnual     PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence = "annual"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceSemiAnnual PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence = "semi_annual"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceMonthly    PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceQuarterly  PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceOneTime    PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence = "one_time"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceCustom     PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence = "custom"
 )
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadence) IsKnown() bool {
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceAnnual, PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceSemiAnnual, PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceMonthly, PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceQuarterly, PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceOneTime, PlanNewParamsPricesNewPlanMaxGroupTieredPriceCadenceCustom:
+	case PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceAnnual, PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceSemiAnnual, PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceMonthly, PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceQuarterly, PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceOneTime, PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PlanNewParamsPricesNewPlanMaxGroupTieredPriceModelType string
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceModelType string
 
 const (
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceModelTypeMaxGroupTiered PlanNewParamsPricesNewPlanMaxGroupTieredPriceModelType = "max_group_tiered"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceModelType = "max_group_tiered_package"
 )
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceModelType) IsKnown() bool {
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesNewPlanMaxGroupTieredPriceModelTypeMaxGroupTiered:
+	case PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage:
 		return true
 	}
 	return false
@@ -4123,28 +4123,28 @@ func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceModelType) IsKnown() bool {
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfiguration struct {
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnit string
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "day"
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnit = "month"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDurationUnitMonth:
+	case PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -4152,28 +4152,28 @@ func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceBillingCycleConfigurationDu
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfiguration struct {
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit string
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMaxGroupTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -4223,12 +4223,12 @@ const (
 	PlanNewParamsPricesModelTypeMatrixWithDisplayName      PlanNewParamsPricesModelType = "matrix_with_display_name"
 	PlanNewParamsPricesModelTypeBulkWithProration          PlanNewParamsPricesModelType = "bulk_with_proration"
 	PlanNewParamsPricesModelTypeGroupedTieredPackage       PlanNewParamsPricesModelType = "grouped_tiered_package"
-	PlanNewParamsPricesModelTypeMaxGroupTiered             PlanNewParamsPricesModelType = "max_group_tiered"
+	PlanNewParamsPricesModelTypeMaxGroupTieredPackage      PlanNewParamsPricesModelType = "max_group_tiered_package"
 )
 
 func (r PlanNewParamsPricesModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage, PlanNewParamsPricesModelTypeMaxGroupTiered:
+	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage, PlanNewParamsPricesModelTypeMaxGroupTieredPackage:
 		return true
 	}
 	return false
