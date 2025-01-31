@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.90.1 (2025-01-31)
+
+Full Changelog: [v0.90.0...v0.90.1](https://github.com/orbcorp/orb-go/compare/v0.90.0...v0.90.1)
+
+### Bug Fixes
+
+* fix unicode encoding for json ([#413](https://github.com/orbcorp/orb-go/issues/413)) ([c516247](https://github.com/orbcorp/orb-go/commit/c5162474177d71695aea73341cb1e2802e88672d))
+
+
+### Chores
+
+* **internal:** codegen related update ([#411](https://github.com/orbcorp/orb-go/issues/411)) ([c816078](https://github.com/orbcorp/orb-go/commit/c816078d28d0101fe4c4bd3aa2bd6bd3568e7c38))
+
 ## 0.90.0 (2025-01-30)
 
 Full Changelog: [v0.89.1...v0.90.0](https://github.com/orbcorp/orb-go/compare/v0.89.1...v0.90.0)
