@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.91.0 (2025-02-04)
+
+Full Changelog: [v0.90.1...v0.91.0](https://github.com/orbcorp/orb-go/compare/v0.90.1...v0.91.0)
+
+### Features
+
+* **api:** api update ([#419](https://github.com/orbcorp/orb-go/issues/419)) ([ae7beea](https://github.com/orbcorp/orb-go/commit/ae7beea155271d1c07d1e220a894040048f7b149))
+* **client:** send `X-Stainless-Timeout` header ([#418](https://github.com/orbcorp/orb-go/issues/418)) ([f16fdc8](https://github.com/orbcorp/orb-go/commit/f16fdc8fdb793cbc5e9a74cace634beed90798a5))
+
+
+### Documentation
+
+* document raw responses ([#415](https://github.com/orbcorp/orb-go/issues/415)) ([53f6c4c](https://github.com/orbcorp/orb-go/commit/53f6c4c5f39e27c93f04f33b909a7b12c5efdebd))
+
 ## 0.90.1 (2025-01-31)
 
 Full Changelog: [v0.90.0...v0.90.1](https://github.com/orbcorp/orb-go/compare/v0.90.0...v0.90.1)
