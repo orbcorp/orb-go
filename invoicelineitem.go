@@ -47,21 +47,42 @@ func (r *InvoiceLineItemService) New(ctx context.Context, body InvoiceLineItemNe
 type InvoiceLineItemNewResponse struct {
 	// A unique ID for this line item.
 	ID string `json:"id,required"`
+	// The line amount after any adjustments, before overage conversion, credits and
+	// partial invoicing.
+	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
+	// All adjustments applied to the line item.
+	Adjustments []InvoiceLineItemNewResponseAdjustment `json:"adjustments,required"`
 	// The final amount after any discounts or minimums.
-	Amount   string          `json:"amount,required"`
-	Discount shared.Discount `json:"discount,required,nullable"`
+	Amount string `json:"amount,required"`
+	// The number of credits used
+	CreditsApplied string          `json:"credits_applied,required"`
+	Discount       shared.Discount `json:"discount,required,nullable"`
 	// The end date of the range of time applied for this line item's price.
 	EndDate time.Time `json:"end_date,required" format:"date-time"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
-	Grouping      string                            `json:"grouping,required,nullable"`
-	Maximum       InvoiceLineItemNewResponseMaximum `json:"maximum,required,nullable"`
-	MaximumAmount string                            `json:"maximum_amount,required,nullable"`
-	Minimum       InvoiceLineItemNewResponseMinimum `json:"minimum,required,nullable"`
-	MinimumAmount string                            `json:"minimum_amount,required,nullable"`
+	Grouping string `json:"grouping,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	Maximum InvoiceLineItemNewResponseMaximum `json:"maximum,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	Minimum InvoiceLineItemNewResponseMinimum `json:"minimum,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	MinimumAmount string `json:"minimum_amount,required,nullable"`
 	// The name of the price associated with this line item.
 	Name string `json:"name,required"`
+	// Any amount applied from a partial invoice
+	PartiallyInvoicedAmount string `json:"partially_invoiced_amount,required"`
 	// The Price resource represents a price that can be billed on a subscription,
 	// resulting in a charge on an invoice in the form of an invoice line item. Prices
 	// take a quantity and determine an amount to bill.
@@ -90,24 +111,28 @@ type InvoiceLineItemNewResponse struct {
 // invoiceLineItemNewResponseJSON contains the JSON metadata for the struct
 // [InvoiceLineItemNewResponse]
 type invoiceLineItemNewResponseJSON struct {
-	ID            apijson.Field
-	Amount        apijson.Field
-	Discount      apijson.Field
-	EndDate       apijson.Field
-	Grouping      apijson.Field
-	Maximum       apijson.Field
-	MaximumAmount apijson.Field
-	Minimum       apijson.Field
-	MinimumAmount apijson.Field
-	Name          apijson.Field
-	Price         apijson.Field
-	Quantity      apijson.Field
-	StartDate     apijson.Field
-	SubLineItems  apijson.Field
-	Subtotal      apijson.Field
-	TaxAmounts    apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
+	ID                      apijson.Field
+	AdjustedSubtotal        apijson.Field
+	Adjustments             apijson.Field
+	Amount                  apijson.Field
+	CreditsApplied          apijson.Field
+	Discount                apijson.Field
+	EndDate                 apijson.Field
+	Grouping                apijson.Field
+	Maximum                 apijson.Field
+	MaximumAmount           apijson.Field
+	Minimum                 apijson.Field
+	MinimumAmount           apijson.Field
+	Name                    apijson.Field
+	PartiallyInvoicedAmount apijson.Field
+	Price                   apijson.Field
+	Quantity                apijson.Field
+	StartDate               apijson.Field
+	SubLineItems            apijson.Field
+	Subtotal                apijson.Field
+	TaxAmounts              apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
 }
 
 func (r *InvoiceLineItemNewResponse) UnmarshalJSON(data []byte) (err error) {
@@ -118,6 +143,438 @@ func (r invoiceLineItemNewResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceLineItemNewResponseAdjustment struct {
+	ID             string                                              `json:"id,required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                  `json:"usage_discount"`
+	JSON          invoiceLineItemNewResponseAdjustmentJSON `json:"-"`
+	union         InvoiceLineItemNewResponseAdjustmentsUnion
+}
+
+// invoiceLineItemNewResponseAdjustmentJSON contains the JSON metadata for the
+// struct [InvoiceLineItemNewResponseAdjustment]
+type invoiceLineItemNewResponseAdjustmentJSON struct {
+	ID                 apijson.Field
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
+	Reason             apijson.Field
+	AmountDiscount     apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	MinimumAmount      apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r invoiceLineItemNewResponseAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *InvoiceLineItemNewResponseAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = InvoiceLineItemNewResponseAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [InvoiceLineItemNewResponseAdjustmentsUnion] interface which
+// you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsMinimumAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsMaximumAdjustment].
+func (r InvoiceLineItemNewResponseAdjustment) AsUnion() InvoiceLineItemNewResponseAdjustmentsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustment],
+// [InvoiceLineItemNewResponseAdjustmentsMinimumAdjustment] or
+// [InvoiceLineItemNewResponseAdjustmentsMaximumAdjustment].
+type InvoiceLineItemNewResponseAdjustmentsUnion interface {
+	implementsInvoiceLineItemNewResponseAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*InvoiceLineItemNewResponseAdjustmentsUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLineItemNewResponseAdjustmentsMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(InvoiceLineItemNewResponseAdjustmentsMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustment struct {
+	ID             string                                                                      `json:"id,required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                            `json:"reason,required,nullable"`
+	JSON   invoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentJSON contains the
+// JSON metadata for the struct
+// [InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustment]
+type invoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustment) implementsInvoiceLineItemNewResponseAdjustment() {
+}
+
+type InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentAdjustmentTypeAmountDiscount InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustment struct {
+	ID             string                                                                          `json:"id,required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                                `json:"reason,required,nullable"`
+	JSON   invoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentJSON contains
+// the JSON metadata for the struct
+// [InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustment]
+type invoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustment) implementsInvoiceLineItemNewResponseAdjustment() {
+}
+
+type InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustment struct {
+	ID             string                                                                     `json:"id,required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                          `json:"usage_discount,required"`
+	JSON          invoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentJSON contains the
+// JSON metadata for the struct
+// [InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustment]
+type invoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustment) implementsInvoiceLineItemNewResponseAdjustment() {
+}
+
+type InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentAdjustmentTypeUsageDiscount InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemNewResponseAdjustmentsMinimumAdjustment struct {
+	ID             string                                                               `json:"id,required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                     `json:"reason,required,nullable"`
+	JSON   invoiceLineItemNewResponseAdjustmentsMinimumAdjustmentJSON `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsMinimumAdjustmentJSON contains the JSON
+// metadata for the struct [InvoiceLineItemNewResponseAdjustmentsMinimumAdjustment]
+type invoiceLineItemNewResponseAdjustmentsMinimumAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLineItemNewResponseAdjustmentsMinimumAdjustment) implementsInvoiceLineItemNewResponseAdjustment() {
+}
+
+type InvoiceLineItemNewResponseAdjustmentsMinimumAdjustmentAdjustmentType string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsMinimumAdjustmentAdjustmentTypeMinimum InvoiceLineItemNewResponseAdjustmentsMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemNewResponseAdjustmentsMaximumAdjustment struct {
+	ID             string                                                               `json:"id,required"`
+	AdjustmentType InvoiceLineItemNewResponseAdjustmentsMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                     `json:"reason,required,nullable"`
+	JSON   invoiceLineItemNewResponseAdjustmentsMaximumAdjustmentJSON `json:"-"`
+}
+
+// invoiceLineItemNewResponseAdjustmentsMaximumAdjustmentJSON contains the JSON
+// metadata for the struct [InvoiceLineItemNewResponseAdjustmentsMaximumAdjustment]
+type invoiceLineItemNewResponseAdjustmentsMaximumAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	IsInvoiceLevel    apijson.Field
+	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemNewResponseAdjustmentsMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemNewResponseAdjustmentsMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r InvoiceLineItemNewResponseAdjustmentsMaximumAdjustment) implementsInvoiceLineItemNewResponseAdjustment() {
+}
+
+type InvoiceLineItemNewResponseAdjustmentsMaximumAdjustmentAdjustmentType string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsMaximumAdjustmentAdjustmentTypeMaximum InvoiceLineItemNewResponseAdjustmentsMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type InvoiceLineItemNewResponseAdjustmentsAdjustmentType string
+
+const (
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeAmountDiscount     InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "amount_discount"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypePercentageDiscount InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "percentage_discount"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeUsageDiscount      InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "usage_discount"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMinimum            InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "minimum"
+	InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMaximum            InvoiceLineItemNewResponseAdjustmentsAdjustmentType = "maximum"
+)
+
+func (r InvoiceLineItemNewResponseAdjustmentsAdjustmentType) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeAmountDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypePercentageDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeUsageDiscount, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMinimum, InvoiceLineItemNewResponseAdjustmentsAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+// This field is deprecated in favor of `adjustments`.
+//
+// Deprecated: deprecated
 type InvoiceLineItemNewResponseMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
@@ -144,6 +601,9 @@ func (r invoiceLineItemNewResponseMaximumJSON) RawJSON() string {
 	return r.raw
 }
 
+// This field is deprecated in favor of `adjustments`.
+//
+// Deprecated: deprecated
 type InvoiceLineItemNewResponseMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
