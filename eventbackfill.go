@@ -174,6 +174,10 @@ type EventBackfillNewResponse struct {
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
+	// If `true`, existing events in the backfill's timeframe will be replaced with the
+	// newly ingested events associated with the backfill. If `false`, newly ingested
+	// events will be added to the existing events.
+	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -190,18 +194,19 @@ type EventBackfillNewResponse struct {
 // eventBackfillNewResponseJSON contains the JSON metadata for the struct
 // [EventBackfillNewResponse]
 type eventBackfillNewResponseJSON struct {
-	ID                apijson.Field
-	CloseTime         apijson.Field
-	CreatedAt         apijson.Field
-	CustomerID        apijson.Field
-	EventsIngested    apijson.Field
-	RevertedAt        apijson.Field
-	Status            apijson.Field
-	TimeframeEnd      apijson.Field
-	TimeframeStart    apijson.Field
-	DeprecationFilter apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                    apijson.Field
+	CloseTime             apijson.Field
+	CreatedAt             apijson.Field
+	CustomerID            apijson.Field
+	EventsIngested        apijson.Field
+	ReplaceExistingEvents apijson.Field
+	RevertedAt            apijson.Field
+	Status                apijson.Field
+	TimeframeEnd          apijson.Field
+	TimeframeStart        apijson.Field
+	DeprecationFilter     apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *EventBackfillNewResponse) UnmarshalJSON(data []byte) (err error) {
@@ -243,6 +248,10 @@ type EventBackfillListResponse struct {
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
+	// If `true`, existing events in the backfill's timeframe will be replaced with the
+	// newly ingested events associated with the backfill. If `false`, newly ingested
+	// events will be added to the existing events.
+	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -259,18 +268,19 @@ type EventBackfillListResponse struct {
 // eventBackfillListResponseJSON contains the JSON metadata for the struct
 // [EventBackfillListResponse]
 type eventBackfillListResponseJSON struct {
-	ID                apijson.Field
-	CloseTime         apijson.Field
-	CreatedAt         apijson.Field
-	CustomerID        apijson.Field
-	EventsIngested    apijson.Field
-	RevertedAt        apijson.Field
-	Status            apijson.Field
-	TimeframeEnd      apijson.Field
-	TimeframeStart    apijson.Field
-	DeprecationFilter apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                    apijson.Field
+	CloseTime             apijson.Field
+	CreatedAt             apijson.Field
+	CustomerID            apijson.Field
+	EventsIngested        apijson.Field
+	ReplaceExistingEvents apijson.Field
+	RevertedAt            apijson.Field
+	Status                apijson.Field
+	TimeframeEnd          apijson.Field
+	TimeframeStart        apijson.Field
+	DeprecationFilter     apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *EventBackfillListResponse) UnmarshalJSON(data []byte) (err error) {
@@ -312,6 +322,10 @@ type EventBackfillCloseResponse struct {
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
+	// If `true`, existing events in the backfill's timeframe will be replaced with the
+	// newly ingested events associated with the backfill. If `false`, newly ingested
+	// events will be added to the existing events.
+	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -328,18 +342,19 @@ type EventBackfillCloseResponse struct {
 // eventBackfillCloseResponseJSON contains the JSON metadata for the struct
 // [EventBackfillCloseResponse]
 type eventBackfillCloseResponseJSON struct {
-	ID                apijson.Field
-	CloseTime         apijson.Field
-	CreatedAt         apijson.Field
-	CustomerID        apijson.Field
-	EventsIngested    apijson.Field
-	RevertedAt        apijson.Field
-	Status            apijson.Field
-	TimeframeEnd      apijson.Field
-	TimeframeStart    apijson.Field
-	DeprecationFilter apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                    apijson.Field
+	CloseTime             apijson.Field
+	CreatedAt             apijson.Field
+	CustomerID            apijson.Field
+	EventsIngested        apijson.Field
+	ReplaceExistingEvents apijson.Field
+	RevertedAt            apijson.Field
+	Status                apijson.Field
+	TimeframeEnd          apijson.Field
+	TimeframeStart        apijson.Field
+	DeprecationFilter     apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *EventBackfillCloseResponse) UnmarshalJSON(data []byte) (err error) {
@@ -381,6 +396,10 @@ type EventBackfillFetchResponse struct {
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
+	// If `true`, existing events in the backfill's timeframe will be replaced with the
+	// newly ingested events associated with the backfill. If `false`, newly ingested
+	// events will be added to the existing events.
+	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -397,18 +416,19 @@ type EventBackfillFetchResponse struct {
 // eventBackfillFetchResponseJSON contains the JSON metadata for the struct
 // [EventBackfillFetchResponse]
 type eventBackfillFetchResponseJSON struct {
-	ID                apijson.Field
-	CloseTime         apijson.Field
-	CreatedAt         apijson.Field
-	CustomerID        apijson.Field
-	EventsIngested    apijson.Field
-	RevertedAt        apijson.Field
-	Status            apijson.Field
-	TimeframeEnd      apijson.Field
-	TimeframeStart    apijson.Field
-	DeprecationFilter apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                    apijson.Field
+	CloseTime             apijson.Field
+	CreatedAt             apijson.Field
+	CustomerID            apijson.Field
+	EventsIngested        apijson.Field
+	ReplaceExistingEvents apijson.Field
+	RevertedAt            apijson.Field
+	Status                apijson.Field
+	TimeframeEnd          apijson.Field
+	TimeframeStart        apijson.Field
+	DeprecationFilter     apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *EventBackfillFetchResponse) UnmarshalJSON(data []byte) (err error) {
@@ -450,6 +470,10 @@ type EventBackfillRevertResponse struct {
 	CustomerID string `json:"customer_id,required,nullable"`
 	// The number of events ingested in this backfill.
 	EventsIngested int64 `json:"events_ingested,required"`
+	// If `true`, existing events in the backfill's timeframe will be replaced with the
+	// newly ingested events associated with the backfill. If `false`, newly ingested
+	// events will be added to the existing events.
+	ReplaceExistingEvents bool `json:"replace_existing_events,required"`
 	// The time at which this backfill was reverted.
 	RevertedAt time.Time `json:"reverted_at,required,nullable" format:"date-time"`
 	// The status of the backfill.
@@ -466,18 +490,19 @@ type EventBackfillRevertResponse struct {
 // eventBackfillRevertResponseJSON contains the JSON metadata for the struct
 // [EventBackfillRevertResponse]
 type eventBackfillRevertResponseJSON struct {
-	ID                apijson.Field
-	CloseTime         apijson.Field
-	CreatedAt         apijson.Field
-	CustomerID        apijson.Field
-	EventsIngested    apijson.Field
-	RevertedAt        apijson.Field
-	Status            apijson.Field
-	TimeframeEnd      apijson.Field
-	TimeframeStart    apijson.Field
-	DeprecationFilter apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                    apijson.Field
+	CloseTime             apijson.Field
+	CreatedAt             apijson.Field
+	CustomerID            apijson.Field
+	EventsIngested        apijson.Field
+	ReplaceExistingEvents apijson.Field
+	RevertedAt            apijson.Field
+	Status                apijson.Field
+	TimeframeEnd          apijson.Field
+	TimeframeStart        apijson.Field
+	DeprecationFilter     apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *EventBackfillRevertResponse) UnmarshalJSON(data []byte) (err error) {
