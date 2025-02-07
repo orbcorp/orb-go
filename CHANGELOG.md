@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.92.0 (2025-02-07)
+
+Full Changelog: [v0.91.0...v0.92.0](https://github.com/orbcorp/orb-go/compare/v0.91.0...v0.92.0)
+
+### Features
+
+* **api:** api update ([#424](https://github.com/orbcorp/orb-go/issues/424)) ([9d56ed0](https://github.com/orbcorp/orb-go/commit/9d56ed08bf9a83ae635b1e804abe74ea64db4c10))
+
+
+### Chores
+
+* add UnionUnmarshaler for responses that are interfaces ([#421](https://github.com/orbcorp/orb-go/issues/421)) ([0e447db](https://github.com/orbcorp/orb-go/commit/0e447db72b1e5b137c4946a52063beda6658d210))
+* **internal:** codegen related update ([#423](https://github.com/orbcorp/orb-go/issues/423)) ([c2734ff](https://github.com/orbcorp/orb-go/commit/c2734ff5905b58d6eee013cfc9f380e399140005))
+
 ## 0.91.0 (2025-02-04)
 
 Full Changelog: [v0.90.1...v0.91.0](https://github.com/orbcorp/orb-go/compare/v0.90.1...v0.91.0)
