@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.92.1 (2025-02-10)
+
+Full Changelog: [v0.92.0...v0.92.1](https://github.com/orbcorp/orb-go/compare/v0.92.0...v0.92.1)
+
+### Bug Fixes
+
+* do not call path.Base on ContentType ([#426](https://github.com/orbcorp/orb-go/issues/426)) ([59d5be4](https://github.com/orbcorp/orb-go/commit/59d5be48d1bd8a86fe658c074e9efcb2fb6f0552))
+
 ## 0.92.0 (2025-02-07)
 
 Full Changelog: [v0.91.0...v0.92.0](https://github.com/orbcorp/orb-go/compare/v0.91.0...v0.92.0)
