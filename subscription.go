@@ -14504,6 +14504,8 @@ func (r SubscriptionNewParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() b
 }
 
 type SubscriptionNewParamsAddPrice struct {
+	// The definition of a new allocation price to create and add to the subscription.
+	AllocationPrice param.Field[SubscriptionNewParamsAddPricesAllocationPrice] `json:"allocation_price"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for this
 	// price.
 	//
@@ -14539,6 +14541,44 @@ type SubscriptionNewParamsAddPrice struct {
 
 func (r SubscriptionNewParamsAddPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new allocation price to create and add to the subscription.
+type SubscriptionNewParamsAddPricesAllocationPrice struct {
+	// An amount of the currency to allocate to the customer at the specified cadence.
+	Amount param.Field[string] `json:"amount,required"`
+	// The cadence at which to allocate the amount to the customer.
+	Cadence param.Field[SubscriptionNewParamsAddPricesAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
+	// this price.
+	Currency param.Field[string] `json:"currency,required"`
+	// Whether the allocated amount should expire at the end of the cadence or roll
+	// over to the next period.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence at which to allocate the amount to the customer.
+type SubscriptionNewParamsAddPricesAllocationPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesAllocationPriceCadenceOneTime    SubscriptionNewParamsAddPricesAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesAllocationPriceCadenceMonthly    SubscriptionNewParamsAddPricesAllocationPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesAllocationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesAllocationPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesAllocationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesAllocationPriceCadenceAnnual     SubscriptionNewParamsAddPricesAllocationPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesAllocationPriceCadenceCustom     SubscriptionNewParamsAddPricesAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
 }
 
 type SubscriptionNewParamsAddPricesDiscount struct {
@@ -17674,6 +17714,8 @@ func (r SubscriptionNewParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown
 type SubscriptionNewParamsReplacePrice struct {
 	// The id of the price on the plan to replace in the subscription.
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+	// The definition of a new allocation price to create and add to the subscription.
+	AllocationPrice param.Field[SubscriptionNewParamsReplacePricesAllocationPrice] `json:"allocation_price"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
 	// replacement price.
 	//
@@ -17701,6 +17743,44 @@ type SubscriptionNewParamsReplacePrice struct {
 
 func (r SubscriptionNewParamsReplacePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new allocation price to create and add to the subscription.
+type SubscriptionNewParamsReplacePricesAllocationPrice struct {
+	// An amount of the currency to allocate to the customer at the specified cadence.
+	Amount param.Field[string] `json:"amount,required"`
+	// The cadence at which to allocate the amount to the customer.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
+	// this price.
+	Currency param.Field[string] `json:"currency,required"`
+	// Whether the allocated amount should expire at the end of the cadence or roll
+	// over to the next period.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence at which to allocate the amount to the customer.
+type SubscriptionNewParamsReplacePricesAllocationPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesAllocationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesAllocationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesAllocationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesAllocationPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesAllocationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesAllocationPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesAllocationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesAllocationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesAllocationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesAllocationPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesAllocationPriceCadenceCustom     SubscriptionNewParamsReplacePricesAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
 }
 
 type SubscriptionNewParamsReplacePricesDiscount struct {
@@ -25705,6 +25785,8 @@ func (r SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentAdjustmentTy
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPrice struct {
+	// The definition of a new allocation price to create and add to the subscription.
+	AllocationPrice param.Field[SubscriptionSchedulePlanChangeParamsAddPricesAllocationPrice] `json:"allocation_price"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for this
 	// price.
 	//
@@ -25740,6 +25822,44 @@ type SubscriptionSchedulePlanChangeParamsAddPrice struct {
 
 func (r SubscriptionSchedulePlanChangeParamsAddPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new allocation price to create and add to the subscription.
+type SubscriptionSchedulePlanChangeParamsAddPricesAllocationPrice struct {
+	// An amount of the currency to allocate to the customer at the specified cadence.
+	Amount param.Field[string] `json:"amount,required"`
+	// The cadence at which to allocate the amount to the customer.
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
+	// this price.
+	Currency param.Field[string] `json:"currency,required"`
+	// Whether the allocated amount should expire at the end of the cadence or roll
+	// over to the next period.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence at which to allocate the amount to the customer.
+type SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence = "monthly"
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence = "quarterly"
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence = "annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesDiscount struct {
@@ -28880,6 +29000,8 @@ func (r SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentAdjustme
 type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	// The id of the price on the plan to replace in the subscription.
 	ReplacesPriceID param.Field[string] `json:"replaces_price_id,required"`
+	// The definition of a new allocation price to create and add to the subscription.
+	AllocationPrice param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPrice] `json:"allocation_price"`
 	// [DEPRECATED] Use add_adjustments instead. The subscription's discounts for the
 	// replacement price.
 	//
@@ -28907,6 +29029,44 @@ type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new allocation price to create and add to the subscription.
+type SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPrice struct {
+	// An amount of the currency to allocate to the customer at the specified cadence.
+	Amount param.Field[string] `json:"amount,required"`
+	// The cadence at which to allocate the amount to the customer.
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
+	// this price.
+	Currency param.Field[string] `json:"currency,required"`
+	// Whether the allocated amount should expire at the end of the cadence or roll
+	// over to the next period.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The cadence at which to allocate the amount to the customer.
+type SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence = "monthly"
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence = "quarterly"
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence = "annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence = "custom"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesDiscount struct {
