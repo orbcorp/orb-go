@@ -345,17 +345,10 @@ func (r customerCostListResponseDataJSON) RawJSON() string {
 }
 
 type CustomerCostListResponseDataPerPriceCost struct {
-	// The Price resource represents a price that can be billed on a subscription,
-	// resulting in a charge on an invoice in the form of an invoice line item. Prices
-	// take a quantity and determine an amount to bill.
-	//
-	// Orb supports a few different pricing models out of the box. Each of these models
-	// is serialized differently in a given Price object. The model_type field
-	// determines the key for the configuration object that is present.
-	//
-	// For more on the types of prices, see
-	// [the core concepts documentation](/core-concepts#plan-and-price)
+	// The price object
 	Price Price `json:"price,required"`
+	// The price the cost is associated with
+	PriceID string `json:"price_id,required"`
 	// Price's contributions for the timeframe, excluding any minimums and discounts.
 	Subtotal string `json:"subtotal,required"`
 	// Price's contributions for the timeframe, including minimums and discounts.
@@ -369,6 +362,7 @@ type CustomerCostListResponseDataPerPriceCost struct {
 // struct [CustomerCostListResponseDataPerPriceCost]
 type customerCostListResponseDataPerPriceCostJSON struct {
 	Price       apijson.Field
+	PriceID     apijson.Field
 	Subtotal    apijson.Field
 	Total       apijson.Field
 	Quantity    apijson.Field
@@ -437,17 +431,10 @@ func (r customerCostListByExternalIDResponseDataJSON) RawJSON() string {
 }
 
 type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
-	// The Price resource represents a price that can be billed on a subscription,
-	// resulting in a charge on an invoice in the form of an invoice line item. Prices
-	// take a quantity and determine an amount to bill.
-	//
-	// Orb supports a few different pricing models out of the box. Each of these models
-	// is serialized differently in a given Price object. The model_type field
-	// determines the key for the configuration object that is present.
-	//
-	// For more on the types of prices, see
-	// [the core concepts documentation](/core-concepts#plan-and-price)
+	// The price object
 	Price Price `json:"price,required"`
+	// The price the cost is associated with
+	PriceID string `json:"price_id,required"`
 	// Price's contributions for the timeframe, excluding any minimums and discounts.
 	Subtotal string `json:"subtotal,required"`
 	// Price's contributions for the timeframe, including minimums and discounts.
@@ -461,6 +448,7 @@ type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
 // metadata for the struct [CustomerCostListByExternalIDResponseDataPerPriceCost]
 type customerCostListByExternalIDResponseDataPerPriceCostJSON struct {
 	Price       apijson.Field
+	PriceID     apijson.Field
 	Subtotal    apijson.Field
 	Total       apijson.Field
 	Quantity    apijson.Field
