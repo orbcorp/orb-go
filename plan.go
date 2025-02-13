@@ -953,7 +953,8 @@ type PlanNewParamsPrice struct {
 	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
 	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
+	CumulativeGroupedBulkConfig param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1017,7 +1018,7 @@ func (r PlanNewParamsPrice) implementsPlanNewParamsPriceUnion() {}
 // [PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice],
 // [PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPrice],
 // [PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPrice],
-// [PlanNewParamsPrice].
+// [PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice], [PlanNewParamsPrice].
 type PlanNewParamsPriceUnion interface {
 	implementsPlanNewParamsPriceUnion()
 }
@@ -4462,6 +4463,143 @@ func (r PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceInvoicingC
 	return false
 }
 
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice struct {
+	// The cadence to bill for this price on.
+	Cadence                     param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                                      `json:"cumulative_grouped_bulk_config,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                        `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice) implementsPlanNewParamsPriceUnion() {}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceAnnual     PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence = "annual"
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceSemiAnnual PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence = "semi_annual"
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceMonthly    PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceQuarterly  PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceOneTime    PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence = "one_time"
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceCustom     PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence = "custom"
+)
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceAnnual, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceSemiAnnual, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceMonthly, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceQuarterly, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceOneTime, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceModelType = "cumulative_grouped_bulk"
+)
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 // The cadence to bill for this price on.
 type PlanNewParamsPricesCadence string
 
@@ -4509,11 +4647,12 @@ const (
 	PlanNewParamsPricesModelTypeMaxGroupTieredPackage           PlanNewParamsPricesModelType = "max_group_tiered_package"
 	PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing   PlanNewParamsPricesModelType = "scalable_matrix_with_unit_pricing"
 	PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing PlanNewParamsPricesModelType = "scalable_matrix_with_tiered_pricing"
+	PlanNewParamsPricesModelTypeCumulativeGroupedBulk           PlanNewParamsPricesModelType = "cumulative_grouped_bulk"
 )
 
 func (r PlanNewParamsPricesModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage, PlanNewParamsPricesModelTypeMaxGroupTieredPackage, PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing:
+	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage, PlanNewParamsPricesModelTypeMaxGroupTieredPackage, PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesModelTypeCumulativeGroupedBulk:
 		return true
 	}
 	return false
