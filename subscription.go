@@ -4926,17 +4926,10 @@ func (r subscriptionFetchCostsResponseDataJSON) RawJSON() string {
 }
 
 type SubscriptionFetchCostsResponseDataPerPriceCost struct {
-	// The Price resource represents a price that can be billed on a subscription,
-	// resulting in a charge on an invoice in the form of an invoice line item. Prices
-	// take a quantity and determine an amount to bill.
-	//
-	// Orb supports a few different pricing models out of the box. Each of these models
-	// is serialized differently in a given Price object. The model_type field
-	// determines the key for the configuration object that is present.
-	//
-	// For more on the types of prices, see
-	// [the core concepts documentation](/core-concepts#plan-and-price)
+	// The price object
 	Price Price `json:"price,required"`
+	// The price the cost is associated with
+	PriceID string `json:"price_id,required"`
 	// Price's contributions for the timeframe, excluding any minimums and discounts.
 	Subtotal string `json:"subtotal,required"`
 	// Price's contributions for the timeframe, including minimums and discounts.
@@ -4950,6 +4943,7 @@ type SubscriptionFetchCostsResponseDataPerPriceCost struct {
 // for the struct [SubscriptionFetchCostsResponseDataPerPriceCost]
 type subscriptionFetchCostsResponseDataPerPriceCostJSON struct {
 	Price       apijson.Field
+	PriceID     apijson.Field
 	Subtotal    apijson.Field
 	Total       apijson.Field
 	Quantity    apijson.Field
@@ -21123,7 +21117,8 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	BulkConfig                param.Field[interface{}] `json:"bulk_config"`
 	BulkWithProrationConfig   param.Field[interface{}] `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
+	CumulativeGroupedBulkConfig param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -21194,6 +21189,7 @@ func (r SubscriptionPriceIntervalsParamsAddPrice) implementsSubscriptionPriceInt
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPackagePrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithUnitPricingPrice],
 // [SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithTieredPricingPrice],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPrice],
 // [SubscriptionPriceIntervalsParamsAddPrice].
 type SubscriptionPriceIntervalsParamsAddPriceUnion interface {
 	implementsSubscriptionPriceIntervalsParamsAddPriceUnion()
@@ -25074,6 +25070,143 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithTie
 	return false
 }
 
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPrice struct {
+	// The cadence to bill for this price on.
+	Cadence                     param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                                                               `json:"cumulative_grouped_bulk_config,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the plan will be associated with.
+	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
+	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPrice) implementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceAnnual     SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence = "annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence = "semi_annual"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceMonthly    SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence = "monthly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly  SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence = "quarterly"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceOneTime    SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence = "one_time"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceCustom     SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence = "custom"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceModelType string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceModelType = "cumulative_grouped_bulk"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay   SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay, SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
 // The cadence to bill for this price on.
 type SubscriptionPriceIntervalsParamsAddPriceCadence string
 
@@ -25124,11 +25257,12 @@ const (
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage            SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_tiered_package"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing   SubscriptionPriceIntervalsParamsAddPriceModelType = "scalable_matrix_with_unit_pricing"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing SubscriptionPriceIntervalsParamsAddPriceModelType = "scalable_matrix_with_tiered_pricing"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk           SubscriptionPriceIntervalsParamsAddPriceModelType = "cumulative_grouped_bulk"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing:
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkBps, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk:
 		return true
 	}
 	return false
