@@ -274,8 +274,9 @@ func TestSubscriptionCancelWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"subscription_id",
 		orb.SubscriptionCancelParams{
-			CancelOption:     orb.F(orb.SubscriptionCancelParamsCancelOptionEndOfSubscriptionTerm),
-			CancellationDate: orb.F(time.Now()),
+			CancelOption:             orb.F(orb.SubscriptionCancelParamsCancelOptionEndOfSubscriptionTerm),
+			AllowInvoiceCreditOrVoid: orb.F(true),
+			CancellationDate:         orb.F(time.Now()),
 		},
 	)
 	if err != nil {
@@ -487,6 +488,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion](shared.UnionTime(time.Now())),
 				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion](shared.UnionTime(time.Now())),
 			}}),
+			AllowInvoiceCreditOrVoid: orb.F(true),
 			Edit: orb.F([]orb.SubscriptionPriceIntervalsParamsEdit{{
 				PriceIntervalID: orb.F("sdfs6wdjvn7ujokd"),
 				BillingCycleDay: orb.F(int64(0)),
@@ -703,7 +705,8 @@ func TestSubscriptionTriggerPhaseWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"subscription_id",
 		orb.SubscriptionTriggerPhaseParams{
-			EffectiveDate: orb.F(time.Now()),
+			AllowInvoiceCreditOrVoid: orb.F(true),
+			EffectiveDate:            orb.F(time.Now()),
 		},
 	)
 	if err != nil {
@@ -803,10 +806,11 @@ func TestSubscriptionUpdateFixedFeeQuantityWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"subscription_id",
 		orb.SubscriptionUpdateFixedFeeQuantityParams{
-			PriceID:       orb.F("price_id"),
-			Quantity:      orb.F(0.000000),
-			ChangeOption:  orb.F(orb.SubscriptionUpdateFixedFeeQuantityParamsChangeOptionImmediate),
-			EffectiveDate: orb.F(time.Now()),
+			PriceID:                  orb.F("price_id"),
+			Quantity:                 orb.F(0.000000),
+			AllowInvoiceCreditOrVoid: orb.F(true),
+			ChangeOption:             orb.F(orb.SubscriptionUpdateFixedFeeQuantityParamsChangeOptionImmediate),
+			EffectiveDate:            orb.F(time.Now()),
 		},
 	)
 	if err != nil {
