@@ -20700,6 +20700,10 @@ func (r SubscriptionListParamsStatus) IsKnown() bool {
 type SubscriptionCancelParams struct {
 	// Determines the timing of subscription cancellation
 	CancelOption param.Field[SubscriptionCancelParamsCancelOption] `json:"cancel_option,required"`
+	// If false, this request will fail if it would void an issued invoice or create a
+	// credit note. Consider using this as a safety mechanism if you do not expect
+	// existing invoices to be changed.
+	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
 	// The date that the cancellation should take effect. This parameter can only be
 	// passed if the `cancel_option` is `requested_date`.
 	CancellationDate param.Field[time.Time] `json:"cancellation_date" format:"date-time"`
@@ -20861,6 +20865,10 @@ type SubscriptionPriceIntervalsParams struct {
 	Add param.Field[[]SubscriptionPriceIntervalsParamsAdd] `json:"add"`
 	// A list of adjustments to add to the subscription.
 	AddAdjustments param.Field[[]SubscriptionPriceIntervalsParamsAddAdjustment] `json:"add_adjustments"`
+	// If false, this request will fail if it would void an issued invoice or create a
+	// credit note. Consider using this as a safety mechanism if you do not expect
+	// existing invoices to be changed.
+	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
 	// A list of price intervals to edit on the subscription.
 	Edit param.Field[[]SubscriptionPriceIntervalsParamsEdit] `json:"edit"`
 	// A list of adjustments to edit on the subscription.
@@ -32059,6 +32067,10 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType) IsKnown
 }
 
 type SubscriptionTriggerPhaseParams struct {
+	// If false, this request will fail if it would void an issued invoice or create a
+	// credit note. Consider using this as a safety mechanism if you do not expect
+	// existing invoices to be changed.
+	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
 	// The date on which the phase change should take effect. If not provided, defaults
 	// to today in the customer's timezone.
 	EffectiveDate param.Field[time.Time] `json:"effective_date" format:"date"`
@@ -32081,6 +32093,10 @@ type SubscriptionUpdateFixedFeeQuantityParams struct {
 	// Price for which the quantity should be updated. Must be a fixed fee.
 	PriceID  param.Field[string]  `json:"price_id,required"`
 	Quantity param.Field[float64] `json:"quantity,required"`
+	// If false, this request will fail if it would void an issued invoice or create a
+	// credit note. Consider using this as a safety mechanism if you do not expect
+	// existing invoices to be changed.
+	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
 	// Determines when the change takes effect. Note that if `effective_date` is
 	// specified, this defaults to `effective_date`. Otherwise, this defaults to
 	// `immediate` unless it's explicitly set to `upcoming_invoice.
