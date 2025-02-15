@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.95.1 (2025-02-15)
+
+Full Changelog: [v0.95.0...v0.95.1](https://github.com/orbcorp/orb-go/compare/v0.95.0...v0.95.1)
+
+### Bug Fixes
+
+* **client:** don't truncate manually specified filenames ([#440](https://github.com/orbcorp/orb-go/issues/440)) ([ad1b4fc](https://github.com/orbcorp/orb-go/commit/ad1b4fc1b261a8f6cea4f93fee27d140cd910fc4))
+
+
+### Chores
+
+* **internal:** codegen related update ([#438](https://github.com/orbcorp/orb-go/issues/438)) ([165a6f7](https://github.com/orbcorp/orb-go/commit/165a6f7ba52973524aeb8ca6b0c0f27a41d91c54))
+
 ## 0.95.0 (2025-02-14)
 
 Full Changelog: [v0.94.0...v0.95.0](https://github.com/orbcorp/orb-go/compare/v0.94.0...v0.95.0)
