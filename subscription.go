@@ -864,9 +864,9 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // `plan_phase_order` key to indicate which phase the price should be added to.
 //
 // An object in the list can specify an optional `start_date` and optional
-// `end_date`. This is equivalent to creating a price interval with the
-// [add/edit price intervals endpoint](/api-reference/price-interval/add-or-edit-price-intervals).
-// If unspecified, the start or end date of the phase or subscription will be used.
+// `end_date`. If `start_date` is unspecified, the start of the phase / plan change
+// time will be used. If `end_date` is unspecified, it will finish at the end of
+// the phase / have no end time.
 //
 // An object in the list can specify an optional `minimum_amount`,
 // `maximum_amount`, or `discounts`. This will create adjustments which apply only
@@ -925,8 +925,9 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 // to.
 //
 // An object in the list can specify an optional `start_date` and optional
-// `end_date`. If unspecified, the start or end date of the phase or subscription
-// will be used.
+// `end_date`. If `start_date` is unspecified, the start of the phase / plan change
+// time will be used. If `end_date` is unspecified, it will finish at the end of
+// the phase / have no end time.
 //
 // ### Removing adjustments
 //
@@ -14611,7 +14612,7 @@ func (r SubscriptionNewParamsAddPricesDiscountsDiscountType) IsKnown() bool {
 type SubscriptionNewParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                       `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14694,7 +14695,7 @@ type SubscriptionNewParamsAddPricesPriceUnion interface {
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14844,7 +14845,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycl
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14997,7 +14998,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackagePriceInvoicingC
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID       param.Field[string]                                                                    `json:"item_id,required"`
 	MatrixConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceModelType]    `json:"model_type,required"`
@@ -15164,7 +15165,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionMatrixPriceInvoicingCy
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                 `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -15327,7 +15328,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceInvoicingCy
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                    `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -15494,7 +15495,7 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPrice struct {
 	BpsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                              `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -15646,7 +15647,7 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPrice struct {
 	BulkBpsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -15810,7 +15811,7 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPrice struct {
 	BulkConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -15970,7 +15971,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkPriceInvoicingCycl
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -16111,7 +16112,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPr
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                        `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -16252,7 +16253,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPackagePriceInvo
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -16393,7 +16394,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                          `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -16534,7 +16535,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceIn
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -16675,7 +16676,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionPackageWithAllocationP
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -16816,7 +16817,7 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTierWithProrationPrice
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -16958,7 +16959,7 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPrice st
 	// The cadence to bill for this price on.
 	Cadence                 param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}]                                                          `json:"grouped_allocation_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -17099,7 +17100,7 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimu
 	// The cadence to bill for this price on.
 	Cadence                          param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                                                   `json:"grouped_with_prorated_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -17240,7 +17241,7 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPrice st
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -17813,7 +17814,7 @@ func (r SubscriptionNewParamsReplacePricesDiscountsDiscountType) IsKnown() bool 
 type SubscriptionNewParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -17897,7 +17898,7 @@ type SubscriptionNewParamsReplacePricesPriceUnion interface {
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -18047,7 +18048,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicing
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                      `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -18200,7 +18201,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackagePriceInvoic
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID       param.Field[string]                                                                        `json:"item_id,required"`
 	MatrixConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceModelType]    `json:"model_type,required"`
@@ -18367,7 +18368,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionMatrixPriceInvoici
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                     `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -18530,7 +18531,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceInvoici
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                        `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -18697,7 +18698,7 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPrice struct {
 	BpsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -18849,7 +18850,7 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPrice struct {
 	BulkBpsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                      `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -19013,7 +19014,7 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPrice struct {
 	BulkConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -19173,7 +19174,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkPriceInvoicing
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                   `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -19314,7 +19315,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionThresholdTotalAmou
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                            `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -19455,7 +19456,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPackagePrice
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -19596,7 +19597,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithMinimumP
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                              `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -19737,7 +19738,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithPercentPri
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                    `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -19878,7 +19879,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionPackageWithAllocat
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -20019,7 +20020,7 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTierWithProrationP
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -20161,7 +20162,7 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPric
 	// The cadence to bill for this price on.
 	Cadence                 param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}]                                                              `json:"grouped_allocation_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -20302,7 +20303,7 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMi
 	// The cadence to bill for this price on.
 	Cadence                          param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                                                       `json:"grouped_with_prorated_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                         `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -20443,7 +20444,7 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPric
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -21108,7 +21109,7 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                            `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -21208,7 +21209,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -21354,7 +21355,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -21503,7 +21504,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID       param.Field[string]                                                                     `json:"item_id,required"`
 	MatrixConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixPriceModelType]    `json:"model_type,required"`
@@ -21666,7 +21667,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPric
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                     param.Field[string]                                                                                                 `json:"item_id,required"`
 	MatrixWithAllocationConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig] `json:"matrix_with_allocation_config,required"`
 	ModelType                  param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithAllocationPriceModelType]                  `json:"model_type,required"`
@@ -21831,7 +21832,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -21990,7 +21991,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                     `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -22153,7 +22154,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -22301,7 +22302,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -22461,7 +22462,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPrice struct {
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -22617,7 +22618,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPric
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -22754,7 +22755,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePrice struc
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                         `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -22892,7 +22893,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPrice struc
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency            param.Field[string]                 `json:"currency,required"`
 	GroupedTieredConfig param.Field[map[string]interface{}] `json:"grouped_tiered_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                         `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -23028,7 +23029,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPackagePri
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                      param.Field[string]                                                                                 `json:"item_id,required"`
 	MaxGroupTieredPackageConfig param.Field[map[string]interface{}]                                                                 `json:"max_group_tiered_package_config,required"`
 	ModelType                   param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
@@ -23165,7 +23166,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPrice s
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -23302,7 +23303,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPri
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -23439,7 +23440,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimum
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                    `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -23576,7 +23577,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPrice str
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -23713,7 +23714,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithProrationPrice
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -23850,7 +23851,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithProrationPrice s
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -23988,7 +23989,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPrice s
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                param.Field[string]                 `json:"currency,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}] `json:"grouped_allocation_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -24125,7 +24126,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithProratedMinim
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                         param.Field[string]                 `json:"currency,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_prorated_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                      `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -24262,7 +24263,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimu
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                        param.Field[string]                 `json:"currency,required"`
 	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_metered_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -24398,7 +24399,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithDisplayNamePri
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                      param.Field[string]                                                                                 `json:"item_id,required"`
 	MatrixWithDisplayNameConfig param.Field[map[string]interface{}]                                                                 `json:"matrix_with_display_name_config,required"`
 	ModelType                   param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
@@ -24536,7 +24537,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithProrationPrice s
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -24673,7 +24674,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPackagePric
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                   param.Field[string]                 `json:"currency,required"`
 	GroupedTieredPackageConfig param.Field[map[string]interface{}] `json:"grouped_tiered_package_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -24809,7 +24810,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithUnitPr
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                         `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -24946,7 +24947,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithTiered
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -25084,7 +25085,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPri
 	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                                                               `json:"cumulative_grouped_bulk_config,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -26040,7 +26041,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesDiscountsDiscountType) IsKn
 type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                      `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -26125,7 +26126,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceUnion interface {
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                              `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -26275,7 +26276,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPri
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -26428,7 +26429,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackage
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID       param.Field[string]                                                                                   `json:"item_id,required"`
 	MatrixConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixPriceModelType]    `json:"model_type,required"`
@@ -26595,7 +26596,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionMatrixP
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -26758,7 +26759,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredP
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredBpsPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                   `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -26925,7 +26926,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBpsPrice s
 	BpsConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -27077,7 +27078,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkBpsPri
 	BulkBpsConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -27241,7 +27242,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkPrice 
 	BulkConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                              `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -27401,7 +27402,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkPri
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                              `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -27542,7 +27543,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionThresho
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                       `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -27683,7 +27684,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredP
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -27824,7 +27825,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredW
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                         `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -27965,7 +27966,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWit
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -28106,7 +28107,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPackage
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTierWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTierWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTierWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -28247,7 +28248,7 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTierWit
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -28389,7 +28390,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedAll
 	// The cadence to bill for this price on.
 	Cadence                 param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}]                                                                         `json:"grouped_allocation_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -28530,7 +28531,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWit
 	// The cadence to bill for this price on.
 	Cadence                          param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                                                                  `json:"grouped_with_prorated_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                                    `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -28671,7 +28672,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithPr
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -29247,7 +29248,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesDiscountsDiscountType) 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                          `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -29332,7 +29333,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion interface {
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                  `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -29482,7 +29483,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUni
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -29635,7 +29636,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPac
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID       param.Field[string]                                                                                       `json:"item_id,required"`
 	MatrixConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMatrixPriceModelType]    `json:"model_type,required"`
@@ -29802,7 +29803,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionMat
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                    `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -29965,7 +29966,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredBpsPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                       `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -30132,7 +30133,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBpsPri
 	BpsConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -30284,7 +30285,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkBp
 	BulkBpsConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -30448,7 +30449,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkPr
 	BulkConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                  `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -30608,7 +30609,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBul
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                                  `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -30749,7 +30750,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionThr
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -30890,7 +30891,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -31031,7 +31032,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                             `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -31172,7 +31173,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUni
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                                   `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -31313,7 +31314,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPac
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTierWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTierWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -31454,7 +31455,7 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -31596,7 +31597,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupe
 	// The cadence to bill for this price on.
 	Cadence                 param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}]                                                                             `json:"grouped_allocation_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -31737,7 +31738,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupe
 	// The cadence to bill for this price on.
 	Cadence                          param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                                                                      `json:"grouped_with_prorated_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                                        `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -31878,7 +31879,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWi
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                                               `json:"item_id,required"`
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.

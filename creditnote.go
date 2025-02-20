@@ -179,6 +179,8 @@ type CreditNoteLineItem struct {
 	ID string `json:"id,required"`
 	// The amount of the line item, including any line item minimums and discounts.
 	Amount string `json:"amount,required"`
+	// The id of the item associated with this line item.
+	ItemID string `json:"item_id,required"`
 	// The name of the corresponding invoice line item.
 	Name string `json:"name,required"`
 	// An optional quantity credited.
@@ -197,6 +199,7 @@ type CreditNoteLineItem struct {
 type creditNoteLineItemJSON struct {
 	ID          apijson.Field
 	Amount      apijson.Field
+	ItemID      apijson.Field
 	Name        apijson.Field
 	Quantity    apijson.Field
 	Subtotal    apijson.Field
