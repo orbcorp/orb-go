@@ -10803,7 +10803,7 @@ type PriceNewParamsNewFloatingUnitPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingUnitPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                      `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -10950,7 +10950,7 @@ type PriceNewParamsNewFloatingPackagePrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                         `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -11100,7 +11100,7 @@ type PriceNewParamsNewFloatingMatrixPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingMatrixPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID       param.Field[string]                                           `json:"item_id,required"`
 	MatrixConfig param.Field[PriceNewParamsNewFloatingMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[PriceNewParamsNewFloatingMatrixPriceModelType]    `json:"model_type,required"`
@@ -11264,7 +11264,7 @@ type PriceNewParamsNewFloatingMatrixWithAllocationPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                     param.Field[string]                                                                       `json:"item_id,required"`
 	MatrixWithAllocationConfig param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig] `json:"matrix_with_allocation_config,required"`
 	ModelType                  param.Field[PriceNewParamsNewFloatingMatrixWithAllocationPriceModelType]                  `json:"model_type,required"`
@@ -11430,7 +11430,7 @@ type PriceNewParamsNewFloatingTieredPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingTieredPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                        `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -11590,7 +11590,7 @@ type PriceNewParamsNewFloatingTieredBpsPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingTieredBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                           `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -11754,7 +11754,7 @@ type PriceNewParamsNewFloatingBpsPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                     `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -11903,7 +11903,7 @@ type PriceNewParamsNewFloatingBulkBpsPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingBulkBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                         `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -12064,7 +12064,7 @@ type PriceNewParamsNewFloatingBulkPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingBulkPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                      `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -12221,7 +12221,7 @@ type PriceNewParamsNewFloatingThresholdTotalAmountPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                      `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -12359,7 +12359,7 @@ type PriceNewParamsNewFloatingTieredPackagePrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                               `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -12498,7 +12498,7 @@ type PriceNewParamsNewFloatingGroupedTieredPrice struct {
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency            param.Field[string]                 `json:"currency,required"`
 	GroupedTieredConfig param.Field[map[string]interface{}] `json:"grouped_tiered_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                               `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -12635,7 +12635,7 @@ type PriceNewParamsNewFloatingMaxGroupTieredPackagePrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                      param.Field[string]                                                       `json:"item_id,required"`
 	MaxGroupTieredPackageConfig param.Field[map[string]interface{}]                                       `json:"max_group_tiered_package_config,required"`
 	ModelType                   param.Field[PriceNewParamsNewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
@@ -12773,7 +12773,7 @@ type PriceNewParamsNewFloatingTieredWithMinimumPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                   `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -12911,7 +12911,7 @@ type PriceNewParamsNewFloatingPackageWithAllocationPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                       `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -13049,7 +13049,7 @@ type PriceNewParamsNewFloatingTieredPackageWithMinimumPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                          `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -13187,7 +13187,7 @@ type PriceNewParamsNewFloatingUnitWithPercentPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                 `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -13325,7 +13325,7 @@ type PriceNewParamsNewFloatingTieredWithProrationPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                     `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingTieredWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -13463,7 +13463,7 @@ type PriceNewParamsNewFloatingUnitWithProrationPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                   `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -13602,7 +13602,7 @@ type PriceNewParamsNewFloatingGroupedAllocationPrice struct {
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                param.Field[string]                 `json:"currency,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}] `json:"grouped_allocation_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                   `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -13740,7 +13740,7 @@ type PriceNewParamsNewFloatingGroupedWithProratedMinimumPrice struct {
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                         param.Field[string]                 `json:"currency,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_prorated_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                            `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -13878,7 +13878,7 @@ type PriceNewParamsNewFloatingGroupedWithMeteredMinimumPrice struct {
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                        param.Field[string]                 `json:"currency,required"`
 	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_metered_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                           `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14015,7 +14015,7 @@ type PriceNewParamsNewFloatingMatrixWithDisplayNamePrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                      param.Field[string]                                                       `json:"item_id,required"`
 	MatrixWithDisplayNameConfig param.Field[map[string]interface{}]                                       `json:"matrix_with_display_name_config,required"`
 	ModelType                   param.Field[PriceNewParamsNewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
@@ -14154,7 +14154,7 @@ type PriceNewParamsNewFloatingBulkWithProrationPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                   `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14292,7 +14292,7 @@ type PriceNewParamsNewFloatingGroupedTieredPackagePrice struct {
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                   param.Field[string]                 `json:"currency,required"`
 	GroupedTieredPackageConfig param.Field[map[string]interface{}] `json:"grouped_tiered_package_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                      `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingGroupedTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14429,7 +14429,7 @@ type PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                               `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14567,7 +14567,7 @@ type PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPrice struct {
 	Cadence param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                 `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -14706,7 +14706,7 @@ type PriceNewParamsNewFloatingCumulativeGroupedBulkPrice struct {
 	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                                     `json:"cumulative_grouped_bulk_config,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                       `json:"item_id,required"`
 	ModelType param.Field[PriceNewParamsNewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.

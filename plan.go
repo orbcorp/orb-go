@@ -936,7 +936,7 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 type PlanNewParamsPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                       `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -1026,7 +1026,7 @@ type PlanNewParamsPriceUnion interface {
 type PlanNewParamsPricesNewPlanUnitPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanUnitPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                       `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -1172,7 +1172,7 @@ func (r PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUn
 type PlanNewParamsPricesNewPlanPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                          `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -1321,7 +1321,7 @@ func (r PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfigurationDuratio
 type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanMatrixPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID       param.Field[string]                                            `json:"item_id,required"`
 	MatrixConfig param.Field[PlanNewParamsPricesNewPlanMatrixPriceMatrixConfig] `json:"matrix_config,required"`
 	ModelType    param.Field[PlanNewParamsPricesNewPlanMatrixPriceModelType]    `json:"model_type,required"`
@@ -1484,7 +1484,7 @@ func (r PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfigurationDuration
 type PlanNewParamsPricesNewPlanTieredPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                         `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -1643,7 +1643,7 @@ func (r PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfigurationDuration
 type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                            `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -1806,7 +1806,7 @@ type PlanNewParamsPricesNewPlanBpsPrice struct {
 	BpsConfig param.Field[PlanNewParamsPricesNewPlanBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                      `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -1954,7 +1954,7 @@ type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	BulkBpsConfig param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                          `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -2114,7 +2114,7 @@ type PlanNewParamsPricesNewPlanBulkPrice struct {
 	BulkConfig param.Field[PlanNewParamsPricesNewPlanBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanBulkPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                       `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -2270,7 +2270,7 @@ func (r PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfigurationDurationUn
 type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                       `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -2407,7 +2407,7 @@ func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfigu
 type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -2544,7 +2544,7 @@ func (r PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfigurationD
 type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                    `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -2681,7 +2681,7 @@ func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfigurat
 type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                  `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -2818,7 +2818,7 @@ func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfiguratio
 type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                        `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -2955,7 +2955,7 @@ func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfig
 type PlanNewParamsPricesNewPlanTierWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                    `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -3092,7 +3092,7 @@ func (r PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfigurat
 type PlanNewParamsPricesNewPlanUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                    `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -3230,7 +3230,7 @@ type PlanNewParamsPricesNewPlanGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
 	Cadence                 param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceCadence] `json:"cadence,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}]                                  `json:"grouped_allocation_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                    `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -3367,7 +3367,7 @@ type PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence                          param.Field[PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                           `json:"grouped_with_prorated_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                             `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -3505,7 +3505,7 @@ type PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPrice struct {
 	// The cadence to bill for this price on.
 	Cadence                         param.Field[PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
 	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}]                                          `json:"grouped_with_metered_minimum_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                            `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -3642,7 +3642,7 @@ func (r PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceInvoicingCycleCo
 type PlanNewParamsPricesNewPlanMatrixWithDisplayNamePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                      param.Field[string]                                                        `json:"item_id,required"`
 	MatrixWithDisplayNameConfig param.Field[map[string]interface{}]                                        `json:"matrix_with_display_name_config,required"`
 	ModelType                   param.Field[PlanNewParamsPricesNewPlanMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
@@ -3780,7 +3780,7 @@ type PlanNewParamsPricesNewPlanBulkWithProrationPrice struct {
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanBulkWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                    `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -3917,7 +3917,7 @@ type PlanNewParamsPricesNewPlanGroupedTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence                    param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceCadence] `json:"cadence,required"`
 	GroupedTieredPackageConfig param.Field[map[string]interface{}]                                     `json:"grouped_tiered_package_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                       `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -4053,7 +4053,7 @@ func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfigu
 type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID                      param.Field[string]                                                        `json:"item_id,required"`
 	MaxGroupTieredPackageConfig param.Field[map[string]interface{}]                                        `json:"max_group_tiered_package_config,required"`
 	ModelType                   param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
@@ -4190,7 +4190,7 @@ func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfig
 type PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -4328,7 +4328,7 @@ func (r PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceInvoicingCyc
 type PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
@@ -4467,7 +4467,7 @@ type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice struct {
 	// The cadence to bill for this price on.
 	Cadence                     param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
 	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                                      `json:"cumulative_grouped_bulk_config,required"`
-	// The id of the item the plan will be associated with.
+	// The id of the item the price will be associated with.
 	ItemID    param.Field[string]                                                        `json:"item_id,required"`
 	ModelType param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
