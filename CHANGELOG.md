@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.98.0 (2025-02-21)
+
+Full Changelog: [v0.97.0...v0.98.0](https://github.com/orbcorp/orb-go/compare/v0.97.0...v0.98.0)
+
+### Features
+
+* **api:** api update ([#450](https://github.com/orbcorp/orb-go/issues/450)) ([cdfc0bb](https://github.com/orbcorp/orb-go/commit/cdfc0bbef2293de1d7e407f5bf4dcd9d678fc953))
+
+
+### Chores
+
+* **internal:** fix devcontainers setup ([#448](https://github.com/orbcorp/orb-go/issues/448)) ([a3d3942](https://github.com/orbcorp/orb-go/commit/a3d3942e3f79b4b86c83dcf445a033d7e74d475e))
+
 ## 0.97.0 (2025-02-20)
 
 Full Changelog: [v0.96.0...v0.97.0](https://github.com/orbcorp/orb-go/compare/v0.96.0...v0.97.0)
