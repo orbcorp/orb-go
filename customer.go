@@ -259,6 +259,8 @@ type Customer struct {
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
+	// The hierarchical relationships for this customer.
+	Hierarchy CustomerHierarchy `json:"hierarchy,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
@@ -403,6 +405,7 @@ type customerJSON struct {
 	EmailDelivery               apijson.Field
 	ExemptFromAutomatedTax      apijson.Field
 	ExternalCustomerID          apijson.Field
+	Hierarchy                   apijson.Field
 	Metadata                    apijson.Field
 	Name                        apijson.Field
 	PaymentProvider             apijson.Field
@@ -453,6 +456,76 @@ func (r *CustomerBillingAddress) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r customerBillingAddressJSON) RawJSON() string {
+	return r.raw
+}
+
+// The hierarchical relationships for this customer.
+type CustomerHierarchy struct {
+	Children []CustomerHierarchyChild `json:"children,required"`
+	Parent   CustomerHierarchyParent  `json:"parent,required,nullable"`
+	JSON     customerHierarchyJSON    `json:"-"`
+}
+
+// customerHierarchyJSON contains the JSON metadata for the struct
+// [CustomerHierarchy]
+type customerHierarchyJSON struct {
+	Children    apijson.Field
+	Parent      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerHierarchy) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerHierarchyJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerHierarchyChild struct {
+	ID                 string                     `json:"id,required"`
+	ExternalCustomerID string                     `json:"external_customer_id,required,nullable"`
+	JSON               customerHierarchyChildJSON `json:"-"`
+}
+
+// customerHierarchyChildJSON contains the JSON metadata for the struct
+// [CustomerHierarchyChild]
+type customerHierarchyChildJSON struct {
+	ID                 apijson.Field
+	ExternalCustomerID apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CustomerHierarchyChild) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerHierarchyChildJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerHierarchyParent struct {
+	ID                 string                      `json:"id,required"`
+	ExternalCustomerID string                      `json:"external_customer_id,required,nullable"`
+	JSON               customerHierarchyParentJSON `json:"-"`
+}
+
+// customerHierarchyParentJSON contains the JSON metadata for the struct
+// [CustomerHierarchyParent]
+type customerHierarchyParentJSON struct {
+	ID                 apijson.Field
+	ExternalCustomerID apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *CustomerHierarchyParent) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerHierarchyParentJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -918,6 +991,8 @@ type CustomerNewParams struct {
 	// system as an alias for this Customer. Use this field to identify a customer by
 	// an existing identifier in your system.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
+	// The hierarchical relationships for this customer.
+	Hierarchy param.Field[CustomerNewParamsHierarchy] `json:"hierarchy"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1076,6 +1151,20 @@ type CustomerNewParamsBillingAddress struct {
 }
 
 func (r CustomerNewParamsBillingAddress) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The hierarchical relationships for this customer.
+type CustomerNewParamsHierarchy struct {
+	// A list of child customer IDs to add to the hierarchy. The desired child
+	// customers must not already be part of another hierarchy.
+	ChildCustomerIDs param.Field[[]string] `json:"child_customer_ids"`
+	// The ID of the parent customer in the hierarchy. The desired parent customer must
+	// not be a child of another customer.
+	ParentCustomerID param.Field[string] `json:"parent_customer_id"`
+}
+
+func (r CustomerNewParamsHierarchy) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
@@ -1517,6 +1606,8 @@ type CustomerUpdateParams struct {
 	// The external customer ID. This can only be set if empty and the customer has no
 	// past or current subscriptions.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
+	// The hierarchical relationships for this customer.
+	Hierarchy param.Field[CustomerUpdateParamsHierarchy] `json:"hierarchy"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -1677,6 +1768,20 @@ type CustomerUpdateParamsBillingAddress struct {
 }
 
 func (r CustomerUpdateParamsBillingAddress) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The hierarchical relationships for this customer.
+type CustomerUpdateParamsHierarchy struct {
+	// A list of child customer IDs to add to the hierarchy. The desired child
+	// customers must not already be part of another hierarchy.
+	ChildCustomerIDs param.Field[[]string] `json:"child_customer_ids"`
+	// The ID of the parent customer in the hierarchy. The desired parent customer must
+	// not be a child of another customer.
+	ParentCustomerID param.Field[string] `json:"parent_customer_id"`
+}
+
+func (r CustomerUpdateParamsHierarchy) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
@@ -2142,6 +2247,8 @@ type CustomerUpdateByExternalIDParams struct {
 	// The external customer ID. This can only be set if empty and the customer has no
 	// past or current subscriptions.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
+	// The hierarchical relationships for this customer.
+	Hierarchy param.Field[CustomerUpdateByExternalIDParamsHierarchy] `json:"hierarchy"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2302,6 +2409,20 @@ type CustomerUpdateByExternalIDParamsBillingAddress struct {
 }
 
 func (r CustomerUpdateByExternalIDParamsBillingAddress) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The hierarchical relationships for this customer.
+type CustomerUpdateByExternalIDParamsHierarchy struct {
+	// A list of child customer IDs to add to the hierarchy. The desired child
+	// customers must not already be part of another hierarchy.
+	ChildCustomerIDs param.Field[[]string] `json:"child_customer_ids"`
+	// The ID of the parent customer in the hierarchy. The desired parent customer must
+	// not be a child of another customer.
+	ParentCustomerID param.Field[string] `json:"parent_customer_id"`
+}
+
+func (r CustomerUpdateByExternalIDParamsHierarchy) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 

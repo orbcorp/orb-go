@@ -49,6 +49,10 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		Currency:           orb.F("currency"),
 		EmailDelivery:      orb.F(true),
 		ExternalCustomerID: orb.F("external_customer_id"),
+		Hierarchy: orb.F(orb.CustomerNewParamsHierarchy{
+			ChildCustomerIDs: orb.F([]string{"string"}),
+			ParentCustomerID: orb.F("parent_customer_id"),
+		}),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
@@ -123,6 +127,10 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			Email:              orb.F("dev@stainlessapi.com"),
 			EmailDelivery:      orb.F(true),
 			ExternalCustomerID: orb.F("external_customer_id"),
+			Hierarchy: orb.F(orb.CustomerUpdateParamsHierarchy{
+				ChildCustomerIDs: orb.F([]string{"string"}),
+				ParentCustomerID: orb.F("parent_customer_id"),
+			}),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
@@ -337,6 +345,10 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			Email:              orb.F("dev@stainlessapi.com"),
 			EmailDelivery:      orb.F(true),
 			ExternalCustomerID: orb.F("external_customer_id"),
+			Hierarchy: orb.F(orb.CustomerUpdateByExternalIDParamsHierarchy{
+				ChildCustomerIDs: orb.F([]string{"string"}),
+				ParentCustomerID: orb.F("parent_customer_id"),
+			}),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
