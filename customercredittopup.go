@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
@@ -563,6 +564,9 @@ type CustomerCreditTopUpNewParams struct {
 	// The threshold at which to trigger the top-up. If the balance is at or below this
 	// threshold, the top-up will be triggered.
 	Threshold param.Field[string] `json:"threshold,required"`
+	// The date from which the top-up is active. If unspecified, the top-up is active
+	// immediately.
+	ActiveFrom param.Field[time.Time] `json:"active_from" format:"date-time"`
 	// The number of days or months after which the top-up expires. If unspecified, it
 	// does not expire.
 	ExpiresAfter param.Field[int64] `json:"expires_after"`
@@ -640,6 +644,9 @@ type CustomerCreditTopUpNewByExternalIDParams struct {
 	// The threshold at which to trigger the top-up. If the balance is at or below this
 	// threshold, the top-up will be triggered.
 	Threshold param.Field[string] `json:"threshold,required"`
+	// The date from which the top-up is active. If unspecified, the top-up is active
+	// immediately.
+	ActiveFrom param.Field[time.Time] `json:"active_from" format:"date-time"`
 	// The number of days or months after which the top-up expires. If unspecified, it
 	// does not expire.
 	ExpiresAfter param.Field[int64] `json:"expires_after"`
