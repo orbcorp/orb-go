@@ -7,6 +7,7 @@ import (
 	"errors"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
@@ -39,6 +40,7 @@ func TestCustomerCreditTopUpNewWithOptionalParams(t *testing.T) {
 			}),
 			PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			Threshold:        orb.F("threshold"),
+			ActiveFrom:       orb.F(time.Now()),
 			ExpiresAfter:     orb.F(int64(0)),
 			ExpiresAfterUnit: orb.F(orb.CustomerCreditTopUpNewParamsExpiresAfterUnitDay),
 		},
@@ -133,6 +135,7 @@ func TestCustomerCreditTopUpNewByExternalIDWithOptionalParams(t *testing.T) {
 			}),
 			PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			Threshold:        orb.F("threshold"),
+			ActiveFrom:       orb.F(time.Now()),
 			ExpiresAfter:     orb.F(int64(0)),
 			ExpiresAfterUnit: orb.F(orb.CustomerCreditTopUpNewByExternalIDParamsExpiresAfterUnitDay),
 		},
