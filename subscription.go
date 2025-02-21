@@ -14263,6 +14263,13 @@ type SubscriptionNewParams struct {
 	// value specified in the plan. If `0` is provided, the trial on the plan will be
 	// skipped.
 	TrialDurationDays param.Field[int64] `json:"trial_duration_days"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this subscription. By default, a subscription only considers usage events
+	// associated with its attached customer's customer_id. When usage_customer_ids is
+	// provided, the subscription includes usage events from the specified customers
+	// only. Provided usage_customer_ids must be either the customer for this
+	// subscription itself, or any of that customer's children.
+	UsageCustomerIDs param.Field[[]string] `json:"usage_customer_ids"`
 }
 
 func (r SubscriptionNewParams) MarshalJSON() (data []byte, err error) {
@@ -25676,6 +25683,13 @@ type SubscriptionSchedulePlanChangeParams struct {
 	// value specified in the plan. If `0` is provided, the trial on the plan will be
 	// skipped.
 	TrialDurationDays param.Field[int64] `json:"trial_duration_days"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this subscription. By default, a subscription only considers usage events
+	// associated with its attached customer's customer_id. When usage_customer_ids is
+	// provided, the subscription includes usage events from the specified customers
+	// only. Provided usage_customer_ids must be either the customer for this
+	// subscription itself, or any of that customer's children.
+	UsageCustomerIDs param.Field[[]string] `json:"usage_customer_ids"`
 }
 
 func (r SubscriptionSchedulePlanChangeParams) MarshalJSON() (data []byte, err error) {
