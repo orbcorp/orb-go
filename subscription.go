@@ -32114,7 +32114,7 @@ type SubscriptionUpdateFixedFeeQuantityParams struct {
 	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
 	// Determines when the change takes effect. Note that if `effective_date` is
 	// specified, this defaults to `effective_date`. Otherwise, this defaults to
-	// `immediate` unless it's explicitly set to `upcoming_invoice.
+	// `immediate` unless it's explicitly set to `upcoming_invoice`.
 	ChangeOption param.Field[SubscriptionUpdateFixedFeeQuantityParamsChangeOption] `json:"change_option"`
 	// The date that the quantity change should take effect, localized to the
 	// customer's timezone. Ifthis parameter is not passed in, the quantity change is
@@ -32128,7 +32128,7 @@ func (r SubscriptionUpdateFixedFeeQuantityParams) MarshalJSON() (data []byte, er
 
 // Determines when the change takes effect. Note that if `effective_date` is
 // specified, this defaults to `effective_date`. Otherwise, this defaults to
-// `immediate` unless it's explicitly set to `upcoming_invoice.
+// `immediate` unless it's explicitly set to `upcoming_invoice`.
 type SubscriptionUpdateFixedFeeQuantityParamsChangeOption string
 
 const (
