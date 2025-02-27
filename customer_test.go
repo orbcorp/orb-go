@@ -27,7 +27,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
-		Email: orb.F("dev@stainlessapi.com"),
+		Email: orb.F("dev@stainless.com"),
 		Name:  orb.F("x"),
 		AccountingSyncConfiguration: orb.F(orb.CustomerNewParamsAccountingSyncConfiguration{
 			AccountingProviders: orb.F([]orb.CustomerNewParamsAccountingSyncConfigurationAccountingProvider{{
@@ -124,7 +124,7 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 				State:      orb.F("state"),
 			}),
 			Currency:           orb.F("currency"),
-			Email:              orb.F("dev@stainlessapi.com"),
+			Email:              orb.F("dev@stainless.com"),
 			EmailDelivery:      orb.F(true),
 			ExternalCustomerID: orb.F("external_customer_id"),
 			Hierarchy: orb.F(orb.CustomerUpdateParamsHierarchy{
@@ -342,7 +342,7 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 				State:      orb.F("state"),
 			}),
 			Currency:           orb.F("currency"),
-			Email:              orb.F("dev@stainlessapi.com"),
+			Email:              orb.F("dev@stainless.com"),
 			EmailDelivery:      orb.F(true),
 			ExternalCustomerID: orb.F("external_customer_id"),
 			Hierarchy: orb.F(orb.CustomerUpdateByExternalIDParamsHierarchy{
