@@ -82,7 +82,8 @@ func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, custome
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
-// Delete top-up
+// This deactivates the top-up and voids any invoices associated with pending
+// credit blocks purchased through the top-up.
 func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID string, topUpID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -117,7 +118,8 @@ func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, extern
 	return
 }
 
-// Delete top-up by external ID
+// This deactivates the top-up and voids any invoices associated with pending
+// credit blocks purchased through the top-up.
 func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, externalCustomerID string, topUpID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
