@@ -444,6 +444,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				}}),
 				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsAddEndDateUnion](shared.UnionTime(time.Now())),
 				ExternalPriceID: orb.F("external_price_id"),
+				Filter:          orb.F("my_property > 100 AND my_other_property = 'bar'"),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition{{
 					EffectiveDate: orb.F(time.Now()),
 					Quantity:      orb.F(int64(5)),
@@ -477,7 +478,8 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						"foo": "string",
 					}),
 				}),
-				PriceID: orb.F("h74gfhdjvn7ujokd"),
+				PriceID:          orb.F("h74gfhdjvn7ujokd"),
+				UsageCustomerIDs: orb.F([]string{"string"}),
 			}}),
 			AddAdjustments: orb.F([]orb.SubscriptionPriceIntervalsParamsAddAdjustment{{
 				Adjustment: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentUnion](orb.SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentNewPercentageDiscount{
@@ -494,11 +496,13 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				PriceIntervalID: orb.F("sdfs6wdjvn7ujokd"),
 				BillingCycleDay: orb.F(int64(0)),
 				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDateUnion](shared.UnionTime(time.Now())),
+				Filter:          orb.F("my_property > 100 AND my_other_property = 'bar'"),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition{{
 					EffectiveDate: orb.F(time.Now()),
 					Quantity:      orb.F(int64(5)),
 				}}),
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.UnionTime(time.Now())),
+				StartDate:        orb.F[orb.SubscriptionPriceIntervalsParamsEditStartDateUnion](shared.UnionTime(time.Now())),
+				UsageCustomerIDs: orb.F([]string{"string"}),
 			}}),
 			EditAdjustments: orb.F([]orb.SubscriptionPriceIntervalsParamsEditAdjustment{{
 				AdjustmentIntervalID: orb.F("sdfs6wdjvn7ujokd"),

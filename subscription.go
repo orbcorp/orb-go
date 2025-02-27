@@ -2129,6 +2129,8 @@ type SubscriptionPriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionPriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -2145,8 +2147,11 @@ type SubscriptionPriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                     `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionPriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                      `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionPriceIntervalJSON `json:"-"`
 }
 
 // subscriptionPriceIntervalJSON contains the JSON metadata for the struct
@@ -2157,9 +2162,11 @@ type subscriptionPriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -3603,6 +3610,8 @@ type SubscriptionNewResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionNewResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -3619,8 +3628,11 @@ type SubscriptionNewResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionNewResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                 `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionNewResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionNewResponsePriceIntervalJSON contains the JSON metadata for the
@@ -3631,9 +3643,11 @@ type subscriptionNewResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -4743,6 +4757,8 @@ type SubscriptionCancelResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionCancelResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -4759,8 +4775,11 @@ type SubscriptionCancelResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                   `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionCancelResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                    `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionCancelResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionCancelResponsePriceIntervalJSON contains the JSON metadata for the
@@ -4771,9 +4790,11 @@ type subscriptionCancelResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -6026,6 +6047,8 @@ type SubscriptionPriceIntervalsResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionPriceIntervalsResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -6042,8 +6065,11 @@ type SubscriptionPriceIntervalsResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionPriceIntervalsResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                            `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionPriceIntervalsResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionPriceIntervalsResponsePriceIntervalJSON contains the JSON metadata
@@ -6054,9 +6080,11 @@ type subscriptionPriceIntervalsResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -7170,6 +7198,8 @@ type SubscriptionSchedulePlanChangeResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionSchedulePlanChangeResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -7186,8 +7216,11 @@ type SubscriptionSchedulePlanChangeResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                               `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionSchedulePlanChangeResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                                `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionSchedulePlanChangeResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionSchedulePlanChangeResponsePriceIntervalJSON contains the JSON
@@ -7198,9 +7231,11 @@ type subscriptionSchedulePlanChangeResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -8312,6 +8347,8 @@ type SubscriptionTriggerPhaseResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionTriggerPhaseResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -8328,8 +8365,11 @@ type SubscriptionTriggerPhaseResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                         `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionTriggerPhaseResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                          `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionTriggerPhaseResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionTriggerPhaseResponsePriceIntervalJSON contains the JSON metadata for
@@ -8340,9 +8380,11 @@ type subscriptionTriggerPhaseResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -9460,6 +9502,8 @@ type SubscriptionUnscheduleCancellationResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionUnscheduleCancellationResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -9476,8 +9520,11 @@ type SubscriptionUnscheduleCancellationResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                                   `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionUnscheduleCancellationResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                                    `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionUnscheduleCancellationResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionUnscheduleCancellationResponsePriceIntervalJSON contains the JSON
@@ -9489,9 +9536,11 @@ type subscriptionUnscheduleCancellationResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -10610,6 +10659,8 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -10626,8 +10677,11 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                                              `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                                               `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON contains
@@ -10639,9 +10693,11 @@ type subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePriceIntervalJSON stru
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -11761,6 +11817,8 @@ type SubscriptionUnschedulePendingPlanChangesResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionUnschedulePendingPlanChangesResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -11777,8 +11835,11 @@ type SubscriptionUnschedulePendingPlanChangesResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                                         `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                                          `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON contains the
@@ -11790,9 +11851,11 @@ type subscriptionUnschedulePendingPlanChangesResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -12912,6 +12975,8 @@ type SubscriptionUpdateFixedFeeQuantityResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionUpdateFixedFeeQuantityResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -12928,8 +12993,11 @@ type SubscriptionUpdateFixedFeeQuantityResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                                   `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                                    `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON contains the JSON
@@ -12941,9 +13009,11 @@ type subscriptionUpdateFixedFeeQuantityResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -14056,6 +14126,8 @@ type SubscriptionUpdateTrialResponsePriceInterval struct {
 	// The end date of the price interval. This is the date that Orb stops billing for
 	// this price.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
 	// The fixed fee quantity transitions for this price interval. This is only
 	// relevant for fixed fees.
 	FixedFeeQuantityTransitions []SubscriptionUpdateTrialResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
@@ -14072,8 +14144,11 @@ type SubscriptionUpdateTrialResponsePriceInterval struct {
 	Price Price `json:"price,required"`
 	// The start date of the price interval. This is the date that Orb starts billing
 	// for this price.
-	StartDate time.Time                                        `json:"start_date,required" format:"date-time"`
-	JSON      subscriptionUpdateTrialResponsePriceIntervalJSON `json:"-"`
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                         `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionUpdateTrialResponsePriceIntervalJSON `json:"-"`
 }
 
 // subscriptionUpdateTrialResponsePriceIntervalJSON contains the JSON metadata for
@@ -14084,9 +14159,11 @@ type subscriptionUpdateTrialResponsePriceIntervalJSON struct {
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
+	Filter                        apijson.Field
 	FixedFeeQuantityTransitions   apijson.Field
 	Price                         apijson.Field
 	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
 }
@@ -20900,6 +20977,11 @@ type SubscriptionPriceIntervalsParamsAdd struct {
 	EndDate param.Field[SubscriptionPriceIntervalsParamsAddEndDateUnion] `json:"end_date" format:"date-time"`
 	// The external price id of the price to add to the subscription.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// An additional filter to apply to usage queries. This filter must be expressed as
+	// a boolean
+	// [computed property](/extensibility/advanced-metrics#computed-properties). If
+	// null, usage queries will not include any additional filter.
+	Filter param.Field[string] `json:"filter"`
 	// A list of fixed fee quantity transitions to initialize on the price interval.
 	FixedFeeQuantityTransitions param.Field[[]SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition] `json:"fixed_fee_quantity_transitions"`
 	// The maximum amount that will be billed for this price interval for a given
@@ -20912,6 +20994,13 @@ type SubscriptionPriceIntervalsParamsAdd struct {
 	Price param.Field[SubscriptionPriceIntervalsParamsAddPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
 	PriceID param.Field[string] `json:"price_id"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this subscription. By default, a subscription only considers usage events
+	// associated with its attached customer's customer_id. When usage_customer_ids is
+	// provided, the subscription includes usage events from the specified customers
+	// only. Provided usage_customer_ids must be either the customer for this
+	// subscription itself, or any of that customer's children.
+	UsageCustomerIDs param.Field[[]string] `json:"usage_customer_ids"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAdd) MarshalJSON() (data []byte, err error) {
@@ -25536,6 +25625,11 @@ type SubscriptionPriceIntervalsParamsEdit struct {
 	// The updated end date of this price interval. If not specified, the start date
 	// will not be updated.
 	EndDate param.Field[SubscriptionPriceIntervalsParamsEditEndDateUnion] `json:"end_date" format:"date-time"`
+	// An additional filter to apply to usage queries. This filter must be expressed as
+	// a boolean
+	// [computed property](/extensibility/advanced-metrics#computed-properties). If
+	// null, usage queries will not include any additional filter.
+	Filter param.Field[string] `json:"filter"`
 	// A list of fixed fee quantity transitions to use for this price interval. Note
 	// that this list will overwrite all existing fixed fee quantity transitions on the
 	// price interval.
@@ -25543,6 +25637,13 @@ type SubscriptionPriceIntervalsParamsEdit struct {
 	// The updated start date of this price interval. If not specified, the start date
 	// will not be updated.
 	StartDate param.Field[SubscriptionPriceIntervalsParamsEditStartDateUnion] `json:"start_date" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this subscription. By default, a subscription only considers usage events
+	// associated with its attached customer's customer_id. When usage_customer_ids is
+	// provided, the subscription includes usage events from the specified customers
+	// only. Provided usage_customer_ids must be either the customer for this
+	// subscription itself, or any of that customer's children.
+	UsageCustomerIDs param.Field[[]string] `json:"usage_customer_ids"`
 }
 
 func (r SubscriptionPriceIntervalsParamsEdit) MarshalJSON() (data []byte, err error) {
