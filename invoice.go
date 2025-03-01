@@ -1052,6 +1052,8 @@ type InvoiceLineItem struct {
 	Discount       shared.Discount `json:"discount,required,nullable"`
 	// The end date of the range of time applied for this line item's price.
 	EndDate time.Time `json:"end_date,required" format:"date-time"`
+	// An additional filter that was used to calculate the usage for this line item.
+	Filter string `json:"filter,required,nullable"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
@@ -1099,7 +1101,9 @@ type InvoiceLineItem struct {
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
 	TaxAmounts []InvoiceLineItemsTaxAmount `json:"tax_amounts,required"`
-	JSON       invoiceLineItemJSON         `json:"-"`
+	// A list of customer ids that were used to calculate the usage for this line item.
+	UsageCustomerIDs []string            `json:"usage_customer_ids,required,nullable"`
+	JSON             invoiceLineItemJSON `json:"-"`
 }
 
 // invoiceLineItemJSON contains the JSON metadata for the struct [InvoiceLineItem]
@@ -1111,6 +1115,7 @@ type invoiceLineItemJSON struct {
 	CreditsApplied          apijson.Field
 	Discount                apijson.Field
 	EndDate                 apijson.Field
+	Filter                  apijson.Field
 	Grouping                apijson.Field
 	Maximum                 apijson.Field
 	MaximumAmount           apijson.Field
@@ -1124,6 +1129,7 @@ type invoiceLineItemJSON struct {
 	SubLineItems            apijson.Field
 	Subtotal                apijson.Field
 	TaxAmounts              apijson.Field
+	UsageCustomerIDs        apijson.Field
 	raw                     string
 	ExtraFields             map[string]apijson.Field
 }
@@ -3040,6 +3046,8 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	Discount       shared.Discount `json:"discount,required,nullable"`
 	// The end date of the range of time applied for this line item's price.
 	EndDate time.Time `json:"end_date,required" format:"date-time"`
+	// An additional filter that was used to calculate the usage for this line item.
+	Filter string `json:"filter,required,nullable"`
 	// [DEPRECATED] For configured prices that are split by a grouping key, this will
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
@@ -3087,7 +3095,9 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
 	TaxAmounts []InvoiceFetchUpcomingResponseLineItemsTaxAmount `json:"tax_amounts,required"`
-	JSON       invoiceFetchUpcomingResponseLineItemJSON         `json:"-"`
+	// A list of customer ids that were used to calculate the usage for this line item.
+	UsageCustomerIDs []string                                 `json:"usage_customer_ids,required,nullable"`
+	JSON             invoiceFetchUpcomingResponseLineItemJSON `json:"-"`
 }
 
 // invoiceFetchUpcomingResponseLineItemJSON contains the JSON metadata for the
@@ -3100,6 +3110,7 @@ type invoiceFetchUpcomingResponseLineItemJSON struct {
 	CreditsApplied          apijson.Field
 	Discount                apijson.Field
 	EndDate                 apijson.Field
+	Filter                  apijson.Field
 	Grouping                apijson.Field
 	Maximum                 apijson.Field
 	MaximumAmount           apijson.Field
@@ -3113,6 +3124,7 @@ type invoiceFetchUpcomingResponseLineItemJSON struct {
 	SubLineItems            apijson.Field
 	Subtotal                apijson.Field
 	TaxAmounts              apijson.Field
+	UsageCustomerIDs        apijson.Field
 	raw                     string
 	ExtraFields             map[string]apijson.Field
 }
