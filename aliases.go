@@ -2060,15 +2060,6 @@ const BillingCycleRelativeDateEndOfTerm = shared.BillingCycleRelativeDateEndOfTe
 type Discount = shared.Discount
 
 // This is an alias to an internal type.
-type DiscountUsageDiscount = shared.DiscountUsageDiscount
-
-// This is an alias to an internal type.
-type DiscountUsageDiscountDiscountType = shared.DiscountUsageDiscountDiscountType
-
-// This is an alias to an internal value.
-const DiscountUsageDiscountDiscountTypeUsage = shared.DiscountUsageDiscountDiscountTypeUsage
-
-// This is an alias to an internal type.
 type DiscountDiscountType = shared.DiscountDiscountType
 
 // This is an alias to an internal value.
@@ -2085,9 +2076,6 @@ const DiscountDiscountTypeAmount = shared.DiscountDiscountTypeAmount
 
 // This is an alias to an internal type.
 type DiscountUnionParam = shared.DiscountUnionParam
-
-// This is an alias to an internal type.
-type DiscountUsageDiscountParam = shared.DiscountUsageDiscountParam
 
 // This is an alias to an internal type.
 type InvoiceLevelDiscount = shared.InvoiceLevelDiscount
@@ -4048,3 +4036,15 @@ const TrialDiscountDiscountTypeTrial = shared.TrialDiscountDiscountTypeTrial
 
 // This is an alias to an internal type.
 type TrialDiscountParam = shared.TrialDiscountParam
+
+// This is an alias to an internal type.
+type UsageDiscount = shared.UsageDiscount
+
+// This is an alias to an internal type.
+type UsageDiscountDiscountType = shared.UsageDiscountDiscountType
+
+// This is an alias to an internal value.
+const UsageDiscountDiscountTypeUsage = shared.UsageDiscountDiscountTypeUsage
+
+// This is an alias to an internal type.
+type UsageDiscountParam = shared.UsageDiscountParam
