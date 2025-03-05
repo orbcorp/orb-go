@@ -16,6 +16,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // MetricService contains methods and other services that help with interacting
@@ -40,7 +41,7 @@ func NewMetricService(opts ...option.RequestOption) (r *MetricService) {
 // This endpoint is used to create a [metric](/core-concepts###metric) using a SQL
 // string. See [SQL support](/extensibility/advanced-metrics#sql-support) for a
 // description of constructing SQL queries with examples.
-func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
+func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...option.RequestOption) (res *shared.BillableMetricModel, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "metrics"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
@@ -50,7 +51,7 @@ func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...o
 // This endpoint allows you to update the `metadata` property on a metric. If you
 // pass `null` for the metadata value, it will clear any existing metadata for that
 // invoice.
-func (r *MetricService) Update(ctx context.Context, metricID string, body MetricUpdateParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
+func (r *MetricService) Update(ctx context.Context, metricID string, body MetricUpdateParams, opts ...option.RequestOption) (res *shared.BillableMetricModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if metricID == "" {
 		err = errors.New("missing required metric_id parameter")
@@ -64,7 +65,7 @@ func (r *MetricService) Update(ctx context.Context, metricID string, body Metric
 // This endpoint is used to fetch [metric](/core-concepts##metric) details given a
 // metric identifier. It returns information about the metrics including its name,
 // description, and item.
-func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[BillableMetric], err error) {
+func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[shared.BillableMetricModel], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -84,13 +85,13 @@ func (r *MetricService) List(ctx context.Context, query MetricListParams, opts .
 // This endpoint is used to fetch [metric](/core-concepts##metric) details given a
 // metric identifier. It returns information about the metrics including its name,
 // description, and item.
-func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[BillableMetric] {
+func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.BillableMetricModel] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint is used to list [metrics](/core-concepts#metric). It returns
 // information about the metrics including its name, description, and item.
-func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
+func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *shared.BillableMetricModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if metricID == "" {
 		err = errors.New("missing required metric_id parameter")
@@ -99,62 +100,6 @@ func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...opti
 	path := fmt.Sprintf("metrics/%s", metricID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
-}
-
-// The Metric resource represents a calculation of a quantity based on events.
-// Metrics are defined by the query that transforms raw usage events into
-// meaningful values for your customers.
-type BillableMetric struct {
-	ID          string `json:"id,required"`
-	Description string `json:"description,required,nullable"`
-	// The Item resource represents a sellable product or good. Items are associated
-	// with all line items, billable metrics, and prices and are used for defining
-	// external sync behavior for invoices and tax calculation purposes.
-	Item Item `json:"item,required"`
-	// User specified key-value pairs for the resource. If not present, this defaults
-	// to an empty dictionary. Individual keys can be removed by setting the value to
-	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
-	// `null`.
-	Metadata map[string]string    `json:"metadata,required"`
-	Name     string               `json:"name,required"`
-	Status   BillableMetricStatus `json:"status,required"`
-	JSON     billableMetricJSON   `json:"-"`
-}
-
-// billableMetricJSON contains the JSON metadata for the struct [BillableMetric]
-type billableMetricJSON struct {
-	ID          apijson.Field
-	Description apijson.Field
-	Item        apijson.Field
-	Metadata    apijson.Field
-	Name        apijson.Field
-	Status      apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *BillableMetric) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r billableMetricJSON) RawJSON() string {
-	return r.raw
-}
-
-type BillableMetricStatus string
-
-const (
-	BillableMetricStatusActive   BillableMetricStatus = "active"
-	BillableMetricStatusDraft    BillableMetricStatus = "draft"
-	BillableMetricStatusArchived BillableMetricStatus = "archived"
-)
-
-func (r BillableMetricStatus) IsKnown() bool {
-	switch r {
-	case BillableMetricStatusActive, BillableMetricStatusDraft, BillableMetricStatusArchived:
-		return true
-	}
-	return false
 }
 
 type MetricNewParams struct {

@@ -12,6 +12,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // PlanExternalPlanIDService contains methods and other services that help with
@@ -37,7 +38,7 @@ func NewPlanExternalPlanIDService(opts ...option.RequestOption) (r *PlanExternal
 // existing plan.
 //
 // Other fields on a customer are currently immutable.
-func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPlanID string, body PlanExternalPlanIDUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
+func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPlanID string, body PlanExternalPlanIDUpdateParams, opts ...option.RequestOption) (res *shared.PlanModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if otherExternalPlanID == "" {
 		err = errors.New("missing required other_external_plan_id parameter")
@@ -64,7 +65,7 @@ func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPla
 // object. The `model_type` field determines the key for the configuration object
 // that is present. A detailed explanation of price types can be found in the
 // [Price schema](/core-concepts#plan-and-price). "
-func (r *PlanExternalPlanIDService) Fetch(ctx context.Context, externalPlanID string, opts ...option.RequestOption) (res *Plan, err error) {
+func (r *PlanExternalPlanIDService) Fetch(ctx context.Context, externalPlanID string, opts ...option.RequestOption) (res *shared.PlanModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
