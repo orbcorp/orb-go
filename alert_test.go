@@ -12,7 +12,6 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
-	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestAlertGet(t *testing.T) {
@@ -53,7 +52,7 @@ func TestAlertUpdate(t *testing.T) {
 		context.TODO(),
 		"alert_configuration_id",
 		orb.AlertUpdateParams{
-			Thresholds: orb.F([]shared.ThresholdModelParam{{
+			Thresholds: orb.F([]orb.AlertUpdateParamsThreshold{{
 				Value: orb.F(0.000000),
 			}}),
 		},
@@ -118,7 +117,7 @@ func TestAlertNewForCustomerWithOptionalParams(t *testing.T) {
 		orb.AlertNewForCustomerParams{
 			Currency: orb.F("currency"),
 			Type:     orb.F(orb.AlertNewForCustomerParamsTypeUsageExceeded),
-			Thresholds: orb.F([]shared.ThresholdModelParam{{
+			Thresholds: orb.F([]orb.AlertNewForCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
 			}}),
 		},
@@ -150,7 +149,7 @@ func TestAlertNewForExternalCustomerWithOptionalParams(t *testing.T) {
 		orb.AlertNewForExternalCustomerParams{
 			Currency: orb.F("currency"),
 			Type:     orb.F(orb.AlertNewForExternalCustomerParamsTypeUsageExceeded),
-			Thresholds: orb.F([]shared.ThresholdModelParam{{
+			Thresholds: orb.F([]orb.AlertNewForExternalCustomerParamsThreshold{{
 				Value: orb.F(0.000000),
 			}}),
 		},
@@ -180,7 +179,7 @@ func TestAlertNewForSubscriptionWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"subscription_id",
 		orb.AlertNewForSubscriptionParams{
-			Thresholds: orb.F([]shared.ThresholdModelParam{{
+			Thresholds: orb.F([]orb.AlertNewForSubscriptionParamsThreshold{{
 				Value: orb.F(0.000000),
 			}}),
 			Type:     orb.F(orb.AlertNewForSubscriptionParamsTypeUsageExceeded),

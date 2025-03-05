@@ -10,11 +10,11 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
-	"github.com/orbcorp/orb-go/shared"
 )
 
 // CustomerCostService contains methods and other services that help with
@@ -153,7 +153,7 @@ func NewCustomerCostService(opts ...option.RequestOption) (r *CustomerCostServic
 // matrix dimensions. Orb will return `price_groups` with the `grouping_key` and
 // `secondary_grouping_key` based on the matrix price definition, for each
 // `grouping_value` and `secondary_grouping_value` available.
-func (r *CustomerCostService) List(ctx context.Context, customerID string, query CustomerCostListParams, opts ...option.RequestOption) (res *shared.CustomerCostsModel, err error) {
+func (r *CustomerCostService) List(ctx context.Context, customerID string, query CustomerCostListParams, opts ...option.RequestOption) (res *CustomerCostListResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -281,7 +281,7 @@ func (r *CustomerCostService) List(ctx context.Context, customerID string, query
 // matrix dimensions. Orb will return `price_groups` with the `grouping_key` and
 // `secondary_grouping_key` based on the matrix price definition, for each
 // `grouping_value` and `secondary_grouping_value` available.
-func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCostListByExternalIDParams, opts ...option.RequestOption) (res *shared.CustomerCostsModel, err error) {
+func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCostListByExternalIDParams, opts ...option.RequestOption) (res *CustomerCostListByExternalIDResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
@@ -290,6 +290,178 @@ func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCust
 	path := fmt.Sprintf("customers/external_customer_id/%s/costs", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
+}
+
+type CustomerCostListResponse struct {
+	Data []CustomerCostListResponseData `json:"data,required"`
+	JSON customerCostListResponseJSON   `json:"-"`
+}
+
+// customerCostListResponseJSON contains the JSON metadata for the struct
+// [CustomerCostListResponse]
+type customerCostListResponseJSON struct {
+	Data        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCostListResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCostListResponseData struct {
+	PerPriceCosts []CustomerCostListResponseDataPerPriceCost `json:"per_price_costs,required"`
+	// Total costs for the timeframe, excluding any minimums and discounts.
+	Subtotal       string    `json:"subtotal,required"`
+	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
+	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
+	// Total costs for the timeframe, including any minimums and discounts.
+	Total string                           `json:"total,required"`
+	JSON  customerCostListResponseDataJSON `json:"-"`
+}
+
+// customerCostListResponseDataJSON contains the JSON metadata for the struct
+// [CustomerCostListResponseData]
+type customerCostListResponseDataJSON struct {
+	PerPriceCosts  apijson.Field
+	Subtotal       apijson.Field
+	TimeframeEnd   apijson.Field
+	TimeframeStart apijson.Field
+	Total          apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *CustomerCostListResponseData) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListResponseDataJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCostListResponseDataPerPriceCost struct {
+	// The price object
+	Price Price `json:"price,required"`
+	// The price the cost is associated with
+	PriceID string `json:"price_id,required"`
+	// Price's contributions for the timeframe, excluding any minimums and discounts.
+	Subtotal string `json:"subtotal,required"`
+	// Price's contributions for the timeframe, including minimums and discounts.
+	Total string `json:"total,required"`
+	// The price's quantity for the timeframe
+	Quantity float64                                      `json:"quantity,nullable"`
+	JSON     customerCostListResponseDataPerPriceCostJSON `json:"-"`
+}
+
+// customerCostListResponseDataPerPriceCostJSON contains the JSON metadata for the
+// struct [CustomerCostListResponseDataPerPriceCost]
+type customerCostListResponseDataPerPriceCostJSON struct {
+	Price       apijson.Field
+	PriceID     apijson.Field
+	Subtotal    apijson.Field
+	Total       apijson.Field
+	Quantity    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCostListResponseDataPerPriceCost) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListResponseDataPerPriceCostJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCostListByExternalIDResponse struct {
+	Data []CustomerCostListByExternalIDResponseData `json:"data,required"`
+	JSON customerCostListByExternalIDResponseJSON   `json:"-"`
+}
+
+// customerCostListByExternalIDResponseJSON contains the JSON metadata for the
+// struct [CustomerCostListByExternalIDResponse]
+type customerCostListByExternalIDResponseJSON struct {
+	Data        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCostListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCostListByExternalIDResponseData struct {
+	PerPriceCosts []CustomerCostListByExternalIDResponseDataPerPriceCost `json:"per_price_costs,required"`
+	// Total costs for the timeframe, excluding any minimums and discounts.
+	Subtotal       string    `json:"subtotal,required"`
+	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
+	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
+	// Total costs for the timeframe, including any minimums and discounts.
+	Total string                                       `json:"total,required"`
+	JSON  customerCostListByExternalIDResponseDataJSON `json:"-"`
+}
+
+// customerCostListByExternalIDResponseDataJSON contains the JSON metadata for the
+// struct [CustomerCostListByExternalIDResponseData]
+type customerCostListByExternalIDResponseDataJSON struct {
+	PerPriceCosts  apijson.Field
+	Subtotal       apijson.Field
+	TimeframeEnd   apijson.Field
+	TimeframeStart apijson.Field
+	Total          apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *CustomerCostListByExternalIDResponseData) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListByExternalIDResponseDataJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
+	// The price object
+	Price Price `json:"price,required"`
+	// The price the cost is associated with
+	PriceID string `json:"price_id,required"`
+	// Price's contributions for the timeframe, excluding any minimums and discounts.
+	Subtotal string `json:"subtotal,required"`
+	// Price's contributions for the timeframe, including minimums and discounts.
+	Total string `json:"total,required"`
+	// The price's quantity for the timeframe
+	Quantity float64                                                  `json:"quantity,nullable"`
+	JSON     customerCostListByExternalIDResponseDataPerPriceCostJSON `json:"-"`
+}
+
+// customerCostListByExternalIDResponseDataPerPriceCostJSON contains the JSON
+// metadata for the struct [CustomerCostListByExternalIDResponseDataPerPriceCost]
+type customerCostListByExternalIDResponseDataPerPriceCostJSON struct {
+	Price       apijson.Field
+	PriceID     apijson.Field
+	Subtotal    apijson.Field
+	Total       apijson.Field
+	Quantity    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCostListByExternalIDResponseDataPerPriceCost) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCostListByExternalIDResponseDataPerPriceCostJSON) RawJSON() string {
+	return r.raw
 }
 
 type CustomerCostListParams struct {
