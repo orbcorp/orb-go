@@ -12,6 +12,7 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestPriceNewWithOptionalParams(t *testing.T) {
@@ -32,22 +33,22 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		ItemID:    orb.F("item_id"),
 		ModelType: orb.F(orb.PriceNewParamsNewFloatingUnitPriceModelTypeUnit),
 		Name:      orb.F("Annual fee"),
-		UnitConfig: orb.F(orb.PriceNewParamsNewFloatingUnitPriceUnitConfig{
+		UnitConfig: orb.F(shared.UnitConfigModelParam{
 			UnitAmount: orb.F("unit_amount"),
 		}),
 		BillableMetricID: orb.F("billable_metric_id"),
 		BilledInAdvance:  orb.F(true),
-		BillingCycleConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceBillingCycleConfiguration{
+		BillingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationModelParam{
 			Duration:     orb.F(int64(0)),
-			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay),
+			DurationUnit: orb.F(shared.NewBillingCycleConfigurationModelDurationUnitDay),
 		}),
 		ConversionRate:     orb.F(0.000000),
 		ExternalPriceID:    orb.F("external_price_id"),
 		FixedPriceQuantity: orb.F(0.000000),
 		InvoiceGroupingKey: orb.F("invoice_grouping_key"),
-		InvoicingCycleConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfiguration{
+		InvoicingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationModelParam{
 			Duration:     orb.F(int64(0)),
-			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+			DurationUnit: orb.F(shared.NewBillingCycleConfigurationModelDurationUnitDay),
 		}),
 		Metadata: orb.F(map[string]string{
 			"foo": "string",

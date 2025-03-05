@@ -14,6 +14,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // CouponSubscriptionService contains methods and other services that help with
@@ -39,7 +40,7 @@ func NewCouponSubscriptionService(opts ...option.RequestOption) (r *CouponSubscr
 // coupon as a [paginated](/api-reference/pagination) list, ordered starting from
 // the most recently created subscription. For a full discussion of the
 // subscription resource, see [Subscription](/core-concepts#subscription).
-func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
+func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[shared.SubscriptionModel], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -64,7 +65,7 @@ func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, q
 // coupon as a [paginated](/api-reference/pagination) list, ordered starting from
 // the most recently created subscription. For a full discussion of the
 // subscription resource, see [Subscription](/core-concepts#subscription).
-func (r *CouponSubscriptionService) ListAutoPaging(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Subscription] {
+func (r *CouponSubscriptionService) ListAutoPaging(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.SubscriptionModel] {
 	return pagination.NewPageAutoPager(r.List(ctx, couponID, query, opts...))
 }
 
