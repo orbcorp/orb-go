@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.103.0 (2025-03-05)
+
+Full Changelog: [v0.102.0...v0.103.0](https://github.com/orbcorp/orb-go/compare/v0.102.0...v0.103.0)
+
+### Features
+
+* **api:** api update ([#465](https://github.com/orbcorp/orb-go/issues/465)) ([c0090d3](https://github.com/orbcorp/orb-go/commit/c0090d3e6917bb8af760a9fb9be8042888327c94))
+
 ## 0.102.0 (2025-03-01)
 
 Full Changelog: [v0.101.0...v0.102.0](https://github.com/orbcorp/orb-go/compare/v0.101.0...v0.102.0)
