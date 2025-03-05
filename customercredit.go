@@ -8,13 +8,14 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
+	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
-	"github.com/orbcorp/orb-go/shared"
 )
 
 // CustomerCreditService contains methods and other services that help with
@@ -47,7 +48,7 @@ func NewCustomerCreditService(opts ...option.RequestOption) (r *CustomerCreditSe
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
-func (r *CustomerCreditService) List(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) (res *pagination.Page[shared.CustomerCreditBalancesModelData], err error) {
+func (r *CustomerCreditService) List(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -75,7 +76,7 @@ func (r *CustomerCreditService) List(ctx context.Context, customerID string, que
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
-func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.CustomerCreditBalancesModelData] {
+func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
@@ -86,7 +87,7 @@ func (r *CustomerCreditService) ListAutoPaging(ctx context.Context, customerID s
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
-func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[shared.CustomerCreditBalancesModelData], err error) {
+func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditListByExternalIDResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -114,8 +115,104 @@ func (r *CustomerCreditService) ListByExternalID(ctx context.Context, externalCu
 //
 // Note that `currency` defaults to credits if not specified. To use a real world
 // currency, set `currency` to an ISO 4217 string.
-func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.CustomerCreditBalancesModelData] {
+func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditListByExternalIDResponse] {
 	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
+}
+
+type CustomerCreditListResponse struct {
+	ID                    string                           `json:"id,required"`
+	Balance               float64                          `json:"balance,required"`
+	EffectiveDate         time.Time                        `json:"effective_date,required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                        `json:"expiry_date,required,nullable" format:"date-time"`
+	MaximumInitialBalance float64                          `json:"maximum_initial_balance,required,nullable"`
+	PerUnitCostBasis      string                           `json:"per_unit_cost_basis,required,nullable"`
+	Status                CustomerCreditListResponseStatus `json:"status,required"`
+	JSON                  customerCreditListResponseJSON   `json:"-"`
+}
+
+// customerCreditListResponseJSON contains the JSON metadata for the struct
+// [CustomerCreditListResponse]
+type customerCreditListResponseJSON struct {
+	ID                    apijson.Field
+	Balance               apijson.Field
+	EffectiveDate         apijson.Field
+	ExpiryDate            apijson.Field
+	MaximumInitialBalance apijson.Field
+	PerUnitCostBasis      apijson.Field
+	Status                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *CustomerCreditListResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCreditListResponseStatus string
+
+const (
+	CustomerCreditListResponseStatusActive         CustomerCreditListResponseStatus = "active"
+	CustomerCreditListResponseStatusPendingPayment CustomerCreditListResponseStatus = "pending_payment"
+)
+
+func (r CustomerCreditListResponseStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditListResponseStatusActive, CustomerCreditListResponseStatusPendingPayment:
+		return true
+	}
+	return false
+}
+
+type CustomerCreditListByExternalIDResponse struct {
+	ID                    string                                       `json:"id,required"`
+	Balance               float64                                      `json:"balance,required"`
+	EffectiveDate         time.Time                                    `json:"effective_date,required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                    `json:"expiry_date,required,nullable" format:"date-time"`
+	MaximumInitialBalance float64                                      `json:"maximum_initial_balance,required,nullable"`
+	PerUnitCostBasis      string                                       `json:"per_unit_cost_basis,required,nullable"`
+	Status                CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
+	JSON                  customerCreditListByExternalIDResponseJSON   `json:"-"`
+}
+
+// customerCreditListByExternalIDResponseJSON contains the JSON metadata for the
+// struct [CustomerCreditListByExternalIDResponse]
+type customerCreditListByExternalIDResponseJSON struct {
+	ID                    apijson.Field
+	Balance               apijson.Field
+	EffectiveDate         apijson.Field
+	ExpiryDate            apijson.Field
+	MaximumInitialBalance apijson.Field
+	PerUnitCostBasis      apijson.Field
+	Status                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *CustomerCreditListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerCreditListByExternalIDResponseStatus string
+
+const (
+	CustomerCreditListByExternalIDResponseStatusActive         CustomerCreditListByExternalIDResponseStatus = "active"
+	CustomerCreditListByExternalIDResponseStatusPendingPayment CustomerCreditListByExternalIDResponseStatus = "pending_payment"
+)
+
+func (r CustomerCreditListByExternalIDResponseStatus) IsKnown() bool {
+	switch r {
+	case CustomerCreditListByExternalIDResponseStatusActive, CustomerCreditListByExternalIDResponseStatusPendingPayment:
+		return true
+	}
+	return false
 }
 
 type CustomerCreditListParams struct {

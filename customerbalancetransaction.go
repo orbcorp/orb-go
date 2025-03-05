@@ -16,7 +16,6 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
-	"github.com/orbcorp/orb-go/shared"
 )
 
 // CustomerBalanceTransactionService contains methods and other services that help
@@ -40,7 +39,7 @@ func NewCustomerBalanceTransactionService(opts ...option.RequestOption) (r *Cust
 
 // Creates an immutable balance transaction that updates the customer's balance and
 // returns back the newly created transaction.
-func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID string, body CustomerBalanceTransactionNewParams, opts ...option.RequestOption) (res *shared.CustomerBalanceTransactionModel, err error) {
+func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID string, body CustomerBalanceTransactionNewParams, opts ...option.RequestOption) (res *CustomerBalanceTransactionNewResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -79,7 +78,7 @@ func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID 
 // invoices are not synced to a separate invoicing provider. If a payment gateway
 // such as Stripe is used, the balance will be applied to the invoice before
 // forwarding payment to the gateway.
-func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) (res *pagination.Page[shared.CustomerBalanceTransactionModel], err error) {
+func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerBalanceTransactionListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -128,8 +127,264 @@ func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID
 // invoices are not synced to a separate invoicing provider. If a payment gateway
 // such as Stripe is used, the balance will be applied to the invoice before
 // forwarding payment to the gateway.
-func (r *CustomerBalanceTransactionService) ListAutoPaging(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.CustomerBalanceTransactionModel] {
+func (r *CustomerBalanceTransactionService) ListAutoPaging(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerBalanceTransactionListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
+}
+
+type CustomerBalanceTransactionNewResponse struct {
+	// A unique id for this transaction.
+	ID     string                                      `json:"id,required"`
+	Action CustomerBalanceTransactionNewResponseAction `json:"action,required"`
+	// The value of the amount changed in the transaction.
+	Amount string `json:"amount,required"`
+	// The creation time of this transaction.
+	CreatedAt  time.Time                                       `json:"created_at,required" format:"date-time"`
+	CreditNote CustomerBalanceTransactionNewResponseCreditNote `json:"credit_note,required,nullable"`
+	// An optional description provided for manual customer balance adjustments.
+	Description string `json:"description,required,nullable"`
+	// The new value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	EndingBalance string                                       `json:"ending_balance,required"`
+	Invoice       CustomerBalanceTransactionNewResponseInvoice `json:"invoice,required,nullable"`
+	// The original value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	StartingBalance string                                    `json:"starting_balance,required"`
+	Type            CustomerBalanceTransactionNewResponseType `json:"type,required"`
+	JSON            customerBalanceTransactionNewResponseJSON `json:"-"`
+}
+
+// customerBalanceTransactionNewResponseJSON contains the JSON metadata for the
+// struct [CustomerBalanceTransactionNewResponse]
+type customerBalanceTransactionNewResponseJSON struct {
+	ID              apijson.Field
+	Action          apijson.Field
+	Amount          apijson.Field
+	CreatedAt       apijson.Field
+	CreditNote      apijson.Field
+	Description     apijson.Field
+	EndingBalance   apijson.Field
+	Invoice         apijson.Field
+	StartingBalance apijson.Field
+	Type            apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
+}
+
+func (r *CustomerBalanceTransactionNewResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerBalanceTransactionNewResponseAction string
+
+const (
+	CustomerBalanceTransactionNewResponseActionAppliedToInvoice     CustomerBalanceTransactionNewResponseAction = "applied_to_invoice"
+	CustomerBalanceTransactionNewResponseActionManualAdjustment     CustomerBalanceTransactionNewResponseAction = "manual_adjustment"
+	CustomerBalanceTransactionNewResponseActionProratedRefund       CustomerBalanceTransactionNewResponseAction = "prorated_refund"
+	CustomerBalanceTransactionNewResponseActionRevertProratedRefund CustomerBalanceTransactionNewResponseAction = "revert_prorated_refund"
+	CustomerBalanceTransactionNewResponseActionReturnFromVoiding    CustomerBalanceTransactionNewResponseAction = "return_from_voiding"
+	CustomerBalanceTransactionNewResponseActionCreditNoteApplied    CustomerBalanceTransactionNewResponseAction = "credit_note_applied"
+	CustomerBalanceTransactionNewResponseActionCreditNoteVoided     CustomerBalanceTransactionNewResponseAction = "credit_note_voided"
+	CustomerBalanceTransactionNewResponseActionOverpaymentRefund    CustomerBalanceTransactionNewResponseAction = "overpayment_refund"
+	CustomerBalanceTransactionNewResponseActionExternalPayment      CustomerBalanceTransactionNewResponseAction = "external_payment"
+)
+
+func (r CustomerBalanceTransactionNewResponseAction) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionNewResponseActionAppliedToInvoice, CustomerBalanceTransactionNewResponseActionManualAdjustment, CustomerBalanceTransactionNewResponseActionProratedRefund, CustomerBalanceTransactionNewResponseActionRevertProratedRefund, CustomerBalanceTransactionNewResponseActionReturnFromVoiding, CustomerBalanceTransactionNewResponseActionCreditNoteApplied, CustomerBalanceTransactionNewResponseActionCreditNoteVoided, CustomerBalanceTransactionNewResponseActionOverpaymentRefund, CustomerBalanceTransactionNewResponseActionExternalPayment:
+		return true
+	}
+	return false
+}
+
+type CustomerBalanceTransactionNewResponseCreditNote struct {
+	// The id of the Credit note
+	ID   string                                              `json:"id,required"`
+	JSON customerBalanceTransactionNewResponseCreditNoteJSON `json:"-"`
+}
+
+// customerBalanceTransactionNewResponseCreditNoteJSON contains the JSON metadata
+// for the struct [CustomerBalanceTransactionNewResponseCreditNote]
+type customerBalanceTransactionNewResponseCreditNoteJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerBalanceTransactionNewResponseCreditNote) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionNewResponseCreditNoteJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerBalanceTransactionNewResponseInvoice struct {
+	// The Invoice id
+	ID   string                                           `json:"id,required"`
+	JSON customerBalanceTransactionNewResponseInvoiceJSON `json:"-"`
+}
+
+// customerBalanceTransactionNewResponseInvoiceJSON contains the JSON metadata for
+// the struct [CustomerBalanceTransactionNewResponseInvoice]
+type customerBalanceTransactionNewResponseInvoiceJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerBalanceTransactionNewResponseInvoice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionNewResponseInvoiceJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerBalanceTransactionNewResponseType string
+
+const (
+	CustomerBalanceTransactionNewResponseTypeIncrement CustomerBalanceTransactionNewResponseType = "increment"
+	CustomerBalanceTransactionNewResponseTypeDecrement CustomerBalanceTransactionNewResponseType = "decrement"
+)
+
+func (r CustomerBalanceTransactionNewResponseType) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionNewResponseTypeIncrement, CustomerBalanceTransactionNewResponseTypeDecrement:
+		return true
+	}
+	return false
+}
+
+type CustomerBalanceTransactionListResponse struct {
+	// A unique id for this transaction.
+	ID     string                                       `json:"id,required"`
+	Action CustomerBalanceTransactionListResponseAction `json:"action,required"`
+	// The value of the amount changed in the transaction.
+	Amount string `json:"amount,required"`
+	// The creation time of this transaction.
+	CreatedAt  time.Time                                        `json:"created_at,required" format:"date-time"`
+	CreditNote CustomerBalanceTransactionListResponseCreditNote `json:"credit_note,required,nullable"`
+	// An optional description provided for manual customer balance adjustments.
+	Description string `json:"description,required,nullable"`
+	// The new value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	EndingBalance string                                        `json:"ending_balance,required"`
+	Invoice       CustomerBalanceTransactionListResponseInvoice `json:"invoice,required,nullable"`
+	// The original value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	StartingBalance string                                     `json:"starting_balance,required"`
+	Type            CustomerBalanceTransactionListResponseType `json:"type,required"`
+	JSON            customerBalanceTransactionListResponseJSON `json:"-"`
+}
+
+// customerBalanceTransactionListResponseJSON contains the JSON metadata for the
+// struct [CustomerBalanceTransactionListResponse]
+type customerBalanceTransactionListResponseJSON struct {
+	ID              apijson.Field
+	Action          apijson.Field
+	Amount          apijson.Field
+	CreatedAt       apijson.Field
+	CreditNote      apijson.Field
+	Description     apijson.Field
+	EndingBalance   apijson.Field
+	Invoice         apijson.Field
+	StartingBalance apijson.Field
+	Type            apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
+}
+
+func (r *CustomerBalanceTransactionListResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerBalanceTransactionListResponseAction string
+
+const (
+	CustomerBalanceTransactionListResponseActionAppliedToInvoice     CustomerBalanceTransactionListResponseAction = "applied_to_invoice"
+	CustomerBalanceTransactionListResponseActionManualAdjustment     CustomerBalanceTransactionListResponseAction = "manual_adjustment"
+	CustomerBalanceTransactionListResponseActionProratedRefund       CustomerBalanceTransactionListResponseAction = "prorated_refund"
+	CustomerBalanceTransactionListResponseActionRevertProratedRefund CustomerBalanceTransactionListResponseAction = "revert_prorated_refund"
+	CustomerBalanceTransactionListResponseActionReturnFromVoiding    CustomerBalanceTransactionListResponseAction = "return_from_voiding"
+	CustomerBalanceTransactionListResponseActionCreditNoteApplied    CustomerBalanceTransactionListResponseAction = "credit_note_applied"
+	CustomerBalanceTransactionListResponseActionCreditNoteVoided     CustomerBalanceTransactionListResponseAction = "credit_note_voided"
+	CustomerBalanceTransactionListResponseActionOverpaymentRefund    CustomerBalanceTransactionListResponseAction = "overpayment_refund"
+	CustomerBalanceTransactionListResponseActionExternalPayment      CustomerBalanceTransactionListResponseAction = "external_payment"
+)
+
+func (r CustomerBalanceTransactionListResponseAction) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionListResponseActionAppliedToInvoice, CustomerBalanceTransactionListResponseActionManualAdjustment, CustomerBalanceTransactionListResponseActionProratedRefund, CustomerBalanceTransactionListResponseActionRevertProratedRefund, CustomerBalanceTransactionListResponseActionReturnFromVoiding, CustomerBalanceTransactionListResponseActionCreditNoteApplied, CustomerBalanceTransactionListResponseActionCreditNoteVoided, CustomerBalanceTransactionListResponseActionOverpaymentRefund, CustomerBalanceTransactionListResponseActionExternalPayment:
+		return true
+	}
+	return false
+}
+
+type CustomerBalanceTransactionListResponseCreditNote struct {
+	// The id of the Credit note
+	ID   string                                               `json:"id,required"`
+	JSON customerBalanceTransactionListResponseCreditNoteJSON `json:"-"`
+}
+
+// customerBalanceTransactionListResponseCreditNoteJSON contains the JSON metadata
+// for the struct [CustomerBalanceTransactionListResponseCreditNote]
+type customerBalanceTransactionListResponseCreditNoteJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerBalanceTransactionListResponseCreditNote) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionListResponseCreditNoteJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerBalanceTransactionListResponseInvoice struct {
+	// The Invoice id
+	ID   string                                            `json:"id,required"`
+	JSON customerBalanceTransactionListResponseInvoiceJSON `json:"-"`
+}
+
+// customerBalanceTransactionListResponseInvoiceJSON contains the JSON metadata for
+// the struct [CustomerBalanceTransactionListResponseInvoice]
+type customerBalanceTransactionListResponseInvoiceJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerBalanceTransactionListResponseInvoice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerBalanceTransactionListResponseInvoiceJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerBalanceTransactionListResponseType string
+
+const (
+	CustomerBalanceTransactionListResponseTypeIncrement CustomerBalanceTransactionListResponseType = "increment"
+	CustomerBalanceTransactionListResponseTypeDecrement CustomerBalanceTransactionListResponseType = "decrement"
+)
+
+func (r CustomerBalanceTransactionListResponseType) IsKnown() bool {
+	switch r {
+	case CustomerBalanceTransactionListResponseTypeIncrement, CustomerBalanceTransactionListResponseTypeDecrement:
+		return true
+	}
+	return false
 }
 
 type CustomerBalanceTransactionNewParams struct {

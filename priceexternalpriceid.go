@@ -12,7 +12,6 @@ import (
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
-	"github.com/orbcorp/orb-go/shared"
 )
 
 // PriceExternalPriceIDService contains methods and other services that help with
@@ -37,7 +36,7 @@ func NewPriceExternalPriceIDService(opts ...option.RequestOption) (r *PriceExter
 // This endpoint allows you to update the `metadata` property on a price. If you
 // pass null for the metadata value, it will clear any existing metadata for that
 // price.
-func (r *PriceExternalPriceIDService) Update(ctx context.Context, externalPriceID string, body PriceExternalPriceIDUpdateParams, opts ...option.RequestOption) (res *shared.PriceModel, err error) {
+func (r *PriceExternalPriceIDService) Update(ctx context.Context, externalPriceID string, body PriceExternalPriceIDUpdateParams, opts ...option.RequestOption) (res *Price, err error) {
 	opts = append(r.Options[:], opts...)
 	if externalPriceID == "" {
 		err = errors.New("missing required external_price_id parameter")
@@ -51,7 +50,7 @@ func (r *PriceExternalPriceIDService) Update(ctx context.Context, externalPriceI
 // This endpoint returns a price given an external price id. See the
 // [price creation API](/api-reference/price/create-price) for more information
 // about external price aliases.
-func (r *PriceExternalPriceIDService) Fetch(ctx context.Context, externalPriceID string, opts ...option.RequestOption) (res *shared.PriceModel, err error) {
+func (r *PriceExternalPriceIDService) Fetch(ctx context.Context, externalPriceID string, opts ...option.RequestOption) (res *Price, err error) {
 	opts = append(r.Options[:], opts...)
 	if externalPriceID == "" {
 		err = errors.New("missing required external_price_id parameter")

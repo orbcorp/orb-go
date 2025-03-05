@@ -10,7 +10,6 @@ import (
 
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
-	"github.com/orbcorp/orb-go/shared"
 )
 
 // DimensionalPriceGroupExternalDimensionalPriceGroupIDService contains methods and
@@ -35,7 +34,7 @@ func NewDimensionalPriceGroupExternalDimensionalPriceGroupIDService(opts ...opti
 }
 
 // Fetch dimensional price group by external ID
-func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Get(ctx context.Context, externalDimensionalPriceGroupID string, opts ...option.RequestOption) (res *shared.DimensionalPriceGroupModel, err error) {
+func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Get(ctx context.Context, externalDimensionalPriceGroupID string, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
 	opts = append(r.Options[:], opts...)
 	if externalDimensionalPriceGroupID == "" {
 		err = errors.New("missing required external_dimensional_price_group_id parameter")

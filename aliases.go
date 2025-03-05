@@ -126,134 +126,1914 @@ const AddCreditLedgerEntryRequestVoidReasonRefund = shared.AddCreditLedgerEntryR
 // This is an alias to an internal type.
 type AddSubscriptionAdjustmentParams = shared.AddSubscriptionAdjustmentParams
 
+// The definition of a new adjustment to create and add to the subscription.
+//
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentUnion = shared.AddSubscriptionAdjustmentParamsAdjustmentUnion
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentType = shared.AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentType
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewUsageDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentNewUsageDiscount
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentType = shared.AddSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentType
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewAmountDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentNewAmountDiscount
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentType = shared.AddSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentType
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewMinimum = shared.AddSubscriptionAdjustmentParamsAdjustmentNewMinimum
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentType = shared.AddSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentType
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentTypeMinimum = shared.AddSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentTypeMinimum
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewMaximum = shared.AddSubscriptionAdjustmentParamsAdjustmentNewMaximum
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentType = shared.AddSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentType
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentTypeMaximum = shared.AddSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentTypeMaximum
+
+// This is an alias to an internal type.
+type AddSubscriptionAdjustmentParamsAdjustmentAdjustmentType = shared.AddSubscriptionAdjustmentParamsAdjustmentAdjustmentType
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypePercentageDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeUsageDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeUsageDiscount
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeAmountDiscount = shared.AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeAmountDiscount
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMinimum = shared.AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMinimum
+
+// This is an alias to an internal value.
+const AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMaximum = shared.AddSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMaximum
+
 // This is an alias to an internal type.
 type AddSubscriptionPriceParams = shared.AddSubscriptionPriceParams
 
-// This is an alias to an internal type.
-type AddressInputModelParam = shared.AddressInputModelParam
-
-// This is an alias to an internal type.
-type AddressModel = shared.AddressModel
-
-// This is an alias to an internal type.
-type AdjustmentIntervalModel = shared.AdjustmentIntervalModel
-
-// This is an alias to an internal type.
-type AdjustmentModel = shared.AdjustmentModel
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseUsageDiscountAdjustment = shared.AdjustmentModelPlanPhaseUsageDiscountAdjustment
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseUsageDiscountAdjustmentAdjustmentType = shared.AdjustmentModelPlanPhaseUsageDiscountAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const AdjustmentModelPlanPhaseUsageDiscountAdjustmentAdjustmentTypeUsageDiscount = shared.AdjustmentModelPlanPhaseUsageDiscountAdjustmentAdjustmentTypeUsageDiscount
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseAmountDiscountAdjustment = shared.AdjustmentModelPlanPhaseAmountDiscountAdjustment
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseAmountDiscountAdjustmentAdjustmentType = shared.AdjustmentModelPlanPhaseAmountDiscountAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const AdjustmentModelPlanPhaseAmountDiscountAdjustmentAdjustmentTypeAmountDiscount = shared.AdjustmentModelPlanPhaseAmountDiscountAdjustmentAdjustmentTypeAmountDiscount
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhasePercentageDiscountAdjustment = shared.AdjustmentModelPlanPhasePercentageDiscountAdjustment
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhasePercentageDiscountAdjustmentAdjustmentType = shared.AdjustmentModelPlanPhasePercentageDiscountAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const AdjustmentModelPlanPhasePercentageDiscountAdjustmentAdjustmentTypePercentageDiscount = shared.AdjustmentModelPlanPhasePercentageDiscountAdjustmentAdjustmentTypePercentageDiscount
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseMinimumAdjustment = shared.AdjustmentModelPlanPhaseMinimumAdjustment
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseMinimumAdjustmentAdjustmentType = shared.AdjustmentModelPlanPhaseMinimumAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const AdjustmentModelPlanPhaseMinimumAdjustmentAdjustmentTypeMinimum = shared.AdjustmentModelPlanPhaseMinimumAdjustmentAdjustmentTypeMinimum
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseMaximumAdjustment = shared.AdjustmentModelPlanPhaseMaximumAdjustment
-
-// This is an alias to an internal type.
-type AdjustmentModelPlanPhaseMaximumAdjustmentAdjustmentType = shared.AdjustmentModelPlanPhaseMaximumAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const AdjustmentModelPlanPhaseMaximumAdjustmentAdjustmentTypeMaximum = shared.AdjustmentModelPlanPhaseMaximumAdjustmentAdjustmentTypeMaximum
-
-// This is an alias to an internal type.
-type AdjustmentModelAdjustmentType = shared.AdjustmentModelAdjustmentType
-
-// This is an alias to an internal value.
-const AdjustmentModelAdjustmentTypeUsageDiscount = shared.AdjustmentModelAdjustmentTypeUsageDiscount
-
-// This is an alias to an internal value.
-const AdjustmentModelAdjustmentTypeAmountDiscount = shared.AdjustmentModelAdjustmentTypeAmountDiscount
-
-// This is an alias to an internal value.
-const AdjustmentModelAdjustmentTypePercentageDiscount = shared.AdjustmentModelAdjustmentTypePercentageDiscount
-
-// This is an alias to an internal value.
-const AdjustmentModelAdjustmentTypeMinimum = shared.AdjustmentModelAdjustmentTypeMinimum
-
-// This is an alias to an internal value.
-const AdjustmentModelAdjustmentTypeMaximum = shared.AdjustmentModelAdjustmentTypeMaximum
-
-// This is an alias to an internal type.
-type AffectedBlockModel = shared.AffectedBlockModel
-
-// This is an alias to an internal type.
-type AggregatedCostModel = shared.AggregatedCostModel
-
-// This is an alias to an internal type.
-type AggregatedCostModelPerPriceCost = shared.AggregatedCostModelPerPriceCost
-
-// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
-// usage, or credit balance and trigger webhooks when a threshold is exceeded.
-//
-// Alerts created through the API can be scoped to either customers or
-// subscriptions.
+// The definition of a new allocation price to create and add to the subscription.
 //
 // This is an alias to an internal type.
-type AlertModel = shared.AlertModel
+type AddSubscriptionPriceParamsAllocationPrice = shared.AddSubscriptionPriceParamsAllocationPrice
 
-// The metric the alert applies to.
+// The cadence at which to allocate the amount to the customer.
 //
 // This is an alias to an internal type.
-type AlertModelMetric = shared.AlertModelMetric
+type AddSubscriptionPriceParamsAllocationPriceCadence = shared.AddSubscriptionPriceParamsAllocationPriceCadence
 
-// The plan the alert applies to.
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsAllocationPriceCadenceOneTime = shared.AddSubscriptionPriceParamsAllocationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsAllocationPriceCadenceMonthly = shared.AddSubscriptionPriceParamsAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsAllocationPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsAllocationPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsAllocationPriceCadenceAnnual = shared.AddSubscriptionPriceParamsAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsAllocationPriceCadenceCustom = shared.AddSubscriptionPriceParamsAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsDiscount = shared.AddSubscriptionPriceParamsDiscount
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsDiscountsDiscountType = shared.AddSubscriptionPriceParamsDiscountsDiscountType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsDiscountsDiscountTypePercentage = shared.AddSubscriptionPriceParamsDiscountsDiscountTypePercentage
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsDiscountsDiscountTypeUsage = shared.AddSubscriptionPriceParamsDiscountsDiscountTypeUsage
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsDiscountsDiscountTypeAmount = shared.AddSubscriptionPriceParamsDiscountsDiscountTypeAmount
+
+// The definition of a new price to create and add to the subscription.
 //
 // This is an alias to an internal type.
-type AlertModelPlan = shared.AlertModelPlan
+type AddSubscriptionPriceParamsPriceUnion = shared.AddSubscriptionPriceParamsPriceUnion
 
-// The type of alert. This must be a valid alert type.
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPrice
+
+// The cadence to bill for this price on.
 //
 // This is an alias to an internal type.
-type AlertModelType = shared.AlertModelType
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadence
 
 // This is an alias to an internal value.
-const AlertModelTypeUsageExceeded = shared.AlertModelTypeUsageExceeded
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual
 
 // This is an alias to an internal value.
-const AlertModelTypeCostExceeded = shared.AlertModelTypeCostExceeded
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceSemiAnnual
 
 // This is an alias to an internal value.
-const AlertModelTypeCreditBalanceDepleted = shared.AlertModelTypeCreditBalanceDepleted
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceMonthly
 
 // This is an alias to an internal value.
-const AlertModelTypeCreditBalanceDropped = shared.AlertModelTypeCreditBalanceDropped
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceQuarterly
 
 // This is an alias to an internal value.
-const AlertModelTypeCreditBalanceRecovered = shared.AlertModelTypeCreditBalanceRecovered
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceCustom
 
 // This is an alias to an internal type.
-type AllocationModel = shared.AllocationModel
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelTypePackage = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelTypePackage
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePricePackageConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePricePackageConfig
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfig
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelTypeMatrix = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelTypeMatrix
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelTypeTiered = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelTypeTiered
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfig
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfigTier = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfigTier
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfig
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPrice
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBpsConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBpsConfig
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelTypeBps = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelTypeBps
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPrice
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfig
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPrice
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfig = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfig
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfigTier = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfigTier
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelTypeBulk = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelTypeBulk
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePrice = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadence = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelType = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelTypeGroupedTieredPackage = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelTypeGroupedTieredPackage
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfiguration = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.AddSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceCadence = shared.AddSubscriptionPriceParamsPriceCadence
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceCadenceAnnual = shared.AddSubscriptionPriceParamsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceCadenceSemiAnnual = shared.AddSubscriptionPriceParamsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceCadenceMonthly = shared.AddSubscriptionPriceParamsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceCadenceQuarterly = shared.AddSubscriptionPriceParamsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceCadenceOneTime = shared.AddSubscriptionPriceParamsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceCadenceCustom = shared.AddSubscriptionPriceParamsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type AddSubscriptionPriceParamsPriceModelType = shared.AddSubscriptionPriceParamsPriceModelType
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeUnit = shared.AddSubscriptionPriceParamsPriceModelTypeUnit
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypePackage = shared.AddSubscriptionPriceParamsPriceModelTypePackage
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeMatrix = shared.AddSubscriptionPriceParamsPriceModelTypeMatrix
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeTiered = shared.AddSubscriptionPriceParamsPriceModelTypeTiered
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeTieredBps = shared.AddSubscriptionPriceParamsPriceModelTypeTieredBps
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeBps = shared.AddSubscriptionPriceParamsPriceModelTypeBps
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeBulkBps = shared.AddSubscriptionPriceParamsPriceModelTypeBulkBps
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeBulk = shared.AddSubscriptionPriceParamsPriceModelTypeBulk
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeThresholdTotalAmount = shared.AddSubscriptionPriceParamsPriceModelTypeThresholdTotalAmount
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeTieredPackage = shared.AddSubscriptionPriceParamsPriceModelTypeTieredPackage
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeTieredWithMinimum = shared.AddSubscriptionPriceParamsPriceModelTypeTieredWithMinimum
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeUnitWithPercent = shared.AddSubscriptionPriceParamsPriceModelTypeUnitWithPercent
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypePackageWithAllocation = shared.AddSubscriptionPriceParamsPriceModelTypePackageWithAllocation
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeTieredWithProration = shared.AddSubscriptionPriceParamsPriceModelTypeTieredWithProration
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeUnitWithProration = shared.AddSubscriptionPriceParamsPriceModelTypeUnitWithProration
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeGroupedAllocation = shared.AddSubscriptionPriceParamsPriceModelTypeGroupedAllocation
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeGroupedWithProratedMinimum = shared.AddSubscriptionPriceParamsPriceModelTypeGroupedWithProratedMinimum
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeBulkWithProration = shared.AddSubscriptionPriceParamsPriceModelTypeBulkWithProration
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeScalableMatrixWithUnitPricing = shared.AddSubscriptionPriceParamsPriceModelTypeScalableMatrixWithUnitPricing
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeScalableMatrixWithTieredPricing = shared.AddSubscriptionPriceParamsPriceModelTypeScalableMatrixWithTieredPricing
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeCumulativeGroupedBulk = shared.AddSubscriptionPriceParamsPriceModelTypeCumulativeGroupedBulk
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeMaxGroupTieredPackage = shared.AddSubscriptionPriceParamsPriceModelTypeMaxGroupTieredPackage
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeGroupedWithMeteredMinimum = shared.AddSubscriptionPriceParamsPriceModelTypeGroupedWithMeteredMinimum
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeMatrixWithDisplayName = shared.AddSubscriptionPriceParamsPriceModelTypeMatrixWithDisplayName
+
+// This is an alias to an internal value.
+const AddSubscriptionPriceParamsPriceModelTypeGroupedTieredPackage = shared.AddSubscriptionPriceParamsPriceModelTypeGroupedTieredPackage
 
 // This is an alias to an internal type.
 type AmountDiscount = shared.AmountDiscount
@@ -268,84 +2048,6 @@ const AmountDiscountDiscountTypeAmount = shared.AmountDiscountDiscountTypeAmount
 type AmountDiscountParam = shared.AmountDiscountParam
 
 // This is an alias to an internal type.
-type AmountDiscountIntervalModel = shared.AmountDiscountIntervalModel
-
-// This is an alias to an internal type.
-type AmountDiscountIntervalModelDiscountType = shared.AmountDiscountIntervalModelDiscountType
-
-// This is an alias to an internal value.
-const AmountDiscountIntervalModelDiscountTypeAmount = shared.AmountDiscountIntervalModelDiscountTypeAmount
-
-// This is an alias to an internal type.
-type AutoCollectionModel = shared.AutoCollectionModel
-
-// A backfill represents an update to historical usage data, adding or replacing
-// events in a timeframe.
-//
-// This is an alias to an internal type.
-type BackfillModel = shared.BackfillModel
-
-// The status of the backfill.
-//
-// This is an alias to an internal type.
-type BackfillModelStatus = shared.BackfillModelStatus
-
-// This is an alias to an internal value.
-const BackfillModelStatusPending = shared.BackfillModelStatusPending
-
-// This is an alias to an internal value.
-const BackfillModelStatusReflected = shared.BackfillModelStatusReflected
-
-// This is an alias to an internal value.
-const BackfillModelStatusPendingRevert = shared.BackfillModelStatusPendingRevert
-
-// This is an alias to an internal value.
-const BackfillModelStatusReverted = shared.BackfillModelStatusReverted
-
-// The Metric resource represents a calculation of a quantity based on events.
-// Metrics are defined by the query that transforms raw usage events into
-// meaningful values for your customers.
-//
-// This is an alias to an internal type.
-type BillableMetricModel = shared.BillableMetricModel
-
-// This is an alias to an internal type.
-type BillableMetricModelStatus = shared.BillableMetricModelStatus
-
-// This is an alias to an internal value.
-const BillableMetricModelStatusActive = shared.BillableMetricModelStatusActive
-
-// This is an alias to an internal value.
-const BillableMetricModelStatusDraft = shared.BillableMetricModelStatusDraft
-
-// This is an alias to an internal value.
-const BillableMetricModelStatusArchived = shared.BillableMetricModelStatusArchived
-
-// This is an alias to an internal type.
-type BillableMetricSimpleModel = shared.BillableMetricSimpleModel
-
-// This is an alias to an internal type.
-type BillableMetricTinyModel = shared.BillableMetricTinyModel
-
-// This is an alias to an internal type.
-type BillingCycleAnchorConfigurationModel = shared.BillingCycleAnchorConfigurationModel
-
-// This is an alias to an internal type.
-type BillingCycleAnchorConfigurationModelParam = shared.BillingCycleAnchorConfigurationModelParam
-
-// This is an alias to an internal type.
-type BillingCycleConfigurationModel = shared.BillingCycleConfigurationModel
-
-// This is an alias to an internal type.
-type BillingCycleConfigurationModelDurationUnit = shared.BillingCycleConfigurationModelDurationUnit
-
-// This is an alias to an internal value.
-const BillingCycleConfigurationModelDurationUnitDay = shared.BillingCycleConfigurationModelDurationUnitDay
-
-// This is an alias to an internal value.
-const BillingCycleConfigurationModelDurationUnitMonth = shared.BillingCycleConfigurationModelDurationUnitMonth
-
-// This is an alias to an internal type.
 type BillingCycleRelativeDate = shared.BillingCycleRelativeDate
 
 // This is an alias to an internal value.
@@ -353,1114 +2055,6 @@ const BillingCycleRelativeDateStartOfTerm = shared.BillingCycleRelativeDateStart
 
 // This is an alias to an internal value.
 const BillingCycleRelativeDateEndOfTerm = shared.BillingCycleRelativeDateEndOfTerm
-
-// This is an alias to an internal type.
-type BpsConfigModel = shared.BpsConfigModel
-
-// This is an alias to an internal type.
-type BpsConfigModelParam = shared.BpsConfigModelParam
-
-// This is an alias to an internal type.
-type BulkBpsConfigModel = shared.BulkBpsConfigModel
-
-// This is an alias to an internal type.
-type BulkBpsConfigModelTier = shared.BulkBpsConfigModelTier
-
-// This is an alias to an internal type.
-type BulkBpsConfigModelParam = shared.BulkBpsConfigModelParam
-
-// This is an alias to an internal type.
-type BulkBpsConfigModelTierParam = shared.BulkBpsConfigModelTierParam
-
-// This is an alias to an internal type.
-type BulkConfigModel = shared.BulkConfigModel
-
-// This is an alias to an internal type.
-type BulkConfigModelTier = shared.BulkConfigModelTier
-
-// This is an alias to an internal type.
-type BulkConfigModelParam = shared.BulkConfigModelParam
-
-// This is an alias to an internal type.
-type BulkConfigModelTierParam = shared.BulkConfigModelTierParam
-
-// A coupon represents a reusable discount configuration that can be applied either
-// as a fixed or percentage amount to an invoice or subscription. Coupons are
-// activated using a redemption code, which applies the discount to a subscription
-// or invoice. The duration of a coupon determines how long it remains available
-// for use by end users.
-//
-// This is an alias to an internal type.
-type CouponModel = shared.CouponModel
-
-// This is an alias to an internal type.
-type CouponModelDiscount = shared.CouponModelDiscount
-
-// This is an alias to an internal type.
-type CouponModelDiscountDiscountType = shared.CouponModelDiscountDiscountType
-
-// This is an alias to an internal value.
-const CouponModelDiscountDiscountTypePercentage = shared.CouponModelDiscountDiscountTypePercentage
-
-// This is an alias to an internal value.
-const CouponModelDiscountDiscountTypeAmount = shared.CouponModelDiscountDiscountTypeAmount
-
-// This is an alias to an internal type.
-type CouponRedemptionModel = shared.CouponRedemptionModel
-
-// This is an alias to an internal type.
-type CreditLedgerEntriesModel = shared.CreditLedgerEntriesModel
-
-// The [Credit Ledger Entry resource](/product-catalog/prepurchase) models prepaid
-// credits within Orb.
-//
-// This is an alias to an internal type.
-type CreditLedgerEntryModel = shared.CreditLedgerEntryModel
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelIncrementLedgerEntry = shared.CreditLedgerEntryModelIncrementLedgerEntry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelIncrementLedgerEntryEntryStatus = shared.CreditLedgerEntryModelIncrementLedgerEntryEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelIncrementLedgerEntryEntryStatusCommitted = shared.CreditLedgerEntryModelIncrementLedgerEntryEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelIncrementLedgerEntryEntryStatusPending = shared.CreditLedgerEntryModelIncrementLedgerEntryEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelIncrementLedgerEntryEntryType = shared.CreditLedgerEntryModelIncrementLedgerEntryEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelIncrementLedgerEntryEntryTypeIncrement = shared.CreditLedgerEntryModelIncrementLedgerEntryEntryTypeIncrement
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelDecrementLedgerEntry = shared.CreditLedgerEntryModelDecrementLedgerEntry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelDecrementLedgerEntryEntryStatus = shared.CreditLedgerEntryModelDecrementLedgerEntryEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelDecrementLedgerEntryEntryStatusCommitted = shared.CreditLedgerEntryModelDecrementLedgerEntryEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelDecrementLedgerEntryEntryStatusPending = shared.CreditLedgerEntryModelDecrementLedgerEntryEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelDecrementLedgerEntryEntryType = shared.CreditLedgerEntryModelDecrementLedgerEntryEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelDecrementLedgerEntryEntryTypeDecrement = shared.CreditLedgerEntryModelDecrementLedgerEntryEntryTypeDecrement
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelExpirationChangeLedgerEntry = shared.CreditLedgerEntryModelExpirationChangeLedgerEntry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelExpirationChangeLedgerEntryEntryStatus = shared.CreditLedgerEntryModelExpirationChangeLedgerEntryEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelExpirationChangeLedgerEntryEntryStatusCommitted = shared.CreditLedgerEntryModelExpirationChangeLedgerEntryEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelExpirationChangeLedgerEntryEntryStatusPending = shared.CreditLedgerEntryModelExpirationChangeLedgerEntryEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelExpirationChangeLedgerEntryEntryType = shared.CreditLedgerEntryModelExpirationChangeLedgerEntryEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelExpirationChangeLedgerEntryEntryTypeExpirationChange = shared.CreditLedgerEntryModelExpirationChangeLedgerEntryEntryTypeExpirationChange
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelCreditBlockExpiryLedgerEntry = shared.CreditLedgerEntryModelCreditBlockExpiryLedgerEntry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryStatus = shared.CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryStatusCommitted = shared.CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryStatusPending = shared.CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryType = shared.CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry = shared.CreditLedgerEntryModelCreditBlockExpiryLedgerEntryEntryTypeCreditBlockExpiry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelVoidLedgerEntry = shared.CreditLedgerEntryModelVoidLedgerEntry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelVoidLedgerEntryEntryStatus = shared.CreditLedgerEntryModelVoidLedgerEntryEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelVoidLedgerEntryEntryStatusCommitted = shared.CreditLedgerEntryModelVoidLedgerEntryEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelVoidLedgerEntryEntryStatusPending = shared.CreditLedgerEntryModelVoidLedgerEntryEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelVoidLedgerEntryEntryType = shared.CreditLedgerEntryModelVoidLedgerEntryEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelVoidLedgerEntryEntryTypeVoid = shared.CreditLedgerEntryModelVoidLedgerEntryEntryTypeVoid
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelVoidInitiatedLedgerEntry = shared.CreditLedgerEntryModelVoidInitiatedLedgerEntry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryStatus = shared.CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryStatusCommitted = shared.CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryStatusPending = shared.CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryType = shared.CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryTypeVoidInitiated = shared.CreditLedgerEntryModelVoidInitiatedLedgerEntryEntryTypeVoidInitiated
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelAmendmentLedgerEntry = shared.CreditLedgerEntryModelAmendmentLedgerEntry
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelAmendmentLedgerEntryEntryStatus = shared.CreditLedgerEntryModelAmendmentLedgerEntryEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelAmendmentLedgerEntryEntryStatusCommitted = shared.CreditLedgerEntryModelAmendmentLedgerEntryEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelAmendmentLedgerEntryEntryStatusPending = shared.CreditLedgerEntryModelAmendmentLedgerEntryEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelAmendmentLedgerEntryEntryType = shared.CreditLedgerEntryModelAmendmentLedgerEntryEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelAmendmentLedgerEntryEntryTypeAmendment = shared.CreditLedgerEntryModelAmendmentLedgerEntryEntryTypeAmendment
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelEntryStatus = shared.CreditLedgerEntryModelEntryStatus
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryStatusCommitted = shared.CreditLedgerEntryModelEntryStatusCommitted
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryStatusPending = shared.CreditLedgerEntryModelEntryStatusPending
-
-// This is an alias to an internal type.
-type CreditLedgerEntryModelEntryType = shared.CreditLedgerEntryModelEntryType
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryTypeIncrement = shared.CreditLedgerEntryModelEntryTypeIncrement
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryTypeDecrement = shared.CreditLedgerEntryModelEntryTypeDecrement
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryTypeExpirationChange = shared.CreditLedgerEntryModelEntryTypeExpirationChange
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryTypeCreditBlockExpiry = shared.CreditLedgerEntryModelEntryTypeCreditBlockExpiry
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryTypeVoid = shared.CreditLedgerEntryModelEntryTypeVoid
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryTypeVoidInitiated = shared.CreditLedgerEntryModelEntryTypeVoidInitiated
-
-// This is an alias to an internal value.
-const CreditLedgerEntryModelEntryTypeAmendment = shared.CreditLedgerEntryModelEntryTypeAmendment
-
-// This is an alias to an internal type.
-type CreditNoteDiscountModel = shared.CreditNoteDiscountModel
-
-// This is an alias to an internal type.
-type CreditNoteDiscountModelDiscountType = shared.CreditNoteDiscountModelDiscountType
-
-// This is an alias to an internal value.
-const CreditNoteDiscountModelDiscountTypePercentage = shared.CreditNoteDiscountModelDiscountTypePercentage
-
-// This is an alias to an internal type.
-type CreditNoteDiscountModelAppliesToPrice = shared.CreditNoteDiscountModelAppliesToPrice
-
-// The [Credit Note](/invoicing/credit-notes) resource represents a credit that has
-// been applied to a particular invoice.
-//
-// This is an alias to an internal type.
-type CreditNoteModel = shared.CreditNoteModel
-
-// This is an alias to an internal type.
-type CreditNoteModelLineItem = shared.CreditNoteModelLineItem
-
-// This is an alias to an internal type.
-type CreditNoteModelLineItemsDiscount = shared.CreditNoteModelLineItemsDiscount
-
-// This is an alias to an internal type.
-type CreditNoteModelLineItemsDiscountsDiscountType = shared.CreditNoteModelLineItemsDiscountsDiscountType
-
-// This is an alias to an internal value.
-const CreditNoteModelLineItemsDiscountsDiscountTypePercentage = shared.CreditNoteModelLineItemsDiscountsDiscountTypePercentage
-
-// This is an alias to an internal value.
-const CreditNoteModelLineItemsDiscountsDiscountTypeAmount = shared.CreditNoteModelLineItemsDiscountsDiscountTypeAmount
-
-// This is an alias to an internal type.
-type CreditNoteModelReason = shared.CreditNoteModelReason
-
-// This is an alias to an internal value.
-const CreditNoteModelReasonDuplicate = shared.CreditNoteModelReasonDuplicate
-
-// This is an alias to an internal value.
-const CreditNoteModelReasonFraudulent = shared.CreditNoteModelReasonFraudulent
-
-// This is an alias to an internal value.
-const CreditNoteModelReasonOrderChange = shared.CreditNoteModelReasonOrderChange
-
-// This is an alias to an internal value.
-const CreditNoteModelReasonProductUnsatisfactory = shared.CreditNoteModelReasonProductUnsatisfactory
-
-// This is an alias to an internal type.
-type CreditNoteModelType = shared.CreditNoteModelType
-
-// This is an alias to an internal value.
-const CreditNoteModelTypeRefund = shared.CreditNoteModelTypeRefund
-
-// This is an alias to an internal value.
-const CreditNoteModelTypeAdjustment = shared.CreditNoteModelTypeAdjustment
-
-// This is an alias to an internal type.
-type CreditNoteSummaryModel = shared.CreditNoteSummaryModel
-
-// This is an alias to an internal type.
-type CustomRatingFunctionConfigModel = shared.CustomRatingFunctionConfigModel
-
-// This is an alias to an internal type.
-type CustomRatingFunctionConfigModelParam = shared.CustomRatingFunctionConfigModelParam
-
-// This is an alias to an internal type.
-type CustomerBalanceTransactionModel = shared.CustomerBalanceTransactionModel
-
-// This is an alias to an internal type.
-type CustomerBalanceTransactionModelAction = shared.CustomerBalanceTransactionModelAction
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionAppliedToInvoice = shared.CustomerBalanceTransactionModelActionAppliedToInvoice
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionManualAdjustment = shared.CustomerBalanceTransactionModelActionManualAdjustment
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionProratedRefund = shared.CustomerBalanceTransactionModelActionProratedRefund
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionRevertProratedRefund = shared.CustomerBalanceTransactionModelActionRevertProratedRefund
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionReturnFromVoiding = shared.CustomerBalanceTransactionModelActionReturnFromVoiding
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionCreditNoteApplied = shared.CustomerBalanceTransactionModelActionCreditNoteApplied
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionCreditNoteVoided = shared.CustomerBalanceTransactionModelActionCreditNoteVoided
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionOverpaymentRefund = shared.CustomerBalanceTransactionModelActionOverpaymentRefund
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelActionExternalPayment = shared.CustomerBalanceTransactionModelActionExternalPayment
-
-// This is an alias to an internal type.
-type CustomerBalanceTransactionModelCreditNote = shared.CustomerBalanceTransactionModelCreditNote
-
-// This is an alias to an internal type.
-type CustomerBalanceTransactionModelInvoice = shared.CustomerBalanceTransactionModelInvoice
-
-// This is an alias to an internal type.
-type CustomerBalanceTransactionModelType = shared.CustomerBalanceTransactionModelType
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelTypeIncrement = shared.CustomerBalanceTransactionModelTypeIncrement
-
-// This is an alias to an internal value.
-const CustomerBalanceTransactionModelTypeDecrement = shared.CustomerBalanceTransactionModelTypeDecrement
-
-// This is an alias to an internal type.
-type CustomerCostsModel = shared.CustomerCostsModel
-
-// This is an alias to an internal type.
-type CustomerCreditBalancesModel = shared.CustomerCreditBalancesModel
-
-// This is an alias to an internal type.
-type CustomerCreditBalancesModelData = shared.CustomerCreditBalancesModelData
-
-// This is an alias to an internal type.
-type CustomerCreditBalancesModelDataStatus = shared.CustomerCreditBalancesModelDataStatus
-
-// This is an alias to an internal value.
-const CustomerCreditBalancesModelDataStatusActive = shared.CustomerCreditBalancesModelDataStatusActive
-
-// This is an alias to an internal value.
-const CustomerCreditBalancesModelDataStatusPendingPayment = shared.CustomerCreditBalancesModelDataStatusPendingPayment
-
-// This is an alias to an internal type.
-type CustomerHierarchyConfigModelParam = shared.CustomerHierarchyConfigModelParam
-
-// This is an alias to an internal type.
-type CustomerMinifiedModel = shared.CustomerMinifiedModel
-
-// A customer is a buyer of your products, and the other party to the billing
-// relationship.
-//
-// In Orb, customers are assigned system generated identifiers automatically, but
-// it's often desirable to have these match existing identifiers in your system. To
-// avoid having to denormalize Orb ID information, you can pass in an
-// `external_customer_id` with your own identifier. See
-// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
-// information about how these aliases work in Orb.
-//
-// In addition to having an identifier in your system, a customer may exist in a
-// payment provider solution like Stripe. Use the `payment_provider_id` and the
-// `payment_provider` enum field to express this mapping.
-//
-// A customer also has a timezone (from the standard
-// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
-// your account's timezone. See [Timezone localization](/essentials/timezones) for
-// information on what this timezone parameter influences within Orb.
-//
-// This is an alias to an internal type.
-type CustomerModel = shared.CustomerModel
-
-// The hierarchical relationships for this customer.
-//
-// This is an alias to an internal type.
-type CustomerModelHierarchy = shared.CustomerModelHierarchy
-
-// This is used for creating charges or invoices in an external system via Orb.
-// When not in test mode, the connection must first be configured in the Orb
-// webapp.
-//
-// This is an alias to an internal type.
-type CustomerModelPaymentProvider = shared.CustomerModelPaymentProvider
-
-// This is an alias to an internal value.
-const CustomerModelPaymentProviderQuickbooks = shared.CustomerModelPaymentProviderQuickbooks
-
-// This is an alias to an internal value.
-const CustomerModelPaymentProviderBillCom = shared.CustomerModelPaymentProviderBillCom
-
-// This is an alias to an internal value.
-const CustomerModelPaymentProviderStripeCharge = shared.CustomerModelPaymentProviderStripeCharge
-
-// This is an alias to an internal value.
-const CustomerModelPaymentProviderStripeInvoice = shared.CustomerModelPaymentProviderStripeInvoice
-
-// This is an alias to an internal value.
-const CustomerModelPaymentProviderNetsuite = shared.CustomerModelPaymentProviderNetsuite
-
-// This is an alias to an internal type.
-type CustomerModelAccountingSyncConfiguration = shared.CustomerModelAccountingSyncConfiguration
-
-// This is an alias to an internal type.
-type CustomerModelAccountingSyncConfigurationAccountingProvider = shared.CustomerModelAccountingSyncConfigurationAccountingProvider
-
-// This is an alias to an internal type.
-type CustomerModelAccountingSyncConfigurationAccountingProvidersProviderType = shared.CustomerModelAccountingSyncConfigurationAccountingProvidersProviderType
-
-// This is an alias to an internal value.
-const CustomerModelAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks = shared.CustomerModelAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks
-
-// This is an alias to an internal value.
-const CustomerModelAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite = shared.CustomerModelAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite
-
-// This is an alias to an internal type.
-type CustomerModelReportingConfiguration = shared.CustomerModelReportingConfiguration
-
-// Tax IDs are commonly required to be displayed on customer invoices, which are
-// added to the headers of invoices.
-//
-// ### Supported Tax ID Countries and Types
-//
-// | Country              | Type         | Description                                                                                             |
-// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
-// | Andorra              | `ad_nrt`     | Andorran NRT Number                                                                                     |
-// | Argentina            | `ar_cuit`    | Argentinian Tax ID Number                                                                               |
-// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
-// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
-// | Austria              | `eu_vat`     | European VAT Number                                                                                     |
-// | Bahrain              | `bh_vat`     | Bahraini VAT Number                                                                                     |
-// | Belgium              | `eu_vat`     | European VAT Number                                                                                     |
-// | Bolivia              | `bo_tin`     | Bolivian Tax ID                                                                                         |
-// | Brazil               | `br_cnpj`    | Brazilian CNPJ Number                                                                                   |
-// | Brazil               | `br_cpf`     | Brazilian CPF Number                                                                                    |
-// | Bulgaria             | `bg_uic`     | Bulgaria Unified Identification Code                                                                    |
-// | Bulgaria             | `eu_vat`     | European VAT Number                                                                                     |
-// | Canada               | `ca_bn`      | Canadian BN                                                                                             |
-// | Canada               | `ca_gst_hst` | Canadian GST/HST Number                                                                                 |
-// | Canada               | `ca_pst_bc`  | Canadian PST Number (British Columbia)                                                                  |
-// | Canada               | `ca_pst_mb`  | Canadian PST Number (Manitoba)                                                                          |
-// | Canada               | `ca_pst_sk`  | Canadian PST Number (Saskatchewan)                                                                      |
-// | Canada               | `ca_qst`     | Canadian QST Number (Québec)                                                                            |
-// | Chile                | `cl_tin`     | Chilean TIN                                                                                             |
-// | China                | `cn_tin`     | Chinese Tax ID                                                                                          |
-// | Colombia             | `co_nit`     | Colombian NIT Number                                                                                    |
-// | Costa Rica           | `cr_tin`     | Costa Rican Tax ID                                                                                      |
-// | Croatia              | `eu_vat`     | European VAT Number                                                                                     |
-// | Cyprus               | `eu_vat`     | European VAT Number                                                                                     |
-// | Czech Republic       | `eu_vat`     | European VAT Number                                                                                     |
-// | Denmark              | `eu_vat`     | European VAT Number                                                                                     |
-// | Dominican Republic   | `do_rcn`     | Dominican RCN Number                                                                                    |
-// | Ecuador              | `ec_ruc`     | Ecuadorian RUC Number                                                                                   |
-// | Egypt                | `eg_tin`     | Egyptian Tax Identification Number                                                                      |
-// | El Salvador          | `sv_nit`     | El Salvadorian NIT Number                                                                               |
-// | Estonia              | `eu_vat`     | European VAT Number                                                                                     |
-// | EU                   | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
-// | Finland              | `eu_vat`     | European VAT Number                                                                                     |
-// | France               | `eu_vat`     | European VAT Number                                                                                     |
-// | Georgia              | `ge_vat`     | Georgian VAT                                                                                            |
-// | Germany              | `eu_vat`     | European VAT Number                                                                                     |
-// | Greece               | `eu_vat`     | European VAT Number                                                                                     |
-// | Hong Kong            | `hk_br`      | Hong Kong BR Number                                                                                     |
-// | Hungary              | `eu_vat`     | European VAT Number                                                                                     |
-// | Hungary              | `hu_tin`     | Hungary Tax Number (adószám)                                                                            |
-// | Iceland              | `is_vat`     | Icelandic VAT                                                                                           |
-// | India                | `in_gst`     | Indian GST Number                                                                                       |
-// | Indonesia            | `id_npwp`    | Indonesian NPWP Number                                                                                  |
-// | Ireland              | `eu_vat`     | European VAT Number                                                                                     |
-// | Israel               | `il_vat`     | Israel VAT                                                                                              |
-// | Italy                | `eu_vat`     | European VAT Number                                                                                     |
-// | Japan                | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
-// | Japan                | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
-// | Japan                | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
-// | Kazakhstan           | `kz_bin`     | Kazakhstani Business Identification Number                                                              |
-// | Kenya                | `ke_pin`     | Kenya Revenue Authority Personal Identification Number                                                  |
-// | Latvia               | `eu_vat`     | European VAT Number                                                                                     |
-// | Liechtenstein        | `li_uid`     | Liechtensteinian UID Number                                                                             |
-// | Lithuania            | `eu_vat`     | European VAT Number                                                                                     |
-// | Luxembourg           | `eu_vat`     | European VAT Number                                                                                     |
-// | Malaysia             | `my_frp`     | Malaysian FRP Number                                                                                    |
-// | Malaysia             | `my_itn`     | Malaysian ITN                                                                                           |
-// | Malaysia             | `my_sst`     | Malaysian SST Number                                                                                    |
-// | Malta                | `eu_vat `    | European VAT Number                                                                                     |
-// | Mexico               | `mx_rfc`     | Mexican RFC Number                                                                                      |
-// | Netherlands          | `eu_vat`     | European VAT Number                                                                                     |
-// | New Zealand          | `nz_gst`     | New Zealand GST Number                                                                                  |
-// | Nigeria              | `ng_tin`     | Nigerian Tax Identification Number                                                                      |
-// | Norway               | `no_vat`     | Norwegian VAT Number                                                                                    |
-// | Norway               | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
-// | Oman                 | `om_vat`     | Omani VAT Number                                                                                        |
-// | Peru                 | `pe_ruc`     | Peruvian RUC Number                                                                                     |
-// | Philippines          | `ph_tin `    | Philippines Tax Identification Number                                                                   |
-// | Poland               | `eu_vat`     | European VAT Number                                                                                     |
-// | Portugal             | `eu_vat`     | European VAT Number                                                                                     |
-// | Romania              | `eu_vat`     | European VAT Number                                                                                     |
-// | Romania              | `ro_tin`     | Romanian Tax ID Number                                                                                  |
-// | Russia               | `ru_inn`     | Russian INN                                                                                             |
-// | Russia               | `ru_kpp`     | Russian KPP                                                                                             |
-// | Saudi Arabia         | `sa_vat`     | Saudi Arabia VAT                                                                                        |
-// | Serbia               | `rs_pib`     | Serbian PIB Number                                                                                      |
-// | Singapore            | `sg_gst`     | Singaporean GST                                                                                         |
-// | Singapore            | `sg_uen`     | Singaporean UEN                                                                                         |
-// | Slovakia             | `eu_vat`     | European VAT Number                                                                                     |
-// | Slovenia             | `eu_vat`     | European VAT Number                                                                                     |
-// | Slovenia             | `si_tin`     | Slovenia Tax Number (davčna številka)                                                                   |
-// | South Africa         | `za_vat`     | South African VAT Number                                                                                |
-// | South Korea          | `kr_brn`     | Korean BRN                                                                                              |
-// | Spain                | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
-// | Spain                | `eu_vat`     | European VAT Number                                                                                     |
-// | Sweden               | `eu_vat`     | European VAT Number                                                                                     |
-// | Switzerland          | `ch_vat`     | Switzerland VAT Number                                                                                  |
-// | Taiwan               | `tw_vat`     | Taiwanese VAT                                                                                           |
-// | Thailand             | `th_vat`     | Thai VAT                                                                                                |
-// | Turkey               | `tr_tin`     | Turkish Tax Identification Number                                                                       |
-// | Ukraine              | `ua_vat`     | Ukrainian VAT                                                                                           |
-// | United Arab Emirates | `ae_trn`     | United Arab Emirates TRN                                                                                |
-// | United Kingdom       | `eu_vat`     | Northern Ireland VAT Number                                                                             |
-// | United Kingdom       | `gb_vat`     | United Kingdom VAT Number                                                                               |
-// | United States        | `us_ein`     | United States EIN                                                                                       |
-// | Uruguay              | `uy_ruc`     | Uruguayan RUC Number                                                                                    |
-// | Venezuela            | `ve_rif`     | Venezuelan RIF Number                                                                                   |
-// | Vietnam              | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
-//
-// This is an alias to an internal type.
-type CustomerTaxIDModel = shared.CustomerTaxIDModel
-
-// This is an alias to an internal type.
-type CustomerTaxIDModelCountry = shared.CustomerTaxIDModelCountry
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryAd = shared.CustomerTaxIDModelCountryAd
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryAe = shared.CustomerTaxIDModelCountryAe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryAr = shared.CustomerTaxIDModelCountryAr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryAt = shared.CustomerTaxIDModelCountryAt
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryAu = shared.CustomerTaxIDModelCountryAu
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryBe = shared.CustomerTaxIDModelCountryBe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryBg = shared.CustomerTaxIDModelCountryBg
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryBh = shared.CustomerTaxIDModelCountryBh
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryBo = shared.CustomerTaxIDModelCountryBo
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryBr = shared.CustomerTaxIDModelCountryBr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCa = shared.CustomerTaxIDModelCountryCa
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCh = shared.CustomerTaxIDModelCountryCh
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCl = shared.CustomerTaxIDModelCountryCl
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCn = shared.CustomerTaxIDModelCountryCn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCo = shared.CustomerTaxIDModelCountryCo
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCr = shared.CustomerTaxIDModelCountryCr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCy = shared.CustomerTaxIDModelCountryCy
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryCz = shared.CustomerTaxIDModelCountryCz
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryDe = shared.CustomerTaxIDModelCountryDe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryDk = shared.CustomerTaxIDModelCountryDk
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryEe = shared.CustomerTaxIDModelCountryEe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryDo = shared.CustomerTaxIDModelCountryDo
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryEc = shared.CustomerTaxIDModelCountryEc
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryEg = shared.CustomerTaxIDModelCountryEg
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryEs = shared.CustomerTaxIDModelCountryEs
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryEu = shared.CustomerTaxIDModelCountryEu
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryFi = shared.CustomerTaxIDModelCountryFi
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryFr = shared.CustomerTaxIDModelCountryFr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryGB = shared.CustomerTaxIDModelCountryGB
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryGe = shared.CustomerTaxIDModelCountryGe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryGr = shared.CustomerTaxIDModelCountryGr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryHk = shared.CustomerTaxIDModelCountryHk
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryHr = shared.CustomerTaxIDModelCountryHr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryHu = shared.CustomerTaxIDModelCountryHu
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryID = shared.CustomerTaxIDModelCountryID
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryIe = shared.CustomerTaxIDModelCountryIe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryIl = shared.CustomerTaxIDModelCountryIl
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryIn = shared.CustomerTaxIDModelCountryIn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryIs = shared.CustomerTaxIDModelCountryIs
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryIt = shared.CustomerTaxIDModelCountryIt
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryJp = shared.CustomerTaxIDModelCountryJp
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryKe = shared.CustomerTaxIDModelCountryKe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryKr = shared.CustomerTaxIDModelCountryKr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryKz = shared.CustomerTaxIDModelCountryKz
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryLi = shared.CustomerTaxIDModelCountryLi
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryLt = shared.CustomerTaxIDModelCountryLt
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryLu = shared.CustomerTaxIDModelCountryLu
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryLv = shared.CustomerTaxIDModelCountryLv
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryMt = shared.CustomerTaxIDModelCountryMt
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryMx = shared.CustomerTaxIDModelCountryMx
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryMy = shared.CustomerTaxIDModelCountryMy
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryNg = shared.CustomerTaxIDModelCountryNg
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryNl = shared.CustomerTaxIDModelCountryNl
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryNo = shared.CustomerTaxIDModelCountryNo
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryNz = shared.CustomerTaxIDModelCountryNz
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryOm = shared.CustomerTaxIDModelCountryOm
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryPe = shared.CustomerTaxIDModelCountryPe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryPh = shared.CustomerTaxIDModelCountryPh
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryPl = shared.CustomerTaxIDModelCountryPl
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryPt = shared.CustomerTaxIDModelCountryPt
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryRo = shared.CustomerTaxIDModelCountryRo
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryRs = shared.CustomerTaxIDModelCountryRs
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryRu = shared.CustomerTaxIDModelCountryRu
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountrySa = shared.CustomerTaxIDModelCountrySa
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountrySe = shared.CustomerTaxIDModelCountrySe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountrySg = shared.CustomerTaxIDModelCountrySg
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountrySi = shared.CustomerTaxIDModelCountrySi
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountrySk = shared.CustomerTaxIDModelCountrySk
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountrySv = shared.CustomerTaxIDModelCountrySv
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryTh = shared.CustomerTaxIDModelCountryTh
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryTr = shared.CustomerTaxIDModelCountryTr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryTw = shared.CustomerTaxIDModelCountryTw
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryUa = shared.CustomerTaxIDModelCountryUa
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryUs = shared.CustomerTaxIDModelCountryUs
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryUy = shared.CustomerTaxIDModelCountryUy
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryVe = shared.CustomerTaxIDModelCountryVe
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryVn = shared.CustomerTaxIDModelCountryVn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelCountryZa = shared.CustomerTaxIDModelCountryZa
-
-// This is an alias to an internal type.
-type CustomerTaxIDModelType = shared.CustomerTaxIDModelType
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeAdNrt = shared.CustomerTaxIDModelTypeAdNrt
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeAeTrn = shared.CustomerTaxIDModelTypeAeTrn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeArCuit = shared.CustomerTaxIDModelTypeArCuit
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeEuVat = shared.CustomerTaxIDModelTypeEuVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeAuAbn = shared.CustomerTaxIDModelTypeAuAbn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeAuArn = shared.CustomerTaxIDModelTypeAuArn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeBgUic = shared.CustomerTaxIDModelTypeBgUic
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeBhVat = shared.CustomerTaxIDModelTypeBhVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeBoTin = shared.CustomerTaxIDModelTypeBoTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeBrCnpj = shared.CustomerTaxIDModelTypeBrCnpj
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeBrCpf = shared.CustomerTaxIDModelTypeBrCpf
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCaBn = shared.CustomerTaxIDModelTypeCaBn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCaGstHst = shared.CustomerTaxIDModelTypeCaGstHst
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCaPstBc = shared.CustomerTaxIDModelTypeCaPstBc
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCaPstMB = shared.CustomerTaxIDModelTypeCaPstMB
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCaPstSk = shared.CustomerTaxIDModelTypeCaPstSk
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCaQst = shared.CustomerTaxIDModelTypeCaQst
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeChVat = shared.CustomerTaxIDModelTypeChVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeClTin = shared.CustomerTaxIDModelTypeClTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCnTin = shared.CustomerTaxIDModelTypeCnTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCoNit = shared.CustomerTaxIDModelTypeCoNit
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeCrTin = shared.CustomerTaxIDModelTypeCrTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeDoRcn = shared.CustomerTaxIDModelTypeDoRcn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeEcRuc = shared.CustomerTaxIDModelTypeEcRuc
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeEgTin = shared.CustomerTaxIDModelTypeEgTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeEsCif = shared.CustomerTaxIDModelTypeEsCif
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeEuOssVat = shared.CustomerTaxIDModelTypeEuOssVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeGBVat = shared.CustomerTaxIDModelTypeGBVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeGeVat = shared.CustomerTaxIDModelTypeGeVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeHkBr = shared.CustomerTaxIDModelTypeHkBr
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeHuTin = shared.CustomerTaxIDModelTypeHuTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeIDNpwp = shared.CustomerTaxIDModelTypeIDNpwp
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeIlVat = shared.CustomerTaxIDModelTypeIlVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeInGst = shared.CustomerTaxIDModelTypeInGst
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeIsVat = shared.CustomerTaxIDModelTypeIsVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeJpCn = shared.CustomerTaxIDModelTypeJpCn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeJpRn = shared.CustomerTaxIDModelTypeJpRn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeJpTrn = shared.CustomerTaxIDModelTypeJpTrn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeKePin = shared.CustomerTaxIDModelTypeKePin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeKrBrn = shared.CustomerTaxIDModelTypeKrBrn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeKzBin = shared.CustomerTaxIDModelTypeKzBin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeLiUid = shared.CustomerTaxIDModelTypeLiUid
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeMxRfc = shared.CustomerTaxIDModelTypeMxRfc
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeMyFrp = shared.CustomerTaxIDModelTypeMyFrp
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeMyItn = shared.CustomerTaxIDModelTypeMyItn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeMySst = shared.CustomerTaxIDModelTypeMySst
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeNgTin = shared.CustomerTaxIDModelTypeNgTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeNoVat = shared.CustomerTaxIDModelTypeNoVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeNoVoec = shared.CustomerTaxIDModelTypeNoVoec
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeNzGst = shared.CustomerTaxIDModelTypeNzGst
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeOmVat = shared.CustomerTaxIDModelTypeOmVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypePeRuc = shared.CustomerTaxIDModelTypePeRuc
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypePhTin = shared.CustomerTaxIDModelTypePhTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeRoTin = shared.CustomerTaxIDModelTypeRoTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeRsPib = shared.CustomerTaxIDModelTypeRsPib
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeRuInn = shared.CustomerTaxIDModelTypeRuInn
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeRuKpp = shared.CustomerTaxIDModelTypeRuKpp
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeSaVat = shared.CustomerTaxIDModelTypeSaVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeSgGst = shared.CustomerTaxIDModelTypeSgGst
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeSgUen = shared.CustomerTaxIDModelTypeSgUen
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeSiTin = shared.CustomerTaxIDModelTypeSiTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeSvNit = shared.CustomerTaxIDModelTypeSvNit
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeThVat = shared.CustomerTaxIDModelTypeThVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeTrTin = shared.CustomerTaxIDModelTypeTrTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeTwVat = shared.CustomerTaxIDModelTypeTwVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeUaVat = shared.CustomerTaxIDModelTypeUaVat
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeUsEin = shared.CustomerTaxIDModelTypeUsEin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeUyRuc = shared.CustomerTaxIDModelTypeUyRuc
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeVeRif = shared.CustomerTaxIDModelTypeVeRif
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeVnTin = shared.CustomerTaxIDModelTypeVnTin
-
-// This is an alias to an internal value.
-const CustomerTaxIDModelTypeZaVat = shared.CustomerTaxIDModelTypeZaVat
-
-// Tax IDs are commonly required to be displayed on customer invoices, which are
-// added to the headers of invoices.
-//
-// ### Supported Tax ID Countries and Types
-//
-// | Country              | Type         | Description                                                                                             |
-// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
-// | Andorra              | `ad_nrt`     | Andorran NRT Number                                                                                     |
-// | Argentina            | `ar_cuit`    | Argentinian Tax ID Number                                                                               |
-// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
-// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
-// | Austria              | `eu_vat`     | European VAT Number                                                                                     |
-// | Bahrain              | `bh_vat`     | Bahraini VAT Number                                                                                     |
-// | Belgium              | `eu_vat`     | European VAT Number                                                                                     |
-// | Bolivia              | `bo_tin`     | Bolivian Tax ID                                                                                         |
-// | Brazil               | `br_cnpj`    | Brazilian CNPJ Number                                                                                   |
-// | Brazil               | `br_cpf`     | Brazilian CPF Number                                                                                    |
-// | Bulgaria             | `bg_uic`     | Bulgaria Unified Identification Code                                                                    |
-// | Bulgaria             | `eu_vat`     | European VAT Number                                                                                     |
-// | Canada               | `ca_bn`      | Canadian BN                                                                                             |
-// | Canada               | `ca_gst_hst` | Canadian GST/HST Number                                                                                 |
-// | Canada               | `ca_pst_bc`  | Canadian PST Number (British Columbia)                                                                  |
-// | Canada               | `ca_pst_mb`  | Canadian PST Number (Manitoba)                                                                          |
-// | Canada               | `ca_pst_sk`  | Canadian PST Number (Saskatchewan)                                                                      |
-// | Canada               | `ca_qst`     | Canadian QST Number (Québec)                                                                            |
-// | Chile                | `cl_tin`     | Chilean TIN                                                                                             |
-// | China                | `cn_tin`     | Chinese Tax ID                                                                                          |
-// | Colombia             | `co_nit`     | Colombian NIT Number                                                                                    |
-// | Costa Rica           | `cr_tin`     | Costa Rican Tax ID                                                                                      |
-// | Croatia              | `eu_vat`     | European VAT Number                                                                                     |
-// | Cyprus               | `eu_vat`     | European VAT Number                                                                                     |
-// | Czech Republic       | `eu_vat`     | European VAT Number                                                                                     |
-// | Denmark              | `eu_vat`     | European VAT Number                                                                                     |
-// | Dominican Republic   | `do_rcn`     | Dominican RCN Number                                                                                    |
-// | Ecuador              | `ec_ruc`     | Ecuadorian RUC Number                                                                                   |
-// | Egypt                | `eg_tin`     | Egyptian Tax Identification Number                                                                      |
-// | El Salvador          | `sv_nit`     | El Salvadorian NIT Number                                                                               |
-// | Estonia              | `eu_vat`     | European VAT Number                                                                                     |
-// | EU                   | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
-// | Finland              | `eu_vat`     | European VAT Number                                                                                     |
-// | France               | `eu_vat`     | European VAT Number                                                                                     |
-// | Georgia              | `ge_vat`     | Georgian VAT                                                                                            |
-// | Germany              | `eu_vat`     | European VAT Number                                                                                     |
-// | Greece               | `eu_vat`     | European VAT Number                                                                                     |
-// | Hong Kong            | `hk_br`      | Hong Kong BR Number                                                                                     |
-// | Hungary              | `eu_vat`     | European VAT Number                                                                                     |
-// | Hungary              | `hu_tin`     | Hungary Tax Number (adószám)                                                                            |
-// | Iceland              | `is_vat`     | Icelandic VAT                                                                                           |
-// | India                | `in_gst`     | Indian GST Number                                                                                       |
-// | Indonesia            | `id_npwp`    | Indonesian NPWP Number                                                                                  |
-// | Ireland              | `eu_vat`     | European VAT Number                                                                                     |
-// | Israel               | `il_vat`     | Israel VAT                                                                                              |
-// | Italy                | `eu_vat`     | European VAT Number                                                                                     |
-// | Japan                | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
-// | Japan                | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
-// | Japan                | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
-// | Kazakhstan           | `kz_bin`     | Kazakhstani Business Identification Number                                                              |
-// | Kenya                | `ke_pin`     | Kenya Revenue Authority Personal Identification Number                                                  |
-// | Latvia               | `eu_vat`     | European VAT Number                                                                                     |
-// | Liechtenstein        | `li_uid`     | Liechtensteinian UID Number                                                                             |
-// | Lithuania            | `eu_vat`     | European VAT Number                                                                                     |
-// | Luxembourg           | `eu_vat`     | European VAT Number                                                                                     |
-// | Malaysia             | `my_frp`     | Malaysian FRP Number                                                                                    |
-// | Malaysia             | `my_itn`     | Malaysian ITN                                                                                           |
-// | Malaysia             | `my_sst`     | Malaysian SST Number                                                                                    |
-// | Malta                | `eu_vat `    | European VAT Number                                                                                     |
-// | Mexico               | `mx_rfc`     | Mexican RFC Number                                                                                      |
-// | Netherlands          | `eu_vat`     | European VAT Number                                                                                     |
-// | New Zealand          | `nz_gst`     | New Zealand GST Number                                                                                  |
-// | Nigeria              | `ng_tin`     | Nigerian Tax Identification Number                                                                      |
-// | Norway               | `no_vat`     | Norwegian VAT Number                                                                                    |
-// | Norway               | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
-// | Oman                 | `om_vat`     | Omani VAT Number                                                                                        |
-// | Peru                 | `pe_ruc`     | Peruvian RUC Number                                                                                     |
-// | Philippines          | `ph_tin `    | Philippines Tax Identification Number                                                                   |
-// | Poland               | `eu_vat`     | European VAT Number                                                                                     |
-// | Portugal             | `eu_vat`     | European VAT Number                                                                                     |
-// | Romania              | `eu_vat`     | European VAT Number                                                                                     |
-// | Romania              | `ro_tin`     | Romanian Tax ID Number                                                                                  |
-// | Russia               | `ru_inn`     | Russian INN                                                                                             |
-// | Russia               | `ru_kpp`     | Russian KPP                                                                                             |
-// | Saudi Arabia         | `sa_vat`     | Saudi Arabia VAT                                                                                        |
-// | Serbia               | `rs_pib`     | Serbian PIB Number                                                                                      |
-// | Singapore            | `sg_gst`     | Singaporean GST                                                                                         |
-// | Singapore            | `sg_uen`     | Singaporean UEN                                                                                         |
-// | Slovakia             | `eu_vat`     | European VAT Number                                                                                     |
-// | Slovenia             | `eu_vat`     | European VAT Number                                                                                     |
-// | Slovenia             | `si_tin`     | Slovenia Tax Number (davčna številka)                                                                   |
-// | South Africa         | `za_vat`     | South African VAT Number                                                                                |
-// | South Korea          | `kr_brn`     | Korean BRN                                                                                              |
-// | Spain                | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
-// | Spain                | `eu_vat`     | European VAT Number                                                                                     |
-// | Sweden               | `eu_vat`     | European VAT Number                                                                                     |
-// | Switzerland          | `ch_vat`     | Switzerland VAT Number                                                                                  |
-// | Taiwan               | `tw_vat`     | Taiwanese VAT                                                                                           |
-// | Thailand             | `th_vat`     | Thai VAT                                                                                                |
-// | Turkey               | `tr_tin`     | Turkish Tax Identification Number                                                                       |
-// | Ukraine              | `ua_vat`     | Ukrainian VAT                                                                                           |
-// | United Arab Emirates | `ae_trn`     | United Arab Emirates TRN                                                                                |
-// | United Kingdom       | `eu_vat`     | Northern Ireland VAT Number                                                                             |
-// | United Kingdom       | `gb_vat`     | United Kingdom VAT Number                                                                               |
-// | United States        | `us_ein`     | United States EIN                                                                                       |
-// | Uruguay              | `uy_ruc`     | Uruguayan RUC Number                                                                                    |
-// | Venezuela            | `ve_rif`     | Venezuelan RIF Number                                                                                   |
-// | Vietnam              | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
-//
-// This is an alias to an internal type.
-type CustomerTaxIDModelParam = shared.CustomerTaxIDModelParam
-
-// This is an alias to an internal type.
-type DimensionalPriceConfigurationModel = shared.DimensionalPriceConfigurationModel
-
-// A dimensional price group is used to partition the result of a billable metric
-// by a set of dimensions. Prices in a price group must specify the parition used
-// to derive their usage.
-//
-// This is an alias to an internal type.
-type DimensionalPriceGroupModel = shared.DimensionalPriceGroupModel
 
 // This is an alias to an internal type.
 type Discount = shared.Discount
@@ -1496,24 +2090,6 @@ type DiscountUnionParam = shared.DiscountUnionParam
 type DiscountUsageDiscountParam = shared.DiscountUsageDiscountParam
 
 // This is an alias to an internal type.
-type DiscountOverrideModelParam = shared.DiscountOverrideModelParam
-
-// This is an alias to an internal type.
-type DiscountOverrideModelDiscountType = shared.DiscountOverrideModelDiscountType
-
-// This is an alias to an internal value.
-const DiscountOverrideModelDiscountTypePercentage = shared.DiscountOverrideModelDiscountTypePercentage
-
-// This is an alias to an internal value.
-const DiscountOverrideModelDiscountTypeUsage = shared.DiscountOverrideModelDiscountTypeUsage
-
-// This is an alias to an internal value.
-const DiscountOverrideModelDiscountTypeAmount = shared.DiscountOverrideModelDiscountTypeAmount
-
-// This is an alias to an internal type.
-type FixedFeeQuantityScheduleEntryModel = shared.FixedFeeQuantityScheduleEntryModel
-
-// This is an alias to an internal type.
 type InvoiceLevelDiscount = shared.InvoiceLevelDiscount
 
 // This is an alias to an internal type.
@@ -1529,2338 +2105,7 @@ const InvoiceLevelDiscountDiscountTypeAmount = shared.InvoiceLevelDiscountDiscou
 const InvoiceLevelDiscountDiscountTypeTrial = shared.InvoiceLevelDiscountDiscountTypeTrial
 
 // This is an alias to an internal type.
-type InvoiceLineItemModel = shared.InvoiceLineItemModel
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustment = shared.InvoiceLineItemModelAdjustment
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryUsageDiscountAdjustment = shared.InvoiceLineItemModelAdjustmentsMonetaryUsageDiscountAdjustment
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryUsageDiscountAdjustmentAdjustmentType = shared.InvoiceLineItemModelAdjustmentsMonetaryUsageDiscountAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsMonetaryUsageDiscountAdjustmentAdjustmentTypeUsageDiscount = shared.InvoiceLineItemModelAdjustmentsMonetaryUsageDiscountAdjustmentAdjustmentTypeUsageDiscount
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryAmountDiscountAdjustment = shared.InvoiceLineItemModelAdjustmentsMonetaryAmountDiscountAdjustment
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryAmountDiscountAdjustmentAdjustmentType = shared.InvoiceLineItemModelAdjustmentsMonetaryAmountDiscountAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsMonetaryAmountDiscountAdjustmentAdjustmentTypeAmountDiscount = shared.InvoiceLineItemModelAdjustmentsMonetaryAmountDiscountAdjustmentAdjustmentTypeAmountDiscount
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryPercentageDiscountAdjustment = shared.InvoiceLineItemModelAdjustmentsMonetaryPercentageDiscountAdjustment
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryPercentageDiscountAdjustmentAdjustmentType = shared.InvoiceLineItemModelAdjustmentsMonetaryPercentageDiscountAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsMonetaryPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount = shared.InvoiceLineItemModelAdjustmentsMonetaryPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryMinimumAdjustment = shared.InvoiceLineItemModelAdjustmentsMonetaryMinimumAdjustment
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryMinimumAdjustmentAdjustmentType = shared.InvoiceLineItemModelAdjustmentsMonetaryMinimumAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsMonetaryMinimumAdjustmentAdjustmentTypeMinimum = shared.InvoiceLineItemModelAdjustmentsMonetaryMinimumAdjustmentAdjustmentTypeMinimum
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryMaximumAdjustment = shared.InvoiceLineItemModelAdjustmentsMonetaryMaximumAdjustment
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsMonetaryMaximumAdjustmentAdjustmentType = shared.InvoiceLineItemModelAdjustmentsMonetaryMaximumAdjustmentAdjustmentType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsMonetaryMaximumAdjustmentAdjustmentTypeMaximum = shared.InvoiceLineItemModelAdjustmentsMonetaryMaximumAdjustmentAdjustmentTypeMaximum
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelAdjustmentsAdjustmentType = shared.InvoiceLineItemModelAdjustmentsAdjustmentType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsAdjustmentTypeUsageDiscount = shared.InvoiceLineItemModelAdjustmentsAdjustmentTypeUsageDiscount
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsAdjustmentTypeAmountDiscount = shared.InvoiceLineItemModelAdjustmentsAdjustmentTypeAmountDiscount
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsAdjustmentTypePercentageDiscount = shared.InvoiceLineItemModelAdjustmentsAdjustmentTypePercentageDiscount
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsAdjustmentTypeMinimum = shared.InvoiceLineItemModelAdjustmentsAdjustmentTypeMinimum
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelAdjustmentsAdjustmentTypeMaximum = shared.InvoiceLineItemModelAdjustmentsAdjustmentTypeMaximum
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItem = shared.InvoiceLineItemModelSubLineItem
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsMatrixSubLineItem = shared.InvoiceLineItemModelSubLineItemsMatrixSubLineItem
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsMatrixSubLineItemMatrixConfig = shared.InvoiceLineItemModelSubLineItemsMatrixSubLineItemMatrixConfig
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsMatrixSubLineItemType = shared.InvoiceLineItemModelSubLineItemsMatrixSubLineItemType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelSubLineItemsMatrixSubLineItemTypeMatrix = shared.InvoiceLineItemModelSubLineItemsMatrixSubLineItemTypeMatrix
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsTierSubLineItem = shared.InvoiceLineItemModelSubLineItemsTierSubLineItem
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsTierSubLineItemTierConfig = shared.InvoiceLineItemModelSubLineItemsTierSubLineItemTierConfig
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsTierSubLineItemType = shared.InvoiceLineItemModelSubLineItemsTierSubLineItemType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelSubLineItemsTierSubLineItemTypeTier = shared.InvoiceLineItemModelSubLineItemsTierSubLineItemTypeTier
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsOtherSubLineItem = shared.InvoiceLineItemModelSubLineItemsOtherSubLineItem
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsOtherSubLineItemType = shared.InvoiceLineItemModelSubLineItemsOtherSubLineItemType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelSubLineItemsOtherSubLineItemTypeNull = shared.InvoiceLineItemModelSubLineItemsOtherSubLineItemTypeNull
-
-// This is an alias to an internal type.
-type InvoiceLineItemModelSubLineItemsType = shared.InvoiceLineItemModelSubLineItemsType
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelSubLineItemsTypeMatrix = shared.InvoiceLineItemModelSubLineItemsTypeMatrix
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelSubLineItemsTypeTier = shared.InvoiceLineItemModelSubLineItemsTypeTier
-
-// This is an alias to an internal value.
-const InvoiceLineItemModelSubLineItemsTypeNull = shared.InvoiceLineItemModelSubLineItemsTypeNull
-
-// An [`Invoice`](/core-concepts#invoice) is a fundamental billing entity,
-// representing the request for payment for a single subscription. This includes a
-// set of line items, which correspond to prices in the subscription's plan and can
-// represent fixed recurring fees or usage-based fees. They are generated at the
-// end of a billing period, or as the result of an action, such as a cancellation.
-//
-// This is an alias to an internal type.
-type InvoiceModel = shared.InvoiceModel
-
-// This is an alias to an internal type.
-type InvoiceModelInvoiceSource = shared.InvoiceModelInvoiceSource
-
-// This is an alias to an internal value.
-const InvoiceModelInvoiceSourceSubscription = shared.InvoiceModelInvoiceSourceSubscription
-
-// This is an alias to an internal value.
-const InvoiceModelInvoiceSourcePartial = shared.InvoiceModelInvoiceSourcePartial
-
-// This is an alias to an internal value.
-const InvoiceModelInvoiceSourceOneOff = shared.InvoiceModelInvoiceSourceOneOff
-
-// This is an alias to an internal type.
-type InvoiceModelStatus = shared.InvoiceModelStatus
-
-// This is an alias to an internal value.
-const InvoiceModelStatusIssued = shared.InvoiceModelStatusIssued
-
-// This is an alias to an internal value.
-const InvoiceModelStatusPaid = shared.InvoiceModelStatusPaid
-
-// This is an alias to an internal value.
-const InvoiceModelStatusSynced = shared.InvoiceModelStatusSynced
-
-// This is an alias to an internal value.
-const InvoiceModelStatusVoid = shared.InvoiceModelStatusVoid
-
-// This is an alias to an internal value.
-const InvoiceModelStatusDraft = shared.InvoiceModelStatusDraft
-
-// This is an alias to an internal type.
-type ItemExternalConnectionModel = shared.ItemExternalConnectionModel
-
-// This is an alias to an internal type.
-type ItemExternalConnectionModelExternalConnectionName = shared.ItemExternalConnectionModelExternalConnectionName
-
-// This is an alias to an internal value.
-const ItemExternalConnectionModelExternalConnectionNameStripe = shared.ItemExternalConnectionModelExternalConnectionNameStripe
-
-// This is an alias to an internal value.
-const ItemExternalConnectionModelExternalConnectionNameQuickbooks = shared.ItemExternalConnectionModelExternalConnectionNameQuickbooks
-
-// This is an alias to an internal value.
-const ItemExternalConnectionModelExternalConnectionNameBillCom = shared.ItemExternalConnectionModelExternalConnectionNameBillCom
-
-// This is an alias to an internal value.
-const ItemExternalConnectionModelExternalConnectionNameNetsuite = shared.ItemExternalConnectionModelExternalConnectionNameNetsuite
-
-// This is an alias to an internal value.
-const ItemExternalConnectionModelExternalConnectionNameTaxjar = shared.ItemExternalConnectionModelExternalConnectionNameTaxjar
-
-// This is an alias to an internal value.
-const ItemExternalConnectionModelExternalConnectionNameAvalara = shared.ItemExternalConnectionModelExternalConnectionNameAvalara
-
-// This is an alias to an internal value.
-const ItemExternalConnectionModelExternalConnectionNameAnrok = shared.ItemExternalConnectionModelExternalConnectionNameAnrok
-
-// This is an alias to an internal type.
-type ItemExternalConnectionModelParam = shared.ItemExternalConnectionModelParam
-
-// The Item resource represents a sellable product or good. Items are associated
-// with all line items, billable metrics, and prices and are used for defining
-// external sync behavior for invoices and tax calculation purposes.
-//
-// This is an alias to an internal type.
-type ItemModel = shared.ItemModel
-
-// This is an alias to an internal type.
-type ItemSlimModel = shared.ItemSlimModel
-
-// This is an alias to an internal type.
-type MatrixConfigModel = shared.MatrixConfigModel
-
-// This is an alias to an internal type.
-type MatrixConfigModelParam = shared.MatrixConfigModelParam
-
-// This is an alias to an internal type.
-type MatrixValueModel = shared.MatrixValueModel
-
-// This is an alias to an internal type.
-type MatrixValueModelParam = shared.MatrixValueModelParam
-
-// This is an alias to an internal type.
-type MatrixWithAllocationConfigModel = shared.MatrixWithAllocationConfigModel
-
-// This is an alias to an internal type.
-type MatrixWithAllocationConfigModelParam = shared.MatrixWithAllocationConfigModelParam
-
-// This is an alias to an internal type.
-type MaximumIntervalModel = shared.MaximumIntervalModel
-
-// This is an alias to an internal type.
-type MaximumModel = shared.MaximumModel
-
-// This is an alias to an internal type.
-type MinimumIntervalModel = shared.MinimumIntervalModel
-
-// This is an alias to an internal type.
-type MinimumModel = shared.MinimumModel
-
-// This is an alias to an internal type.
-type MutatedSubscriptionModel = shared.MutatedSubscriptionModel
-
-// This is an alias to an internal type.
-type MutatedSubscriptionModelDiscountInterval = shared.MutatedSubscriptionModelDiscountInterval
-
-// This is an alias to an internal type.
-type MutatedSubscriptionModelDiscountIntervalsDiscountType = shared.MutatedSubscriptionModelDiscountIntervalsDiscountType
-
-// This is an alias to an internal value.
-const MutatedSubscriptionModelDiscountIntervalsDiscountTypeAmount = shared.MutatedSubscriptionModelDiscountIntervalsDiscountTypeAmount
-
-// This is an alias to an internal value.
-const MutatedSubscriptionModelDiscountIntervalsDiscountTypePercentage = shared.MutatedSubscriptionModelDiscountIntervalsDiscountTypePercentage
-
-// This is an alias to an internal value.
-const MutatedSubscriptionModelDiscountIntervalsDiscountTypeUsage = shared.MutatedSubscriptionModelDiscountIntervalsDiscountTypeUsage
-
-// This is an alias to an internal type.
-type MutatedSubscriptionModelStatus = shared.MutatedSubscriptionModelStatus
-
-// This is an alias to an internal value.
-const MutatedSubscriptionModelStatusActive = shared.MutatedSubscriptionModelStatusActive
-
-// This is an alias to an internal value.
-const MutatedSubscriptionModelStatusEnded = shared.MutatedSubscriptionModelStatusEnded
-
-// This is an alias to an internal value.
-const MutatedSubscriptionModelStatusUpcoming = shared.MutatedSubscriptionModelStatusUpcoming
-
-// This is an alias to an internal type.
-type NewAccountingSyncConfigurationModelParam = shared.NewAccountingSyncConfigurationModelParam
-
-// This is an alias to an internal type.
-type NewAccountingSyncConfigurationModelAccountingProviderParam = shared.NewAccountingSyncConfigurationModelAccountingProviderParam
-
-// This is an alias to an internal type.
-type NewAdjustmentModelUnionParam = shared.NewAdjustmentModelUnionParam
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewPercentageDiscountParam = shared.NewAdjustmentModelNewPercentageDiscountParam
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewPercentageDiscountAdjustmentType = shared.NewAdjustmentModelNewPercentageDiscountAdjustmentType
-
-// This is an alias to an internal value.
-const NewAdjustmentModelNewPercentageDiscountAdjustmentTypePercentageDiscount = shared.NewAdjustmentModelNewPercentageDiscountAdjustmentTypePercentageDiscount
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewUsageDiscountParam = shared.NewAdjustmentModelNewUsageDiscountParam
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewUsageDiscountAdjustmentType = shared.NewAdjustmentModelNewUsageDiscountAdjustmentType
-
-// This is an alias to an internal value.
-const NewAdjustmentModelNewUsageDiscountAdjustmentTypeUsageDiscount = shared.NewAdjustmentModelNewUsageDiscountAdjustmentTypeUsageDiscount
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewAmountDiscountParam = shared.NewAdjustmentModelNewAmountDiscountParam
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewAmountDiscountAdjustmentType = shared.NewAdjustmentModelNewAmountDiscountAdjustmentType
-
-// This is an alias to an internal value.
-const NewAdjustmentModelNewAmountDiscountAdjustmentTypeAmountDiscount = shared.NewAdjustmentModelNewAmountDiscountAdjustmentTypeAmountDiscount
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewMinimumParam = shared.NewAdjustmentModelNewMinimumParam
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewMinimumAdjustmentType = shared.NewAdjustmentModelNewMinimumAdjustmentType
-
-// This is an alias to an internal value.
-const NewAdjustmentModelNewMinimumAdjustmentTypeMinimum = shared.NewAdjustmentModelNewMinimumAdjustmentTypeMinimum
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewMaximumParam = shared.NewAdjustmentModelNewMaximumParam
-
-// This is an alias to an internal type.
-type NewAdjustmentModelNewMaximumAdjustmentType = shared.NewAdjustmentModelNewMaximumAdjustmentType
-
-// This is an alias to an internal value.
-const NewAdjustmentModelNewMaximumAdjustmentTypeMaximum = shared.NewAdjustmentModelNewMaximumAdjustmentTypeMaximum
-
-// This is an alias to an internal type.
-type NewAdjustmentModelAdjustmentType = shared.NewAdjustmentModelAdjustmentType
-
-// This is an alias to an internal value.
-const NewAdjustmentModelAdjustmentTypePercentageDiscount = shared.NewAdjustmentModelAdjustmentTypePercentageDiscount
-
-// This is an alias to an internal value.
-const NewAdjustmentModelAdjustmentTypeUsageDiscount = shared.NewAdjustmentModelAdjustmentTypeUsageDiscount
-
-// This is an alias to an internal value.
-const NewAdjustmentModelAdjustmentTypeAmountDiscount = shared.NewAdjustmentModelAdjustmentTypeAmountDiscount
-
-// This is an alias to an internal value.
-const NewAdjustmentModelAdjustmentTypeMinimum = shared.NewAdjustmentModelAdjustmentTypeMinimum
-
-// This is an alias to an internal value.
-const NewAdjustmentModelAdjustmentTypeMaximum = shared.NewAdjustmentModelAdjustmentTypeMaximum
-
-// This is an alias to an internal type.
-type NewAllocationPriceModelParam = shared.NewAllocationPriceModelParam
-
-// The cadence at which to allocate the amount to the customer.
-//
-// This is an alias to an internal type.
-type NewAllocationPriceModelCadence = shared.NewAllocationPriceModelCadence
-
-// This is an alias to an internal value.
-const NewAllocationPriceModelCadenceOneTime = shared.NewAllocationPriceModelCadenceOneTime
-
-// This is an alias to an internal value.
-const NewAllocationPriceModelCadenceMonthly = shared.NewAllocationPriceModelCadenceMonthly
-
-// This is an alias to an internal value.
-const NewAllocationPriceModelCadenceQuarterly = shared.NewAllocationPriceModelCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewAllocationPriceModelCadenceSemiAnnual = shared.NewAllocationPriceModelCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewAllocationPriceModelCadenceAnnual = shared.NewAllocationPriceModelCadenceAnnual
-
-// This is an alias to an internal value.
-const NewAllocationPriceModelCadenceCustom = shared.NewAllocationPriceModelCadenceCustom
-
-// This is an alias to an internal type.
-type NewBillingCycleConfigurationModelParam = shared.NewBillingCycleConfigurationModelParam
-
-// The unit of billing period duration.
-//
-// This is an alias to an internal type.
-type NewBillingCycleConfigurationModelDurationUnit = shared.NewBillingCycleConfigurationModelDurationUnit
-
-// This is an alias to an internal value.
-const NewBillingCycleConfigurationModelDurationUnitDay = shared.NewBillingCycleConfigurationModelDurationUnitDay
-
-// This is an alias to an internal value.
-const NewBillingCycleConfigurationModelDurationUnitMonth = shared.NewBillingCycleConfigurationModelDurationUnitMonth
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelUnionParam = shared.NewFloatingPriceModelUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitPriceParam = shared.NewFloatingPriceModelNewFloatingUnitPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitPriceCadence = shared.NewFloatingPriceModelNewFloatingUnitPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingUnitPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingUnitPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingUnitPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingUnitPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingUnitPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingUnitPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitPriceModelType = shared.NewFloatingPriceModelNewFloatingUnitPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitPriceModelTypeUnit = shared.NewFloatingPriceModelNewFloatingUnitPriceModelTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingPackagePriceParam = shared.NewFloatingPriceModelNewFloatingPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingPackagePriceCadence = shared.NewFloatingPriceModelNewFloatingPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackagePriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackagePriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackagePriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackagePriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackagePriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackagePriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingPackagePriceModelType = shared.NewFloatingPriceModelNewFloatingPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackagePriceModelTypePackage = shared.NewFloatingPriceModelNewFloatingPackagePriceModelTypePackage
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixPriceParam = shared.NewFloatingPriceModelNewFloatingMatrixPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixPriceCadence = shared.NewFloatingPriceModelNewFloatingMatrixPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingMatrixPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingMatrixPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingMatrixPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingMatrixPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingMatrixPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingMatrixPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixPriceModelType = shared.NewFloatingPriceModelNewFloatingMatrixPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixPriceModelTypeMatrix = shared.NewFloatingPriceModelNewFloatingMatrixPriceModelTypeMatrix
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceParam = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadence = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceModelType = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation = shared.NewFloatingPriceModelNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPriceParam = shared.NewFloatingPriceModelNewFloatingTieredPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPriceCadence = shared.NewFloatingPriceModelNewFloatingTieredPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingTieredPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingTieredPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingTieredPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingTieredPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingTieredPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPriceModelType = shared.NewFloatingPriceModelNewFloatingTieredPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPriceModelTypeTiered = shared.NewFloatingPriceModelNewFloatingTieredPriceModelTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredBpsPriceParam = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredBpsPriceCadence = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredBpsPriceModelType = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredBpsPriceModelTypeTieredBps = shared.NewFloatingPriceModelNewFloatingTieredBpsPriceModelTypeTieredBps
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBpsPriceParam = shared.NewFloatingPriceModelNewFloatingBpsPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBpsPriceCadence = shared.NewFloatingPriceModelNewFloatingBpsPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBpsPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBpsPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBpsPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBpsPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBpsPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBpsPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBpsPriceModelType = shared.NewFloatingPriceModelNewFloatingBpsPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBpsPriceModelTypeBps = shared.NewFloatingPriceModelNewFloatingBpsPriceModelTypeBps
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkBpsPriceParam = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkBpsPriceCadence = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkBpsPriceModelType = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkBpsPriceModelTypeBulkBps = shared.NewFloatingPriceModelNewFloatingBulkBpsPriceModelTypeBulkBps
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkPriceParam = shared.NewFloatingPriceModelNewFloatingBulkPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkPriceCadence = shared.NewFloatingPriceModelNewFloatingBulkPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingBulkPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingBulkPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingBulkPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingBulkPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkPriceModelType = shared.NewFloatingPriceModelNewFloatingBulkPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkPriceModelTypeBulk = shared.NewFloatingPriceModelNewFloatingBulkPriceModelTypeBulk
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceParam = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadence = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceModelType = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.NewFloatingPriceModelNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPackagePriceParam = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPackagePriceCadence = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPackagePriceModelType = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackagePriceModelTypeTieredPackage = shared.NewFloatingPriceModelNewFloatingTieredPackagePriceModelTypeTieredPackage
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedTieredPriceParam = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedTieredPriceCadence = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedTieredPriceModelType = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPriceModelTypeGroupedTiered = shared.NewFloatingPriceModelNewFloatingGroupedTieredPriceModelTypeGroupedTiered
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceParam = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadence = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceModelType = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage = shared.NewFloatingPriceModelNewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredWithMinimumPriceParam = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadence = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredWithMinimumPriceModelType = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.NewFloatingPriceModelNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingPackageWithAllocationPriceParam = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadence = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingPackageWithAllocationPriceModelType = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation = shared.NewFloatingPriceModelNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceParam = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadence = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceModelType = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum = shared.NewFloatingPriceModelNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitWithPercentPriceParam = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadence = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitWithPercentPriceModelType = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent = shared.NewFloatingPriceModelNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredWithProrationPriceParam = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadence = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingTieredWithProrationPriceModelType = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingTieredWithProrationPriceModelTypeTieredWithProration = shared.NewFloatingPriceModelNewFloatingTieredWithProrationPriceModelTypeTieredWithProration
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitWithProrationPriceParam = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadence = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingUnitWithProrationPriceModelType = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingUnitWithProrationPriceModelTypeUnitWithProration = shared.NewFloatingPriceModelNewFloatingUnitWithProrationPriceModelTypeUnitWithProration
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedAllocationPriceParam = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadence = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedAllocationPriceModelType = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation = shared.NewFloatingPriceModelNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceParam = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadence = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceModelType = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum = shared.NewFloatingPriceModelNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceParam = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadence = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceModelType = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum = shared.NewFloatingPriceModelNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceParam = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadence = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceModelType = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName = shared.NewFloatingPriceModelNewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkWithProrationPriceParam = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadence = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingBulkWithProrationPriceModelType = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingBulkWithProrationPriceModelTypeBulkWithProration = shared.NewFloatingPriceModelNewFloatingBulkWithProrationPriceModelTypeBulkWithProration
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceParam = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadence = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceModelType = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage = shared.NewFloatingPriceModelNewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceParam = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadence = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceModelType = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceParam = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadence = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceModelType = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.NewFloatingPriceModelNewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceParam = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadence = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceAnnual = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceMonthly = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceOneTime = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceCustom = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceModelType = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk = shared.NewFloatingPriceModelNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingPriceModelCadence = shared.NewFloatingPriceModelCadence
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelCadenceAnnual = shared.NewFloatingPriceModelCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelCadenceSemiAnnual = shared.NewFloatingPriceModelCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelCadenceMonthly = shared.NewFloatingPriceModelCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelCadenceQuarterly = shared.NewFloatingPriceModelCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelCadenceOneTime = shared.NewFloatingPriceModelCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelCadenceCustom = shared.NewFloatingPriceModelCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingPriceModelModelType = shared.NewFloatingPriceModelModelType
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeUnit = shared.NewFloatingPriceModelModelTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypePackage = shared.NewFloatingPriceModelModelTypePackage
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeMatrix = shared.NewFloatingPriceModelModelTypeMatrix
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeMatrixWithAllocation = shared.NewFloatingPriceModelModelTypeMatrixWithAllocation
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeTiered = shared.NewFloatingPriceModelModelTypeTiered
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeTieredBps = shared.NewFloatingPriceModelModelTypeTieredBps
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeBps = shared.NewFloatingPriceModelModelTypeBps
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeBulkBps = shared.NewFloatingPriceModelModelTypeBulkBps
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeBulk = shared.NewFloatingPriceModelModelTypeBulk
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeThresholdTotalAmount = shared.NewFloatingPriceModelModelTypeThresholdTotalAmount
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeTieredPackage = shared.NewFloatingPriceModelModelTypeTieredPackage
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeGroupedTiered = shared.NewFloatingPriceModelModelTypeGroupedTiered
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeMaxGroupTieredPackage = shared.NewFloatingPriceModelModelTypeMaxGroupTieredPackage
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeTieredWithMinimum = shared.NewFloatingPriceModelModelTypeTieredWithMinimum
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypePackageWithAllocation = shared.NewFloatingPriceModelModelTypePackageWithAllocation
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeTieredPackageWithMinimum = shared.NewFloatingPriceModelModelTypeTieredPackageWithMinimum
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeUnitWithPercent = shared.NewFloatingPriceModelModelTypeUnitWithPercent
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeTieredWithProration = shared.NewFloatingPriceModelModelTypeTieredWithProration
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeUnitWithProration = shared.NewFloatingPriceModelModelTypeUnitWithProration
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeGroupedAllocation = shared.NewFloatingPriceModelModelTypeGroupedAllocation
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeGroupedWithProratedMinimum = shared.NewFloatingPriceModelModelTypeGroupedWithProratedMinimum
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeGroupedWithMeteredMinimum = shared.NewFloatingPriceModelModelTypeGroupedWithMeteredMinimum
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeMatrixWithDisplayName = shared.NewFloatingPriceModelModelTypeMatrixWithDisplayName
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeBulkWithProration = shared.NewFloatingPriceModelModelTypeBulkWithProration
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeGroupedTieredPackage = shared.NewFloatingPriceModelModelTypeGroupedTieredPackage
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeScalableMatrixWithUnitPricing = shared.NewFloatingPriceModelModelTypeScalableMatrixWithUnitPricing
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeScalableMatrixWithTieredPricing = shared.NewFloatingPriceModelModelTypeScalableMatrixWithTieredPricing
-
-// This is an alias to an internal value.
-const NewFloatingPriceModelModelTypeCumulativeGroupedBulk = shared.NewFloatingPriceModelModelTypeCumulativeGroupedBulk
-
-// This is an alias to an internal type.
-type NewReportingConfigurationModelParam = shared.NewReportingConfigurationModelParam
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelUnionParam = shared.NewSubscriptionPriceModelUnionParam
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitPriceModelTypeUnit = shared.NewSubscriptionPriceModelNewSubscriptionUnitPriceModelTypeUnit
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionPackagePriceParam = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionPackagePriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionPackagePriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackagePriceModelTypePackage = shared.NewSubscriptionPriceModelNewSubscriptionPackagePriceModelTypePackage
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMatrixPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMatrixPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixPriceModelTypeMatrix = shared.NewSubscriptionPriceModelNewSubscriptionMatrixPriceModelTypeMatrix
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPriceModelTypeTiered = shared.NewSubscriptionPriceModelNewSubscriptionTieredPriceModelTypeTiered
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceModelTypeTieredBps = shared.NewSubscriptionPriceModelNewSubscriptionTieredBpsPriceModelTypeTieredBps
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBpsPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBpsPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBpsPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBpsPriceModelTypeBps = shared.NewSubscriptionPriceModelNewSubscriptionBpsPriceModelTypeBps
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceModelTypeBulkBps = shared.NewSubscriptionPriceModelNewSubscriptionBulkBpsPriceModelTypeBulkBps
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkPriceModelTypeBulk = shared.NewSubscriptionPriceModelNewSubscriptionBulkPriceModelTypeBulk
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.NewSubscriptionPriceModelNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceParam = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceModelTypeTieredPackage = shared.NewSubscriptionPriceModelNewSubscriptionTieredPackagePriceModelTypeTieredPackage
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.NewSubscriptionPriceModelNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation = shared.NewSubscriptionPriceModelNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration = shared.NewSubscriptionPriceModelNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration = shared.NewSubscriptionPriceModelNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation = shared.NewSubscriptionPriceModelNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration = shared.NewSubscriptionPriceModelNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.NewSubscriptionPriceModelNewSubscriptionScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk = shared.NewSubscriptionPriceModelNewSubscriptionCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceParam = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage = shared.NewSubscriptionPriceModelNewSubscriptionMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceParam = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum = shared.NewSubscriptionPriceModelNewSubscriptionGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceParam = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName = shared.NewSubscriptionPriceModelNewSubscriptionMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceParam = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadence = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceMonthly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceQuarterly = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceOneTime = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceCustom = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceModelType = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceModelTypeGroupedTieredPackage = shared.NewSubscriptionPriceModelNewSubscriptionGroupedTieredPackagePriceModelTypeGroupedTieredPackage
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelCadence = shared.NewSubscriptionPriceModelCadence
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelCadenceAnnual = shared.NewSubscriptionPriceModelCadenceAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelCadenceSemiAnnual = shared.NewSubscriptionPriceModelCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelCadenceMonthly = shared.NewSubscriptionPriceModelCadenceMonthly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelCadenceQuarterly = shared.NewSubscriptionPriceModelCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelCadenceOneTime = shared.NewSubscriptionPriceModelCadenceOneTime
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelCadenceCustom = shared.NewSubscriptionPriceModelCadenceCustom
-
-// This is an alias to an internal type.
-type NewSubscriptionPriceModelModelType = shared.NewSubscriptionPriceModelModelType
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeUnit = shared.NewSubscriptionPriceModelModelTypeUnit
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypePackage = shared.NewSubscriptionPriceModelModelTypePackage
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeMatrix = shared.NewSubscriptionPriceModelModelTypeMatrix
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeTiered = shared.NewSubscriptionPriceModelModelTypeTiered
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeTieredBps = shared.NewSubscriptionPriceModelModelTypeTieredBps
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeBps = shared.NewSubscriptionPriceModelModelTypeBps
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeBulkBps = shared.NewSubscriptionPriceModelModelTypeBulkBps
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeBulk = shared.NewSubscriptionPriceModelModelTypeBulk
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeThresholdTotalAmount = shared.NewSubscriptionPriceModelModelTypeThresholdTotalAmount
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeTieredPackage = shared.NewSubscriptionPriceModelModelTypeTieredPackage
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeTieredWithMinimum = shared.NewSubscriptionPriceModelModelTypeTieredWithMinimum
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeUnitWithPercent = shared.NewSubscriptionPriceModelModelTypeUnitWithPercent
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypePackageWithAllocation = shared.NewSubscriptionPriceModelModelTypePackageWithAllocation
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeTieredWithProration = shared.NewSubscriptionPriceModelModelTypeTieredWithProration
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeUnitWithProration = shared.NewSubscriptionPriceModelModelTypeUnitWithProration
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeGroupedAllocation = shared.NewSubscriptionPriceModelModelTypeGroupedAllocation
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeGroupedWithProratedMinimum = shared.NewSubscriptionPriceModelModelTypeGroupedWithProratedMinimum
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeBulkWithProration = shared.NewSubscriptionPriceModelModelTypeBulkWithProration
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeScalableMatrixWithUnitPricing = shared.NewSubscriptionPriceModelModelTypeScalableMatrixWithUnitPricing
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeScalableMatrixWithTieredPricing = shared.NewSubscriptionPriceModelModelTypeScalableMatrixWithTieredPricing
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeCumulativeGroupedBulk = shared.NewSubscriptionPriceModelModelTypeCumulativeGroupedBulk
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeMaxGroupTieredPackage = shared.NewSubscriptionPriceModelModelTypeMaxGroupTieredPackage
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeGroupedWithMeteredMinimum = shared.NewSubscriptionPriceModelModelTypeGroupedWithMeteredMinimum
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeMatrixWithDisplayName = shared.NewSubscriptionPriceModelModelTypeMatrixWithDisplayName
-
-// This is an alias to an internal value.
-const NewSubscriptionPriceModelModelTypeGroupedTieredPackage = shared.NewSubscriptionPriceModelModelTypeGroupedTieredPackage
-
-// This is an alias to an internal type.
-type NewTaxConfigurationModelUnionParam = shared.NewTaxConfigurationModelUnionParam
-
-// This is an alias to an internal type.
-type NewTaxConfigurationModelNewAvalaraTaxConfigurationParam = shared.NewTaxConfigurationModelNewAvalaraTaxConfigurationParam
-
-// This is an alias to an internal type.
-type NewTaxConfigurationModelNewAvalaraTaxConfigurationTaxProvider = shared.NewTaxConfigurationModelNewAvalaraTaxConfigurationTaxProvider
-
-// This is an alias to an internal value.
-const NewTaxConfigurationModelNewAvalaraTaxConfigurationTaxProviderAvalara = shared.NewTaxConfigurationModelNewAvalaraTaxConfigurationTaxProviderAvalara
-
-// This is an alias to an internal type.
-type NewTaxConfigurationModelNewTaxJarConfigurationParam = shared.NewTaxConfigurationModelNewTaxJarConfigurationParam
-
-// This is an alias to an internal type.
-type NewTaxConfigurationModelNewTaxJarConfigurationTaxProvider = shared.NewTaxConfigurationModelNewTaxJarConfigurationTaxProvider
-
-// This is an alias to an internal value.
-const NewTaxConfigurationModelNewTaxJarConfigurationTaxProviderTaxjar = shared.NewTaxConfigurationModelNewTaxJarConfigurationTaxProviderTaxjar
-
-// This is an alias to an internal type.
-type NewTaxConfigurationModelTaxProvider = shared.NewTaxConfigurationModelTaxProvider
-
-// This is an alias to an internal value.
-const NewTaxConfigurationModelTaxProviderAvalara = shared.NewTaxConfigurationModelTaxProviderAvalara
-
-// This is an alias to an internal value.
-const NewTaxConfigurationModelTaxProviderTaxjar = shared.NewTaxConfigurationModelTaxProviderTaxjar
-
-// This is an alias to an internal type.
-type PackageConfigModel = shared.PackageConfigModel
-
-// This is an alias to an internal type.
-type PackageConfigModelParam = shared.PackageConfigModelParam
-
-// This is an alias to an internal type.
 type PaginationMetadata = shared.PaginationMetadata
-
-// This is an alias to an internal type.
-type PaymentAttemptModel = shared.PaymentAttemptModel
-
-// The payment provider that attempted to collect the payment.
-//
-// This is an alias to an internal type.
-type PaymentAttemptModelPaymentProvider = shared.PaymentAttemptModelPaymentProvider
-
-// This is an alias to an internal value.
-const PaymentAttemptModelPaymentProviderStripe = shared.PaymentAttemptModelPaymentProviderStripe
 
 // This is an alias to an internal type.
 type PercentageDiscount = shared.PercentageDiscount
@@ -3875,1307 +2120,6 @@ const PercentageDiscountDiscountTypePercentage = shared.PercentageDiscountDiscou
 type PercentageDiscountParam = shared.PercentageDiscountParam
 
 // This is an alias to an internal type.
-type PercentageDiscountIntervalModel = shared.PercentageDiscountIntervalModel
-
-// This is an alias to an internal type.
-type PercentageDiscountIntervalModelDiscountType = shared.PercentageDiscountIntervalModelDiscountType
-
-// This is an alias to an internal value.
-const PercentageDiscountIntervalModelDiscountTypePercentage = shared.PercentageDiscountIntervalModelDiscountTypePercentage
-
-// This is an alias to an internal type.
-type PlanMinifiedModel = shared.PlanMinifiedModel
-
-// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
-// subscribed to by a customer. Plans define the billing behavior of the
-// subscription. You can see more about how to configure prices in the
-// [Price resource](/reference/price).
-//
-// This is an alias to an internal type.
-type PlanModel = shared.PlanModel
-
-// This is an alias to an internal type.
-type PlanModelPlanPhase = shared.PlanModelPlanPhase
-
-// This is an alias to an internal type.
-type PlanModelPlanPhasesDurationUnit = shared.PlanModelPlanPhasesDurationUnit
-
-// This is an alias to an internal value.
-const PlanModelPlanPhasesDurationUnitDaily = shared.PlanModelPlanPhasesDurationUnitDaily
-
-// This is an alias to an internal value.
-const PlanModelPlanPhasesDurationUnitMonthly = shared.PlanModelPlanPhasesDurationUnitMonthly
-
-// This is an alias to an internal value.
-const PlanModelPlanPhasesDurationUnitQuarterly = shared.PlanModelPlanPhasesDurationUnitQuarterly
-
-// This is an alias to an internal value.
-const PlanModelPlanPhasesDurationUnitSemiAnnual = shared.PlanModelPlanPhasesDurationUnitSemiAnnual
-
-// This is an alias to an internal value.
-const PlanModelPlanPhasesDurationUnitAnnual = shared.PlanModelPlanPhasesDurationUnitAnnual
-
-// This is an alias to an internal type.
-type PlanModelProduct = shared.PlanModelProduct
-
-// This is an alias to an internal type.
-type PlanModelStatus = shared.PlanModelStatus
-
-// This is an alias to an internal value.
-const PlanModelStatusActive = shared.PlanModelStatusActive
-
-// This is an alias to an internal value.
-const PlanModelStatusArchived = shared.PlanModelStatusArchived
-
-// This is an alias to an internal value.
-const PlanModelStatusDraft = shared.PlanModelStatusDraft
-
-// This is an alias to an internal type.
-type PlanModelTrialConfig = shared.PlanModelTrialConfig
-
-// This is an alias to an internal type.
-type PlanModelTrialConfigTrialPeriodUnit = shared.PlanModelTrialConfigTrialPeriodUnit
-
-// This is an alias to an internal value.
-const PlanModelTrialConfigTrialPeriodUnitDays = shared.PlanModelTrialConfigTrialPeriodUnitDays
-
-// This is an alias to an internal type.
-type PriceIntervalFixedFeeQuantityTransitionModelParam = shared.PriceIntervalFixedFeeQuantityTransitionModelParam
-
-// The Price Interval resource represents a period of time for which a price will
-// bill on a subscription. A subscription’s price intervals define its billing
-// behavior.
-//
-// This is an alias to an internal type.
-type PriceIntervalModel = shared.PriceIntervalModel
-
-// This is an alias to an internal type.
-type PriceIntervalModelFixedFeeQuantityTransition = shared.PriceIntervalModelFixedFeeQuantityTransition
-
-// The Price resource represents a price that can be billed on a subscription,
-// resulting in a charge on an invoice in the form of an invoice line item. Prices
-// take a quantity and determine an amount to bill.
-//
-// Orb supports a few different pricing models out of the box. Each of these models
-// is serialized differently in a given Price object. The model_type field
-// determines the key for the configuration object that is present.
-//
-// For more on the types of prices, see
-// [the core concepts documentation](/core-concepts#plan-and-price)
-//
-// This is an alias to an internal type.
-type PriceModel = shared.PriceModel
-
-// This is an alias to an internal type.
-type PriceModelUnitPrice = shared.PriceModelUnitPrice
-
-// This is an alias to an internal type.
-type PriceModelUnitPriceCadence = shared.PriceModelUnitPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelUnitPriceCadenceOneTime = shared.PriceModelUnitPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelUnitPriceCadenceMonthly = shared.PriceModelUnitPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelUnitPriceCadenceQuarterly = shared.PriceModelUnitPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelUnitPriceCadenceSemiAnnual = shared.PriceModelUnitPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelUnitPriceCadenceAnnual = shared.PriceModelUnitPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelUnitPriceCadenceCustom = shared.PriceModelUnitPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelUnitPriceModelType = shared.PriceModelUnitPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelUnitPriceModelTypeUnit = shared.PriceModelUnitPriceModelTypeUnit
-
-// This is an alias to an internal type.
-type PriceModelUnitPricePriceType = shared.PriceModelUnitPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelUnitPricePriceTypeUsagePrice = shared.PriceModelUnitPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelUnitPricePriceTypeFixedPrice = shared.PriceModelUnitPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelPackagePrice = shared.PriceModelPackagePrice
-
-// This is an alias to an internal type.
-type PriceModelPackagePriceCadence = shared.PriceModelPackagePriceCadence
-
-// This is an alias to an internal value.
-const PriceModelPackagePriceCadenceOneTime = shared.PriceModelPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelPackagePriceCadenceMonthly = shared.PriceModelPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelPackagePriceCadenceQuarterly = shared.PriceModelPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelPackagePriceCadenceSemiAnnual = shared.PriceModelPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelPackagePriceCadenceAnnual = shared.PriceModelPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelPackagePriceCadenceCustom = shared.PriceModelPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelPackagePriceModelType = shared.PriceModelPackagePriceModelType
-
-// This is an alias to an internal value.
-const PriceModelPackagePriceModelTypePackage = shared.PriceModelPackagePriceModelTypePackage
-
-// This is an alias to an internal type.
-type PriceModelPackagePricePriceType = shared.PriceModelPackagePricePriceType
-
-// This is an alias to an internal value.
-const PriceModelPackagePricePriceTypeUsagePrice = shared.PriceModelPackagePricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelPackagePricePriceTypeFixedPrice = shared.PriceModelPackagePricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelMatrixPrice = shared.PriceModelMatrixPrice
-
-// This is an alias to an internal type.
-type PriceModelMatrixPriceCadence = shared.PriceModelMatrixPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelMatrixPriceCadenceOneTime = shared.PriceModelMatrixPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelMatrixPriceCadenceMonthly = shared.PriceModelMatrixPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelMatrixPriceCadenceQuarterly = shared.PriceModelMatrixPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelMatrixPriceCadenceSemiAnnual = shared.PriceModelMatrixPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelMatrixPriceCadenceAnnual = shared.PriceModelMatrixPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelMatrixPriceCadenceCustom = shared.PriceModelMatrixPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelMatrixPriceModelType = shared.PriceModelMatrixPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelMatrixPriceModelTypeMatrix = shared.PriceModelMatrixPriceModelTypeMatrix
-
-// This is an alias to an internal type.
-type PriceModelMatrixPricePriceType = shared.PriceModelMatrixPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelMatrixPricePriceTypeUsagePrice = shared.PriceModelMatrixPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelMatrixPricePriceTypeFixedPrice = shared.PriceModelMatrixPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredPrice = shared.PriceModelTieredPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredPriceCadence = shared.PriceModelTieredPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelTieredPriceCadenceOneTime = shared.PriceModelTieredPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelTieredPriceCadenceMonthly = shared.PriceModelTieredPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelTieredPriceCadenceQuarterly = shared.PriceModelTieredPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelTieredPriceCadenceSemiAnnual = shared.PriceModelTieredPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredPriceCadenceAnnual = shared.PriceModelTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredPriceCadenceCustom = shared.PriceModelTieredPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelTieredPriceModelType = shared.PriceModelTieredPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelTieredPriceModelTypeTiered = shared.PriceModelTieredPriceModelTypeTiered
-
-// This is an alias to an internal type.
-type PriceModelTieredPricePriceType = shared.PriceModelTieredPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelTieredPricePriceTypeUsagePrice = shared.PriceModelTieredPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelTieredPricePriceTypeFixedPrice = shared.PriceModelTieredPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredBpsPrice = shared.PriceModelTieredBpsPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredBpsPriceCadence = shared.PriceModelTieredBpsPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPriceCadenceOneTime = shared.PriceModelTieredBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPriceCadenceMonthly = shared.PriceModelTieredBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPriceCadenceQuarterly = shared.PriceModelTieredBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPriceCadenceSemiAnnual = shared.PriceModelTieredBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPriceCadenceAnnual = shared.PriceModelTieredBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPriceCadenceCustom = shared.PriceModelTieredBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelTieredBpsPriceModelType = shared.PriceModelTieredBpsPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPriceModelTypeTieredBps = shared.PriceModelTieredBpsPriceModelTypeTieredBps
-
-// This is an alias to an internal type.
-type PriceModelTieredBpsPricePriceType = shared.PriceModelTieredBpsPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPricePriceTypeUsagePrice = shared.PriceModelTieredBpsPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelTieredBpsPricePriceTypeFixedPrice = shared.PriceModelTieredBpsPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelBpsPrice = shared.PriceModelBpsPrice
-
-// This is an alias to an internal type.
-type PriceModelBpsPriceCadence = shared.PriceModelBpsPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelBpsPriceCadenceOneTime = shared.PriceModelBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelBpsPriceCadenceMonthly = shared.PriceModelBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelBpsPriceCadenceQuarterly = shared.PriceModelBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelBpsPriceCadenceSemiAnnual = shared.PriceModelBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelBpsPriceCadenceAnnual = shared.PriceModelBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelBpsPriceCadenceCustom = shared.PriceModelBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelBpsPriceModelType = shared.PriceModelBpsPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelBpsPriceModelTypeBps = shared.PriceModelBpsPriceModelTypeBps
-
-// This is an alias to an internal type.
-type PriceModelBpsPricePriceType = shared.PriceModelBpsPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelBpsPricePriceTypeUsagePrice = shared.PriceModelBpsPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelBpsPricePriceTypeFixedPrice = shared.PriceModelBpsPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelBulkBpsPrice = shared.PriceModelBulkBpsPrice
-
-// This is an alias to an internal type.
-type PriceModelBulkBpsPriceCadence = shared.PriceModelBulkBpsPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPriceCadenceOneTime = shared.PriceModelBulkBpsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPriceCadenceMonthly = shared.PriceModelBulkBpsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPriceCadenceQuarterly = shared.PriceModelBulkBpsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPriceCadenceSemiAnnual = shared.PriceModelBulkBpsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPriceCadenceAnnual = shared.PriceModelBulkBpsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPriceCadenceCustom = shared.PriceModelBulkBpsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelBulkBpsPriceModelType = shared.PriceModelBulkBpsPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPriceModelTypeBulkBps = shared.PriceModelBulkBpsPriceModelTypeBulkBps
-
-// This is an alias to an internal type.
-type PriceModelBulkBpsPricePriceType = shared.PriceModelBulkBpsPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPricePriceTypeUsagePrice = shared.PriceModelBulkBpsPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelBulkBpsPricePriceTypeFixedPrice = shared.PriceModelBulkBpsPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelBulkPrice = shared.PriceModelBulkPrice
-
-// This is an alias to an internal type.
-type PriceModelBulkPriceCadence = shared.PriceModelBulkPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelBulkPriceCadenceOneTime = shared.PriceModelBulkPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelBulkPriceCadenceMonthly = shared.PriceModelBulkPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelBulkPriceCadenceQuarterly = shared.PriceModelBulkPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelBulkPriceCadenceSemiAnnual = shared.PriceModelBulkPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelBulkPriceCadenceAnnual = shared.PriceModelBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelBulkPriceCadenceCustom = shared.PriceModelBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelBulkPriceModelType = shared.PriceModelBulkPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelBulkPriceModelTypeBulk = shared.PriceModelBulkPriceModelTypeBulk
-
-// This is an alias to an internal type.
-type PriceModelBulkPricePriceType = shared.PriceModelBulkPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelBulkPricePriceTypeUsagePrice = shared.PriceModelBulkPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelBulkPricePriceTypeFixedPrice = shared.PriceModelBulkPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelThresholdTotalAmountPrice = shared.PriceModelThresholdTotalAmountPrice
-
-// This is an alias to an internal type.
-type PriceModelThresholdTotalAmountPriceCadence = shared.PriceModelThresholdTotalAmountPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPriceCadenceOneTime = shared.PriceModelThresholdTotalAmountPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPriceCadenceMonthly = shared.PriceModelThresholdTotalAmountPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPriceCadenceQuarterly = shared.PriceModelThresholdTotalAmountPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPriceCadenceSemiAnnual = shared.PriceModelThresholdTotalAmountPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPriceCadenceAnnual = shared.PriceModelThresholdTotalAmountPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPriceCadenceCustom = shared.PriceModelThresholdTotalAmountPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelThresholdTotalAmountPriceModelType = shared.PriceModelThresholdTotalAmountPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.PriceModelThresholdTotalAmountPriceModelTypeThresholdTotalAmount
-
-// This is an alias to an internal type.
-type PriceModelThresholdTotalAmountPricePriceType = shared.PriceModelThresholdTotalAmountPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPricePriceTypeUsagePrice = shared.PriceModelThresholdTotalAmountPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelThresholdTotalAmountPricePriceTypeFixedPrice = shared.PriceModelThresholdTotalAmountPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredPackagePrice = shared.PriceModelTieredPackagePrice
-
-// This is an alias to an internal type.
-type PriceModelTieredPackagePriceCadence = shared.PriceModelTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePriceCadenceOneTime = shared.PriceModelTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePriceCadenceMonthly = shared.PriceModelTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePriceCadenceQuarterly = shared.PriceModelTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePriceCadenceSemiAnnual = shared.PriceModelTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePriceCadenceAnnual = shared.PriceModelTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePriceCadenceCustom = shared.PriceModelTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelTieredPackagePriceModelType = shared.PriceModelTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePriceModelTypeTieredPackage = shared.PriceModelTieredPackagePriceModelTypeTieredPackage
-
-// This is an alias to an internal type.
-type PriceModelTieredPackagePricePriceType = shared.PriceModelTieredPackagePricePriceType
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePricePriceTypeUsagePrice = shared.PriceModelTieredPackagePricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelTieredPackagePricePriceTypeFixedPrice = shared.PriceModelTieredPackagePricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPrice = shared.PriceModelGroupedTieredPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPriceCadence = shared.PriceModelGroupedTieredPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPriceCadenceOneTime = shared.PriceModelGroupedTieredPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPriceCadenceMonthly = shared.PriceModelGroupedTieredPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPriceCadenceQuarterly = shared.PriceModelGroupedTieredPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPriceCadenceSemiAnnual = shared.PriceModelGroupedTieredPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPriceCadenceAnnual = shared.PriceModelGroupedTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPriceCadenceCustom = shared.PriceModelGroupedTieredPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPriceModelType = shared.PriceModelGroupedTieredPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPriceModelTypeGroupedTiered = shared.PriceModelGroupedTieredPriceModelTypeGroupedTiered
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPricePriceType = shared.PriceModelGroupedTieredPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPricePriceTypeUsagePrice = shared.PriceModelGroupedTieredPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPricePriceTypeFixedPrice = shared.PriceModelGroupedTieredPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredWithMinimumPrice = shared.PriceModelTieredWithMinimumPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredWithMinimumPriceCadence = shared.PriceModelTieredWithMinimumPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPriceCadenceOneTime = shared.PriceModelTieredWithMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPriceCadenceMonthly = shared.PriceModelTieredWithMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPriceCadenceQuarterly = shared.PriceModelTieredWithMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPriceCadenceSemiAnnual = shared.PriceModelTieredWithMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPriceCadenceAnnual = shared.PriceModelTieredWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPriceCadenceCustom = shared.PriceModelTieredWithMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelTieredWithMinimumPriceModelType = shared.PriceModelTieredWithMinimumPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.PriceModelTieredWithMinimumPriceModelTypeTieredWithMinimum
-
-// This is an alias to an internal type.
-type PriceModelTieredWithMinimumPricePriceType = shared.PriceModelTieredWithMinimumPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPricePriceTypeUsagePrice = shared.PriceModelTieredWithMinimumPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelTieredWithMinimumPricePriceTypeFixedPrice = shared.PriceModelTieredWithMinimumPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredPackageWithMinimumPrice = shared.PriceModelTieredPackageWithMinimumPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredPackageWithMinimumPriceCadence = shared.PriceModelTieredPackageWithMinimumPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPriceCadenceOneTime = shared.PriceModelTieredPackageWithMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPriceCadenceMonthly = shared.PriceModelTieredPackageWithMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPriceCadenceQuarterly = shared.PriceModelTieredPackageWithMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPriceCadenceSemiAnnual = shared.PriceModelTieredPackageWithMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPriceCadenceAnnual = shared.PriceModelTieredPackageWithMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPriceCadenceCustom = shared.PriceModelTieredPackageWithMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelTieredPackageWithMinimumPriceModelType = shared.PriceModelTieredPackageWithMinimumPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum = shared.PriceModelTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum
-
-// This is an alias to an internal type.
-type PriceModelTieredPackageWithMinimumPricePriceType = shared.PriceModelTieredPackageWithMinimumPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPricePriceTypeUsagePrice = shared.PriceModelTieredPackageWithMinimumPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelTieredPackageWithMinimumPricePriceTypeFixedPrice = shared.PriceModelTieredPackageWithMinimumPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelPackageWithAllocationPrice = shared.PriceModelPackageWithAllocationPrice
-
-// This is an alias to an internal type.
-type PriceModelPackageWithAllocationPriceCadence = shared.PriceModelPackageWithAllocationPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPriceCadenceOneTime = shared.PriceModelPackageWithAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPriceCadenceMonthly = shared.PriceModelPackageWithAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPriceCadenceQuarterly = shared.PriceModelPackageWithAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPriceCadenceSemiAnnual = shared.PriceModelPackageWithAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPriceCadenceAnnual = shared.PriceModelPackageWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPriceCadenceCustom = shared.PriceModelPackageWithAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelPackageWithAllocationPriceModelType = shared.PriceModelPackageWithAllocationPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPriceModelTypePackageWithAllocation = shared.PriceModelPackageWithAllocationPriceModelTypePackageWithAllocation
-
-// This is an alias to an internal type.
-type PriceModelPackageWithAllocationPricePriceType = shared.PriceModelPackageWithAllocationPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPricePriceTypeUsagePrice = shared.PriceModelPackageWithAllocationPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelPackageWithAllocationPricePriceTypeFixedPrice = shared.PriceModelPackageWithAllocationPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelUnitWithPercentPrice = shared.PriceModelUnitWithPercentPrice
-
-// This is an alias to an internal type.
-type PriceModelUnitWithPercentPriceCadence = shared.PriceModelUnitWithPercentPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPriceCadenceOneTime = shared.PriceModelUnitWithPercentPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPriceCadenceMonthly = shared.PriceModelUnitWithPercentPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPriceCadenceQuarterly = shared.PriceModelUnitWithPercentPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPriceCadenceSemiAnnual = shared.PriceModelUnitWithPercentPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPriceCadenceAnnual = shared.PriceModelUnitWithPercentPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPriceCadenceCustom = shared.PriceModelUnitWithPercentPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelUnitWithPercentPriceModelType = shared.PriceModelUnitWithPercentPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPriceModelTypeUnitWithPercent = shared.PriceModelUnitWithPercentPriceModelTypeUnitWithPercent
-
-// This is an alias to an internal type.
-type PriceModelUnitWithPercentPricePriceType = shared.PriceModelUnitWithPercentPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPricePriceTypeUsagePrice = shared.PriceModelUnitWithPercentPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelUnitWithPercentPricePriceTypeFixedPrice = shared.PriceModelUnitWithPercentPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithAllocationPrice = shared.PriceModelMatrixWithAllocationPrice
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithAllocationPriceCadence = shared.PriceModelMatrixWithAllocationPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPriceCadenceOneTime = shared.PriceModelMatrixWithAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPriceCadenceMonthly = shared.PriceModelMatrixWithAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPriceCadenceQuarterly = shared.PriceModelMatrixWithAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPriceCadenceSemiAnnual = shared.PriceModelMatrixWithAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPriceCadenceAnnual = shared.PriceModelMatrixWithAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPriceCadenceCustom = shared.PriceModelMatrixWithAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithAllocationPriceModelType = shared.PriceModelMatrixWithAllocationPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPriceModelTypeMatrixWithAllocation = shared.PriceModelMatrixWithAllocationPriceModelTypeMatrixWithAllocation
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithAllocationPricePriceType = shared.PriceModelMatrixWithAllocationPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPricePriceTypeUsagePrice = shared.PriceModelMatrixWithAllocationPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithAllocationPricePriceTypeFixedPrice = shared.PriceModelMatrixWithAllocationPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredWithProrationPrice = shared.PriceModelTieredWithProrationPrice
-
-// This is an alias to an internal type.
-type PriceModelTieredWithProrationPriceCadence = shared.PriceModelTieredWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPriceCadenceOneTime = shared.PriceModelTieredWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPriceCadenceMonthly = shared.PriceModelTieredWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPriceCadenceQuarterly = shared.PriceModelTieredWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPriceCadenceSemiAnnual = shared.PriceModelTieredWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPriceCadenceAnnual = shared.PriceModelTieredWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPriceCadenceCustom = shared.PriceModelTieredWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelTieredWithProrationPriceModelType = shared.PriceModelTieredWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPriceModelTypeTieredWithProration = shared.PriceModelTieredWithProrationPriceModelTypeTieredWithProration
-
-// This is an alias to an internal type.
-type PriceModelTieredWithProrationPricePriceType = shared.PriceModelTieredWithProrationPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPricePriceTypeUsagePrice = shared.PriceModelTieredWithProrationPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelTieredWithProrationPricePriceTypeFixedPrice = shared.PriceModelTieredWithProrationPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelUnitWithProrationPrice = shared.PriceModelUnitWithProrationPrice
-
-// This is an alias to an internal type.
-type PriceModelUnitWithProrationPriceCadence = shared.PriceModelUnitWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPriceCadenceOneTime = shared.PriceModelUnitWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPriceCadenceMonthly = shared.PriceModelUnitWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPriceCadenceQuarterly = shared.PriceModelUnitWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPriceCadenceSemiAnnual = shared.PriceModelUnitWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPriceCadenceAnnual = shared.PriceModelUnitWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPriceCadenceCustom = shared.PriceModelUnitWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelUnitWithProrationPriceModelType = shared.PriceModelUnitWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPriceModelTypeUnitWithProration = shared.PriceModelUnitWithProrationPriceModelTypeUnitWithProration
-
-// This is an alias to an internal type.
-type PriceModelUnitWithProrationPricePriceType = shared.PriceModelUnitWithProrationPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPricePriceTypeUsagePrice = shared.PriceModelUnitWithProrationPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelUnitWithProrationPricePriceTypeFixedPrice = shared.PriceModelUnitWithProrationPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedAllocationPrice = shared.PriceModelGroupedAllocationPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedAllocationPriceCadence = shared.PriceModelGroupedAllocationPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPriceCadenceOneTime = shared.PriceModelGroupedAllocationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPriceCadenceMonthly = shared.PriceModelGroupedAllocationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPriceCadenceQuarterly = shared.PriceModelGroupedAllocationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPriceCadenceSemiAnnual = shared.PriceModelGroupedAllocationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPriceCadenceAnnual = shared.PriceModelGroupedAllocationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPriceCadenceCustom = shared.PriceModelGroupedAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelGroupedAllocationPriceModelType = shared.PriceModelGroupedAllocationPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPriceModelTypeGroupedAllocation = shared.PriceModelGroupedAllocationPriceModelTypeGroupedAllocation
-
-// This is an alias to an internal type.
-type PriceModelGroupedAllocationPricePriceType = shared.PriceModelGroupedAllocationPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPricePriceTypeUsagePrice = shared.PriceModelGroupedAllocationPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelGroupedAllocationPricePriceTypeFixedPrice = shared.PriceModelGroupedAllocationPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithProratedMinimumPrice = shared.PriceModelGroupedWithProratedMinimumPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithProratedMinimumPriceCadence = shared.PriceModelGroupedWithProratedMinimumPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPriceCadenceOneTime = shared.PriceModelGroupedWithProratedMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPriceCadenceMonthly = shared.PriceModelGroupedWithProratedMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPriceCadenceQuarterly = shared.PriceModelGroupedWithProratedMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.PriceModelGroupedWithProratedMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPriceCadenceAnnual = shared.PriceModelGroupedWithProratedMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPriceCadenceCustom = shared.PriceModelGroupedWithProratedMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithProratedMinimumPriceModelType = shared.PriceModelGroupedWithProratedMinimumPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum = shared.PriceModelGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithProratedMinimumPricePriceType = shared.PriceModelGroupedWithProratedMinimumPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPricePriceTypeUsagePrice = shared.PriceModelGroupedWithProratedMinimumPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithProratedMinimumPricePriceTypeFixedPrice = shared.PriceModelGroupedWithProratedMinimumPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithMeteredMinimumPrice = shared.PriceModelGroupedWithMeteredMinimumPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithMeteredMinimumPriceCadence = shared.PriceModelGroupedWithMeteredMinimumPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPriceCadenceOneTime = shared.PriceModelGroupedWithMeteredMinimumPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPriceCadenceMonthly = shared.PriceModelGroupedWithMeteredMinimumPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPriceCadenceQuarterly = shared.PriceModelGroupedWithMeteredMinimumPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.PriceModelGroupedWithMeteredMinimumPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPriceCadenceAnnual = shared.PriceModelGroupedWithMeteredMinimumPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPriceCadenceCustom = shared.PriceModelGroupedWithMeteredMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithMeteredMinimumPriceModelType = shared.PriceModelGroupedWithMeteredMinimumPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum = shared.PriceModelGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum
-
-// This is an alias to an internal type.
-type PriceModelGroupedWithMeteredMinimumPricePriceType = shared.PriceModelGroupedWithMeteredMinimumPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPricePriceTypeUsagePrice = shared.PriceModelGroupedWithMeteredMinimumPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelGroupedWithMeteredMinimumPricePriceTypeFixedPrice = shared.PriceModelGroupedWithMeteredMinimumPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithDisplayNamePrice = shared.PriceModelMatrixWithDisplayNamePrice
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithDisplayNamePriceCadence = shared.PriceModelMatrixWithDisplayNamePriceCadence
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePriceCadenceOneTime = shared.PriceModelMatrixWithDisplayNamePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePriceCadenceMonthly = shared.PriceModelMatrixWithDisplayNamePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePriceCadenceQuarterly = shared.PriceModelMatrixWithDisplayNamePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.PriceModelMatrixWithDisplayNamePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePriceCadenceAnnual = shared.PriceModelMatrixWithDisplayNamePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePriceCadenceCustom = shared.PriceModelMatrixWithDisplayNamePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithDisplayNamePriceModelType = shared.PriceModelMatrixWithDisplayNamePriceModelType
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName = shared.PriceModelMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName
-
-// This is an alias to an internal type.
-type PriceModelMatrixWithDisplayNamePricePriceType = shared.PriceModelMatrixWithDisplayNamePricePriceType
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePricePriceTypeUsagePrice = shared.PriceModelMatrixWithDisplayNamePricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelMatrixWithDisplayNamePricePriceTypeFixedPrice = shared.PriceModelMatrixWithDisplayNamePricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelBulkWithProrationPrice = shared.PriceModelBulkWithProrationPrice
-
-// This is an alias to an internal type.
-type PriceModelBulkWithProrationPriceCadence = shared.PriceModelBulkWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPriceCadenceOneTime = shared.PriceModelBulkWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPriceCadenceMonthly = shared.PriceModelBulkWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPriceCadenceQuarterly = shared.PriceModelBulkWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPriceCadenceSemiAnnual = shared.PriceModelBulkWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPriceCadenceAnnual = shared.PriceModelBulkWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPriceCadenceCustom = shared.PriceModelBulkWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelBulkWithProrationPriceModelType = shared.PriceModelBulkWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPriceModelTypeBulkWithProration = shared.PriceModelBulkWithProrationPriceModelTypeBulkWithProration
-
-// This is an alias to an internal type.
-type PriceModelBulkWithProrationPricePriceType = shared.PriceModelBulkWithProrationPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPricePriceTypeUsagePrice = shared.PriceModelBulkWithProrationPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelBulkWithProrationPricePriceTypeFixedPrice = shared.PriceModelBulkWithProrationPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPackagePrice = shared.PriceModelGroupedTieredPackagePrice
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPackagePriceCadence = shared.PriceModelGroupedTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePriceCadenceOneTime = shared.PriceModelGroupedTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePriceCadenceMonthly = shared.PriceModelGroupedTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePriceCadenceQuarterly = shared.PriceModelGroupedTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePriceCadenceSemiAnnual = shared.PriceModelGroupedTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePriceCadenceAnnual = shared.PriceModelGroupedTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePriceCadenceCustom = shared.PriceModelGroupedTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPackagePriceModelType = shared.PriceModelGroupedTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePriceModelTypeGroupedTieredPackage = shared.PriceModelGroupedTieredPackagePriceModelTypeGroupedTieredPackage
-
-// This is an alias to an internal type.
-type PriceModelGroupedTieredPackagePricePriceType = shared.PriceModelGroupedTieredPackagePricePriceType
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePricePriceTypeUsagePrice = shared.PriceModelGroupedTieredPackagePricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelGroupedTieredPackagePricePriceTypeFixedPrice = shared.PriceModelGroupedTieredPackagePricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelMaxGroupTieredPackagePrice = shared.PriceModelMaxGroupTieredPackagePrice
-
-// This is an alias to an internal type.
-type PriceModelMaxGroupTieredPackagePriceCadence = shared.PriceModelMaxGroupTieredPackagePriceCadence
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePriceCadenceOneTime = shared.PriceModelMaxGroupTieredPackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePriceCadenceMonthly = shared.PriceModelMaxGroupTieredPackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePriceCadenceQuarterly = shared.PriceModelMaxGroupTieredPackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.PriceModelMaxGroupTieredPackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePriceCadenceAnnual = shared.PriceModelMaxGroupTieredPackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePriceCadenceCustom = shared.PriceModelMaxGroupTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelMaxGroupTieredPackagePriceModelType = shared.PriceModelMaxGroupTieredPackagePriceModelType
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage = shared.PriceModelMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage
-
-// This is an alias to an internal type.
-type PriceModelMaxGroupTieredPackagePricePriceType = shared.PriceModelMaxGroupTieredPackagePricePriceType
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePricePriceTypeUsagePrice = shared.PriceModelMaxGroupTieredPackagePricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelMaxGroupTieredPackagePricePriceTypeFixedPrice = shared.PriceModelMaxGroupTieredPackagePricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithUnitPricingPrice = shared.PriceModelScalableMatrixWithUnitPricingPrice
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithUnitPricingPriceCadence = shared.PriceModelScalableMatrixWithUnitPricingPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.PriceModelScalableMatrixWithUnitPricingPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.PriceModelScalableMatrixWithUnitPricingPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPriceCadenceQuarterly = shared.PriceModelScalableMatrixWithUnitPricingPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.PriceModelScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.PriceModelScalableMatrixWithUnitPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPriceCadenceCustom = shared.PriceModelScalableMatrixWithUnitPricingPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithUnitPricingPriceModelType = shared.PriceModelScalableMatrixWithUnitPricingPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.PriceModelScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithUnitPricingPricePriceType = shared.PriceModelScalableMatrixWithUnitPricingPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPricePriceTypeUsagePrice = shared.PriceModelScalableMatrixWithUnitPricingPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithUnitPricingPricePriceTypeFixedPrice = shared.PriceModelScalableMatrixWithUnitPricingPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithTieredPricingPrice = shared.PriceModelScalableMatrixWithTieredPricingPrice
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithTieredPricingPriceCadence = shared.PriceModelScalableMatrixWithTieredPricingPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.PriceModelScalableMatrixWithTieredPricingPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.PriceModelScalableMatrixWithTieredPricingPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPriceCadenceQuarterly = shared.PriceModelScalableMatrixWithTieredPricingPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.PriceModelScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.PriceModelScalableMatrixWithTieredPricingPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPriceCadenceCustom = shared.PriceModelScalableMatrixWithTieredPricingPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithTieredPricingPriceModelType = shared.PriceModelScalableMatrixWithTieredPricingPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.PriceModelScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
-
-// This is an alias to an internal type.
-type PriceModelScalableMatrixWithTieredPricingPricePriceType = shared.PriceModelScalableMatrixWithTieredPricingPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPricePriceTypeUsagePrice = shared.PriceModelScalableMatrixWithTieredPricingPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelScalableMatrixWithTieredPricingPricePriceTypeFixedPrice = shared.PriceModelScalableMatrixWithTieredPricingPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelCumulativeGroupedBulkPrice = shared.PriceModelCumulativeGroupedBulkPrice
-
-// This is an alias to an internal type.
-type PriceModelCumulativeGroupedBulkPriceCadence = shared.PriceModelCumulativeGroupedBulkPriceCadence
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPriceCadenceOneTime = shared.PriceModelCumulativeGroupedBulkPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPriceCadenceMonthly = shared.PriceModelCumulativeGroupedBulkPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPriceCadenceQuarterly = shared.PriceModelCumulativeGroupedBulkPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.PriceModelCumulativeGroupedBulkPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPriceCadenceAnnual = shared.PriceModelCumulativeGroupedBulkPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPriceCadenceCustom = shared.PriceModelCumulativeGroupedBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelCumulativeGroupedBulkPriceModelType = shared.PriceModelCumulativeGroupedBulkPriceModelType
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk = shared.PriceModelCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk
-
-// This is an alias to an internal type.
-type PriceModelCumulativeGroupedBulkPricePriceType = shared.PriceModelCumulativeGroupedBulkPricePriceType
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPricePriceTypeUsagePrice = shared.PriceModelCumulativeGroupedBulkPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelCumulativeGroupedBulkPricePriceTypeFixedPrice = shared.PriceModelCumulativeGroupedBulkPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceModelCadence = shared.PriceModelCadence
-
-// This is an alias to an internal value.
-const PriceModelCadenceOneTime = shared.PriceModelCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceModelCadenceMonthly = shared.PriceModelCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceModelCadenceQuarterly = shared.PriceModelCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceModelCadenceSemiAnnual = shared.PriceModelCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceModelCadenceAnnual = shared.PriceModelCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceModelCadenceCustom = shared.PriceModelCadenceCustom
-
-// This is an alias to an internal type.
-type PriceModelModelType = shared.PriceModelModelType
-
-// This is an alias to an internal value.
-const PriceModelModelTypeUnit = shared.PriceModelModelTypeUnit
-
-// This is an alias to an internal value.
-const PriceModelModelTypePackage = shared.PriceModelModelTypePackage
-
-// This is an alias to an internal value.
-const PriceModelModelTypeMatrix = shared.PriceModelModelTypeMatrix
-
-// This is an alias to an internal value.
-const PriceModelModelTypeTiered = shared.PriceModelModelTypeTiered
-
-// This is an alias to an internal value.
-const PriceModelModelTypeTieredBps = shared.PriceModelModelTypeTieredBps
-
-// This is an alias to an internal value.
-const PriceModelModelTypeBps = shared.PriceModelModelTypeBps
-
-// This is an alias to an internal value.
-const PriceModelModelTypeBulkBps = shared.PriceModelModelTypeBulkBps
-
-// This is an alias to an internal value.
-const PriceModelModelTypeBulk = shared.PriceModelModelTypeBulk
-
-// This is an alias to an internal value.
-const PriceModelModelTypeThresholdTotalAmount = shared.PriceModelModelTypeThresholdTotalAmount
-
-// This is an alias to an internal value.
-const PriceModelModelTypeTieredPackage = shared.PriceModelModelTypeTieredPackage
-
-// This is an alias to an internal value.
-const PriceModelModelTypeGroupedTiered = shared.PriceModelModelTypeGroupedTiered
-
-// This is an alias to an internal value.
-const PriceModelModelTypeTieredWithMinimum = shared.PriceModelModelTypeTieredWithMinimum
-
-// This is an alias to an internal value.
-const PriceModelModelTypeTieredPackageWithMinimum = shared.PriceModelModelTypeTieredPackageWithMinimum
-
-// This is an alias to an internal value.
-const PriceModelModelTypePackageWithAllocation = shared.PriceModelModelTypePackageWithAllocation
-
-// This is an alias to an internal value.
-const PriceModelModelTypeUnitWithPercent = shared.PriceModelModelTypeUnitWithPercent
-
-// This is an alias to an internal value.
-const PriceModelModelTypeMatrixWithAllocation = shared.PriceModelModelTypeMatrixWithAllocation
-
-// This is an alias to an internal value.
-const PriceModelModelTypeTieredWithProration = shared.PriceModelModelTypeTieredWithProration
-
-// This is an alias to an internal value.
-const PriceModelModelTypeUnitWithProration = shared.PriceModelModelTypeUnitWithProration
-
-// This is an alias to an internal value.
-const PriceModelModelTypeGroupedAllocation = shared.PriceModelModelTypeGroupedAllocation
-
-// This is an alias to an internal value.
-const PriceModelModelTypeGroupedWithProratedMinimum = shared.PriceModelModelTypeGroupedWithProratedMinimum
-
-// This is an alias to an internal value.
-const PriceModelModelTypeGroupedWithMeteredMinimum = shared.PriceModelModelTypeGroupedWithMeteredMinimum
-
-// This is an alias to an internal value.
-const PriceModelModelTypeMatrixWithDisplayName = shared.PriceModelModelTypeMatrixWithDisplayName
-
-// This is an alias to an internal value.
-const PriceModelModelTypeBulkWithProration = shared.PriceModelModelTypeBulkWithProration
-
-// This is an alias to an internal value.
-const PriceModelModelTypeGroupedTieredPackage = shared.PriceModelModelTypeGroupedTieredPackage
-
-// This is an alias to an internal value.
-const PriceModelModelTypeMaxGroupTieredPackage = shared.PriceModelModelTypeMaxGroupTieredPackage
-
-// This is an alias to an internal value.
-const PriceModelModelTypeScalableMatrixWithUnitPricing = shared.PriceModelModelTypeScalableMatrixWithUnitPricing
-
-// This is an alias to an internal value.
-const PriceModelModelTypeScalableMatrixWithTieredPricing = shared.PriceModelModelTypeScalableMatrixWithTieredPricing
-
-// This is an alias to an internal value.
-const PriceModelModelTypeCumulativeGroupedBulk = shared.PriceModelModelTypeCumulativeGroupedBulk
-
-// This is an alias to an internal type.
-type PriceModelPriceType = shared.PriceModelPriceType
-
-// This is an alias to an internal value.
-const PriceModelPriceTypeUsagePrice = shared.PriceModelPriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceModelPriceTypeFixedPrice = shared.PriceModelPriceTypeFixedPrice
-
-// This is an alias to an internal type.
 type RemoveSubscriptionAdjustmentParams = shared.RemoveSubscriptionAdjustmentParams
 
 // This is an alias to an internal type.
@@ -5184,131 +2128,1914 @@ type RemoveSubscriptionPriceParams = shared.RemoveSubscriptionPriceParams
 // This is an alias to an internal type.
 type ReplaceSubscriptionAdjustmentParams = shared.ReplaceSubscriptionAdjustmentParams
 
+// The definition of a new adjustment to create and add to the subscription.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentUnion = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentUnion
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentType = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewUsageDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewUsageDiscount
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentType = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewUsageDiscountAdjustmentTypeUsageDiscount
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewAmountDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewAmountDiscount
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentType = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewAmountDiscountAdjustmentTypeAmountDiscount
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewMinimum = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewMinimum
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentType = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentTypeMinimum = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewMinimumAdjustmentTypeMinimum
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewMaximum = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewMaximum
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentType = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentTypeMaximum = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewMaximumAdjustmentTypeMaximum
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentType = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypePercentageDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeUsageDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeUsageDiscount
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeAmountDiscount = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeAmountDiscount
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMinimum = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMinimum
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMaximum = shared.ReplaceSubscriptionAdjustmentParamsAdjustmentAdjustmentTypeMaximum
+
 // This is an alias to an internal type.
 type ReplaceSubscriptionPriceParams = shared.ReplaceSubscriptionPriceParams
 
-// This is an alias to an internal type.
-type SubLineItemGroupingModel = shared.SubLineItemGroupingModel
-
-// This is an alias to an internal type.
-type SubscriptionMinifiedModel = shared.SubscriptionMinifiedModel
-
-// A [subscription](/core-concepts#subscription) represents the purchase of a plan
-// by a customer.
-//
-// By default, subscriptions begin on the day that they're created and renew
-// automatically for each billing cycle at the cadence that's configured in the
-// plan definition.
-//
-// Subscriptions also default to **beginning of month alignment**, which means the
-// first invoice issued for the subscription will have pro-rated charges between
-// the `start_date` and the first of the following month. Subsequent billing
-// periods will always start and end on a month boundary (e.g. subsequent month
-// starts for monthly billing).
-//
-// Depending on the plan configuration, any _flat_ recurring fees will be billed
-// either at the beginning (in-advance) or end (in-arrears) of each billing cycle.
-// Plans default to **in-advance billing**. Usage-based fees are billed in arrears
-// as usage is accumulated. In the normal course of events, you can expect an
-// invoice to contain usage-based charges for the previous period, and a recurring
-// fee for the following period.
+// The definition of a new allocation price to create and add to the subscription.
 //
 // This is an alias to an internal type.
-type SubscriptionModel = shared.SubscriptionModel
+type ReplaceSubscriptionPriceParamsAllocationPrice = shared.ReplaceSubscriptionPriceParamsAllocationPrice
 
-// This is an alias to an internal type.
-type SubscriptionModelDiscountInterval = shared.SubscriptionModelDiscountInterval
-
-// This is an alias to an internal type.
-type SubscriptionModelDiscountIntervalsDiscountType = shared.SubscriptionModelDiscountIntervalsDiscountType
-
-// This is an alias to an internal value.
-const SubscriptionModelDiscountIntervalsDiscountTypeAmount = shared.SubscriptionModelDiscountIntervalsDiscountTypeAmount
-
-// This is an alias to an internal value.
-const SubscriptionModelDiscountIntervalsDiscountTypePercentage = shared.SubscriptionModelDiscountIntervalsDiscountTypePercentage
-
-// This is an alias to an internal value.
-const SubscriptionModelDiscountIntervalsDiscountTypeUsage = shared.SubscriptionModelDiscountIntervalsDiscountTypeUsage
-
-// This is an alias to an internal type.
-type SubscriptionModelStatus = shared.SubscriptionModelStatus
-
-// This is an alias to an internal value.
-const SubscriptionModelStatusActive = shared.SubscriptionModelStatusActive
-
-// This is an alias to an internal value.
-const SubscriptionModelStatusEnded = shared.SubscriptionModelStatusEnded
-
-// This is an alias to an internal value.
-const SubscriptionModelStatusUpcoming = shared.SubscriptionModelStatusUpcoming
-
-// This is an alias to an internal type.
-type SubscriptionTrialInfoModel = shared.SubscriptionTrialInfoModel
-
-// This is an alias to an internal type.
-type SubscriptionsModel = shared.SubscriptionsModel
-
-// This is an alias to an internal type.
-type TaxAmountModel = shared.TaxAmountModel
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
+// The cadence at which to allocate the amount to the customer.
 //
 // This is an alias to an internal type.
-type ThresholdModel = shared.ThresholdModel
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-//
-// This is an alias to an internal type.
-type ThresholdModelParam = shared.ThresholdModelParam
-
-// This is an alias to an internal type.
-type TieredBpsConfigModel = shared.TieredBpsConfigModel
-
-// This is an alias to an internal type.
-type TieredBpsConfigModelTier = shared.TieredBpsConfigModelTier
-
-// This is an alias to an internal type.
-type TieredBpsConfigModelParam = shared.TieredBpsConfigModelParam
-
-// This is an alias to an internal type.
-type TieredBpsConfigModelTierParam = shared.TieredBpsConfigModelTierParam
-
-// This is an alias to an internal type.
-type TieredConfigModel = shared.TieredConfigModel
-
-// This is an alias to an internal type.
-type TieredConfigModelTier = shared.TieredConfigModelTier
-
-// This is an alias to an internal type.
-type TieredConfigModelParam = shared.TieredConfigModelParam
-
-// This is an alias to an internal type.
-type TieredConfigModelTierParam = shared.TieredConfigModelTierParam
-
-// This is an alias to an internal type.
-type TopUpModel = shared.TopUpModel
-
-// Settings for invoices generated by triggered top-ups.
-//
-// This is an alias to an internal type.
-type TopUpModelInvoiceSettings = shared.TopUpModelInvoiceSettings
-
-// The unit of expires_after.
-//
-// This is an alias to an internal type.
-type TopUpModelExpiresAfterUnit = shared.TopUpModelExpiresAfterUnit
+type ReplaceSubscriptionPriceParamsAllocationPriceCadence = shared.ReplaceSubscriptionPriceParamsAllocationPriceCadence
 
 // This is an alias to an internal value.
-const TopUpModelExpiresAfterUnitDay = shared.TopUpModelExpiresAfterUnitDay
+const ReplaceSubscriptionPriceParamsAllocationPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceOneTime
 
 // This is an alias to an internal value.
-const TopUpModelExpiresAfterUnitMonth = shared.TopUpModelExpiresAfterUnitMonth
+const ReplaceSubscriptionPriceParamsAllocationPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsAllocationPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsAllocationPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsAllocationPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsAllocationPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceCustom
 
 // This is an alias to an internal type.
-type TopUpsModel = shared.TopUpsModel
+type ReplaceSubscriptionPriceParamsDiscount = shared.ReplaceSubscriptionPriceParamsDiscount
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsDiscountsDiscountType = shared.ReplaceSubscriptionPriceParamsDiscountsDiscountType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsDiscountsDiscountTypePercentage = shared.ReplaceSubscriptionPriceParamsDiscountsDiscountTypePercentage
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsDiscountsDiscountTypeUsage = shared.ReplaceSubscriptionPriceParamsDiscountsDiscountTypeUsage
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsDiscountsDiscountTypeAmount = shared.ReplaceSubscriptionPriceParamsDiscountsDiscountTypeAmount
+
+// The definition of a new price to create and add to the subscription.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceUnion = shared.ReplaceSubscriptionPriceParamsPriceUnion
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelTypePackage = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceModelTypePackage
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePricePackageConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePricePackageConfig
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfig
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceMatrixConfigMatrixValue
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelTypeMatrix = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceModelTypeMatrix
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelTypeTiered = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceModelTypeTiered
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfig
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfigTier = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceTieredConfigTier
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceModelTypeTieredBps
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfig
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPrice
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBpsConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBpsConfig
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelTypeBps = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceModelTypeBps
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBpsPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPrice
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfig
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBulkBpsConfigTier
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceModelTypeBulkBps
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPrice
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfig = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfig
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfigTier = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBulkConfigTier
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelTypeBulk = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceModelTypeBulk
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceModelTypeThresholdTotalAmount
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceModelTypeTieredPackage
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceModelTypeTieredWithMinimum
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceModelTypeUnitWithPercent
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceModelTypePackageWithAllocation
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceModelTypeTieredWithProration
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionTierWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceModelTypeUnitWithProration
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceModelTypeGroupedAllocation
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceModelTypeBulkWithProration
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePrice = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePrice
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadence = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelType = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelTypeGroupedTieredPackage = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceModelTypeGroupedTieredPackage
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfiguration = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfiguration
+
+// The unit of billing period duration.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth = shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceCadence = shared.ReplaceSubscriptionPriceParamsPriceCadence
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceCadenceAnnual = shared.ReplaceSubscriptionPriceParamsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceCadenceSemiAnnual = shared.ReplaceSubscriptionPriceParamsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceCadenceMonthly = shared.ReplaceSubscriptionPriceParamsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceCadenceQuarterly = shared.ReplaceSubscriptionPriceParamsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceCadenceOneTime = shared.ReplaceSubscriptionPriceParamsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceCadenceCustom = shared.ReplaceSubscriptionPriceParamsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type ReplaceSubscriptionPriceParamsPriceModelType = shared.ReplaceSubscriptionPriceParamsPriceModelType
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeUnit = shared.ReplaceSubscriptionPriceParamsPriceModelTypeUnit
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypePackage = shared.ReplaceSubscriptionPriceParamsPriceModelTypePackage
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeMatrix = shared.ReplaceSubscriptionPriceParamsPriceModelTypeMatrix
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeTiered = shared.ReplaceSubscriptionPriceParamsPriceModelTypeTiered
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeTieredBps = shared.ReplaceSubscriptionPriceParamsPriceModelTypeTieredBps
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeBps = shared.ReplaceSubscriptionPriceParamsPriceModelTypeBps
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeBulkBps = shared.ReplaceSubscriptionPriceParamsPriceModelTypeBulkBps
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeBulk = shared.ReplaceSubscriptionPriceParamsPriceModelTypeBulk
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeThresholdTotalAmount = shared.ReplaceSubscriptionPriceParamsPriceModelTypeThresholdTotalAmount
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeTieredPackage = shared.ReplaceSubscriptionPriceParamsPriceModelTypeTieredPackage
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeTieredWithMinimum = shared.ReplaceSubscriptionPriceParamsPriceModelTypeTieredWithMinimum
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeUnitWithPercent = shared.ReplaceSubscriptionPriceParamsPriceModelTypeUnitWithPercent
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypePackageWithAllocation = shared.ReplaceSubscriptionPriceParamsPriceModelTypePackageWithAllocation
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeTieredWithProration = shared.ReplaceSubscriptionPriceParamsPriceModelTypeTieredWithProration
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeUnitWithProration = shared.ReplaceSubscriptionPriceParamsPriceModelTypeUnitWithProration
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeGroupedAllocation = shared.ReplaceSubscriptionPriceParamsPriceModelTypeGroupedAllocation
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeGroupedWithProratedMinimum = shared.ReplaceSubscriptionPriceParamsPriceModelTypeGroupedWithProratedMinimum
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeBulkWithProration = shared.ReplaceSubscriptionPriceParamsPriceModelTypeBulkWithProration
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeScalableMatrixWithUnitPricing = shared.ReplaceSubscriptionPriceParamsPriceModelTypeScalableMatrixWithUnitPricing
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeScalableMatrixWithTieredPricing = shared.ReplaceSubscriptionPriceParamsPriceModelTypeScalableMatrixWithTieredPricing
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeCumulativeGroupedBulk = shared.ReplaceSubscriptionPriceParamsPriceModelTypeCumulativeGroupedBulk
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeMaxGroupTieredPackage = shared.ReplaceSubscriptionPriceParamsPriceModelTypeMaxGroupTieredPackage
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeGroupedWithMeteredMinimum = shared.ReplaceSubscriptionPriceParamsPriceModelTypeGroupedWithMeteredMinimum
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeMatrixWithDisplayName = shared.ReplaceSubscriptionPriceParamsPriceModelTypeMatrixWithDisplayName
+
+// This is an alias to an internal value.
+const ReplaceSubscriptionPriceParamsPriceModelTypeGroupedTieredPackage = shared.ReplaceSubscriptionPriceParamsPriceModelTypeGroupedTieredPackage
 
 // This is an alias to an internal type.
 type TrialDiscount = shared.TrialDiscount
@@ -5321,21 +4048,3 @@ const TrialDiscountDiscountTypeTrial = shared.TrialDiscountDiscountTypeTrial
 
 // This is an alias to an internal type.
 type TrialDiscountParam = shared.TrialDiscountParam
-
-// This is an alias to an internal type.
-type UnitConfigModel = shared.UnitConfigModel
-
-// This is an alias to an internal type.
-type UnitConfigModelParam = shared.UnitConfigModelParam
-
-// This is an alias to an internal type.
-type UsageDiscountIntervalModel = shared.UsageDiscountIntervalModel
-
-// This is an alias to an internal type.
-type UsageDiscountIntervalModelDiscountType = shared.UsageDiscountIntervalModelDiscountType
-
-// This is an alias to an internal value.
-const UsageDiscountIntervalModelDiscountTypeUsage = shared.UsageDiscountIntervalModelDiscountTypeUsage
-
-// This is an alias to an internal type.
-type UsageModel = shared.UsageModel
