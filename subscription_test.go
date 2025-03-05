@@ -28,9 +28,9 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Subscriptions.New(context.TODO(), orb.SubscriptionNewParams{
-		AddAdjustments: orb.F([]shared.AddSubscriptionAdjustmentParams{{
-			Adjustment: orb.F[shared.AddSubscriptionAdjustmentParamsAdjustmentUnion](shared.AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount{
-				AdjustmentType:     orb.F(shared.AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
+		AddAdjustments: orb.F([]orb.SubscriptionNewParamsAddAdjustment{{
+			Adjustment: orb.F[orb.SubscriptionNewParamsAddAdjustmentsAdjustmentUnion](orb.SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscount{
+				AdjustmentType:     orb.F(orb.SubscriptionNewParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
 				AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 				PercentageDiscount: orb.F(0.000000),
 				IsInvoiceLevel:     orb.F(true),
@@ -39,15 +39,15 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			PlanPhaseOrder: orb.F(int64(0)),
 			StartDate:      orb.F(time.Now()),
 		}}),
-		AddPrices: orb.F([]shared.AddSubscriptionPriceParams{{
-			AllocationPrice: orb.F(shared.AddSubscriptionPriceParamsAllocationPrice{
+		AddPrices: orb.F([]orb.SubscriptionNewParamsAddPrice{{
+			AllocationPrice: orb.F(orb.SubscriptionNewParamsAddPricesAllocationPrice{
 				Amount:                orb.F("10.00"),
-				Cadence:               orb.F(shared.AddSubscriptionPriceParamsAllocationPriceCadenceOneTime),
+				Cadence:               orb.F(orb.SubscriptionNewParamsAddPricesAllocationPriceCadenceOneTime),
 				Currency:              orb.F("USD"),
 				ExpiresAtEndOfCadence: orb.F(true),
 			}),
-			Discounts: orb.F([]shared.AddSubscriptionPriceParamsDiscount{{
-				DiscountType:       orb.F(shared.AddSubscriptionPriceParamsDiscountsDiscountTypePercentage),
+			Discounts: orb.F([]orb.SubscriptionNewParamsAddPricesDiscount{{
+				DiscountType:       orb.F(orb.SubscriptionNewParamsAddPricesDiscountsDiscountTypePercentage),
 				AmountDiscount:     orb.F("amount_discount"),
 				PercentageDiscount: orb.F(0.150000),
 				UsageDiscount:      orb.F(0.000000),
@@ -57,28 +57,28 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			MaximumAmount:   orb.F("1.23"),
 			MinimumAmount:   orb.F("1.23"),
 			PlanPhaseOrder:  orb.F(int64(0)),
-			Price: orb.F[shared.AddSubscriptionPriceParamsPriceUnion](shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPrice{
-				Cadence:   orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual),
+			Price: orb.F[orb.SubscriptionNewParamsAddPricesPriceUnion](orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPrice{
+				Cadence:   orb.F(orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 				ItemID:    orb.F("item_id"),
-				ModelType: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit),
+				ModelType: orb.F(orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
-				UnitConfig: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig{
+				UnitConfig: orb.F(orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceUnitConfig{
 					UnitAmount: orb.F("unit_amount"),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
-				BillingCycleConfiguration: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
+				BillingCycleConfiguration: orb.F(orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
 					Duration:     orb.F(int64(0)),
-					DurationUnit: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
+					DurationUnit: orb.F(orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate:     orb.F(0.000000),
 				Currency:           orb.F("currency"),
 				ExternalPriceID:    orb.F("external_price_id"),
 				FixedPriceQuantity: orb.F(0.000000),
 				InvoiceGroupingKey: orb.F("invoice_grouping_key"),
-				InvoicingCycleConfiguration: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
+				InvoicingCycleConfiguration: orb.F(orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
 					Duration:     orb.F(int64(0)),
-					DurationUnit: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+					DurationUnit: orb.F(orb.SubscriptionNewParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
 				}),
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
@@ -116,32 +116,32 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		PlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
 		PlanVersionNumber:      orb.F(int64(0)),
 		PriceOverrides:         orb.F([]interface{}{map[string]interface{}{}}),
-		RemoveAdjustments: orb.F([]shared.RemoveSubscriptionAdjustmentParams{{
+		RemoveAdjustments: orb.F([]orb.SubscriptionNewParamsRemoveAdjustment{{
 			AdjustmentID: orb.F("h74gfhdjvn7ujokd"),
 		}}),
-		RemovePrices: orb.F([]shared.RemoveSubscriptionPriceParams{{
+		RemovePrices: orb.F([]orb.SubscriptionNewParamsRemovePrice{{
 			ExternalPriceID: orb.F("external_price_id"),
 			PriceID:         orb.F("h74gfhdjvn7ujokd"),
 		}}),
-		ReplaceAdjustments: orb.F([]shared.ReplaceSubscriptionAdjustmentParams{{
-			Adjustment: orb.F[shared.ReplaceSubscriptionAdjustmentParamsAdjustmentUnion](shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount{
-				AdjustmentType:     orb.F(shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
+		ReplaceAdjustments: orb.F([]orb.SubscriptionNewParamsReplaceAdjustment{{
+			Adjustment: orb.F[orb.SubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion](orb.SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount{
+				AdjustmentType:     orb.F(orb.SubscriptionNewParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
 				AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 				PercentageDiscount: orb.F(0.000000),
 				IsInvoiceLevel:     orb.F(true),
 			}),
 			ReplacesAdjustmentID: orb.F("replaces_adjustment_id"),
 		}}),
-		ReplacePrices: orb.F([]shared.ReplaceSubscriptionPriceParams{{
+		ReplacePrices: orb.F([]orb.SubscriptionNewParamsReplacePrice{{
 			ReplacesPriceID: orb.F("replaces_price_id"),
-			AllocationPrice: orb.F(shared.ReplaceSubscriptionPriceParamsAllocationPrice{
+			AllocationPrice: orb.F(orb.SubscriptionNewParamsReplacePricesAllocationPrice{
 				Amount:                orb.F("10.00"),
-				Cadence:               orb.F(shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceOneTime),
+				Cadence:               orb.F(orb.SubscriptionNewParamsReplacePricesAllocationPriceCadenceOneTime),
 				Currency:              orb.F("USD"),
 				ExpiresAtEndOfCadence: orb.F(true),
 			}),
-			Discounts: orb.F([]shared.ReplaceSubscriptionPriceParamsDiscount{{
-				DiscountType:       orb.F(shared.ReplaceSubscriptionPriceParamsDiscountsDiscountTypePercentage),
+			Discounts: orb.F([]orb.SubscriptionNewParamsReplacePricesDiscount{{
+				DiscountType:       orb.F(orb.SubscriptionNewParamsReplacePricesDiscountsDiscountTypePercentage),
 				AmountDiscount:     orb.F("amount_discount"),
 				PercentageDiscount: orb.F(0.150000),
 				UsageDiscount:      orb.F(0.000000),
@@ -150,28 +150,28 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			FixedPriceQuantity: orb.F(2.000000),
 			MaximumAmount:      orb.F("1.23"),
 			MinimumAmount:      orb.F("1.23"),
-			Price: orb.F[shared.ReplaceSubscriptionPriceParamsPriceUnion](shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPrice{
-				Cadence:   orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual),
+			Price: orb.F[orb.SubscriptionNewParamsReplacePricesPriceUnion](orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPrice{
+				Cadence:   orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 				ItemID:    orb.F("item_id"),
-				ModelType: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit),
+				ModelType: orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
-				UnitConfig: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig{
+				UnitConfig: orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceUnitConfig{
 					UnitAmount: orb.F("unit_amount"),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
-				BillingCycleConfiguration: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
+				BillingCycleConfiguration: orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
 					Duration:     orb.F(int64(0)),
-					DurationUnit: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
+					DurationUnit: orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate:     orb.F(0.000000),
 				Currency:           orb.F("currency"),
 				ExternalPriceID:    orb.F("external_price_id"),
 				FixedPriceQuantity: orb.F(0.000000),
 				InvoiceGroupingKey: orb.F("invoice_grouping_key"),
-				InvoicingCycleConfiguration: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
+				InvoicingCycleConfiguration: orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
 					Duration:     orb.F(int64(0)),
-					DurationUnit: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+					DurationUnit: orb.F(orb.SubscriptionNewParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
 				}),
 				Metadata: orb.F(map[string]string{
 					"foo": "string",
@@ -537,9 +537,9 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 		"subscription_id",
 		orb.SubscriptionSchedulePlanChangeParams{
 			ChangeOption: orb.F(orb.SubscriptionSchedulePlanChangeParamsChangeOptionRequestedDate),
-			AddAdjustments: orb.F([]shared.AddSubscriptionAdjustmentParams{{
-				Adjustment: orb.F[shared.AddSubscriptionAdjustmentParamsAdjustmentUnion](shared.AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount{
-					AdjustmentType:     orb.F(shared.AddSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
+			AddAdjustments: orb.F([]orb.SubscriptionSchedulePlanChangeParamsAddAdjustment{{
+				Adjustment: orb.F[orb.SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentUnion](orb.SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewPercentageDiscount{
+					AdjustmentType:     orb.F(orb.SubscriptionSchedulePlanChangeParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
 					AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 					PercentageDiscount: orb.F(0.000000),
 					IsInvoiceLevel:     orb.F(true),
@@ -548,15 +548,15 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				PlanPhaseOrder: orb.F(int64(0)),
 				StartDate:      orb.F(time.Now()),
 			}}),
-			AddPrices: orb.F([]shared.AddSubscriptionPriceParams{{
-				AllocationPrice: orb.F(shared.AddSubscriptionPriceParamsAllocationPrice{
+			AddPrices: orb.F([]orb.SubscriptionSchedulePlanChangeParamsAddPrice{{
+				AllocationPrice: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesAllocationPrice{
 					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(shared.AddSubscriptionPriceParamsAllocationPriceCadenceOneTime),
+					Cadence:               orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceOneTime),
 					Currency:              orb.F("USD"),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
-				Discounts: orb.F([]shared.AddSubscriptionPriceParamsDiscount{{
-					DiscountType:       orb.F(shared.AddSubscriptionPriceParamsDiscountsDiscountTypePercentage),
+				Discounts: orb.F([]orb.SubscriptionSchedulePlanChangeParamsAddPricesDiscount{{
+					DiscountType:       orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesDiscountsDiscountTypePercentage),
 					AmountDiscount:     orb.F("amount_discount"),
 					PercentageDiscount: orb.F(0.150000),
 					UsageDiscount:      orb.F(0.000000),
@@ -566,28 +566,28 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				MaximumAmount:   orb.F("1.23"),
 				MinimumAmount:   orb.F("1.23"),
 				PlanPhaseOrder:  orb.F(int64(0)),
-				Price: orb.F[shared.AddSubscriptionPriceParamsPriceUnion](shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPrice{
-					Cadence:   orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual),
+				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceUnion](orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPrice{
+					Cadence:   orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
-					ModelType: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit),
+					ModelType: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
-					UnitConfig: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig{
+					UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceUnitConfig{
 						UnitAmount: orb.F("unit_amount"),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
-					BillingCycleConfiguration: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
+					BillingCycleConfiguration: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate:     orb.F(0.000000),
 					Currency:           orb.F("currency"),
 					ExternalPriceID:    orb.F("external_price_id"),
 					FixedPriceQuantity: orb.F(0.000000),
 					InvoiceGroupingKey: orb.F("invoice_grouping_key"),
-					InvoicingCycleConfiguration: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
+					InvoicingCycleConfiguration: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(shared.AddSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
 					}),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
@@ -618,32 +618,32 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 			PlanID:                 orb.F("ZMwNQefe7J3ecf7W"),
 			PlanVersionNumber:      orb.F(int64(0)),
 			PriceOverrides:         orb.F([]interface{}{map[string]interface{}{}}),
-			RemoveAdjustments: orb.F([]shared.RemoveSubscriptionAdjustmentParams{{
+			RemoveAdjustments: orb.F([]orb.SubscriptionSchedulePlanChangeParamsRemoveAdjustment{{
 				AdjustmentID: orb.F("h74gfhdjvn7ujokd"),
 			}}),
-			RemovePrices: orb.F([]shared.RemoveSubscriptionPriceParams{{
+			RemovePrices: orb.F([]orb.SubscriptionSchedulePlanChangeParamsRemovePrice{{
 				ExternalPriceID: orb.F("external_price_id"),
 				PriceID:         orb.F("h74gfhdjvn7ujokd"),
 			}}),
-			ReplaceAdjustments: orb.F([]shared.ReplaceSubscriptionAdjustmentParams{{
-				Adjustment: orb.F[shared.ReplaceSubscriptionAdjustmentParamsAdjustmentUnion](shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscount{
-					AdjustmentType:     orb.F(shared.ReplaceSubscriptionAdjustmentParamsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
+			ReplaceAdjustments: orb.F([]orb.SubscriptionSchedulePlanChangeParamsReplaceAdjustment{{
+				Adjustment: orb.F[orb.SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentUnion](orb.SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount{
+					AdjustmentType:     orb.F(orb.SubscriptionSchedulePlanChangeParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
 					AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 					PercentageDiscount: orb.F(0.000000),
 					IsInvoiceLevel:     orb.F(true),
 				}),
 				ReplacesAdjustmentID: orb.F("replaces_adjustment_id"),
 			}}),
-			ReplacePrices: orb.F([]shared.ReplaceSubscriptionPriceParams{{
+			ReplacePrices: orb.F([]orb.SubscriptionSchedulePlanChangeParamsReplacePrice{{
 				ReplacesPriceID: orb.F("replaces_price_id"),
-				AllocationPrice: orb.F(shared.ReplaceSubscriptionPriceParamsAllocationPrice{
+				AllocationPrice: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPrice{
 					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(shared.ReplaceSubscriptionPriceParamsAllocationPriceCadenceOneTime),
+					Cadence:               orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceOneTime),
 					Currency:              orb.F("USD"),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
-				Discounts: orb.F([]shared.ReplaceSubscriptionPriceParamsDiscount{{
-					DiscountType:       orb.F(shared.ReplaceSubscriptionPriceParamsDiscountsDiscountTypePercentage),
+				Discounts: orb.F([]orb.SubscriptionSchedulePlanChangeParamsReplacePricesDiscount{{
+					DiscountType:       orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesDiscountsDiscountTypePercentage),
 					AmountDiscount:     orb.F("amount_discount"),
 					PercentageDiscount: orb.F(0.150000),
 					UsageDiscount:      orb.F(0.000000),
@@ -652,28 +652,28 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				FixedPriceQuantity: orb.F(2.000000),
 				MaximumAmount:      orb.F("1.23"),
 				MinimumAmount:      orb.F("1.23"),
-				Price: orb.F[shared.ReplaceSubscriptionPriceParamsPriceUnion](shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPrice{
-					Cadence:   orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceCadenceAnnual),
+				Price: orb.F[orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion](orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPrice{
+					Cadence:   orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
-					ModelType: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceModelTypeUnit),
+					ModelType: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
-					UnitConfig: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceUnitConfig{
+					UnitConfig: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceUnitConfig{
 						UnitAmount: orb.F("unit_amount"),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
-					BillingCycleConfiguration: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
+					BillingCycleConfiguration: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfiguration{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate:     orb.F(0.000000),
 					Currency:           orb.F("currency"),
 					ExternalPriceID:    orb.F("external_price_id"),
 					FixedPriceQuantity: orb.F(0.000000),
 					InvoiceGroupingKey: orb.F("invoice_grouping_key"),
-					InvoicingCycleConfiguration: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
+					InvoicingCycleConfiguration: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfiguration{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(shared.ReplaceSubscriptionPriceParamsPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionUnitPriceInvoicingCycleConfigurationDurationUnitDay),
 					}),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
