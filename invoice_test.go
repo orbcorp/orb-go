@@ -37,7 +37,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			Name:      orb.F("Line Item Name"),
 			Quantity:  orb.F(1.000000),
 			StartDate: orb.F(time.Now()),
-			UnitConfig: orb.F(orb.InvoiceNewParamsLineItemsUnitConfig{
+			UnitConfig: orb.F(shared.UnitConfigModelParam{
 				UnitAmount: orb.F("unit_amount"),
 			}),
 		}}),

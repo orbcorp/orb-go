@@ -11,6 +11,7 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestItemNew(t *testing.T) {
@@ -53,8 +54,8 @@ func TestItemUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"item_id",
 		orb.ItemUpdateParams{
-			ExternalConnections: orb.F([]orb.ItemUpdateParamsExternalConnection{{
-				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
+			ExternalConnections: orb.F([]shared.ItemExternalConnectionModelParam{{
+				ExternalConnectionName: orb.F(shared.ItemExternalConnectionModelExternalConnectionNameStripe),
 				ExternalEntityID:       orb.F("external_entity_id"),
 			}}),
 			Name: orb.F("name"),

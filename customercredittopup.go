@@ -16,6 +16,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // CustomerCreditTopUpService contains methods and other services that help with
@@ -44,7 +45,7 @@ func NewCustomerCreditTopUpService(opts ...option.RequestOption) (r *CustomerCre
 //
 // If a top-up already exists for this customer in the same currency, the existing
 // top-up will be replaced.
-func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string, body CustomerCreditTopUpNewParams, opts ...option.RequestOption) (res *CustomerCreditTopUpNewResponse, err error) {
+func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string, body CustomerCreditTopUpNewParams, opts ...option.RequestOption) (res *shared.TopUpModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -56,7 +57,7 @@ func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string,
 }
 
 // List top-ups
-func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListResponse], err error) {
+func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) (res *pagination.Page[shared.TopUpModel], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -78,7 +79,7 @@ func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string
 }
 
 // List top-ups
-func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditTopUpListResponse] {
+func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.TopUpModel] {
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }
 
@@ -107,7 +108,7 @@ func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID stri
 //
 // If a top-up already exists for this customer in the same currency, the existing
 // top-up will be replaced.
-func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, externalCustomerID string, body CustomerCreditTopUpNewByExternalIDParams, opts ...option.RequestOption) (res *CustomerCreditTopUpNewByExternalIDResponse, err error) {
+func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, externalCustomerID string, body CustomerCreditTopUpNewByExternalIDParams, opts ...option.RequestOption) (res *shared.TopUpModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
@@ -137,7 +138,7 @@ func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, ext
 }
 
 // List top-ups by external ID
-func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListByExternalIDResponse], err error) {
+func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[shared.TopUpModel], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -159,398 +160,8 @@ func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, exter
 }
 
 // List top-ups by external ID
-func (r *CustomerCreditTopUpService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerCreditTopUpListByExternalIDResponse] {
+func (r *CustomerCreditTopUpService) ListByExternalIDAutoPaging(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.TopUpModel] {
 	return pagination.NewPageAutoPager(r.ListByExternalID(ctx, externalCustomerID, query, opts...))
-}
-
-type CustomerCreditTopUpNewResponse struct {
-	ID string `json:"id,required"`
-	// The amount to increment when the threshold is reached.
-	Amount string `json:"amount,required"`
-	// The currency or custom pricing unit to use for this top-up. If this is a
-	// real-world currency, it must match the customer's invoicing currency.
-	Currency string `json:"currency,required"`
-	// Settings for invoices generated by triggered top-ups.
-	InvoiceSettings CustomerCreditTopUpNewResponseInvoiceSettings `json:"invoice_settings,required"`
-	// How much, in the customer's currency, to charge for each unit.
-	PerUnitCostBasis string `json:"per_unit_cost_basis,required"`
-	// The threshold at which to trigger the top-up. If the balance is at or below this
-	// threshold, the top-up will be triggered.
-	Threshold string `json:"threshold,required"`
-	// The number of days or months after which the top-up expires. If unspecified, it
-	// does not expire.
-	ExpiresAfter int64 `json:"expires_after,nullable"`
-	// The unit of expires_after.
-	ExpiresAfterUnit CustomerCreditTopUpNewResponseExpiresAfterUnit `json:"expires_after_unit,nullable"`
-	JSON             customerCreditTopUpNewResponseJSON             `json:"-"`
-}
-
-// customerCreditTopUpNewResponseJSON contains the JSON metadata for the struct
-// [CustomerCreditTopUpNewResponse]
-type customerCreditTopUpNewResponseJSON struct {
-	ID               apijson.Field
-	Amount           apijson.Field
-	Currency         apijson.Field
-	InvoiceSettings  apijson.Field
-	PerUnitCostBasis apijson.Field
-	Threshold        apijson.Field
-	ExpiresAfter     apijson.Field
-	ExpiresAfterUnit apijson.Field
-	raw              string
-	ExtraFields      map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpNewResponse) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpNewResponseJSON) RawJSON() string {
-	return r.raw
-}
-
-// Settings for invoices generated by triggered top-ups.
-type CustomerCreditTopUpNewResponseInvoiceSettings struct {
-	// Whether the credits purchase invoice should auto collect with the customer's
-	// saved payment method.
-	AutoCollection bool `json:"auto_collection,required"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
-	NetTerms int64 `json:"net_terms,required"`
-	// An optional memo to display on the invoice.
-	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
-	RequireSuccessfulPayment bool                                              `json:"require_successful_payment"`
-	JSON                     customerCreditTopUpNewResponseInvoiceSettingsJSON `json:"-"`
-}
-
-// customerCreditTopUpNewResponseInvoiceSettingsJSON contains the JSON metadata for
-// the struct [CustomerCreditTopUpNewResponseInvoiceSettings]
-type customerCreditTopUpNewResponseInvoiceSettingsJSON struct {
-	AutoCollection           apijson.Field
-	NetTerms                 apijson.Field
-	Memo                     apijson.Field
-	RequireSuccessfulPayment apijson.Field
-	raw                      string
-	ExtraFields              map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpNewResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpNewResponseInvoiceSettingsJSON) RawJSON() string {
-	return r.raw
-}
-
-// The unit of expires_after.
-type CustomerCreditTopUpNewResponseExpiresAfterUnit string
-
-const (
-	CustomerCreditTopUpNewResponseExpiresAfterUnitDay   CustomerCreditTopUpNewResponseExpiresAfterUnit = "day"
-	CustomerCreditTopUpNewResponseExpiresAfterUnitMonth CustomerCreditTopUpNewResponseExpiresAfterUnit = "month"
-)
-
-func (r CustomerCreditTopUpNewResponseExpiresAfterUnit) IsKnown() bool {
-	switch r {
-	case CustomerCreditTopUpNewResponseExpiresAfterUnitDay, CustomerCreditTopUpNewResponseExpiresAfterUnitMonth:
-		return true
-	}
-	return false
-}
-
-type CustomerCreditTopUpListResponse struct {
-	ID string `json:"id,required"`
-	// The amount to increment when the threshold is reached.
-	Amount string `json:"amount,required"`
-	// The currency or custom pricing unit to use for this top-up. If this is a
-	// real-world currency, it must match the customer's invoicing currency.
-	Currency string `json:"currency,required"`
-	// Settings for invoices generated by triggered top-ups.
-	InvoiceSettings CustomerCreditTopUpListResponseInvoiceSettings `json:"invoice_settings,required"`
-	// How much, in the customer's currency, to charge for each unit.
-	PerUnitCostBasis string `json:"per_unit_cost_basis,required"`
-	// The threshold at which to trigger the top-up. If the balance is at or below this
-	// threshold, the top-up will be triggered.
-	Threshold string `json:"threshold,required"`
-	// The number of days or months after which the top-up expires. If unspecified, it
-	// does not expire.
-	ExpiresAfter int64 `json:"expires_after,nullable"`
-	// The unit of expires_after.
-	ExpiresAfterUnit CustomerCreditTopUpListResponseExpiresAfterUnit `json:"expires_after_unit,nullable"`
-	JSON             customerCreditTopUpListResponseJSON             `json:"-"`
-}
-
-// customerCreditTopUpListResponseJSON contains the JSON metadata for the struct
-// [CustomerCreditTopUpListResponse]
-type customerCreditTopUpListResponseJSON struct {
-	ID               apijson.Field
-	Amount           apijson.Field
-	Currency         apijson.Field
-	InvoiceSettings  apijson.Field
-	PerUnitCostBasis apijson.Field
-	Threshold        apijson.Field
-	ExpiresAfter     apijson.Field
-	ExpiresAfterUnit apijson.Field
-	raw              string
-	ExtraFields      map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpListResponse) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpListResponseJSON) RawJSON() string {
-	return r.raw
-}
-
-// Settings for invoices generated by triggered top-ups.
-type CustomerCreditTopUpListResponseInvoiceSettings struct {
-	// Whether the credits purchase invoice should auto collect with the customer's
-	// saved payment method.
-	AutoCollection bool `json:"auto_collection,required"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
-	NetTerms int64 `json:"net_terms,required"`
-	// An optional memo to display on the invoice.
-	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
-	RequireSuccessfulPayment bool                                               `json:"require_successful_payment"`
-	JSON                     customerCreditTopUpListResponseInvoiceSettingsJSON `json:"-"`
-}
-
-// customerCreditTopUpListResponseInvoiceSettingsJSON contains the JSON metadata
-// for the struct [CustomerCreditTopUpListResponseInvoiceSettings]
-type customerCreditTopUpListResponseInvoiceSettingsJSON struct {
-	AutoCollection           apijson.Field
-	NetTerms                 apijson.Field
-	Memo                     apijson.Field
-	RequireSuccessfulPayment apijson.Field
-	raw                      string
-	ExtraFields              map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpListResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpListResponseInvoiceSettingsJSON) RawJSON() string {
-	return r.raw
-}
-
-// The unit of expires_after.
-type CustomerCreditTopUpListResponseExpiresAfterUnit string
-
-const (
-	CustomerCreditTopUpListResponseExpiresAfterUnitDay   CustomerCreditTopUpListResponseExpiresAfterUnit = "day"
-	CustomerCreditTopUpListResponseExpiresAfterUnitMonth CustomerCreditTopUpListResponseExpiresAfterUnit = "month"
-)
-
-func (r CustomerCreditTopUpListResponseExpiresAfterUnit) IsKnown() bool {
-	switch r {
-	case CustomerCreditTopUpListResponseExpiresAfterUnitDay, CustomerCreditTopUpListResponseExpiresAfterUnitMonth:
-		return true
-	}
-	return false
-}
-
-type CustomerCreditTopUpNewByExternalIDResponse struct {
-	ID string `json:"id,required"`
-	// The amount to increment when the threshold is reached.
-	Amount string `json:"amount,required"`
-	// The currency or custom pricing unit to use for this top-up. If this is a
-	// real-world currency, it must match the customer's invoicing currency.
-	Currency string `json:"currency,required"`
-	// Settings for invoices generated by triggered top-ups.
-	InvoiceSettings CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings `json:"invoice_settings,required"`
-	// How much, in the customer's currency, to charge for each unit.
-	PerUnitCostBasis string `json:"per_unit_cost_basis,required"`
-	// The threshold at which to trigger the top-up. If the balance is at or below this
-	// threshold, the top-up will be triggered.
-	Threshold string `json:"threshold,required"`
-	// The number of days or months after which the top-up expires. If unspecified, it
-	// does not expire.
-	ExpiresAfter int64 `json:"expires_after,nullable"`
-	// The unit of expires_after.
-	ExpiresAfterUnit CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnit `json:"expires_after_unit,nullable"`
-	JSON             customerCreditTopUpNewByExternalIDResponseJSON             `json:"-"`
-}
-
-// customerCreditTopUpNewByExternalIDResponseJSON contains the JSON metadata for
-// the struct [CustomerCreditTopUpNewByExternalIDResponse]
-type customerCreditTopUpNewByExternalIDResponseJSON struct {
-	ID               apijson.Field
-	Amount           apijson.Field
-	Currency         apijson.Field
-	InvoiceSettings  apijson.Field
-	PerUnitCostBasis apijson.Field
-	Threshold        apijson.Field
-	ExpiresAfter     apijson.Field
-	ExpiresAfterUnit apijson.Field
-	raw              string
-	ExtraFields      map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpNewByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpNewByExternalIDResponseJSON) RawJSON() string {
-	return r.raw
-}
-
-// Settings for invoices generated by triggered top-ups.
-type CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings struct {
-	// Whether the credits purchase invoice should auto collect with the customer's
-	// saved payment method.
-	AutoCollection bool `json:"auto_collection,required"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
-	NetTerms int64 `json:"net_terms,required"`
-	// An optional memo to display on the invoice.
-	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
-	RequireSuccessfulPayment bool                                                          `json:"require_successful_payment"`
-	JSON                     customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON `json:"-"`
-}
-
-// customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON contains the JSON
-// metadata for the struct
-// [CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings]
-type customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON struct {
-	AutoCollection           apijson.Field
-	NetTerms                 apijson.Field
-	Memo                     apijson.Field
-	RequireSuccessfulPayment apijson.Field
-	raw                      string
-	ExtraFields              map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON) RawJSON() string {
-	return r.raw
-}
-
-// The unit of expires_after.
-type CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnit string
-
-const (
-	CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnitDay   CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnit = "day"
-	CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnitMonth CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnit = "month"
-)
-
-func (r CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnit) IsKnown() bool {
-	switch r {
-	case CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnitDay, CustomerCreditTopUpNewByExternalIDResponseExpiresAfterUnitMonth:
-		return true
-	}
-	return false
-}
-
-type CustomerCreditTopUpListByExternalIDResponse struct {
-	ID string `json:"id,required"`
-	// The amount to increment when the threshold is reached.
-	Amount string `json:"amount,required"`
-	// The currency or custom pricing unit to use for this top-up. If this is a
-	// real-world currency, it must match the customer's invoicing currency.
-	Currency string `json:"currency,required"`
-	// Settings for invoices generated by triggered top-ups.
-	InvoiceSettings CustomerCreditTopUpListByExternalIDResponseInvoiceSettings `json:"invoice_settings,required"`
-	// How much, in the customer's currency, to charge for each unit.
-	PerUnitCostBasis string `json:"per_unit_cost_basis,required"`
-	// The threshold at which to trigger the top-up. If the balance is at or below this
-	// threshold, the top-up will be triggered.
-	Threshold string `json:"threshold,required"`
-	// The number of days or months after which the top-up expires. If unspecified, it
-	// does not expire.
-	ExpiresAfter int64 `json:"expires_after,nullable"`
-	// The unit of expires_after.
-	ExpiresAfterUnit CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnit `json:"expires_after_unit,nullable"`
-	JSON             customerCreditTopUpListByExternalIDResponseJSON             `json:"-"`
-}
-
-// customerCreditTopUpListByExternalIDResponseJSON contains the JSON metadata for
-// the struct [CustomerCreditTopUpListByExternalIDResponse]
-type customerCreditTopUpListByExternalIDResponseJSON struct {
-	ID               apijson.Field
-	Amount           apijson.Field
-	Currency         apijson.Field
-	InvoiceSettings  apijson.Field
-	PerUnitCostBasis apijson.Field
-	Threshold        apijson.Field
-	ExpiresAfter     apijson.Field
-	ExpiresAfterUnit apijson.Field
-	raw              string
-	ExtraFields      map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpListByExternalIDResponse) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpListByExternalIDResponseJSON) RawJSON() string {
-	return r.raw
-}
-
-// Settings for invoices generated by triggered top-ups.
-type CustomerCreditTopUpListByExternalIDResponseInvoiceSettings struct {
-	// Whether the credits purchase invoice should auto collect with the customer's
-	// saved payment method.
-	AutoCollection bool `json:"auto_collection,required"`
-	// The net terms determines the difference between the invoice date and the issue
-	// date for the invoice. If you intend the invoice to be due on issue, set this
-	// to 0.
-	NetTerms int64 `json:"net_terms,required"`
-	// An optional memo to display on the invoice.
-	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
-	RequireSuccessfulPayment bool                                                           `json:"require_successful_payment"`
-	JSON                     customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON `json:"-"`
-}
-
-// customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON contains the JSON
-// metadata for the struct
-// [CustomerCreditTopUpListByExternalIDResponseInvoiceSettings]
-type customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON struct {
-	AutoCollection           apijson.Field
-	NetTerms                 apijson.Field
-	Memo                     apijson.Field
-	RequireSuccessfulPayment apijson.Field
-	raw                      string
-	ExtraFields              map[string]apijson.Field
-}
-
-func (r *CustomerCreditTopUpListByExternalIDResponseInvoiceSettings) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON) RawJSON() string {
-	return r.raw
-}
-
-// The unit of expires_after.
-type CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnit string
-
-const (
-	CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnitDay   CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnit = "day"
-	CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnitMonth CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnit = "month"
-)
-
-func (r CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnit) IsKnown() bool {
-	switch r {
-	case CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnitDay, CustomerCreditTopUpListByExternalIDResponseExpiresAfterUnitMonth:
-		return true
-	}
-	return false
 }
 
 type CustomerCreditTopUpNewParams struct {
