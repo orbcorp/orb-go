@@ -12,6 +12,7 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ReplaceSubscriptionAdjustmentParams">ReplaceSubscriptionAdjustmentParams</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ReplaceSubscriptionPriceParams">ReplaceSubscriptionPriceParams</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TrialDiscountParam">TrialDiscountParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UsageDiscountParam">UsageDiscountParam</a>
 
 # Shared Response Types
 
@@ -21,6 +22,7 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#PaginationMetadata">PaginationMetadata</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#PercentageDiscount">PercentageDiscount</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TrialDiscount">TrialDiscount</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UsageDiscount">UsageDiscount</a>
 
 # TopLevel
 
