@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"reflect"
+	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
@@ -16,6 +18,7 @@ import (
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
 	"github.com/orbcorp/orb-go/shared"
+	"github.com/tidwall/gjson"
 )
 
 // CouponService contains methods and other services that help with interacting
@@ -41,7 +44,7 @@ func NewCouponService(opts ...option.RequestOption) (r *CouponService) {
 
 // This endpoint allows the creation of coupons, which can then be redeemed at
 // subscription creation or plan change.
-func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...option.RequestOption) (res *shared.CouponModel, err error) {
+func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...option.RequestOption) (res *Coupon, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "coupons"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
@@ -54,7 +57,7 @@ func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...o
 // The response also includes `pagination_metadata`, which lets the caller retrieve
 // the next page of results if they exist. More information about pagination can be
 // found in the Pagination-metadata schema.
-func (r *CouponService) List(ctx context.Context, query CouponListParams, opts ...option.RequestOption) (res *pagination.Page[shared.CouponModel], err error) {
+func (r *CouponService) List(ctx context.Context, query CouponListParams, opts ...option.RequestOption) (res *pagination.Page[Coupon], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -77,14 +80,14 @@ func (r *CouponService) List(ctx context.Context, query CouponListParams, opts .
 // The response also includes `pagination_metadata`, which lets the caller retrieve
 // the next page of results if they exist. More information about pagination can be
 // found in the Pagination-metadata schema.
-func (r *CouponService) ListAutoPaging(ctx context.Context, query CouponListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.CouponModel] {
+func (r *CouponService) ListAutoPaging(ctx context.Context, query CouponListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Coupon] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint allows a coupon to be archived. Archived coupons can no longer be
 // redeemed, and will be hidden from lists of active coupons. Additionally, once a
 // coupon is archived, its redemption code can be reused for a different coupon.
-func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...option.RequestOption) (res *shared.CouponModel, err error) {
+func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...option.RequestOption) (res *Coupon, err error) {
 	opts = append(r.Options[:], opts...)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
@@ -98,7 +101,7 @@ func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...op
 // This endpoint retrieves a coupon by its ID. To fetch coupons by their redemption
 // code, use the [List coupons](list-coupons) endpoint with the redemption_code
 // parameter.
-func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...option.RequestOption) (res *shared.CouponModel, err error) {
+func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...option.RequestOption) (res *Coupon, err error) {
 	opts = append(r.Options[:], opts...)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
@@ -107,6 +110,136 @@ func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...opti
 	path := fmt.Sprintf("coupons/%s", couponID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
+}
+
+// A coupon represents a reusable discount configuration that can be applied either
+// as a fixed or percentage amount to an invoice or subscription. Coupons are
+// activated using a redemption code, which applies the discount to a subscription
+// or invoice. The duration of a coupon determines how long it remains available
+// for use by end users.
+type Coupon struct {
+	// Also referred to as coupon_id in this documentation.
+	ID string `json:"id,required"`
+	// An archived coupon can no longer be redeemed. Active coupons will have a value
+	// of null for `archived_at`; this field will be non-null for archived coupons.
+	ArchivedAt time.Time      `json:"archived_at,required,nullable" format:"date-time"`
+	Discount   CouponDiscount `json:"discount,required"`
+	// This allows for a coupon's discount to apply for a limited time (determined in
+	// months); a `null` value here means "unlimited time".
+	DurationInMonths int64 `json:"duration_in_months,required,nullable"`
+	// The maximum number of redemptions allowed for this coupon before it is
+	// exhausted; `null` here means "unlimited".
+	MaxRedemptions int64 `json:"max_redemptions,required,nullable"`
+	// This string can be used to redeem this coupon for a given subscription.
+	RedemptionCode string `json:"redemption_code,required"`
+	// The number of times this coupon has been redeemed.
+	TimesRedeemed int64      `json:"times_redeemed,required"`
+	JSON          couponJSON `json:"-"`
+}
+
+// couponJSON contains the JSON metadata for the struct [Coupon]
+type couponJSON struct {
+	ID               apijson.Field
+	ArchivedAt       apijson.Field
+	Discount         apijson.Field
+	DurationInMonths apijson.Field
+	MaxRedemptions   apijson.Field
+	RedemptionCode   apijson.Field
+	TimesRedeemed    apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *Coupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r couponJSON) RawJSON() string {
+	return r.raw
+}
+
+type CouponDiscount struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{}                `json:"applies_to_price_ids,required"`
+	DiscountType      CouponDiscountDiscountType `json:"discount_type,required"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// Only available if discount_type is `percentage`. This is a number between 0
+	// and 1.
+	PercentageDiscount float64            `json:"percentage_discount"`
+	Reason             string             `json:"reason,nullable"`
+	JSON               couponDiscountJSON `json:"-"`
+	union              CouponDiscountUnion
+}
+
+// couponDiscountJSON contains the JSON metadata for the struct [CouponDiscount]
+type couponDiscountJSON struct {
+	AppliesToPriceIDs  apijson.Field
+	DiscountType       apijson.Field
+	AmountDiscount     apijson.Field
+	PercentageDiscount apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r couponDiscountJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *CouponDiscount) UnmarshalJSON(data []byte) (err error) {
+	*r = CouponDiscount{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [CouponDiscountUnion] interface which you can cast to the
+// specific types for more type safety.
+//
+// Possible runtime types of the union are [shared.PercentageDiscount],
+// [shared.AmountDiscount].
+func (r CouponDiscount) AsUnion() CouponDiscountUnion {
+	return r.union
+}
+
+// Union satisfied by [shared.PercentageDiscount] or [shared.AmountDiscount].
+type CouponDiscountUnion interface {
+	ImplementsCouponDiscount()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*CouponDiscountUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(shared.PercentageDiscount{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(shared.AmountDiscount{}),
+			DiscriminatorValue: "amount",
+		},
+	)
+}
+
+type CouponDiscountDiscountType string
+
+const (
+	CouponDiscountDiscountTypePercentage CouponDiscountDiscountType = "percentage"
+	CouponDiscountDiscountTypeAmount     CouponDiscountDiscountType = "amount"
+)
+
+func (r CouponDiscountDiscountType) IsKnown() bool {
+	switch r {
+	case CouponDiscountDiscountTypePercentage, CouponDiscountDiscountTypeAmount:
+		return true
+	}
+	return false
 }
 
 type CouponNewParams struct {

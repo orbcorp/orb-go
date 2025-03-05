@@ -50,14 +50,14 @@ func main() {
 	client := orb.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("ORB_API_KEY")
 	)
-	customerModel, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
+	customer, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
 		Email: orb.F("example-customer@withorb.com"),
 		Name:  orb.F("My Customer"),
 	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", customerModel.ID)
+	fmt.Printf("%+v\n", customer.ID)
 }
 
 ```
@@ -166,8 +166,8 @@ You can use `.ListAutoPaging()` methods to iterate through items across all page
 iter := client.Coupons.ListAutoPaging(context.TODO(), orb.CouponListParams{})
 // Automatically fetches more pages as needed.
 for iter.Next() {
-	couponModel := iter.Current()
-	fmt.Printf("%+v\n", couponModel)
+	coupon := iter.Current()
+	fmt.Printf("%+v\n", coupon)
 }
 if err := iter.Err(); err != nil {
 	panic(err.Error())
