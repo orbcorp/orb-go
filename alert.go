@@ -16,6 +16,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // AlertService contains methods and other services that help with interacting with
@@ -38,7 +39,7 @@ func NewAlertService(opts ...option.RequestOption) (r *AlertService) {
 }
 
 // This endpoint retrieves an alert by its ID.
-func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.RequestOption) (res *shared.AlertModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if alertID == "" {
 		err = errors.New("missing required alert_id parameter")
@@ -50,7 +51,7 @@ func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.R
 }
 
 // This endpoint updates the thresholds of an alert.
-func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, body AlertUpdateParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, body AlertUpdateParams, opts ...option.RequestOption) (res *shared.AlertModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
@@ -72,7 +73,7 @@ func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, 
 // The list of alerts is ordered starting from the most recently created alert.
 // This endpoint follows Orb's
 // [standardized pagination format](/api-reference/pagination).
-func (r *AlertService) List(ctx context.Context, query AlertListParams, opts ...option.RequestOption) (res *pagination.Page[Alert], err error) {
+func (r *AlertService) List(ctx context.Context, query AlertListParams, opts ...option.RequestOption) (res *pagination.Page[shared.AlertModel], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -100,7 +101,7 @@ func (r *AlertService) List(ctx context.Context, query AlertListParams, opts ...
 // The list of alerts is ordered starting from the most recently created alert.
 // This endpoint follows Orb's
 // [standardized pagination format](/api-reference/pagination).
-func (r *AlertService) ListAutoPaging(ctx context.Context, query AlertListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Alert] {
+func (r *AlertService) ListAutoPaging(ctx context.Context, query AlertListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.AlertModel] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
@@ -112,7 +113,7 @@ func (r *AlertService) ListAutoPaging(ctx context.Context, query AlertListParams
 // `credit_balance_dropped` alerts require a list of thresholds to be provided
 // while `credit_balance_depleted` and `credit_balance_recovered` alerts do not
 // require thresholds.
-func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, body AlertNewForCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, body AlertNewForCustomerParams, opts ...option.RequestOption) (res *shared.AlertModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -131,7 +132,7 @@ func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, bo
 // `credit_balance_dropped` alerts require a list of thresholds to be provided
 // while `credit_balance_depleted` and `credit_balance_recovered` alerts do not
 // require thresholds.
-func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCustomerID string, body AlertNewForExternalCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCustomerID string, body AlertNewForExternalCustomerParams, opts ...option.RequestOption) (res *shared.AlertModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
@@ -153,7 +154,7 @@ func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCusto
 // subscription can have one `cost_exceeded` alert and one `usage_exceeded` alert
 // per metric that is a part of the subscription. Alerts are triggered based on
 // usage or cost conditions met during the current billing cycle.
-func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID string, body AlertNewForSubscriptionParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID string, body AlertNewForSubscriptionParams, opts ...option.RequestOption) (res *shared.AlertModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -167,7 +168,7 @@ func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID st
 // This endpoint allows you to disable an alert. To disable a plan-level alert for
 // a specific subscription, you must include the `subscription_id`. The
 // `subscription_id` is not required for customer or subscription level alerts.
-func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, body AlertDisableParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, body AlertDisableParams, opts ...option.RequestOption) (res *shared.AlertModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
@@ -181,7 +182,7 @@ func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string,
 // This endpoint allows you to enable an alert. To enable a plan-level alert for a
 // specific subscription, you must include the `subscription_id`. The
 // `subscription_id` is not required for customer or subscription level alerts.
-func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, body AlertEnableParams, opts ...option.RequestOption) (res *Alert, err error) {
+func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, body AlertEnableParams, opts ...option.RequestOption) (res *shared.AlertModel, err error) {
 	opts = append(r.Options[:], opts...)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
@@ -192,219 +193,12 @@ func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, 
 	return
 }
 
-// [Alerts within Orb](/product-catalog/configuring-alerts) monitor spending,
-// usage, or credit balance and trigger webhooks when a threshold is exceeded.
-//
-// Alerts created through the API can be scoped to either customers or
-// subscriptions.
-type Alert struct {
-	// Also referred to as alert_id in this documentation.
-	ID string `json:"id,required"`
-	// The creation time of the resource in Orb.
-	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
-	// The name of the currency the credit balance or invoice cost is denominated in.
-	Currency string `json:"currency,required,nullable"`
-	// The customer the alert applies to.
-	Customer AlertCustomer `json:"customer,required,nullable"`
-	// Whether the alert is enabled or disabled.
-	Enabled bool `json:"enabled,required"`
-	// The metric the alert applies to.
-	Metric AlertMetric `json:"metric,required,nullable"`
-	// The plan the alert applies to.
-	Plan AlertPlan `json:"plan,required,nullable"`
-	// The subscription the alert applies to.
-	Subscription AlertSubscription `json:"subscription,required,nullable"`
-	// The thresholds that define the conditions under which the alert will be
-	// triggered.
-	Thresholds []AlertThreshold `json:"thresholds,required,nullable"`
-	// The type of alert. This must be a valid alert type.
-	Type AlertType `json:"type,required"`
-	JSON alertJSON `json:"-"`
-}
-
-// alertJSON contains the JSON metadata for the struct [Alert]
-type alertJSON struct {
-	ID           apijson.Field
-	CreatedAt    apijson.Field
-	Currency     apijson.Field
-	Customer     apijson.Field
-	Enabled      apijson.Field
-	Metric       apijson.Field
-	Plan         apijson.Field
-	Subscription apijson.Field
-	Thresholds   apijson.Field
-	Type         apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
-}
-
-func (r *Alert) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertJSON) RawJSON() string {
-	return r.raw
-}
-
-// The customer the alert applies to.
-type AlertCustomer struct {
-	ID                 string            `json:"id,required"`
-	ExternalCustomerID string            `json:"external_customer_id,required,nullable"`
-	JSON               alertCustomerJSON `json:"-"`
-}
-
-// alertCustomerJSON contains the JSON metadata for the struct [AlertCustomer]
-type alertCustomerJSON struct {
-	ID                 apijson.Field
-	ExternalCustomerID apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *AlertCustomer) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertCustomerJSON) RawJSON() string {
-	return r.raw
-}
-
-// The metric the alert applies to.
-type AlertMetric struct {
-	ID   string          `json:"id,required"`
-	JSON alertMetricJSON `json:"-"`
-}
-
-// alertMetricJSON contains the JSON metadata for the struct [AlertMetric]
-type alertMetricJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *AlertMetric) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertMetricJSON) RawJSON() string {
-	return r.raw
-}
-
-// The plan the alert applies to.
-type AlertPlan struct {
-	ID string `json:"id,required,nullable"`
-	// An optional user-defined ID for this plan resource, used throughout the system
-	// as an alias for this Plan. Use this field to identify a plan by an existing
-	// identifier in your system.
-	ExternalPlanID string        `json:"external_plan_id,required,nullable"`
-	Name           string        `json:"name,required,nullable"`
-	PlanVersion    string        `json:"plan_version,required"`
-	JSON           alertPlanJSON `json:"-"`
-}
-
-// alertPlanJSON contains the JSON metadata for the struct [AlertPlan]
-type alertPlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	PlanVersion    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *AlertPlan) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertPlanJSON) RawJSON() string {
-	return r.raw
-}
-
-// The subscription the alert applies to.
-type AlertSubscription struct {
-	ID   string                `json:"id,required"`
-	JSON alertSubscriptionJSON `json:"-"`
-}
-
-// alertSubscriptionJSON contains the JSON metadata for the struct
-// [AlertSubscription]
-type alertSubscriptionJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *AlertSubscription) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertSubscriptionJSON) RawJSON() string {
-	return r.raw
-}
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value float64            `json:"value,required"`
-	JSON  alertThresholdJSON `json:"-"`
-}
-
-// alertThresholdJSON contains the JSON metadata for the struct [AlertThreshold]
-type alertThresholdJSON struct {
-	Value       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *AlertThreshold) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertThresholdJSON) RawJSON() string {
-	return r.raw
-}
-
-// The type of alert. This must be a valid alert type.
-type AlertType string
-
-const (
-	AlertTypeUsageExceeded          AlertType = "usage_exceeded"
-	AlertTypeCostExceeded           AlertType = "cost_exceeded"
-	AlertTypeCreditBalanceDepleted  AlertType = "credit_balance_depleted"
-	AlertTypeCreditBalanceDropped   AlertType = "credit_balance_dropped"
-	AlertTypeCreditBalanceRecovered AlertType = "credit_balance_recovered"
-)
-
-func (r AlertType) IsKnown() bool {
-	switch r {
-	case AlertTypeUsageExceeded, AlertTypeCostExceeded, AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered:
-		return true
-	}
-	return false
-}
-
 type AlertUpdateParams struct {
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertUpdateParamsThreshold] `json:"thresholds,required"`
+	Thresholds param.Field[[]shared.ThresholdModelParam] `json:"thresholds,required"`
 }
 
 func (r AlertUpdateParams) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertUpdateParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertUpdateParamsThreshold) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
@@ -440,7 +234,7 @@ type AlertNewForCustomerParams struct {
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForCustomerParamsType] `json:"type,required"`
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertNewForCustomerParamsThreshold] `json:"thresholds"`
+	Thresholds param.Field[[]shared.ThresholdModelParam] `json:"thresholds"`
 }
 
 func (r AlertNewForCustomerParams) MarshalJSON() (data []byte, err error) {
@@ -466,26 +260,13 @@ func (r AlertNewForCustomerParamsType) IsKnown() bool {
 	return false
 }
 
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertNewForCustomerParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertNewForCustomerParamsThreshold) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
 type AlertNewForExternalCustomerParams struct {
 	// The case sensitive currency or custom pricing unit to use for this alert.
 	Currency param.Field[string] `json:"currency,required"`
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForExternalCustomerParamsType] `json:"type,required"`
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertNewForExternalCustomerParamsThreshold] `json:"thresholds"`
+	Thresholds param.Field[[]shared.ThresholdModelParam] `json:"thresholds"`
 }
 
 func (r AlertNewForExternalCustomerParams) MarshalJSON() (data []byte, err error) {
@@ -511,22 +292,9 @@ func (r AlertNewForExternalCustomerParamsType) IsKnown() bool {
 	return false
 }
 
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertNewForExternalCustomerParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertNewForExternalCustomerParamsThreshold) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
 type AlertNewForSubscriptionParams struct {
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertNewForSubscriptionParamsThreshold] `json:"thresholds,required"`
+	Thresholds param.Field[[]shared.ThresholdModelParam] `json:"thresholds,required"`
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type,required"`
 	// The metric to track usage for.
@@ -534,19 +302,6 @@ type AlertNewForSubscriptionParams struct {
 }
 
 func (r AlertNewForSubscriptionParams) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertNewForSubscriptionParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertNewForSubscriptionParamsThreshold) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
