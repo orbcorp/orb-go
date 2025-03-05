@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
@@ -15,7 +16,6 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
-	"github.com/orbcorp/orb-go/shared"
 )
 
 // ItemService contains methods and other services that help with interacting with
@@ -38,7 +38,7 @@ func NewItemService(opts ...option.RequestOption) (r *ItemService) {
 }
 
 // This endpoint is used to create an [Item](/core-concepts#item).
-func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...option.RequestOption) (res *shared.ItemModel, err error) {
+func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...option.RequestOption) (res *Item, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "items"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
@@ -46,7 +46,7 @@ func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...optio
 }
 
 // This endpoint can be used to update properties on the Item.
-func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdateParams, opts ...option.RequestOption) (res *shared.ItemModel, err error) {
+func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdateParams, opts ...option.RequestOption) (res *Item, err error) {
 	opts = append(r.Options[:], opts...)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
@@ -59,7 +59,7 @@ func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdate
 
 // This endpoint returns a list of all Items, ordered in descending order by
 // creation time.
-func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...option.RequestOption) (res *pagination.Page[shared.ItemModel], err error) {
+func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...option.RequestOption) (res *pagination.Page[Item], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
@@ -78,12 +78,12 @@ func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...op
 
 // This endpoint returns a list of all Items, ordered in descending order by
 // creation time.
-func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, opts ...option.RequestOption) *pagination.PageAutoPager[shared.ItemModel] {
+func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, opts ...option.RequestOption) *pagination.PageAutoPager[Item] {
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
 // This endpoint returns an item identified by its item_id.
-func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.RequestOption) (res *shared.ItemModel, err error) {
+func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.RequestOption) (res *Item, err error) {
 	opts = append(r.Options[:], opts...)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
@@ -92,6 +92,78 @@ func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.R
 	path := fmt.Sprintf("items/%s", itemID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return
+}
+
+// The Item resource represents a sellable product or good. Items are associated
+// with all line items, billable metrics, and prices and are used for defining
+// external sync behavior for invoices and tax calculation purposes.
+type Item struct {
+	ID                  string                   `json:"id,required"`
+	CreatedAt           time.Time                `json:"created_at,required" format:"date-time"`
+	ExternalConnections []ItemExternalConnection `json:"external_connections,required"`
+	Name                string                   `json:"name,required"`
+	JSON                itemJSON                 `json:"-"`
+}
+
+// itemJSON contains the JSON metadata for the struct [Item]
+type itemJSON struct {
+	ID                  apijson.Field
+	CreatedAt           apijson.Field
+	ExternalConnections apijson.Field
+	Name                apijson.Field
+	raw                 string
+	ExtraFields         map[string]apijson.Field
+}
+
+func (r *Item) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r itemJSON) RawJSON() string {
+	return r.raw
+}
+
+type ItemExternalConnection struct {
+	ExternalConnectionName ItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
+	ExternalEntityID       string                                        `json:"external_entity_id,required"`
+	JSON                   itemExternalConnectionJSON                    `json:"-"`
+}
+
+// itemExternalConnectionJSON contains the JSON metadata for the struct
+// [ItemExternalConnection]
+type itemExternalConnectionJSON struct {
+	ExternalConnectionName apijson.Field
+	ExternalEntityID       apijson.Field
+	raw                    string
+	ExtraFields            map[string]apijson.Field
+}
+
+func (r *ItemExternalConnection) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r itemExternalConnectionJSON) RawJSON() string {
+	return r.raw
+}
+
+type ItemExternalConnectionsExternalConnectionName string
+
+const (
+	ItemExternalConnectionsExternalConnectionNameStripe     ItemExternalConnectionsExternalConnectionName = "stripe"
+	ItemExternalConnectionsExternalConnectionNameQuickbooks ItemExternalConnectionsExternalConnectionName = "quickbooks"
+	ItemExternalConnectionsExternalConnectionNameBillCom    ItemExternalConnectionsExternalConnectionName = "bill.com"
+	ItemExternalConnectionsExternalConnectionNameNetsuite   ItemExternalConnectionsExternalConnectionName = "netsuite"
+	ItemExternalConnectionsExternalConnectionNameTaxjar     ItemExternalConnectionsExternalConnectionName = "taxjar"
+	ItemExternalConnectionsExternalConnectionNameAvalara    ItemExternalConnectionsExternalConnectionName = "avalara"
+	ItemExternalConnectionsExternalConnectionNameAnrok      ItemExternalConnectionsExternalConnectionName = "anrok"
+)
+
+func (r ItemExternalConnectionsExternalConnectionName) IsKnown() bool {
+	switch r {
+	case ItemExternalConnectionsExternalConnectionNameStripe, ItemExternalConnectionsExternalConnectionNameQuickbooks, ItemExternalConnectionsExternalConnectionNameBillCom, ItemExternalConnectionsExternalConnectionNameNetsuite, ItemExternalConnectionsExternalConnectionNameTaxjar, ItemExternalConnectionsExternalConnectionNameAvalara, ItemExternalConnectionsExternalConnectionNameAnrok:
+		return true
+	}
+	return false
 }
 
 type ItemNewParams struct {
@@ -104,12 +176,41 @@ func (r ItemNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type ItemUpdateParams struct {
-	ExternalConnections param.Field[[]shared.ItemExternalConnectionModelParam] `json:"external_connections"`
-	Name                param.Field[string]                                    `json:"name"`
+	ExternalConnections param.Field[[]ItemUpdateParamsExternalConnection] `json:"external_connections"`
+	Name                param.Field[string]                               `json:"name"`
 }
 
 func (r ItemUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type ItemUpdateParamsExternalConnection struct {
+	ExternalConnectionName param.Field[ItemUpdateParamsExternalConnectionsExternalConnectionName] `json:"external_connection_name,required"`
+	ExternalEntityID       param.Field[string]                                                    `json:"external_entity_id,required"`
+}
+
+func (r ItemUpdateParamsExternalConnection) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type ItemUpdateParamsExternalConnectionsExternalConnectionName string
+
+const (
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe     ItemUpdateParamsExternalConnectionsExternalConnectionName = "stripe"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameQuickbooks ItemUpdateParamsExternalConnectionsExternalConnectionName = "quickbooks"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameBillCom    ItemUpdateParamsExternalConnectionsExternalConnectionName = "bill.com"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameNetsuite   ItemUpdateParamsExternalConnectionsExternalConnectionName = "netsuite"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameTaxjar     ItemUpdateParamsExternalConnectionsExternalConnectionName = "taxjar"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameAvalara    ItemUpdateParamsExternalConnectionsExternalConnectionName = "avalara"
+	ItemUpdateParamsExternalConnectionsExternalConnectionNameAnrok      ItemUpdateParamsExternalConnectionsExternalConnectionName = "anrok"
+)
+
+func (r ItemUpdateParamsExternalConnectionsExternalConnectionName) IsKnown() bool {
+	switch r {
+	case ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe, ItemUpdateParamsExternalConnectionsExternalConnectionNameQuickbooks, ItemUpdateParamsExternalConnectionsExternalConnectionNameBillCom, ItemUpdateParamsExternalConnectionsExternalConnectionNameNetsuite, ItemUpdateParamsExternalConnectionsExternalConnectionNameTaxjar, ItemUpdateParamsExternalConnectionsExternalConnectionNameAvalara, ItemUpdateParamsExternalConnectionsExternalConnectionNameAnrok:
+		return true
+	}
+	return false
 }
 
 type ItemListParams struct {
