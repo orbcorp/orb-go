@@ -45,14 +45,14 @@ func TestVerifySignature(t *testing.T) {
 			headers:     header,
 			secret:      secret,
 			fakeNow:     fakeNow.Add(6 * time.Minute),
-			expectedErr: "value from X-Orb-Timestamp header too old",
+			expectedErr: "value from X-Orb-Timestamp header too old, tolerance=-5m0s",
 		},
 		"timestamp outside threshold (too new)": {
 			payload:     payload,
 			headers:     header,
 			secret:      secret,
 			fakeNow:     fakeNow.Add(-6 * time.Minute),
-			expectedErr: "value from X-Orb-Timestamp header too new",
+			expectedErr: "value from X-Orb-Timestamp header too new, tolerance=5m0s",
 		},
 		"invalid signature": {
 			payload:     payload,

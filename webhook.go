@@ -57,6 +57,22 @@ func NewWebhookService(opts ...option.RequestOption) (r *WebhookService) {
 //
 // An error will be raised if the webhook payload was not sent by Orb.
 func (r *WebhookService) VerifySignature(payload []byte, headers http.Header, secret string, now time.Time) (err error) {
+	return r.verifySignatureImpl(payload, headers, secret, now, 5*time.Minute)
+}
+
+// Identical to VerifySignature, but allows you to pass in a WebhookVerifySignatureParams struct to specify extra
+// parameters such as the tolerance for X-Orb-Timestamp.
+func (r *WebhookService) VerifySignatureWithParams(params WebhookVerifySignatureParams) (err error) {
+	if params.Now.IsZero() {
+		params.Now = time.Now()
+	}
+	if params.Tolerance == 0 {
+		params.Tolerance = 5 * time.Minute
+	}
+	return r.verifySignatureImpl(params.Payload, params.Headers, params.Secret, params.Now, params.Tolerance)
+}
+
+func (r *WebhookService) verifySignatureImpl(payload []byte, headers http.Header, secret string, now time.Time, tolerance time.Duration) (err error) {
 	if secret == "" {
 		secret = r.webhookSecret
 	}
@@ -78,11 +94,11 @@ func (r *WebhookService) VerifySignature(payload []byte, headers http.Header, se
 		return fmt.Errorf("invalid timestamp headers: %s", err)
 	}
 
-	if timestamp.Before(now.Add(-5 * time.Minute)) {
-		return errors.New("value from X-Orb-Timestamp header too old")
+	if timestamp.Before(now.Add(-tolerance)) {
+		return fmt.Errorf("value from X-Orb-Timestamp header too old, tolerance=-%s", tolerance.String())
 	}
-	if timestamp.After(now.Add(5 * time.Minute)) {
-		return errors.New("value from X-Orb-Timestamp header too new")
+	if timestamp.After(now.Add(tolerance)) {
+		return fmt.Errorf("value from X-Orb-Timestamp header too new, tolerance=%s", tolerance.String())
 	}
 
 	secretBytes := []byte(secret)
@@ -114,4 +130,9 @@ func (r *WebhookService) VerifySignature(payload []byte, headers http.Header, se
 }
 
 type WebhookVerifySignatureParams struct {
+	Payload   []byte
+	Headers   http.Header
+	Secret    string
+	Now       time.Time
+	Tolerance time.Duration
 }
