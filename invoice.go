@@ -1042,7 +1042,9 @@ type InvoiceLineItem struct {
 	// The line amount after any adjustments and before overage conversion, credits and
 	// partial invoicing.
 	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
-	// All adjustments (ie. maximums, minimums, discounts) applied to the line item.
+	// All adjustments applied to the line item in the order they were applied based on
+	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
+	// discounts -> minimums -> maximums).
 	Adjustments []InvoiceLineItemsAdjustment `json:"adjustments,required"`
 	// The final amount for a line item after all adjustments and pre paid credits have
 	// been applied.
@@ -3036,7 +3038,9 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	// The line amount after any adjustments and before overage conversion, credits and
 	// partial invoicing.
 	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
-	// All adjustments (ie. maximums, minimums, discounts) applied to the line item.
+	// All adjustments applied to the line item in the order they were applied based on
+	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
+	// discounts -> minimums -> maximums).
 	Adjustments []InvoiceFetchUpcomingResponseLineItemsAdjustment `json:"adjustments,required"`
 	// The final amount for a line item after all adjustments and pre paid credits have
 	// been applied.
