@@ -1132,7 +1132,8 @@ type Subscription struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -1175,20 +1176,20 @@ type Subscription struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                              `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                 `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -2608,7 +2609,8 @@ type SubscriptionNewResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionNewResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -2651,20 +2653,20 @@ type SubscriptionNewResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionNewResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                         `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionNewResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                            `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionNewResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionNewResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -3753,7 +3755,8 @@ type SubscriptionCancelResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionCancelResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -3796,20 +3799,20 @@ type SubscriptionCancelResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionCancelResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                            `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionCancelResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                               `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionCancelResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionCancelResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -5041,7 +5044,8 @@ type SubscriptionPriceIntervalsResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionPriceIntervalsResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -5084,20 +5088,20 @@ type SubscriptionPriceIntervalsResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionPriceIntervalsResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                    `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionPriceIntervalsResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                       `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionPriceIntervalsResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionPriceIntervalsResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -6190,7 +6194,8 @@ type SubscriptionSchedulePlanChangeResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionSchedulePlanChangeResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -6233,20 +6238,20 @@ type SubscriptionSchedulePlanChangeResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionSchedulePlanChangeResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                        `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionSchedulePlanChangeResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                           `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionSchedulePlanChangeResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionSchedulePlanChangeResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -7341,7 +7346,8 @@ type SubscriptionTriggerPhaseResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionTriggerPhaseResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -7384,20 +7390,20 @@ type SubscriptionTriggerPhaseResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionTriggerPhaseResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                  `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionTriggerPhaseResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                     `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionTriggerPhaseResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionTriggerPhaseResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -8490,7 +8496,8 @@ type SubscriptionUnscheduleCancellationResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionUnscheduleCancellationResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -8533,20 +8540,20 @@ type SubscriptionUnscheduleCancellationResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionUnscheduleCancellationResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                            `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionUnscheduleCancellationResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                               `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionUnscheduleCancellationResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionUnscheduleCancellationResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -9647,7 +9654,8 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -9690,20 +9698,20 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                                       `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                                          `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -10805,7 +10813,8 @@ type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionUnschedulePendingPlanChangesResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -10848,20 +10857,20 @@ type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionUnschedulePendingPlanChangesResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                                  `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionUnschedulePendingPlanChangesResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                                     `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionUnschedulePendingPlanChangesResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionUnschedulePendingPlanChangesResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -11963,7 +11972,8 @@ type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionUpdateFixedFeeQuantityResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -12006,20 +12016,20 @@ type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionUpdateFixedFeeQuantityResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                            `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionUpdateFixedFeeQuantityResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                               `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionUpdateFixedFeeQuantityResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionUpdateFixedFeeQuantityResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
@@ -13120,7 +13130,8 @@ type SubscriptionUpdateTrialResponse struct {
 	// The current plan phase that is active, only if the subscription's plan has
 	// phases.
 	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
-	// The adjustment intervals for this subscription.
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
 	AdjustmentIntervals []SubscriptionUpdateTrialResponseAdjustmentInterval `json:"adjustment_intervals,required"`
 	// Determines whether issued invoices for this subscription will automatically be
 	// charged with the saved payment method on the due date. This property defaults to
@@ -13163,20 +13174,20 @@ type SubscriptionUpdateTrialResponse struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription.
+	// The discount intervals for this subscription sorted by the start_date.
 	DiscountIntervals []SubscriptionUpdateTrialResponseDiscountInterval `json:"discount_intervals,required"`
 	// The date Orb stops billing for this subscription.
 	EndDate                  time.Time                                                 `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []SubscriptionUpdateTrialResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                                    `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription.
+	// The maximum intervals for this subscription sorted by the start_date.
 	MaximumIntervals []SubscriptionUpdateTrialResponseMaximumInterval `json:"maximum_intervals,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription.
+	// The minimum intervals for this subscription sorted by the start_date.
 	MinimumIntervals []SubscriptionUpdateTrialResponseMinimumInterval `json:"minimum_intervals,required"`
 	// Determines the difference between the invoice issue date for subscription
 	// invoices as the date that they are due. A value of `0` here represents that the
