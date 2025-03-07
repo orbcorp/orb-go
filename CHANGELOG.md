@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.107.0 (2025-03-07)
+
+Full Changelog: [v0.106.0...v0.107.0](https://github.com/orbcorp/orb-go/compare/v0.106.0...v0.107.0)
+
+### Features
+
+* add VerifySignatureWithParams() that allows to set timestamp tolerance ([68b53a9](https://github.com/orbcorp/orb-go/commit/68b53a9eb2b00640c95fe07d8fbb0826d88b2bcd))
+* **api:** api update ([#481](https://github.com/orbcorp/orb-go/issues/481)) ([a02fe9e](https://github.com/orbcorp/orb-go/commit/a02fe9e5d4868103ccfb3494abde506e39b7d290))
+* **api:** api update ([#482](https://github.com/orbcorp/orb-go/issues/482)) ([0334e3f](https://github.com/orbcorp/orb-go/commit/0334e3f90f171788eeff76626f4ec17deaa52bca))
+
 ## 0.106.0 (2025-03-05)
 
 Full Changelog: [v0.105.0...v0.106.0](https://github.com/orbcorp/orb-go/compare/v0.105.0...v0.106.0)
