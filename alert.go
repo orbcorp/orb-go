@@ -371,16 +371,16 @@ func (r alertThresholdJSON) RawJSON() string {
 type AlertType string
 
 const (
-	AlertTypeUsageExceeded          AlertType = "usage_exceeded"
-	AlertTypeCostExceeded           AlertType = "cost_exceeded"
 	AlertTypeCreditBalanceDepleted  AlertType = "credit_balance_depleted"
 	AlertTypeCreditBalanceDropped   AlertType = "credit_balance_dropped"
 	AlertTypeCreditBalanceRecovered AlertType = "credit_balance_recovered"
+	AlertTypeUsageExceeded          AlertType = "usage_exceeded"
+	AlertTypeCostExceeded           AlertType = "cost_exceeded"
 )
 
 func (r AlertType) IsKnown() bool {
 	switch r {
-	case AlertTypeUsageExceeded, AlertTypeCostExceeded, AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered:
+	case AlertTypeCreditBalanceDepleted, AlertTypeCreditBalanceDropped, AlertTypeCreditBalanceRecovered, AlertTypeUsageExceeded, AlertTypeCostExceeded:
 		return true
 	}
 	return false
@@ -451,8 +451,6 @@ func (r AlertNewForCustomerParams) MarshalJSON() (data []byte, err error) {
 type AlertNewForCustomerParamsType string
 
 const (
-	AlertNewForCustomerParamsTypeUsageExceeded          AlertNewForCustomerParamsType = "usage_exceeded"
-	AlertNewForCustomerParamsTypeCostExceeded           AlertNewForCustomerParamsType = "cost_exceeded"
 	AlertNewForCustomerParamsTypeCreditBalanceDepleted  AlertNewForCustomerParamsType = "credit_balance_depleted"
 	AlertNewForCustomerParamsTypeCreditBalanceDropped   AlertNewForCustomerParamsType = "credit_balance_dropped"
 	AlertNewForCustomerParamsTypeCreditBalanceRecovered AlertNewForCustomerParamsType = "credit_balance_recovered"
@@ -460,7 +458,7 @@ const (
 
 func (r AlertNewForCustomerParamsType) IsKnown() bool {
 	switch r {
-	case AlertNewForCustomerParamsTypeUsageExceeded, AlertNewForCustomerParamsTypeCostExceeded, AlertNewForCustomerParamsTypeCreditBalanceDepleted, AlertNewForCustomerParamsTypeCreditBalanceDropped, AlertNewForCustomerParamsTypeCreditBalanceRecovered:
+	case AlertNewForCustomerParamsTypeCreditBalanceDepleted, AlertNewForCustomerParamsTypeCreditBalanceDropped, AlertNewForCustomerParamsTypeCreditBalanceRecovered:
 		return true
 	}
 	return false
@@ -496,8 +494,6 @@ func (r AlertNewForExternalCustomerParams) MarshalJSON() (data []byte, err error
 type AlertNewForExternalCustomerParamsType string
 
 const (
-	AlertNewForExternalCustomerParamsTypeUsageExceeded          AlertNewForExternalCustomerParamsType = "usage_exceeded"
-	AlertNewForExternalCustomerParamsTypeCostExceeded           AlertNewForExternalCustomerParamsType = "cost_exceeded"
 	AlertNewForExternalCustomerParamsTypeCreditBalanceDepleted  AlertNewForExternalCustomerParamsType = "credit_balance_depleted"
 	AlertNewForExternalCustomerParamsTypeCreditBalanceDropped   AlertNewForExternalCustomerParamsType = "credit_balance_dropped"
 	AlertNewForExternalCustomerParamsTypeCreditBalanceRecovered AlertNewForExternalCustomerParamsType = "credit_balance_recovered"
@@ -505,7 +501,7 @@ const (
 
 func (r AlertNewForExternalCustomerParamsType) IsKnown() bool {
 	switch r {
-	case AlertNewForExternalCustomerParamsTypeUsageExceeded, AlertNewForExternalCustomerParamsTypeCostExceeded, AlertNewForExternalCustomerParamsTypeCreditBalanceDepleted, AlertNewForExternalCustomerParamsTypeCreditBalanceDropped, AlertNewForExternalCustomerParamsTypeCreditBalanceRecovered:
+	case AlertNewForExternalCustomerParamsTypeCreditBalanceDepleted, AlertNewForExternalCustomerParamsTypeCreditBalanceDropped, AlertNewForExternalCustomerParamsTypeCreditBalanceRecovered:
 		return true
 	}
 	return false
@@ -554,16 +550,13 @@ func (r AlertNewForSubscriptionParamsThreshold) MarshalJSON() (data []byte, err 
 type AlertNewForSubscriptionParamsType string
 
 const (
-	AlertNewForSubscriptionParamsTypeUsageExceeded          AlertNewForSubscriptionParamsType = "usage_exceeded"
-	AlertNewForSubscriptionParamsTypeCostExceeded           AlertNewForSubscriptionParamsType = "cost_exceeded"
-	AlertNewForSubscriptionParamsTypeCreditBalanceDepleted  AlertNewForSubscriptionParamsType = "credit_balance_depleted"
-	AlertNewForSubscriptionParamsTypeCreditBalanceDropped   AlertNewForSubscriptionParamsType = "credit_balance_dropped"
-	AlertNewForSubscriptionParamsTypeCreditBalanceRecovered AlertNewForSubscriptionParamsType = "credit_balance_recovered"
+	AlertNewForSubscriptionParamsTypeUsageExceeded AlertNewForSubscriptionParamsType = "usage_exceeded"
+	AlertNewForSubscriptionParamsTypeCostExceeded  AlertNewForSubscriptionParamsType = "cost_exceeded"
 )
 
 func (r AlertNewForSubscriptionParamsType) IsKnown() bool {
 	switch r {
-	case AlertNewForSubscriptionParamsTypeUsageExceeded, AlertNewForSubscriptionParamsTypeCostExceeded, AlertNewForSubscriptionParamsTypeCreditBalanceDepleted, AlertNewForSubscriptionParamsTypeCreditBalanceDropped, AlertNewForSubscriptionParamsTypeCreditBalanceRecovered:
+	case AlertNewForSubscriptionParamsTypeUsageExceeded, AlertNewForSubscriptionParamsTypeCostExceeded:
 		return true
 	}
 	return false
