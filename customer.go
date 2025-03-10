@@ -977,7 +977,7 @@ type CustomerNewParams struct {
 	AccountingSyncConfiguration param.Field[CustomerNewParamsAccountingSyncConfiguration] `json:"accounting_sync_configuration"`
 	// Additional email addresses for this customer. If populated, these email
 	// addresses will be CC'd for customer communications.
-	AdditionalEmails param.Field[[]string] `json:"additional_emails"`
+	AdditionalEmails param.Field[[]string] `json:"additional_emails" format:"email"`
 	// Used to determine if invoices for this customer will automatically attempt to
 	// charge a saved payment method, if available. This parameter defaults to `True`
 	// when a payment provider is provided on customer creation.
