@@ -27404,10 +27404,14 @@ type SubscriptionPriceIntervalsParamsAddAdjustment struct {
 	// The definition of a new adjustment to create and add to the subscription.
 	Adjustment param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
 	// The start date of the adjustment interval. This is the date that the adjustment
-	// will start affecting prices on the subscription.
+	// will start affecting prices on the subscription. The adjustment will apply to
+	// invoice dates that overlap with this `start_date`. This `start_date` is treated
+	// as inclusive for in-advance prices, and exclusive for in-arrears prices.
 	StartDate param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion] `json:"start_date,required" format:"date-time"`
 	// The end date of the adjustment interval. This is the date that the adjustment
-	// will stop affecting prices on the subscription.
+	// will stop affecting prices on the subscription. The adjustment will apply to
+	// invoice dates that overlap with this `end_date`.This `end_date` is treated as
+	// exclusive for in-advance prices, and inclusive for in-arrears prices.
 	EndDate param.Field[SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion] `json:"end_date" format:"date-time"`
 }
 
@@ -27627,7 +27631,9 @@ func (r SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentAdjustmentType) 
 }
 
 // The start date of the adjustment interval. This is the date that the adjustment
-// will start affecting prices on the subscription.
+// will start affecting prices on the subscription. The adjustment will apply to
+// invoice dates that overlap with this `start_date`. This `start_date` is treated
+// as inclusive for in-advance prices, and exclusive for in-arrears prices.
 //
 // Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion interface {
@@ -27635,7 +27641,9 @@ type SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion interface {
 }
 
 // The end date of the adjustment interval. This is the date that the adjustment
-// will stop affecting prices on the subscription.
+// will stop affecting prices on the subscription. The adjustment will apply to
+// invoice dates that overlap with this `end_date`.This `end_date` is treated as
+// exclusive for in-advance prices, and inclusive for in-arrears prices.
 //
 // Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion interface {

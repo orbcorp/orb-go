@@ -36,7 +36,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 			}}),
 			Excluded: orb.F(true),
 		}),
-		AdditionalEmails: orb.F([]string{"string"}),
+		AdditionalEmails: orb.F([]string{"dev@stainless.com"}),
 		AutoCollection:   orb.F(true),
 		BillingAddress: orb.F(orb.CustomerNewParamsBillingAddress{
 			City:       orb.F("city"),
