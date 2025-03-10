@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.108.0 (2025-03-10)
+
+Full Changelog: [v0.107.0...v0.108.0](https://github.com/orbcorp/orb-go/compare/v0.107.0...v0.108.0)
+
+### Features
+
+* add SKIP_BREW env var to ./scripts/bootstrap ([#486](https://github.com/orbcorp/orb-go/issues/486)) ([5d42ebd](https://github.com/orbcorp/orb-go/commit/5d42ebd77d8ac279334df6d173b9726341a035ab))
+* **api:** api update ([#487](https://github.com/orbcorp/orb-go/issues/487)) ([1aa8997](https://github.com/orbcorp/orb-go/commit/1aa8997b8864080407526a5cdc4e7a14af32ee7e))
+* **client:** allow custom baseurls without trailing slash ([#484](https://github.com/orbcorp/orb-go/issues/484)) ([3a83990](https://github.com/orbcorp/orb-go/commit/3a839907e456cbd7cf7d2745089a4ce8902e30b6))
+
 ## 0.107.0 (2025-03-07)
 
 Full Changelog: [v0.106.0...v0.107.0](https://github.com/orbcorp/orb-go/compare/v0.106.0...v0.107.0)
