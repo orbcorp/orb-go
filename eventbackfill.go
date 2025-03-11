@@ -532,9 +532,13 @@ func (r EventBackfillRevertResponseStatus) IsKnown() bool {
 }
 
 type EventBackfillNewParams struct {
-	// The (exclusive) end of the usage timeframe affected by this backfill.
+	// The (exclusive) end of the usage timeframe affected by this backfill. By
+	// default, Orb allows backfills up to 10 days in duration at a time. Reach out to
+	// discuss extending this limit and your use case.
 	TimeframeEnd param.Field[time.Time] `json:"timeframe_end,required" format:"date-time"`
-	// The (inclusive) start of the usage timeframe affected by this backfill.
+	// The (inclusive) start of the usage timeframe affected by this backfill. By
+	// default, Orb allows backfills up to 10 days in duration at a time. Reach out to
+	// discuss extending this limit and your use case.
 	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
 	// The time at which no more events will be accepted for this backfill. The
 	// backfill will automatically begin reflecting throughout Orb at the close time.
