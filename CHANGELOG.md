@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.109.0 (2025-03-11)
+
+Full Changelog: [v0.108.0...v0.109.0](https://github.com/orbcorp/orb-go/compare/v0.108.0...v0.109.0)
+
+### Features
+
+* **api:** api update ([#492](https://github.com/orbcorp/orb-go/issues/492)) ([a2ec348](https://github.com/orbcorp/orb-go/commit/a2ec348e8c0d41a0b7730e28afe8d90f1dbd7839))
+* **client:** accept RFC6838 JSON content types ([#489](https://github.com/orbcorp/orb-go/issues/489)) ([62eee96](https://github.com/orbcorp/orb-go/commit/62eee9690f4fe614c405ac80ca9999ff610ca721))
+
+
+### Refactors
+
+* tidy up dependencies ([#491](https://github.com/orbcorp/orb-go/issues/491)) ([46d90e3](https://github.com/orbcorp/orb-go/commit/46d90e38e37200bf0a884ec627dc779e7f1b9ecd))
+
 ## 0.108.0 (2025-03-10)
 
 Full Changelog: [v0.107.0...v0.108.0](https://github.com/orbcorp/orb-go/compare/v0.107.0...v0.108.0)
