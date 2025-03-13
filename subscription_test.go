@@ -246,7 +246,7 @@ func TestSubscriptionListWithOptionalParams(t *testing.T) {
 		CreatedAtLte:       orb.F(time.Now()),
 		Cursor:             orb.F("cursor"),
 		CustomerID:         orb.F([]string{"string"}),
-		ExternalCustomerID: orb.F("external_customer_id"),
+		ExternalCustomerID: orb.F([]string{"string"}),
 		Limit:              orb.F(int64(1)),
 		Status:             orb.F(orb.SubscriptionListParamsStatusActive),
 	})
