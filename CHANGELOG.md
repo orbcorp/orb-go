@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.110.0 (2025-03-14)
+
+Full Changelog: [v0.109.0...v0.110.0](https://github.com/orbcorp/orb-go/compare/v0.109.0...v0.110.0)
+
+### Features
+
+* **api:** api update ([#498](https://github.com/orbcorp/orb-go/issues/498)) ([95f3f75](https://github.com/orbcorp/orb-go/commit/95f3f75eacd9b5da4ab5351fb6997e57bd06bd8b))
+* **client:** improve default client options support ([#494](https://github.com/orbcorp/orb-go/issues/494)) ([eab11f9](https://github.com/orbcorp/orb-go/commit/eab11f917b2be30d41262a52356e8d073f2f9e2c))
+
+
+### Chores
+
+* **api:** correctly support ExternalCustomerID array filter on Subscriptions.List ([#497](https://github.com/orbcorp/orb-go/issues/497)) ([36ce074](https://github.com/orbcorp/orb-go/commit/36ce074473d356727bb3403f195c4eedca49409b))
+* **docs:** add example for pagination ([5a85edf](https://github.com/orbcorp/orb-go/commit/5a85edf71c8fc6a7b8820f168524fcafdf0f7ae6))
+* **internal:** remove extra empty newlines ([#496](https://github.com/orbcorp/orb-go/issues/496)) ([4b998f1](https://github.com/orbcorp/orb-go/commit/4b998f1f23332366905863dedb25901b88528dde))
+
 ## 0.109.0 (2025-03-11)
 
 Full Changelog: [v0.108.0...v0.109.0](https://github.com/orbcorp/orb-go/compare/v0.108.0...v0.109.0)
