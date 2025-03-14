@@ -500,6 +500,10 @@ func (r CreditNoteNewParamsReason) IsKnown() bool {
 }
 
 type CreditNoteListParams struct {
+	CreatedAtGt  param.Field[time.Time] `query:"created_at[gt]" format:"date-time"`
+	CreatedAtGte param.Field[time.Time] `query:"created_at[gte]" format:"date-time"`
+	CreatedAtLt  param.Field[time.Time] `query:"created_at[lt]" format:"date-time"`
+	CreatedAtLte param.Field[time.Time] `query:"created_at[lte]" format:"date-time"`
 	// Cursor for pagination. This can be populated by the `next_cursor` value returned
 	// from the initial request.
 	Cursor param.Field[string] `query:"cursor"`
