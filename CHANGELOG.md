@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.111.1 (2025-03-25)
+
+Full Changelog: [v0.111.0...v0.111.1](https://github.com/orbcorp/orb-go/compare/v0.111.0...v0.111.1)
+
+### Bug Fixes
+
+* **test:** return early after test failure ([#506](https://github.com/orbcorp/orb-go/issues/506)) ([7564f14](https://github.com/orbcorp/orb-go/commit/7564f1492f99e62bdd080119ca363aa8bb0640fe))
+
+
+### Chores
+
+* add request options to client tests ([#505](https://github.com/orbcorp/orb-go/issues/505)) ([8402957](https://github.com/orbcorp/orb-go/commit/8402957b7e136f734bde107b3b07b308f3968030))
+* **docs:** improve security documentation ([#503](https://github.com/orbcorp/orb-go/issues/503)) ([eb5a7d8](https://github.com/orbcorp/orb-go/commit/eb5a7d855d6ced9da9b099376fa6e8b62bb62935))
+
 ## 0.111.0 (2025-03-20)
 
 Full Changelog: [v0.110.0...v0.111.0](https://github.com/orbcorp/orb-go/compare/v0.110.0...v0.111.0)
