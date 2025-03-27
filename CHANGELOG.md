@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.111.2 (2025-03-27)
+
+Full Changelog: [v0.111.1...v0.111.2](https://github.com/orbcorp/orb-go/compare/v0.111.1...v0.111.2)
+
+### Chores
+
+* fix typos ([#508](https://github.com/orbcorp/orb-go/issues/508)) ([4f18cbd](https://github.com/orbcorp/orb-go/commit/4f18cbd34dcb1bef7ed23bd561139c186cb251f3))
+
 ## 0.111.1 (2025-03-25)
 
 Full Changelog: [v0.111.0...v0.111.1](https://github.com/orbcorp/orb-go/compare/v0.111.0...v0.111.1)
