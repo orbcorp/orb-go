@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.111.2 (2025-04-02)
+
+Full Changelog: [v0.111.1...v0.111.2](https://github.com/orbcorp/orb-go/compare/v0.111.1...v0.111.2)
+
+### Bug Fixes
+
+* **client:** return error on bad custom url instead of panic ([#510](https://github.com/orbcorp/orb-go/issues/510)) ([939eb5a](https://github.com/orbcorp/orb-go/commit/939eb5a075bf335354cb29fa40f493852f032198))
+
+
+### Chores
+
+* fix typos ([#508](https://github.com/orbcorp/orb-go/issues/508)) ([4f18cbd](https://github.com/orbcorp/orb-go/commit/4f18cbd34dcb1bef7ed23bd561139c186cb251f3))
+
 ## 0.111.1 (2025-03-25)
 
 Full Changelog: [v0.111.0...v0.111.1](https://github.com/orbcorp/orb-go/compare/v0.111.0...v0.111.1)
