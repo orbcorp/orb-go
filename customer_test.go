@@ -276,7 +276,7 @@ func TestCustomerSyncPaymentMethodsFromGateway(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.Customers.SyncPaymentMethodsFromGateway(context.TODO(), "external_customer_id")
+	err := client.Customers.SyncPaymentMethodsFromGateway(context.TODO(), "customer_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
@@ -298,7 +298,7 @@ func TestCustomerSyncPaymentMethodsFromGatewayByExternalCustomerID(t *testing.T)
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	err := client.Customers.SyncPaymentMethodsFromGatewayByExternalCustomerID(context.TODO(), "customer_id")
+	err := client.Customers.SyncPaymentMethodsFromGatewayByExternalCustomerID(context.TODO(), "external_customer_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
