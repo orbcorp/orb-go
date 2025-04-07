@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.111.3 (2025-04-07)
+
+Full Changelog: [v0.111.2...v0.111.3](https://github.com/orbcorp/orb-go/compare/v0.111.2...v0.111.3)
+
+### Bug Fixes
+
+* **api:** naming for sync_payment_methods methods ([#512](https://github.com/orbcorp/orb-go/issues/512)) ([42fbe4b](https://github.com/orbcorp/orb-go/commit/42fbe4b9c9efc9c0f69cfccba26707df99bc16b4))
+
 ## 0.111.2 (2025-04-02)
 
 Full Changelog: [v0.111.1...v0.111.2](https://github.com/orbcorp/orb-go/compare/v0.111.1...v0.111.2)
