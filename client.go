@@ -30,6 +30,7 @@ type Client struct {
 	Subscriptions          *SubscriptionService
 	Alerts                 *AlertService
 	DimensionalPriceGroups *DimensionalPriceGroupService
+	SubscriptionChanges    *SubscriptionChangeService
 }
 
 // DefaultClientOptions read from the environment (ORB_API_KEY,
@@ -68,6 +69,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.Subscriptions = NewSubscriptionService(opts...)
 	r.Alerts = NewAlertService(opts...)
 	r.DimensionalPriceGroups = NewDimensionalPriceGroupService(opts...)
+	r.SubscriptionChanges = NewSubscriptionChangeService(opts...)
 
 	return
 }
