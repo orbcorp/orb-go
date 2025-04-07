@@ -368,3 +368,17 @@ Methods:
 Methods:
 
 - <code title="get /dimensional_price_groups/external_dimensional_price_group_id/{external_dimensional_price_group_id}">client.DimensionalPriceGroups.ExternalDimensionalPriceGroupID.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#DimensionalPriceGroupExternalDimensionalPriceGroupIDService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, externalDimensionalPriceGroupID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#DimensionalPriceGroup">DimensionalPriceGroup</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
+# SubscriptionChanges
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeGetResponse">SubscriptionChangeGetResponse</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeApplyResponse">SubscriptionChangeApplyResponse</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeCancelResponse">SubscriptionChangeCancelResponse</a>
+
+Methods:
+
+- <code title="get /subscription_changes/{subscription_change_id}">client.SubscriptionChanges.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, subscriptionChangeID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeGetResponse">SubscriptionChangeGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /subscription_changes/{subscription_change_id}/apply">client.SubscriptionChanges.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeService.Apply">Apply</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, subscriptionChangeID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeApplyParams">SubscriptionChangeApplyParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeApplyResponse">SubscriptionChangeApplyResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /subscription_changes/{subscription_change_id}/cancel">client.SubscriptionChanges.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeService.Cancel">Cancel</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, subscriptionChangeID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#SubscriptionChangeCancelResponse">SubscriptionChangeCancelResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
