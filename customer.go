@@ -177,14 +177,14 @@ func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustome
 // be charged, ensuring that the most up-to-date payment method is charged.
 //
 // **Note**: This functionality is currently only available for Stripe.
-func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, externalCustomerID string, opts ...option.RequestOption) (err error) {
+func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if externalCustomerID == "" {
-		err = errors.New("missing required external_customer_id parameter")
+	if customerID == "" {
+		err = errors.New("missing required customer_id parameter")
 		return
 	}
-	path := fmt.Sprintf("customers/external_customer_id/%s/sync_payment_methods_from_gateway", externalCustomerID)
+	path := fmt.Sprintf("customers/%s/sync_payment_methods_from_gateway", customerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
@@ -195,14 +195,14 @@ func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, ext
 // be charged, ensuring that the most up-to-date payment method is charged.
 //
 // **Note**: This functionality is currently only available for Stripe.
-func (r *CustomerService) SyncPaymentMethodsFromGatewayByExternalCustomerID(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
+func (r *CustomerService) SyncPaymentMethodsFromGatewayByExternalCustomerID(ctx context.Context, externalCustomerID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
-	if customerID == "" {
-		err = errors.New("missing required customer_id parameter")
+	if externalCustomerID == "" {
+		err = errors.New("missing required external_customer_id parameter")
 		return
 	}
-	path := fmt.Sprintf("customers/%s/sync_payment_methods_from_gateway", customerID)
+	path := fmt.Sprintf("customers/external_customer_id/%s/sync_payment_methods_from_gateway", externalCustomerID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return
 }
