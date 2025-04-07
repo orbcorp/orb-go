@@ -1196,6 +1196,8 @@ type Subscription struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionPendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -1232,6 +1234,7 @@ type subscriptionJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
@@ -2112,6 +2115,28 @@ func (r subscriptionMinimumIntervalJSON) RawJSON() string {
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionPendingSubscriptionChange struct {
+	ID   string                                    `json:"id,required"`
+	JSON subscriptionPendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionPendingSubscriptionChangeJSON contains the JSON metadata for the
+// struct [SubscriptionPendingSubscriptionChange]
+type subscriptionPendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionPendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -2673,6 +2698,8 @@ type SubscriptionNewResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionNewResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -2685,7 +2712,11 @@ type SubscriptionNewResponse struct {
 	StartDate time.Time                        `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionNewResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionNewResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionNewResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionNewResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionNewResponseJSON             `json:"-"`
 }
 
 // subscriptionNewResponseJSON contains the JSON metadata for the struct
@@ -2710,12 +2741,14 @@ type subscriptionNewResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -3594,6 +3627,28 @@ func (r subscriptionNewResponseMinimumIntervalJSON) RawJSON() string {
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionNewResponsePendingSubscriptionChange struct {
+	ID   string                                               `json:"id,required"`
+	JSON subscriptionNewResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionNewResponsePendingSubscriptionChangeJSON contains the JSON metadata
+// for the struct [SubscriptionNewResponsePendingSubscriptionChange]
+type subscriptionNewResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -3750,6 +3805,40 @@ func (r subscriptionNewResponseTrialInfoJSON) RawJSON() string {
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionNewResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                   `json:"voided_invoices,required"`
+	JSON           subscriptionNewResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionNewResponseChangedResourcesJSON contains the JSON metadata for the
+// struct [SubscriptionNewResponseChangedResources]
+type subscriptionNewResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionNewResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionNewResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionCancelResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -3819,6 +3908,8 @@ type SubscriptionCancelResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionCancelResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -3831,7 +3922,11 @@ type SubscriptionCancelResponse struct {
 	StartDate time.Time                           `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionCancelResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionCancelResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionCancelResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionCancelResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionCancelResponseJSON             `json:"-"`
 }
 
 // subscriptionCancelResponseJSON contains the JSON metadata for the struct
@@ -3856,12 +3951,14 @@ type subscriptionCancelResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -4742,6 +4839,28 @@ func (r subscriptionCancelResponseMinimumIntervalJSON) RawJSON() string {
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionCancelResponsePendingSubscriptionChange struct {
+	ID   string                                                  `json:"id,required"`
+	JSON subscriptionCancelResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionCancelResponsePendingSubscriptionChangeJSON contains the JSON
+// metadata for the struct [SubscriptionCancelResponsePendingSubscriptionChange]
+type subscriptionCancelResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -4895,6 +5014,40 @@ func (r *SubscriptionCancelResponseTrialInfo) UnmarshalJSON(data []byte) (err er
 }
 
 func (r subscriptionCancelResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionCancelResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                      `json:"voided_invoices,required"`
+	JSON           subscriptionCancelResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionCancelResponseChangedResourcesJSON contains the JSON metadata for
+// the struct [SubscriptionCancelResponseChangedResources]
+type subscriptionCancelResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionCancelResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionCancelResponseChangedResourcesJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -5108,6 +5261,8 @@ type SubscriptionPriceIntervalsResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionPriceIntervalsResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -5120,7 +5275,11 @@ type SubscriptionPriceIntervalsResponse struct {
 	StartDate time.Time                                   `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionPriceIntervalsResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionPriceIntervalsResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionPriceIntervalsResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionPriceIntervalsResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionPriceIntervalsResponseJSON             `json:"-"`
 }
 
 // subscriptionPriceIntervalsResponseJSON contains the JSON metadata for the struct
@@ -5145,12 +5304,14 @@ type subscriptionPriceIntervalsResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -6033,6 +6194,29 @@ func (r subscriptionPriceIntervalsResponseMinimumIntervalJSON) RawJSON() string 
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionPriceIntervalsResponsePendingSubscriptionChange struct {
+	ID   string                                                          `json:"id,required"`
+	JSON subscriptionPriceIntervalsResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponsePendingSubscriptionChangeJSON contains the
+// JSON metadata for the struct
+// [SubscriptionPriceIntervalsResponsePendingSubscriptionChange]
+type subscriptionPriceIntervalsResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -6189,6 +6373,40 @@ func (r subscriptionPriceIntervalsResponseTrialInfoJSON) RawJSON() string {
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionPriceIntervalsResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                              `json:"voided_invoices,required"`
+	JSON           subscriptionPriceIntervalsResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionPriceIntervalsResponseChangedResourcesJSON contains the JSON
+// metadata for the struct [SubscriptionPriceIntervalsResponseChangedResources]
+type subscriptionPriceIntervalsResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionPriceIntervalsResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionPriceIntervalsResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionSchedulePlanChangeResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -6258,6 +6476,8 @@ type SubscriptionSchedulePlanChangeResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionSchedulePlanChangeResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -6270,7 +6490,11 @@ type SubscriptionSchedulePlanChangeResponse struct {
 	StartDate time.Time                                       `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionSchedulePlanChangeResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionSchedulePlanChangeResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionSchedulePlanChangeResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionSchedulePlanChangeResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionSchedulePlanChangeResponseJSON             `json:"-"`
 }
 
 // subscriptionSchedulePlanChangeResponseJSON contains the JSON metadata for the
@@ -6295,12 +6519,14 @@ type subscriptionSchedulePlanChangeResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -7185,6 +7411,29 @@ func (r subscriptionSchedulePlanChangeResponseMinimumIntervalJSON) RawJSON() str
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionSchedulePlanChangeResponsePendingSubscriptionChange struct {
+	ID   string                                                              `json:"id,required"`
+	JSON subscriptionSchedulePlanChangeResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponsePendingSubscriptionChangeJSON contains the
+// JSON metadata for the struct
+// [SubscriptionSchedulePlanChangeResponsePendingSubscriptionChange]
+type subscriptionSchedulePlanChangeResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -7341,6 +7590,40 @@ func (r subscriptionSchedulePlanChangeResponseTrialInfoJSON) RawJSON() string {
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionSchedulePlanChangeResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                                  `json:"voided_invoices,required"`
+	JSON           subscriptionSchedulePlanChangeResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionSchedulePlanChangeResponseChangedResourcesJSON contains the JSON
+// metadata for the struct [SubscriptionSchedulePlanChangeResponseChangedResources]
+type subscriptionSchedulePlanChangeResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionSchedulePlanChangeResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionSchedulePlanChangeResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionTriggerPhaseResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -7410,6 +7693,8 @@ type SubscriptionTriggerPhaseResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionTriggerPhaseResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -7422,7 +7707,11 @@ type SubscriptionTriggerPhaseResponse struct {
 	StartDate time.Time                                 `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionTriggerPhaseResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionTriggerPhaseResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionTriggerPhaseResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionTriggerPhaseResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionTriggerPhaseResponseJSON             `json:"-"`
 }
 
 // subscriptionTriggerPhaseResponseJSON contains the JSON metadata for the struct
@@ -7447,12 +7736,14 @@ type subscriptionTriggerPhaseResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -8335,6 +8626,29 @@ func (r subscriptionTriggerPhaseResponseMinimumIntervalJSON) RawJSON() string {
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionTriggerPhaseResponsePendingSubscriptionChange struct {
+	ID   string                                                        `json:"id,required"`
+	JSON subscriptionTriggerPhaseResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponsePendingSubscriptionChangeJSON contains the JSON
+// metadata for the struct
+// [SubscriptionTriggerPhaseResponsePendingSubscriptionChange]
+type subscriptionTriggerPhaseResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -8491,6 +8805,40 @@ func (r subscriptionTriggerPhaseResponseTrialInfoJSON) RawJSON() string {
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionTriggerPhaseResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                            `json:"voided_invoices,required"`
+	JSON           subscriptionTriggerPhaseResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionTriggerPhaseResponseChangedResourcesJSON contains the JSON metadata
+// for the struct [SubscriptionTriggerPhaseResponseChangedResources]
+type subscriptionTriggerPhaseResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionTriggerPhaseResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionTriggerPhaseResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUnscheduleCancellationResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -8560,6 +8908,8 @@ type SubscriptionUnscheduleCancellationResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionUnscheduleCancellationResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -8572,7 +8922,11 @@ type SubscriptionUnscheduleCancellationResponse struct {
 	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionUnscheduleCancellationResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionUnscheduleCancellationResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionUnscheduleCancellationResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionUnscheduleCancellationResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionUnscheduleCancellationResponseJSON             `json:"-"`
 }
 
 // subscriptionUnscheduleCancellationResponseJSON contains the JSON metadata for
@@ -8597,12 +8951,14 @@ type subscriptionUnscheduleCancellationResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -9491,6 +9847,29 @@ func (r subscriptionUnscheduleCancellationResponseMinimumIntervalJSON) RawJSON()
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionUnscheduleCancellationResponsePendingSubscriptionChange struct {
+	ID   string                                                                  `json:"id,required"`
+	JSON subscriptionUnscheduleCancellationResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponsePendingSubscriptionChangeJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUnscheduleCancellationResponsePendingSubscriptionChange]
+type subscriptionUnscheduleCancellationResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -9649,6 +10028,41 @@ func (r subscriptionUnscheduleCancellationResponseTrialInfoJSON) RawJSON() strin
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionUnscheduleCancellationResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                                      `json:"voided_invoices,required"`
+	JSON           subscriptionUnscheduleCancellationResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionUnscheduleCancellationResponseChangedResourcesJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUnscheduleCancellationResponseChangedResources]
+type subscriptionUnscheduleCancellationResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleCancellationResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleCancellationResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -9718,6 +10132,8 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -9730,7 +10146,11 @@ type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponse struct {
 	StartDate time.Time                                                      `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON             `json:"-"`
 }
 
 // subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON contains the JSON
@@ -9755,12 +10175,14 @@ type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -10649,6 +11071,29 @@ func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseMinimumIntervalJSON
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChange struct {
+	ID   string                                                                             `json:"id,required"`
+	JSON subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChangeJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChange]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -10808,6 +11253,41 @@ func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseTrialInfoJSON) RawJ
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                                                 `json:"voided_invoices,required"`
+	JSON           subscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResourcesJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResources]
+type subscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnscheduleFixedFeeQuantityUpdatesResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -10877,6 +11357,8 @@ type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -10889,7 +11371,11 @@ type SubscriptionUnschedulePendingPlanChangesResponse struct {
 	StartDate time.Time                                                 `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionUnschedulePendingPlanChangesResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionUnschedulePendingPlanChangesResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionUnschedulePendingPlanChangesResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionUnschedulePendingPlanChangesResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionUnschedulePendingPlanChangesResponseJSON             `json:"-"`
 }
 
 // subscriptionUnschedulePendingPlanChangesResponseJSON contains the JSON metadata
@@ -10914,12 +11400,14 @@ type subscriptionUnschedulePendingPlanChangesResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -11808,6 +12296,29 @@ func (r subscriptionUnschedulePendingPlanChangesResponseMinimumIntervalJSON) Raw
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChange struct {
+	ID   string                                                                        `json:"id,required"`
+	JSON subscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChangeJSON
+// contains the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChange]
+type subscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -11967,6 +12478,41 @@ func (r subscriptionUnschedulePendingPlanChangesResponseTrialInfoJSON) RawJSON()
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionUnschedulePendingPlanChangesResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                                            `json:"voided_invoices,required"`
+	JSON           subscriptionUnschedulePendingPlanChangesResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionUnschedulePendingPlanChangesResponseChangedResourcesJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUnschedulePendingPlanChangesResponseChangedResources]
+type subscriptionUnschedulePendingPlanChangesResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUnschedulePendingPlanChangesResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUnschedulePendingPlanChangesResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -12036,6 +12582,8 @@ type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -12048,7 +12596,11 @@ type SubscriptionUpdateFixedFeeQuantityResponse struct {
 	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionUpdateFixedFeeQuantityResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionUpdateFixedFeeQuantityResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionUpdateFixedFeeQuantityResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionUpdateFixedFeeQuantityResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionUpdateFixedFeeQuantityResponseJSON             `json:"-"`
 }
 
 // subscriptionUpdateFixedFeeQuantityResponseJSON contains the JSON metadata for
@@ -12073,12 +12625,14 @@ type subscriptionUpdateFixedFeeQuantityResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -12967,6 +13521,29 @@ func (r subscriptionUpdateFixedFeeQuantityResponseMinimumIntervalJSON) RawJSON()
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChange struct {
+	ID   string                                                                  `json:"id,required"`
+	JSON subscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChangeJSON contains
+// the JSON metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChange]
+type subscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -13125,6 +13702,41 @@ func (r subscriptionUpdateFixedFeeQuantityResponseTrialInfoJSON) RawJSON() strin
 	return r.raw
 }
 
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionUpdateFixedFeeQuantityResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                                      `json:"voided_invoices,required"`
+	JSON           subscriptionUpdateFixedFeeQuantityResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionUpdateFixedFeeQuantityResponseChangedResourcesJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateFixedFeeQuantityResponseChangedResources]
+type subscriptionUpdateFixedFeeQuantityResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateFixedFeeQuantityResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateFixedFeeQuantityResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
 type SubscriptionUpdateTrialResponse struct {
 	ID string `json:"id,required"`
 	// The current plan phase that is active, only if the subscription's plan has
@@ -13194,6 +13806,8 @@ type SubscriptionUpdateTrialResponse struct {
 	// invoice is due on issue, whereas a value of `30` represents that the customer
 	// has a month to pay the invoice.
 	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionUpdateTrialResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
 	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 	// subscribed to by a customer. Plans define the billing behavior of the
 	// subscription. You can see more about how to configure prices in the
@@ -13206,7 +13820,11 @@ type SubscriptionUpdateTrialResponse struct {
 	StartDate time.Time                                `json:"start_date,required" format:"date-time"`
 	Status    SubscriptionUpdateTrialResponseStatus    `json:"status,required"`
 	TrialInfo SubscriptionUpdateTrialResponseTrialInfo `json:"trial_info,required"`
-	JSON      subscriptionUpdateTrialResponseJSON      `json:"-"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionUpdateTrialResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionUpdateTrialResponseJSON             `json:"-"`
 }
 
 // subscriptionUpdateTrialResponseJSON contains the JSON metadata for the struct
@@ -13231,12 +13849,14 @@ type subscriptionUpdateTrialResponseJSON struct {
 	Metadata                        apijson.Field
 	MinimumIntervals                apijson.Field
 	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
 	Plan                            apijson.Field
 	PriceIntervals                  apijson.Field
 	RedeemedCoupon                  apijson.Field
 	StartDate                       apijson.Field
 	Status                          apijson.Field
 	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
 }
@@ -14119,6 +14739,29 @@ func (r subscriptionUpdateTrialResponseMinimumIntervalJSON) RawJSON() string {
 	return r.raw
 }
 
+// A pending subscription change if one exists on this subscription.
+type SubscriptionUpdateTrialResponsePendingSubscriptionChange struct {
+	ID   string                                                       `json:"id,required"`
+	JSON subscriptionUpdateTrialResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponsePendingSubscriptionChangeJSON contains the JSON
+// metadata for the struct
+// [SubscriptionUpdateTrialResponsePendingSubscriptionChange]
+type subscriptionUpdateTrialResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
 // The Price Interval resource represents a period of time for which a price will
 // bill on a subscription. A subscription’s price intervals define its billing
 // behavior.
@@ -14272,6 +14915,40 @@ func (r *SubscriptionUpdateTrialResponseTrialInfo) UnmarshalJSON(data []byte) (e
 }
 
 func (r subscriptionUpdateTrialResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionUpdateTrialResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                           `json:"voided_invoices,required"`
+	JSON           subscriptionUpdateTrialResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionUpdateTrialResponseChangedResourcesJSON contains the JSON metadata
+// for the struct [SubscriptionUpdateTrialResponseChangedResources]
+type subscriptionUpdateTrialResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionUpdateTrialResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionUpdateTrialResponseChangedResourcesJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -15364,11 +16041,11 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfi
 }
 
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfigTier struct {
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Exclusive tier ending value. If null, this is treated as the last tier
+	// Inclusive tier ending value. If null, this is treated as the last tier
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
@@ -15530,9 +16207,9 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBp
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Exclusive tier ending value
+	// Inclusive tier ending value
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// Per unit maximum to charge
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
@@ -19575,11 +20252,11 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredC
 }
 
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfigTier struct {
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Exclusive tier ending value. If null, this is treated as the last tier
+	// Inclusive tier ending value. If null, this is treated as the last tier
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
@@ -19741,9 +20418,9 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTier
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Exclusive tier ending value
+	// Inclusive tier ending value
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// Per unit maximum to charge
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
@@ -24039,11 +24716,11 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConf
 }
 
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredPriceTieredConfigTier struct {
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Exclusive tier ending value. If null, this is treated as the last tier
+	// Inclusive tier ending value. If null, this is treated as the last tier
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
@@ -24201,9 +24878,9 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredB
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Exclusive tier ending value
+	// Inclusive tier ending value
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// Per unit maximum to charge
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
@@ -28850,11 +29527,11 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredP
 }
 
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredPriceTieredConfigTier struct {
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Exclusive tier ending value. If null, this is treated as the last tier
+	// Inclusive tier ending value. If null, this is treated as the last tier
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
@@ -29016,9 +29693,9 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredB
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Exclusive tier ending value
+	// Inclusive tier ending value
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// Per unit maximum to charge
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
@@ -33065,11 +33742,11 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 }
 
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredPriceTieredConfigTier struct {
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Exclusive tier ending value. If null, this is treated as the last tier
+	// Inclusive tier ending value. If null, this is treated as the last tier
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
@@ -33231,9 +33908,9 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTie
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Exclusive tier ending value
+	// Inclusive tier ending value
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// Per unit maximum to charge
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
