@@ -1570,11 +1570,11 @@ func (r PlanNewParamsPricesNewPlanTieredPriceTieredConfig) MarshalJSON() (data [
 }
 
 type PlanNewParamsPricesNewPlanTieredPriceTieredConfigTier struct {
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Exclusive tier ending value. If null, this is treated as the last tier
+	// Inclusive tier ending value. If null, this is treated as the last tier
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
@@ -1732,9 +1732,9 @@ func (r PlanNewParamsPricesNewPlanTieredBpsPriceTieredBpsConfig) MarshalJSON() (
 type PlanNewParamsPricesNewPlanTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
-	// Inclusive tier starting value
+	// Exclusive tier starting value
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Exclusive tier ending value
+	// Inclusive tier ending value
 	MaximumAmount param.Field[string] `json:"maximum_amount"`
 	// Per unit maximum to charge
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
