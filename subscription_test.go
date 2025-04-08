@@ -42,7 +42,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 		AddPrices: orb.F([]orb.SubscriptionNewParamsAddPrice{{
 			AllocationPrice: orb.F(orb.SubscriptionNewParamsAddPricesAllocationPrice{
 				Amount:                orb.F("10.00"),
-				Cadence:               orb.F(orb.SubscriptionNewParamsAddPricesAllocationPriceCadenceOneTime),
+				Cadence:               orb.F(orb.SubscriptionNewParamsAddPricesAllocationPriceCadenceMonthly),
 				Currency:              orb.F("USD"),
 				ExpiresAtEndOfCadence: orb.F(true),
 			}),
@@ -136,7 +136,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 			ReplacesPriceID: orb.F("replaces_price_id"),
 			AllocationPrice: orb.F(orb.SubscriptionNewParamsReplacePricesAllocationPrice{
 				Amount:                orb.F("10.00"),
-				Cadence:               orb.F(orb.SubscriptionNewParamsReplacePricesAllocationPriceCadenceOneTime),
+				Cadence:               orb.F(orb.SubscriptionNewParamsReplacePricesAllocationPriceCadenceMonthly),
 				Currency:              orb.F("USD"),
 				ExpiresAtEndOfCadence: orb.F(true),
 			}),
@@ -434,7 +434,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddStartDateUnion](shared.UnionTime(time.Now())),
 				AllocationPrice: orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPrice{
 					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceOneTime),
+					Cadence:               orb.F(orb.SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly),
 					Currency:              orb.F("USD"),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
@@ -551,7 +551,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 			AddPrices: orb.F([]orb.SubscriptionSchedulePlanChangeParamsAddPrice{{
 				AllocationPrice: orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesAllocationPrice{
 					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceOneTime),
+					Cadence:               orb.F(orb.SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceMonthly),
 					Currency:              orb.F("USD"),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
@@ -638,7 +638,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 				ReplacesPriceID: orb.F("replaces_price_id"),
 				AllocationPrice: orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPrice{
 					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceOneTime),
+					Cadence:               orb.F(orb.SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceMonthly),
 					Currency:              orb.F("USD"),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),

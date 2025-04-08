@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.113.0 (2025-04-08)
+
+Full Changelog: [v0.112.0...v0.113.0](https://github.com/orbcorp/orb-go/compare/v0.112.0...v0.113.0)
+
+### Features
+
+* **client:** support custom http clients ([#518](https://github.com/orbcorp/orb-go/issues/518)) ([0131aa3](https://github.com/orbcorp/orb-go/commit/0131aa37356d78492ca519c91b391aeb2173cf7f))
+
+
+### Chores
+
+* **tests:** improve enum examples ([#520](https://github.com/orbcorp/orb-go/issues/520)) ([1894bdf](https://github.com/orbcorp/orb-go/commit/1894bdfdd9f3c822ac8043f8a26a01947c9d7abc))
+
 ## 0.112.0 (2025-04-07)
 
 Full Changelog: [v0.111.3...v0.112.0](https://github.com/orbcorp/orb-go/compare/v0.111.3...v0.112.0)
