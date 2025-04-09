@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.113.1 (2025-04-09)
+
+Full Changelog: [v0.113.0...v0.113.1](https://github.com/orbcorp/orb-go/compare/v0.113.0...v0.113.1)
+
+### Chores
+
+* **internal:** expand CI branch coverage ([#521](https://github.com/orbcorp/orb-go/issues/521)) ([c55b691](https://github.com/orbcorp/orb-go/commit/c55b69125b987ec9b334877e470310f6b882df56))
+* **internal:** reduce CI branch coverage ([ac63840](https://github.com/orbcorp/orb-go/commit/ac6384001d13a1455795edfb81e5ed727487c5da))
+
 ## 0.113.0 (2025-04-08)
 
 Full Changelog: [v0.112.0...v0.113.0](https://github.com/orbcorp/orb-go/compare/v0.112.0...v0.113.0)
