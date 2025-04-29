@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.114.0 (2025-04-29)
+
+Full Changelog: [v0.113.0...v0.114.0](https://github.com/orbcorp/orb-go/compare/v0.113.0...v0.114.0)
+
+### Features
+
+* **client:** add support for reading base URL from environment variable ([bb61643](https://github.com/orbcorp/orb-go/commit/bb616438c6824c5a165ee19de9fd828999831692))
+
+
+### Bug Fixes
+
+* handle empty bodies in WithJSONSet ([6578c90](https://github.com/orbcorp/orb-go/commit/6578c90e5a8a49ca3748f77457d01e7f6b1ec889))
+
+
+### Chores
+
+* **ci:** add timeout thresholds for CI jobs ([5538bd8](https://github.com/orbcorp/orb-go/commit/5538bd8fc71d5b7fadd649d5ad633ddf8e921e12))
+* **ci:** only use depot for staging repos ([040b459](https://github.com/orbcorp/orb-go/commit/040b459ebf54c48fbf27f7e33326e457cd9b4f7d))
+* **ci:** run on more branches and use depot runners ([d8c598b](https://github.com/orbcorp/orb-go/commit/d8c598be38aac744cfc4d9801028dc1f822fb629))
+* **docs:** document pre-request options ([0d8f25b](https://github.com/orbcorp/orb-go/commit/0d8f25b2d7140c7daf45bc4cb793852b3b2ad42b))
+* **internal:** expand CI branch coverage ([#521](https://github.com/orbcorp/orb-go/issues/521)) ([c55b691](https://github.com/orbcorp/orb-go/commit/c55b69125b987ec9b334877e470310f6b882df56))
+* **internal:** reduce CI branch coverage ([ac63840](https://github.com/orbcorp/orb-go/commit/ac6384001d13a1455795edfb81e5ed727487c5da))
+
+
+### Documentation
+
+* update documentation links to be more uniform ([cb6a98d](https://github.com/orbcorp/orb-go/commit/cb6a98d7ff34d98f839f0ca099658315ffae98d1))
+
 ## 0.113.0 (2025-04-08)
 
 Full Changelog: [v0.112.0...v0.113.0](https://github.com/orbcorp/orb-go/compare/v0.112.0...v0.113.0)
