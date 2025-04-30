@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.114.1 (2025-04-30)
+
+Full Changelog: [v0.114.0...v0.114.1](https://github.com/orbcorp/orb-go/compare/v0.114.0...v0.114.1)
+
+### Bug Fixes
+
+* **pagination:** handle errors when applying options ([6090926](https://github.com/orbcorp/orb-go/commit/60909262075f9dbedba5122b2f48be660172f985))
+
 ## 0.114.0 (2025-04-29)
 
 Full Changelog: [v0.113.0...v0.114.0](https://github.com/orbcorp/orb-go/compare/v0.113.0...v0.114.0)
