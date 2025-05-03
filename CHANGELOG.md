@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.114.2 (2025-05-03)
+
+Full Changelog: [v0.114.1...v0.114.2](https://github.com/orbcorp/orb-go/compare/v0.114.1...v0.114.2)
+
+### Bug Fixes
+
+* **client:** remove shared import ([07d3e2e](https://github.com/orbcorp/orb-go/commit/07d3e2e01ff680aed782ac82d2b56b72d45c8f59))
+
 ## 0.114.1 (2025-04-30)
 
 Full Changelog: [v0.114.0...v0.114.1](https://github.com/orbcorp/orb-go/compare/v0.114.0...v0.114.1)
