@@ -161,14 +161,14 @@ func (r *Discount) UnmarshalJSON(data []byte) (err error) {
 // AsUnion returns a [DiscountUnion] interface which you can cast to the specific
 // types for more type safety.
 //
-// Possible runtime types of the union are [shared.PercentageDiscount],
-// [shared.TrialDiscount], [shared.UsageDiscount], [shared.AmountDiscount].
+// Possible runtime types of the union are [PercentageDiscount], [TrialDiscount],
+// [UsageDiscount], [AmountDiscount].
 func (r Discount) AsUnion() DiscountUnion {
 	return r.union
 }
 
-// Union satisfied by [shared.PercentageDiscount], [shared.TrialDiscount],
-// [shared.UsageDiscount] or [shared.AmountDiscount].
+// Union satisfied by [PercentageDiscount], [TrialDiscount], [UsageDiscount] or
+// [AmountDiscount].
 type DiscountUnion interface {
 	ImplementsDiscount()
 }
@@ -295,14 +295,13 @@ func (r *InvoiceLevelDiscount) UnmarshalJSON(data []byte) (err error) {
 // AsUnion returns a [InvoiceLevelDiscountUnion] interface which you can cast to
 // the specific types for more type safety.
 //
-// Possible runtime types of the union are [shared.PercentageDiscount],
-// [shared.AmountDiscount], [shared.TrialDiscount].
+// Possible runtime types of the union are [PercentageDiscount], [AmountDiscount],
+// [TrialDiscount].
 func (r InvoiceLevelDiscount) AsUnion() InvoiceLevelDiscountUnion {
 	return r.union
 }
 
-// Union satisfied by [shared.PercentageDiscount], [shared.AmountDiscount] or
-// [shared.TrialDiscount].
+// Union satisfied by [PercentageDiscount], [AmountDiscount] or [TrialDiscount].
 type InvoiceLevelDiscountUnion interface {
 	ImplementsInvoiceLevelDiscount()
 }
