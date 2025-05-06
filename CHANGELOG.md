@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.114.3 (2025-05-06)
+
+Full Changelog: [v0.114.2...v0.114.3](https://github.com/orbcorp/orb-go/compare/v0.114.2...v0.114.3)
+
+### Bug Fixes
+
+* **client:** clean up reader resources ([be900b1](https://github.com/orbcorp/orb-go/commit/be900b1834fc2902a89ccba4a6491495d8217610))
+* **client:** correctly update body in WithJSONSet ([8477acc](https://github.com/orbcorp/orb-go/commit/8477accdf6c855e6522596fb7ccf335625ec0cc1))
+
 ## 0.114.2 (2025-05-03)
 
 Full Changelog: [v0.114.1...v0.114.2](https://github.com/orbcorp/orb-go/compare/v0.114.1...v0.114.2)
