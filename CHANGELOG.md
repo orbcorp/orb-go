@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.115.0 (2025-05-13)
+
+Full Changelog: [v0.114.3...v0.115.0](https://github.com/orbcorp/orb-go/compare/v0.114.3...v0.115.0)
+
+### Features
+
+* **client:** add support for endpoint-specific base URLs in python ([346ca8c](https://github.com/orbcorp/orb-go/commit/346ca8cffdf2a00716ecf539df52f105547570bd))
+
 ## 0.114.3 (2025-05-06)
 
 Full Changelog: [v0.114.2...v0.114.3](https://github.com/orbcorp/orb-go/compare/v0.114.2...v0.114.3)
