@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.115.1 (2025-05-21)
+
+Full Changelog: [v0.115.0...v0.115.1](https://github.com/orbcorp/orb-go/compare/v0.115.0...v0.115.1)
+
+### Chores
+
+* **docs:** grammar improvements ([205ab6e](https://github.com/orbcorp/orb-go/commit/205ab6e05ac637dca7a191c2d00090271343958f))
+* improve devcontainer setup ([d23af2f](https://github.com/orbcorp/orb-go/commit/d23af2fd265e18f26893a7baf6d2e316dbf8ff13))
+
 ## 0.115.0 (2025-05-13)
 
 Full Changelog: [v0.114.3...v0.115.0](https://github.com/orbcorp/orb-go/compare/v0.114.3...v0.115.0)
