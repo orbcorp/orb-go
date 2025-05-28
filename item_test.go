@@ -13,7 +13,7 @@ import (
 	"github.com/orbcorp/orb-go/option"
 )
 
-func TestItemNew(t *testing.T) {
+func TestItemNewWithOptionalParams(t *testing.T) {
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
@@ -27,6 +27,9 @@ func TestItemNew(t *testing.T) {
 	)
 	_, err := client.Items.New(context.TODO(), orb.ItemNewParams{
 		Name: orb.F("API requests"),
+		Metadata: orb.F(map[string]string{
+			"foo": "string",
+		}),
 	})
 	if err != nil {
 		var apierr *orb.Error
@@ -57,6 +60,9 @@ func TestItemUpdateWithOptionalParams(t *testing.T) {
 				ExternalConnectionName: orb.F(orb.ItemUpdateParamsExternalConnectionsExternalConnectionNameStripe),
 				ExternalEntityID:       orb.F("external_entity_id"),
 			}}),
+			Metadata: orb.F(map[string]string{
+				"foo": "string",
+			}),
 			Name: orb.F("name"),
 		},
 	)
@@ -85,6 +91,28 @@ func TestItemListWithOptionalParams(t *testing.T) {
 		Cursor: orb.F("cursor"),
 		Limit:  orb.F(int64(1)),
 	})
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestItemArchive(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Items.Archive(context.TODO(), "item_id")
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

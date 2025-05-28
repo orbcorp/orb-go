@@ -122,10 +122,7 @@ func (r *CustomerService) ListAutoPaging(ctx context.Context, query CustomerList
 // **Note**: This operation happens asynchronously and can be expected to take a
 // few minutes to propagate to related resources. However, querying for the
 // customer on subsequent GET requests while deletion is in process will reflect
-// its deletion with a `deleted: true` property. Once the customer deletion has
-// been fully processed, the customer will not be returned in the API.
-//
-// On successful processing, this returns an empty dictionary (`{}`) in the API.
+// its deletion.
 func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
 	opts = append(r.Options[:], opts...)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
@@ -1224,6 +1221,7 @@ func (r CustomerNewParamsTaxConfiguration) implementsCustomerNewParamsTaxConfigu
 
 // Satisfied by [CustomerNewParamsTaxConfigurationNewAvalaraTaxConfiguration],
 // [CustomerNewParamsTaxConfigurationNewTaxJarConfiguration],
+// [CustomerNewParamsTaxConfigurationNewSphereConfiguration],
 // [CustomerNewParamsTaxConfiguration].
 type CustomerNewParamsTaxConfigurationUnion interface {
 	implementsCustomerNewParamsTaxConfigurationUnion()
@@ -1282,16 +1280,43 @@ func (r CustomerNewParamsTaxConfigurationNewTaxJarConfigurationTaxProvider) IsKn
 	return false
 }
 
+type CustomerNewParamsTaxConfigurationNewSphereConfiguration struct {
+	TaxExempt   param.Field[bool]                                                               `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewSphereConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerNewParamsTaxConfigurationNewSphereConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerNewParamsTaxConfigurationNewSphereConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {
+}
+
+type CustomerNewParamsTaxConfigurationNewSphereConfigurationTaxProvider string
+
+const (
+	CustomerNewParamsTaxConfigurationNewSphereConfigurationTaxProviderSphere CustomerNewParamsTaxConfigurationNewSphereConfigurationTaxProvider = "sphere"
+)
+
+func (r CustomerNewParamsTaxConfigurationNewSphereConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxConfigurationNewSphereConfigurationTaxProviderSphere:
+		return true
+	}
+	return false
+}
+
 type CustomerNewParamsTaxConfigurationTaxProvider string
 
 const (
 	CustomerNewParamsTaxConfigurationTaxProviderAvalara CustomerNewParamsTaxConfigurationTaxProvider = "avalara"
 	CustomerNewParamsTaxConfigurationTaxProviderTaxjar  CustomerNewParamsTaxConfigurationTaxProvider = "taxjar"
+	CustomerNewParamsTaxConfigurationTaxProviderSphere  CustomerNewParamsTaxConfigurationTaxProvider = "sphere"
 )
 
 func (r CustomerNewParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar:
+	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar, CustomerNewParamsTaxConfigurationTaxProviderSphere:
 		return true
 	}
 	return false
@@ -1845,6 +1870,7 @@ func (r CustomerUpdateParamsTaxConfiguration) implementsCustomerUpdateParamsTaxC
 
 // Satisfied by [CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfiguration],
 // [CustomerUpdateParamsTaxConfigurationNewTaxJarConfiguration],
+// [CustomerUpdateParamsTaxConfigurationNewSphereConfiguration],
 // [CustomerUpdateParamsTaxConfiguration].
 type CustomerUpdateParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateParamsTaxConfigurationUnion()
@@ -1903,16 +1929,43 @@ func (r CustomerUpdateParamsTaxConfigurationNewTaxJarConfigurationTaxProvider) I
 	return false
 }
 
+type CustomerUpdateParamsTaxConfigurationNewSphereConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                  `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewSphereConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewSphereConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewSphereConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateParamsTaxConfigurationNewSphereConfigurationTaxProvider string
+
+const (
+	CustomerUpdateParamsTaxConfigurationNewSphereConfigurationTaxProviderSphere CustomerUpdateParamsTaxConfigurationNewSphereConfigurationTaxProvider = "sphere"
+)
+
+func (r CustomerUpdateParamsTaxConfigurationNewSphereConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxConfigurationNewSphereConfigurationTaxProviderSphere:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateParamsTaxConfigurationTaxProvider string
 
 const (
 	CustomerUpdateParamsTaxConfigurationTaxProviderAvalara CustomerUpdateParamsTaxConfigurationTaxProvider = "avalara"
 	CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateParamsTaxConfigurationTaxProvider = "taxjar"
+	CustomerUpdateParamsTaxConfigurationTaxProviderSphere  CustomerUpdateParamsTaxConfigurationTaxProvider = "sphere"
 )
 
 func (r CustomerUpdateParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar:
+	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateParamsTaxConfigurationTaxProviderSphere:
 		return true
 	}
 	return false
@@ -2488,6 +2541,7 @@ func (r CustomerUpdateByExternalIDParamsTaxConfiguration) implementsCustomerUpda
 // Satisfied by
 // [CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfiguration],
 // [CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfiguration],
+// [CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfiguration],
 // [CustomerUpdateByExternalIDParamsTaxConfiguration].
 type CustomerUpdateByExternalIDParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion()
@@ -2546,16 +2600,43 @@ func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewTaxJarConfigurationTa
 	return false
 }
 
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                              `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfiguration) implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfigurationTaxProvider string
+
+const (
+	CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfigurationTaxProviderSphere CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfigurationTaxProvider = "sphere"
+)
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxConfigurationNewSphereConfigurationTaxProviderSphere:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider string
 
 const (
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "avalara"
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "taxjar"
+	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "sphere"
 )
 
 func (r CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar:
+	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere:
 		return true
 	}
 	return false

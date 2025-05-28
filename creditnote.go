@@ -460,10 +460,10 @@ func (r creditNoteDiscountsAppliesToPriceJSON) RawJSON() string {
 
 type CreditNoteNewParams struct {
 	LineItems param.Field[[]CreditNoteNewParamsLineItem] `json:"line_items,required"`
+	// An optional reason for the credit note.
+	Reason param.Field[CreditNoteNewParamsReason] `json:"reason,required"`
 	// An optional memo to attach to the credit note.
 	Memo param.Field[string] `json:"memo"`
-	// An optional reason for the credit note.
-	Reason param.Field[CreditNoteNewParamsReason] `json:"reason"`
 }
 
 func (r CreditNoteNewParams) MarshalJSON() (data []byte, err error) {

@@ -698,8 +698,10 @@ type CustomerCreditLedgerListResponse struct {
 	EntryType            CustomerCreditLedgerListResponseEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                       `json:"ledger_sequence_number,required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata           interface{}                          `json:"metadata,required"`
-	StartingBalance    float64                              `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata,required"`
+	StartingBalance float64     `json:"starting_balance,required"`
+	// This field can have the runtime type of [[]Invoice].
+	CreatedInvoices    interface{}                          `json:"created_invoices"`
 	EventID            string                               `json:"event_id,nullable"`
 	InvoiceID          string                               `json:"invoice_id,nullable"`
 	NewBlockExpiryDate time.Time                            `json:"new_block_expiry_date,nullable" format:"date-time"`
@@ -726,6 +728,7 @@ type customerCreditLedgerListResponseJSON struct {
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
 	NewBlockExpiryDate   apijson.Field
@@ -836,8 +839,10 @@ type CustomerCreditLedgerListResponseIncrementLedgerEntry struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string                                        `json:"metadata,required"`
-	StartingBalance float64                                                  `json:"starting_balance,required"`
+	Metadata        map[string]string `json:"metadata,required"`
+	StartingBalance float64           `json:"starting_balance,required"`
+	// If the increment resulted in invoice creation, the list of created invoices
+	CreatedInvoices []Invoice                                                `json:"created_invoices,nullable"`
 	JSON            customerCreditLedgerListResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
@@ -857,6 +862,7 @@ type customerCreditLedgerListResponseIncrementLedgerEntryJSON struct {
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
@@ -1824,8 +1830,10 @@ type CustomerCreditLedgerNewEntryResponse struct {
 	EntryType            CustomerCreditLedgerNewEntryResponseEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                           `json:"ledger_sequence_number,required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata           interface{}                              `json:"metadata,required"`
-	StartingBalance    float64                                  `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata,required"`
+	StartingBalance float64     `json:"starting_balance,required"`
+	// This field can have the runtime type of [[]Invoice].
+	CreatedInvoices    interface{}                              `json:"created_invoices"`
 	EventID            string                                   `json:"event_id,nullable"`
 	InvoiceID          string                                   `json:"invoice_id,nullable"`
 	NewBlockExpiryDate time.Time                                `json:"new_block_expiry_date,nullable" format:"date-time"`
@@ -1852,6 +1860,7 @@ type customerCreditLedgerNewEntryResponseJSON struct {
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
 	NewBlockExpiryDate   apijson.Field
@@ -1962,8 +1971,10 @@ type CustomerCreditLedgerNewEntryResponseIncrementLedgerEntry struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string                                            `json:"metadata,required"`
-	StartingBalance float64                                                      `json:"starting_balance,required"`
+	Metadata        map[string]string `json:"metadata,required"`
+	StartingBalance float64           `json:"starting_balance,required"`
+	// If the increment resulted in invoice creation, the list of created invoices
+	CreatedInvoices []Invoice                                                    `json:"created_invoices,nullable"`
 	JSON            customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
@@ -1984,6 +1995,7 @@ type customerCreditLedgerNewEntryResponseIncrementLedgerEntryJSON struct {
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
@@ -2953,8 +2965,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponse struct {
 	EntryType            CustomerCreditLedgerNewEntryByExternalIDResponseEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                       `json:"ledger_sequence_number,required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata           interface{}                                          `json:"metadata,required"`
-	StartingBalance    float64                                              `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata,required"`
+	StartingBalance float64     `json:"starting_balance,required"`
+	// This field can have the runtime type of [[]Invoice].
+	CreatedInvoices    interface{}                                          `json:"created_invoices"`
 	EventID            string                                               `json:"event_id,nullable"`
 	InvoiceID          string                                               `json:"invoice_id,nullable"`
 	NewBlockExpiryDate time.Time                                            `json:"new_block_expiry_date,nullable" format:"date-time"`
@@ -2981,6 +2995,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseJSON struct {
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
 	NewBlockExpiryDate   apijson.Field
@@ -3092,8 +3107,10 @@ type CustomerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntry struct
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string                                                        `json:"metadata,required"`
-	StartingBalance float64                                                                  `json:"starting_balance,required"`
+	Metadata        map[string]string `json:"metadata,required"`
+	StartingBalance float64           `json:"starting_balance,required"`
+	// If the increment resulted in invoice creation, the list of created invoices
+	CreatedInvoices []Invoice                                                                `json:"created_invoices,nullable"`
 	JSON            customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
@@ -3114,6 +3131,7 @@ type customerCreditLedgerNewEntryByExternalIDResponseIncrementLedgerEntryJSON st
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
@@ -4084,8 +4102,10 @@ type CustomerCreditLedgerListByExternalIDResponse struct {
 	EntryType            CustomerCreditLedgerListByExternalIDResponseEntryType   `json:"entry_type,required"`
 	LedgerSequenceNumber int64                                                   `json:"ledger_sequence_number,required"`
 	// This field can have the runtime type of [map[string]string].
-	Metadata           interface{}                                      `json:"metadata,required"`
-	StartingBalance    float64                                          `json:"starting_balance,required"`
+	Metadata        interface{} `json:"metadata,required"`
+	StartingBalance float64     `json:"starting_balance,required"`
+	// This field can have the runtime type of [[]Invoice].
+	CreatedInvoices    interface{}                                      `json:"created_invoices"`
 	EventID            string                                           `json:"event_id,nullable"`
 	InvoiceID          string                                           `json:"invoice_id,nullable"`
 	NewBlockExpiryDate time.Time                                        `json:"new_block_expiry_date,nullable" format:"date-time"`
@@ -4112,6 +4132,7 @@ type customerCreditLedgerListByExternalIDResponseJSON struct {
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	EventID              apijson.Field
 	InvoiceID            apijson.Field
 	NewBlockExpiryDate   apijson.Field
@@ -4223,8 +4244,10 @@ type CustomerCreditLedgerListByExternalIDResponseIncrementLedgerEntry struct {
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata        map[string]string                                                    `json:"metadata,required"`
-	StartingBalance float64                                                              `json:"starting_balance,required"`
+	Metadata        map[string]string `json:"metadata,required"`
+	StartingBalance float64           `json:"starting_balance,required"`
+	// If the increment resulted in invoice creation, the list of created invoices
+	CreatedInvoices []Invoice                                                            `json:"created_invoices,nullable"`
 	JSON            customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON `json:"-"`
 }
 
@@ -4245,6 +4268,7 @@ type customerCreditLedgerListByExternalIDResponseIncrementLedgerEntryJSON struct
 	LedgerSequenceNumber apijson.Field
 	Metadata             apijson.Field
 	StartingBalance      apijson.Field
+	CreatedInvoices      apijson.Field
 	raw                  string
 	ExtraFields          map[string]apijson.Field
 }
