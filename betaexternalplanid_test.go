@@ -41,9 +41,13 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 			}}),
 			AddPrices: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsAddPrice{{
 				AllocationPrice: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPrice{
-					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceMonthly),
-					Currency:              orb.F("USD"),
+					Amount:   orb.F("10.00"),
+					Cadence:  orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceMonthly),
+					Currency: orb.F("USD"),
+					CustomExpiration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay),
+					}),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
@@ -101,9 +105,13 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 			ReplacePrices: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsReplacePrice{{
 				ReplacesPriceID: orb.F("replaces_price_id"),
 				AllocationPrice: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPrice{
-					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceMonthly),
-					Currency:              orb.F("USD"),
+					Amount:   orb.F("10.00"),
+					Cadence:  orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceMonthly),
+					Currency: orb.F("USD"),
+					CustomExpiration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay),
+					}),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),

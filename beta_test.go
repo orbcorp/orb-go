@@ -41,9 +41,13 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 			}}),
 			AddPrices: orb.F([]orb.BetaNewPlanVersionParamsAddPrice{{
 				AllocationPrice: orb.F(orb.BetaNewPlanVersionParamsAddPricesAllocationPrice{
-					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(orb.BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceMonthly),
-					Currency:              orb.F("USD"),
+					Amount:   orb.F("10.00"),
+					Cadence:  orb.F(orb.BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceMonthly),
+					Currency: orb.F("USD"),
+					CustomExpiration: orb.F(orb.BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(orb.BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay),
+					}),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
@@ -101,9 +105,13 @@ func TestBetaNewPlanVersionWithOptionalParams(t *testing.T) {
 			ReplacePrices: orb.F([]orb.BetaNewPlanVersionParamsReplacePrice{{
 				ReplacesPriceID: orb.F("replaces_price_id"),
 				AllocationPrice: orb.F(orb.BetaNewPlanVersionParamsReplacePricesAllocationPrice{
-					Amount:                orb.F("10.00"),
-					Cadence:               orb.F(orb.BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceMonthly),
-					Currency:              orb.F("USD"),
+					Amount:   orb.F("10.00"),
+					Cadence:  orb.F(orb.BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceMonthly),
+					Currency: orb.F("USD"),
+					CustomExpiration: orb.F(orb.BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration{
+						Duration:     orb.F(int64(0)),
+						DurationUnit: orb.F(orb.BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay),
+					}),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),

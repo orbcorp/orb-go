@@ -350,9 +350,11 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -374,6 +376,31 @@ const (
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                                      `json:"duration,required"`
+	DurationUnit param.Field[BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay   BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "day"
+	BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay, BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -5330,9 +5357,11 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -5354,6 +5383,31 @@ const (
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceOneTime, BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceMonthly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceQuarterly, BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceSemiAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceAnnual, BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                                          `json:"duration,required"`
+	DurationUnit param.Field[BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay   BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "day"
+	BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay, BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false

@@ -948,18 +948,20 @@ func (r PriceUnitPriceCadence) IsKnown() bool {
 }
 
 type PriceUnitPriceCreditAllocation struct {
-	AllowsRollover bool                               `json:"allows_rollover,required"`
-	Currency       string                             `json:"currency,required"`
-	JSON           priceUnitPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                           `json:"allows_rollover,required"`
+	Currency         string                                         `json:"currency,required"`
+	CustomExpiration PriceUnitPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceUnitPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceUnitPriceCreditAllocationJSON contains the JSON metadata for the struct
 // [PriceUnitPriceCreditAllocation]
 type priceUnitPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceUnitPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -968,6 +970,44 @@ func (r *PriceUnitPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) 
 
 func (r priceUnitPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceUnitPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                      `json:"duration,required"`
+	DurationUnit PriceUnitPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceUnitPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceUnitPriceCreditAllocationCustomExpirationJSON contains the JSON metadata
+// for the struct [PriceUnitPriceCreditAllocationCustomExpiration]
+type priceUnitPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceUnitPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceUnitPriceCreditAllocationCustomExpirationDurationUnitDay   PriceUnitPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceUnitPriceCreditAllocationCustomExpirationDurationUnitMonth PriceUnitPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceUnitPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceUnitPriceCreditAllocationCustomExpirationDurationUnitDay, PriceUnitPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceUnitPriceInvoicingCycleConfiguration struct {
@@ -1452,18 +1492,20 @@ func (r PricePackagePriceCadence) IsKnown() bool {
 }
 
 type PricePackagePriceCreditAllocation struct {
-	AllowsRollover bool                                  `json:"allows_rollover,required"`
-	Currency       string                                `json:"currency,required"`
-	JSON           pricePackagePriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                              `json:"allows_rollover,required"`
+	Currency         string                                            `json:"currency,required"`
+	CustomExpiration PricePackagePriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             pricePackagePriceCreditAllocationJSON             `json:"-"`
 }
 
 // pricePackagePriceCreditAllocationJSON contains the JSON metadata for the struct
 // [PricePackagePriceCreditAllocation]
 type pricePackagePriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PricePackagePriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -1472,6 +1514,44 @@ func (r *PricePackagePriceCreditAllocation) UnmarshalJSON(data []byte) (err erro
 
 func (r pricePackagePriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PricePackagePriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                         `json:"duration,required"`
+	DurationUnit PricePackagePriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         pricePackagePriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// pricePackagePriceCreditAllocationCustomExpirationJSON contains the JSON metadata
+// for the struct [PricePackagePriceCreditAllocationCustomExpiration]
+type pricePackagePriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PricePackagePriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackagePriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PricePackagePriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PricePackagePriceCreditAllocationCustomExpirationDurationUnitDay   PricePackagePriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PricePackagePriceCreditAllocationCustomExpirationDurationUnitMonth PricePackagePriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PricePackagePriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PricePackagePriceCreditAllocationCustomExpirationDurationUnitDay, PricePackagePriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PricePackagePriceInvoicingCycleConfiguration struct {
@@ -1960,18 +2040,20 @@ func (r PriceMatrixPriceCadence) IsKnown() bool {
 }
 
 type PriceMatrixPriceCreditAllocation struct {
-	AllowsRollover bool                                 `json:"allows_rollover,required"`
-	Currency       string                               `json:"currency,required"`
-	JSON           priceMatrixPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                             `json:"allows_rollover,required"`
+	Currency         string                                           `json:"currency,required"`
+	CustomExpiration PriceMatrixPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceMatrixPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceMatrixPriceCreditAllocationJSON contains the JSON metadata for the struct
 // [PriceMatrixPriceCreditAllocation]
 type priceMatrixPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceMatrixPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -1980,6 +2062,44 @@ func (r *PriceMatrixPriceCreditAllocation) UnmarshalJSON(data []byte) (err error
 
 func (r priceMatrixPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceMatrixPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                        `json:"duration,required"`
+	DurationUnit PriceMatrixPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceMatrixPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceMatrixPriceCreditAllocationCustomExpirationJSON contains the JSON metadata
+// for the struct [PriceMatrixPriceCreditAllocationCustomExpiration]
+type priceMatrixPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceMatrixPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceMatrixPriceCreditAllocationCustomExpirationDurationUnitDay   PriceMatrixPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceMatrixPriceCreditAllocationCustomExpirationDurationUnitMonth PriceMatrixPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceMatrixPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceMatrixPriceCreditAllocationCustomExpirationDurationUnitDay, PriceMatrixPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceMatrixPriceInvoicingCycleConfiguration struct {
@@ -2497,18 +2617,20 @@ func (r PriceTieredPriceCadence) IsKnown() bool {
 }
 
 type PriceTieredPriceCreditAllocation struct {
-	AllowsRollover bool                                 `json:"allows_rollover,required"`
-	Currency       string                               `json:"currency,required"`
-	JSON           priceTieredPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                             `json:"allows_rollover,required"`
+	Currency         string                                           `json:"currency,required"`
+	CustomExpiration PriceTieredPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceTieredPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceTieredPriceCreditAllocationJSON contains the JSON metadata for the struct
 // [PriceTieredPriceCreditAllocation]
 type priceTieredPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceTieredPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -2517,6 +2639,44 @@ func (r *PriceTieredPriceCreditAllocation) UnmarshalJSON(data []byte) (err error
 
 func (r priceTieredPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                        `json:"duration,required"`
+	DurationUnit PriceTieredPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceTieredPriceCreditAllocationCustomExpirationJSON contains the JSON metadata
+// for the struct [PriceTieredPriceCreditAllocationCustomExpiration]
+type priceTieredPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceTieredPriceCreditAllocationCustomExpirationDurationUnitDay   PriceTieredPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceTieredPriceCreditAllocationCustomExpirationDurationUnitMonth PriceTieredPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceTieredPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredPriceCreditAllocationCustomExpirationDurationUnitDay, PriceTieredPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredPriceInvoicingCycleConfiguration struct {
@@ -3029,18 +3189,20 @@ func (r PriceTieredBpsPriceCadence) IsKnown() bool {
 }
 
 type PriceTieredBpsPriceCreditAllocation struct {
-	AllowsRollover bool                                    `json:"allows_rollover,required"`
-	Currency       string                                  `json:"currency,required"`
-	JSON           priceTieredBpsPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                `json:"allows_rollover,required"`
+	Currency         string                                              `json:"currency,required"`
+	CustomExpiration PriceTieredBpsPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceTieredBpsPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceTieredBpsPriceCreditAllocationJSON contains the JSON metadata for the
 // struct [PriceTieredBpsPriceCreditAllocation]
 type priceTieredBpsPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceTieredBpsPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -3049,6 +3211,44 @@ func (r *PriceTieredBpsPriceCreditAllocation) UnmarshalJSON(data []byte) (err er
 
 func (r priceTieredBpsPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredBpsPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                           `json:"duration,required"`
+	DurationUnit PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredBpsPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceTieredBpsPriceCreditAllocationCustomExpirationJSON contains the JSON
+// metadata for the struct [PriceTieredBpsPriceCreditAllocationCustomExpiration]
+type priceTieredBpsPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredBpsPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredBpsPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnitDay   PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnitMonth PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnitDay, PriceTieredBpsPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredBpsPriceInvoicingCycleConfiguration struct {
@@ -3589,18 +3789,20 @@ func (r PriceBpsPriceCadence) IsKnown() bool {
 }
 
 type PriceBpsPriceCreditAllocation struct {
-	AllowsRollover bool                              `json:"allows_rollover,required"`
-	Currency       string                            `json:"currency,required"`
-	JSON           priceBpsPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                          `json:"allows_rollover,required"`
+	Currency         string                                        `json:"currency,required"`
+	CustomExpiration PriceBpsPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceBpsPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceBpsPriceCreditAllocationJSON contains the JSON metadata for the struct
 // [PriceBpsPriceCreditAllocation]
 type priceBpsPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceBpsPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -3609,6 +3811,44 @@ func (r *PriceBpsPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
 
 func (r priceBpsPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceBpsPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                     `json:"duration,required"`
+	DurationUnit PriceBpsPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceBpsPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceBpsPriceCreditAllocationCustomExpirationJSON contains the JSON metadata for
+// the struct [PriceBpsPriceCreditAllocationCustomExpiration]
+type priceBpsPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceBpsPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBpsPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceBpsPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceBpsPriceCreditAllocationCustomExpirationDurationUnitDay   PriceBpsPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceBpsPriceCreditAllocationCustomExpirationDurationUnitMonth PriceBpsPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceBpsPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceBpsPriceCreditAllocationCustomExpirationDurationUnitDay, PriceBpsPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceBpsPriceInvoicingCycleConfiguration struct {
@@ -4122,18 +4362,20 @@ func (r PriceBulkBpsPriceCadence) IsKnown() bool {
 }
 
 type PriceBulkBpsPriceCreditAllocation struct {
-	AllowsRollover bool                                  `json:"allows_rollover,required"`
-	Currency       string                                `json:"currency,required"`
-	JSON           priceBulkBpsPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                              `json:"allows_rollover,required"`
+	Currency         string                                            `json:"currency,required"`
+	CustomExpiration PriceBulkBpsPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceBulkBpsPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceBulkBpsPriceCreditAllocationJSON contains the JSON metadata for the struct
 // [PriceBulkBpsPriceCreditAllocation]
 type priceBulkBpsPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceBulkBpsPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -4142,6 +4384,44 @@ func (r *PriceBulkBpsPriceCreditAllocation) UnmarshalJSON(data []byte) (err erro
 
 func (r priceBulkBpsPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceBulkBpsPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                         `json:"duration,required"`
+	DurationUnit PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceBulkBpsPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceBulkBpsPriceCreditAllocationCustomExpirationJSON contains the JSON metadata
+// for the struct [PriceBulkBpsPriceCreditAllocationCustomExpiration]
+type priceBulkBpsPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceBulkBpsPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkBpsPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnitDay   PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnitMonth PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnitDay, PriceBulkBpsPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceBulkBpsPriceInvoicingCycleConfiguration struct {
@@ -4650,18 +4930,20 @@ func (r PriceBulkPriceCadence) IsKnown() bool {
 }
 
 type PriceBulkPriceCreditAllocation struct {
-	AllowsRollover bool                               `json:"allows_rollover,required"`
-	Currency       string                             `json:"currency,required"`
-	JSON           priceBulkPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                           `json:"allows_rollover,required"`
+	Currency         string                                         `json:"currency,required"`
+	CustomExpiration PriceBulkPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceBulkPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceBulkPriceCreditAllocationJSON contains the JSON metadata for the struct
 // [PriceBulkPriceCreditAllocation]
 type priceBulkPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceBulkPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -4670,6 +4952,44 @@ func (r *PriceBulkPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) 
 
 func (r priceBulkPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceBulkPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                      `json:"duration,required"`
+	DurationUnit PriceBulkPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceBulkPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceBulkPriceCreditAllocationCustomExpirationJSON contains the JSON metadata
+// for the struct [PriceBulkPriceCreditAllocationCustomExpiration]
+type priceBulkPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceBulkPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceBulkPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceBulkPriceCreditAllocationCustomExpirationDurationUnitDay   PriceBulkPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceBulkPriceCreditAllocationCustomExpirationDurationUnitMonth PriceBulkPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceBulkPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceBulkPriceCreditAllocationCustomExpirationDurationUnitDay, PriceBulkPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceBulkPriceInvoicingCycleConfiguration struct {
@@ -5133,18 +5453,20 @@ func (r PriceThresholdTotalAmountPriceCadence) IsKnown() bool {
 }
 
 type PriceThresholdTotalAmountPriceCreditAllocation struct {
-	AllowsRollover bool                                               `json:"allows_rollover,required"`
-	Currency       string                                             `json:"currency,required"`
-	JSON           priceThresholdTotalAmountPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                           `json:"allows_rollover,required"`
+	Currency         string                                                         `json:"currency,required"`
+	CustomExpiration PriceThresholdTotalAmountPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceThresholdTotalAmountPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceCreditAllocationJSON contains the JSON metadata
 // for the struct [PriceThresholdTotalAmountPriceCreditAllocation]
 type priceThresholdTotalAmountPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceThresholdTotalAmountPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -5153,6 +5475,45 @@ func (r *PriceThresholdTotalAmountPriceCreditAllocation) UnmarshalJSON(data []by
 
 func (r priceThresholdTotalAmountPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceThresholdTotalAmountPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                      `json:"duration,required"`
+	DurationUnit PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceThresholdTotalAmountPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceThresholdTotalAmountPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceThresholdTotalAmountPriceCreditAllocationCustomExpiration]
+type priceThresholdTotalAmountPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceThresholdTotalAmountPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceThresholdTotalAmountPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnitDay   PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnitMonth PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnitDay, PriceThresholdTotalAmountPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceThresholdTotalAmountPriceInvoicingCycleConfiguration struct {
@@ -5617,18 +5978,20 @@ func (r PriceTieredPackagePriceCadence) IsKnown() bool {
 }
 
 type PriceTieredPackagePriceCreditAllocation struct {
-	AllowsRollover bool                                        `json:"allows_rollover,required"`
-	Currency       string                                      `json:"currency,required"`
-	JSON           priceTieredPackagePriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                    `json:"allows_rollover,required"`
+	Currency         string                                                  `json:"currency,required"`
+	CustomExpiration PriceTieredPackagePriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceTieredPackagePriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceTieredPackagePriceCreditAllocationJSON contains the JSON metadata for the
 // struct [PriceTieredPackagePriceCreditAllocation]
 type priceTieredPackagePriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceTieredPackagePriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -5637,6 +6000,45 @@ func (r *PriceTieredPackagePriceCreditAllocation) UnmarshalJSON(data []byte) (er
 
 func (r priceTieredPackagePriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredPackagePriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                               `json:"duration,required"`
+	DurationUnit PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredPackagePriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceTieredPackagePriceCreditAllocationCustomExpirationJSON contains the JSON
+// metadata for the struct
+// [PriceTieredPackagePriceCreditAllocationCustomExpiration]
+type priceTieredPackagePriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredPackagePriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackagePriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnitDay   PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnitMonth PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnitDay, PriceTieredPackagePriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredPackagePriceInvoicingCycleConfiguration struct {
@@ -6099,18 +6501,20 @@ func (r PriceGroupedTieredPriceCadence) IsKnown() bool {
 }
 
 type PriceGroupedTieredPriceCreditAllocation struct {
-	AllowsRollover bool                                        `json:"allows_rollover,required"`
-	Currency       string                                      `json:"currency,required"`
-	JSON           priceGroupedTieredPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                    `json:"allows_rollover,required"`
+	Currency         string                                                  `json:"currency,required"`
+	CustomExpiration PriceGroupedTieredPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceGroupedTieredPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceGroupedTieredPriceCreditAllocationJSON contains the JSON metadata for the
 // struct [PriceGroupedTieredPriceCreditAllocation]
 type priceGroupedTieredPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceGroupedTieredPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -6119,6 +6523,45 @@ func (r *PriceGroupedTieredPriceCreditAllocation) UnmarshalJSON(data []byte) (er
 
 func (r priceGroupedTieredPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceGroupedTieredPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                               `json:"duration,required"`
+	DurationUnit PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedTieredPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceGroupedTieredPriceCreditAllocationCustomExpirationJSON contains the JSON
+// metadata for the struct
+// [PriceGroupedTieredPriceCreditAllocationCustomExpiration]
+type priceGroupedTieredPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnitDay   PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnitMonth PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnitDay, PriceGroupedTieredPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceGroupedTieredPriceInvoicingCycleConfiguration struct {
@@ -6581,18 +7024,20 @@ func (r PriceTieredWithMinimumPriceCadence) IsKnown() bool {
 }
 
 type PriceTieredWithMinimumPriceCreditAllocation struct {
-	AllowsRollover bool                                            `json:"allows_rollover,required"`
-	Currency       string                                          `json:"currency,required"`
-	JSON           priceTieredWithMinimumPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                        `json:"allows_rollover,required"`
+	Currency         string                                                      `json:"currency,required"`
+	CustomExpiration PriceTieredWithMinimumPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceTieredWithMinimumPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceTieredWithMinimumPriceCreditAllocationJSON contains the JSON metadata for
 // the struct [PriceTieredWithMinimumPriceCreditAllocation]
 type priceTieredWithMinimumPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceTieredWithMinimumPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -6601,6 +7046,45 @@ func (r *PriceTieredWithMinimumPriceCreditAllocation) UnmarshalJSON(data []byte)
 
 func (r priceTieredWithMinimumPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredWithMinimumPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                   `json:"duration,required"`
+	DurationUnit PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredWithMinimumPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceTieredWithMinimumPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceTieredWithMinimumPriceCreditAllocationCustomExpiration]
+type priceTieredWithMinimumPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredWithMinimumPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithMinimumPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnitDay   PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnitDay, PriceTieredWithMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredWithMinimumPriceInvoicingCycleConfiguration struct {
@@ -7065,18 +7549,20 @@ func (r PriceTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 }
 
 type PriceTieredPackageWithMinimumPriceCreditAllocation struct {
-	AllowsRollover bool                                                   `json:"allows_rollover,required"`
-	Currency       string                                                 `json:"currency,required"`
-	JSON           priceTieredPackageWithMinimumPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                               `json:"allows_rollover,required"`
+	Currency         string                                                             `json:"currency,required"`
+	CustomExpiration PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceTieredPackageWithMinimumPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceTieredPackageWithMinimumPriceCreditAllocationJSON contains the JSON
 // metadata for the struct [PriceTieredPackageWithMinimumPriceCreditAllocation]
 type priceTieredPackageWithMinimumPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceTieredPackageWithMinimumPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -7085,6 +7571,45 @@ func (r *PriceTieredPackageWithMinimumPriceCreditAllocation) UnmarshalJSON(data 
 
 func (r priceTieredPackageWithMinimumPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                          `json:"duration,required"`
+	DurationUnit PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationJSON contains
+// the JSON metadata for the struct
+// [PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpiration]
+type priceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnitDay   PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnitDay, PriceTieredPackageWithMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredPackageWithMinimumPriceInvoicingCycleConfiguration struct {
@@ -7550,18 +8075,20 @@ func (r PricePackageWithAllocationPriceCadence) IsKnown() bool {
 }
 
 type PricePackageWithAllocationPriceCreditAllocation struct {
-	AllowsRollover bool                                                `json:"allows_rollover,required"`
-	Currency       string                                              `json:"currency,required"`
-	JSON           pricePackageWithAllocationPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                            `json:"allows_rollover,required"`
+	Currency         string                                                          `json:"currency,required"`
+	CustomExpiration PricePackageWithAllocationPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             pricePackageWithAllocationPriceCreditAllocationJSON             `json:"-"`
 }
 
 // pricePackageWithAllocationPriceCreditAllocationJSON contains the JSON metadata
 // for the struct [PricePackageWithAllocationPriceCreditAllocation]
 type pricePackageWithAllocationPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PricePackageWithAllocationPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -7570,6 +8097,45 @@ func (r *PricePackageWithAllocationPriceCreditAllocation) UnmarshalJSON(data []b
 
 func (r pricePackageWithAllocationPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PricePackageWithAllocationPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                       `json:"duration,required"`
+	DurationUnit PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         pricePackageWithAllocationPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// pricePackageWithAllocationPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PricePackageWithAllocationPriceCreditAllocationCustomExpiration]
+type pricePackageWithAllocationPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PricePackageWithAllocationPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackageWithAllocationPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnitDay   PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnitMonth PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnitDay, PricePackageWithAllocationPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PricePackageWithAllocationPriceInvoicingCycleConfiguration struct {
@@ -8034,18 +8600,20 @@ func (r PriceUnitWithPercentPriceCadence) IsKnown() bool {
 }
 
 type PriceUnitWithPercentPriceCreditAllocation struct {
-	AllowsRollover bool                                          `json:"allows_rollover,required"`
-	Currency       string                                        `json:"currency,required"`
-	JSON           priceUnitWithPercentPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                      `json:"allows_rollover,required"`
+	Currency         string                                                    `json:"currency,required"`
+	CustomExpiration PriceUnitWithPercentPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceUnitWithPercentPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceUnitWithPercentPriceCreditAllocationJSON contains the JSON metadata for the
 // struct [PriceUnitWithPercentPriceCreditAllocation]
 type priceUnitWithPercentPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceUnitWithPercentPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -8054,6 +8622,45 @@ func (r *PriceUnitWithPercentPriceCreditAllocation) UnmarshalJSON(data []byte) (
 
 func (r priceUnitWithPercentPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceUnitWithPercentPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                 `json:"duration,required"`
+	DurationUnit PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceUnitWithPercentPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceUnitWithPercentPriceCreditAllocationCustomExpirationJSON contains the JSON
+// metadata for the struct
+// [PriceUnitWithPercentPriceCreditAllocationCustomExpiration]
+type priceUnitWithPercentPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnitDay   PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnitMonth PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnitDay, PriceUnitWithPercentPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceUnitWithPercentPriceInvoicingCycleConfiguration struct {
@@ -8517,18 +9124,20 @@ func (r PriceMatrixWithAllocationPriceCadence) IsKnown() bool {
 }
 
 type PriceMatrixWithAllocationPriceCreditAllocation struct {
-	AllowsRollover bool                                               `json:"allows_rollover,required"`
-	Currency       string                                             `json:"currency,required"`
-	JSON           priceMatrixWithAllocationPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                           `json:"allows_rollover,required"`
+	Currency         string                                                         `json:"currency,required"`
+	CustomExpiration PriceMatrixWithAllocationPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceMatrixWithAllocationPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceMatrixWithAllocationPriceCreditAllocationJSON contains the JSON metadata
 // for the struct [PriceMatrixWithAllocationPriceCreditAllocation]
 type priceMatrixWithAllocationPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceMatrixWithAllocationPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -8537,6 +9146,45 @@ func (r *PriceMatrixWithAllocationPriceCreditAllocation) UnmarshalJSON(data []by
 
 func (r priceMatrixWithAllocationPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                      `json:"duration,required"`
+	DurationUnit PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceMatrixWithAllocationPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceMatrixWithAllocationPriceCreditAllocationCustomExpiration]
+type priceMatrixWithAllocationPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnitDay   PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnitMonth PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnitDay, PriceMatrixWithAllocationPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceMatrixWithAllocationPriceInvoicingCycleConfiguration struct {
@@ -9061,18 +9709,20 @@ func (r PriceTieredWithProrationPriceCadence) IsKnown() bool {
 }
 
 type PriceTieredWithProrationPriceCreditAllocation struct {
-	AllowsRollover bool                                              `json:"allows_rollover,required"`
-	Currency       string                                            `json:"currency,required"`
-	JSON           priceTieredWithProrationPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                          `json:"allows_rollover,required"`
+	Currency         string                                                        `json:"currency,required"`
+	CustomExpiration PriceTieredWithProrationPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceTieredWithProrationPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceTieredWithProrationPriceCreditAllocationJSON contains the JSON metadata for
 // the struct [PriceTieredWithProrationPriceCreditAllocation]
 type priceTieredWithProrationPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceTieredWithProrationPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -9081,6 +9731,45 @@ func (r *PriceTieredWithProrationPriceCreditAllocation) UnmarshalJSON(data []byt
 
 func (r priceTieredWithProrationPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceTieredWithProrationPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                     `json:"duration,required"`
+	DurationUnit PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceTieredWithProrationPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceTieredWithProrationPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceTieredWithProrationPriceCreditAllocationCustomExpiration]
+type priceTieredWithProrationPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceTieredWithProrationPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithProrationPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnitDay   PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnitMonth PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnitDay, PriceTieredWithProrationPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceTieredWithProrationPriceInvoicingCycleConfiguration struct {
@@ -9545,18 +10234,20 @@ func (r PriceUnitWithProrationPriceCadence) IsKnown() bool {
 }
 
 type PriceUnitWithProrationPriceCreditAllocation struct {
-	AllowsRollover bool                                            `json:"allows_rollover,required"`
-	Currency       string                                          `json:"currency,required"`
-	JSON           priceUnitWithProrationPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                        `json:"allows_rollover,required"`
+	Currency         string                                                      `json:"currency,required"`
+	CustomExpiration PriceUnitWithProrationPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceUnitWithProrationPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceUnitWithProrationPriceCreditAllocationJSON contains the JSON metadata for
 // the struct [PriceUnitWithProrationPriceCreditAllocation]
 type priceUnitWithProrationPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceUnitWithProrationPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -9565,6 +10256,45 @@ func (r *PriceUnitWithProrationPriceCreditAllocation) UnmarshalJSON(data []byte)
 
 func (r priceUnitWithProrationPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceUnitWithProrationPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                   `json:"duration,required"`
+	DurationUnit PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceUnitWithProrationPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceUnitWithProrationPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceUnitWithProrationPriceCreditAllocationCustomExpiration]
+type priceUnitWithProrationPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceUnitWithProrationPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithProrationPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnitDay   PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnitMonth PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnitDay, PriceUnitWithProrationPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceUnitWithProrationPriceInvoicingCycleConfiguration struct {
@@ -10028,18 +10758,20 @@ func (r PriceGroupedAllocationPriceCadence) IsKnown() bool {
 }
 
 type PriceGroupedAllocationPriceCreditAllocation struct {
-	AllowsRollover bool                                            `json:"allows_rollover,required"`
-	Currency       string                                          `json:"currency,required"`
-	JSON           priceGroupedAllocationPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                        `json:"allows_rollover,required"`
+	Currency         string                                                      `json:"currency,required"`
+	CustomExpiration PriceGroupedAllocationPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceGroupedAllocationPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceGroupedAllocationPriceCreditAllocationJSON contains the JSON metadata for
 // the struct [PriceGroupedAllocationPriceCreditAllocation]
 type priceGroupedAllocationPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceGroupedAllocationPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -10048,6 +10780,45 @@ func (r *PriceGroupedAllocationPriceCreditAllocation) UnmarshalJSON(data []byte)
 
 func (r priceGroupedAllocationPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceGroupedAllocationPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                   `json:"duration,required"`
+	DurationUnit PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedAllocationPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceGroupedAllocationPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceGroupedAllocationPriceCreditAllocationCustomExpiration]
+type priceGroupedAllocationPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedAllocationPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedAllocationPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnitDay   PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnitMonth PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnitDay, PriceGroupedAllocationPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceGroupedAllocationPriceInvoicingCycleConfiguration struct {
@@ -10512,18 +11283,20 @@ func (r PriceGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 }
 
 type PriceGroupedWithProratedMinimumPriceCreditAllocation struct {
-	AllowsRollover bool                                                     `json:"allows_rollover,required"`
-	Currency       string                                                   `json:"currency,required"`
-	JSON           priceGroupedWithProratedMinimumPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                                 `json:"allows_rollover,required"`
+	Currency         string                                                               `json:"currency,required"`
+	CustomExpiration PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceGroupedWithProratedMinimumPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceGroupedWithProratedMinimumPriceCreditAllocationJSON contains the JSON
 // metadata for the struct [PriceGroupedWithProratedMinimumPriceCreditAllocation]
 type priceGroupedWithProratedMinimumPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceGroupedWithProratedMinimumPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -10532,6 +11305,45 @@ func (r *PriceGroupedWithProratedMinimumPriceCreditAllocation) UnmarshalJSON(dat
 
 func (r priceGroupedWithProratedMinimumPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                            `json:"duration,required"`
+	DurationUnit PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationJSON
+// contains the JSON metadata for the struct
+// [PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpiration]
+type priceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnitDay   PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnitDay, PriceGroupedWithProratedMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
@@ -10997,18 +11809,20 @@ func (r PriceGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 }
 
 type PriceGroupedWithMeteredMinimumPriceCreditAllocation struct {
-	AllowsRollover bool                                                    `json:"allows_rollover,required"`
-	Currency       string                                                  `json:"currency,required"`
-	JSON           priceGroupedWithMeteredMinimumPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                                `json:"allows_rollover,required"`
+	Currency         string                                                              `json:"currency,required"`
+	CustomExpiration PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceGroupedWithMeteredMinimumPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceGroupedWithMeteredMinimumPriceCreditAllocationJSON contains the JSON
 // metadata for the struct [PriceGroupedWithMeteredMinimumPriceCreditAllocation]
 type priceGroupedWithMeteredMinimumPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceGroupedWithMeteredMinimumPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -11017,6 +11831,45 @@ func (r *PriceGroupedWithMeteredMinimumPriceCreditAllocation) UnmarshalJSON(data
 
 func (r priceGroupedWithMeteredMinimumPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                           `json:"duration,required"`
+	DurationUnit PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationJSON contains
+// the JSON metadata for the struct
+// [PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpiration]
+type priceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnitDay   PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnitDay, PriceGroupedWithMeteredMinimumPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration struct {
@@ -11482,18 +12335,20 @@ func (r PriceMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 }
 
 type PriceMatrixWithDisplayNamePriceCreditAllocation struct {
-	AllowsRollover bool                                                `json:"allows_rollover,required"`
-	Currency       string                                              `json:"currency,required"`
-	JSON           priceMatrixWithDisplayNamePriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                            `json:"allows_rollover,required"`
+	Currency         string                                                          `json:"currency,required"`
+	CustomExpiration PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceMatrixWithDisplayNamePriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceMatrixWithDisplayNamePriceCreditAllocationJSON contains the JSON metadata
 // for the struct [PriceMatrixWithDisplayNamePriceCreditAllocation]
 type priceMatrixWithDisplayNamePriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceMatrixWithDisplayNamePriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -11502,6 +12357,45 @@ func (r *PriceMatrixWithDisplayNamePriceCreditAllocation) UnmarshalJSON(data []b
 
 func (r priceMatrixWithDisplayNamePriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                       `json:"duration,required"`
+	DurationUnit PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpiration]
+type priceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnitDay   PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnitMonth PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnitDay, PriceMatrixWithDisplayNamePriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceMatrixWithDisplayNamePriceInvoicingCycleConfiguration struct {
@@ -11966,18 +12860,20 @@ func (r PriceBulkWithProrationPriceCadence) IsKnown() bool {
 }
 
 type PriceBulkWithProrationPriceCreditAllocation struct {
-	AllowsRollover bool                                            `json:"allows_rollover,required"`
-	Currency       string                                          `json:"currency,required"`
-	JSON           priceBulkWithProrationPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                        `json:"allows_rollover,required"`
+	Currency         string                                                      `json:"currency,required"`
+	CustomExpiration PriceBulkWithProrationPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceBulkWithProrationPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceBulkWithProrationPriceCreditAllocationJSON contains the JSON metadata for
 // the struct [PriceBulkWithProrationPriceCreditAllocation]
 type priceBulkWithProrationPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceBulkWithProrationPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -11986,6 +12882,45 @@ func (r *PriceBulkWithProrationPriceCreditAllocation) UnmarshalJSON(data []byte)
 
 func (r priceBulkWithProrationPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceBulkWithProrationPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                   `json:"duration,required"`
+	DurationUnit PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceBulkWithProrationPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceBulkWithProrationPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceBulkWithProrationPriceCreditAllocationCustomExpiration]
+type priceBulkWithProrationPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceBulkWithProrationPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkWithProrationPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnitDay   PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnitMonth PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnitDay, PriceBulkWithProrationPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceBulkWithProrationPriceInvoicingCycleConfiguration struct {
@@ -12450,18 +13385,20 @@ func (r PriceGroupedTieredPackagePriceCadence) IsKnown() bool {
 }
 
 type PriceGroupedTieredPackagePriceCreditAllocation struct {
-	AllowsRollover bool                                               `json:"allows_rollover,required"`
-	Currency       string                                             `json:"currency,required"`
-	JSON           priceGroupedTieredPackagePriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                           `json:"allows_rollover,required"`
+	Currency         string                                                         `json:"currency,required"`
+	CustomExpiration PriceGroupedTieredPackagePriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceGroupedTieredPackagePriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceGroupedTieredPackagePriceCreditAllocationJSON contains the JSON metadata
 // for the struct [PriceGroupedTieredPackagePriceCreditAllocation]
 type priceGroupedTieredPackagePriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceGroupedTieredPackagePriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -12470,6 +13407,45 @@ func (r *PriceGroupedTieredPackagePriceCreditAllocation) UnmarshalJSON(data []by
 
 func (r priceGroupedTieredPackagePriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceGroupedTieredPackagePriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                      `json:"duration,required"`
+	DurationUnit PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceGroupedTieredPackagePriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceGroupedTieredPackagePriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceGroupedTieredPackagePriceCreditAllocationCustomExpiration]
+type priceGroupedTieredPackagePriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPackagePriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPackagePriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnitDay   PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnitMonth PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnitDay, PriceGroupedTieredPackagePriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceGroupedTieredPackagePriceInvoicingCycleConfiguration struct {
@@ -12935,18 +13911,20 @@ func (r PriceMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 }
 
 type PriceMaxGroupTieredPackagePriceCreditAllocation struct {
-	AllowsRollover bool                                                `json:"allows_rollover,required"`
-	Currency       string                                              `json:"currency,required"`
-	JSON           priceMaxGroupTieredPackagePriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                            `json:"allows_rollover,required"`
+	Currency         string                                                          `json:"currency,required"`
+	CustomExpiration PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceMaxGroupTieredPackagePriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceMaxGroupTieredPackagePriceCreditAllocationJSON contains the JSON metadata
 // for the struct [PriceMaxGroupTieredPackagePriceCreditAllocation]
 type priceMaxGroupTieredPackagePriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceMaxGroupTieredPackagePriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -12955,6 +13933,45 @@ func (r *PriceMaxGroupTieredPackagePriceCreditAllocation) UnmarshalJSON(data []b
 
 func (r priceMaxGroupTieredPackagePriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                       `json:"duration,required"`
+	DurationUnit PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpiration]
+type priceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnitDay   PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnitMonth PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnitDay, PriceMaxGroupTieredPackagePriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceMaxGroupTieredPackagePriceInvoicingCycleConfiguration struct {
@@ -13420,19 +14437,21 @@ func (r PriceScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
 }
 
 type PriceScalableMatrixWithUnitPricingPriceCreditAllocation struct {
-	AllowsRollover bool                                                        `json:"allows_rollover,required"`
-	Currency       string                                                      `json:"currency,required"`
-	JSON           priceScalableMatrixWithUnitPricingPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                                    `json:"allows_rollover,required"`
+	Currency         string                                                                  `json:"currency,required"`
+	CustomExpiration PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceScalableMatrixWithUnitPricingPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceScalableMatrixWithUnitPricingPriceCreditAllocationJSON contains the JSON
 // metadata for the struct
 // [PriceScalableMatrixWithUnitPricingPriceCreditAllocation]
 type priceScalableMatrixWithUnitPricingPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceScalableMatrixWithUnitPricingPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -13441,6 +14460,45 @@ func (r *PriceScalableMatrixWithUnitPricingPriceCreditAllocation) UnmarshalJSON(
 
 func (r priceScalableMatrixWithUnitPricingPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                               `json:"duration,required"`
+	DurationUnit PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationJSON
+// contains the JSON metadata for the struct
+// [PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpiration]
+type priceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnitDay   PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnitMonth PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnitDay, PriceScalableMatrixWithUnitPricingPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration struct {
@@ -13907,19 +14965,21 @@ func (r PriceScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
 }
 
 type PriceScalableMatrixWithTieredPricingPriceCreditAllocation struct {
-	AllowsRollover bool                                                          `json:"allows_rollover,required"`
-	Currency       string                                                        `json:"currency,required"`
-	JSON           priceScalableMatrixWithTieredPricingPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                                      `json:"allows_rollover,required"`
+	Currency         string                                                                    `json:"currency,required"`
+	CustomExpiration PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceScalableMatrixWithTieredPricingPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceScalableMatrixWithTieredPricingPriceCreditAllocationJSON contains the JSON
 // metadata for the struct
 // [PriceScalableMatrixWithTieredPricingPriceCreditAllocation]
 type priceScalableMatrixWithTieredPricingPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceScalableMatrixWithTieredPricingPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -13928,6 +14988,45 @@ func (r *PriceScalableMatrixWithTieredPricingPriceCreditAllocation) UnmarshalJSO
 
 func (r priceScalableMatrixWithTieredPricingPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                                 `json:"duration,required"`
+	DurationUnit PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationJSON
+// contains the JSON metadata for the struct
+// [PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpiration]
+type priceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnitDay   PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnitMonth PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnitDay, PriceScalableMatrixWithTieredPricingPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration struct {
@@ -14393,18 +15492,20 @@ func (r PriceCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 }
 
 type PriceCumulativeGroupedBulkPriceCreditAllocation struct {
-	AllowsRollover bool                                                `json:"allows_rollover,required"`
-	Currency       string                                              `json:"currency,required"`
-	JSON           priceCumulativeGroupedBulkPriceCreditAllocationJSON `json:"-"`
+	AllowsRollover   bool                                                            `json:"allows_rollover,required"`
+	Currency         string                                                          `json:"currency,required"`
+	CustomExpiration PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpiration `json:"custom_expiration,required,nullable"`
+	JSON             priceCumulativeGroupedBulkPriceCreditAllocationJSON             `json:"-"`
 }
 
 // priceCumulativeGroupedBulkPriceCreditAllocationJSON contains the JSON metadata
 // for the struct [PriceCumulativeGroupedBulkPriceCreditAllocation]
 type priceCumulativeGroupedBulkPriceCreditAllocationJSON struct {
-	AllowsRollover apijson.Field
-	Currency       apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	AllowsRollover   apijson.Field
+	Currency         apijson.Field
+	CustomExpiration apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
 }
 
 func (r *PriceCumulativeGroupedBulkPriceCreditAllocation) UnmarshalJSON(data []byte) (err error) {
@@ -14413,6 +15514,45 @@ func (r *PriceCumulativeGroupedBulkPriceCreditAllocation) UnmarshalJSON(data []b
 
 func (r priceCumulativeGroupedBulkPriceCreditAllocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpiration struct {
+	Duration     int64                                                                       `json:"duration,required"`
+	DurationUnit PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnit `json:"duration_unit,required"`
+	JSON         priceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationJSON         `json:"-"`
+}
+
+// priceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationJSON contains the
+// JSON metadata for the struct
+// [PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpiration]
+type priceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationJSON struct {
+	Duration     apijson.Field
+	DurationUnit apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r *PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpiration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnit string
+
+const (
+	PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnitDay   PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnit = "day"
+	PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnitMonth PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnit = "month"
+)
+
+func (r PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnitDay, PriceCumulativeGroupedBulkPriceCreditAllocationCustomExpirationDurationUnitMonth:
+		return true
+	}
+	return false
 }
 
 type PriceCumulativeGroupedBulkPriceInvoicingCycleConfiguration struct {
