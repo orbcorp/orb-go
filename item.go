@@ -82,6 +82,18 @@ func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, 
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
+// Archive item
+func (r *ItemService) Archive(ctx context.Context, itemID string, opts ...option.RequestOption) (res *Item, err error) {
+	opts = append(r.Options[:], opts...)
+	if itemID == "" {
+		err = errors.New("missing required item_id parameter")
+		return
+	}
+	path := fmt.Sprintf("items/%s/archive", itemID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return
+}
+
 // This endpoint returns an item identified by its item_id.
 func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.RequestOption) (res *Item, err error) {
 	opts = append(r.Options[:], opts...)
@@ -101,8 +113,13 @@ type Item struct {
 	ID                  string                   `json:"id,required"`
 	CreatedAt           time.Time                `json:"created_at,required" format:"date-time"`
 	ExternalConnections []ItemExternalConnection `json:"external_connections,required"`
-	Name                string                   `json:"name,required"`
-	JSON                itemJSON                 `json:"-"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	Name     string            `json:"name,required"`
+	JSON     itemJSON          `json:"-"`
 }
 
 // itemJSON contains the JSON metadata for the struct [Item]
@@ -110,6 +127,7 @@ type itemJSON struct {
 	ID                  apijson.Field
 	CreatedAt           apijson.Field
 	ExternalConnections apijson.Field
+	Metadata            apijson.Field
 	Name                apijson.Field
 	raw                 string
 	ExtraFields         map[string]apijson.Field
@@ -169,6 +187,10 @@ func (r ItemExternalConnectionsExternalConnectionName) IsKnown() bool {
 type ItemNewParams struct {
 	// The name of the item.
 	Name param.Field[string] `json:"name,required"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
 func (r ItemNewParams) MarshalJSON() (data []byte, err error) {
@@ -177,7 +199,11 @@ func (r ItemNewParams) MarshalJSON() (data []byte, err error) {
 
 type ItemUpdateParams struct {
 	ExternalConnections param.Field[[]ItemUpdateParamsExternalConnection] `json:"external_connections"`
-	Name                param.Field[string]                               `json:"name"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	Name     param.Field[string]            `json:"name"`
 }
 
 func (r ItemUpdateParams) MarshalJSON() (data []byte, err error) {

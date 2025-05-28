@@ -31,8 +31,8 @@ func TestCreditNoteNewWithOptionalParams(t *testing.T) {
 			Amount:            orb.F("amount"),
 			InvoiceLineItemID: orb.F("4khy3nwzktxv7"),
 		}}),
-		Memo:   orb.F("An optional memo for my credit note."),
 		Reason: orb.F(orb.CreditNoteNewParamsReasonDuplicate),
+		Memo:   orb.F("An optional memo for my credit note."),
 	})
 	if err != nil {
 		var apierr *orb.Error

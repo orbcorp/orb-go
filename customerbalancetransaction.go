@@ -71,13 +71,6 @@ func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID 
 // This endpoint retrieves all customer balance transactions in reverse
 // chronological order for a single customer, providing a complete audit trail of
 // all adjustments and invoice applications.
-//
-// ## Eligibility
-//
-// The customer balance can only be applied to invoices or adjusted manually if
-// invoices are not synced to a separate invoicing provider. If a payment gateway
-// such as Stripe is used, the balance will be applied to the invoice before
-// forwarding payment to the gateway.
 func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerBalanceTransactionListResponse], err error) {
 	var raw *http.Response
 	opts = append(r.Options[:], opts...)
@@ -120,13 +113,6 @@ func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID
 // This endpoint retrieves all customer balance transactions in reverse
 // chronological order for a single customer, providing a complete audit trail of
 // all adjustments and invoice applications.
-//
-// ## Eligibility
-//
-// The customer balance can only be applied to invoices or adjusted manually if
-// invoices are not synced to a separate invoicing provider. If a payment gateway
-// such as Stripe is used, the balance will be applied to the invoice before
-// forwarding payment to the gateway.
 func (r *CustomerBalanceTransactionService) ListAutoPaging(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) *pagination.PageAutoPager[CustomerBalanceTransactionListResponse] {
 	return pagination.NewPageAutoPager(r.List(ctx, customerID, query, opts...))
 }

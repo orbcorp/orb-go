@@ -30,6 +30,7 @@ import (
 type PlanService struct {
 	Options        []option.RequestOption
 	ExternalPlanID *PlanExternalPlanIDService
+	Versions       *PlanVersionService
 }
 
 // NewPlanService generates a new service that applies the given options to each
@@ -39,6 +40,7 @@ func NewPlanService(opts ...option.RequestOption) (r *PlanService) {
 	r = &PlanService{}
 	r.Options = opts
 	r.ExternalPlanID = NewPlanExternalPlanIDService(opts...)
+	r.Versions = NewPlanVersionService(opts...)
 	return
 }
 
@@ -53,7 +55,7 @@ func (r *PlanService) New(ctx context.Context, body PlanNewParams, opts ...optio
 // This endpoint can be used to update the `external_plan_id`, and `metadata` of an
 // existing plan.
 //
-// Other fields on a customer are currently immutable.
+// Other fields on a plan are currently immutable.
 func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = append(r.Options[:], opts...)
 	if planID == "" {
@@ -124,6 +126,21 @@ func (r *PlanService) Fetch(ctx context.Context, planID string, opts ...option.R
 	return
 }
 
+// This API endpoint is in beta and its interface may change. It is recommended for
+// use only in test mode.
+//
+// This endpoint allows setting the default version of a plan.
+func (r *PlanService) SetDefaultVersion(ctx context.Context, planID string, body PlanSetDefaultVersionParams, opts ...option.RequestOption) (res *Plan, err error) {
+	opts = append(r.Options[:], opts...)
+	if planID == "" {
+		err = errors.New("missing required plan_id parameter")
+		return
+	}
+	path := fmt.Sprintf("plans/%s/set_default_version", planID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
 // subscribed to by a customer. Plans define the billing behavior of the
 // subscription. You can see more about how to configure prices in the
@@ -145,26 +162,31 @@ type Plan struct {
 	Currency string `json:"currency,required"`
 	// The default memo text on the invoices corresponding to subscriptions on this
 	// plan. Note that each subscription may configure its own memo.
-	DefaultInvoiceMemo string          `json:"default_invoice_memo,required,nullable"`
-	Description        string          `json:"description,required"`
-	Discount           shared.Discount `json:"discount,required,nullable"`
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	Description        string `json:"description,required"`
+	// Deprecated: deprecated
+	Discount shared.Discount `json:"discount,required,nullable"`
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
 	// identifier in your system.
 	ExternalPlanID string `json:"external_plan_id,required,nullable"`
 	// An ISO 4217 currency string for which this plan is billed in. Matches `currency`
 	// unless `currency` is a custom pricing unit.
-	InvoicingCurrency string      `json:"invoicing_currency,required"`
-	Maximum           PlanMaximum `json:"maximum,required,nullable"`
-	MaximumAmount     string      `json:"maximum_amount,required,nullable"`
+	InvoicingCurrency string `json:"invoicing_currency,required"`
+	// Deprecated: deprecated
+	Maximum PlanMaximum `json:"maximum,required,nullable"`
+	// Deprecated: deprecated
+	MaximumAmount string `json:"maximum_amount,required,nullable"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
-	Metadata      map[string]string `json:"metadata,required"`
-	Minimum       PlanMinimum       `json:"minimum,required,nullable"`
-	MinimumAmount string            `json:"minimum_amount,required,nullable"`
-	Name          string            `json:"name,required"`
+	Metadata map[string]string `json:"metadata,required"`
+	// Deprecated: deprecated
+	Minimum PlanMinimum `json:"minimum,required,nullable"`
+	// Deprecated: deprecated
+	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	Name          string `json:"name,required"`
 	// Determines the difference between the invoice issue date and the due date. A
 	// value of "0" here signifies that invoices are due on issue, whereas a value of
 	// "30" means that the customer has a month to pay the invoice before its overdue.
@@ -225,6 +247,13 @@ type PlanAdjustment struct {
 	AdjustmentType PlanAdjustmentsAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of
+	// [[]PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFilter],
+	// [[]PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFilter],
+	// [[]PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFilter],
+	// [[]PlanAdjustmentsPlanPhaseMinimumAdjustmentFilter],
+	// [[]PlanAdjustmentsPlanPhaseMaximumAdjustmentFilter].
+	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -258,6 +287,7 @@ type planAdjustmentJSON struct {
 	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
 	IsInvoiceLevel     apijson.Field
 	PlanPhaseOrder     apijson.Field
 	Reason             apijson.Field
@@ -342,7 +372,11 @@ type PlanAdjustmentsPlanPhaseUsageDiscountAdjustment struct {
 	ID             string                                                        `json:"id,required"`
 	AdjustmentType PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -362,6 +396,7 @@ type planAdjustmentsPlanPhaseUsageDiscountAdjustmentJSON struct {
 	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
@@ -394,6 +429,69 @@ func (r PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentAdjustmentType) IsKnown()
 	return false
 }
 
+type PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                  `json:"values,required"`
+	JSON   planAdjustmentsPlanPhaseUsageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// planAdjustmentsPlanPhaseUsageDiscountAdjustmentFilterJSON contains the JSON
+// metadata for the struct [PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFilter]
+type planAdjustmentsPlanPhaseUsageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhaseUsageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField string
+
+const (
+	PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID       PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField = "price_id"
+	PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldItemID        PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField = "item_id"
+	PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType     PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField = "price_type"
+	PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency      PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField = "currency"
+	PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID, PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldItemID, PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType, PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency, PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperator string
+
+const (
+	PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperator = "includes"
+	PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes, PlanAdjustmentsPlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanAdjustmentsPlanPhaseAmountDiscountAdjustment struct {
 	ID             string                                                         `json:"id,required"`
 	AdjustmentType PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -401,7 +499,11 @@ type PlanAdjustmentsPlanPhaseAmountDiscountAdjustment struct {
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -419,6 +521,7 @@ type planAdjustmentsPlanPhaseAmountDiscountAdjustmentJSON struct {
 	AdjustmentType    apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	PlanPhaseOrder    apijson.Field
 	Reason            apijson.Field
@@ -450,11 +553,78 @@ func (r PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentAdjustmentType) IsKnown(
 	return false
 }
 
+type PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                   `json:"values,required"`
+	JSON   planAdjustmentsPlanPhaseAmountDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// planAdjustmentsPlanPhaseAmountDiscountAdjustmentFilterJSON contains the JSON
+// metadata for the struct [PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFilter]
+type planAdjustmentsPlanPhaseAmountDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhaseAmountDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField string
+
+const (
+	PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID       PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField = "price_id"
+	PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldItemID        PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField = "item_id"
+	PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType     PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField = "price_type"
+	PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency      PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField = "currency"
+	PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID, PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldItemID, PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType, PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency, PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperator string
+
+const (
+	PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperator = "includes"
+	PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes, PlanAdjustmentsPlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanAdjustmentsPlanPhasePercentageDiscountAdjustment struct {
 	ID             string                                                             `json:"id,required"`
 	AdjustmentType PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -474,6 +644,7 @@ type planAdjustmentsPlanPhasePercentageDiscountAdjustmentJSON struct {
 	ID                 apijson.Field
 	AdjustmentType     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
 	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
 	PlanPhaseOrder     apijson.Field
@@ -506,11 +677,79 @@ func (r PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentAdjustmentType) IsKn
 	return false
 }
 
+type PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                       `json:"values,required"`
+	JSON   planAdjustmentsPlanPhasePercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// planAdjustmentsPlanPhasePercentageDiscountAdjustmentFilterJSON contains the JSON
+// metadata for the struct
+// [PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFilter]
+type planAdjustmentsPlanPhasePercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhasePercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField string
+
+const (
+	PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID       PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField = "price_id"
+	PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldItemID        PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField = "item_id"
+	PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType     PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField = "price_type"
+	PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency      PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField = "currency"
+	PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID, PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldItemID, PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType, PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency, PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperator = "includes"
+	PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes, PlanAdjustmentsPlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanAdjustmentsPlanPhaseMinimumAdjustment struct {
 	ID             string                                                  `json:"id,required"`
 	AdjustmentType PlanAdjustmentsPlanPhaseMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []PlanAdjustmentsPlanPhaseMinimumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -532,6 +771,7 @@ type planAdjustmentsPlanPhaseMinimumAdjustmentJSON struct {
 	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
@@ -565,11 +805,78 @@ func (r PlanAdjustmentsPlanPhaseMinimumAdjustmentAdjustmentType) IsKnown() bool 
 	return false
 }
 
+type PlanAdjustmentsPlanPhaseMinimumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                            `json:"values,required"`
+	JSON   planAdjustmentsPlanPhaseMinimumAdjustmentFilterJSON `json:"-"`
+}
+
+// planAdjustmentsPlanPhaseMinimumAdjustmentFilterJSON contains the JSON metadata
+// for the struct [PlanAdjustmentsPlanPhaseMinimumAdjustmentFilter]
+type planAdjustmentsPlanPhaseMinimumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhaseMinimumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhaseMinimumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField string
+
+const (
+	PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldPriceID       PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField = "price_id"
+	PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldItemID        PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField = "item_id"
+	PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldPriceType     PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField = "price_type"
+	PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldCurrency      PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField = "currency"
+	PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldPriceID, PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldItemID, PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldPriceType, PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldCurrency, PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperator string
+
+const (
+	PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperatorIncludes PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperator = "includes"
+	PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperatorExcludes PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperatorIncludes, PlanAdjustmentsPlanPhaseMinimumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanAdjustmentsPlanPhaseMaximumAdjustment struct {
 	ID             string                                                  `json:"id,required"`
 	AdjustmentType PlanAdjustmentsPlanPhaseMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []PlanAdjustmentsPlanPhaseMaximumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -589,6 +896,7 @@ type planAdjustmentsPlanPhaseMaximumAdjustmentJSON struct {
 	ID                apijson.Field
 	AdjustmentType    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
 	PlanPhaseOrder    apijson.Field
@@ -616,6 +924,69 @@ const (
 func (r PlanAdjustmentsPlanPhaseMaximumAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
 	case PlanAdjustmentsPlanPhaseMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type PlanAdjustmentsPlanPhaseMaximumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                            `json:"values,required"`
+	JSON   planAdjustmentsPlanPhaseMaximumAdjustmentFilterJSON `json:"-"`
+}
+
+// planAdjustmentsPlanPhaseMaximumAdjustmentFilterJSON contains the JSON metadata
+// for the struct [PlanAdjustmentsPlanPhaseMaximumAdjustmentFilter]
+type planAdjustmentsPlanPhaseMaximumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanAdjustmentsPlanPhaseMaximumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planAdjustmentsPlanPhaseMaximumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField string
+
+const (
+	PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldPriceID       PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField = "price_id"
+	PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldItemID        PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField = "item_id"
+	PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldPriceType     PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField = "price_type"
+	PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldCurrency      PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField = "currency"
+	PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldPriceID, PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldItemID, PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldPriceType, PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldCurrency, PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperator string
+
+const (
+	PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperatorIncludes PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperator = "includes"
+	PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperatorExcludes PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperatorIncludes, PlanAdjustmentsPlanPhaseMaximumAdjustmentFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -666,10 +1037,15 @@ func (r planBasePlanJSON) RawJSON() string {
 	return r.raw
 }
 
+// Deprecated: deprecated
 type PlanMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this maximum to.
+	Filters []PlanMaximumFilter `json:"filters,required"`
 	// Maximum amount applied
 	MaximumAmount string          `json:"maximum_amount,required"`
 	JSON          planMaximumJSON `json:"-"`
@@ -678,6 +1054,7 @@ type PlanMaximum struct {
 // planMaximumJSON contains the JSON metadata for the struct [PlanMaximum]
 type planMaximumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MaximumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -691,10 +1068,78 @@ func (r planMaximumJSON) RawJSON() string {
 	return r.raw
 }
 
+type PlanMaximumFilter struct {
+	// The property of the price to filter on.
+	Field PlanMaximumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanMaximumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string              `json:"values,required"`
+	JSON   planMaximumFilterJSON `json:"-"`
+}
+
+// planMaximumFilterJSON contains the JSON metadata for the struct
+// [PlanMaximumFilter]
+type planMaximumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanMaximumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planMaximumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanMaximumFiltersField string
+
+const (
+	PlanMaximumFiltersFieldPriceID       PlanMaximumFiltersField = "price_id"
+	PlanMaximumFiltersFieldItemID        PlanMaximumFiltersField = "item_id"
+	PlanMaximumFiltersFieldPriceType     PlanMaximumFiltersField = "price_type"
+	PlanMaximumFiltersFieldCurrency      PlanMaximumFiltersField = "currency"
+	PlanMaximumFiltersFieldPricingUnitID PlanMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r PlanMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case PlanMaximumFiltersFieldPriceID, PlanMaximumFiltersFieldItemID, PlanMaximumFiltersFieldPriceType, PlanMaximumFiltersFieldCurrency, PlanMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanMaximumFiltersOperator string
+
+const (
+	PlanMaximumFiltersOperatorIncludes PlanMaximumFiltersOperator = "includes"
+	PlanMaximumFiltersOperatorExcludes PlanMaximumFiltersOperator = "excludes"
+)
+
+func (r PlanMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanMaximumFiltersOperatorIncludes, PlanMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// Deprecated: deprecated
 type PlanMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this minimum to.
+	Filters []PlanMinimumFilter `json:"filters,required"`
 	// Minimum amount applied
 	MinimumAmount string          `json:"minimum_amount,required"`
 	JSON          planMinimumJSON `json:"-"`
@@ -703,6 +1148,7 @@ type PlanMinimum struct {
 // planMinimumJSON contains the JSON metadata for the struct [PlanMinimum]
 type planMinimumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MinimumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -714,6 +1160,69 @@ func (r *PlanMinimum) UnmarshalJSON(data []byte) (err error) {
 
 func (r planMinimumJSON) RawJSON() string {
 	return r.raw
+}
+
+type PlanMinimumFilter struct {
+	// The property of the price to filter on.
+	Field PlanMinimumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanMinimumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string              `json:"values,required"`
+	JSON   planMinimumFilterJSON `json:"-"`
+}
+
+// planMinimumFilterJSON contains the JSON metadata for the struct
+// [PlanMinimumFilter]
+type planMinimumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanMinimumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planMinimumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanMinimumFiltersField string
+
+const (
+	PlanMinimumFiltersFieldPriceID       PlanMinimumFiltersField = "price_id"
+	PlanMinimumFiltersFieldItemID        PlanMinimumFiltersField = "item_id"
+	PlanMinimumFiltersFieldPriceType     PlanMinimumFiltersField = "price_type"
+	PlanMinimumFiltersFieldCurrency      PlanMinimumFiltersField = "currency"
+	PlanMinimumFiltersFieldPricingUnitID PlanMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r PlanMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case PlanMinimumFiltersFieldPriceID, PlanMinimumFiltersFieldItemID, PlanMinimumFiltersFieldPriceType, PlanMinimumFiltersFieldCurrency, PlanMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanMinimumFiltersOperator string
+
+const (
+	PlanMinimumFiltersOperatorIncludes PlanMinimumFiltersOperator = "includes"
+	PlanMinimumFiltersOperatorExcludes PlanMinimumFiltersOperator = "excludes"
+)
+
+func (r PlanMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanMinimumFiltersOperatorIncludes, PlanMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type PlanPlanPhase struct {
@@ -780,7 +1289,11 @@ func (r PlanPlanPhasesDurationUnit) IsKnown() bool {
 type PlanPlanPhasesMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this maximum to.
+	Filters []PlanPlanPhasesMaximumFilter `json:"filters,required"`
 	// Maximum amount applied
 	MaximumAmount string                    `json:"maximum_amount,required"`
 	JSON          planPlanPhasesMaximumJSON `json:"-"`
@@ -790,6 +1303,7 @@ type PlanPlanPhasesMaximum struct {
 // [PlanPlanPhasesMaximum]
 type planPlanPhasesMaximumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MaximumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -803,10 +1317,77 @@ func (r planPlanPhasesMaximumJSON) RawJSON() string {
 	return r.raw
 }
 
+type PlanPlanPhasesMaximumFilter struct {
+	// The property of the price to filter on.
+	Field PlanPlanPhasesMaximumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanPlanPhasesMaximumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                        `json:"values,required"`
+	JSON   planPlanPhasesMaximumFilterJSON `json:"-"`
+}
+
+// planPlanPhasesMaximumFilterJSON contains the JSON metadata for the struct
+// [PlanPlanPhasesMaximumFilter]
+type planPlanPhasesMaximumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanPlanPhasesMaximumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planPlanPhasesMaximumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanPlanPhasesMaximumFiltersField string
+
+const (
+	PlanPlanPhasesMaximumFiltersFieldPriceID       PlanPlanPhasesMaximumFiltersField = "price_id"
+	PlanPlanPhasesMaximumFiltersFieldItemID        PlanPlanPhasesMaximumFiltersField = "item_id"
+	PlanPlanPhasesMaximumFiltersFieldPriceType     PlanPlanPhasesMaximumFiltersField = "price_type"
+	PlanPlanPhasesMaximumFiltersFieldCurrency      PlanPlanPhasesMaximumFiltersField = "currency"
+	PlanPlanPhasesMaximumFiltersFieldPricingUnitID PlanPlanPhasesMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r PlanPlanPhasesMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case PlanPlanPhasesMaximumFiltersFieldPriceID, PlanPlanPhasesMaximumFiltersFieldItemID, PlanPlanPhasesMaximumFiltersFieldPriceType, PlanPlanPhasesMaximumFiltersFieldCurrency, PlanPlanPhasesMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanPlanPhasesMaximumFiltersOperator string
+
+const (
+	PlanPlanPhasesMaximumFiltersOperatorIncludes PlanPlanPhasesMaximumFiltersOperator = "includes"
+	PlanPlanPhasesMaximumFiltersOperatorExcludes PlanPlanPhasesMaximumFiltersOperator = "excludes"
+)
+
+func (r PlanPlanPhasesMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanPlanPhasesMaximumFiltersOperatorIncludes, PlanPlanPhasesMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanPlanPhasesMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this minimum to.
+	Filters []PlanPlanPhasesMinimumFilter `json:"filters,required"`
 	// Minimum amount applied
 	MinimumAmount string                    `json:"minimum_amount,required"`
 	JSON          planPlanPhasesMinimumJSON `json:"-"`
@@ -816,6 +1397,7 @@ type PlanPlanPhasesMinimum struct {
 // [PlanPlanPhasesMinimum]
 type planPlanPhasesMinimumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MinimumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -827,6 +1409,69 @@ func (r *PlanPlanPhasesMinimum) UnmarshalJSON(data []byte) (err error) {
 
 func (r planPlanPhasesMinimumJSON) RawJSON() string {
 	return r.raw
+}
+
+type PlanPlanPhasesMinimumFilter struct {
+	// The property of the price to filter on.
+	Field PlanPlanPhasesMinimumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanPlanPhasesMinimumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                        `json:"values,required"`
+	JSON   planPlanPhasesMinimumFilterJSON `json:"-"`
+}
+
+// planPlanPhasesMinimumFilterJSON contains the JSON metadata for the struct
+// [PlanPlanPhasesMinimumFilter]
+type planPlanPhasesMinimumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanPlanPhasesMinimumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planPlanPhasesMinimumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanPlanPhasesMinimumFiltersField string
+
+const (
+	PlanPlanPhasesMinimumFiltersFieldPriceID       PlanPlanPhasesMinimumFiltersField = "price_id"
+	PlanPlanPhasesMinimumFiltersFieldItemID        PlanPlanPhasesMinimumFiltersField = "item_id"
+	PlanPlanPhasesMinimumFiltersFieldPriceType     PlanPlanPhasesMinimumFiltersField = "price_type"
+	PlanPlanPhasesMinimumFiltersFieldCurrency      PlanPlanPhasesMinimumFiltersField = "currency"
+	PlanPlanPhasesMinimumFiltersFieldPricingUnitID PlanPlanPhasesMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r PlanPlanPhasesMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case PlanPlanPhasesMinimumFiltersFieldPriceID, PlanPlanPhasesMinimumFiltersFieldItemID, PlanPlanPhasesMinimumFiltersFieldPriceType, PlanPlanPhasesMinimumFiltersFieldCurrency, PlanPlanPhasesMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanPlanPhasesMinimumFiltersOperator string
+
+const (
+	PlanPlanPhasesMinimumFiltersOperatorIncludes PlanPlanPhasesMinimumFiltersOperator = "includes"
+	PlanPlanPhasesMinimumFiltersOperatorExcludes PlanPlanPhasesMinimumFiltersOperator = "excludes"
+)
+
+func (r PlanPlanPhasesMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanPlanPhasesMinimumFiltersOperatorIncludes, PlanPlanPhasesMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type PlanProduct struct {
@@ -957,13 +1602,15 @@ type PlanNewParamsPrice struct {
 	CumulativeGroupedBulkConfig param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
-	Currency param.Field[string] `json:"currency"`
+	Currency                      param.Field[string]      `json:"currency"`
+	DimensionalPriceConfiguration param.Field[interface{}] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
 	// applied.
 	FixedPriceQuantity               param.Field[float64]     `json:"fixed_price_quantity"`
 	GroupedAllocationConfig          param.Field[interface{}] `json:"grouped_allocation_config"`
+	GroupedTieredConfig              param.Field[interface{}] `json:"grouped_tiered_config"`
 	GroupedTieredPackageConfig       param.Field[interface{}] `json:"grouped_tiered_package_config"`
 	GroupedWithMeteredMinimumConfig  param.Field[interface{}] `json:"grouped_with_metered_minimum_config"`
 	GroupedWithProratedMinimumConfig param.Field[interface{}] `json:"grouped_with_prorated_minimum_config"`
@@ -971,6 +1618,7 @@ type PlanNewParamsPrice struct {
 	InvoiceGroupingKey                    param.Field[string]      `json:"invoice_grouping_key"`
 	InvoicingCycleConfiguration           param.Field[interface{}] `json:"invoicing_cycle_configuration"`
 	MatrixConfig                          param.Field[interface{}] `json:"matrix_config"`
+	MatrixWithAllocationConfig            param.Field[interface{}] `json:"matrix_with_allocation_config"`
 	MatrixWithDisplayNameConfig           param.Field[interface{}] `json:"matrix_with_display_name_config"`
 	MaxGroupTieredPackageConfig           param.Field[interface{}] `json:"max_group_tiered_package_config"`
 	Metadata                              param.Field[interface{}] `json:"metadata"`
@@ -982,6 +1630,7 @@ type PlanNewParamsPrice struct {
 	TieredBpsConfig                       param.Field[interface{}] `json:"tiered_bps_config"`
 	TieredConfig                          param.Field[interface{}] `json:"tiered_config"`
 	TieredPackageConfig                   param.Field[interface{}] `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig        param.Field[interface{}] `json:"tiered_package_with_minimum_config"`
 	TieredWithMinimumConfig               param.Field[interface{}] `json:"tiered_with_minimum_config"`
 	TieredWithProrationConfig             param.Field[interface{}] `json:"tiered_with_proration_config"`
 	UnitConfig                            param.Field[interface{}] `json:"unit_config"`
@@ -1018,7 +1667,10 @@ func (r PlanNewParamsPrice) implementsPlanNewParamsPriceUnion() {}
 // [PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice],
 // [PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPrice],
 // [PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPrice],
-// [PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice], [PlanNewParamsPrice].
+// [PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice],
+// [PlanNewParamsPricesNewPlanTieredPackageWithMinimumPrice],
+// [PlanNewParamsPricesNewPlanMatrixWithAllocationPrice],
+// [PlanNewParamsPricesNewPlanGroupedTieredPrice], [PlanNewParamsPrice].
 type PlanNewParamsPriceUnion interface {
 	implementsPlanNewParamsPriceUnion()
 }
@@ -1046,6 +1698,8 @@ type PlanNewParamsPricesNewPlanUnitPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanUnitPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1140,6 +1794,21 @@ func (r PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnit
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanUnitPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfiguration struct {
@@ -1192,6 +1861,8 @@ type PlanNewParamsPricesNewPlanPackagePrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1289,6 +1960,21 @@ func (r PlanNewParamsPricesNewPlanPackagePriceBillingCycleConfigurationDurationU
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanPackagePriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanPackagePriceInvoicingCycleConfiguration struct {
@@ -1341,6 +2027,8 @@ type PlanNewParamsPricesNewPlanMatrixPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanMatrixPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1452,6 +2140,21 @@ func (r PlanNewParamsPricesNewPlanMatrixPriceBillingCycleConfigurationDurationUn
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanMatrixPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanMatrixPriceInvoicingCycleConfiguration struct {
@@ -1504,6 +2207,8 @@ type PlanNewParamsPricesNewPlanTieredPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1611,6 +2316,21 @@ func (r PlanNewParamsPricesNewPlanTieredPriceBillingCycleConfigurationDurationUn
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanTieredPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanTieredPriceInvoicingCycleConfiguration struct {
@@ -1663,6 +2383,8 @@ type PlanNewParamsPricesNewPlanTieredBpsPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanTieredBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1773,6 +2495,21 @@ func (r PlanNewParamsPricesNewPlanTieredBpsPriceBillingCycleConfigurationDuratio
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanTieredBpsPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanTieredBpsPriceInvoicingCycleConfiguration struct {
@@ -1825,6 +2562,8 @@ type PlanNewParamsPricesNewPlanBpsPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -1921,6 +2660,21 @@ func (r PlanNewParamsPricesNewPlanBpsPriceBillingCycleConfigurationDurationUnit)
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanBpsPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanBpsPriceInvoicingCycleConfiguration struct {
@@ -1973,6 +2727,8 @@ type PlanNewParamsPricesNewPlanBulkBpsPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanBulkBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -2081,6 +2837,21 @@ func (r PlanNewParamsPricesNewPlanBulkBpsPriceBillingCycleConfigurationDurationU
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanBulkBpsPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanBulkBpsPriceInvoicingCycleConfiguration struct {
@@ -2133,6 +2904,8 @@ type PlanNewParamsPricesNewPlanBulkPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanBulkPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -2238,6 +3011,21 @@ func (r PlanNewParamsPricesNewPlanBulkPriceBillingCycleConfigurationDurationUnit
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanBulkPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanBulkPriceInvoicingCycleConfiguration struct {
@@ -2290,6 +3078,8 @@ type PlanNewParamsPricesNewPlanThresholdTotalAmountPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanThresholdTotalAmountPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -2375,6 +3165,21 @@ func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceBillingCycleConfigura
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanThresholdTotalAmountPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanThresholdTotalAmountPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanThresholdTotalAmountPriceInvoicingCycleConfiguration struct {
@@ -2427,6 +3232,8 @@ type PlanNewParamsPricesNewPlanTieredPackagePrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -2512,6 +3319,21 @@ func (r PlanNewParamsPricesNewPlanTieredPackagePriceBillingCycleConfigurationDur
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanTieredPackagePriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanTieredPackagePriceInvoicingCycleConfiguration struct {
@@ -2564,6 +3386,8 @@ type PlanNewParamsPricesNewPlanTieredWithMinimumPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanTieredWithMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -2649,6 +3473,21 @@ func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceBillingCycleConfiguratio
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanTieredWithMinimumPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredWithMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanTieredWithMinimumPriceInvoicingCycleConfiguration struct {
@@ -2701,6 +3540,8 @@ type PlanNewParamsPricesNewPlanUnitWithPercentPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanUnitWithPercentPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -2786,6 +3627,21 @@ func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceBillingCycleConfigurationD
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanUnitWithPercentPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithPercentPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanUnitWithPercentPriceInvoicingCycleConfiguration struct {
@@ -2838,6 +3694,8 @@ type PlanNewParamsPricesNewPlanPackageWithAllocationPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanPackageWithAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -2923,6 +3781,21 @@ func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceBillingCycleConfigur
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanPackageWithAllocationPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanPackageWithAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanPackageWithAllocationPriceInvoicingCycleConfiguration struct {
@@ -2975,6 +3848,8 @@ type PlanNewParamsPricesNewPlanTierWithProrationPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanTierWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -3060,6 +3935,21 @@ func (r PlanNewParamsPricesNewPlanTierWithProrationPriceBillingCycleConfiguratio
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanTierWithProrationPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanTierWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanTierWithProrationPriceInvoicingCycleConfiguration struct {
@@ -3112,6 +4002,8 @@ type PlanNewParamsPricesNewPlanUnitWithProrationPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanUnitWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -3197,6 +4089,21 @@ func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceBillingCycleConfiguratio
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanUnitWithProrationPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanUnitWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanUnitWithProrationPriceInvoicingCycleConfiguration struct {
@@ -3249,6 +4156,8 @@ type PlanNewParamsPricesNewPlanGroupedAllocationPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -3334,6 +4243,21 @@ func (r PlanNewParamsPricesNewPlanGroupedAllocationPriceBillingCycleConfiguratio
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanGroupedAllocationPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanGroupedAllocationPriceInvoicingCycleConfiguration struct {
@@ -3386,6 +4310,8 @@ type PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -3472,6 +4398,21 @@ func (r PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPriceBillingCycleCon
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
@@ -3524,6 +4465,8 @@ type PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -3610,6 +4553,21 @@ func (r PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceBillingCycleConf
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration struct {
@@ -3662,6 +4620,8 @@ type PlanNewParamsPricesNewPlanMatrixWithDisplayNamePrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanMatrixWithDisplayNamePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -3747,6 +4707,21 @@ func (r PlanNewParamsPricesNewPlanMatrixWithDisplayNamePriceBillingCycleConfigur
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanMatrixWithDisplayNamePriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithDisplayNamePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanMatrixWithDisplayNamePriceInvoicingCycleConfiguration struct {
@@ -3799,6 +4774,8 @@ type PlanNewParamsPricesNewPlanBulkWithProrationPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanBulkWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -3884,6 +4861,21 @@ func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceBillingCycleConfiguratio
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanBulkWithProrationPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanBulkWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanBulkWithProrationPriceInvoicingCycleConfiguration struct {
@@ -3936,6 +4928,8 @@ type PlanNewParamsPricesNewPlanGroupedTieredPackagePrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4021,6 +5015,21 @@ func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceBillingCycleConfigura
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanGroupedTieredPackagePriceInvoicingCycleConfiguration struct {
@@ -4073,6 +5082,8 @@ type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4158,6 +5169,21 @@ func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceBillingCycleConfigur
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanMaxGroupTieredPackagePriceInvoicingCycleConfiguration struct {
@@ -4210,6 +5236,8 @@ type PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4296,6 +5324,21 @@ func (r PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceBillingCycle
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration struct {
@@ -4348,6 +5391,8 @@ type PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4434,6 +5479,21 @@ func (r PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceBillingCyc
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration struct {
@@ -4486,6 +5546,8 @@ type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPrice struct {
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -4571,6 +5633,21 @@ func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceBillingCycleConfigur
 	return false
 }
 
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
 type PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfiguration struct {
@@ -4595,6 +5672,497 @@ const (
 func (r PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
 	case PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID    param.Field[string]                                                           `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name                           param.Field[string]                 `json:"name,required"`
+	TieredPackageWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_package_with_minimum_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPrice) implementsPlanNewParamsPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceAnnual     PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence = "annual"
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceSemiAnnual PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence = "semi_annual"
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceMonthly    PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceQuarterly  PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceOneTime    PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence = "one_time"
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceCustom     PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence = "custom"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceAnnual, PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceSemiAnnual, PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceMonthly, PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceQuarterly, PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceOneTime, PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID                     param.Field[string]                                                                        `json:"item_id,required"`
+	MatrixWithAllocationConfig param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceMatrixWithAllocationConfig] `json:"matrix_with_allocation_config,required"`
+	ModelType                  param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceModelType]                  `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPrice) implementsPlanNewParamsPriceUnion() {}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceAnnual     PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence = "annual"
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceSemiAnnual PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence = "semi_annual"
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceMonthly    PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceQuarterly  PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceOneTime    PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence = "one_time"
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceCustom     PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence = "custom"
+)
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceAnnual, PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceSemiAnnual, PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceMonthly, PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceQuarterly, PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceOneTime, PlanNewParamsPricesNewPlanMatrixWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
+	// Allocation to be used to calculate the price
+	Allocation param.Field[float64] `json:"allocation,required"`
+	// Default per unit rate for any usage not bucketed into a specified matrix_value
+	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
+	// One or two event property values to evaluate matrix groups by
+	Dimensions param.Field[[]string] `json:"dimensions,required"`
+	// Matrix values for specified matrix grouping keys
+	MatrixValues param.Field[[]PlanNewParamsPricesNewPlanMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue] `json:"matrix_values,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct {
+	// One or two matrix keys to filter usage to this Matrix value by. For example,
+	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
+	// instance tier.
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// Unit price for the specified dimension_values
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceModelTypeMatrixWithAllocation PlanNewParamsPricesNewPlanMatrixWithAllocationPriceModelType = "matrix_with_allocation"
+)
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanGroupedTieredPrice struct {
+	// The cadence to bill for this price on.
+	Cadence             param.Field[PlanNewParamsPricesNewPlanGroupedTieredPriceCadence] `json:"cadence,required"`
+	GroupedTieredConfig param.Field[map[string]interface{}]                              `json:"grouped_tiered_config,required"`
+	// The id of the item the price will be associated with.
+	ItemID    param.Field[string]                                                `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesNewPlanGroupedTieredPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedTieredPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPrice) implementsPlanNewParamsPriceUnion() {}
+
+// The cadence to bill for this price on.
+type PlanNewParamsPricesNewPlanGroupedTieredPriceCadence string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceAnnual     PlanNewParamsPricesNewPlanGroupedTieredPriceCadence = "annual"
+	PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceSemiAnnual PlanNewParamsPricesNewPlanGroupedTieredPriceCadence = "semi_annual"
+	PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceMonthly    PlanNewParamsPricesNewPlanGroupedTieredPriceCadence = "monthly"
+	PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceQuarterly  PlanNewParamsPricesNewPlanGroupedTieredPriceCadence = "quarterly"
+	PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceOneTime    PlanNewParamsPricesNewPlanGroupedTieredPriceCadence = "one_time"
+	PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceCustom     PlanNewParamsPricesNewPlanGroupedTieredPriceCadence = "custom"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPriceCadence) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceAnnual, PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceSemiAnnual, PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceMonthly, PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceQuarterly, PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceOneTime, PlanNewParamsPricesNewPlanGroupedTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPricesNewPlanGroupedTieredPriceModelType string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPriceModelTypeGroupedTiered PlanNewParamsPricesNewPlanGroupedTieredPriceModelType = "grouped_tiered"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPriceModelType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPriceModelTypeGroupedTiered:
+		return true
+	}
+	return false
+}
+
+// For custom cadence: specifies the duration of the billing period in days or
+// months.
+type PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth:
+		return true
+	}
+	return false
+}
+
+// For dimensional price: specifies a price group and dimension values
+type PlanNewParamsPricesNewPlanGroupedTieredPriceDimensionalPriceConfiguration struct {
+	// The list of dimension values matching (in order) the dimensions of the price
+	// group
+	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
+	// The id of the dimensional price group to include this price in
+	DimensionalPriceGroupID param.Field[string] `json:"dimensional_price_group_id"`
+	// The external id of the dimensional price group to include this price in
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Within each billing cycle, specifies the cadence at which invoices are produced.
+// If unspecified, a single invoice is produced per billing cycle.
+type PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfiguration struct {
+	// The duration of the billing period.
+	Duration param.Field[int64] `json:"duration,required"`
+	// The unit of billing period duration.
+	DurationUnit param.Field[PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The unit of billing period duration.
+type PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnit string
+
+const (
+	PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnitDay   PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnitMonth PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+)
+
+func (r PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnitDay, PlanNewParamsPricesNewPlanGroupedTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -4648,11 +6216,14 @@ const (
 	PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing   PlanNewParamsPricesModelType = "scalable_matrix_with_unit_pricing"
 	PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing PlanNewParamsPricesModelType = "scalable_matrix_with_tiered_pricing"
 	PlanNewParamsPricesModelTypeCumulativeGroupedBulk           PlanNewParamsPricesModelType = "cumulative_grouped_bulk"
+	PlanNewParamsPricesModelTypeTieredPackageWithMinimum        PlanNewParamsPricesModelType = "tiered_package_with_minimum"
+	PlanNewParamsPricesModelTypeMatrixWithAllocation            PlanNewParamsPricesModelType = "matrix_with_allocation"
+	PlanNewParamsPricesModelTypeGroupedTiered                   PlanNewParamsPricesModelType = "grouped_tiered"
 )
 
 func (r PlanNewParamsPricesModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage, PlanNewParamsPricesModelTypeMaxGroupTieredPackage, PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesModelTypeCumulativeGroupedBulk:
+	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBps, PlanNewParamsPricesModelTypeBps, PlanNewParamsPricesModelTypeBulkBps, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage, PlanNewParamsPricesModelTypeMaxGroupTieredPackage, PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesModelTypeCumulativeGroupedBulk, PlanNewParamsPricesModelTypeTieredPackageWithMinimum, PlanNewParamsPricesModelTypeMatrixWithAllocation, PlanNewParamsPricesModelTypeGroupedTiered:
 		return true
 	}
 	return false
@@ -4727,4 +6298,13 @@ func (r PlanListParamsStatus) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type PlanSetDefaultVersionParams struct {
+	// Plan version to set as the default.
+	Version param.Field[int64] `json:"version,required"`
+}
+
+func (r PlanSetDefaultVersionParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }

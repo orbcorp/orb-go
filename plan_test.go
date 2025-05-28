@@ -43,11 +43,16 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 				Duration:     orb.F(int64(0)),
 				DurationUnit: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnitDay),
 			}),
-			ConversionRate:     orb.F(0.000000),
-			Currency:           orb.F("currency"),
+			ConversionRate: orb.F(0.000000),
+			Currency:       orb.F("currency"),
+			DimensionalPriceConfiguration: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceDimensionalPriceConfiguration{
+				DimensionValues:                 orb.F([]string{"string"}),
+				DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+				ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+			}),
 			ExternalPriceID:    orb.F("external_price_id"),
 			FixedPriceQuantity: orb.F(0.000000),
-			InvoiceGroupingKey: orb.F("invoice_grouping_key"),
+			InvoiceGroupingKey: orb.F("x"),
 			InvoicingCycleConfiguration: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfiguration{
 				Duration:     orb.F(int64(0)),
 				DurationUnit: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitDay),
@@ -147,6 +152,34 @@ func TestPlanFetch(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Plans.Fetch(context.TODO(), "plan_id")
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPlanSetDefaultVersion(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Plans.SetDefaultVersion(
+		context.TODO(),
+		"plan_id",
+		orb.PlanSetDefaultVersionParams{
+			Version: orb.F(int64(0)),
+		},
+	)
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

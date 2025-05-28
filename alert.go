@@ -219,23 +219,27 @@ type Alert struct {
 	Thresholds []AlertThreshold `json:"thresholds,required,nullable"`
 	// The type of alert. This must be a valid alert type.
 	Type AlertType `json:"type,required"`
-	JSON alertJSON `json:"-"`
+	// The current status of the alert. This field is only present for credit balance
+	// alerts.
+	BalanceAlertStatus []AlertBalanceAlertStatus `json:"balance_alert_status,nullable"`
+	JSON               alertJSON                 `json:"-"`
 }
 
 // alertJSON contains the JSON metadata for the struct [Alert]
 type alertJSON struct {
-	ID           apijson.Field
-	CreatedAt    apijson.Field
-	Currency     apijson.Field
-	Customer     apijson.Field
-	Enabled      apijson.Field
-	Metric       apijson.Field
-	Plan         apijson.Field
-	Subscription apijson.Field
-	Thresholds   apijson.Field
-	Type         apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
+	ID                 apijson.Field
+	CreatedAt          apijson.Field
+	Currency           apijson.Field
+	Customer           apijson.Field
+	Enabled            apijson.Field
+	Metric             apijson.Field
+	Plan               apijson.Field
+	Subscription       apijson.Field
+	Thresholds         apijson.Field
+	Type               apijson.Field
+	BalanceAlertStatus apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
 }
 
 func (r *Alert) UnmarshalJSON(data []byte) (err error) {
@@ -384,6 +388,32 @@ func (r AlertType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Alert status is used to determine if an alert is currently in-alert or not.
+type AlertBalanceAlertStatus struct {
+	// Whether the alert is currently in-alert or not.
+	InAlert bool `json:"in_alert,required"`
+	// The value of the threshold that defines the alert status.
+	ThresholdValue float64                     `json:"threshold_value,required"`
+	JSON           alertBalanceAlertStatusJSON `json:"-"`
+}
+
+// alertBalanceAlertStatusJSON contains the JSON metadata for the struct
+// [AlertBalanceAlertStatus]
+type alertBalanceAlertStatusJSON struct {
+	InAlert        apijson.Field
+	ThresholdValue apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *AlertBalanceAlertStatus) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r alertBalanceAlertStatusJSON) RawJSON() string {
+	return r.raw
 }
 
 type AlertUpdateParams struct {

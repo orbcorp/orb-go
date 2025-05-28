@@ -41,10 +41,15 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 			Duration:     orb.F(int64(0)),
 			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay),
 		}),
-		ConversionRate:     orb.F(0.000000),
+		ConversionRate: orb.F(0.000000),
+		DimensionalPriceConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceDimensionalPriceConfiguration{
+			DimensionValues:                 orb.F([]string{"string"}),
+			DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+			ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+		}),
 		ExternalPriceID:    orb.F("external_price_id"),
 		FixedPriceQuantity: orb.F(0.000000),
-		InvoiceGroupingKey: orb.F("invoice_grouping_key"),
+		InvoiceGroupingKey: orb.F("x"),
 		InvoicingCycleConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfiguration{
 			Duration:     orb.F(int64(0)),
 			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay),
@@ -129,18 +134,56 @@ func TestPriceEvaluateWithOptionalParams(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Prices.Evaluate(
-		context.TODO(),
-		"price_id",
-		orb.PriceEvaluateParams{
-			TimeframeEnd:       orb.F(time.Now()),
-			TimeframeStart:     orb.F(time.Now()),
+	_, err := client.Prices.Evaluate(context.TODO(), orb.PriceEvaluateParams{
+		TimeframeEnd:   orb.F(time.Now()),
+		TimeframeStart: orb.F(time.Now()),
+		CustomerID:     orb.F("customer_id"),
+		Events: orb.F([]orb.PriceEvaluateParamsEvent{{
+			EventName:          orb.F("event_name"),
+			Properties:         orb.F[any](map[string]interface{}{}),
+			Timestamp:          orb.F(time.Now()),
 			CustomerID:         orb.F("customer_id"),
 			ExternalCustomerID: orb.F("external_customer_id"),
-			Filter:             orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
-			GroupingKeys:       orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
-		},
-	)
+		}}),
+		ExternalCustomerID: orb.F("external_customer_id"),
+		PriceEvaluations: orb.F([]orb.PriceEvaluateParamsPriceEvaluation{{
+			Filter:       orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
+			GroupingKeys: orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
+			Price: orb.F[orb.PriceEvaluateParamsPriceEvaluationsPriceUnion](orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPrice{
+				Cadence:   orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceAnnual),
+				Currency:  orb.F("currency"),
+				ItemID:    orb.F("item_id"),
+				ModelType: orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceModelTypeUnit),
+				Name:      orb.F("Annual fee"),
+				UnitConfig: orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig{
+					UnitAmount: orb.F("unit_amount"),
+				}),
+				BillableMetricID: orb.F("billable_metric_id"),
+				BilledInAdvance:  orb.F(true),
+				BillingCycleConfiguration: orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration{
+					Duration:     orb.F(int64(0)),
+					DurationUnit: orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay),
+				}),
+				ConversionRate: orb.F(0.000000),
+				DimensionalPriceConfiguration: orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration{
+					DimensionValues:                 orb.F([]string{"string"}),
+					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+					ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+				}),
+				ExternalPriceID:    orb.F("external_price_id"),
+				FixedPriceQuantity: orb.F(0.000000),
+				InvoiceGroupingKey: orb.F("x"),
+				InvoicingCycleConfiguration: orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration{
+					Duration:     orb.F(int64(0)),
+					DurationUnit: orb.F(orb.PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+				}),
+				Metadata: orb.F(map[string]string{
+					"foo": "string",
+				}),
+			}),
+			PriceID: orb.F("price_id"),
+		}}),
+	})
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
