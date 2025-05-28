@@ -1215,9 +1215,11 @@ type BetaNewPlanVersionParamsAddPricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r BetaNewPlanVersionParamsAddPricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -1239,6 +1241,31 @@ const (
 func (r BetaNewPlanVersionParamsAddPricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceOneTime, BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceMonthly, BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceQuarterly, BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceSemiAnnual, BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceAnnual, BetaNewPlanVersionParamsAddPricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                        `json:"duration,required"`
+	DurationUnit param.Field[BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay   BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "day"
+	BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay, BetaNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -6194,9 +6221,11 @@ type BetaNewPlanVersionParamsReplacePricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r BetaNewPlanVersionParamsReplacePricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -6218,6 +6247,31 @@ const (
 func (r BetaNewPlanVersionParamsReplacePricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceOneTime, BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceMonthly, BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceQuarterly, BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceSemiAnnual, BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceAnnual, BetaNewPlanVersionParamsReplacePricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                            `json:"duration,required"`
+	DurationUnit param.Field[BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay   BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "day"
+	BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay, BetaNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false

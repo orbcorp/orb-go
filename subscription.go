@@ -22850,9 +22850,11 @@ type SubscriptionNewParamsAddPricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[SubscriptionNewParamsAddPricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r SubscriptionNewParamsAddPricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -22874,6 +22876,31 @@ const (
 func (r SubscriptionNewParamsAddPricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case SubscriptionNewParamsAddPricesAllocationPriceCadenceOneTime, SubscriptionNewParamsAddPricesAllocationPriceCadenceMonthly, SubscriptionNewParamsAddPricesAllocationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesAllocationPriceCadenceAnnual, SubscriptionNewParamsAddPricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type SubscriptionNewParamsAddPricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                     `json:"duration,required"`
+	DurationUnit param.Field[SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay   SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "day"
+	SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay, SubscriptionNewParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -27997,9 +28024,11 @@ type SubscriptionNewParamsReplacePricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[SubscriptionNewParamsReplacePricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r SubscriptionNewParamsReplacePricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -28021,6 +28050,31 @@ const (
 func (r SubscriptionNewParamsReplacePricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case SubscriptionNewParamsReplacePricesAllocationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesAllocationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesAllocationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesAllocationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesAllocationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type SubscriptionNewParamsReplacePricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                         `json:"duration,required"`
+	DurationUnit param.Field[SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay   SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "day"
+	SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay, SubscriptionNewParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -33133,9 +33187,11 @@ type SubscriptionPriceIntervalsParamsAddAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -33157,6 +33213,31 @@ const (
 func (r SubscriptionPriceIntervalsParamsAddAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceOneTime, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceMonthly, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceQuarterly, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceSemiAnnual, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceAnnual, SubscriptionPriceIntervalsParamsAddAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                          `json:"duration,required"`
+	DurationUnit param.Field[SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnitDay   SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnit = "day"
+	SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnitMonth SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnitDay, SubscriptionPriceIntervalsParamsAddAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -38685,9 +38766,11 @@ type SubscriptionSchedulePlanChangeParamsAddPricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -38709,6 +38792,31 @@ const (
 func (r SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                                    `json:"duration,required"`
+	DurationUnit param.Field[SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay   SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "day"
+	SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay, SubscriptionSchedulePlanChangeParamsAddPricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false
@@ -43837,9 +43945,11 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPrice struct {
 	// An ISO 4217 currency string or a custom pricing unit identifier in which to bill
 	// this price.
 	Currency param.Field[string] `json:"currency,required"`
+	// The custom expiration for the allocation.
+	CustomExpiration param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpiration] `json:"custom_expiration"`
 	// Whether the allocated amount should expire at the end of the cadence or roll
-	// over to the next period.
-	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence,required"`
+	// over to the next period. Set to null if using custom_expiration.
+	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPrice) MarshalJSON() (data []byte, err error) {
@@ -43861,6 +43971,31 @@ const (
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The custom expiration for the allocation.
+type SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpiration struct {
+	Duration     param.Field[int64]                                                                                        `json:"duration,required"`
+	DurationUnit param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnit] `json:"duration_unit,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpiration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnit string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay   SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "day"
+	SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnit = "month"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnit) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay, SubscriptionSchedulePlanChangeParamsReplacePricesAllocationPriceCustomExpirationDurationUnitMonth:
 		return true
 	}
 	return false
