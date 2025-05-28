@@ -21,8 +21,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPlanExternalPlanIDService] method instead.
 type PlanExternalPlanIDService struct {
-	Options  []option.RequestOption
-	Versions *PlanExternalPlanIDVersionService
+	Options []option.RequestOption
 }
 
 // NewPlanExternalPlanIDService generates a new service that applies the given
@@ -31,7 +30,6 @@ type PlanExternalPlanIDService struct {
 func NewPlanExternalPlanIDService(opts ...option.RequestOption) (r *PlanExternalPlanIDService) {
 	r = &PlanExternalPlanIDService{}
 	r.Options = opts
-	r.Versions = NewPlanExternalPlanIDVersionService(opts...)
 	return
 }
 
@@ -77,21 +75,6 @@ func (r *PlanExternalPlanIDService) Fetch(ctx context.Context, externalPlanID st
 	return
 }
 
-// This API endpoint is in beta and its interface may change. It is recommended for
-// use only in test mode.
-//
-// This endpoint allows setting the default version of a plan.
-func (r *PlanExternalPlanIDService) SetDefaultVersion(ctx context.Context, externalPlanID string, body PlanExternalPlanIDSetDefaultVersionParams, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
-	if externalPlanID == "" {
-		err = errors.New("missing required external_plan_id parameter")
-		return
-	}
-	path := fmt.Sprintf("plans/external_plan_id/%s/set_default_version", externalPlanID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
-}
-
 type PlanExternalPlanIDUpdateParams struct {
 	// An optional user-defined ID for this plan resource, used throughout the system
 	// as an alias for this Plan. Use this field to identify a plan by an existing
@@ -104,14 +87,5 @@ type PlanExternalPlanIDUpdateParams struct {
 }
 
 func (r PlanExternalPlanIDUpdateParams) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type PlanExternalPlanIDSetDefaultVersionParams struct {
-	// Plan version to set as the default.
-	Version param.Field[int64] `json:"version,required"`
-}
-
-func (r PlanExternalPlanIDSetDefaultVersionParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
