@@ -98,6 +98,42 @@ func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams
 	return pagination.NewPageAutoPager(r.List(ctx, query, opts...))
 }
 
+// [NOTE] It is recommended to use the `/v1/prices/evaluate` which offers further
+// functionality, such as multiple prices, inline price definitions, and querying
+// over preview events.
+//
+// This endpoint is used to evaluate the output of a price for a given customer and
+// time range. It enables filtering and grouping the output using
+// [computed properties](/extensibility/advanced-metrics#computed-properties),
+// supporting the following workflows:
+//
+// 1. Showing detailed usage and costs to the end customer.
+// 2. Auditing subtotals on invoice line items.
+//
+// For these workflows, the expressiveness of computed properties in both the
+// filters and grouping is critical. For example, if you'd like to show your
+// customer their usage grouped by hour and another property, you can do so with
+// the following `grouping_keys`:
+// `["hour_floor_timestamp_millis(timestamp_millis)", "my_property"]`. If you'd
+// like to examine a customer's usage for a specific property value, you can do so
+// with the following `filter`:
+// `my_property = 'foo' AND my_other_property = 'bar'`.
+//
+// By default, the start of the time range must be no more than 100 days ago and
+// the length of the results must be no greater than 1000. Note that this is a POST
+// endpoint rather than a GET endpoint because it employs a JSON body rather than
+// query parameters.
+func (r *PriceService) Evaluate(ctx context.Context, priceID string, body PriceEvaluateParams, opts ...option.RequestOption) (res *PriceEvaluateResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if priceID == "" {
+		err = errors.New("missing required price_id parameter")
+		return
+	}
+	path := fmt.Sprintf("prices/%s/evaluate", priceID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // This endpoint is used to evaluate the output of price(s) for a given customer
 // and time range over either ingested events or preview events. It enables
 // filtering and grouping the output using
@@ -128,7 +164,7 @@ func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams
 // The length of the results must be no greater than 1000. Note that this is a POST
 // endpoint rather than a GET endpoint because it employs a JSON body rather than
 // query parameters.
-func (r *PriceService) Evaluate(ctx context.Context, body PriceEvaluateParams, opts ...option.RequestOption) (res *PriceEvaluateResponse, err error) {
+func (r *PriceService) EvaluateMultiple(ctx context.Context, body PriceEvaluateMultipleParams, opts ...option.RequestOption) (res *PriceEvaluateMultipleResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "prices/evaluate"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
@@ -14760,8 +14796,8 @@ func (r PricePriceType) IsKnown() bool {
 }
 
 type PriceEvaluateResponse struct {
-	Data []PriceEvaluateResponseData `json:"data,required"`
-	JSON priceEvaluateResponseJSON   `json:"-"`
+	Data []EvaluatePriceGroup      `json:"data,required"`
+	JSON priceEvaluateResponseJSON `json:"-"`
 }
 
 // priceEvaluateResponseJSON contains the JSON metadata for the struct
@@ -14780,7 +14816,28 @@ func (r priceEvaluateResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-type PriceEvaluateResponseData struct {
+type PriceEvaluateMultipleResponse struct {
+	Data []PriceEvaluateMultipleResponseData `json:"data,required"`
+	JSON priceEvaluateMultipleResponseJSON   `json:"-"`
+}
+
+// priceEvaluateMultipleResponseJSON contains the JSON metadata for the struct
+// [PriceEvaluateMultipleResponse]
+type priceEvaluateMultipleResponseJSON struct {
+	Data        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceEvaluateMultipleResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceEvaluateMultipleResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceEvaluateMultipleResponseData struct {
 	// The currency of the price
 	Currency string `json:"currency,required"`
 	// The computed price groups associated with input price.
@@ -14788,13 +14845,13 @@ type PriceEvaluateResponseData struct {
 	// The index of the inline price
 	InlinePriceIndex int64 `json:"inline_price_index,nullable"`
 	// The ID of the price
-	PriceID string                        `json:"price_id,nullable"`
-	JSON    priceEvaluateResponseDataJSON `json:"-"`
+	PriceID string                                `json:"price_id,nullable"`
+	JSON    priceEvaluateMultipleResponseDataJSON `json:"-"`
 }
 
-// priceEvaluateResponseDataJSON contains the JSON metadata for the struct
-// [PriceEvaluateResponseData]
-type priceEvaluateResponseDataJSON struct {
+// priceEvaluateMultipleResponseDataJSON contains the JSON metadata for the struct
+// [PriceEvaluateMultipleResponseData]
+type priceEvaluateMultipleResponseDataJSON struct {
 	Currency         apijson.Field
 	PriceGroups      apijson.Field
 	InlinePriceIndex apijson.Field
@@ -14803,11 +14860,11 @@ type priceEvaluateResponseDataJSON struct {
 	ExtraFields      map[string]apijson.Field
 }
 
-func (r *PriceEvaluateResponseData) UnmarshalJSON(data []byte) (err error) {
+func (r *PriceEvaluateMultipleResponseData) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r priceEvaluateResponseDataJSON) RawJSON() string {
+func (r priceEvaluateMultipleResponseDataJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -19391,19 +19448,42 @@ type PriceEvaluateParams struct {
 	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
 	// The ID of the customer to which this evaluation is scoped.
 	CustomerID param.Field[string] `json:"customer_id"`
-	// Optional list of preview events to use instead of actual usage data (max 500)
-	Events param.Field[[]PriceEvaluateParamsEvent] `json:"events"`
 	// The external customer ID of the customer to which this evaluation is scoped.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
-	// List of prices to evaluate (max 100)
-	PriceEvaluations param.Field[[]PriceEvaluateParamsPriceEvaluation] `json:"price_evaluations"`
+	// A boolean
+	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
+	// filter the underlying billable metric
+	Filter param.Field[string] `json:"filter"`
+	// Properties (or
+	// [computed properties](/extensibility/advanced-metrics#computed-properties)) used
+	// to group the underlying billable metric
+	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
 }
 
 func (r PriceEvaluateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsEvent struct {
+type PriceEvaluateMultipleParams struct {
+	// The exclusive upper bound for event timestamps
+	TimeframeEnd param.Field[time.Time] `json:"timeframe_end,required" format:"date-time"`
+	// The inclusive lower bound for event timestamps
+	TimeframeStart param.Field[time.Time] `json:"timeframe_start,required" format:"date-time"`
+	// The ID of the customer to which this evaluation is scoped.
+	CustomerID param.Field[string] `json:"customer_id"`
+	// Optional list of preview events to use instead of actual usage data (max 500)
+	Events param.Field[[]PriceEvaluateMultipleParamsEvent] `json:"events"`
+	// The external customer ID of the customer to which this evaluation is scoped.
+	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
+	// List of prices to evaluate (max 100)
+	PriceEvaluations param.Field[[]PriceEvaluateMultipleParamsPriceEvaluation] `json:"price_evaluations"`
+}
+
+func (r PriceEvaluateMultipleParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PriceEvaluateMultipleParamsEvent struct {
 	// A name to meaningfully identify the action or event type.
 	EventName param.Field[string] `json:"event_name,required"`
 	// A dictionary of custom properties. Values in this dictionary must be numeric,
@@ -19420,11 +19500,11 @@ type PriceEvaluateParamsEvent struct {
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
 }
 
-func (r PriceEvaluateParamsEvent) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsEvent) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluation struct {
+type PriceEvaluateMultipleParamsPriceEvaluation struct {
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the underlying billable metric
@@ -19435,25 +19515,25 @@ type PriceEvaluateParamsPriceEvaluation struct {
 	GroupingKeys param.Field[[]string] `json:"grouping_keys"`
 	// An inline price definition to evaluate, allowing you to test price
 	// configurations before adding them to Orb.
-	Price param.Field[PriceEvaluateParamsPriceEvaluationsPriceUnion] `json:"price"`
+	Price param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceUnion] `json:"price"`
 	// The ID of a price to evaluate that exists in your Orb account.
 	PriceID param.Field[string] `json:"price_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluation) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluation) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // An inline price definition to evaluate, allowing you to test price
 // configurations before adding them to Orb.
-type PriceEvaluateParamsPriceEvaluationsPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                            `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                    `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -19505,60 +19585,61 @@ type PriceEvaluateParamsPriceEvaluationsPrice struct {
 	UnitWithProrationConfig               param.Field[interface{}] `json:"unit_with_proration_config"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // An inline price definition to evaluate, allowing you to test price
 // configurations before adding them to Orb.
 //
-// Satisfied by [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice],
-// [PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice],
-// [PriceEvaluateParamsPriceEvaluationsPrice].
-type PriceEvaluateParamsPriceEvaluationsPriceUnion interface {
-	implementsPriceEvaluateParamsPriceEvaluationsPriceUnion()
+// Satisfied by
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice],
+// [PriceEvaluateMultipleParamsPriceEvaluationsPrice].
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceUnion interface {
+	implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion()
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                        `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name       param.Field[string]                                                                 `json:"name,required"`
-	UnitConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig] `json:"unit_config,required"`
+	Name       param.Field[string]                                                                         `json:"name,required"`
+	UnitConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig] `json:"unit_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -19567,11 +19648,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -19581,94 +19662,94 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceModelTypeUnit PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType = "unit"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceModelTypeUnit PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType = "unit"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceModelTypeUnit:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceModelTypeUnit:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -19678,50 +19759,50 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPric
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                           `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name          param.Field[string]                                                                       `json:"name,required"`
-	PackageConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePricePackageConfig] `json:"package_config,required"`
+	Name          param.Field[string]                                                                               `json:"name,required"`
+	PackageConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePricePackageConfig] `json:"package_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -19730,11 +19811,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -19744,55 +19825,55 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceModelTypePackage PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType = "package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceModelTypePackage PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType = "package"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceModelTypePackage:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceModelTypePackage:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePricePackageConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePricePackageConfig struct {
 	// A currency amount to rate usage by
 	PackageAmount param.Field[string] `json:"package_amount,required"`
 	// An integer amount to represent package size. For example, 1000 here would divide
@@ -19800,41 +19881,41 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePricePackageConfi
 	PackageSize param.Field[int64] `json:"package_size,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePricePackageConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -19844,48 +19925,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceDimensionalP
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID       param.Field[string]                                                                     `json:"item_id,required"`
-	MatrixConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfig] `json:"matrix_config,required"`
-	ModelType    param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType]    `json:"model_type,required"`
+	ItemID       param.Field[string]                                                                             `json:"item_id,required"`
+	MatrixConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfig] `json:"matrix_config,required"`
+	ModelType    param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType]    `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -19896,11 +19977,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -19910,54 +19991,54 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfig struct {
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
 	DefaultUnitAmount param.Field[string] `json:"default_unit_amount,required"`
 	// One or two event property values to evaluate matrix groups by
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
-	MatrixValues param.Field[[]PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
+	MatrixValues param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfigMatrixValue] `json:"matrix_values,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfigMatrixValue struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfigMatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by. For example,
 	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
 	// instance tier.
@@ -19966,19 +20047,19 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfigM
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceMatrixConfigMatrixValue) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelTypeMatrix PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType = "matrix"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelTypeMatrix PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType = "matrix"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelTypeMatrix:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelTypeMatrix:
 		return true
 	}
 	return false
@@ -19986,35 +20067,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceModelType)
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -20024,48 +20105,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceDimensionalPr
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID                     param.Field[string]                                                                                                 `json:"item_id,required"`
-	MatrixWithAllocationConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig] `json:"matrix_with_allocation_config,required"`
-	ModelType                  param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType]                  `json:"model_type,required"`
+	ItemID                     param.Field[string]                                                                                                         `json:"item_id,required"`
+	MatrixWithAllocationConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig] `json:"matrix_with_allocation_config,required"`
+	ModelType                  param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType]                  `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -20076,11 +20157,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPric
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -20090,41 +20171,41 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPric
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig struct {
 	// Allocation to be used to calculate the price
 	Allocation param.Field[float64] `json:"allocation,required"`
 	// Default per unit rate for any usage not bucketed into a specified matrix_value
@@ -20132,14 +20213,14 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPric
 	// One or two event property values to evaluate matrix groups by
 	Dimensions param.Field[[]string] `json:"dimensions,required"`
 	// Matrix values for specified matrix grouping keys
-	MatrixValues param.Field[[]PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue] `json:"matrix_values,required"`
+	MatrixValues param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue] `json:"matrix_values,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue struct {
 	// One or two matrix keys to filter usage to this Matrix value by. For example,
 	// ["region", "tier"] could be used to filter cloud usage by a cloud region and an
 	// instance tier.
@@ -20148,19 +20229,19 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPric
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceMatrixWithAllocationConfigMatrixValue) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType = "matrix_with_allocation"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType = "matrix_with_allocation"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation:
 		return true
 	}
 	return false
@@ -20168,35 +20249,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationP
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -20206,50 +20287,50 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPric
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                  `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                          `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name         param.Field[string]                                                                     `json:"name,required"`
-	TieredConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfig] `json:"tiered_config,required"`
+	Name         param.Field[string]                                                                             `json:"name,required"`
+	TieredConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfig] `json:"tiered_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -20258,11 +20339,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -20272,64 +20353,64 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceModelTypeTiered PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType = "tiered"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceModelTypeTiered PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType = "tiered"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceModelTypeTiered:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceModelTypeTiered:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfigTier struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfigTier struct {
 	// Exclusive tier starting value
 	FirstUnit param.Field[float64] `json:"first_unit,required"`
 	// Amount per unit
@@ -20338,41 +20419,41 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfigT
 	LastUnit param.Field[float64] `json:"last_unit"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceTieredConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -20382,50 +20463,50 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceDimensionalPr
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                     `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name            param.Field[string]                                                                           `json:"name,required"`
-	TieredBpsConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
+	Name            param.Field[string]                                                                                   `json:"name,required"`
+	TieredBpsConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfig] `json:"tiered_bps_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -20434,11 +20515,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -20448,65 +20529,65 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelTypeTieredBps PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType = "tiered_bps"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelTypeTieredBps PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType = "tiered_bps"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelTypeTieredBps:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceModelTypeTieredBps:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfig struct {
 	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
 	// tiers
-	Tiers param.Field[[]PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfigTier struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfigTier struct {
 	// Per-event basis point rate
 	Bps param.Field[float64] `json:"bps,required"`
 	// Exclusive tier starting value
@@ -20517,41 +20598,41 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsC
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceTieredBpsConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -20561,48 +20642,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceDimensiona
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPrice struct {
-	BpsConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBpsConfig] `json:"bps_config,required"`
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPrice struct {
+	BpsConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBpsConfig] `json:"bps_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                               `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                       `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -20613,11 +20694,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -20627,60 +20708,60 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBpsConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBpsConfig struct {
 	// Basis point take rate per event
 	Bps param.Field[float64] `json:"bps,required"`
 	// Optional currency amount maximum to cap spend per event
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceModelTypeBps PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType = "bps"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceModelTypeBps PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType = "bps"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceModelTypeBps:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceModelTypeBps:
 		return true
 	}
 	return false
@@ -20688,35 +20769,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceModelType) Is
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -20726,48 +20807,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceDimensionalPrice
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice struct {
-	BulkBpsConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice struct {
+	BulkBpsConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfig] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                   `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                           `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -20778,11 +20859,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -20792,31 +20873,31 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfig struct {
 	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
 	// tier based on total volume
-	Tiers param.Field[[]PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfigTier struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfigTier struct {
 	// Basis points to rate on
 	Bps param.Field[float64] `json:"bps,required"`
 	// Upper bound for tier
@@ -20825,39 +20906,39 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfi
 	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBulkBpsConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelTypeBulkBps PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType = "bulk_bps"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelTypeBulkBps PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType = "bulk_bps"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelTypeBulkBps:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelTypeBulkBps:
 		return true
 	}
 	return false
@@ -20865,35 +20946,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceModelType
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -20903,48 +20984,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceDimensionalP
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkBpsPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPrice struct {
-	BulkConfig param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfig] `json:"bulk_config,required"`
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPrice struct {
+	BulkConfig param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfig] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                        `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -20955,11 +21036,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPrice struct {
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -20969,69 +21050,69 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfig struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfig struct {
 	// Bulk tiers for rating based on total usage volume
-	Tiers param.Field[[]PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfigTier] `json:"tiers,required"`
+	Tiers param.Field[[]PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfigTier] `json:"tiers,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfigTier struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfigTier struct {
 	// Amount per unit
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
 	// Upper bound for this tier
 	MaximumUnits param.Field[float64] `json:"maximum_units"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBulkConfigTier) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceModelTypeBulk PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType = "bulk"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceModelTypeBulk PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType = "bulk"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceModelTypeBulk:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceModelTypeBulk:
 		return true
 	}
 	return false
@@ -21039,35 +21120,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceModelType) I
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -21077,47 +21158,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceDimensionalPric
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                        `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                       param.Field[string]                 `json:"name,required"`
 	ThresholdTotalAmountConfig param.Field[map[string]interface{}] `json:"threshold_total_amount_config,required"`
@@ -21129,11 +21210,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPric
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -21143,49 +21224,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPric
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType = "threshold_total_amount"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType = "threshold_total_amount"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount:
 		return true
 	}
 	return false
@@ -21193,35 +21274,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountP
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -21231,47 +21312,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPric
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingThresholdTotalAmountPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                         `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                param.Field[string]                 `json:"name,required"`
 	TieredPackageConfig param.Field[map[string]interface{}] `json:"tiered_package_config,required"`
@@ -21283,11 +21364,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice struc
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -21297,49 +21378,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice struc
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelTypeTieredPackage PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType = "tiered_package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelTypeTieredPackage PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType = "tiered_package"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelTypeTieredPackage:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceModelTypeTieredPackage:
 		return true
 	}
 	return false
@@ -21347,35 +21428,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceMod
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -21385,48 +21466,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceDimens
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency            param.Field[string]                 `json:"currency,required"`
 	GroupedTieredConfig param.Field[map[string]interface{}] `json:"grouped_tiered_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                         `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -21437,11 +21518,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice struc
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -21451,49 +21532,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice struc
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelTypeGroupedTiered PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType = "grouped_tiered"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelTypeGroupedTiered PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType = "grouped_tiered"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelTypeGroupedTiered:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceModelTypeGroupedTiered:
 		return true
 	}
 	return false
@@ -21501,35 +21582,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceMod
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -21539,48 +21620,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceDimens
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID                      param.Field[string]                                                                                 `json:"item_id,required"`
-	MaxGroupTieredPackageConfig param.Field[map[string]interface{}]                                                                 `json:"max_group_tiered_package_config,required"`
-	ModelType                   param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
+	ItemID                      param.Field[string]                                                                                         `json:"item_id,required"`
+	MaxGroupTieredPackageConfig param.Field[map[string]interface{}]                                                                         `json:"max_group_tiered_package_config,required"`
+	ModelType                   param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -21591,11 +21672,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePri
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -21605,49 +21686,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePri
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType = "max_group_tiered_package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType = "max_group_tiered_package"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage:
 		return true
 	}
 	return false
@@ -21655,35 +21736,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackage
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -21693,47 +21774,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePri
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMaxGroupTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                    param.Field[string]                 `json:"name,required"`
 	TieredWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_with_minimum_config,required"`
@@ -21745,11 +21826,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice s
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -21759,49 +21840,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice s
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType = "tiered_with_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType = "tiered_with_minimum"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum:
 		return true
 	}
 	return false
@@ -21809,35 +21890,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPric
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -21847,47 +21928,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceDi
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                         `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                        param.Field[string]                 `json:"name,required"`
 	PackageWithAllocationConfig param.Field[map[string]interface{}] `json:"package_with_allocation_config,required"`
@@ -21899,11 +21980,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPri
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -21913,49 +21994,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPri
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType = "package_with_allocation"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType = "package_with_allocation"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation:
 		return true
 	}
 	return false
@@ -21963,35 +22044,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocation
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -22001,47 +22082,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPri
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPackageWithAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                    `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                            `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                           param.Field[string]                 `json:"name,required"`
 	TieredPackageWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_package_with_minimum_config,required"`
@@ -22053,11 +22134,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimum
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -22067,49 +22148,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimum
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType = "tiered_package_with_minimum"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum:
 		return true
 	}
 	return false
@@ -22117,35 +22198,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMini
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -22155,47 +22236,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimum
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredPackageWithMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                           `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                   `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                  param.Field[string]                 `json:"name,required"`
 	UnitWithPercentConfig param.Field[map[string]interface{}] `json:"unit_with_percent_config,required"`
@@ -22207,11 +22288,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice str
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -22221,49 +22302,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice str
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType = "unit_with_percent"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType = "unit_with_percent"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceModelTypeUnitWithPercent:
 		return true
 	}
 	return false
@@ -22271,35 +22352,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceM
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -22309,47 +22390,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceDime
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithPercentPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                               `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                       `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                      param.Field[string]                 `json:"name,required"`
 	TieredWithProrationConfig param.Field[map[string]interface{}] `json:"tiered_with_proration_config,required"`
@@ -22361,11 +22442,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -22375,49 +22456,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelTypeTieredWithProration PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType = "tiered_with_proration"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelTypeTieredWithProration PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType = "tiered_with_proration"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelTypeTieredWithProration:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceModelTypeTieredWithProration:
 		return true
 	}
 	return false
@@ -22425,35 +22506,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPr
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -22463,47 +22544,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPrice
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingTieredWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                    param.Field[string]                 `json:"name,required"`
 	UnitWithProrationConfig param.Field[map[string]interface{}] `json:"unit_with_proration_config,required"`
@@ -22515,11 +22596,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice s
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -22529,49 +22610,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice s
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelTypeUnitWithProration PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType = "unit_with_proration"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelTypeUnitWithProration PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType = "unit_with_proration"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelTypeUnitWithProration:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceModelTypeUnitWithProration:
 		return true
 	}
 	return false
@@ -22579,35 +22660,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPric
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -22617,48 +22698,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceDi
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                param.Field[string]                 `json:"currency,required"`
 	GroupedAllocationConfig param.Field[map[string]interface{}] `json:"grouped_allocation_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -22669,11 +22750,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice s
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -22683,49 +22764,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice s
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType = "grouped_allocation"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType = "grouped_allocation"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceModelTypeGroupedAllocation:
 		return true
 	}
 	return false
@@ -22733,35 +22814,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPric
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -22771,48 +22852,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceDi
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedAllocationPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                         param.Field[string]                 `json:"currency,required"`
 	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_prorated_minimum_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                      `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                              `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -22823,11 +22904,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinim
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -22837,49 +22918,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinim
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType = "grouped_with_prorated_minimum"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum:
 		return true
 	}
 	return false
@@ -22887,35 +22968,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMi
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -22925,48 +23006,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinim
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithProratedMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                        param.Field[string]                 `json:"currency,required"`
 	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}] `json:"grouped_with_metered_minimum_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                             `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -22977,11 +23058,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimu
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -22991,49 +23072,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimu
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType = "grouped_with_metered_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType = "grouped_with_metered_minimum"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum:
 		return true
 	}
 	return false
@@ -23041,35 +23122,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMin
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -23079,48 +23160,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimu
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMeteredMinimumPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID                      param.Field[string]                                                                                 `json:"item_id,required"`
-	MatrixWithDisplayNameConfig param.Field[map[string]interface{}]                                                                 `json:"matrix_with_display_name_config,required"`
-	ModelType                   param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
+	ItemID                      param.Field[string]                                                                                         `json:"item_id,required"`
+	MatrixWithDisplayNameConfig param.Field[map[string]interface{}]                                                                         `json:"matrix_with_display_name_config,required"`
+	ModelType                   param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -23131,11 +23212,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePri
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -23145,49 +23226,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePri
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType = "matrix_with_display_name"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType = "matrix_with_display_name"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName:
 		return true
 	}
 	return false
@@ -23195,35 +23276,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayName
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -23233,48 +23314,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePri
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingMatrixWithDisplayNamePriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice struct {
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                             `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -23285,11 +23366,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice s
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -23299,49 +23380,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice s
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelTypeBulkWithProration PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType = "bulk_with_proration"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelTypeBulkWithProration PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType = "bulk_with_proration"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelTypeBulkWithProration:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceModelTypeBulkWithProration:
 		return true
 	}
 	return false
@@ -23349,35 +23430,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPric
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -23387,48 +23468,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceDi
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingBulkWithProrationPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency                   param.Field[string]                 `json:"currency,required"`
 	GroupedTieredPackageConfig param.Field[map[string]interface{}] `json:"grouped_tiered_package_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                        `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -23439,11 +23520,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePric
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -23453,49 +23534,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePric
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType = "grouped_tiered_package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType = "grouped_tiered_package"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage:
 		return true
 	}
 	return false
@@ -23503,35 +23584,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackageP
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -23541,47 +23622,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePric
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedTieredPackagePriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                         `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                                 `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                                param.Field[string]                 `json:"name,required"`
 	ScalableMatrixWithUnitPricingConfig param.Field[map[string]interface{}] `json:"scalable_matrix_with_unit_pricing_config,required"`
@@ -23593,11 +23674,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPr
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -23607,49 +23688,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPr
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType = "scalable_matrix_with_unit_pricing"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType = "scalable_matrix_with_unit_pricing"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing:
 		return true
 	}
 	return false
@@ -23657,35 +23738,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUni
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -23695,47 +23776,47 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPr
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithUnitPricingPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
+	Cadence param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                           `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                                   `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name                                  param.Field[string]                 `json:"name,required"`
 	ScalableMatrixWithTieredPricingConfig param.Field[map[string]interface{}] `json:"scalable_matrix_with_tiered_pricing_config,required"`
@@ -23747,11 +23828,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTiered
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -23761,49 +23842,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTiered
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType = "scalable_matrix_with_tiered_pricing"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType = "scalable_matrix_with_tiered_pricing"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing:
 		return true
 	}
 	return false
@@ -23811,35 +23892,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTie
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -23849,48 +23930,48 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTiered
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingScalableMatrixWithTieredPricingPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice struct {
 	// The cadence to bill for this price on.
-	Cadence                     param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
-	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                                                               `json:"cumulative_grouped_bulk_config,required"`
+	Cadence                     param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                                                                       `json:"cumulative_grouped_bulk_config,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
-	ModelType param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                                                                                         `json:"item_id,required"`
+	ModelType param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -23901,11 +23982,11 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPri
 	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
-	BillingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
+	BillingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
+	DimensionalPriceConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceDimensionalPriceConfiguration] `json:"dimensional_price_configuration"`
 	// An alias for the price.
 	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// If the Price represents a fixed cost, this represents the quantity of units
@@ -23915,49 +23996,49 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPri
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
+	InvoicingCycleConfiguration param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration] `json:"invoicing_cycle_configuration"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice) implementsPriceEvaluateParamsPriceEvaluationsPriceUnion() {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPrice) implementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType = "cumulative_grouped_bulk"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType = "cumulative_grouped_bulk"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk:
 		return true
 	}
 	return false
@@ -23965,35 +24046,35 @@ func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulk
 
 // For custom cadence: specifies the duration of the billing period in days or
 // months.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceBillingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // For dimensional price: specifies a price group and dimension values
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceDimensionalPriceConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceDimensionalPriceConfiguration struct {
 	// The list of dimension values matching (in order) the dimensions of the price
 	// group
 	DimensionValues param.Field[[]string] `json:"dimension_values,required"`
@@ -24003,95 +24084,95 @@ type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPri
 	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceDimensionalPriceConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // Within each billing cycle, specifies the cadence at which invoices are produced.
 // If unspecified, a single invoice is produced per billing cycle.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration struct {
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration struct {
 	// The duration of the billing period.
 	Duration param.Field[int64] `json:"duration,required"`
 	// The unit of billing period duration.
-	DurationUnit param.Field[PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
+	DurationUnit param.Field[PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit] `json:"duration_unit,required"`
 }
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfiguration) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
 // The unit of billing period duration.
-type PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
-	PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay   PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "day"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit = "month"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnit) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitDay, PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingCumulativeGroupedBulkPriceInvoicingCycleConfigurationDurationUnitMonth:
 		return true
 	}
 	return false
 }
 
 // The cadence to bill for this price on.
-type PriceEvaluateParamsPriceEvaluationsPriceCadence string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceCadenceAnnual     PriceEvaluateParamsPriceEvaluationsPriceCadence = "annual"
-	PriceEvaluateParamsPriceEvaluationsPriceCadenceSemiAnnual PriceEvaluateParamsPriceEvaluationsPriceCadence = "semi_annual"
-	PriceEvaluateParamsPriceEvaluationsPriceCadenceMonthly    PriceEvaluateParamsPriceEvaluationsPriceCadence = "monthly"
-	PriceEvaluateParamsPriceEvaluationsPriceCadenceQuarterly  PriceEvaluateParamsPriceEvaluationsPriceCadence = "quarterly"
-	PriceEvaluateParamsPriceEvaluationsPriceCadenceOneTime    PriceEvaluateParamsPriceEvaluationsPriceCadence = "one_time"
-	PriceEvaluateParamsPriceEvaluationsPriceCadenceCustom     PriceEvaluateParamsPriceEvaluationsPriceCadence = "custom"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceAnnual     PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence = "annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceSemiAnnual PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence = "semi_annual"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceMonthly    PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence = "monthly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceQuarterly  PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence = "quarterly"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceOneTime    PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence = "one_time"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceCustom     PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence = "custom"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceCadence) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceCadence) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceCadenceAnnual, PriceEvaluateParamsPriceEvaluationsPriceCadenceSemiAnnual, PriceEvaluateParamsPriceEvaluationsPriceCadenceMonthly, PriceEvaluateParamsPriceEvaluationsPriceCadenceQuarterly, PriceEvaluateParamsPriceEvaluationsPriceCadenceOneTime, PriceEvaluateParamsPriceEvaluationsPriceCadenceCustom:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceSemiAnnual, PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceMonthly, PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceQuarterly, PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceOneTime, PriceEvaluateMultipleParamsPriceEvaluationsPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PriceEvaluateParamsPriceEvaluationsPriceModelType string
+type PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType string
 
 const (
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeUnit                            PriceEvaluateParamsPriceEvaluationsPriceModelType = "unit"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypePackage                         PriceEvaluateParamsPriceEvaluationsPriceModelType = "package"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeMatrix                          PriceEvaluateParamsPriceEvaluationsPriceModelType = "matrix"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation            PriceEvaluateParamsPriceEvaluationsPriceModelType = "matrix_with_allocation"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeTiered                          PriceEvaluateParamsPriceEvaluationsPriceModelType = "tiered"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredBps                       PriceEvaluateParamsPriceEvaluationsPriceModelType = "tiered_bps"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeBps                             PriceEvaluateParamsPriceEvaluationsPriceModelType = "bps"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeBulkBps                         PriceEvaluateParamsPriceEvaluationsPriceModelType = "bulk_bps"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeBulk                            PriceEvaluateParamsPriceEvaluationsPriceModelType = "bulk"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount            PriceEvaluateParamsPriceEvaluationsPriceModelType = "threshold_total_amount"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredPackage                   PriceEvaluateParamsPriceEvaluationsPriceModelType = "tiered_package"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedTiered                   PriceEvaluateParamsPriceEvaluationsPriceModelType = "grouped_tiered"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage           PriceEvaluateParamsPriceEvaluationsPriceModelType = "max_group_tiered_package"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredWithMinimum               PriceEvaluateParamsPriceEvaluationsPriceModelType = "tiered_with_minimum"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypePackageWithAllocation           PriceEvaluateParamsPriceEvaluationsPriceModelType = "package_with_allocation"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum        PriceEvaluateParamsPriceEvaluationsPriceModelType = "tiered_package_with_minimum"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeUnitWithPercent                 PriceEvaluateParamsPriceEvaluationsPriceModelType = "unit_with_percent"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredWithProration             PriceEvaluateParamsPriceEvaluationsPriceModelType = "tiered_with_proration"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeUnitWithProration               PriceEvaluateParamsPriceEvaluationsPriceModelType = "unit_with_proration"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedAllocation               PriceEvaluateParamsPriceEvaluationsPriceModelType = "grouped_allocation"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum      PriceEvaluateParamsPriceEvaluationsPriceModelType = "grouped_with_prorated_minimum"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum       PriceEvaluateParamsPriceEvaluationsPriceModelType = "grouped_with_metered_minimum"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName           PriceEvaluateParamsPriceEvaluationsPriceModelType = "matrix_with_display_name"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeBulkWithProration               PriceEvaluateParamsPriceEvaluationsPriceModelType = "bulk_with_proration"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage            PriceEvaluateParamsPriceEvaluationsPriceModelType = "grouped_tiered_package"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing   PriceEvaluateParamsPriceEvaluationsPriceModelType = "scalable_matrix_with_unit_pricing"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing PriceEvaluateParamsPriceEvaluationsPriceModelType = "scalable_matrix_with_tiered_pricing"
-	PriceEvaluateParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk           PriceEvaluateParamsPriceEvaluationsPriceModelType = "cumulative_grouped_bulk"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnit                            PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "unit"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackage                         PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrix                          PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "matrix"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation            PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "matrix_with_allocation"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTiered                          PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredBps                       PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered_bps"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBps                             PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "bps"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkBps                         PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "bulk_bps"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulk                            PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "bulk"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount            PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "threshold_total_amount"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackage                   PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered_package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTiered                   PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "grouped_tiered"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage           PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "max_group_tiered_package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithMinimum               PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered_with_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackageWithAllocation           PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "package_with_allocation"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum        PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered_package_with_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithPercent                 PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "unit_with_percent"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithProration             PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "tiered_with_proration"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithProration               PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "unit_with_proration"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedAllocation               PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "grouped_allocation"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum      PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "grouped_with_prorated_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum       PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "grouped_with_metered_minimum"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName           PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "matrix_with_display_name"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithProration               PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "bulk_with_proration"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage            PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "grouped_tiered_package"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing   PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "scalable_matrix_with_unit_pricing"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "scalable_matrix_with_tiered_pricing"
+	PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk           PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType = "cumulative_grouped_bulk"
 )
 
-func (r PriceEvaluateParamsPriceEvaluationsPriceModelType) IsKnown() bool {
+func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceModelType) IsKnown() bool {
 	switch r {
-	case PriceEvaluateParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluateParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluateParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluateParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluateParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredBps, PriceEvaluateParamsPriceEvaluationsPriceModelTypeBps, PriceEvaluateParamsPriceEvaluationsPriceModelTypeBulkBps, PriceEvaluateParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluateParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluateParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluateParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluateParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluateParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluateParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluateParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluateParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluateParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluateParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluateParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluateParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk:
+	case PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnit, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrix, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredBps, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBps, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkBps, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulk, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeThresholdTotalAmount, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTiered, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMaxGroupTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypePackageWithAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredPackageWithMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithPercent, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeTieredWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeUnitWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedAllocation, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithProratedMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedWithMeteredMinimum, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeMatrixWithDisplayName, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeBulkWithProration, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeGroupedTieredPackage, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithUnitPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeScalableMatrixWithTieredPricing, PriceEvaluateMultipleParamsPriceEvaluationsPriceModelTypeCumulativeGroupedBulk:
 		return true
 	}
 	return false

@@ -30,7 +30,6 @@ import (
 type PlanService struct {
 	Options        []option.RequestOption
 	ExternalPlanID *PlanExternalPlanIDService
-	Versions       *PlanVersionService
 }
 
 // NewPlanService generates a new service that applies the given options to each
@@ -40,7 +39,6 @@ func NewPlanService(opts ...option.RequestOption) (r *PlanService) {
 	r = &PlanService{}
 	r.Options = opts
 	r.ExternalPlanID = NewPlanExternalPlanIDService(opts...)
-	r.Versions = NewPlanVersionService(opts...)
 	return
 }
 
@@ -123,21 +121,6 @@ func (r *PlanService) Fetch(ctx context.Context, planID string, opts ...option.R
 	}
 	path := fmt.Sprintf("plans/%s", planID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
-}
-
-// This API endpoint is in beta and its interface may change. It is recommended for
-// use only in test mode.
-//
-// This endpoint allows setting the default version of a plan.
-func (r *PlanService) SetDefaultVersion(ctx context.Context, planID string, body PlanSetDefaultVersionParams, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
-	if planID == "" {
-		err = errors.New("missing required plan_id parameter")
-		return
-	}
-	path := fmt.Sprintf("plans/%s/set_default_version", planID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
 }
 
@@ -6298,13 +6281,4 @@ func (r PlanListParamsStatus) IsKnown() bool {
 		return true
 	}
 	return false
-}
-
-type PlanSetDefaultVersionParams struct {
-	// Plan version to set as the default.
-	Version param.Field[int64] `json:"version,required"`
-}
-
-func (r PlanSetDefaultVersionParams) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
 }
