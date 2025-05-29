@@ -12,20 +12,20 @@ import (
 
 type AmountDiscount struct {
 	// Only available if discount_type is `amount`.
-	AmountDiscount string `json:"amount_discount,required"`
+	AmountDiscount string                     `json:"amount_discount,required"`
+	DiscountType   AmountDiscountDiscountType `json:"discount_type,required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs []string                   `json:"applies_to_price_ids,required"`
-	DiscountType      AmountDiscountDiscountType `json:"discount_type,required"`
-	Reason            string                     `json:"reason,nullable"`
-	JSON              amountDiscountJSON         `json:"-"`
+	AppliesToPriceIDs []string           `json:"applies_to_price_ids,nullable"`
+	Reason            string             `json:"reason,nullable"`
+	JSON              amountDiscountJSON `json:"-"`
 }
 
 // amountDiscountJSON contains the JSON metadata for the struct [AmountDiscount]
 type amountDiscountJSON struct {
 	AmountDiscount    apijson.Field
-	AppliesToPriceIDs apijson.Field
 	DiscountType      apijson.Field
+	AppliesToPriceIDs apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -61,12 +61,12 @@ func (r AmountDiscountDiscountType) IsKnown() bool {
 
 type AmountDiscountParam struct {
 	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount,required"`
+	AmountDiscount param.Field[string]                     `json:"amount_discount,required"`
+	DiscountType   param.Field[AmountDiscountDiscountType] `json:"discount_type,required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                   `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[AmountDiscountDiscountType] `json:"discount_type,required"`
-	Reason            param.Field[string]                     `json:"reason"`
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	Reason            param.Field[string]   `json:"reason"`
 }
 
 func (r AmountDiscountParam) MarshalJSON() (data []byte, err error) {
@@ -111,11 +111,11 @@ func (r BillingCycleRelativeDate) ImplementsSubscriptionPriceIntervalsParamsEdit
 }
 
 type Discount struct {
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{}          `json:"applies_to_price_ids,required"`
-	DiscountType      DiscountDiscountType `json:"discount_type,required"`
+	DiscountType DiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -133,9 +133,9 @@ type Discount struct {
 
 // discountJSON contains the JSON metadata for the struct [Discount]
 type discountJSON struct {
-	AppliesToPriceIDs       apijson.Field
 	DiscountType            apijson.Field
 	AmountDiscount          apijson.Field
+	AppliesToPriceIDs       apijson.Field
 	PercentageDiscount      apijson.Field
 	Reason                  apijson.Field
 	TrialAmountDiscount     apijson.Field
@@ -218,10 +218,10 @@ func (r DiscountDiscountType) IsKnown() bool {
 }
 
 type DiscountParam struct {
-	AppliesToPriceIDs param.Field[interface{}]          `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[DiscountDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[DiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
-	AmountDiscount param.Field[string] `json:"amount_discount"`
+	AmountDiscount    param.Field[string]      `json:"amount_discount"`
+	AppliesToPriceIDs param.Field[interface{}] `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
@@ -248,11 +248,11 @@ type DiscountUnionParam interface {
 }
 
 type InvoiceLevelDiscount struct {
-	// This field can have the runtime type of [[]string].
-	AppliesToPriceIDs interface{}                      `json:"applies_to_price_ids,required"`
-	DiscountType      InvoiceLevelDiscountDiscountType `json:"discount_type,required"`
+	DiscountType InvoiceLevelDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `amount`.
 	AmountDiscount string `json:"amount_discount"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount"`
@@ -268,9 +268,9 @@ type InvoiceLevelDiscount struct {
 // invoiceLevelDiscountJSON contains the JSON metadata for the struct
 // [InvoiceLevelDiscount]
 type invoiceLevelDiscountJSON struct {
-	AppliesToPriceIDs       apijson.Field
 	DiscountType            apijson.Field
 	AmountDiscount          apijson.Field
+	AppliesToPriceIDs       apijson.Field
 	PercentageDiscount      apijson.Field
 	Reason                  apijson.Field
 	TrialAmountDiscount     apijson.Field
@@ -368,23 +368,23 @@ func (r paginationMetadataJSON) RawJSON() string {
 }
 
 type PercentageDiscount struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs []string                       `json:"applies_to_price_ids,required"`
-	DiscountType      PercentageDiscountDiscountType `json:"discount_type,required"`
+	DiscountType PercentageDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
-	PercentageDiscount float64                `json:"percentage_discount,required"`
-	Reason             string                 `json:"reason,nullable"`
-	JSON               percentageDiscountJSON `json:"-"`
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string               `json:"applies_to_price_ids,nullable"`
+	Reason            string                 `json:"reason,nullable"`
+	JSON              percentageDiscountJSON `json:"-"`
 }
 
 // percentageDiscountJSON contains the JSON metadata for the struct
 // [PercentageDiscount]
 type percentageDiscountJSON struct {
-	AppliesToPriceIDs  apijson.Field
 	DiscountType       apijson.Field
 	PercentageDiscount apijson.Field
+	AppliesToPriceIDs  apijson.Field
 	Reason             apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
@@ -419,14 +419,14 @@ func (r PercentageDiscountDiscountType) IsKnown() bool {
 }
 
 type PercentageDiscountParam struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                       `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[PercentageDiscountDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[PercentageDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount param.Field[float64] `json:"percentage_discount,required"`
-	Reason             param.Field[string]  `json:"reason"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	Reason            param.Field[string]   `json:"reason"`
 }
 
 func (r PercentageDiscountParam) MarshalJSON() (data []byte, err error) {
@@ -436,11 +436,11 @@ func (r PercentageDiscountParam) MarshalJSON() (data []byte, err error) {
 func (r PercentageDiscountParam) ImplementsDiscountUnionParam() {}
 
 type TrialDiscount struct {
+	DiscountType TrialDiscountDiscountType `json:"discount_type,required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs []string                  `json:"applies_to_price_ids,required"`
-	DiscountType      TrialDiscountDiscountType `json:"discount_type,required"`
-	Reason            string                    `json:"reason,nullable"`
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
+	Reason            string   `json:"reason,nullable"`
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
 	// Only available if discount_type is `trial`
@@ -450,8 +450,8 @@ type TrialDiscount struct {
 
 // trialDiscountJSON contains the JSON metadata for the struct [TrialDiscount]
 type trialDiscountJSON struct {
-	AppliesToPriceIDs       apijson.Field
 	DiscountType            apijson.Field
+	AppliesToPriceIDs       apijson.Field
 	Reason                  apijson.Field
 	TrialAmountDiscount     apijson.Field
 	TrialPercentageDiscount apijson.Field
@@ -486,11 +486,11 @@ func (r TrialDiscountDiscountType) IsKnown() bool {
 }
 
 type TrialDiscountParam struct {
+	DiscountType param.Field[TrialDiscountDiscountType] `json:"discount_type,required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                  `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[TrialDiscountDiscountType] `json:"discount_type,required"`
-	Reason            param.Field[string]                    `json:"reason"`
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	Reason            param.Field[string]   `json:"reason"`
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `trial`
@@ -504,22 +504,22 @@ func (r TrialDiscountParam) MarshalJSON() (data []byte, err error) {
 func (r TrialDiscountParam) ImplementsDiscountUnionParam() {}
 
 type UsageDiscount struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs []string                  `json:"applies_to_price_ids,required"`
-	DiscountType      UsageDiscountDiscountType `json:"discount_type,required"`
+	DiscountType UsageDiscountDiscountType `json:"discount_type,required"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
-	UsageDiscount float64           `json:"usage_discount,required"`
-	Reason        string            `json:"reason,nullable"`
-	JSON          usageDiscountJSON `json:"-"`
+	UsageDiscount float64 `json:"usage_discount,required"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs []string          `json:"applies_to_price_ids,nullable"`
+	Reason            string            `json:"reason,nullable"`
+	JSON              usageDiscountJSON `json:"-"`
 }
 
 // usageDiscountJSON contains the JSON metadata for the struct [UsageDiscount]
 type usageDiscountJSON struct {
-	AppliesToPriceIDs apijson.Field
 	DiscountType      apijson.Field
 	UsageDiscount     apijson.Field
+	AppliesToPriceIDs apijson.Field
 	Reason            apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -550,14 +550,14 @@ func (r UsageDiscountDiscountType) IsKnown() bool {
 }
 
 type UsageDiscountParam struct {
-	// List of price_ids that this discount applies to. For plan/plan phase discounts,
-	// this can be a subset of prices.
-	AppliesToPriceIDs param.Field[[]string]                  `json:"applies_to_price_ids,required"`
-	DiscountType      param.Field[UsageDiscountDiscountType] `json:"discount_type,required"`
+	DiscountType param.Field[UsageDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `usage`. Number of usage units that this
 	// discount is for
 	UsageDiscount param.Field[float64] `json:"usage_discount,required"`
-	Reason        param.Field[string]  `json:"reason"`
+	// List of price_ids that this discount applies to. For plan/plan phase discounts,
+	// this can be a subset of prices.
+	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	Reason            param.Field[string]   `json:"reason"`
 }
 
 func (r UsageDiscountParam) MarshalJSON() (data []byte, err error) {

@@ -36,7 +36,7 @@ func NewPlanExternalPlanIDService(opts ...option.RequestOption) (r *PlanExternal
 // This endpoint can be used to update the `external_plan_id`, and `metadata` of an
 // existing plan.
 //
-// Other fields on a customer are currently immutable.
+// Other fields on a plan are currently immutable.
 func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPlanID string, body PlanExternalPlanIDUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = append(r.Options[:], opts...)
 	if otherExternalPlanID == "" {

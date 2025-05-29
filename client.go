@@ -17,6 +17,7 @@ import (
 type Client struct {
 	Options                []option.RequestOption
 	TopLevel               *TopLevelService
+	Beta                   *BetaService
 	Coupons                *CouponService
 	CreditNotes            *CreditNoteService
 	Customers              *CustomerService
@@ -61,6 +62,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r = &Client{Options: opts}
 
 	r.TopLevel = NewTopLevelService(opts...)
+	r.Beta = NewBetaService(opts...)
 	r.Coupons = NewCouponService(opts...)
 	r.CreditNotes = NewCreditNoteService(opts...)
 	r.Customers = NewCustomerService(opts...)

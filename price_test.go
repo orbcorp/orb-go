@@ -41,10 +41,15 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 			Duration:     orb.F(int64(0)),
 			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay),
 		}),
-		ConversionRate:     orb.F(0.000000),
+		ConversionRate: orb.F(0.000000),
+		DimensionalPriceConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceDimensionalPriceConfiguration{
+			DimensionValues:                 orb.F([]string{"string"}),
+			DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+			ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+		}),
 		ExternalPriceID:    orb.F("external_price_id"),
 		FixedPriceQuantity: orb.F(0.000000),
-		InvoiceGroupingKey: orb.F("invoice_grouping_key"),
+		InvoiceGroupingKey: orb.F("x"),
 		InvoicingCycleConfiguration: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfiguration{
 			Duration:     orb.F(int64(0)),
 			DurationUnit: orb.F(orb.PriceNewParamsNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay),
@@ -141,6 +146,77 @@ func TestPriceEvaluateWithOptionalParams(t *testing.T) {
 			GroupingKeys:       orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
 		},
 	)
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Prices.EvaluateMultiple(context.TODO(), orb.PriceEvaluateMultipleParams{
+		TimeframeEnd:   orb.F(time.Now()),
+		TimeframeStart: orb.F(time.Now()),
+		CustomerID:     orb.F("customer_id"),
+		Events: orb.F([]orb.PriceEvaluateMultipleParamsEvent{{
+			EventName:          orb.F("event_name"),
+			Properties:         orb.F[any](map[string]interface{}{}),
+			Timestamp:          orb.F(time.Now()),
+			CustomerID:         orb.F("customer_id"),
+			ExternalCustomerID: orb.F("external_customer_id"),
+		}}),
+		ExternalCustomerID: orb.F("external_customer_id"),
+		PriceEvaluations: orb.F([]orb.PriceEvaluateMultipleParamsPriceEvaluation{{
+			Filter:       orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
+			GroupingKeys: orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
+			Price: orb.F[orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceUnion](orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPrice{
+				Cadence:   orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceCadenceAnnual),
+				Currency:  orb.F("currency"),
+				ItemID:    orb.F("item_id"),
+				ModelType: orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceModelTypeUnit),
+				Name:      orb.F("Annual fee"),
+				UnitConfig: orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceUnitConfig{
+					UnitAmount: orb.F("unit_amount"),
+				}),
+				BillableMetricID: orb.F("billable_metric_id"),
+				BilledInAdvance:  orb.F(true),
+				BillingCycleConfiguration: orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfiguration{
+					Duration:     orb.F(int64(0)),
+					DurationUnit: orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceBillingCycleConfigurationDurationUnitDay),
+				}),
+				ConversionRate: orb.F(0.000000),
+				DimensionalPriceConfiguration: orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceDimensionalPriceConfiguration{
+					DimensionValues:                 orb.F([]string{"string"}),
+					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+					ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+				}),
+				ExternalPriceID:    orb.F("external_price_id"),
+				FixedPriceQuantity: orb.F(0.000000),
+				InvoiceGroupingKey: orb.F("x"),
+				InvoicingCycleConfiguration: orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfiguration{
+					Duration:     orb.F(int64(0)),
+					DurationUnit: orb.F(orb.PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+				}),
+				Metadata: orb.F(map[string]string{
+					"foo": "string",
+				}),
+			}),
+			PriceID: orb.F("price_id"),
+		}}),
+	})
 	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {

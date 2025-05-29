@@ -567,7 +567,7 @@ type CustomerCreditTopUpNewParams struct {
 	// threshold, the top-up will be triggered.
 	Threshold param.Field[string] `json:"threshold,required"`
 	// The date from which the top-up is active. If unspecified, the top-up is active
-	// immediately.
+	// immediately. This should not be more than 10 days in the past.
 	ActiveFrom param.Field[time.Time] `json:"active_from" format:"date-time"`
 	// The number of days or months after which the top-up expires. If unspecified, it
 	// does not expire.
@@ -647,7 +647,7 @@ type CustomerCreditTopUpNewByExternalIDParams struct {
 	// threshold, the top-up will be triggered.
 	Threshold param.Field[string] `json:"threshold,required"`
 	// The date from which the top-up is active. If unspecified, the top-up is active
-	// immediately.
+	// immediately. This should not be more than 10 days in the past.
 	ActiveFrom param.Field[time.Time] `json:"active_from" format:"date-time"`
 	// The number of days or months after which the top-up expires. If unspecified, it
 	// does not expire.

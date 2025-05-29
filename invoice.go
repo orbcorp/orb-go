@@ -1151,6 +1151,13 @@ type InvoiceLineItemsAdjustment struct {
 	Amount string `json:"amount,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of
+	// [[]InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter],
+	// [[]InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter],
+	// [[]InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter],
+	// [[]InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter],
+	// [[]InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter].
+	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -1184,6 +1191,7 @@ type invoiceLineItemsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
 	Amount             apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
 	IsInvoiceLevel     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
@@ -1269,7 +1277,11 @@ type InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustment struct {
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -1289,6 +1301,7 @@ type invoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentJSON struct {
 	AdjustmentType    apijson.Field
 	Amount            apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
@@ -1321,6 +1334,70 @@ func (r InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentAdjustmentType
 	return false
 }
 
+type InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                             `json:"values,required"`
+	JSON   invoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON contains
+// the JSON metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter]
+type invoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceID       InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "price_id"
+	InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldItemID        InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "item_id"
+	InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceType     InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "price_type"
+	InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldCurrency      InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "currency"
+	InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceID, InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldItemID, InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceType, InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldCurrency, InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorIncludes InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorExcludes InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorIncludes, InvoiceLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustment struct {
 	ID             string                                                                    `json:"id,required"`
 	AdjustmentType InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -1330,7 +1407,11 @@ type InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustment struct {
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -1348,6 +1429,7 @@ type invoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentJSON struct {
 	Amount            apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	Reason            apijson.Field
 	raw               string
@@ -1379,13 +1461,81 @@ func (r InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentAdjustmentTyp
 	return false
 }
 
+type InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                              `json:"values,required"`
+	JSON   invoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON contains
+// the JSON metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter]
+type invoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceID       InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "price_id"
+	InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldItemID        InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "item_id"
+	InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceType     InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "price_type"
+	InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldCurrency      InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "currency"
+	InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceID, InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldItemID, InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceType, InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldCurrency, InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorIncludes InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorExcludes InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorIncludes, InvoiceLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustment struct {
 	ID             string                                                                        `json:"id,required"`
 	AdjustmentType InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -1405,6 +1555,7 @@ type invoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentJSON struct 
 	AdjustmentType     apijson.Field
 	Amount             apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
 	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
 	Reason             apijson.Field
@@ -1437,13 +1588,81 @@ func (r InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentAdjustmen
 	return false
 }
 
+type InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                  `json:"values,required"`
+	JSON   invoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter]
+type invoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceID       InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "price_id"
+	InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldItemID        InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "item_id"
+	InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceType     InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "price_type"
+	InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldCurrency      InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "currency"
+	InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceID, InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldItemID, InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceType, InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldCurrency, InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes, InvoiceLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustment struct {
 	ID             string                                                             `json:"id,required"`
 	AdjustmentType InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -1464,6 +1683,7 @@ type invoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentJSON struct {
 	AdjustmentType    apijson.Field
 	Amount            apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
@@ -1497,13 +1717,81 @@ func (r InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentAdjustmentType) IsKn
 	return false
 }
 
+type InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                       `json:"values,required"`
+	JSON   invoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON contains the JSON
+// metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter]
+type invoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceID       InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "price_id"
+	InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldItemID        InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "item_id"
+	InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceType     InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "price_type"
+	InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldCurrency      InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "currency"
+	InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPricingUnitID InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceID, InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldItemID, InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceType, InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldCurrency, InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorIncludes InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator = "includes"
+	InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorExcludes InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorIncludes, InvoiceLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustment struct {
 	ID             string                                                             `json:"id,required"`
 	AdjustmentType InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -1522,6 +1810,7 @@ type invoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentJSON struct {
 	AdjustmentType    apijson.Field
 	Amount            apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
 	Reason            apijson.Field
@@ -1554,6 +1843,70 @@ func (r InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentAdjustmentType) IsKn
 	return false
 }
 
+type InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                       `json:"values,required"`
+	JSON   invoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON contains the JSON
+// metadata for the struct
+// [InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter]
+type invoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceID       InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "price_id"
+	InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldItemID        InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "item_id"
+	InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceType     InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "price_type"
+	InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldCurrency      InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "currency"
+	InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPricingUnitID InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceID, InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldItemID, InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceType, InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldCurrency, InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator string
+
+const (
+	InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorIncludes InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator = "includes"
+	InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorExcludes InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorIncludes, InvoiceLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceLineItemsAdjustmentsAdjustmentType string
 
 const (
@@ -1578,7 +1931,11 @@ func (r InvoiceLineItemsAdjustmentsAdjustmentType) IsKnown() bool {
 type InvoiceLineItemsMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this maximum to.
+	Filters []InvoiceLineItemsMaximumFilter `json:"filters,required"`
 	// Maximum amount applied
 	MaximumAmount string                      `json:"maximum_amount,required"`
 	JSON          invoiceLineItemsMaximumJSON `json:"-"`
@@ -1588,6 +1945,7 @@ type InvoiceLineItemsMaximum struct {
 // [InvoiceLineItemsMaximum]
 type invoiceLineItemsMaximumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MaximumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -1601,13 +1959,80 @@ func (r invoiceLineItemsMaximumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceLineItemsMaximumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsMaximumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsMaximumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                          `json:"values,required"`
+	JSON   invoiceLineItemsMaximumFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsMaximumFilterJSON contains the JSON metadata for the struct
+// [InvoiceLineItemsMaximumFilter]
+type invoiceLineItemsMaximumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsMaximumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsMaximumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsMaximumFiltersField string
+
+const (
+	InvoiceLineItemsMaximumFiltersFieldPriceID       InvoiceLineItemsMaximumFiltersField = "price_id"
+	InvoiceLineItemsMaximumFiltersFieldItemID        InvoiceLineItemsMaximumFiltersField = "item_id"
+	InvoiceLineItemsMaximumFiltersFieldPriceType     InvoiceLineItemsMaximumFiltersField = "price_type"
+	InvoiceLineItemsMaximumFiltersFieldCurrency      InvoiceLineItemsMaximumFiltersField = "currency"
+	InvoiceLineItemsMaximumFiltersFieldPricingUnitID InvoiceLineItemsMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsMaximumFiltersFieldPriceID, InvoiceLineItemsMaximumFiltersFieldItemID, InvoiceLineItemsMaximumFiltersFieldPriceType, InvoiceLineItemsMaximumFiltersFieldCurrency, InvoiceLineItemsMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsMaximumFiltersOperator string
+
+const (
+	InvoiceLineItemsMaximumFiltersOperatorIncludes InvoiceLineItemsMaximumFiltersOperator = "includes"
+	InvoiceLineItemsMaximumFiltersOperatorExcludes InvoiceLineItemsMaximumFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsMaximumFiltersOperatorIncludes, InvoiceLineItemsMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 // This field is deprecated in favor of `adjustments`.
 //
 // Deprecated: deprecated
 type InvoiceLineItemsMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this minimum to.
+	Filters []InvoiceLineItemsMinimumFilter `json:"filters,required"`
 	// Minimum amount applied
 	MinimumAmount string                      `json:"minimum_amount,required"`
 	JSON          invoiceLineItemsMinimumJSON `json:"-"`
@@ -1617,6 +2042,7 @@ type InvoiceLineItemsMinimum struct {
 // [InvoiceLineItemsMinimum]
 type invoiceLineItemsMinimumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MinimumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -1628,6 +2054,69 @@ func (r *InvoiceLineItemsMinimum) UnmarshalJSON(data []byte) (err error) {
 
 func (r invoiceLineItemsMinimumJSON) RawJSON() string {
 	return r.raw
+}
+
+type InvoiceLineItemsMinimumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceLineItemsMinimumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceLineItemsMinimumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                          `json:"values,required"`
+	JSON   invoiceLineItemsMinimumFilterJSON `json:"-"`
+}
+
+// invoiceLineItemsMinimumFilterJSON contains the JSON metadata for the struct
+// [InvoiceLineItemsMinimumFilter]
+type invoiceLineItemsMinimumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceLineItemsMinimumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceLineItemsMinimumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceLineItemsMinimumFiltersField string
+
+const (
+	InvoiceLineItemsMinimumFiltersFieldPriceID       InvoiceLineItemsMinimumFiltersField = "price_id"
+	InvoiceLineItemsMinimumFiltersFieldItemID        InvoiceLineItemsMinimumFiltersField = "item_id"
+	InvoiceLineItemsMinimumFiltersFieldPriceType     InvoiceLineItemsMinimumFiltersField = "price_type"
+	InvoiceLineItemsMinimumFiltersFieldCurrency      InvoiceLineItemsMinimumFiltersField = "currency"
+	InvoiceLineItemsMinimumFiltersFieldPricingUnitID InvoiceLineItemsMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceLineItemsMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsMinimumFiltersFieldPriceID, InvoiceLineItemsMinimumFiltersFieldItemID, InvoiceLineItemsMinimumFiltersFieldPriceType, InvoiceLineItemsMinimumFiltersFieldCurrency, InvoiceLineItemsMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceLineItemsMinimumFiltersOperator string
+
+const (
+	InvoiceLineItemsMinimumFiltersOperatorIncludes InvoiceLineItemsMinimumFiltersOperator = "includes"
+	InvoiceLineItemsMinimumFiltersOperatorExcludes InvoiceLineItemsMinimumFiltersOperator = "excludes"
+)
+
+func (r InvoiceLineItemsMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceLineItemsMinimumFiltersOperatorIncludes, InvoiceLineItemsMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type InvoiceLineItemsSubLineItem struct {
@@ -2027,7 +2516,11 @@ func (r invoiceLineItemsTaxAmountJSON) RawJSON() string {
 type InvoiceMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this maximum to.
+	Filters []InvoiceMaximumFilter `json:"filters,required"`
 	// Maximum amount applied
 	MaximumAmount string             `json:"maximum_amount,required"`
 	JSON          invoiceMaximumJSON `json:"-"`
@@ -2036,6 +2529,7 @@ type InvoiceMaximum struct {
 // invoiceMaximumJSON contains the JSON metadata for the struct [InvoiceMaximum]
 type invoiceMaximumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MaximumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -2049,10 +2543,77 @@ func (r invoiceMaximumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceMaximumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceMaximumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceMaximumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                 `json:"values,required"`
+	JSON   invoiceMaximumFilterJSON `json:"-"`
+}
+
+// invoiceMaximumFilterJSON contains the JSON metadata for the struct
+// [InvoiceMaximumFilter]
+type invoiceMaximumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceMaximumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceMaximumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceMaximumFiltersField string
+
+const (
+	InvoiceMaximumFiltersFieldPriceID       InvoiceMaximumFiltersField = "price_id"
+	InvoiceMaximumFiltersFieldItemID        InvoiceMaximumFiltersField = "item_id"
+	InvoiceMaximumFiltersFieldPriceType     InvoiceMaximumFiltersField = "price_type"
+	InvoiceMaximumFiltersFieldCurrency      InvoiceMaximumFiltersField = "currency"
+	InvoiceMaximumFiltersFieldPricingUnitID InvoiceMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceMaximumFiltersFieldPriceID, InvoiceMaximumFiltersFieldItemID, InvoiceMaximumFiltersFieldPriceType, InvoiceMaximumFiltersFieldCurrency, InvoiceMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceMaximumFiltersOperator string
+
+const (
+	InvoiceMaximumFiltersOperatorIncludes InvoiceMaximumFiltersOperator = "includes"
+	InvoiceMaximumFiltersOperatorExcludes InvoiceMaximumFiltersOperator = "excludes"
+)
+
+func (r InvoiceMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceMaximumFiltersOperatorIncludes, InvoiceMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this minimum to.
+	Filters []InvoiceMinimumFilter `json:"filters,required"`
 	// Minimum amount applied
 	MinimumAmount string             `json:"minimum_amount,required"`
 	JSON          invoiceMinimumJSON `json:"-"`
@@ -2061,6 +2622,7 @@ type InvoiceMinimum struct {
 // invoiceMinimumJSON contains the JSON metadata for the struct [InvoiceMinimum]
 type invoiceMinimumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MinimumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -2072,6 +2634,69 @@ func (r *InvoiceMinimum) UnmarshalJSON(data []byte) (err error) {
 
 func (r invoiceMinimumJSON) RawJSON() string {
 	return r.raw
+}
+
+type InvoiceMinimumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceMinimumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceMinimumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                 `json:"values,required"`
+	JSON   invoiceMinimumFilterJSON `json:"-"`
+}
+
+// invoiceMinimumFilterJSON contains the JSON metadata for the struct
+// [InvoiceMinimumFilter]
+type invoiceMinimumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceMinimumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceMinimumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceMinimumFiltersField string
+
+const (
+	InvoiceMinimumFiltersFieldPriceID       InvoiceMinimumFiltersField = "price_id"
+	InvoiceMinimumFiltersFieldItemID        InvoiceMinimumFiltersField = "item_id"
+	InvoiceMinimumFiltersFieldPriceType     InvoiceMinimumFiltersField = "price_type"
+	InvoiceMinimumFiltersFieldCurrency      InvoiceMinimumFiltersField = "currency"
+	InvoiceMinimumFiltersFieldPricingUnitID InvoiceMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceMinimumFiltersFieldPriceID, InvoiceMinimumFiltersFieldItemID, InvoiceMinimumFiltersFieldPriceType, InvoiceMinimumFiltersFieldCurrency, InvoiceMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceMinimumFiltersOperator string
+
+const (
+	InvoiceMinimumFiltersOperatorIncludes InvoiceMinimumFiltersOperator = "includes"
+	InvoiceMinimumFiltersOperatorExcludes InvoiceMinimumFiltersOperator = "excludes"
+)
+
+func (r InvoiceMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceMinimumFiltersOperatorIncludes, InvoiceMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type InvoicePaymentAttempt struct {
@@ -3148,6 +3773,13 @@ type InvoiceFetchUpcomingResponseLineItemsAdjustment struct {
 	Amount string `json:"amount,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of
+	// [[]InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter],
+	// [[]InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter],
+	// [[]InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter],
+	// [[]InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter],
+	// [[]InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter].
+	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -3181,6 +3813,7 @@ type invoiceFetchUpcomingResponseLineItemsAdjustmentJSON struct {
 	AdjustmentType     apijson.Field
 	Amount             apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
 	IsInvoiceLevel     apijson.Field
 	Reason             apijson.Field
 	AmountDiscount     apijson.Field
@@ -3267,7 +3900,11 @@ type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjust
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -3287,6 +3924,7 @@ type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjust
 	AdjustmentType    apijson.Field
 	Amount            apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	Reason            apijson.Field
 	UsageDiscount     apijson.Field
@@ -3319,6 +3957,70 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdj
 	return false
 }
 
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                  `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryUsageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustment struct {
 	ID             string                                                                                         `json:"id,required"`
 	AdjustmentType InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -3328,7 +4030,11 @@ type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjus
 	// billing period.
 	AmountDiscount string `json:"amount_discount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -3346,6 +4052,7 @@ type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjus
 	Amount            apijson.Field
 	AmountDiscount    apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	Reason            apijson.Field
 	raw               string
@@ -3377,13 +4084,81 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAd
 	return false
 }
 
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                   `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryAmountDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustment struct {
 	ID             string                                                                                             `json:"id,required"`
 	AdjustmentType InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -3403,6 +4178,7 @@ type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountA
 	AdjustmentType     apijson.Field
 	Amount             apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
 	IsInvoiceLevel     apijson.Field
 	PercentageDiscount apijson.Field
 	Reason             apijson.Field
@@ -3435,13 +4211,81 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscou
 	return false
 }
 
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                       `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustment struct {
 	ID             string                                                                                  `json:"id,required"`
 	AdjustmentType InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -3463,6 +4307,7 @@ type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentJS
 	AdjustmentType    apijson.Field
 	Amount            apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	ItemID            apijson.Field
 	MinimumAmount     apijson.Field
@@ -3496,13 +4341,81 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmen
 	return false
 }
 
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                            `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMinimumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustment struct {
 	ID             string                                                                                  `json:"id,required"`
 	AdjustmentType InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// The value applied by an adjustment.
 	Amount string `json:"amount,required"`
 	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invocice, false for adjustments
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -3522,6 +4435,7 @@ type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentJS
 	AdjustmentType    apijson.Field
 	Amount            apijson.Field
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	IsInvoiceLevel    apijson.Field
 	MaximumAmount     apijson.Field
 	Reason            apijson.Field
@@ -3554,6 +4468,70 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmen
 	return false
 }
 
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                            `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter]
+type invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsAdjustmentsMonetaryMaximumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType string
 
 const (
@@ -3578,7 +4556,11 @@ func (r InvoiceFetchUpcomingResponseLineItemsAdjustmentsAdjustmentType) IsKnown(
 type InvoiceFetchUpcomingResponseLineItemsMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this maximum to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsMaximumFilter `json:"filters,required"`
 	// Maximum amount applied
 	MaximumAmount string                                           `json:"maximum_amount,required"`
 	JSON          invoiceFetchUpcomingResponseLineItemsMaximumJSON `json:"-"`
@@ -3588,6 +4570,7 @@ type InvoiceFetchUpcomingResponseLineItemsMaximum struct {
 // the struct [InvoiceFetchUpcomingResponseLineItemsMaximum]
 type invoiceFetchUpcomingResponseLineItemsMaximumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MaximumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -3601,13 +4584,80 @@ func (r invoiceFetchUpcomingResponseLineItemsMaximumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceFetchUpcomingResponseLineItemsMaximumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                               `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsMaximumFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsMaximumFilterJSON contains the JSON
+// metadata for the struct [InvoiceFetchUpcomingResponseLineItemsMaximumFilter]
+type invoiceFetchUpcomingResponseLineItemsMaximumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsMaximumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsMaximumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 // This field is deprecated in favor of `adjustments`.
 //
 // Deprecated: deprecated
 type InvoiceFetchUpcomingResponseLineItemsMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this minimum to.
+	Filters []InvoiceFetchUpcomingResponseLineItemsMinimumFilter `json:"filters,required"`
 	// Minimum amount applied
 	MinimumAmount string                                           `json:"minimum_amount,required"`
 	JSON          invoiceFetchUpcomingResponseLineItemsMinimumJSON `json:"-"`
@@ -3617,6 +4667,7 @@ type InvoiceFetchUpcomingResponseLineItemsMinimum struct {
 // the struct [InvoiceFetchUpcomingResponseLineItemsMinimum]
 type invoiceFetchUpcomingResponseLineItemsMinimumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MinimumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -3628,6 +4679,69 @@ func (r *InvoiceFetchUpcomingResponseLineItemsMinimum) UnmarshalJSON(data []byte
 
 func (r invoiceFetchUpcomingResponseLineItemsMinimumJSON) RawJSON() string {
 	return r.raw
+}
+
+type InvoiceFetchUpcomingResponseLineItemsMinimumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                               `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseLineItemsMinimumFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseLineItemsMinimumFilterJSON contains the JSON
+// metadata for the struct [InvoiceFetchUpcomingResponseLineItemsMinimumFilter]
+type invoiceFetchUpcomingResponseLineItemsMinimumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseLineItemsMinimumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseLineItemsMinimumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldPriceID       InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldItemID        InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldPriceType     InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldCurrency      InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField = "currency"
+	InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldPriceID, InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldItemID, InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldPriceType, InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldCurrency, InvoiceFetchUpcomingResponseLineItemsMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperatorIncludes InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperatorExcludes InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperatorIncludes, InvoiceFetchUpcomingResponseLineItemsMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type InvoiceFetchUpcomingResponseLineItemsSubLineItem struct {
@@ -4038,7 +5152,11 @@ func (r invoiceFetchUpcomingResponseLineItemsTaxAmountJSON) RawJSON() string {
 type InvoiceFetchUpcomingResponseMaximum struct {
 	// List of price_ids that this maximum amount applies to. For plan/plan phase
 	// maximums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this maximum to.
+	Filters []InvoiceFetchUpcomingResponseMaximumFilter `json:"filters,required"`
 	// Maximum amount applied
 	MaximumAmount string                                  `json:"maximum_amount,required"`
 	JSON          invoiceFetchUpcomingResponseMaximumJSON `json:"-"`
@@ -4048,6 +5166,7 @@ type InvoiceFetchUpcomingResponseMaximum struct {
 // struct [InvoiceFetchUpcomingResponseMaximum]
 type invoiceFetchUpcomingResponseMaximumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MaximumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -4061,10 +5180,77 @@ func (r invoiceFetchUpcomingResponseMaximumJSON) RawJSON() string {
 	return r.raw
 }
 
+type InvoiceFetchUpcomingResponseMaximumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseMaximumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseMaximumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                      `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseMaximumFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseMaximumFilterJSON contains the JSON metadata for the
+// struct [InvoiceFetchUpcomingResponseMaximumFilter]
+type invoiceFetchUpcomingResponseMaximumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseMaximumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseMaximumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseMaximumFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseMaximumFiltersFieldPriceID       InvoiceFetchUpcomingResponseMaximumFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseMaximumFiltersFieldItemID        InvoiceFetchUpcomingResponseMaximumFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseMaximumFiltersFieldPriceType     InvoiceFetchUpcomingResponseMaximumFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseMaximumFiltersFieldCurrency      InvoiceFetchUpcomingResponseMaximumFiltersField = "currency"
+	InvoiceFetchUpcomingResponseMaximumFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseMaximumFiltersFieldPriceID, InvoiceFetchUpcomingResponseMaximumFiltersFieldItemID, InvoiceFetchUpcomingResponseMaximumFiltersFieldPriceType, InvoiceFetchUpcomingResponseMaximumFiltersFieldCurrency, InvoiceFetchUpcomingResponseMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseMaximumFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseMaximumFiltersOperatorIncludes InvoiceFetchUpcomingResponseMaximumFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseMaximumFiltersOperatorExcludes InvoiceFetchUpcomingResponseMaximumFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseMaximumFiltersOperatorIncludes, InvoiceFetchUpcomingResponseMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type InvoiceFetchUpcomingResponseMinimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
+	//
+	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this minimum to.
+	Filters []InvoiceFetchUpcomingResponseMinimumFilter `json:"filters,required"`
 	// Minimum amount applied
 	MinimumAmount string                                  `json:"minimum_amount,required"`
 	JSON          invoiceFetchUpcomingResponseMinimumJSON `json:"-"`
@@ -4074,6 +5260,7 @@ type InvoiceFetchUpcomingResponseMinimum struct {
 // struct [InvoiceFetchUpcomingResponseMinimum]
 type invoiceFetchUpcomingResponseMinimumJSON struct {
 	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
 	MinimumAmount     apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -4085,6 +5272,69 @@ func (r *InvoiceFetchUpcomingResponseMinimum) UnmarshalJSON(data []byte) (err er
 
 func (r invoiceFetchUpcomingResponseMinimumJSON) RawJSON() string {
 	return r.raw
+}
+
+type InvoiceFetchUpcomingResponseMinimumFilter struct {
+	// The property of the price to filter on.
+	Field InvoiceFetchUpcomingResponseMinimumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator InvoiceFetchUpcomingResponseMinimumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                      `json:"values,required"`
+	JSON   invoiceFetchUpcomingResponseMinimumFilterJSON `json:"-"`
+}
+
+// invoiceFetchUpcomingResponseMinimumFilterJSON contains the JSON metadata for the
+// struct [InvoiceFetchUpcomingResponseMinimumFilter]
+type invoiceFetchUpcomingResponseMinimumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *InvoiceFetchUpcomingResponseMinimumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r invoiceFetchUpcomingResponseMinimumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type InvoiceFetchUpcomingResponseMinimumFiltersField string
+
+const (
+	InvoiceFetchUpcomingResponseMinimumFiltersFieldPriceID       InvoiceFetchUpcomingResponseMinimumFiltersField = "price_id"
+	InvoiceFetchUpcomingResponseMinimumFiltersFieldItemID        InvoiceFetchUpcomingResponseMinimumFiltersField = "item_id"
+	InvoiceFetchUpcomingResponseMinimumFiltersFieldPriceType     InvoiceFetchUpcomingResponseMinimumFiltersField = "price_type"
+	InvoiceFetchUpcomingResponseMinimumFiltersFieldCurrency      InvoiceFetchUpcomingResponseMinimumFiltersField = "currency"
+	InvoiceFetchUpcomingResponseMinimumFiltersFieldPricingUnitID InvoiceFetchUpcomingResponseMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r InvoiceFetchUpcomingResponseMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseMinimumFiltersFieldPriceID, InvoiceFetchUpcomingResponseMinimumFiltersFieldItemID, InvoiceFetchUpcomingResponseMinimumFiltersFieldPriceType, InvoiceFetchUpcomingResponseMinimumFiltersFieldCurrency, InvoiceFetchUpcomingResponseMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type InvoiceFetchUpcomingResponseMinimumFiltersOperator string
+
+const (
+	InvoiceFetchUpcomingResponseMinimumFiltersOperatorIncludes InvoiceFetchUpcomingResponseMinimumFiltersOperator = "includes"
+	InvoiceFetchUpcomingResponseMinimumFiltersOperatorExcludes InvoiceFetchUpcomingResponseMinimumFiltersOperator = "excludes"
+)
+
+func (r InvoiceFetchUpcomingResponseMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case InvoiceFetchUpcomingResponseMinimumFiltersOperatorIncludes, InvoiceFetchUpcomingResponseMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type InvoiceFetchUpcomingResponsePaymentAttempt struct {
