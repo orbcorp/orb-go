@@ -30,8 +30,10 @@ func TestEventUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"event_id",
 		orb.EventUpdateParams{
-			EventName:          orb.F("event_name"),
-			Properties:         orb.F[any](map[string]interface{}{}),
+			EventName: orb.F("event_name"),
+			Properties: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Timestamp:          orb.F(time.Now()),
 			CustomerID:         orb.F("customer_id"),
 			ExternalCustomerID: orb.F("external_customer_id"),
@@ -82,9 +84,11 @@ func TestEventIngestWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Events.Ingest(context.TODO(), orb.EventIngestParams{
 		Events: orb.F([]orb.EventIngestParamsEvent{{
-			EventName:          orb.F("event_name"),
-			IdempotencyKey:     orb.F("idempotency_key"),
-			Properties:         orb.F[any](map[string]interface{}{}),
+			EventName:      orb.F("event_name"),
+			IdempotencyKey: orb.F("idempotency_key"),
+			Properties: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Timestamp:          orb.F(time.Now()),
 			CustomerID:         orb.F("customer_id"),
 			ExternalCustomerID: orb.F("external_customer_id"),
