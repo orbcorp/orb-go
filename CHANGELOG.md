@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.117.0 (2025-05-30)
+
+Full Changelog: [v0.116.0...v0.117.0](https://github.com/orbcorp/orb-go/compare/v0.116.0...v0.117.0)
+
+### Features
+
+* **api:** api update ([a415d43](https://github.com/orbcorp/orb-go/commit/a415d43f5406b716c63ab610c6102366b8366ebf))
+
+
+### Chores
+
+* make go mod tidy continue on error ([0492f61](https://github.com/orbcorp/orb-go/commit/0492f619906e13f8598632856953246505aa32b1))
+
 ## 0.116.0 (2025-05-28)
 
 Full Changelog: [v0.115.1...v0.116.0](https://github.com/orbcorp/orb-go/compare/v0.115.1...v0.116.0)
