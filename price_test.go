@@ -172,8 +172,10 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 		TimeframeStart: orb.F(time.Now()),
 		CustomerID:     orb.F("customer_id"),
 		Events: orb.F([]orb.PriceEvaluateMultipleParamsEvent{{
-			EventName:          orb.F("event_name"),
-			Properties:         orb.F[any](map[string]interface{}{}),
+			EventName: orb.F("event_name"),
+			Properties: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Timestamp:          orb.F(time.Now()),
 			CustomerID:         orb.F("customer_id"),
 			ExternalCustomerID: orb.F("external_customer_id"),
