@@ -219,8 +219,10 @@ type CustomerCreditTopUpNewResponseInvoiceSettings struct {
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
+	// When true, credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they are drawn down from. If any topup
+	// block is pending payment, further automatic top-ups will be paused until the
+	// invoice is paid or voided.
 	RequireSuccessfulPayment bool                                              `json:"require_successful_payment"`
 	JSON                     customerCreditTopUpNewResponseInvoiceSettingsJSON `json:"-"`
 }
@@ -316,8 +318,10 @@ type CustomerCreditTopUpListResponseInvoiceSettings struct {
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
+	// When true, credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they are drawn down from. If any topup
+	// block is pending payment, further automatic top-ups will be paused until the
+	// invoice is paid or voided.
 	RequireSuccessfulPayment bool                                               `json:"require_successful_payment"`
 	JSON                     customerCreditTopUpListResponseInvoiceSettingsJSON `json:"-"`
 }
@@ -413,8 +417,10 @@ type CustomerCreditTopUpNewByExternalIDResponseInvoiceSettings struct {
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
+	// When true, credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they are drawn down from. If any topup
+	// block is pending payment, further automatic top-ups will be paused until the
+	// invoice is paid or voided.
 	RequireSuccessfulPayment bool                                                          `json:"require_successful_payment"`
 	JSON                     customerCreditTopUpNewByExternalIDResponseInvoiceSettingsJSON `json:"-"`
 }
@@ -511,8 +517,10 @@ type CustomerCreditTopUpListByExternalIDResponseInvoiceSettings struct {
 	NetTerms int64 `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo string `json:"memo,nullable"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
+	// When true, credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they are drawn down from. If any topup
+	// block is pending payment, further automatic top-ups will be paused until the
+	// invoice is paid or voided.
 	RequireSuccessfulPayment bool                                                           `json:"require_successful_payment"`
 	JSON                     customerCreditTopUpListByExternalIDResponseInvoiceSettingsJSON `json:"-"`
 }
@@ -591,8 +599,10 @@ type CustomerCreditTopUpNewParamsInvoiceSettings struct {
 	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
+	// When true, credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they are drawn down from. If any topup
+	// block is pending payment, further automatic top-ups will be paused until the
+	// invoice is paid or voided.
 	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
 }
 
@@ -671,8 +681,10 @@ type CustomerCreditTopUpNewByExternalIDParamsInvoiceSettings struct {
 	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
-	// If true, new credit blocks created by this top-up will require that the
-	// corresponding invoice is paid before they can be drawn down from.
+	// When true, credit blocks created by this top-up will require that the
+	// corresponding invoice is paid before they are drawn down from. If any topup
+	// block is pending payment, further automatic top-ups will be paused until the
+	// invoice is paid or voided.
 	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
 }
 

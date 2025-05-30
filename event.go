@@ -548,7 +548,7 @@ type EventSearchResponseData struct {
 	ExternalCustomerID string `json:"external_customer_id,required,nullable"`
 	// A dictionary of custom properties. Values in this dictionary must be numeric,
 	// boolean, or strings. Nested dictionaries are disallowed.
-	Properties interface{} `json:"properties,required"`
+	Properties map[string]interface{} `json:"properties,required"`
 	// An ISO 8601 format date with no timezone offset (i.e. UTC). This should
 	// represent the time that usage was recorded, and is particularly important to
 	// attribute usage to a given billing period.
@@ -583,7 +583,7 @@ type EventUpdateParams struct {
 	EventName param.Field[string] `json:"event_name,required"`
 	// A dictionary of custom properties. Values in this dictionary must be numeric,
 	// boolean, or strings. Nested dictionaries are disallowed.
-	Properties param.Field[interface{}] `json:"properties,required"`
+	Properties param.Field[map[string]interface{}] `json:"properties,required"`
 	// An ISO 8601 format date with no timezone offset (i.e. UTC). This should
 	// represent the time that usage was recorded, and is particularly important to
 	// attribute usage to a given billing period.
@@ -629,7 +629,7 @@ type EventIngestParamsEvent struct {
 	IdempotencyKey param.Field[string] `json:"idempotency_key,required"`
 	// A dictionary of custom properties. Values in this dictionary must be numeric,
 	// boolean, or strings. Nested dictionaries are disallowed.
-	Properties param.Field[interface{}] `json:"properties,required"`
+	Properties param.Field[map[string]interface{}] `json:"properties,required"`
 	// An ISO 8601 format date with no timezone offset (i.e. UTC). This should
 	// represent the time that usage was recorded, and is particularly important to
 	// attribute usage to a given billing period.
