@@ -801,6 +801,18 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 	return
 }
 
+// Redeem a coupon effective at a given time.
+func (r *SubscriptionService) RedeemCoupon(ctx context.Context, subscriptionID string, body SubscriptionRedeemCouponParams, opts ...option.RequestOption) (res *SubscriptionRedeemCouponResponse, err error) {
+	opts = append(r.Options[:], opts...)
+	if subscriptionID == "" {
+		err = errors.New("missing required subscription_id parameter")
+		return
+	}
+	path := fmt.Sprintf("subscriptions/%s/redeem_coupon", subscriptionID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // This endpoint can be used to change an existing subscription's plan. It returns
 // the serialized updated subscription object.
 //
@@ -9138,6 +9150,1904 @@ func (r *SubscriptionPriceIntervalsResponseChangedResources) UnmarshalJSON(data 
 }
 
 func (r subscriptionPriceIntervalsResponseChangedResourcesJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponse struct {
+	ID string `json:"id,required"`
+	// The current plan phase that is active, only if the subscription's plan has
+	// phases.
+	ActivePlanPhaseOrder int64 `json:"active_plan_phase_order,required,nullable"`
+	// The adjustment intervals for this subscription sorted by the start_date of the
+	// adjustment interval.
+	AdjustmentIntervals []SubscriptionRedeemCouponResponseAdjustmentInterval `json:"adjustment_intervals,required"`
+	// Determines whether issued invoices for this subscription will automatically be
+	// charged with the saved payment method on the due date. This property defaults to
+	// the plan's behavior. If null, defaults to the customer's setting.
+	AutoCollection                  bool                                                            `json:"auto_collection,required,nullable"`
+	BillingCycleAnchorConfiguration SubscriptionRedeemCouponResponseBillingCycleAnchorConfiguration `json:"billing_cycle_anchor_configuration,required"`
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	BillingCycleDay int64     `json:"billing_cycle_day,required"`
+	CreatedAt       time.Time `json:"created_at,required" format:"date-time"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is not part of the billing period. Set to null for
+	// subscriptions that are not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if the subscription is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// A customer is a buyer of your products, and the other party to the billing
+	// relationship.
+	//
+	// In Orb, customers are assigned system generated identifiers automatically, but
+	// it's often desirable to have these match existing identifiers in your system. To
+	// avoid having to denormalize Orb ID information, you can pass in an
+	// `external_customer_id` with your own identifier. See
+	// [Customer ID Aliases](/events-and-metrics/customer-aliases) for further
+	// information about how these aliases work in Orb.
+	//
+	// In addition to having an identifier in your system, a customer may exist in a
+	// payment provider solution like Stripe. Use the `payment_provider_id` and the
+	// `payment_provider` enum field to express this mapping.
+	//
+	// A customer also has a timezone (from the standard
+	// [IANA timezone database](https://www.iana.org/time-zones)), which defaults to
+	// your account's timezone. See [Timezone localization](/essentials/timezones) for
+	// information on what this timezone parameter influences within Orb.
+	Customer Customer `json:"customer,required"`
+	// Determines the default memo on this subscriptions' invoices. Note that if this
+	// is not provided, it is determined by the plan configuration.
+	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
+	// The discount intervals for this subscription sorted by the start_date.
+	//
+	// Deprecated: deprecated
+	DiscountIntervals []SubscriptionRedeemCouponResponseDiscountInterval `json:"discount_intervals,required"`
+	// The date Orb stops billing for this subscription.
+	EndDate                  time.Time                                                  `json:"end_date,required,nullable" format:"date-time"`
+	FixedFeeQuantitySchedule []SubscriptionRedeemCouponResponseFixedFeeQuantitySchedule `json:"fixed_fee_quantity_schedule,required"`
+	InvoicingThreshold       string                                                     `json:"invoicing_threshold,required,nullable"`
+	// The maximum intervals for this subscription sorted by the start_date.
+	//
+	// Deprecated: deprecated
+	MaximumIntervals []SubscriptionRedeemCouponResponseMaximumInterval `json:"maximum_intervals,required"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// The minimum intervals for this subscription sorted by the start_date.
+	//
+	// Deprecated: deprecated
+	MinimumIntervals []SubscriptionRedeemCouponResponseMinimumInterval `json:"minimum_intervals,required"`
+	// The name of the subscription.
+	Name string `json:"name,required"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of `0` here represents that the
+	// invoice is due on issue, whereas a value of `30` represents that the customer
+	// has a month to pay the invoice.
+	NetTerms int64 `json:"net_terms,required"`
+	// A pending subscription change if one exists on this subscription.
+	PendingSubscriptionChange SubscriptionRedeemCouponResponsePendingSubscriptionChange `json:"pending_subscription_change,required,nullable"`
+	// The [Plan](/core-concepts#plan-and-price) resource represents a plan that can be
+	// subscribed to by a customer. Plans define the billing behavior of the
+	// subscription. You can see more about how to configure prices in the
+	// [Price resource](/reference/price).
+	Plan Plan `json:"plan,required,nullable"`
+	// The price intervals for this subscription.
+	PriceIntervals []SubscriptionRedeemCouponResponsePriceInterval `json:"price_intervals,required"`
+	RedeemedCoupon SubscriptionRedeemCouponResponseRedeemedCoupon  `json:"redeemed_coupon,required,nullable"`
+	// The date Orb starts billing for this subscription.
+	StartDate time.Time                                 `json:"start_date,required" format:"date-time"`
+	Status    SubscriptionRedeemCouponResponseStatus    `json:"status,required"`
+	TrialInfo SubscriptionRedeemCouponResponseTrialInfo `json:"trial_info,required"`
+	// The resources that were changed as part of this operation. Only present when
+	// fetched through the subscription changes API or if the
+	// `include_changed_resources` parameter was passed in the request.
+	ChangedResources SubscriptionRedeemCouponResponseChangedResources `json:"changed_resources,nullable"`
+	JSON             subscriptionRedeemCouponResponseJSON             `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseJSON contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponse]
+type subscriptionRedeemCouponResponseJSON struct {
+	ID                              apijson.Field
+	ActivePlanPhaseOrder            apijson.Field
+	AdjustmentIntervals             apijson.Field
+	AutoCollection                  apijson.Field
+	BillingCycleAnchorConfiguration apijson.Field
+	BillingCycleDay                 apijson.Field
+	CreatedAt                       apijson.Field
+	CurrentBillingPeriodEndDate     apijson.Field
+	CurrentBillingPeriodStartDate   apijson.Field
+	Customer                        apijson.Field
+	DefaultInvoiceMemo              apijson.Field
+	DiscountIntervals               apijson.Field
+	EndDate                         apijson.Field
+	FixedFeeQuantitySchedule        apijson.Field
+	InvoicingThreshold              apijson.Field
+	MaximumIntervals                apijson.Field
+	Metadata                        apijson.Field
+	MinimumIntervals                apijson.Field
+	Name                            apijson.Field
+	NetTerms                        apijson.Field
+	PendingSubscriptionChange       apijson.Field
+	Plan                            apijson.Field
+	PriceIntervals                  apijson.Field
+	RedeemedCoupon                  apijson.Field
+	StartDate                       apijson.Field
+	Status                          apijson.Field
+	TrialInfo                       apijson.Field
+	ChangedResources                apijson.Field
+	raw                             string
+	ExtraFields                     map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentInterval struct {
+	ID         string                                                        `json:"id,required"`
+	Adjustment SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment `json:"adjustment,required"`
+	// The price interval IDs that this adjustment applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the adjustment interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The start date of the adjustment interval.
+	StartDate time.Time                                              `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemCouponResponseAdjustmentIntervalJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalJSON contains the JSON
+// metadata for the struct [SubscriptionRedeemCouponResponseAdjustmentInterval]
+type subscriptionRedeemCouponResponseAdjustmentIntervalJSON struct {
+	ID                        apijson.Field
+	Adjustment                apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment struct {
+	ID             string                                                                      `json:"id,required"`
+	AdjustmentType SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of
+	// [[]SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilter],
+	// [[]SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilter],
+	// [[]SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilter],
+	// [[]SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilter],
+	// [[]SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilter].
+	Filters interface{} `json:"filters,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                           `json:"usage_discount"`
+	JSON          subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentJSON `json:"-"`
+	union         SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentUnion
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentJSON contains the
+// JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentJSON struct {
+	ID                 apijson.Field
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PlanPhaseOrder     apijson.Field
+	Reason             apijson.Field
+	AmountDiscount     apijson.Field
+	ItemID             apijson.Field
+	MaximumAmount      apijson.Field
+	MinimumAmount      apijson.Field
+	PercentageDiscount apijson.Field
+	UsageDiscount      apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustment],
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustment],
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustment],
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustment],
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustment].
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment) AsUnion() SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustment],
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustment],
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustment],
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustment]
+// or
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustment].
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentUnion interface {
+	implementsSubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustment struct {
+	ID             string                                                                                                      `json:"id,required"`
+	AdjustmentType SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilter `json:"filters,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                                                           `json:"usage_discount,required"`
+	JSON          subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustment]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	UsageDiscount     apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustment) implementsSubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentAdjustmentTypeUsageDiscount SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentAdjustmentType = "usage_discount"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentAdjustmentTypeUsageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                                `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilter]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID       SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldItemID        SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType     SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency      SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField = "currency"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldItemID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustment struct {
+	ID             string                                                                                                       `json:"id,required"`
+	AdjustmentType SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilter `json:"filters,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                                                             `json:"reason,required,nullable"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustment]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AmountDiscount    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
+	IsInvoiceLevel    apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustment) implementsSubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentAdjustmentTypeAmountDiscount SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentAdjustmentType = "amount_discount"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentAdjustmentTypeAmountDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                                 `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilter]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID       SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldItemID        SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType     SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency      SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField = "currency"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldItemID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustment struct {
+	ID             string                                                                                                           `json:"id,required"`
+	AdjustmentType SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilter `json:"filters,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                                                                 `json:"reason,required,nullable"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustment]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentJSON struct {
+	ID                 apijson.Field
+	AdjustmentType     apijson.Field
+	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
+	IsInvoiceLevel     apijson.Field
+	PercentageDiscount apijson.Field
+	PlanPhaseOrder     apijson.Field
+	Reason             apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustment) implementsSubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentAdjustmentType string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentAdjustmentTypePercentageDiscount SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentAdjustmentType = "percentage_discount"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentAdjustmentTypePercentageDiscount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                                     `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilter]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID       SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldItemID        SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType     SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency      SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField = "currency"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldItemID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustment struct {
+	ID             string                                                                                                `json:"id,required"`
+	AdjustmentType SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilter `json:"filters,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id,required"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                                                      `json:"reason,required,nullable"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustment]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
+	IsInvoiceLevel    apijson.Field
+	ItemID            apijson.Field
+	MinimumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustment) implementsSubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentAdjustmentTypeMinimum SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentAdjustmentType = "minimum"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentAdjustmentTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                          `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilter]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldPriceID       SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldItemID        SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldPriceType     SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldCurrency      SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField = "currency"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldPriceID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldItemID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldPriceType, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldCurrency, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperatorIncludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperatorExcludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperatorIncludes, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMinimumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustment struct {
+	ID             string                                                                                                `json:"id,required"`
+	AdjustmentType SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
+	// The price IDs that this adjustment applies to.
+	//
+	// Deprecated: deprecated
+	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
+	// The filters that determine which prices to apply this adjustment to.
+	Filters []SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilter `json:"filters,required"`
+	// True for adjustments that apply to an entire invocice, false for adjustments
+	// that apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The plan phase in which this adjustment is active.
+	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
+	// The reason for the adjustment.
+	Reason string                                                                                      `json:"reason,required,nullable"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustment]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentJSON struct {
+	ID                apijson.Field
+	AdjustmentType    apijson.Field
+	AppliesToPriceIDs apijson.Field
+	Filters           apijson.Field
+	IsInvoiceLevel    apijson.Field
+	MaximumAmount     apijson.Field
+	PlanPhaseOrder    apijson.Field
+	Reason            apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustment) implementsSubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustment() {
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentAdjustmentType string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentAdjustmentTypeMaximum SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                                          `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilter]
+type subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldPriceID       SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldItemID        SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldPriceType     SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldCurrency      SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField = "currency"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldPriceID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldItemID, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldPriceType, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldCurrency, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperatorIncludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperatorExcludes SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperatorIncludes, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentPlanPhaseMaximumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType string
+
+const (
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount      SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType = "usage_discount"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount     SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType = "amount_discount"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType = "percentage_discount"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum            SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType = "minimum"
+	SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum            SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeUsageDiscount, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeAmountDiscount, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypePercentageDiscount, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMinimum, SubscriptionRedeemCouponResponseAdjustmentIntervalsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseBillingCycleAnchorConfiguration struct {
+	// The day of the month on which the billing cycle is anchored. If the maximum
+	// number of days in a month is greater than this value, the last day of the month
+	// is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing
+	// period begins on the 30th.
+	Day int64 `json:"day,required"`
+	// The month on which the billing cycle is anchored (e.g. a quarterly price
+	// anchored in February would have cycles starting February, May, August, and
+	// November).
+	Month int64 `json:"month,nullable"`
+	// The year on which the billing cycle is anchored (e.g. a 2 year billing cycle
+	// anchored on 2021 would have cycles starting on 2021, 2023, 2025, etc.).
+	Year int64                                                               `json:"year,nullable"`
+	JSON subscriptionRedeemCouponResponseBillingCycleAnchorConfigurationJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseBillingCycleAnchorConfigurationJSON contains the
+// JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseBillingCycleAnchorConfiguration]
+type subscriptionRedeemCouponResponseBillingCycleAnchorConfigurationJSON struct {
+	Day         apijson.Field
+	Month       apijson.Field
+	Year        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseBillingCycleAnchorConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseBillingCycleAnchorConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseDiscountInterval struct {
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIntervalIDs interface{}                                                   `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionRedeemCouponResponseDiscountIntervalsDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// This field can have the runtime type of
+	// [[]SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilter],
+	// [[]SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilter],
+	// [[]SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilter].
+	Filters interface{} `json:"filters,required"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                              `json:"usage_discount"`
+	JSON          subscriptionRedeemCouponResponseDiscountIntervalJSON `json:"-"`
+	union         SubscriptionRedeemCouponResponseDiscountIntervalsUnion
+}
+
+// subscriptionRedeemCouponResponseDiscountIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionRedeemCouponResponseDiscountInterval]
+type subscriptionRedeemCouponResponseDiscountIntervalJSON struct {
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	Filters                   apijson.Field
+	StartDate                 apijson.Field
+	AmountDiscount            apijson.Field
+	PercentageDiscount        apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r subscriptionRedeemCouponResponseDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *SubscriptionRedeemCouponResponseDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	*r = SubscriptionRedeemCouponResponseDiscountInterval{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [SubscriptionRedeemCouponResponseDiscountIntervalsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are
+// [SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountInterval],
+// [SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountInterval].
+func (r SubscriptionRedeemCouponResponseDiscountInterval) AsUnion() SubscriptionRedeemCouponResponseDiscountIntervalsUnion {
+	return r.union
+}
+
+// Union satisfied by
+// [SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountInterval],
+// [SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountInterval] or
+// [SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountInterval].
+type SubscriptionRedeemCouponResponseDiscountIntervalsUnion interface {
+	implementsSubscriptionRedeemCouponResponseDiscountInterval()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*SubscriptionRedeemCouponResponseDiscountIntervalsUnion)(nil)).Elem(),
+		"discount_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountInterval{}),
+			DiscriminatorValue: "amount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountInterval{}),
+			DiscriminatorValue: "percentage",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountInterval{}),
+			DiscriminatorValue: "usage",
+		},
+	)
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountInterval struct {
+	// Only available if discount_type is `amount`.
+	AmountDiscount string `json:"amount_discount,required"`
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                            `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The filters that determine which prices this discount interval applies to.
+	Filters []SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilter `json:"filters,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                   `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountInterval]
+type subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalJSON struct {
+	AmountDiscount            apijson.Field
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	Filters                   apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountInterval) implementsSubscriptionRedeemCouponResponseDiscountInterval() {
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalDiscountType string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalDiscountType = "amount"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                          `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilter]
+type subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldPriceID       SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldItemID        SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldPriceType     SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldCurrency      SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField = "currency"
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldPriceID, SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldItemID, SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldPriceType, SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldCurrency, SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperatorIncludes SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperatorExcludes SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperatorIncludes, SubscriptionRedeemCouponResponseDiscountIntervalsAmountDiscountIntervalFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountInterval struct {
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                                `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The filters that determine which prices this discount interval applies to.
+	Filters []SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilter `json:"filters,required"`
+	// Only available if discount_type is `percentage`.This is a number between 0
+	// and 1.
+	PercentageDiscount float64 `json:"percentage_discount,required"`
+	// The start date of the discount interval.
+	StartDate time.Time                                                                       `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountInterval]
+type subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalJSON struct {
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	Filters                   apijson.Field
+	PercentageDiscount        apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountInterval) implementsSubscriptionRedeemCouponResponseDiscountInterval() {
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalDiscountType = "percentage"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalDiscountTypePercentage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                              `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilter]
+type subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldPriceID       SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldItemID        SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldPriceType     SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldCurrency      SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField = "currency"
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldPriceID, SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldItemID, SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldPriceType, SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldCurrency, SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperatorIncludes SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperatorExcludes SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperatorIncludes, SubscriptionRedeemCouponResponseDiscountIntervalsPercentageDiscountIntervalFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountInterval struct {
+	// The price interval ids that this discount interval applies to.
+	AppliesToPriceIntervalIDs []string                                                                           `json:"applies_to_price_interval_ids,required"`
+	DiscountType              SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalDiscountType `json:"discount_type,required"`
+	// The end date of the discount interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The filters that determine which prices this discount interval applies to.
+	Filters []SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilter `json:"filters,required"`
+	// The start date of the discount interval.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// Only available if discount_type is `usage`. Number of usage units that this
+	// discount is for
+	UsageDiscount float64                                                                    `json:"usage_discount,required"`
+	JSON          subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountInterval]
+type subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalJSON struct {
+	AppliesToPriceIntervalIDs apijson.Field
+	DiscountType              apijson.Field
+	EndDate                   apijson.Field
+	Filters                   apijson.Field
+	StartDate                 apijson.Field
+	UsageDiscount             apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountInterval) implementsSubscriptionRedeemCouponResponseDiscountInterval() {
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalDiscountType string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalDiscountType = "usage"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                                         `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilterJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilter]
+type subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldPriceID       SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldItemID        SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldPriceType     SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldCurrency      SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField = "currency"
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldPriceID, SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldItemID, SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldPriceType, SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldCurrency, SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperatorIncludes SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperatorExcludes SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperatorIncludes, SubscriptionRedeemCouponResponseDiscountIntervalsUsageDiscountIntervalFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseDiscountIntervalsDiscountType string
+
+const (
+	SubscriptionRedeemCouponResponseDiscountIntervalsDiscountTypeAmount     SubscriptionRedeemCouponResponseDiscountIntervalsDiscountType = "amount"
+	SubscriptionRedeemCouponResponseDiscountIntervalsDiscountTypePercentage SubscriptionRedeemCouponResponseDiscountIntervalsDiscountType = "percentage"
+	SubscriptionRedeemCouponResponseDiscountIntervalsDiscountTypeUsage      SubscriptionRedeemCouponResponseDiscountIntervalsDiscountType = "usage"
+)
+
+func (r SubscriptionRedeemCouponResponseDiscountIntervalsDiscountType) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseDiscountIntervalsDiscountTypeAmount, SubscriptionRedeemCouponResponseDiscountIntervalsDiscountTypePercentage, SubscriptionRedeemCouponResponseDiscountIntervalsDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseFixedFeeQuantitySchedule struct {
+	EndDate   time.Time                                                    `json:"end_date,required,nullable" format:"date-time"`
+	PriceID   string                                                       `json:"price_id,required"`
+	Quantity  float64                                                      `json:"quantity,required"`
+	StartDate time.Time                                                    `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemCouponResponseFixedFeeQuantityScheduleJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseFixedFeeQuantityScheduleJSON contains the JSON
+// metadata for the struct
+// [SubscriptionRedeemCouponResponseFixedFeeQuantitySchedule]
+type subscriptionRedeemCouponResponseFixedFeeQuantityScheduleJSON struct {
+	EndDate     apijson.Field
+	PriceID     apijson.Field
+	Quantity    apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseFixedFeeQuantitySchedule) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseFixedFeeQuantityScheduleJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseMaximumInterval struct {
+	// The price interval ids that this maximum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the maximum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The filters that determine which prices this maximum interval applies to.
+	Filters []SubscriptionRedeemCouponResponseMaximumIntervalsFilter `json:"filters,required"`
+	// The maximum amount to charge in a given billing period for the price intervals
+	// this transform applies to.
+	MaximumAmount string `json:"maximum_amount,required"`
+	// The start date of the maximum interval.
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemCouponResponseMaximumIntervalJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseMaximumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionRedeemCouponResponseMaximumInterval]
+type subscriptionRedeemCouponResponseMaximumIntervalJSON struct {
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	Filters                   apijson.Field
+	MaximumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseMaximumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseMaximumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseMaximumIntervalsFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                   `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseMaximumIntervalsFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseMaximumIntervalsFilterJSON contains the JSON
+// metadata for the struct [SubscriptionRedeemCouponResponseMaximumIntervalsFilter]
+type subscriptionRedeemCouponResponseMaximumIntervalsFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseMaximumIntervalsFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseMaximumIntervalsFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldPriceID       SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldItemID        SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldPriceType     SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldCurrency      SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField = "currency"
+	SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseMaximumIntervalsFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldPriceID, SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldItemID, SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldPriceType, SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldCurrency, SubscriptionRedeemCouponResponseMaximumIntervalsFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperatorIncludes SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperatorExcludes SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperatorIncludes, SubscriptionRedeemCouponResponseMaximumIntervalsFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseMinimumInterval struct {
+	// The price interval ids that this minimum interval applies to.
+	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
+	// The end date of the minimum interval.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// The filters that determine which prices this minimum interval applies to.
+	Filters []SubscriptionRedeemCouponResponseMinimumIntervalsFilter `json:"filters,required"`
+	// The minimum amount to charge in a given billing period for the price intervals
+	// this minimum applies to.
+	MinimumAmount string `json:"minimum_amount,required"`
+	// The start date of the minimum interval.
+	StartDate time.Time                                           `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemCouponResponseMinimumIntervalJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseMinimumIntervalJSON contains the JSON metadata
+// for the struct [SubscriptionRedeemCouponResponseMinimumInterval]
+type subscriptionRedeemCouponResponseMinimumIntervalJSON struct {
+	AppliesToPriceIntervalIDs apijson.Field
+	EndDate                   apijson.Field
+	Filters                   apijson.Field
+	MinimumAmount             apijson.Field
+	StartDate                 apijson.Field
+	raw                       string
+	ExtraFields               map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseMinimumInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseMinimumIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseMinimumIntervalsFilter struct {
+	// The property of the price to filter on.
+	Field SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                   `json:"values,required"`
+	JSON   subscriptionRedeemCouponResponseMinimumIntervalsFilterJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseMinimumIntervalsFilterJSON contains the JSON
+// metadata for the struct [SubscriptionRedeemCouponResponseMinimumIntervalsFilter]
+type subscriptionRedeemCouponResponseMinimumIntervalsFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseMinimumIntervalsFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseMinimumIntervalsFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField string
+
+const (
+	SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldPriceID       SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField = "price_id"
+	SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldItemID        SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField = "item_id"
+	SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldPriceType     SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField = "price_type"
+	SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldCurrency      SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField = "currency"
+	SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldPricingUnitID SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField = "pricing_unit_id"
+)
+
+func (r SubscriptionRedeemCouponResponseMinimumIntervalsFiltersField) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldPriceID, SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldItemID, SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldPriceType, SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldCurrency, SubscriptionRedeemCouponResponseMinimumIntervalsFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperator string
+
+const (
+	SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperatorIncludes SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperator = "includes"
+	SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperatorExcludes SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperator = "excludes"
+)
+
+func (r SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperator) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperatorIncludes, SubscriptionRedeemCouponResponseMinimumIntervalsFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// A pending subscription change if one exists on this subscription.
+type SubscriptionRedeemCouponResponsePendingSubscriptionChange struct {
+	ID   string                                                        `json:"id,required"`
+	JSON subscriptionRedeemCouponResponsePendingSubscriptionChangeJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponsePendingSubscriptionChangeJSON contains the JSON
+// metadata for the struct
+// [SubscriptionRedeemCouponResponsePendingSubscriptionChange]
+type subscriptionRedeemCouponResponsePendingSubscriptionChangeJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponsePendingSubscriptionChange) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponsePendingSubscriptionChangeJSON) RawJSON() string {
+	return r.raw
+}
+
+// The Price Interval resource represents a period of time for which a price will
+// bill on a subscription. A subscription’s price intervals define its billing
+// behavior.
+type SubscriptionRedeemCouponResponsePriceInterval struct {
+	ID string `json:"id,required"`
+	// The day of the month that Orb bills for this price
+	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// The end of the current billing period. This is an exclusive timestamp, such that
+	// the instant returned is exactly the end of the billing period. Set to null if
+	// this price interval is not currently active.
+	CurrentBillingPeriodEndDate time.Time `json:"current_billing_period_end_date,required,nullable" format:"date-time"`
+	// The start date of the current billing period. This is an inclusive timestamp;
+	// the instant returned is exactly the beginning of the billing period. Set to null
+	// if this price interval is not currently active.
+	CurrentBillingPeriodStartDate time.Time `json:"current_billing_period_start_date,required,nullable" format:"date-time"`
+	// The end date of the price interval. This is the date that Orb stops billing for
+	// this price.
+	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
+	// An additional filter to apply to usage queries.
+	Filter string `json:"filter,required,nullable"`
+	// The fixed fee quantity transitions for this price interval. This is only
+	// relevant for fixed fees.
+	FixedFeeQuantityTransitions []SubscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransition `json:"fixed_fee_quantity_transitions,required,nullable"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
+	Price Price `json:"price,required"`
+	// The start date of the price interval. This is the date that Orb starts billing
+	// for this price.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// A list of customer IDs whose usage events will be aggregated and billed under
+	// this price interval.
+	UsageCustomerIDs []string                                          `json:"usage_customer_ids,required,nullable"`
+	JSON             subscriptionRedeemCouponResponsePriceIntervalJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponsePriceIntervalJSON contains the JSON metadata for
+// the struct [SubscriptionRedeemCouponResponsePriceInterval]
+type subscriptionRedeemCouponResponsePriceIntervalJSON struct {
+	ID                            apijson.Field
+	BillingCycleDay               apijson.Field
+	CurrentBillingPeriodEndDate   apijson.Field
+	CurrentBillingPeriodStartDate apijson.Field
+	EndDate                       apijson.Field
+	Filter                        apijson.Field
+	FixedFeeQuantityTransitions   apijson.Field
+	Price                         apijson.Field
+	StartDate                     apijson.Field
+	UsageCustomerIDs              apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponsePriceInterval) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponsePriceIntervalJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransition struct {
+	EffectiveDate time.Time                                                                    `json:"effective_date,required" format:"date-time"`
+	PriceID       string                                                                       `json:"price_id,required"`
+	Quantity      int64                                                                        `json:"quantity,required"`
+	JSON          subscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransitionJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransitionJSON
+// contains the JSON metadata for the struct
+// [SubscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransition]
+type subscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransitionJSON struct {
+	EffectiveDate apijson.Field
+	PriceID       apijson.Field
+	Quantity      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransition) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponsePriceIntervalsFixedFeeQuantityTransitionJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseRedeemedCoupon struct {
+	CouponID  string                                             `json:"coupon_id,required"`
+	EndDate   time.Time                                          `json:"end_date,required,nullable" format:"date-time"`
+	StartDate time.Time                                          `json:"start_date,required" format:"date-time"`
+	JSON      subscriptionRedeemCouponResponseRedeemedCouponJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseRedeemedCouponJSON contains the JSON metadata
+// for the struct [SubscriptionRedeemCouponResponseRedeemedCoupon]
+type subscriptionRedeemCouponResponseRedeemedCouponJSON struct {
+	CouponID    apijson.Field
+	EndDate     apijson.Field
+	StartDate   apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseRedeemedCoupon) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseRedeemedCouponJSON) RawJSON() string {
+	return r.raw
+}
+
+type SubscriptionRedeemCouponResponseStatus string
+
+const (
+	SubscriptionRedeemCouponResponseStatusActive   SubscriptionRedeemCouponResponseStatus = "active"
+	SubscriptionRedeemCouponResponseStatusEnded    SubscriptionRedeemCouponResponseStatus = "ended"
+	SubscriptionRedeemCouponResponseStatusUpcoming SubscriptionRedeemCouponResponseStatus = "upcoming"
+)
+
+func (r SubscriptionRedeemCouponResponseStatus) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponResponseStatusActive, SubscriptionRedeemCouponResponseStatusEnded, SubscriptionRedeemCouponResponseStatusUpcoming:
+		return true
+	}
+	return false
+}
+
+type SubscriptionRedeemCouponResponseTrialInfo struct {
+	EndDate time.Time                                     `json:"end_date,required,nullable" format:"date-time"`
+	JSON    subscriptionRedeemCouponResponseTrialInfoJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseTrialInfoJSON contains the JSON metadata for the
+// struct [SubscriptionRedeemCouponResponseTrialInfo]
+type subscriptionRedeemCouponResponseTrialInfoJSON struct {
+	EndDate     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseTrialInfo) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseTrialInfoJSON) RawJSON() string {
+	return r.raw
+}
+
+// The resources that were changed as part of this operation. Only present when
+// fetched through the subscription changes API or if the
+// `include_changed_resources` parameter was passed in the request.
+type SubscriptionRedeemCouponResponseChangedResources struct {
+	// The credit notes that were created as part of this operation.
+	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
+	// The invoices that were created as part of this operation.
+	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	// The credit notes that were voided as part of this operation.
+	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
+	// The invoices that were voided as part of this operation.
+	VoidedInvoices []Invoice                                            `json:"voided_invoices,required"`
+	JSON           subscriptionRedeemCouponResponseChangedResourcesJSON `json:"-"`
+}
+
+// subscriptionRedeemCouponResponseChangedResourcesJSON contains the JSON metadata
+// for the struct [SubscriptionRedeemCouponResponseChangedResources]
+type subscriptionRedeemCouponResponseChangedResourcesJSON struct {
+	CreatedCreditNotes apijson.Field
+	CreatedInvoices    apijson.Field
+	VoidedCreditNotes  apijson.Field
+	VoidedInvoices     apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r *SubscriptionRedeemCouponResponseChangedResources) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r subscriptionRedeemCouponResponseChangedResourcesJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -38381,6 +40291,39 @@ type SubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion interface {
 // Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion interface {
 	ImplementsSubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion()
+}
+
+type SubscriptionRedeemCouponParams struct {
+	ChangeOption param.Field[SubscriptionRedeemCouponParamsChangeOption] `json:"change_option,required"`
+	// Coupon ID to be redeemed for this subscription.
+	CouponID param.Field[string] `json:"coupon_id,required"`
+	// If false, this request will fail if it would void an issued invoice or create a
+	// credit note. Consider using this as a safety mechanism if you do not expect
+	// existing invoices to be changed.
+	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
+	// The date that the coupon discount should take effect. This parameter can only be
+	// passed if the `change_option` is `requested_date`.
+	ChangeDate param.Field[time.Time] `json:"change_date" format:"date-time"`
+}
+
+func (r SubscriptionRedeemCouponParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionRedeemCouponParamsChangeOption string
+
+const (
+	SubscriptionRedeemCouponParamsChangeOptionRequestedDate         SubscriptionRedeemCouponParamsChangeOption = "requested_date"
+	SubscriptionRedeemCouponParamsChangeOptionEndOfSubscriptionTerm SubscriptionRedeemCouponParamsChangeOption = "end_of_subscription_term"
+	SubscriptionRedeemCouponParamsChangeOptionImmediate             SubscriptionRedeemCouponParamsChangeOption = "immediate"
+)
+
+func (r SubscriptionRedeemCouponParamsChangeOption) IsKnown() bool {
+	switch r {
+	case SubscriptionRedeemCouponParamsChangeOptionRequestedDate, SubscriptionRedeemCouponParamsChangeOptionEndOfSubscriptionTerm, SubscriptionRedeemCouponParamsChangeOptionImmediate:
+		return true
+	}
+	return false
 }
 
 type SubscriptionSchedulePlanChangeParams struct {

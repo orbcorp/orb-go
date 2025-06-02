@@ -98,7 +98,7 @@ type InvoiceLineItemNewResponse struct {
 	//
 	// For more on the types of prices, see
 	// [the core concepts documentation](/core-concepts#plan-and-price)
-	Price Price `json:"price,required,nullable"`
+	Price Price `json:"price,required"`
 	// Either the fixed fee quantity or the usage during the service period.
 	Quantity float64 `json:"quantity,required"`
 	// The start date of the range of time applied for this line item's price.
