@@ -1054,7 +1054,7 @@ func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Cont
 }
 
 // This endpoint can be used to unschedule any pending plan changes on an existing
-// subscription.
+// subscription. When called, all upcoming plan changes will be unscheduled.
 func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *SubscriptionUnschedulePendingPlanChangesResponse, err error) {
 	opts = append(r.Options[:], opts...)
 	if subscriptionID == "" {
