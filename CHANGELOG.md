@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.120.0 (2025-06-04)
+
+Full Changelog: [v0.119.0...v0.120.0](https://github.com/orbcorp/orb-go/compare/v0.119.0...v0.120.0)
+
+### Features
+
+* **api:** api update ([bcfa182](https://github.com/orbcorp/orb-go/commit/bcfa182f9a0a3780c85e1bb78b858ee715a3524b))
+* **api:** api update ([ac28089](https://github.com/orbcorp/orb-go/commit/ac28089a2edc6919b09a6bc30d95e387003ba123))
+
 ## 0.119.0 (2025-06-03)
 
 Full Changelog: [v0.118.0...v0.119.0](https://github.com/orbcorp/orb-go/compare/v0.118.0...v0.119.0)
