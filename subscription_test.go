@@ -566,9 +566,10 @@ func TestSubscriptionRedeemCouponWithOptionalParams(t *testing.T) {
 		"subscription_id",
 		orb.SubscriptionRedeemCouponParams{
 			ChangeOption:             orb.F(orb.SubscriptionRedeemCouponParamsChangeOptionRequestedDate),
-			CouponID:                 orb.F("coupon_id"),
 			AllowInvoiceCreditOrVoid: orb.F(true),
 			ChangeDate:               orb.F(time.Now()),
+			CouponID:                 orb.F("coupon_id"),
+			CouponRedemptionCode:     orb.F("coupon_redemption_code"),
 		},
 	)
 	if err != nil {

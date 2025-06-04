@@ -40295,8 +40295,6 @@ type SubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion interface {
 
 type SubscriptionRedeemCouponParams struct {
 	ChangeOption param.Field[SubscriptionRedeemCouponParamsChangeOption] `json:"change_option,required"`
-	// Coupon ID to be redeemed for this subscription.
-	CouponID param.Field[string] `json:"coupon_id,required"`
 	// If false, this request will fail if it would void an issued invoice or create a
 	// credit note. Consider using this as a safety mechanism if you do not expect
 	// existing invoices to be changed.
@@ -40304,6 +40302,10 @@ type SubscriptionRedeemCouponParams struct {
 	// The date that the coupon discount should take effect. This parameter can only be
 	// passed if the `change_option` is `requested_date`.
 	ChangeDate param.Field[time.Time] `json:"change_date" format:"date-time"`
+	// Coupon ID to be redeemed for this subscription.
+	CouponID param.Field[string] `json:"coupon_id"`
+	// Redemption code of the coupon to be redeemed for this subscription.
+	CouponRedemptionCode param.Field[string] `json:"coupon_redemption_code"`
 }
 
 func (r SubscriptionRedeemCouponParams) MarshalJSON() (data []byte, err error) {
