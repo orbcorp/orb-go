@@ -164,6 +164,9 @@ type CouponDiscount struct {
 	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
+	// This field can have the runtime type of [[]shared.PercentageDiscountFilter],
+	// [[]shared.AmountDiscountFilter].
+	Filters interface{} `json:"filters"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
 	PercentageDiscount float64            `json:"percentage_discount"`
@@ -177,6 +180,7 @@ type couponDiscountJSON struct {
 	DiscountType       apijson.Field
 	AmountDiscount     apijson.Field
 	AppliesToPriceIDs  apijson.Field
+	Filters            apijson.Field
 	PercentageDiscount apijson.Field
 	Reason             apijson.Field
 	raw                string

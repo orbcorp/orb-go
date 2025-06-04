@@ -984,9 +984,15 @@ func (r BetaNewPlanVersionParamsAddAdjustment) MarshalJSON() (data []byte, err e
 
 // The definition of a new adjustment to create and add to the plan.
 type BetaNewPlanVersionParamsAddAdjustmentsAdjustment struct {
-	AdjustmentType    param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
-	AmountDiscount    param.Field[string]                                                         `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}]                                                    `json:"applies_to_price_ids"`
+	AdjustmentType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AmountDiscount param.Field[string]                                                         `json:"amount_discount"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll      param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
+	AppliesToItemIDs  param.Field[interface{}]                                                  `json:"applies_to_item_ids"`
+	AppliesToPriceIDs param.Field[interface{}]                                                  `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string]      `json:"currency"`
+	Filters  param.Field[interface{}] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
@@ -995,7 +1001,9 @@ type BetaNewPlanVersionParamsAddAdjustmentsAdjustment struct {
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
 	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	UsageDiscount      param.Field[float64] `json:"usage_discount"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType     param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType] `json:"price_type"`
+	UsageDiscount param.Field[float64]                                                   `json:"usage_discount"`
 }
 
 func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
@@ -1021,11 +1029,21 @@ type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentUnion interface {
 type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscount struct {
 	AdjustmentType     param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType] `json:"adjustment_type,required"`
 	PercentageDiscount param.Field[float64]                                                                             `json:"percentage_discount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -1049,14 +1067,106 @@ func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdj
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAppliesToAllTrue BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceID       BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "price_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldItemID        BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "item_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceType     BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "price_type"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldCurrency      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "currency"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPricingUnitID BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldItemID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceType, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldCurrency, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorIncludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator = "includes"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorExcludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorIncludes, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeUsage          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType = "usage"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInAdvance BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInArrears BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixed          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType = "fixed"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeInArrears      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeUsage, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInAdvance, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInArrears, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixed, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscount struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
 	UsageDiscount  param.Field[float64]                                                                        `json:"usage_discount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscount) MarshalJSON() (data []byte, err error) {
@@ -1080,14 +1190,106 @@ func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAdjustme
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAppliesToAllTrue BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceID       BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField = "price_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldItemID        BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField = "item_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceType     BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField = "price_type"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldCurrency      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField = "currency"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPricingUnitID BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldItemID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceType, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldCurrency, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorIncludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperator = "includes"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorExcludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorIncludes, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeUsage          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType = "usage"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInAdvance BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInArrears BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixed          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType = "fixed"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeInArrears      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeUsage, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInAdvance, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInArrears, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixed, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewUsageDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscount struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
 	AmountDiscount param.Field[string]                                                                          `json:"amount_discount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
@@ -1111,16 +1313,108 @@ func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAdjustm
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAppliesToAllTrue BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceID       BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField = "price_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldItemID        BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField = "item_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceType     BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField = "price_type"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldCurrency      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField = "currency"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPricingUnitID BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldItemID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceType, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldCurrency, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorIncludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperator = "includes"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorExcludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorIncludes, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeUsage          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType = "usage"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInAdvance BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInArrears BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixed          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType = "fixed"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeInArrears      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeUsage, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInAdvance, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInArrears, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixed, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewAmountDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimum struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentType] `json:"adjustment_type,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID        param.Field[string] `json:"item_id,required"`
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
@@ -1144,14 +1438,106 @@ func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAdjustmentType
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAppliesToAllTrue BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldPriceID       BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField = "price_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldItemID        BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField = "item_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldPriceType     BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField = "price_type"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldCurrency      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField = "currency"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldPricingUnitID BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldPriceID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldItemID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldPriceType, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldCurrency, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperatorIncludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperator = "includes"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperatorExcludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperatorIncludes, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeUsage          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType = "usage"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeFixedInAdvance BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeFixedInArrears BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeFixed          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType = "fixed"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeInArrears      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeUsage, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeFixedInAdvance, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeFixedInArrears, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeFixed, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMinimumPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximum struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentType] `json:"adjustment_type,required"`
 	MaximumAmount  param.Field[string]                                                                   `json:"maximum_amount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
@@ -1175,6 +1561,88 @@ func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAdjustmentType
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAppliesToAllTrue BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldPriceID       BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField = "price_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldItemID        BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField = "item_id"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldPriceType     BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField = "price_type"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldCurrency      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField = "currency"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldPricingUnitID BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldPriceID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldItemID, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldPriceType, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldCurrency, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperatorIncludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperator = "includes"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperatorExcludes BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperatorIncludes, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeUsage          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType = "usage"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeFixedInAdvance BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeFixedInArrears BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeFixed          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType = "fixed"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeInArrears      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeUsage, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeFixedInAdvance, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeFixedInArrears, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeFixed, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentNewMaximumPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType string
 
 const (
@@ -1188,6 +1656,40 @@ const (
 func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
 	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMinimum, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAppliesToAllTrue BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType string
+
+const (
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeUsage          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType = "usage"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeFixedInAdvance BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeFixedInArrears BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeFixed          BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType = "fixed"
+	BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeInArrears      BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeUsage, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeFixedInAdvance, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeFixedInArrears, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeFixed, BetaNewPlanVersionParamsAddAdjustmentsAdjustmentPriceTypeInArrears:
 		return true
 	}
 	return false
@@ -5988,9 +6490,15 @@ func (r BetaNewPlanVersionParamsReplaceAdjustment) MarshalJSON() (data []byte, e
 
 // The definition of a new adjustment to create and add to the plan.
 type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustment struct {
-	AdjustmentType    param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
-	AmountDiscount    param.Field[string]                                                             `json:"amount_discount"`
-	AppliesToPriceIDs param.Field[interface{}]                                                        `json:"applies_to_price_ids"`
+	AdjustmentType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AmountDiscount param.Field[string]                                                             `json:"amount_discount"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll      param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
+	AppliesToItemIDs  param.Field[interface{}]                                                      `json:"applies_to_item_ids"`
+	AppliesToPriceIDs param.Field[interface{}]                                                      `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string]      `json:"currency"`
+	Filters  param.Field[interface{}] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
@@ -5999,7 +6507,9 @@ type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustment struct {
 	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
 	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
 	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
-	UsageDiscount      param.Field[float64] `json:"usage_discount"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType     param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType] `json:"price_type"`
+	UsageDiscount param.Field[float64]                                                       `json:"usage_discount"`
 }
 
 func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
@@ -6025,11 +6535,21 @@ type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion interface {
 type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount struct {
 	AdjustmentType     param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentType] `json:"adjustment_type,required"`
 	PercentageDiscount param.Field[float64]                                                                                 `json:"percentage_discount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount) MarshalJSON() (data []byte, err error) {
@@ -6053,14 +6573,106 @@ func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscoun
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAppliesToAllTrue BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceID       BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "price_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldItemID        BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "item_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceType     BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "price_type"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldCurrency      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "currency"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPricingUnitID BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldItemID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceType, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldCurrency, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorIncludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator = "includes"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorExcludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorIncludes, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeUsage          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType = "usage"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInAdvance BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInArrears BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixed          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType = "fixed"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeInArrears      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeUsage, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInAdvance, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixedInArrears, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeFixed, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscount struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdjustmentType] `json:"adjustment_type,required"`
 	UsageDiscount  param.Field[float64]                                                                            `json:"usage_discount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscount) MarshalJSON() (data []byte, err error) {
@@ -6084,14 +6696,106 @@ func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAdju
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAppliesToAllTrue BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceID       BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField = "price_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldItemID        BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField = "item_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceType     BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField = "price_type"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldCurrency      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField = "currency"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPricingUnitID BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldItemID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPriceType, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldCurrency, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorIncludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperator = "includes"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorExcludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorIncludes, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeUsage          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType = "usage"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInAdvance BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInArrears BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixed          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType = "fixed"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeInArrears      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeUsage, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInAdvance, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixedInArrears, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeFixed, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewUsageDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscount struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdjustmentType] `json:"adjustment_type,required"`
 	AmountDiscount param.Field[string]                                                                              `json:"amount_discount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscount) MarshalJSON() (data []byte, err error) {
@@ -6115,16 +6819,108 @@ func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAdj
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAppliesToAllTrue BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceID       BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField = "price_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldItemID        BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField = "item_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceType     BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField = "price_type"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldCurrency      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField = "currency"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPricingUnitID BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldItemID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPriceType, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldCurrency, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorIncludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperator = "includes"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorExcludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorIncludes, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeUsage          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType = "usage"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInAdvance BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInArrears BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixed          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType = "fixed"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeInArrears      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeUsage, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInAdvance, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixedInArrears, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeFixed, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewAmountDiscountPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimum struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustmentType] `json:"adjustment_type,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID        param.Field[string] `json:"item_id,required"`
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimum) MarshalJSON() (data []byte, err error) {
@@ -6148,14 +6944,106 @@ func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAdjustment
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAppliesToAllTrue BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldPriceID       BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField = "price_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldItemID        BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField = "item_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldPriceType     BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField = "price_type"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldCurrency      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField = "currency"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldPricingUnitID BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldPriceID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldItemID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldPriceType, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldCurrency, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperatorIncludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperator = "includes"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperatorExcludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperatorIncludes, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeUsage          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType = "usage"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeFixedInAdvance BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeFixedInArrears BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeFixed          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType = "fixed"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeInArrears      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeUsage, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeFixedInAdvance, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeFixedInArrears, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeFixed, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMinimumPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximum struct {
 	AdjustmentType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustmentType] `json:"adjustment_type,required"`
 	MaximumAmount  param.Field[string]                                                                       `json:"maximum_amount,required"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAppliesToAll] `json:"applies_to_all"`
+	// The set of item IDs to which this adjustment applies.
+	AppliesToItemIDs param.Field[[]string] `json:"applies_to_item_ids"`
 	// The set of price IDs to which this adjustment applies.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string] `json:"currency"`
+	// A list of filters that determine which prices this adjustment will apply to.
+	Filters param.Field[[]BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFilter] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType] `json:"price_type"`
 }
 
 func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximum) MarshalJSON() (data []byte, err error) {
@@ -6179,6 +7067,88 @@ func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAdjustment
 	return false
 }
 
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAppliesToAllTrue BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFilter struct {
+	// The property of the price to filter on.
+	Field param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldPriceID       BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField = "price_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldItemID        BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField = "item_id"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldPriceType     BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField = "price_type"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldCurrency      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField = "currency"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldPricingUnitID BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldPriceID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldItemID, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldPriceType, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldCurrency, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperator string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperatorIncludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperator = "includes"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperatorExcludes BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperator = "excludes"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperatorIncludes, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeUsage          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType = "usage"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeFixedInAdvance BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeFixedInArrears BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeFixed          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType = "fixed"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeInArrears      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeUsage, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeFixedInAdvance, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeFixedInArrears, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeFixed, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewMaximumPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType string
 
 const (
@@ -6192,6 +7162,40 @@ const (
 func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
 	switch r {
 	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMinimum, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+// If set, the adjustment will apply to every price on the subscription.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAppliesToAll bool
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAppliesToAllTrue BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAppliesToAll = true
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAppliesToAll) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType string
+
+const (
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeUsage          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType = "usage"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeFixedInAdvance BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType = "fixed_in_advance"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeFixedInArrears BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType = "fixed_in_arrears"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeFixed          BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType = "fixed"
+	BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeInArrears      BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType = "in_arrears"
+)
+
+func (r BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeUsage, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeFixedInAdvance, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeFixedInArrears, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeFixed, BetaNewPlanVersionParamsReplaceAdjustmentsAdjustmentPriceTypeInArrears:
 		return true
 	}
 	return false
