@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.121.0 (2025-06-09)
+
+Full Changelog: [v0.120.0...v0.121.0](https://github.com/orbcorp/orb-go/compare/v0.120.0...v0.121.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** breaking change to re-use types
+
+### Features
+
+* **api:** api update ([3467275](https://github.com/orbcorp/orb-go/commit/34672757c6b1656200f50ef0c62547c15d4ffabc))
+* **client:** breaking change to re-use types ([0f406cd](https://github.com/orbcorp/orb-go/commit/0f406cdd4d50d43ac440ac6040d93d712d535a75))
+
 ## 0.120.0 (2025-06-04)
 
 Full Changelog: [v0.119.0...v0.120.0](https://github.com/orbcorp/orb-go/compare/v0.119.0...v0.120.0)
