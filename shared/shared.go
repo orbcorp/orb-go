@@ -3670,8 +3670,6 @@ type NewFloatingBPSPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -3695,9 +3693,6 @@ func (r NewFloatingBPSPriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingBPSPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {}
-
-func (r NewFloatingBPSPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
-}
 
 func (r NewFloatingBPSPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
 
@@ -3735,128 +3730,6 @@ func (r NewFloatingBPSPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                               `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                               `json:"unit_config"`
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigParam) implementsNewFloatingBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingBPSPriceConversionRateConfigParam].
-type NewFloatingBPSPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBPSPriceConversionRateConfigConversionRateTypeUnit   NewFloatingBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingBPSPriceConversionRateConfigConversionRateTypeTiered NewFloatingBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBPSPriceConversionRateConfigConversionRateTypeUnit, NewFloatingBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingBulkBPSPriceParam struct {
 	BulkBPSConfig param.Field[BulkBPSConfigParam] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
@@ -3879,8 +3752,6 @@ type NewFloatingBulkBPSPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingBulkBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -3904,9 +3775,6 @@ func (r NewFloatingBulkBPSPriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingBulkBPSPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingBulkBPSPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingBulkBPSPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
@@ -3945,128 +3813,6 @@ func (r NewFloatingBulkBPSPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingBulkBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                   `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                   `json:"unit_config"`
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigParam) implementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingBulkBPSPriceConversionRateConfigParam].
-type NewFloatingBulkBPSPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeUnit   NewFloatingBulkBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeTiered NewFloatingBulkBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeUnit, NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingBulkPriceParam struct {
 	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
@@ -4089,8 +3835,6 @@ type NewFloatingBulkPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingBulkPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -4114,9 +3858,6 @@ func (r NewFloatingBulkPriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingBulkPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingBulkPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingBulkPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
@@ -4155,128 +3896,6 @@ func (r NewFloatingBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                `json:"unit_config"`
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigParam) implementsNewFloatingBulkPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingBulkPriceConversionRateConfigParam].
-type NewFloatingBulkPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingBulkPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkPriceConversionRateConfigConversionRateTypeUnit   NewFloatingBulkPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingBulkPriceConversionRateConfigConversionRateTypeTiered NewFloatingBulkPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkPriceConversionRateConfigConversionRateTypeUnit, NewFloatingBulkPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingBulkWithProrationPriceParam struct {
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
@@ -4299,8 +3918,6 @@ type NewFloatingBulkWithProrationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -4324,9 +3941,6 @@ func (r NewFloatingBulkWithProrationPriceParam) MarshalJSON() (data []byte, err 
 }
 
 func (r NewFloatingBulkWithProrationPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingBulkWithProrationPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingBulkWithProrationPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -4366,128 +3980,6 @@ func (r NewFloatingBulkWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingBulkWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigParam) implementsNewFloatingBulkWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingBulkWithProrationPriceConversionRateConfigParam].
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingBulkWithProrationPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingBulkWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingBulkWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingCumulativeGroupedBulkPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence                     param.Field[NewFloatingCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
@@ -4510,8 +4002,6 @@ type NewFloatingCumulativeGroupedBulkPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -4535,9 +4025,6 @@ func (r NewFloatingCumulativeGroupedBulkPriceParam) MarshalJSON() (data []byte, 
 }
 
 func (r NewFloatingCumulativeGroupedBulkPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingCumulativeGroupedBulkPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -4577,128 +4064,6 @@ func (r NewFloatingCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                 `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                 `json:"unit_config"`
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam) implementsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam].
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit   NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit, NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingGroupedAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingGroupedAllocationPriceCadence] `json:"cadence,required"`
@@ -4721,8 +4086,6 @@ type NewFloatingGroupedAllocationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -4746,9 +4109,6 @@ func (r NewFloatingGroupedAllocationPriceParam) MarshalJSON() (data []byte, err 
 }
 
 func (r NewFloatingGroupedAllocationPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingGroupedAllocationPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingGroupedAllocationPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -4788,128 +4148,6 @@ func (r NewFloatingGroupedAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingGroupedAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigParam) implementsNewFloatingGroupedAllocationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingGroupedAllocationPriceConversionRateConfigParam].
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingGroupedAllocationPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingGroupedAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingGroupedAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingGroupedTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingGroupedTieredPackagePriceCadence] `json:"cadence,required"`
@@ -4932,8 +4170,6 @@ type NewFloatingGroupedTieredPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -4957,9 +4193,6 @@ func (r NewFloatingGroupedTieredPackagePriceParam) MarshalJSON() (data []byte, e
 }
 
 func (r NewFloatingGroupedTieredPackagePriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingGroupedTieredPackagePriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingGroupedTieredPackagePriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -4999,128 +4232,6 @@ func (r NewFloatingGroupedTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                `json:"unit_config"`
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigParam) implementsNewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingGroupedTieredPackagePriceConversionRateConfigParam].
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingGroupedTieredPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingGroupedTieredPriceCadence] `json:"cadence,required"`
@@ -5143,8 +4254,6 @@ type NewFloatingGroupedTieredPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingGroupedTieredPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -5168,9 +4277,6 @@ func (r NewFloatingGroupedTieredPriceParam) MarshalJSON() (data []byte, err erro
 }
 
 func (r NewFloatingGroupedTieredPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingGroupedTieredPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingGroupedTieredPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -5210,128 +4316,6 @@ func (r NewFloatingGroupedTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingGroupedTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                         `json:"unit_config"`
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigParam) implementsNewFloatingGroupedTieredPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingGroupedTieredPriceConversionRateConfigParam].
-type NewFloatingGroupedTieredPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingGroupedTieredPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingGroupedTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingGroupedTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeUnit   NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeTiered NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeUnit, NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingGroupedWithMeteredMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
@@ -5354,8 +4338,6 @@ type NewFloatingGroupedWithMeteredMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -5379,9 +4361,6 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceParam) MarshalJSON() (data []by
 }
 
 func (r NewFloatingGroupedWithMeteredMinimumPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingGroupedWithMeteredMinimumPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -5421,128 +4400,6 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                     `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                     `json:"unit_config"`
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam) implementsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam].
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit   NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit, NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingGroupedWithProratedMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
@@ -5565,8 +4422,6 @@ type NewFloatingGroupedWithProratedMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -5590,9 +4445,6 @@ func (r NewFloatingGroupedWithProratedMinimumPriceParam) MarshalJSON() (data []b
 }
 
 func (r NewFloatingGroupedWithProratedMinimumPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingGroupedWithProratedMinimumPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -5632,128 +4484,6 @@ func (r NewFloatingGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                      `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                      `json:"unit_config"`
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam) implementsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam].
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit   NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit, NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingMatrixPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingMatrixPriceCadence] `json:"cadence,required"`
@@ -5776,8 +4506,6 @@ type NewFloatingMatrixPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingMatrixPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -5801,9 +4529,6 @@ func (r NewFloatingMatrixPriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingMatrixPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingMatrixPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingMatrixPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
@@ -5842,128 +4567,6 @@ func (r NewFloatingMatrixPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingMatrixPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                  `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                  `json:"unit_config"`
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigParam) implementsNewFloatingMatrixPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingMatrixPriceConversionRateConfigParam].
-type NewFloatingMatrixPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingMatrixPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingMatrixPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingMatrixPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixPriceConversionRateConfigConversionRateTypeUnit   NewFloatingMatrixPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingMatrixPriceConversionRateConfigConversionRateTypeTiered NewFloatingMatrixPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixPriceConversionRateConfigConversionRateTypeUnit, NewFloatingMatrixPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingMatrixWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingMatrixWithAllocationPriceCadence] `json:"cadence,required"`
@@ -5986,8 +4589,6 @@ type NewFloatingMatrixWithAllocationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -6011,9 +4612,6 @@ func (r NewFloatingMatrixWithAllocationPriceParam) MarshalJSON() (data []byte, e
 }
 
 func (r NewFloatingMatrixWithAllocationPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingMatrixWithAllocationPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingMatrixWithAllocationPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -6053,128 +4651,6 @@ func (r NewFloatingMatrixWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                `json:"unit_config"`
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigParam) implementsNewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingMatrixWithAllocationPriceConversionRateConfigParam].
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingMatrixWithDisplayNamePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
@@ -6197,8 +4673,6 @@ type NewFloatingMatrixWithDisplayNamePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -6222,9 +4696,6 @@ func (r NewFloatingMatrixWithDisplayNamePriceParam) MarshalJSON() (data []byte, 
 }
 
 func (r NewFloatingMatrixWithDisplayNamePriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingMatrixWithDisplayNamePriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -6264,128 +4735,6 @@ func (r NewFloatingMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                 `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                 `json:"unit_config"`
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam) implementsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam].
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit   NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit, NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingMaxGroupTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
@@ -6408,8 +4757,6 @@ type NewFloatingMaxGroupTieredPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -6433,9 +4780,6 @@ func (r NewFloatingMaxGroupTieredPackagePriceParam) MarshalJSON() (data []byte, 
 }
 
 func (r NewFloatingMaxGroupTieredPackagePriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingMaxGroupTieredPackagePriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -6475,128 +4819,6 @@ func (r NewFloatingMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                 `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                 `json:"unit_config"`
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam) implementsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam].
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingPackagePriceCadence] `json:"cadence,required"`
@@ -6619,8 +4841,6 @@ type NewFloatingPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -6644,9 +4864,6 @@ func (r NewFloatingPackagePriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingPackagePriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingPackagePriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingPackagePriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
@@ -6685,128 +4902,6 @@ func (r NewFloatingPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                   `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                   `json:"unit_config"`
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigParam) implementsNewFloatingPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingPackagePriceConversionRateConfigParam].
-type NewFloatingPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingPackagePriceConversionRateConfigConversionRateTypeUnit   NewFloatingPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingPackagePriceConversionRateConfigConversionRateTypeTiered NewFloatingPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingPackagePriceConversionRateConfigConversionRateTypeUnit, NewFloatingPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingPackageWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingPackageWithAllocationPriceCadence] `json:"cadence,required"`
@@ -6829,8 +4924,6 @@ type NewFloatingPackageWithAllocationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -6854,9 +4947,6 @@ func (r NewFloatingPackageWithAllocationPriceParam) MarshalJSON() (data []byte, 
 }
 
 func (r NewFloatingPackageWithAllocationPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingPackageWithAllocationPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingPackageWithAllocationPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -6896,128 +4986,6 @@ func (r NewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                 `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                 `json:"unit_config"`
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigParam) implementsNewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingPackageWithAllocationPriceConversionRateConfigParam].
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit   NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit, NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingScalableMatrixWithTieredPricingPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
@@ -7040,8 +5008,6 @@ type NewFloatingScalableMatrixWithTieredPricingPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -7065,9 +5031,6 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceParam) MarshalJSON() (dat
 }
 
 func (r NewFloatingScalableMatrixWithTieredPricingPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingScalableMatrixWithTieredPricingPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -7107,128 +5070,6 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                           `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                           `json:"unit_config"`
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam) implementsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam].
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit   NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit, NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingScalableMatrixWithUnitPricingPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
@@ -7251,8 +5092,6 @@ type NewFloatingScalableMatrixWithUnitPricingPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -7276,9 +5115,6 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceParam) MarshalJSON() (data 
 }
 
 func (r NewFloatingScalableMatrixWithUnitPricingPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingScalableMatrixWithUnitPricingPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -7318,128 +5154,6 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                         `json:"unit_config"`
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam) implementsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam].
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit   NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit, NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingThresholdTotalAmountPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingThresholdTotalAmountPriceCadence] `json:"cadence,required"`
@@ -7462,8 +5176,6 @@ type NewFloatingThresholdTotalAmountPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -7487,9 +5199,6 @@ func (r NewFloatingThresholdTotalAmountPriceParam) MarshalJSON() (data []byte, e
 }
 
 func (r NewFloatingThresholdTotalAmountPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingThresholdTotalAmountPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingThresholdTotalAmountPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -7529,128 +5238,6 @@ func (r NewFloatingThresholdTotalAmountPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                `json:"unit_config"`
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigParam) implementsNewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingThresholdTotalAmountPriceConversionRateConfigParam].
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit   NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit, NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingTieredBPSPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingTieredBPSPriceCadence] `json:"cadence,required"`
@@ -7673,8 +5260,6 @@ type NewFloatingTieredBPSPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingTieredBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -7698,9 +5283,6 @@ func (r NewFloatingTieredBPSPriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingTieredBPSPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredBPSPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingTieredBPSPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
@@ -7739,128 +5321,6 @@ func (r NewFloatingTieredBPSPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingTieredBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                     `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                     `json:"unit_config"`
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigParam) implementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingTieredBPSPriceConversionRateConfigParam].
-type NewFloatingTieredBPSPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeUnit   NewFloatingTieredBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeTiered NewFloatingTieredBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeUnit, NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingTieredPackagePriceCadence] `json:"cadence,required"`
@@ -7883,8 +5343,6 @@ type NewFloatingTieredPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -7908,9 +5366,6 @@ func (r NewFloatingTieredPackagePriceParam) MarshalJSON() (data []byte, err erro
 }
 
 func (r NewFloatingTieredPackagePriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredPackagePriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingTieredPackagePriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -7950,128 +5405,6 @@ func (r NewFloatingTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                         `json:"unit_config"`
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigParam) implementsNewFloatingTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingTieredPackagePriceConversionRateConfigParam].
-type NewFloatingTieredPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingTieredPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewFloatingTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewFloatingTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingTieredPackageWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
@@ -8094,8 +5427,6 @@ type NewFloatingTieredPackageWithMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -8119,9 +5450,6 @@ func (r NewFloatingTieredPackageWithMinimumPriceParam) MarshalJSON() (data []byt
 }
 
 func (r NewFloatingTieredPackageWithMinimumPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingTieredPackageWithMinimumPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -8161,128 +5489,6 @@ func (r NewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                    `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                    `json:"unit_config"`
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam) implementsNewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam].
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit   NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit, NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingTieredPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingTieredPriceCadence] `json:"cadence,required"`
@@ -8305,8 +5511,6 @@ type NewFloatingTieredPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingTieredPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -8330,9 +5534,6 @@ func (r NewFloatingTieredPriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingTieredPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingTieredPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
@@ -8371,128 +5572,6 @@ func (r NewFloatingTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                  `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                  `json:"unit_config"`
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigParam) implementsNewFloatingTieredPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingTieredPriceConversionRateConfigParam].
-type NewFloatingTieredPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingTieredPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredPriceConversionRateConfigConversionRateTypeUnit   NewFloatingTieredPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingTieredPriceConversionRateConfigConversionRateTypeTiered NewFloatingTieredPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredPriceConversionRateConfigConversionRateTypeUnit, NewFloatingTieredPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingTieredWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingTieredWithMinimumPriceCadence] `json:"cadence,required"`
@@ -8515,8 +5594,6 @@ type NewFloatingTieredWithMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -8540,9 +5617,6 @@ func (r NewFloatingTieredWithMinimumPriceParam) MarshalJSON() (data []byte, err 
 }
 
 func (r NewFloatingTieredWithMinimumPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredWithMinimumPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingTieredWithMinimumPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -8582,128 +5656,6 @@ func (r NewFloatingTieredWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigParam) implementsNewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingTieredWithMinimumPriceConversionRateConfigParam].
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit   NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit, NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingTieredWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingTieredWithProrationPriceCadence] `json:"cadence,required"`
@@ -8726,8 +5678,6 @@ type NewFloatingTieredWithProrationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -8751,9 +5701,6 @@ func (r NewFloatingTieredWithProrationPriceParam) MarshalJSON() (data []byte, er
 }
 
 func (r NewFloatingTieredWithProrationPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredWithProrationPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingTieredWithProrationPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -8793,128 +5740,6 @@ func (r NewFloatingTieredWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingTieredWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                               `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                               `json:"unit_config"`
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigParam) implementsNewFloatingTieredWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingTieredWithProrationPriceConversionRateConfigParam].
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingTieredWithProrationPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingTieredWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingTieredWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingUnitPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingUnitPriceCadence] `json:"cadence,required"`
@@ -8937,8 +5762,6 @@ type NewFloatingUnitPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingUnitPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -8962,9 +5785,6 @@ func (r NewFloatingUnitPriceParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r NewFloatingUnitPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingUnitPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingUnitPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
@@ -9003,128 +5823,6 @@ func (r NewFloatingUnitPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingUnitPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                `json:"unit_config"`
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigParam) implementsNewFloatingUnitPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingUnitPriceConversionRateConfigParam].
-type NewFloatingUnitPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingUnitPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingUnitPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingUnitPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitPriceConversionRateConfigConversionRateTypeUnit   NewFloatingUnitPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingUnitPriceConversionRateConfigConversionRateTypeTiered NewFloatingUnitPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingUnitPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitPriceConversionRateConfigConversionRateTypeUnit, NewFloatingUnitPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingUnitWithPercentPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingUnitWithPercentPriceCadence] `json:"cadence,required"`
@@ -9147,8 +5845,6 @@ type NewFloatingUnitWithPercentPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -9172,9 +5868,6 @@ func (r NewFloatingUnitWithPercentPriceParam) MarshalJSON() (data []byte, err er
 }
 
 func (r NewFloatingUnitWithPercentPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingUnitWithPercentPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingUnitWithPercentPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -9214,128 +5907,6 @@ func (r NewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingUnitWithPercentPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                           `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                           `json:"unit_config"`
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigParam) implementsNewFloatingUnitWithPercentPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingUnitWithPercentPriceConversionRateConfigParam].
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingUnitWithPercentPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingUnitWithPercentPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingUnitWithPercentPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit   NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit, NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingUnitWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingUnitWithProrationPriceCadence] `json:"cadence,required"`
@@ -9358,8 +5929,6 @@ type NewFloatingUnitWithProrationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -9383,9 +5952,6 @@ func (r NewFloatingUnitWithProrationPriceParam) MarshalJSON() (data []byte, err 
 }
 
 func (r NewFloatingUnitWithProrationPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingUnitWithProrationPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
 }
 
 func (r NewFloatingUnitWithProrationPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
@@ -9420,128 +5986,6 @@ const (
 func (r NewFloatingUnitWithProrationPriceModelType) IsKnown() bool {
 	switch r {
 	case NewFloatingUnitWithProrationPriceModelTypeUnitWithProration:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingUnitWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigParam) implementsNewFloatingUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewFloatingUnitWithProrationPriceConversionRateConfigParam].
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnionParam interface {
-	implementsNewFloatingUnitWithProrationPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewFloatingUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewFloatingUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -9855,8 +6299,6 @@ type NewPlanBPSPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -9927,128 +6369,6 @@ func (r NewPlanBPSPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                           `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                           `json:"unit_config"`
-}
-
-func (r NewPlanBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBPSPriceConversionRateConfigParam) implementsNewPlanBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanBPSPriceConversionRateConfigParam].
-type NewPlanBPSPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBPSPriceConversionRateConfigConversionRateTypeUnit   NewPlanBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanBPSPriceConversionRateConfigConversionRateTypeTiered NewPlanBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBPSPriceConversionRateConfigConversionRateTypeUnit, NewPlanBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanBulkBPSPriceParam struct {
 	BulkBPSConfig param.Field[BulkBPSConfigParam] `json:"bulk_bps_config,required"`
 	// The cadence to bill for this price on.
@@ -10069,8 +6389,6 @@ type NewPlanBulkBPSPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanBulkBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -10142,128 +6460,6 @@ func (r NewPlanBulkBPSPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanBulkBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                               `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                               `json:"unit_config"`
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigParam) implementsNewPlanBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanBulkBPSPriceConversionRateConfigParam].
-type NewPlanBulkBPSPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanBulkBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeUnit   NewPlanBulkBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeTiered NewPlanBulkBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBulkBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeUnit, NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanBulkPriceParam struct {
 	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
@@ -10284,8 +6480,6 @@ type NewPlanBulkPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanBulkPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -10357,128 +6551,6 @@ func (r NewPlanBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                            `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                            `json:"unit_config"`
-}
-
-func (r NewPlanBulkPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkPriceConversionRateConfigParam) implementsNewPlanBulkPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanBulkPriceConversionRateConfigParam].
-type NewPlanBulkPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanBulkPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkPriceConversionRateConfigConversionRateTypeUnit   NewPlanBulkPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanBulkPriceConversionRateConfigConversionRateTypeTiered NewPlanBulkPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkPriceConversionRateConfigConversionRateTypeUnit, NewPlanBulkPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanBulkWithProrationPriceParam struct {
 	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
@@ -10499,8 +6571,6 @@ type NewPlanBulkWithProrationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanBulkWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -10573,128 +6643,6 @@ func (r NewPlanBulkWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanBulkWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                         `json:"unit_config"`
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigParam) implementsNewPlanBulkWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanBulkWithProrationPriceConversionRateConfigParam].
-type NewPlanBulkWithProrationPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanBulkWithProrationPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanBulkWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanBulkWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanCumulativeGroupedBulkPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence                     param.Field[NewPlanCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
@@ -10715,8 +6663,6 @@ type NewPlanCumulativeGroupedBulkPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -10790,128 +6736,6 @@ func (r NewPlanCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam) implementsNewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam].
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit   NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit, NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanGroupedAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence                 param.Field[NewPlanGroupedAllocationPriceCadence] `json:"cadence,required"`
@@ -10932,8 +6756,6 @@ type NewPlanGroupedAllocationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanGroupedAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -11006,128 +6828,6 @@ func (r NewPlanGroupedAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanGroupedAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                         `json:"unit_config"`
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigParam) implementsNewPlanGroupedAllocationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanGroupedAllocationPriceConversionRateConfigParam].
-type NewPlanGroupedAllocationPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanGroupedAllocationPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanGroupedAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanGroupedAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanGroupedTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence                    param.Field[NewPlanGroupedTieredPackagePriceCadence] `json:"cadence,required"`
@@ -11148,8 +6848,6 @@ type NewPlanGroupedTieredPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -11223,128 +6921,6 @@ func (r NewPlanGroupedTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                            `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                            `json:"unit_config"`
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigParam) implementsNewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanGroupedTieredPackagePriceConversionRateConfigParam].
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanGroupedTieredPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence             param.Field[NewPlanGroupedTieredPriceCadence] `json:"cadence,required"`
@@ -11365,8 +6941,6 @@ type NewPlanGroupedTieredPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanGroupedTieredPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -11438,128 +7012,6 @@ func (r NewPlanGroupedTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanGroupedTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                     `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                     `json:"unit_config"`
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigParam) implementsNewPlanGroupedTieredPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanGroupedTieredPriceConversionRateConfigParam].
-type NewPlanGroupedTieredPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanGroupedTieredPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanGroupedTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanGroupedTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedTieredPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeUnit   NewPlanGroupedTieredPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeTiered NewPlanGroupedTieredPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeUnit, NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanGroupedWithMeteredMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence                         param.Field[NewPlanGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
@@ -11580,8 +7032,6 @@ type NewPlanGroupedWithMeteredMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -11655,128 +7105,6 @@ func (r NewPlanGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                 `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                 `json:"unit_config"`
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam) implementsNewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam].
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit   NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit, NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanGroupedWithProratedMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence                          param.Field[NewPlanGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
@@ -11797,8 +7125,6 @@ type NewPlanGroupedWithProratedMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -11872,128 +7198,6 @@ func (r NewPlanGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                  `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                  `json:"unit_config"`
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam) implementsNewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam].
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit   NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit, NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanMatrixPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanMatrixPriceCadence] `json:"cadence,required"`
@@ -12014,8 +7218,6 @@ type NewPlanMatrixPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanMatrixPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -12087,128 +7289,6 @@ func (r NewPlanMatrixPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanMatrixPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                              `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                              `json:"unit_config"`
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigParam) implementsNewPlanMatrixPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanMatrixPriceConversionRateConfigParam].
-type NewPlanMatrixPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanMatrixPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanMatrixPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanMatrixPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixPriceConversionRateConfigConversionRateTypeUnit   NewPlanMatrixPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanMatrixPriceConversionRateConfigConversionRateTypeTiered NewPlanMatrixPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixPriceConversionRateConfigConversionRateTypeUnit, NewPlanMatrixPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanMatrixWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanMatrixWithAllocationPriceCadence] `json:"cadence,required"`
@@ -12229,8 +7309,6 @@ type NewPlanMatrixWithAllocationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -12304,128 +7382,6 @@ func (r NewPlanMatrixWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                            `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                            `json:"unit_config"`
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigParam) implementsNewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanMatrixWithAllocationPriceConversionRateConfigParam].
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanMatrixWithDisplayNamePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
@@ -12446,8 +7402,6 @@ type NewPlanMatrixWithDisplayNamePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -12521,128 +7475,6 @@ func (r NewPlanMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam) implementsNewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam].
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam interface {
-	implementsNewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam()
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit   NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "unit"
-	NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit, NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanMaxGroupTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
@@ -12663,8 +7495,6 @@ type NewPlanMaxGroupTieredPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -12738,128 +7568,6 @@ func (r NewPlanMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam) implementsNewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam].
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanPackagePriceCadence] `json:"cadence,required"`
@@ -12880,8 +7588,6 @@ type NewPlanPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -12953,128 +7659,6 @@ func (r NewPlanPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                               `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                               `json:"unit_config"`
-}
-
-func (r NewPlanPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanPackagePriceConversionRateConfigParam) implementsNewPlanPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanPackagePriceConversionRateConfigParam].
-type NewPlanPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewPlanPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanPackagePriceConversionRateConfigConversionRateTypeUnit   NewPlanPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewPlanPackagePriceConversionRateConfigConversionRateTypeTiered NewPlanPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanPackagePriceConversionRateConfigConversionRateTypeUnit, NewPlanPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanPackageWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanPackageWithAllocationPriceCadence] `json:"cadence,required"`
@@ -13095,8 +7679,6 @@ type NewPlanPackageWithAllocationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -13170,128 +7752,6 @@ func (r NewPlanPackageWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanPackageWithAllocationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                             `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                             `json:"unit_config"`
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigParam) implementsNewPlanPackageWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanPackageWithAllocationPriceConversionRateConfigParam].
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanPackageWithAllocationPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanPackageWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanPackageWithAllocationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit   NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit, NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanScalableMatrixWithTieredPricingPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
@@ -13312,8 +7772,6 @@ type NewPlanScalableMatrixWithTieredPricingPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -13387,128 +7845,6 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                       `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                       `json:"unit_config"`
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam) implementsNewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam].
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit   NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit, NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanScalableMatrixWithUnitPricingPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
@@ -13529,8 +7865,6 @@ type NewPlanScalableMatrixWithUnitPricingPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -13604,128 +7938,6 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                     `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                     `json:"unit_config"`
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam) implementsNewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam].
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit   NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit, NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanThresholdTotalAmountPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanThresholdTotalAmountPriceCadence] `json:"cadence,required"`
@@ -13746,8 +7958,6 @@ type NewPlanThresholdTotalAmountPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -13821,128 +8031,6 @@ func (r NewPlanThresholdTotalAmountPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                            `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                            `json:"unit_config"`
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigParam) implementsNewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanThresholdTotalAmountPriceConversionRateConfigParam].
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit   NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit, NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanTierWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanTierWithProrationPriceCadence] `json:"cadence,required"`
@@ -13963,8 +8051,6 @@ type NewPlanTierWithProrationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanTierWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -14037,128 +8123,6 @@ func (r NewPlanTierWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanTierWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTierWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                         `json:"unit_config"`
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigParam) implementsNewPlanTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanTierWithProrationPriceConversionRateConfigParam].
-type NewPlanTierWithProrationPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanTierWithProrationPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTierWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewPlanTierWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeTiered NewPlanTierWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTierWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanTieredBPSPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanTieredBPSPriceCadence] `json:"cadence,required"`
@@ -14179,8 +8143,6 @@ type NewPlanTieredBPSPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanTieredBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -14252,128 +8214,6 @@ func (r NewPlanTieredBPSPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanTieredBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                 `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                 `json:"unit_config"`
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigParam) implementsNewPlanTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanTieredBPSPriceConversionRateConfigParam].
-type NewPlanTieredBPSPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanTieredBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeUnit   NewPlanTieredBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeTiered NewPlanTieredBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeUnit, NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanTieredPackagePriceCadence] `json:"cadence,required"`
@@ -14394,8 +8234,6 @@ type NewPlanTieredPackagePriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -14467,128 +8305,6 @@ func (r NewPlanTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanTieredPackagePriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                     `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                     `json:"unit_config"`
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigParam) implementsNewPlanTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanTieredPackagePriceConversionRateConfigParam].
-type NewPlanTieredPackagePriceConversionRateConfigUnionParam interface {
-	implementsNewPlanTieredPackagePriceConversionRateConfigUnionParam()
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanTieredPackagePriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewPlanTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewPlanTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanTieredPackageWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
@@ -14609,8 +8325,6 @@ type NewPlanTieredPackageWithMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -14684,128 +8398,6 @@ func (r NewPlanTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                                `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                                `json:"unit_config"`
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam) implementsNewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam].
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit   NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit, NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanTieredPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanTieredPriceCadence] `json:"cadence,required"`
@@ -14826,8 +8418,6 @@ type NewPlanTieredPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanTieredPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -14899,128 +8489,6 @@ func (r NewPlanTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanTieredPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                              `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                              `json:"unit_config"`
-}
-
-func (r NewPlanTieredPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPriceConversionRateConfigParam) implementsNewPlanTieredPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanTieredPriceConversionRateConfigParam].
-type NewPlanTieredPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanTieredPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanTieredPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredPriceConversionRateConfigConversionRateTypeUnit   NewPlanTieredPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanTieredPriceConversionRateConfigConversionRateTypeTiered NewPlanTieredPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredPriceConversionRateConfigConversionRateTypeUnit, NewPlanTieredPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanTieredWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanTieredWithMinimumPriceCadence] `json:"cadence,required"`
@@ -15041,8 +8509,6 @@ type NewPlanTieredWithMinimumPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -15115,128 +8581,6 @@ func (r NewPlanTieredWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanTieredWithMinimumPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                         `json:"unit_config"`
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigParam) implementsNewPlanTieredWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanTieredWithMinimumPriceConversionRateConfigParam].
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanTieredWithMinimumPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanTieredWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanTieredWithMinimumPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit   NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit, NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanUnitPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanUnitPriceCadence] `json:"cadence,required"`
@@ -15257,8 +8601,6 @@ type NewPlanUnitPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanUnitPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -15330,128 +8672,6 @@ func (r NewPlanUnitPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanUnitPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                            `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                            `json:"unit_config"`
-}
-
-func (r NewPlanUnitPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitPriceConversionRateConfigParam) implementsNewPlanUnitPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanUnitPriceConversionRateConfigParam].
-type NewPlanUnitPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanUnitPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanUnitPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanUnitPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitPriceConversionRateConfigConversionRateTypeUnit   NewPlanUnitPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanUnitPriceConversionRateConfigConversionRateTypeTiered NewPlanUnitPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanUnitPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitPriceConversionRateConfigConversionRateTypeUnit, NewPlanUnitPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanUnitWithPercentPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanUnitWithPercentPriceCadence] `json:"cadence,required"`
@@ -15472,8 +8692,6 @@ type NewPlanUnitWithPercentPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanUnitWithPercentPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -15546,128 +8764,6 @@ func (r NewPlanUnitWithPercentPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanUnitWithPercentPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                       `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                       `json:"unit_config"`
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigParam) implementsNewPlanUnitWithPercentPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanUnitWithPercentPriceConversionRateConfigParam].
-type NewPlanUnitWithPercentPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanUnitWithPercentPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanUnitWithPercentPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanUnitWithPercentPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit   NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit, NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanUnitWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewPlanUnitWithProrationPriceCadence] `json:"cadence,required"`
@@ -15688,8 +8784,6 @@ type NewPlanUnitWithProrationPriceParam struct {
 	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanUnitWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -15757,128 +8851,6 @@ const (
 func (r NewPlanUnitWithProrationPriceModelType) IsKnown() bool {
 	switch r {
 	case NewPlanUnitWithProrationPriceModelTypeUnitWithProration:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanUnitWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[interface{}]                                                         `json:"tiered_config"`
-	UnitConfig         param.Field[interface{}]                                                         `json:"unit_config"`
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigParam) implementsNewPlanUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by
-// [shared.NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam],
-// [shared.NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam],
-// [NewPlanUnitWithProrationPriceConversionRateConfigParam].
-type NewPlanUnitWithProrationPriceConversionRateConfigUnionParam interface {
-	implementsNewPlanUnitWithProrationPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	UnitConfig         param.Field[NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam]    `json:"unit_config,required"`
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam) implementsNewPlanUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam struct {
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam]  `json:"tiered_config,required"`
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam) implementsNewPlanUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers param.Field[[]NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam] `json:"tiers,required"`
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam struct {
-	// Exclusive tier starting value
-	FirstUnit param.Field[float64] `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit param.Field[float64] `json:"last_unit"`
-}
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -16595,35 +9567,9 @@ type Price struct {
 	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceCadence              `json:"cadence,required"`
 	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
-	// This field can have the runtime type of [PriceUnitPriceConversionRateConfig],
-	// [PricePackagePriceConversionRateConfig], [PriceMatrixPriceConversionRateConfig],
-	// [PriceTieredPriceConversionRateConfig],
-	// [PriceTieredBPSPriceConversionRateConfig], [PriceBPSPriceConversionRateConfig],
-	// [PriceBulkBPSPriceConversionRateConfig], [PriceBulkPriceConversionRateConfig],
-	// [PriceThresholdTotalAmountPriceConversionRateConfig],
-	// [PriceTieredPackagePriceConversionRateConfig],
-	// [PriceGroupedTieredPriceConversionRateConfig],
-	// [PriceTieredWithMinimumPriceConversionRateConfig],
-	// [PriceTieredPackageWithMinimumPriceConversionRateConfig],
-	// [PricePackageWithAllocationPriceConversionRateConfig],
-	// [PriceUnitWithPercentPriceConversionRateConfig],
-	// [PriceMatrixWithAllocationPriceConversionRateConfig],
-	// [PriceTieredWithProrationPriceConversionRateConfig],
-	// [PriceUnitWithProrationPriceConversionRateConfig],
-	// [PriceGroupedAllocationPriceConversionRateConfig],
-	// [PriceGroupedWithProratedMinimumPriceConversionRateConfig],
-	// [PriceGroupedWithMeteredMinimumPriceConversionRateConfig],
-	// [PriceMatrixWithDisplayNamePriceConversionRateConfig],
-	// [PriceBulkWithProrationPriceConversionRateConfig],
-	// [PriceGroupedTieredPackagePriceConversionRateConfig],
-	// [PriceMaxGroupTieredPackagePriceConversionRateConfig],
-	// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfig],
-	// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfig],
-	// [PriceCumulativeGroupedBulkPriceConversionRateConfig].
-	ConversionRateConfig interface{} `json:"conversion_rate_config,required"`
-	CreatedAt            time.Time   `json:"created_at,required" format:"date-time"`
-	CreditAllocation     Allocation  `json:"credit_allocation,required,nullable"`
-	Currency             string      `json:"currency,required"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -16703,7 +9649,6 @@ type priceJSON struct {
 	BillingCycleConfiguration             apijson.Field
 	Cadence                               apijson.Field
 	ConversionRate                        apijson.Field
-	ConversionRateConfig                  apijson.Field
 	CreatedAt                             apijson.Field
 	CreditAllocation                      apijson.Field
 	Currency                              apijson.Field
@@ -16963,15 +9908,14 @@ func init() {
 }
 
 type PriceUnitPrice struct {
-	ID                        string                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceUnitPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                             `json:"currency,required"`
+	ID                        string                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceUnitPriceCadence     `json:"cadence,required"`
+	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -17007,7 +9951,6 @@ type priceUnitPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -17060,246 +10003,6 @@ func (r PriceUnitPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceUnitPriceConversionRateConfig struct {
-	ConversionRateType PriceUnitPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                            `json:"unit_config"`
-	JSON       priceUnitPriceConversionRateConfigJSON `json:"-"`
-	union      PriceUnitPriceConversionRateConfigUnion
-}
-
-// priceUnitPriceConversionRateConfigJSON contains the JSON metadata for the struct
-// [PriceUnitPriceConversionRateConfig]
-type priceUnitPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceUnitPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceUnitPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceUnitPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceUnitPriceConversionRateConfigUnion] interface which you
-// can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceUnitPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceUnitPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceUnitPriceConversionRateConfig) AsUnion() PriceUnitPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by [PriceUnitPriceConversionRateConfigUnitConversionRateConfig]
-// or [PriceUnitPriceConversionRateConfigTieredConversionRateConfig].
-type PriceUnitPriceConversionRateConfigUnion interface {
-	implementsPriceUnitPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceUnitPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceUnitPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceUnitPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceUnitPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceUnitPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceUnitPriceConversionRateConfigUnitConversionRateConfigJSON contains the JSON
-// metadata for the struct
-// [PriceUnitPriceConversionRateConfigUnitConversionRateConfig]
-type priceUnitPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceUnitPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceUnitPriceConversionRateConfigUnitConversionRateConfig) implementsPriceUnitPriceConversionRateConfig() {
-}
-
-type PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                   `json:"unit_amount,required"`
-	JSON       priceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceUnitPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceUnitPriceConversionRateConfigTieredConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceUnitPriceConversionRateConfigTieredConversionRateConfig]
-type priceUnitPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceUnitPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceUnitPriceConversionRateConfigTieredConversionRateConfig) implementsPriceUnitPriceConversionRateConfig() {
-}
-
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                          `json:"last_unit,nullable"`
-	JSON     priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitPriceConversionRateConfigConversionRateTypeUnit   PriceUnitPriceConversionRateConfigConversionRateType = "unit"
-	PriceUnitPriceConversionRateConfigConversionRateTypeTiered PriceUnitPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceUnitPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitPriceConversionRateConfigConversionRateTypeUnit, PriceUnitPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceUnitPriceModelType string
 
 const (
@@ -17330,15 +10033,14 @@ func (r PriceUnitPricePriceType) IsKnown() bool {
 }
 
 type PricePackagePrice struct {
-	ID                        string                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
-	Cadence                   PricePackagePriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                            `json:"credit_allocation,required,nullable"`
-	Currency                  string                                `json:"currency,required"`
+	ID                        string                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	Cadence                   PricePackagePriceCadence  `json:"cadence,required"`
+	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -17375,7 +10077,6 @@ type pricePackagePriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -17428,247 +10129,6 @@ func (r PricePackagePriceCadence) IsKnown() bool {
 	return false
 }
 
-type PricePackagePriceConversionRateConfig struct {
-	ConversionRateType PricePackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                               `json:"unit_config"`
-	JSON       pricePackagePriceConversionRateConfigJSON `json:"-"`
-	union      PricePackagePriceConversionRateConfigUnion
-}
-
-// pricePackagePriceConversionRateConfigJSON contains the JSON metadata for the
-// struct [PricePackagePriceConversionRateConfig]
-type pricePackagePriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r pricePackagePriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PricePackagePriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PricePackagePriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PricePackagePriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PricePackagePriceConversionRateConfigUnitConversionRateConfig],
-// [PricePackagePriceConversionRateConfigTieredConversionRateConfig].
-func (r PricePackagePriceConversionRateConfig) AsUnion() PricePackagePriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PricePackagePriceConversionRateConfigUnitConversionRateConfig] or
-// [PricePackagePriceConversionRateConfigTieredConversionRateConfig].
-type PricePackagePriceConversionRateConfigUnion interface {
-	implementsPricePackagePriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PricePackagePriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PricePackagePriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PricePackagePriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PricePackagePriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               pricePackagePriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// pricePackagePriceConversionRateConfigUnitConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PricePackagePriceConversionRateConfigUnitConversionRateConfig]
-type pricePackagePriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PricePackagePriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackagePriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PricePackagePriceConversionRateConfigUnitConversionRateConfig) implementsPricePackagePriceConversionRateConfig() {
-}
-
-type PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                      `json:"unit_amount,required"`
-	JSON       pricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// pricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type pricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PricePackagePriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               pricePackagePriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// pricePackagePriceConversionRateConfigTieredConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PricePackagePriceConversionRateConfigTieredConversionRateConfig]
-type pricePackagePriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PricePackagePriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackagePriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PricePackagePriceConversionRateConfigTieredConversionRateConfig) implementsPricePackagePriceConversionRateConfig() {
-}
-
-type PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                             `json:"last_unit,nullable"`
-	JSON     pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PricePackagePriceConversionRateConfigConversionRateType string
-
-const (
-	PricePackagePriceConversionRateConfigConversionRateTypeUnit   PricePackagePriceConversionRateConfigConversionRateType = "unit"
-	PricePackagePriceConversionRateConfigConversionRateTypeTiered PricePackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PricePackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PricePackagePriceConversionRateConfigConversionRateTypeUnit, PricePackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PricePackagePriceModelType string
 
 const (
@@ -17699,15 +10159,14 @@ func (r PricePackagePricePriceType) IsKnown() bool {
 }
 
 type PriceMatrixPrice struct {
-	ID                        string                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceMatrixPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                               `json:"currency,required"`
+	ID                        string                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceMatrixPriceCadence   `json:"cadence,required"`
+	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -17744,7 +10203,6 @@ type priceMatrixPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -17797,247 +10255,6 @@ func (r PriceMatrixPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceMatrixPriceConversionRateConfig struct {
-	ConversionRateType PriceMatrixPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                              `json:"unit_config"`
-	JSON       priceMatrixPriceConversionRateConfigJSON `json:"-"`
-	union      PriceMatrixPriceConversionRateConfigUnion
-}
-
-// priceMatrixPriceConversionRateConfigJSON contains the JSON metadata for the
-// struct [PriceMatrixPriceConversionRateConfig]
-type priceMatrixPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceMatrixPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceMatrixPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceMatrixPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceMatrixPriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceMatrixPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceMatrixPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceMatrixPriceConversionRateConfig) AsUnion() PriceMatrixPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceMatrixPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceMatrixPriceConversionRateConfigTieredConversionRateConfig].
-type PriceMatrixPriceConversionRateConfigUnion interface {
-	implementsPriceMatrixPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceMatrixPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMatrixPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMatrixPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceMatrixPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceMatrixPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMatrixPriceConversionRateConfigUnitConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceMatrixPriceConversionRateConfigUnitConversionRateConfig]
-type priceMatrixPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMatrixPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMatrixPriceConversionRateConfigUnitConversionRateConfig) implementsPriceMatrixPriceConversionRateConfig() {
-}
-
-type PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                     `json:"unit_amount,required"`
-	JSON       priceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceMatrixPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMatrixPriceConversionRateConfigTieredConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceMatrixPriceConversionRateConfigTieredConversionRateConfig]
-type priceMatrixPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMatrixPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMatrixPriceConversionRateConfigTieredConversionRateConfig) implementsPriceMatrixPriceConversionRateConfig() {
-}
-
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                            `json:"last_unit,nullable"`
-	JSON     priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixPriceConversionRateConfigConversionRateTypeUnit   PriceMatrixPriceConversionRateConfigConversionRateType = "unit"
-	PriceMatrixPriceConversionRateConfigConversionRateTypeTiered PriceMatrixPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixPriceConversionRateConfigConversionRateTypeUnit, PriceMatrixPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceMatrixPriceModelType string
 
 const (
@@ -18068,15 +10285,14 @@ func (r PriceMatrixPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPrice struct {
-	ID                        string                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceTieredPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                               `json:"currency,required"`
+	ID                        string                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceTieredPriceCadence   `json:"cadence,required"`
+	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -18113,7 +10329,6 @@ type priceTieredPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -18166,247 +10381,6 @@ func (r PriceTieredPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceTieredPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                              `json:"unit_config"`
-	JSON       priceTieredPriceConversionRateConfigJSON `json:"-"`
-	union      PriceTieredPriceConversionRateConfigUnion
-}
-
-// priceTieredPriceConversionRateConfigJSON contains the JSON metadata for the
-// struct [PriceTieredPriceConversionRateConfig]
-type priceTieredPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceTieredPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceTieredPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceTieredPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceTieredPriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceTieredPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceTieredPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceTieredPriceConversionRateConfig) AsUnion() PriceTieredPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceTieredPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceTieredPriceConversionRateConfigTieredConversionRateConfig].
-type PriceTieredPriceConversionRateConfigUnion interface {
-	implementsPriceTieredPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceTieredPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceTieredPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceTieredPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredPriceConversionRateConfigUnitConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceTieredPriceConversionRateConfigUnitConversionRateConfig]
-type priceTieredPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredPriceConversionRateConfigUnitConversionRateConfig) implementsPriceTieredPriceConversionRateConfig() {
-}
-
-type PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                     `json:"unit_amount,required"`
-	JSON       priceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceTieredPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredPriceConversionRateConfigTieredConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceTieredPriceConversionRateConfigTieredConversionRateConfig]
-type priceTieredPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredPriceConversionRateConfigTieredConversionRateConfig) implementsPriceTieredPriceConversionRateConfig() {
-}
-
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                            `json:"last_unit,nullable"`
-	JSON     priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPriceConversionRateConfigConversionRateTypeUnit   PriceTieredPriceConversionRateConfigConversionRateType = "unit"
-	PriceTieredPriceConversionRateConfigConversionRateTypeTiered PriceTieredPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPriceConversionRateConfigConversionRateTypeUnit, PriceTieredPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceTieredPriceModelType string
 
 const (
@@ -18437,15 +10411,14 @@ func (r PriceTieredPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredBPSPrice struct {
-	ID                        string                                  `json:"id,required"`
-	BillableMetric            BillableMetricTiny                      `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration               `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceTieredBPSPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                 `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredBPSPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                               `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                              `json:"credit_allocation,required,nullable"`
-	Currency                  string                                  `json:"currency,required"`
+	ID                        string                     `json:"id,required"`
+	BillableMetric            BillableMetricTiny         `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration  `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceTieredBPSPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                    `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                  `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                 `json:"credit_allocation,required,nullable"`
+	Currency                  string                     `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -18482,7 +10455,6 @@ type priceTieredBPSPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -18535,247 +10507,6 @@ func (r PriceTieredBPSPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceTieredBPSPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredBPSPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                 `json:"unit_config"`
-	JSON       priceTieredBPSPriceConversionRateConfigJSON `json:"-"`
-	union      PriceTieredBPSPriceConversionRateConfigUnion
-}
-
-// priceTieredBPSPriceConversionRateConfigJSON contains the JSON metadata for the
-// struct [PriceTieredBPSPriceConversionRateConfig]
-type priceTieredBPSPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceTieredBPSPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceTieredBPSPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceTieredBPSPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceTieredBPSPriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceTieredBPSPriceConversionRateConfig) AsUnion() PriceTieredBPSPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig].
-type PriceTieredBPSPriceConversionRateConfigUnion interface {
-	implementsPriceTieredBPSPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceTieredBPSPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig]
-type priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig) implementsPriceTieredBPSPriceConversionRateConfig() {
-}
-
-type PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                        `json:"unit_amount,required"`
-	JSON       priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigJSON contains
-// the JSON metadata for the struct
-// [PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig]
-type priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig) implementsPriceTieredBPSPriceConversionRateConfig() {
-}
-
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                               `json:"last_unit,nullable"`
-	JSON     priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredBPSPriceConversionRateConfigConversionRateTypeUnit   PriceTieredBPSPriceConversionRateConfigConversionRateType = "unit"
-	PriceTieredBPSPriceConversionRateConfigConversionRateTypeTiered PriceTieredBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredBPSPriceConversionRateConfigConversionRateTypeUnit, PriceTieredBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceTieredBPSPriceModelType string
 
 const (
@@ -18806,16 +10537,15 @@ func (r PriceTieredBPSPricePriceType) IsKnown() bool {
 }
 
 type PriceBPSPrice struct {
-	ID                        string                            `json:"id,required"`
-	BillableMetric            BillableMetricTiny                `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration         `json:"billing_cycle_configuration,required"`
-	BPSConfig                 BPSConfig                         `json:"bps_config,required"`
-	Cadence                   PriceBPSPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                           `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceBPSPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                        `json:"credit_allocation,required,nullable"`
-	Currency                  string                            `json:"currency,required"`
+	ID                        string                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	BPSConfig                 BPSConfig                 `json:"bps_config,required"`
+	Cadence                   PriceBPSPriceCadence      `json:"cadence,required"`
+	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -18851,7 +10581,6 @@ type priceBPSPriceJSON struct {
 	BPSConfig                     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -18903,246 +10632,6 @@ func (r PriceBPSPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceBPSPriceConversionRateConfig struct {
-	ConversionRateType PriceBPSPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                           `json:"unit_config"`
-	JSON       priceBPSPriceConversionRateConfigJSON `json:"-"`
-	union      PriceBPSPriceConversionRateConfigUnion
-}
-
-// priceBPSPriceConversionRateConfigJSON contains the JSON metadata for the struct
-// [PriceBPSPriceConversionRateConfig]
-type priceBPSPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceBPSPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceBPSPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceBPSPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceBPSPriceConversionRateConfigUnion] interface which you
-// can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceBPSPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceBPSPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceBPSPriceConversionRateConfig) AsUnion() PriceBPSPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by [PriceBPSPriceConversionRateConfigUnitConversionRateConfig]
-// or [PriceBPSPriceConversionRateConfigTieredConversionRateConfig].
-type PriceBPSPriceConversionRateConfigUnion interface {
-	implementsPriceBPSPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceBPSPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBPSPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBPSPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceBPSPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceBPSPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBPSPriceConversionRateConfigUnitConversionRateConfigJSON contains the JSON
-// metadata for the struct
-// [PriceBPSPriceConversionRateConfigUnitConversionRateConfig]
-type priceBPSPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBPSPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBPSPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBPSPriceConversionRateConfigUnitConversionRateConfig) implementsPriceBPSPriceConversionRateConfig() {
-}
-
-type PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                  `json:"unit_amount,required"`
-	JSON       priceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON contains
-// the JSON metadata for the struct
-// [PriceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceBPSPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBPSPriceConversionRateConfigTieredConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceBPSPriceConversionRateConfigTieredConversionRateConfig]
-type priceBPSPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBPSPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBPSPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBPSPriceConversionRateConfigTieredConversionRateConfig) implementsPriceBPSPriceConversionRateConfig() {
-}
-
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                         `json:"last_unit,nullable"`
-	JSON     priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceBPSPriceConversionRateConfigConversionRateTypeUnit   PriceBPSPriceConversionRateConfigConversionRateType = "unit"
-	PriceBPSPriceConversionRateConfigConversionRateTypeTiered PriceBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBPSPriceConversionRateConfigConversionRateTypeUnit, PriceBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceBPSPriceModelType string
 
 const (
@@ -19173,16 +10662,15 @@ func (r PriceBPSPricePriceType) IsKnown() bool {
 }
 
 type PriceBulkBPSPrice struct {
-	ID                        string                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
-	BulkBPSConfig             BulkBPSConfig                         `json:"bulk_bps_config,required"`
-	Cadence                   PriceBulkBPSPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceBulkBPSPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                            `json:"credit_allocation,required,nullable"`
-	Currency                  string                                `json:"currency,required"`
+	ID                        string                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	BulkBPSConfig             BulkBPSConfig             `json:"bulk_bps_config,required"`
+	Cadence                   PriceBulkBPSPriceCadence  `json:"cadence,required"`
+	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -19219,7 +10707,6 @@ type priceBulkBPSPriceJSON struct {
 	BulkBPSConfig                 apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -19271,247 +10758,6 @@ func (r PriceBulkBPSPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceBulkBPSPriceConversionRateConfig struct {
-	ConversionRateType PriceBulkBPSPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                               `json:"unit_config"`
-	JSON       priceBulkBPSPriceConversionRateConfigJSON `json:"-"`
-	union      PriceBulkBPSPriceConversionRateConfigUnion
-}
-
-// priceBulkBPSPriceConversionRateConfigJSON contains the JSON metadata for the
-// struct [PriceBulkBPSPriceConversionRateConfig]
-type priceBulkBPSPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceBulkBPSPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceBulkBPSPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceBulkBPSPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceBulkBPSPriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceBulkBPSPriceConversionRateConfig) AsUnion() PriceBulkBPSPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig].
-type PriceBulkBPSPriceConversionRateConfigUnion interface {
-	implementsPriceBulkBPSPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceBulkBPSPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig]
-type priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig) implementsPriceBulkBPSPriceConversionRateConfig() {
-}
-
-type PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                      `json:"unit_amount,required"`
-	JSON       priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig]
-type priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig) implementsPriceBulkBPSPriceConversionRateConfig() {
-}
-
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                             `json:"last_unit,nullable"`
-	JSON     priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkBPSPriceConversionRateConfigConversionRateTypeUnit   PriceBulkBPSPriceConversionRateConfigConversionRateType = "unit"
-	PriceBulkBPSPriceConversionRateConfigConversionRateTypeTiered PriceBulkBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBulkBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkBPSPriceConversionRateConfigConversionRateTypeUnit, PriceBulkBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceBulkBPSPriceModelType string
 
 const (
@@ -19542,16 +10788,15 @@ func (r PriceBulkBPSPricePriceType) IsKnown() bool {
 }
 
 type PriceBulkPrice struct {
-	ID                        string                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
-	BulkConfig                BulkConfig                         `json:"bulk_config,required"`
-	Cadence                   PriceBulkPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceBulkPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                             `json:"currency,required"`
+	ID                        string                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	BulkConfig                BulkConfig                `json:"bulk_config,required"`
+	Cadence                   PriceBulkPriceCadence     `json:"cadence,required"`
+	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                `json:"credit_allocation,required,nullable"`
+	Currency                  string                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -19587,7 +10832,6 @@ type priceBulkPriceJSON struct {
 	BulkConfig                    apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -19639,246 +10883,6 @@ func (r PriceBulkPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceBulkPriceConversionRateConfig struct {
-	ConversionRateType PriceBulkPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                            `json:"unit_config"`
-	JSON       priceBulkPriceConversionRateConfigJSON `json:"-"`
-	union      PriceBulkPriceConversionRateConfigUnion
-}
-
-// priceBulkPriceConversionRateConfigJSON contains the JSON metadata for the struct
-// [PriceBulkPriceConversionRateConfig]
-type priceBulkPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceBulkPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceBulkPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceBulkPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceBulkPriceConversionRateConfigUnion] interface which you
-// can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceBulkPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceBulkPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceBulkPriceConversionRateConfig) AsUnion() PriceBulkPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by [PriceBulkPriceConversionRateConfigUnitConversionRateConfig]
-// or [PriceBulkPriceConversionRateConfigTieredConversionRateConfig].
-type PriceBulkPriceConversionRateConfigUnion interface {
-	implementsPriceBulkPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceBulkPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBulkPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBulkPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceBulkPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceBulkPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBulkPriceConversionRateConfigUnitConversionRateConfigJSON contains the JSON
-// metadata for the struct
-// [PriceBulkPriceConversionRateConfigUnitConversionRateConfig]
-type priceBulkPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBulkPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBulkPriceConversionRateConfigUnitConversionRateConfig) implementsPriceBulkPriceConversionRateConfig() {
-}
-
-type PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                   `json:"unit_amount,required"`
-	JSON       priceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceBulkPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBulkPriceConversionRateConfigTieredConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceBulkPriceConversionRateConfigTieredConversionRateConfig]
-type priceBulkPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBulkPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBulkPriceConversionRateConfigTieredConversionRateConfig) implementsPriceBulkPriceConversionRateConfig() {
-}
-
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                          `json:"last_unit,nullable"`
-	JSON     priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkPriceConversionRateConfigConversionRateTypeUnit   PriceBulkPriceConversionRateConfigConversionRateType = "unit"
-	PriceBulkPriceConversionRateConfigConversionRateTypeTiered PriceBulkPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkPriceConversionRateConfigConversionRateTypeUnit, PriceBulkPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceBulkPriceModelType string
 
 const (
@@ -19909,15 +10913,14 @@ func (r PriceBulkPricePriceType) IsKnown() bool {
 }
 
 type PriceThresholdTotalAmountPrice struct {
-	ID                        string                                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceThresholdTotalAmountPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceThresholdTotalAmountPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                                             `json:"currency,required"`
+	ID                        string                                `json:"id,required"`
+	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceThresholdTotalAmountPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                            `json:"credit_allocation,required,nullable"`
+	Currency                  string                                `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -19954,7 +10957,6 @@ type priceThresholdTotalAmountPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -20007,247 +11009,6 @@ func (r PriceThresholdTotalAmountPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceThresholdTotalAmountPriceConversionRateConfig struct {
-	ConversionRateType PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                            `json:"unit_config"`
-	JSON       priceThresholdTotalAmountPriceConversionRateConfigJSON `json:"-"`
-	union      PriceThresholdTotalAmountPriceConversionRateConfigUnion
-}
-
-// priceThresholdTotalAmountPriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PriceThresholdTotalAmountPriceConversionRateConfig]
-type priceThresholdTotalAmountPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceThresholdTotalAmountPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceThresholdTotalAmountPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceThresholdTotalAmountPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceThresholdTotalAmountPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceThresholdTotalAmountPriceConversionRateConfig) AsUnion() PriceThresholdTotalAmountPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig].
-type PriceThresholdTotalAmountPriceConversionRateConfigUnion interface {
-	implementsPriceThresholdTotalAmountPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceThresholdTotalAmountPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig]
-type priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig) implementsPriceThresholdTotalAmountPriceConversionRateConfig() {
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                   `json:"unit_amount,required"`
-	JSON       priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig]
-type priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig) implementsPriceThresholdTotalAmountPriceConversionRateConfig() {
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                          `json:"last_unit,nullable"`
-	JSON     priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit   PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType = "unit"
-	PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit, PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceThresholdTotalAmountPriceModelType string
 
 const (
@@ -20278,15 +11039,14 @@ func (r PriceThresholdTotalAmountPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPackagePrice struct {
-	ID                        string                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceTieredPackagePriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                      `json:"currency,required"`
+	ID                        string                         `json:"id,required"`
+	BillableMetric            BillableMetricTiny             `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration      `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceTieredPackagePriceCadence `json:"cadence,required"`
+	ConversionRate            float64                        `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                      `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                     `json:"credit_allocation,required,nullable"`
+	Currency                  string                         `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -20323,7 +11083,6 @@ type priceTieredPackagePriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -20376,247 +11135,6 @@ func (r PriceTieredPackagePriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType PriceTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                     `json:"unit_config"`
-	JSON       priceTieredPackagePriceConversionRateConfigJSON `json:"-"`
-	union      PriceTieredPackagePriceConversionRateConfigUnion
-}
-
-// priceTieredPackagePriceConversionRateConfigJSON contains the JSON metadata for
-// the struct [PriceTieredPackagePriceConversionRateConfig]
-type priceTieredPackagePriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceTieredPackagePriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceTieredPackagePriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceTieredPackagePriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceTieredPackagePriceConversionRateConfigUnion] interface
-// which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig],
-// [PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceTieredPackagePriceConversionRateConfig) AsUnion() PriceTieredPackagePriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig].
-type PriceTieredPackagePriceConversionRateConfigUnion interface {
-	implementsPriceTieredPackagePriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceTieredPackagePriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON contains
-// the JSON metadata for the struct
-// [PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig]
-type priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig) implementsPriceTieredPackagePriceConversionRateConfig() {
-}
-
-type PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                            `json:"unit_amount,required"`
-	JSON       priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig]
-type priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig) implementsPriceTieredPackagePriceConversionRateConfig() {
-}
-
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                   `json:"last_unit,nullable"`
-	JSON     priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPackagePriceConversionRateConfigConversionRateTypeUnit   PriceTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	PriceTieredPackagePriceConversionRateConfigConversionRateTypeTiered PriceTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPackagePriceConversionRateConfigConversionRateTypeUnit, PriceTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceTieredPackagePriceModelType string
 
 const (
@@ -20647,15 +11165,14 @@ func (r PriceTieredPackagePricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedTieredPrice struct {
-	ID                        string                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceGroupedTieredPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedTieredPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                      `json:"currency,required"`
+	ID                        string                         `json:"id,required"`
+	BillableMetric            BillableMetricTiny             `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration      `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceGroupedTieredPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                        `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                      `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                     `json:"credit_allocation,required,nullable"`
+	Currency                  string                         `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -20692,7 +11209,6 @@ type priceGroupedTieredPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -20745,247 +11261,6 @@ func (r PriceGroupedTieredPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceGroupedTieredPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                     `json:"unit_config"`
-	JSON       priceGroupedTieredPriceConversionRateConfigJSON `json:"-"`
-	union      PriceGroupedTieredPriceConversionRateConfigUnion
-}
-
-// priceGroupedTieredPriceConversionRateConfigJSON contains the JSON metadata for
-// the struct [PriceGroupedTieredPriceConversionRateConfig]
-type priceGroupedTieredPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceGroupedTieredPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceGroupedTieredPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceGroupedTieredPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceGroupedTieredPriceConversionRateConfigUnion] interface
-// which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceGroupedTieredPriceConversionRateConfig) AsUnion() PriceGroupedTieredPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig].
-type PriceGroupedTieredPriceConversionRateConfigUnion interface {
-	implementsPriceGroupedTieredPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceGroupedTieredPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigJSON contains
-// the JSON metadata for the struct
-// [PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig]
-type priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig) implementsPriceGroupedTieredPriceConversionRateConfig() {
-}
-
-type PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                            `json:"unit_amount,required"`
-	JSON       priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig]
-type priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig) implementsPriceGroupedTieredPriceConversionRateConfig() {
-}
-
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                   `json:"last_unit,nullable"`
-	JSON     priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedTieredPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit   PriceGroupedTieredPriceConversionRateConfigConversionRateType = "unit"
-	PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered PriceGroupedTieredPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit, PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceGroupedTieredPriceModelType string
 
 const (
@@ -21016,15 +11291,14 @@ func (r PriceGroupedTieredPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredWithMinimumPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceTieredWithMinimumPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredWithMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                             `json:"id,required"`
+	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceTieredWithMinimumPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                         `json:"credit_allocation,required,nullable"`
+	Currency                  string                             `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -21061,7 +11335,6 @@ type priceTieredWithMinimumPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -21114,247 +11387,6 @@ func (r PriceTieredWithMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceTieredWithMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredWithMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                         `json:"unit_config"`
-	JSON       priceTieredWithMinimumPriceConversionRateConfigJSON `json:"-"`
-	union      PriceTieredWithMinimumPriceConversionRateConfigUnion
-}
-
-// priceTieredWithMinimumPriceConversionRateConfigJSON contains the JSON metadata
-// for the struct [PriceTieredWithMinimumPriceConversionRateConfig]
-type priceTieredWithMinimumPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceTieredWithMinimumPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceTieredWithMinimumPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceTieredWithMinimumPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceTieredWithMinimumPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceTieredWithMinimumPriceConversionRateConfig) AsUnion() PriceTieredWithMinimumPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig].
-type PriceTieredWithMinimumPriceConversionRateConfigUnion interface {
-	implementsPriceTieredWithMinimumPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceTieredWithMinimumPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig]
-type priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig) implementsPriceTieredWithMinimumPriceConversionRateConfig() {
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                `json:"unit_amount,required"`
-	JSON       priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig]
-type priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig) implementsPriceTieredWithMinimumPriceConversionRateConfig() {
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                       `json:"last_unit,nullable"`
-	JSON     priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredWithMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit   PriceTieredWithMinimumPriceConversionRateConfigConversionRateType = "unit"
-	PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered PriceTieredWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit, PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceTieredWithMinimumPriceModelType string
 
 const (
@@ -21385,15 +11417,14 @@ func (r PriceTieredWithMinimumPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPackageWithMinimumPrice struct {
-	ID                        string                                                 `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                     `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                              `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceTieredPackageWithMinimumPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                                `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPackageWithMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                              `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                             `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                 `json:"currency,required"`
+	ID                        string                                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny                        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                 `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceTieredPackageWithMinimumPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                   `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                `json:"credit_allocation,required,nullable"`
+	Currency                  string                                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -21430,7 +11461,6 @@ type priceTieredPackageWithMinimumPriceJSON struct {
 	BillingCycleConfiguration      apijson.Field
 	Cadence                        apijson.Field
 	ConversionRate                 apijson.Field
-	ConversionRateConfig           apijson.Field
 	CreatedAt                      apijson.Field
 	CreditAllocation               apijson.Field
 	Currency                       apijson.Field
@@ -21483,248 +11513,6 @@ func (r PriceTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceTieredPackageWithMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                                `json:"unit_config"`
-	JSON       priceTieredPackageWithMinimumPriceConversionRateConfigJSON `json:"-"`
-	union      PriceTieredPackageWithMinimumPriceConversionRateConfigUnion
-}
-
-// priceTieredPackageWithMinimumPriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PriceTieredPackageWithMinimumPriceConversionRateConfig]
-type priceTieredPackageWithMinimumPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceTieredPackageWithMinimumPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceTieredPackageWithMinimumPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceTieredPackageWithMinimumPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceTieredPackageWithMinimumPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceTieredPackageWithMinimumPriceConversionRateConfig) AsUnion() PriceTieredPackageWithMinimumPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig]
-// or
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig].
-type PriceTieredPackageWithMinimumPriceConversionRateConfigUnion interface {
-	implementsPriceTieredPackageWithMinimumPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceTieredPackageWithMinimumPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig]
-type priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig) implementsPriceTieredPackageWithMinimumPriceConversionRateConfig() {
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                       `json:"unit_amount,required"`
-	JSON       priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig]
-type priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig) implementsPriceTieredPackageWithMinimumPriceConversionRateConfig() {
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                              `json:"last_unit,nullable"`
-	JSON     priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit   PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "unit"
-	PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit, PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceTieredPackageWithMinimumPriceModelType string
 
 const (
@@ -21755,15 +11543,14 @@ func (r PriceTieredPackageWithMinimumPricePriceType) IsKnown() bool {
 }
 
 type PricePackageWithAllocationPrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	Cadence                   PricePackageWithAllocationPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePackageWithAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
-	Currency                  string                                              `json:"currency,required"`
+	ID                        string                                 `json:"id,required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
+	Cadence                   PricePackageWithAllocationPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                             `json:"credit_allocation,required,nullable"`
+	Currency                  string                                 `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -21800,7 +11587,6 @@ type pricePackageWithAllocationPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -21853,247 +11639,6 @@ func (r PricePackageWithAllocationPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PricePackageWithAllocationPriceConversionRateConfig struct {
-	ConversionRateType PricePackageWithAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                             `json:"unit_config"`
-	JSON       pricePackageWithAllocationPriceConversionRateConfigJSON `json:"-"`
-	union      PricePackageWithAllocationPriceConversionRateConfigUnion
-}
-
-// pricePackageWithAllocationPriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PricePackageWithAllocationPriceConversionRateConfig]
-type pricePackageWithAllocationPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r pricePackageWithAllocationPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PricePackageWithAllocationPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PricePackageWithAllocationPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PricePackageWithAllocationPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig],
-// [PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig].
-func (r PricePackageWithAllocationPriceConversionRateConfig) AsUnion() PricePackageWithAllocationPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig] or
-// [PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig].
-type PricePackageWithAllocationPriceConversionRateConfigUnion interface {
-	implementsPricePackageWithAllocationPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PricePackageWithAllocationPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig]
-type pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig) implementsPricePackageWithAllocationPriceConversionRateConfig() {
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                    `json:"unit_amount,required"`
-	JSON       pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig]
-type pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig) implementsPricePackageWithAllocationPriceConversionRateConfig() {
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                           `json:"last_unit,nullable"`
-	JSON     pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r pricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PricePackageWithAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit   PricePackageWithAllocationPriceConversionRateConfigConversionRateType = "unit"
-	PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered PricePackageWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PricePackageWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit, PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PricePackageWithAllocationPriceModelType string
 
 const (
@@ -22124,15 +11669,14 @@ func (r PricePackageWithAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceUnitWithPercentPrice struct {
-	ID                        string                                        `json:"id,required"`
-	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceUnitWithPercentPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitWithPercentPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                    `json:"credit_allocation,required,nullable"`
-	Currency                  string                                        `json:"currency,required"`
+	ID                        string                           `json:"id,required"`
+	BillableMetric            BillableMetricTiny               `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration        `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceUnitWithPercentPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                          `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                        `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                       `json:"credit_allocation,required,nullable"`
+	Currency                  string                           `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -22169,7 +11713,6 @@ type priceUnitWithPercentPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -22222,247 +11765,6 @@ func (r PriceUnitWithPercentPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceUnitWithPercentPriceConversionRateConfig struct {
-	ConversionRateType PriceUnitWithPercentPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                       `json:"unit_config"`
-	JSON       priceUnitWithPercentPriceConversionRateConfigJSON `json:"-"`
-	union      PriceUnitWithPercentPriceConversionRateConfigUnion
-}
-
-// priceUnitWithPercentPriceConversionRateConfigJSON contains the JSON metadata for
-// the struct [PriceUnitWithPercentPriceConversionRateConfig]
-type priceUnitWithPercentPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceUnitWithPercentPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceUnitWithPercentPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceUnitWithPercentPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceUnitWithPercentPriceConversionRateConfigUnion] interface
-// which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceUnitWithPercentPriceConversionRateConfig) AsUnion() PriceUnitWithPercentPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig].
-type PriceUnitWithPercentPriceConversionRateConfigUnion interface {
-	implementsPriceUnitWithPercentPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceUnitWithPercentPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig]
-type priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig) implementsPriceUnitWithPercentPriceConversionRateConfig() {
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                              `json:"unit_amount,required"`
-	JSON       priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig]
-type priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig) implementsPriceUnitWithPercentPriceConversionRateConfig() {
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                     `json:"last_unit,nullable"`
-	JSON     priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitWithPercentPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit   PriceUnitWithPercentPriceConversionRateConfigConversionRateType = "unit"
-	PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered PriceUnitWithPercentPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceUnitWithPercentPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit, PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceUnitWithPercentPriceModelType string
 
 const (
@@ -22493,15 +11795,14 @@ func (r PriceUnitWithPercentPricePriceType) IsKnown() bool {
 }
 
 type PriceMatrixWithAllocationPrice struct {
-	ID                        string                                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceMatrixWithAllocationPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixWithAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                                             `json:"currency,required"`
+	ID                        string                                `json:"id,required"`
+	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceMatrixWithAllocationPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                            `json:"credit_allocation,required,nullable"`
+	Currency                  string                                `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                   `json:"discount,required,nullable"`
 	ExternalPriceID             string                     `json:"external_price_id,required,nullable"`
@@ -22538,7 +11839,6 @@ type priceMatrixWithAllocationPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -22591,247 +11891,6 @@ func (r PriceMatrixWithAllocationPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceMatrixWithAllocationPriceConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                            `json:"unit_config"`
-	JSON       priceMatrixWithAllocationPriceConversionRateConfigJSON `json:"-"`
-	union      PriceMatrixWithAllocationPriceConversionRateConfigUnion
-}
-
-// priceMatrixWithAllocationPriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PriceMatrixWithAllocationPriceConversionRateConfig]
-type priceMatrixWithAllocationPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceMatrixWithAllocationPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceMatrixWithAllocationPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceMatrixWithAllocationPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceMatrixWithAllocationPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceMatrixWithAllocationPriceConversionRateConfig) AsUnion() PriceMatrixWithAllocationPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig].
-type PriceMatrixWithAllocationPriceConversionRateConfigUnion interface {
-	implementsPriceMatrixWithAllocationPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceMatrixWithAllocationPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig]
-type priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig) implementsPriceMatrixWithAllocationPriceConversionRateConfig() {
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                   `json:"unit_amount,required"`
-	JSON       priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig]
-type priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig) implementsPriceMatrixWithAllocationPriceConversionRateConfig() {
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                          `json:"last_unit,nullable"`
-	JSON     priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
-	PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceMatrixWithAllocationPriceModelType string
 
 const (
@@ -22862,15 +11921,14 @@ func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredWithProrationPrice struct {
-	ID                        string                                            `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceTieredWithProrationPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
-	Currency                  string                                            `json:"currency,required"`
+	ID                        string                               `json:"id,required"`
+	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceTieredWithProrationPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                           `json:"credit_allocation,required,nullable"`
+	Currency                  string                               `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -22907,7 +11965,6 @@ type priceTieredWithProrationPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -22960,247 +12017,6 @@ func (r PriceTieredWithProrationPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceTieredWithProrationPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                           `json:"unit_config"`
-	JSON       priceTieredWithProrationPriceConversionRateConfigJSON `json:"-"`
-	union      PriceTieredWithProrationPriceConversionRateConfigUnion
-}
-
-// priceTieredWithProrationPriceConversionRateConfigJSON contains the JSON metadata
-// for the struct [PriceTieredWithProrationPriceConversionRateConfig]
-type priceTieredWithProrationPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceTieredWithProrationPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceTieredWithProrationPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceTieredWithProrationPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceTieredWithProrationPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceTieredWithProrationPriceConversionRateConfig) AsUnion() PriceTieredWithProrationPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig].
-type PriceTieredWithProrationPriceConversionRateConfigUnion interface {
-	implementsPriceTieredWithProrationPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceTieredWithProrationPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig]
-type priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig) implementsPriceTieredWithProrationPriceConversionRateConfig() {
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                  `json:"unit_amount,required"`
-	JSON       priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig]
-type priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig) implementsPriceTieredWithProrationPriceConversionRateConfig() {
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                         `json:"last_unit,nullable"`
-	JSON     priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceTieredWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   PriceTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered PriceTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceTieredWithProrationPriceModelType string
 
 const (
@@ -23231,15 +12047,14 @@ func (r PriceTieredWithProrationPricePriceType) IsKnown() bool {
 }
 
 type PriceUnitWithProrationPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceUnitWithProrationPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                             `json:"id,required"`
+	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceUnitWithProrationPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                         `json:"credit_allocation,required,nullable"`
+	Currency                  string                             `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -23276,7 +12091,6 @@ type priceUnitWithProrationPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -23329,247 +12143,6 @@ func (r PriceUnitWithProrationPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceUnitWithProrationPriceConversionRateConfig struct {
-	ConversionRateType PriceUnitWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                         `json:"unit_config"`
-	JSON       priceUnitWithProrationPriceConversionRateConfigJSON `json:"-"`
-	union      PriceUnitWithProrationPriceConversionRateConfigUnion
-}
-
-// priceUnitWithProrationPriceConversionRateConfigJSON contains the JSON metadata
-// for the struct [PriceUnitWithProrationPriceConversionRateConfig]
-type priceUnitWithProrationPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceUnitWithProrationPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceUnitWithProrationPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceUnitWithProrationPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceUnitWithProrationPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceUnitWithProrationPriceConversionRateConfig) AsUnion() PriceUnitWithProrationPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig].
-type PriceUnitWithProrationPriceConversionRateConfigUnion interface {
-	implementsPriceUnitWithProrationPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceUnitWithProrationPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig]
-type priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig) implementsPriceUnitWithProrationPriceConversionRateConfig() {
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                `json:"unit_amount,required"`
-	JSON       priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig]
-type priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig) implementsPriceUnitWithProrationPriceConversionRateConfig() {
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                       `json:"last_unit,nullable"`
-	JSON     priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceUnitWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit   PriceUnitWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered PriceUnitWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceUnitWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit, PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceUnitWithProrationPriceModelType string
 
 const (
@@ -23600,15 +12173,14 @@ func (r PriceUnitWithProrationPricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedAllocationPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceGroupedAllocationPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                             `json:"id,required"`
+	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceGroupedAllocationPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                         `json:"credit_allocation,required,nullable"`
+	Currency                  string                             `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -23645,7 +12217,6 @@ type priceGroupedAllocationPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -23698,247 +12269,6 @@ func (r PriceGroupedAllocationPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceGroupedAllocationPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                         `json:"unit_config"`
-	JSON       priceGroupedAllocationPriceConversionRateConfigJSON `json:"-"`
-	union      PriceGroupedAllocationPriceConversionRateConfigUnion
-}
-
-// priceGroupedAllocationPriceConversionRateConfigJSON contains the JSON metadata
-// for the struct [PriceGroupedAllocationPriceConversionRateConfig]
-type priceGroupedAllocationPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceGroupedAllocationPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceGroupedAllocationPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceGroupedAllocationPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceGroupedAllocationPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceGroupedAllocationPriceConversionRateConfig) AsUnion() PriceGroupedAllocationPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig].
-type PriceGroupedAllocationPriceConversionRateConfigUnion interface {
-	implementsPriceGroupedAllocationPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceGroupedAllocationPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig]
-type priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig) implementsPriceGroupedAllocationPriceConversionRateConfig() {
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                `json:"unit_amount,required"`
-	JSON       priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig]
-type priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig) implementsPriceGroupedAllocationPriceConversionRateConfig() {
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                       `json:"last_unit,nullable"`
-	JSON     priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedAllocationPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   PriceGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
-	PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered PriceGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceGroupedAllocationPriceModelType string
 
 const (
@@ -23969,15 +12299,14 @@ func (r PriceGroupedAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedWithProratedMinimumPrice struct {
-	ID                        string                                                   `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                       `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceGroupedWithProratedMinimumPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                                  `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithProratedMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                               `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                   `json:"currency,required"`
+	ID                        string                                      `json:"id,required"`
+	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceGroupedWithProratedMinimumPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                  `json:"credit_allocation,required,nullable"`
+	Currency                  string                                      `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                         Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID                  string                    `json:"external_price_id,required,nullable"`
@@ -24014,7 +12343,6 @@ type priceGroupedWithProratedMinimumPriceJSON struct {
 	BillingCycleConfiguration        apijson.Field
 	Cadence                          apijson.Field
 	ConversionRate                   apijson.Field
-	ConversionRateConfig             apijson.Field
 	CreatedAt                        apijson.Field
 	CreditAllocation                 apijson.Field
 	Currency                         apijson.Field
@@ -24067,250 +12395,6 @@ func (r PriceGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceGroupedWithProratedMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                                  `json:"unit_config"`
-	JSON       priceGroupedWithProratedMinimumPriceConversionRateConfigJSON `json:"-"`
-	union      PriceGroupedWithProratedMinimumPriceConversionRateConfigUnion
-}
-
-// priceGroupedWithProratedMinimumPriceConversionRateConfigJSON contains the JSON
-// metadata for the struct
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfig]
-type priceGroupedWithProratedMinimumPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceGroupedWithProratedMinimumPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceGroupedWithProratedMinimumPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceGroupedWithProratedMinimumPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceGroupedWithProratedMinimumPriceConversionRateConfig) AsUnion() PriceGroupedWithProratedMinimumPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig]
-// or
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig].
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigUnion interface {
-	implementsPriceGroupedWithProratedMinimumPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceGroupedWithProratedMinimumPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig]
-type priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig) implementsPriceGroupedWithProratedMinimumPriceConversionRateConfig() {
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                         `json:"unit_amount,required"`
-	JSON       priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig]
-type priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig) implementsPriceGroupedWithProratedMinimumPriceConversionRateConfig() {
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                                `json:"last_unit,nullable"`
-	JSON     priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit   PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "unit"
-	PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit, PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceGroupedWithProratedMinimumPriceModelType string
 
 const (
@@ -24341,15 +12425,14 @@ func (r PriceGroupedWithProratedMinimumPricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedWithMeteredMinimumPrice struct {
-	ID                        string                                                  `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                      `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                               `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                                 `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithMeteredMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                               `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                              `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                  `json:"currency,required"`
+	ID                        string                                     `json:"id,required"`
+	BillableMetric            BillableMetricTiny                         `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                  `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                    `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                  `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                 `json:"credit_allocation,required,nullable"`
+	Currency                  string                                     `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                        Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID                 string                    `json:"external_price_id,required,nullable"`
@@ -24386,7 +12469,6 @@ type priceGroupedWithMeteredMinimumPriceJSON struct {
 	BillingCycleConfiguration       apijson.Field
 	Cadence                         apijson.Field
 	ConversionRate                  apijson.Field
-	ConversionRateConfig            apijson.Field
 	CreatedAt                       apijson.Field
 	CreditAllocation                apijson.Field
 	Currency                        apijson.Field
@@ -24439,249 +12521,6 @@ func (r PriceGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                                 `json:"unit_config"`
-	JSON       priceGroupedWithMeteredMinimumPriceConversionRateConfigJSON `json:"-"`
-	union      PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnion
-}
-
-// priceGroupedWithMeteredMinimumPriceConversionRateConfigJSON contains the JSON
-// metadata for the struct
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfig]
-type priceGroupedWithMeteredMinimumPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceGroupedWithMeteredMinimumPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceGroupedWithMeteredMinimumPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceGroupedWithMeteredMinimumPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceGroupedWithMeteredMinimumPriceConversionRateConfig) AsUnion() PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig]
-// or
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig].
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnion interface {
-	implementsPriceGroupedWithMeteredMinimumPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig]
-type priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig) implementsPriceGroupedWithMeteredMinimumPriceConversionRateConfig() {
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                        `json:"unit_amount,required"`
-	JSON       priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig]
-type priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig) implementsPriceGroupedWithMeteredMinimumPriceConversionRateConfig() {
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                               `json:"last_unit,nullable"`
-	JSON     priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit   PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "unit"
-	PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit, PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceGroupedWithMeteredMinimumPriceModelType string
 
 const (
@@ -24712,15 +12551,14 @@ func (r PriceGroupedWithMeteredMinimumPricePriceType) IsKnown() bool {
 }
 
 type PriceMatrixWithDisplayNamePrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceMatrixWithDisplayNamePriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixWithDisplayNamePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
-	Currency                  string                                              `json:"currency,required"`
+	ID                        string                                 `json:"id,required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceMatrixWithDisplayNamePriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                             `json:"credit_allocation,required,nullable"`
+	Currency                  string                                 `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -24757,7 +12595,6 @@ type priceMatrixWithDisplayNamePriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -24810,247 +12647,6 @@ func (r PriceMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceMatrixWithDisplayNamePriceConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                             `json:"unit_config"`
-	JSON       priceMatrixWithDisplayNamePriceConversionRateConfigJSON `json:"-"`
-	union      PriceMatrixWithDisplayNamePriceConversionRateConfigUnion
-}
-
-// priceMatrixWithDisplayNamePriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PriceMatrixWithDisplayNamePriceConversionRateConfig]
-type priceMatrixWithDisplayNamePriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceMatrixWithDisplayNamePriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceMatrixWithDisplayNamePriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceMatrixWithDisplayNamePriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceMatrixWithDisplayNamePriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig],
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceMatrixWithDisplayNamePriceConversionRateConfig) AsUnion() PriceMatrixWithDisplayNamePriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig].
-type PriceMatrixWithDisplayNamePriceConversionRateConfigUnion interface {
-	implementsPriceMatrixWithDisplayNamePriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceMatrixWithDisplayNamePriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig]
-type priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig) implementsPriceMatrixWithDisplayNamePriceConversionRateConfig() {
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                    `json:"unit_amount,required"`
-	JSON       priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig]
-type priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig) implementsPriceMatrixWithDisplayNamePriceConversionRateConfig() {
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                           `json:"last_unit,nullable"`
-	JSON     priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType string
-
-const (
-	PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit   PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "unit"
-	PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit, PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceMatrixWithDisplayNamePriceModelType string
 
 const (
@@ -25081,16 +12677,15 @@ func (r PriceMatrixWithDisplayNamePricePriceType) IsKnown() bool {
 }
 
 type PriceBulkWithProrationPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	BulkWithProrationConfig   map[string]interface{}                          `json:"bulk_with_proration_config,required"`
-	Cadence                   PriceBulkWithProrationPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceBulkWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                             `json:"id,required"`
+	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
+	BulkWithProrationConfig   map[string]interface{}             `json:"bulk_with_proration_config,required"`
+	Cadence                   PriceBulkWithProrationPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                         `json:"credit_allocation,required,nullable"`
+	Currency                  string                             `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -25127,7 +12722,6 @@ type priceBulkWithProrationPriceJSON struct {
 	BulkWithProrationConfig       apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -25179,247 +12773,6 @@ func (r PriceBulkWithProrationPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceBulkWithProrationPriceConversionRateConfig struct {
-	ConversionRateType PriceBulkWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                         `json:"unit_config"`
-	JSON       priceBulkWithProrationPriceConversionRateConfigJSON `json:"-"`
-	union      PriceBulkWithProrationPriceConversionRateConfigUnion
-}
-
-// priceBulkWithProrationPriceConversionRateConfigJSON contains the JSON metadata
-// for the struct [PriceBulkWithProrationPriceConversionRateConfig]
-type priceBulkWithProrationPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceBulkWithProrationPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceBulkWithProrationPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceBulkWithProrationPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceBulkWithProrationPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceBulkWithProrationPriceConversionRateConfig) AsUnion() PriceBulkWithProrationPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig].
-type PriceBulkWithProrationPriceConversionRateConfigUnion interface {
-	implementsPriceBulkWithProrationPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceBulkWithProrationPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig]
-type priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig) implementsPriceBulkWithProrationPriceConversionRateConfig() {
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                `json:"unit_amount,required"`
-	JSON       priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig]
-type priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig) implementsPriceBulkWithProrationPriceConversionRateConfig() {
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                       `json:"last_unit,nullable"`
-	JSON     priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceBulkWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit   PriceBulkWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered PriceBulkWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBulkWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit, PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceBulkWithProrationPriceModelType string
 
 const (
@@ -25450,15 +12803,14 @@ func (r PriceBulkWithProrationPricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedTieredPackagePrice struct {
-	ID                        string                                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceGroupedTieredPackagePriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                                             `json:"currency,required"`
+	ID                        string                                `json:"id,required"`
+	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceGroupedTieredPackagePriceCadence `json:"cadence,required"`
+	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                            `json:"credit_allocation,required,nullable"`
+	Currency                  string                                `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -25495,7 +12847,6 @@ type priceGroupedTieredPackagePriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -25548,247 +12899,6 @@ func (r PriceGroupedTieredPackagePriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceGroupedTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                            `json:"unit_config"`
-	JSON       priceGroupedTieredPackagePriceConversionRateConfigJSON `json:"-"`
-	union      PriceGroupedTieredPackagePriceConversionRateConfigUnion
-}
-
-// priceGroupedTieredPackagePriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PriceGroupedTieredPackagePriceConversionRateConfig]
-type priceGroupedTieredPackagePriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceGroupedTieredPackagePriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceGroupedTieredPackagePriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceGroupedTieredPackagePriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceGroupedTieredPackagePriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig],
-// [PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceGroupedTieredPackagePriceConversionRateConfig) AsUnion() PriceGroupedTieredPackagePriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig].
-type PriceGroupedTieredPackagePriceConversionRateConfigUnion interface {
-	implementsPriceGroupedTieredPackagePriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceGroupedTieredPackagePriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig]
-type priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig) implementsPriceGroupedTieredPackagePriceConversionRateConfig() {
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                   `json:"unit_amount,required"`
-	JSON       priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig]
-type priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig) implementsPriceGroupedTieredPackagePriceConversionRateConfig() {
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                          `json:"last_unit,nullable"`
-	JSON     priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit   PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit, PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceGroupedTieredPackagePriceModelType string
 
 const (
@@ -25819,15 +12929,14 @@ func (r PriceGroupedTieredPackagePricePriceType) IsKnown() bool {
 }
 
 type PriceMaxGroupTieredPackagePrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceMaxGroupTieredPackagePriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMaxGroupTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
-	Currency                  string                                              `json:"currency,required"`
+	ID                        string                                 `json:"id,required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceMaxGroupTieredPackagePriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                             `json:"credit_allocation,required,nullable"`
+	Currency                  string                                 `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -25864,7 +12973,6 @@ type priceMaxGroupTieredPackagePriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	Currency                      apijson.Field
@@ -25917,247 +13025,6 @@ func (r PriceMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceMaxGroupTieredPackagePriceConversionRateConfig struct {
-	ConversionRateType PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                             `json:"unit_config"`
-	JSON       priceMaxGroupTieredPackagePriceConversionRateConfigJSON `json:"-"`
-	union      PriceMaxGroupTieredPackagePriceConversionRateConfigUnion
-}
-
-// priceMaxGroupTieredPackagePriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PriceMaxGroupTieredPackagePriceConversionRateConfig]
-type priceMaxGroupTieredPackagePriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceMaxGroupTieredPackagePriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceMaxGroupTieredPackagePriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceMaxGroupTieredPackagePriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceMaxGroupTieredPackagePriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig],
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceMaxGroupTieredPackagePriceConversionRateConfig) AsUnion() PriceMaxGroupTieredPackagePriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig].
-type PriceMaxGroupTieredPackagePriceConversionRateConfigUnion interface {
-	implementsPriceMaxGroupTieredPackagePriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceMaxGroupTieredPackagePriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig]
-type priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig) implementsPriceMaxGroupTieredPackagePriceConversionRateConfig() {
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                    `json:"unit_amount,required"`
-	JSON       priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig]
-type priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig) implementsPriceMaxGroupTieredPackagePriceConversionRateConfig() {
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                           `json:"last_unit,nullable"`
-	JSON     priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType string
-
-const (
-	PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit   PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "unit"
-	PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceMaxGroupTieredPackagePriceModelType string
 
 const (
@@ -26188,15 +13055,14 @@ func (r PriceMaxGroupTieredPackagePricePriceType) IsKnown() bool {
 }
 
 type PriceScalableMatrixWithUnitPricingPrice struct {
-	ID                        string                                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceScalableMatrixWithUnitPricingPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                      `json:"currency,required"`
+	ID                        string                                         `json:"id,required"`
+	BillableMetric            BillableMetricTiny                             `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                      `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                        `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                      `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                     `json:"credit_allocation,required,nullable"`
+	Currency                  string                                         `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -26233,7 +13099,6 @@ type priceScalableMatrixWithUnitPricingPriceJSON struct {
 	BillingCycleConfiguration           apijson.Field
 	Cadence                             apijson.Field
 	ConversionRate                      apijson.Field
-	ConversionRateConfig                apijson.Field
 	CreatedAt                           apijson.Field
 	CreditAllocation                    apijson.Field
 	Currency                            apijson.Field
@@ -26286,250 +13151,6 @@ func (r PriceScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                                     `json:"unit_config"`
-	JSON       priceScalableMatrixWithUnitPricingPriceConversionRateConfigJSON `json:"-"`
-	union      PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnion
-}
-
-// priceScalableMatrixWithUnitPricingPriceConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfig]
-type priceScalableMatrixWithUnitPricingPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceScalableMatrixWithUnitPricingPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceScalableMatrixWithUnitPricingPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceScalableMatrixWithUnitPricingPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnion] interface
-// which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceScalableMatrixWithUnitPricingPriceConversionRateConfig) AsUnion() PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig]
-// or
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig].
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnion interface {
-	implementsPriceScalableMatrixWithUnitPricingPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig]
-type priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig) implementsPriceScalableMatrixWithUnitPricingPriceConversionRateConfig() {
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                            `json:"unit_amount,required"`
-	JSON       priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig]
-type priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig) implementsPriceScalableMatrixWithUnitPricingPriceConversionRateConfig() {
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                                   `json:"last_unit,nullable"`
-	JSON     priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit   PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "unit"
-	PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit, PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceScalableMatrixWithUnitPricingPriceModelType string
 
 const (
@@ -26560,15 +13181,14 @@ func (r PriceScalableMatrixWithUnitPricingPricePriceType) IsKnown() bool {
 }
 
 type PriceScalableMatrixWithTieredPricingPrice struct {
-	ID                        string                                                        `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                            `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                     `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                                       `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceScalableMatrixWithTieredPricingPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                    `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                        `json:"currency,required"`
+	ID                        string                                           `json:"id,required"`
+	BillableMetric            BillableMetricTiny                               `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                        `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence `json:"cadence,required"`
+	ConversionRate            float64                                          `json:"conversion_rate,required,nullable"`
+	CreatedAt                 time.Time                                        `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                       `json:"credit_allocation,required,nullable"`
+	Currency                  string                                           `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -26605,7 +13225,6 @@ type priceScalableMatrixWithTieredPricingPriceJSON struct {
 	BillingCycleConfiguration             apijson.Field
 	Cadence                               apijson.Field
 	ConversionRate                        apijson.Field
-	ConversionRateConfig                  apijson.Field
 	CreatedAt                             apijson.Field
 	CreditAllocation                      apijson.Field
 	Currency                              apijson.Field
@@ -26658,250 +13277,6 @@ func (r PriceScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
 	return false
 }
 
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                                       `json:"unit_config"`
-	JSON       priceScalableMatrixWithTieredPricingPriceConversionRateConfigJSON `json:"-"`
-	union      PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnion
-}
-
-// priceScalableMatrixWithTieredPricingPriceConversionRateConfigJSON contains the
-// JSON metadata for the struct
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfig]
-type priceScalableMatrixWithTieredPricingPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceScalableMatrixWithTieredPricingPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceScalableMatrixWithTieredPricingPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceScalableMatrixWithTieredPricingPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnion] interface
-// which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceScalableMatrixWithTieredPricingPriceConversionRateConfig) AsUnion() PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig]
-// or
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig].
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnion interface {
-	implementsPriceScalableMatrixWithTieredPricingPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig]
-type priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig) implementsPriceScalableMatrixWithTieredPricingPriceConversionRateConfig() {
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                              `json:"unit_amount,required"`
-	JSON       priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig]
-type priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig) implementsPriceScalableMatrixWithTieredPricingPriceConversionRateConfig() {
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                                     `json:"last_unit,nullable"`
-	JSON     priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit   PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "unit"
-	PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit, PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type PriceScalableMatrixWithTieredPricingPriceModelType string
 
 const (
@@ -26932,16 +13307,15 @@ func (r PriceScalableMatrixWithTieredPricingPricePriceType) IsKnown() bool {
 }
 
 type PriceCumulativeGroupedBulkPrice struct {
-	ID                          string                                              `json:"id,required"`
-	BillableMetric              BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration   BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	Cadence                     PriceCumulativeGroupedBulkPriceCadence              `json:"cadence,required"`
-	ConversionRate              float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig        PriceCumulativeGroupedBulkPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                   time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation            Allocation                                          `json:"credit_allocation,required,nullable"`
-	CumulativeGroupedBulkConfig map[string]interface{}                              `json:"cumulative_grouped_bulk_config,required"`
-	Currency                    string                                              `json:"currency,required"`
+	ID                          string                                 `json:"id,required"`
+	BillableMetric              BillableMetricTiny                     `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration   BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
+	Cadence                     PriceCumulativeGroupedBulkPriceCadence `json:"cadence,required"`
+	ConversionRate              float64                                `json:"conversion_rate,required,nullable"`
+	CreatedAt                   time.Time                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation            Allocation                             `json:"credit_allocation,required,nullable"`
+	CumulativeGroupedBulkConfig map[string]interface{}                 `json:"cumulative_grouped_bulk_config,required"`
+	Currency                    string                                 `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -26977,7 +13351,6 @@ type priceCumulativeGroupedBulkPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
 	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
 	CreditAllocation              apijson.Field
 	CumulativeGroupedBulkConfig   apijson.Field
@@ -27025,247 +13398,6 @@ const (
 func (r PriceCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceCumulativeGroupedBulkPriceCadenceOneTime, PriceCumulativeGroupedBulkPriceCadenceMonthly, PriceCumulativeGroupedBulkPriceCadenceQuarterly, PriceCumulativeGroupedBulkPriceCadenceSemiAnnual, PriceCumulativeGroupedBulkPriceCadenceAnnual, PriceCumulativeGroupedBulkPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfig struct {
-	ConversionRateType PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	// This field can have the runtime type of
-	// [PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig].
-	TieredConfig interface{} `json:"tiered_config"`
-	// This field can have the runtime type of
-	// [PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig].
-	UnitConfig interface{}                                             `json:"unit_config"`
-	JSON       priceCumulativeGroupedBulkPriceConversionRateConfigJSON `json:"-"`
-	union      PriceCumulativeGroupedBulkPriceConversionRateConfigUnion
-}
-
-// priceCumulativeGroupedBulkPriceConversionRateConfigJSON contains the JSON
-// metadata for the struct [PriceCumulativeGroupedBulkPriceConversionRateConfig]
-type priceCumulativeGroupedBulkPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceCumulativeGroupedBulkPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceCumulativeGroupedBulkPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceCumulativeGroupedBulkPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceCumulativeGroupedBulkPriceConversionRateConfigUnion]
-// interface which you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig],
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig].
-func (r PriceCumulativeGroupedBulkPriceConversionRateConfig) AsUnion() PriceCumulativeGroupedBulkPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig] or
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig].
-type PriceCumulativeGroupedBulkPriceConversionRateConfigUnion interface {
-	implementsPriceCumulativeGroupedBulkPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceCumulativeGroupedBulkPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig struct {
-	ConversionRateType PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	UnitConfig         PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig         `json:"unit_config,required"`
-	JSON               priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigJSON               `json:"-"`
-}
-
-// priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig]
-type priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig) implementsPriceCumulativeGroupedBulkPriceConversionRateConfig() {
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType string
-
-const (
-	PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = "unit"
-)
-
-func (r PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit:
-		return true
-	}
-	return false
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig struct {
-	// Amount per unit of overage
-	UnitAmount string                                                                                    `json:"unit_amount,required"`
-	JSON       priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON `json:"-"`
-}
-
-// priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON
-// contains the JSON metadata for the struct
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig]
-type priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON struct {
-	UnitAmount  apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig struct {
-	ConversionRateType PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig       `json:"tiered_config,required"`
-	JSON               priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigJSON               `json:"-"`
-}
-
-// priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigJSON
-// contains the JSON metadata for the struct
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig]
-type priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig) implementsPriceCumulativeGroupedBulkPriceConversionRateConfig() {
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType string
-
-const (
-	PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig struct {
-	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier `json:"tiers,required"`
-	JSON  priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON   `json:"-"`
-}
-
-// priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON
-// contains the JSON metadata for the struct
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig]
-type priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier struct {
-	// Exclusive tier starting value
-	FirstUnit float64 `json:"first_unit,required"`
-	// Amount per unit of overage
-	UnitAmount string `json:"unit_amount,required"`
-	// Inclusive tier ending value. If null, this is treated as the last tier
-	LastUnit float64                                                                                           `json:"last_unit,nullable"`
-	JSON     priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON `json:"-"`
-}
-
-// priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON
-// contains the JSON metadata for the struct
-// [PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier]
-type priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON struct {
-	FirstUnit   apijson.Field
-	UnitAmount  apijson.Field
-	LastUnit    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit   PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "unit"
-	PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit, PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
