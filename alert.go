@@ -16,6 +16,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // AlertService contains methods and other services that help with interacting with
@@ -205,7 +206,7 @@ type Alert struct {
 	// The name of the currency the credit balance or invoice cost is denominated in.
 	Currency string `json:"currency,required,nullable"`
 	// The customer the alert applies to.
-	Customer AlertCustomer `json:"customer,required,nullable"`
+	Customer shared.CustomerMinified `json:"customer,required,nullable"`
 	// Whether the alert is enabled or disabled.
 	Enabled bool `json:"enabled,required"`
 	// The metric the alert applies to.
@@ -213,10 +214,10 @@ type Alert struct {
 	// The plan the alert applies to.
 	Plan AlertPlan `json:"plan,required,nullable"`
 	// The subscription the alert applies to.
-	Subscription AlertSubscription `json:"subscription,required,nullable"`
+	Subscription shared.SubscriptionMinified `json:"subscription,required,nullable"`
 	// The thresholds that define the conditions under which the alert will be
 	// triggered.
-	Thresholds []AlertThreshold `json:"thresholds,required,nullable"`
+	Thresholds []Threshold `json:"thresholds,required,nullable"`
 	// The type of alert. This must be a valid alert type.
 	Type AlertType `json:"type,required"`
 	// The current status of the alert. This field is only present for credit balance
@@ -247,29 +248,6 @@ func (r *Alert) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r alertJSON) RawJSON() string {
-	return r.raw
-}
-
-// The customer the alert applies to.
-type AlertCustomer struct {
-	ID                 string            `json:"id,required"`
-	ExternalCustomerID string            `json:"external_customer_id,required,nullable"`
-	JSON               alertCustomerJSON `json:"-"`
-}
-
-// alertCustomerJSON contains the JSON metadata for the struct [AlertCustomer]
-type alertCustomerJSON struct {
-	ID                 apijson.Field
-	ExternalCustomerID apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r *AlertCustomer) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertCustomerJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -324,53 +302,6 @@ func (r alertPlanJSON) RawJSON() string {
 	return r.raw
 }
 
-// The subscription the alert applies to.
-type AlertSubscription struct {
-	ID   string                `json:"id,required"`
-	JSON alertSubscriptionJSON `json:"-"`
-}
-
-// alertSubscriptionJSON contains the JSON metadata for the struct
-// [AlertSubscription]
-type alertSubscriptionJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *AlertSubscription) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertSubscriptionJSON) RawJSON() string {
-	return r.raw
-}
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value float64            `json:"value,required"`
-	JSON  alertThresholdJSON `json:"-"`
-}
-
-// alertThresholdJSON contains the JSON metadata for the struct [AlertThreshold]
-type alertThresholdJSON struct {
-	Value       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *AlertThreshold) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r alertThresholdJSON) RawJSON() string {
-	return r.raw
-}
-
 // The type of alert. This must be a valid alert type.
 type AlertType string
 
@@ -416,25 +347,50 @@ func (r alertBalanceAlertStatusJSON) RawJSON() string {
 	return r.raw
 }
 
-type AlertUpdateParams struct {
-	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertUpdateParamsThreshold] `json:"thresholds,required"`
+// Thresholds are used to define the conditions under which an alert will be
+// triggered.
+type Threshold struct {
+	// The value at which an alert will fire. For credit balance alerts, the alert will
+	// fire at or below this value. For usage and cost alerts, the alert will fire at
+	// or above this value.
+	Value float64       `json:"value,required"`
+	JSON  thresholdJSON `json:"-"`
 }
 
-func (r AlertUpdateParams) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
+// thresholdJSON contains the JSON metadata for the struct [Threshold]
+type thresholdJSON struct {
+	Value       apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *Threshold) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r thresholdJSON) RawJSON() string {
+	return r.raw
 }
 
 // Thresholds are used to define the conditions under which an alert will be
 // triggered.
-type AlertUpdateParamsThreshold struct {
+type ThresholdParam struct {
 	// The value at which an alert will fire. For credit balance alerts, the alert will
 	// fire at or below this value. For usage and cost alerts, the alert will fire at
 	// or above this value.
 	Value param.Field[float64] `json:"value,required"`
 }
 
-func (r AlertUpdateParamsThreshold) MarshalJSON() (data []byte, err error) {
+func (r ThresholdParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type AlertUpdateParams struct {
+	// The thresholds that define the values at which the alert will be triggered.
+	Thresholds param.Field[[]ThresholdParam] `json:"thresholds,required"`
+}
+
+func (r AlertUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
@@ -470,7 +426,7 @@ type AlertNewForCustomerParams struct {
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForCustomerParamsType] `json:"type,required"`
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertNewForCustomerParamsThreshold] `json:"thresholds"`
+	Thresholds param.Field[[]ThresholdParam] `json:"thresholds"`
 }
 
 func (r AlertNewForCustomerParams) MarshalJSON() (data []byte, err error) {
@@ -494,26 +450,13 @@ func (r AlertNewForCustomerParamsType) IsKnown() bool {
 	return false
 }
 
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertNewForCustomerParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertNewForCustomerParamsThreshold) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
 type AlertNewForExternalCustomerParams struct {
 	// The case sensitive currency or custom pricing unit to use for this alert.
 	Currency param.Field[string] `json:"currency,required"`
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForExternalCustomerParamsType] `json:"type,required"`
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertNewForExternalCustomerParamsThreshold] `json:"thresholds"`
+	Thresholds param.Field[[]ThresholdParam] `json:"thresholds"`
 }
 
 func (r AlertNewForExternalCustomerParams) MarshalJSON() (data []byte, err error) {
@@ -537,22 +480,9 @@ func (r AlertNewForExternalCustomerParamsType) IsKnown() bool {
 	return false
 }
 
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertNewForExternalCustomerParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertNewForExternalCustomerParamsThreshold) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
 type AlertNewForSubscriptionParams struct {
 	// The thresholds that define the values at which the alert will be triggered.
-	Thresholds param.Field[[]AlertNewForSubscriptionParamsThreshold] `json:"thresholds,required"`
+	Thresholds param.Field[[]ThresholdParam] `json:"thresholds,required"`
 	// The type of alert to create. This must be a valid alert type.
 	Type param.Field[AlertNewForSubscriptionParamsType] `json:"type,required"`
 	// The metric to track usage for.
@@ -560,19 +490,6 @@ type AlertNewForSubscriptionParams struct {
 }
 
 func (r AlertNewForSubscriptionParams) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-// Thresholds are used to define the conditions under which an alert will be
-// triggered.
-type AlertNewForSubscriptionParamsThreshold struct {
-	// The value at which an alert will fire. For credit balance alerts, the alert will
-	// fire at or below this value. For usage and cost alerts, the alert will fire at
-	// or above this value.
-	Value param.Field[float64] `json:"value,required"`
-}
-
-func (r AlertNewForSubscriptionParamsThreshold) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 

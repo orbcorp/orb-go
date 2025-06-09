@@ -11,6 +11,7 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
@@ -31,52 +32,52 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 		orb.BetaExternalPlanIDNewPlanVersionParams{
 			Version: orb.F(int64(0)),
 			AddAdjustments: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustment{{
-				Adjustment: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentUnion](orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscount{
-					AdjustmentType:     orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
+				Adjustment: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentUnion](shared.NewPercentageDiscountParam{
+					AdjustmentType:     orb.F(shared.NewPercentageDiscountAdjustmentTypePercentageDiscount),
 					PercentageDiscount: orb.F(0.000000),
-					AppliesToAll:       orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountAppliesToAllTrue),
+					AppliesToAll:       orb.F(shared.NewPercentageDiscountAppliesToAllTrue),
 					AppliesToItemIDs:   orb.F([]string{"item_1", "item_2"}),
 					AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 					Currency:           orb.F("currency"),
-					Filters: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFilter{{
-						Field:    orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceID),
-						Operator: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorIncludes),
+					Filters: orb.F([]shared.TransformPriceFilterParam{{
+						Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
+						Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
 					IsInvoiceLevel: orb.F(true),
-					PriceType:      orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddAdjustmentsAdjustmentNewPercentageDiscountPriceTypeUsage),
+					PriceType:      orb.F(shared.NewPercentageDiscountPriceTypeUsage),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 			}}),
 			AddPrices: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsAddPrice{{
-				AllocationPrice: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPrice{
+				AllocationPrice: orb.F(shared.NewAllocationPriceParam{
 					Amount:   orb.F("10.00"),
-					Cadence:  orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCadenceMonthly),
+					Cadence:  orb.F(shared.NewAllocationPriceCadenceMonthly),
 					Currency: orb.F("USD"),
-					CustomExpiration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpiration{
+					CustomExpiration: orb.F(shared.CustomExpirationParam{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesAllocationPriceCustomExpirationDurationUnitDay),
+						DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 					}),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
-				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion](orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPrice{
-					Cadence:   orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceCadenceAnnual),
+				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion](shared.NewPlanUnitPriceParam{
+					Cadence:   orb.F(shared.NewPlanUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
-					ModelType: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceModelTypeUnit),
+					ModelType: orb.F(shared.NewPlanUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
-					UnitConfig: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceUnitConfig{
+					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
-					BillingCycleConfiguration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceBillingCycleConfiguration{
+					BillingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceBillingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
 					Currency:       orb.F("currency"),
-					DimensionalPriceConfiguration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceDimensionalPriceConfiguration{
+					DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 						DimensionValues:                 orb.F([]string{"string"}),
 						DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
 						ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
@@ -84,9 +85,9 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					ExternalPriceID:    orb.F("external_price_id"),
 					FixedPriceQuantity: orb.F(0.000000),
 					InvoiceGroupingKey: orb.F("x"),
-					InvoicingCycleConfiguration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceInvoicingCycleConfiguration{
+					InvoicingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
@@ -102,54 +103,54 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 				PlanPhaseOrder: orb.F(int64(0)),
 			}}),
 			ReplaceAdjustments: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustment{{
-				Adjustment: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion](orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscount{
-					AdjustmentType:     orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAdjustmentTypePercentageDiscount),
+				Adjustment: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion](shared.NewPercentageDiscountParam{
+					AdjustmentType:     orb.F(shared.NewPercentageDiscountAdjustmentTypePercentageDiscount),
 					PercentageDiscount: orb.F(0.000000),
-					AppliesToAll:       orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountAppliesToAllTrue),
+					AppliesToAll:       orb.F(shared.NewPercentageDiscountAppliesToAllTrue),
 					AppliesToItemIDs:   orb.F([]string{"item_1", "item_2"}),
 					AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 					Currency:           orb.F("currency"),
-					Filters: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFilter{{
-						Field:    orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersFieldPriceID),
-						Operator: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountFiltersOperatorIncludes),
+					Filters: orb.F([]shared.TransformPriceFilterParam{{
+						Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
+						Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
 					IsInvoiceLevel: orb.F(true),
-					PriceType:      orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentNewPercentageDiscountPriceTypeUsage),
+					PriceType:      orb.F(shared.NewPercentageDiscountPriceTypeUsage),
 				}),
 				ReplacesAdjustmentID: orb.F("replaces_adjustment_id"),
 				PlanPhaseOrder:       orb.F(int64(0)),
 			}}),
 			ReplacePrices: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsReplacePrice{{
 				ReplacesPriceID: orb.F("replaces_price_id"),
-				AllocationPrice: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPrice{
+				AllocationPrice: orb.F(shared.NewAllocationPriceParam{
 					Amount:   orb.F("10.00"),
-					Cadence:  orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCadenceMonthly),
+					Cadence:  orb.F(shared.NewAllocationPriceCadenceMonthly),
 					Currency: orb.F("USD"),
-					CustomExpiration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpiration{
+					CustomExpiration: orb.F(shared.CustomExpirationParam{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesAllocationPriceCustomExpirationDurationUnitDay),
+						DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 					}),
 					ExpiresAtEndOfCadence: orb.F(true),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
-				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion](orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPrice{
-					Cadence:   orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceCadenceAnnual),
+				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion](shared.NewPlanUnitPriceParam{
+					Cadence:   orb.F(shared.NewPlanUnitPriceCadenceAnnual),
 					ItemID:    orb.F("item_id"),
-					ModelType: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceModelTypeUnit),
+					ModelType: orb.F(shared.NewPlanUnitPriceModelTypeUnit),
 					Name:      orb.F("Annual fee"),
-					UnitConfig: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceUnitConfig{
+					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
-					BillingCycleConfiguration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceBillingCycleConfiguration{
+					BillingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceBillingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
 					Currency:       orb.F("currency"),
-					DimensionalPriceConfiguration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceDimensionalPriceConfiguration{
+					DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 						DimensionValues:                 orb.F([]string{"string"}),
 						DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
 						ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
@@ -157,9 +158,9 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					ExternalPriceID:    orb.F("external_price_id"),
 					FixedPriceQuantity: orb.F(0.000000),
 					InvoiceGroupingKey: orb.F("x"),
-					InvoicingCycleConfiguration: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceInvoicingCycleConfiguration{
+					InvoicingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
 						Duration:     orb.F(int64(0)),
-						DurationUnit: orb.F(orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
