@@ -9,6 +9,9 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BulkBPSTierParam">BulkBPSTierParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BulkConfigParam">BulkConfigParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BulkTierParam">BulkTierParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ConversionRateTierParam">ConversionRateTierParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ConversionRateTieredConfigParam">ConversionRateTieredConfigParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ConversionRateUnitConfigParam">ConversionRateUnitConfigParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#CustomExpirationParam">CustomExpirationParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#CustomerTaxIDParam">CustomerTaxIDParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#DiscountUnionParam">DiscountUnionParam</a>
@@ -84,9 +87,11 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TierParam">TierParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TieredBPSConfigParam">TieredBPSConfigParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TieredConfigParam">TieredConfigParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TieredConversionRateConfigParam">TieredConversionRateConfigParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TransformPriceFilterParam">TransformPriceFilterParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TrialDiscountParam">TrialDiscountParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UnitConfigParam">UnitConfigParam</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UnitConversionRateConfigParam">UnitConversionRateConfigParam</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UsageDiscountParam">UsageDiscountParam</a>
 
 # Shared Response Types
@@ -107,6 +112,9 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BulkConfig">BulkConfig</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#BulkTier">BulkTier</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ChangedSubscriptionResources">ChangedSubscriptionResources</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ConversionRateTier">ConversionRateTier</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ConversionRateTieredConfig">ConversionRateTieredConfig</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#ConversionRateUnitConfig">ConversionRateUnitConfig</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#CouponRedemption">CouponRedemption</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#CreditNote">CreditNote</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#CreditNoteTiny">CreditNoteTiny</a>
@@ -158,9 +166,11 @@
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TierSubLineItem">TierSubLineItem</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TieredBPSConfig">TieredBPSConfig</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TieredConfig">TieredConfig</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TieredConversionRateConfig">TieredConversionRateConfig</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TransformPriceFilter">TransformPriceFilter</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#TrialDiscount">TrialDiscount</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UnitConfig">UnitConfig</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UnitConversionRateConfig">UnitConversionRateConfig</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UsageDiscount">UsageDiscount</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#UsageDiscountInterval">UsageDiscountInterval</a>
 
@@ -456,6 +466,7 @@ Response Types:
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#EvaluatePriceGroup">EvaluatePriceGroup</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateResponse">PriceEvaluateResponse</a>
 - <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateMultipleResponse">PriceEvaluateMultipleResponse</a>
+- <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluatePreviewEventsResponse">PriceEvaluatePreviewEventsResponse</a>
 
 Methods:
 
@@ -464,6 +475,7 @@ Methods:
 - <code title="get /prices">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceListParams">PriceListParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/packages/pagination#Page">Page</a>[<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#Price">Price</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="post /prices/{price_id}/evaluate">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.Evaluate">Evaluate</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, priceID <a href="https://pkg.go.dev/builtin#string">string</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateParams">PriceEvaluateParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateResponse">PriceEvaluateResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="post /prices/evaluate">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.EvaluateMultiple">EvaluateMultiple</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateMultipleParams">PriceEvaluateMultipleParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluateMultipleResponse">PriceEvaluateMultipleResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /prices/evaluate_preview_events">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.EvaluatePreviewEvents">EvaluatePreviewEvents</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluatePreviewEventsParams">PriceEvaluatePreviewEventsParams</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go">orb</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceEvaluatePreviewEventsResponse">PriceEvaluatePreviewEventsResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /prices/{price_id}">client.Prices.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go#PriceService.Fetch">Fetch</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, priceID <a href="https://pkg.go.dev/builtin#string">string</a>) (<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared">shared</a>.<a href="https://pkg.go.dev/github.com/orbcorp/orb-go/shared#Price">Price</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ## ExternalPriceID

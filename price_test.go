@@ -43,6 +43,12 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 			DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 		}),
 		ConversionRate: orb.F(0.000000),
+		ConversionRateConfig: orb.F[orb.PriceNewParamsNewFloatingUnitPriceConversionRateConfigUnion](shared.UnitConversionRateConfigParam{
+			ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
+			UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
+				UnitAmount: orb.F("unit_amount"),
+			}),
+		}),
 		DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 			DimensionValues:                 orb.F([]string{"string"}),
 			DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
@@ -169,18 +175,9 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Prices.EvaluateMultiple(context.TODO(), orb.PriceEvaluateMultipleParams{
-		TimeframeEnd:   orb.F(time.Now()),
-		TimeframeStart: orb.F(time.Now()),
-		CustomerID:     orb.F("customer_id"),
-		Events: orb.F([]orb.PriceEvaluateMultipleParamsEvent{{
-			EventName: orb.F("event_name"),
-			Properties: orb.F(map[string]interface{}{
-				"foo": "bar",
-			}),
-			Timestamp:          orb.F(time.Now()),
-			CustomerID:         orb.F("customer_id"),
-			ExternalCustomerID: orb.F("external_customer_id"),
-		}}),
+		TimeframeEnd:       orb.F(time.Now()),
+		TimeframeStart:     orb.F(time.Now()),
+		CustomerID:         orb.F("customer_id"),
 		ExternalCustomerID: orb.F("external_customer_id"),
 		PriceEvaluations: orb.F([]orb.PriceEvaluateMultipleParamsPriceEvaluation{{
 			Filter:       orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
@@ -201,6 +198,91 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
+				ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
+					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
+						UnitAmount: orb.F("unit_amount"),
+					}),
+				}),
+				DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
+					DimensionValues:                 orb.F([]string{"string"}),
+					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
+					ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
+				}),
+				ExternalPriceID:    orb.F("external_price_id"),
+				FixedPriceQuantity: orb.F(0.000000),
+				InvoiceGroupingKey: orb.F("x"),
+				InvoicingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
+					Duration:     orb.F(int64(0)),
+					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
+				}),
+				Metadata: orb.F(map[string]string{
+					"foo": "string",
+				}),
+			}),
+			PriceID: orb.F("price_id"),
+		}}),
+	})
+	if err != nil {
+		var apierr *orb.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := orb.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+	_, err := client.Prices.EvaluatePreviewEvents(context.TODO(), orb.PriceEvaluatePreviewEventsParams{
+		TimeframeEnd:   orb.F(time.Now()),
+		TimeframeStart: orb.F(time.Now()),
+		CustomerID:     orb.F("customer_id"),
+		Events: orb.F([]orb.PriceEvaluatePreviewEventsParamsEvent{{
+			EventName: orb.F("event_name"),
+			Properties: orb.F(map[string]interface{}{
+				"foo": "bar",
+			}),
+			Timestamp:          orb.F(time.Now()),
+			CustomerID:         orb.F("customer_id"),
+			ExternalCustomerID: orb.F("external_customer_id"),
+		}}),
+		ExternalCustomerID: orb.F("external_customer_id"),
+		PriceEvaluations: orb.F([]orb.PriceEvaluatePreviewEventsParamsPriceEvaluation{{
+			Filter:       orb.F("my_numeric_property > 100 AND my_other_property = 'bar'"),
+			GroupingKeys: orb.F([]string{"case when my_event_type = 'foo' then true else false end"}),
+			Price: orb.F[orb.PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion](shared.NewFloatingUnitPriceParam{
+				Cadence:   orb.F(shared.NewFloatingUnitPriceCadenceAnnual),
+				Currency:  orb.F("currency"),
+				ItemID:    orb.F("item_id"),
+				ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),
+				Name:      orb.F("Annual fee"),
+				UnitConfig: orb.F(shared.UnitConfigParam{
+					UnitAmount: orb.F("unit_amount"),
+				}),
+				BillableMetricID: orb.F("billable_metric_id"),
+				BilledInAdvance:  orb.F(true),
+				BillingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
+					Duration:     orb.F(int64(0)),
+					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
+				}),
+				ConversionRate: orb.F(0.000000),
+				ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
+					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
+						UnitAmount: orb.F("unit_amount"),
+					}),
+				}),
 				DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 					DimensionValues:                 orb.F([]string{"string"}),
 					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
