@@ -16,6 +16,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
 	"github.com/orbcorp/orb-go/packages/pagination"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // CustomerBalanceTransactionService contains methods and other services that help
@@ -124,14 +125,14 @@ type CustomerBalanceTransactionNewResponse struct {
 	// The value of the amount changed in the transaction.
 	Amount string `json:"amount,required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditNote CustomerBalanceTransactionNewResponseCreditNote `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
 	Description string `json:"description,required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string                                       `json:"ending_balance,required"`
-	Invoice       CustomerBalanceTransactionNewResponseInvoice `json:"invoice,required,nullable"`
+	EndingBalance string             `json:"ending_balance,required"`
+	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
 	StartingBalance string                                    `json:"starting_balance,required"`
@@ -186,50 +187,6 @@ func (r CustomerBalanceTransactionNewResponseAction) IsKnown() bool {
 	return false
 }
 
-type CustomerBalanceTransactionNewResponseCreditNote struct {
-	// The id of the Credit note
-	ID   string                                              `json:"id,required"`
-	JSON customerBalanceTransactionNewResponseCreditNoteJSON `json:"-"`
-}
-
-// customerBalanceTransactionNewResponseCreditNoteJSON contains the JSON metadata
-// for the struct [CustomerBalanceTransactionNewResponseCreditNote]
-type customerBalanceTransactionNewResponseCreditNoteJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *CustomerBalanceTransactionNewResponseCreditNote) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerBalanceTransactionNewResponseCreditNoteJSON) RawJSON() string {
-	return r.raw
-}
-
-type CustomerBalanceTransactionNewResponseInvoice struct {
-	// The Invoice id
-	ID   string                                           `json:"id,required"`
-	JSON customerBalanceTransactionNewResponseInvoiceJSON `json:"-"`
-}
-
-// customerBalanceTransactionNewResponseInvoiceJSON contains the JSON metadata for
-// the struct [CustomerBalanceTransactionNewResponseInvoice]
-type customerBalanceTransactionNewResponseInvoiceJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *CustomerBalanceTransactionNewResponseInvoice) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerBalanceTransactionNewResponseInvoiceJSON) RawJSON() string {
-	return r.raw
-}
-
 type CustomerBalanceTransactionNewResponseType string
 
 const (
@@ -252,14 +209,14 @@ type CustomerBalanceTransactionListResponse struct {
 	// The value of the amount changed in the transaction.
 	Amount string `json:"amount,required"`
 	// The creation time of this transaction.
-	CreatedAt  time.Time                                        `json:"created_at,required" format:"date-time"`
-	CreditNote CustomerBalanceTransactionListResponseCreditNote `json:"credit_note,required,nullable"`
+	CreatedAt  time.Time             `json:"created_at,required" format:"date-time"`
+	CreditNote shared.CreditNoteTiny `json:"credit_note,required,nullable"`
 	// An optional description provided for manual customer balance adjustments.
 	Description string `json:"description,required,nullable"`
 	// The new value of the customer's balance prior to the transaction, in the
 	// customer's currency.
-	EndingBalance string                                        `json:"ending_balance,required"`
-	Invoice       CustomerBalanceTransactionListResponseInvoice `json:"invoice,required,nullable"`
+	EndingBalance string             `json:"ending_balance,required"`
+	Invoice       shared.InvoiceTiny `json:"invoice,required,nullable"`
 	// The original value of the customer's balance prior to the transaction, in the
 	// customer's currency.
 	StartingBalance string                                     `json:"starting_balance,required"`
@@ -312,50 +269,6 @@ func (r CustomerBalanceTransactionListResponseAction) IsKnown() bool {
 		return true
 	}
 	return false
-}
-
-type CustomerBalanceTransactionListResponseCreditNote struct {
-	// The id of the Credit note
-	ID   string                                               `json:"id,required"`
-	JSON customerBalanceTransactionListResponseCreditNoteJSON `json:"-"`
-}
-
-// customerBalanceTransactionListResponseCreditNoteJSON contains the JSON metadata
-// for the struct [CustomerBalanceTransactionListResponseCreditNote]
-type customerBalanceTransactionListResponseCreditNoteJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *CustomerBalanceTransactionListResponseCreditNote) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerBalanceTransactionListResponseCreditNoteJSON) RawJSON() string {
-	return r.raw
-}
-
-type CustomerBalanceTransactionListResponseInvoice struct {
-	// The Invoice id
-	ID   string                                            `json:"id,required"`
-	JSON customerBalanceTransactionListResponseInvoiceJSON `json:"-"`
-}
-
-// customerBalanceTransactionListResponseInvoiceJSON contains the JSON metadata for
-// the struct [CustomerBalanceTransactionListResponseInvoice]
-type customerBalanceTransactionListResponseInvoiceJSON struct {
-	ID          apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *CustomerBalanceTransactionListResponseInvoice) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerBalanceTransactionListResponseInvoiceJSON) RawJSON() string {
-	return r.raw
 }
 
 type CustomerBalanceTransactionListResponseType string

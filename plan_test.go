@@ -12,6 +12,7 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestPlanNewWithOptionalParams(t *testing.T) {
@@ -29,23 +30,23 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 	_, err := client.Plans.New(context.TODO(), orb.PlanNewParams{
 		Currency: orb.F("currency"),
 		Name:     orb.F("name"),
-		Prices: orb.F([]orb.PlanNewParamsPriceUnion{orb.PlanNewParamsPricesNewPlanUnitPrice{
-			Cadence:   orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceCadenceAnnual),
+		Prices: orb.F([]orb.PlanNewParamsPriceUnion{shared.NewPlanUnitPriceParam{
+			Cadence:   orb.F(shared.NewPlanUnitPriceCadenceAnnual),
 			ItemID:    orb.F("item_id"),
-			ModelType: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceModelTypeUnit),
+			ModelType: orb.F(shared.NewPlanUnitPriceModelTypeUnit),
 			Name:      orb.F("Annual fee"),
-			UnitConfig: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceUnitConfig{
+			UnitConfig: orb.F(shared.UnitConfigParam{
 				UnitAmount: orb.F("unit_amount"),
 			}),
 			BillableMetricID: orb.F("billable_metric_id"),
 			BilledInAdvance:  orb.F(true),
-			BillingCycleConfiguration: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfiguration{
+			BillingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
 				Duration:     orb.F(int64(0)),
-				DurationUnit: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceBillingCycleConfigurationDurationUnitDay),
+				DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 			}),
 			ConversionRate: orb.F(0.000000),
 			Currency:       orb.F("currency"),
-			DimensionalPriceConfiguration: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceDimensionalPriceConfiguration{
+			DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 				DimensionValues:                 orb.F([]string{"string"}),
 				DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
 				ExternalDimensionalPriceGroupID: orb.F("external_dimensional_price_group_id"),
@@ -53,9 +54,9 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 			ExternalPriceID:    orb.F("external_price_id"),
 			FixedPriceQuantity: orb.F(0.000000),
 			InvoiceGroupingKey: orb.F("x"),
-			InvoicingCycleConfiguration: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfiguration{
+			InvoicingCycleConfiguration: orb.F(shared.NewBillingCycleConfigurationParam{
 				Duration:     orb.F(int64(0)),
-				DurationUnit: orb.F(orb.PlanNewParamsPricesNewPlanUnitPriceInvoicingCycleConfigurationDurationUnitDay),
+				DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 			}),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
