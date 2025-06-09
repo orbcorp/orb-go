@@ -477,7 +477,6 @@ type BetaNewPlanVersionParamsAddPricesPrice struct {
 	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
-	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
 	CumulativeGroupedBulkConfig param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
@@ -786,7 +785,6 @@ type BetaNewPlanVersionParamsReplacePricesPrice struct {
 	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
-	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
 	CumulativeGroupedBulkConfig param.Field[interface{}] `json:"cumulative_grouped_bulk_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.

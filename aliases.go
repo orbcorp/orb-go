@@ -1306,47 +1306,6 @@ type NewFloatingBPSPriceModelType = shared.NewFloatingBPSPriceModelType
 // This is an alias to an internal value.
 const NewFloatingBPSPriceModelTypeBPS = shared.NewFloatingBPSPriceModelTypeBPS
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigUnionParam = shared.NewFloatingBPSPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateConfigConversionRateType = shared.NewFloatingBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBPSPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingBulkBPSPriceParam = shared.NewFloatingBulkBPSPriceParam
 
@@ -1378,47 +1337,6 @@ type NewFloatingBulkBPSPriceModelType = shared.NewFloatingBulkBPSPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingBulkBPSPriceModelTypeBulkBPS = shared.NewFloatingBulkBPSPriceModelTypeBulkBPS
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigUnionParam = shared.NewFloatingBulkBPSPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateConfigConversionRateType = shared.NewFloatingBulkBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingBulkPriceParam = shared.NewFloatingBulkPriceParam
@@ -1452,47 +1370,6 @@ type NewFloatingBulkPriceModelType = shared.NewFloatingBulkPriceModelType
 // This is an alias to an internal value.
 const NewFloatingBulkPriceModelTypeBulk = shared.NewFloatingBulkPriceModelTypeBulk
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigUnionParam = shared.NewFloatingBulkPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkPriceConversionRateConfigConversionRateType = shared.NewFloatingBulkPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBulkPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingBulkPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBulkPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingBulkWithProrationPriceParam = shared.NewFloatingBulkWithProrationPriceParam
 
@@ -1524,47 +1401,6 @@ type NewFloatingBulkWithProrationPriceModelType = shared.NewFloatingBulkWithPror
 
 // This is an alias to an internal value.
 const NewFloatingBulkWithProrationPriceModelTypeBulkWithProration = shared.NewFloatingBulkWithProrationPriceModelTypeBulkWithProration
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnionParam = shared.NewFloatingBulkWithProrationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType = shared.NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingCumulativeGroupedBulkPriceParam = shared.NewFloatingCumulativeGroupedBulkPriceParam
@@ -1598,47 +1434,6 @@ type NewFloatingCumulativeGroupedBulkPriceModelType = shared.NewFloatingCumulati
 // This is an alias to an internal value.
 const NewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk = shared.NewFloatingCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingGroupedAllocationPriceParam = shared.NewFloatingGroupedAllocationPriceParam
 
@@ -1670,47 +1465,6 @@ type NewFloatingGroupedAllocationPriceModelType = shared.NewFloatingGroupedAlloc
 
 // This is an alias to an internal value.
 const NewFloatingGroupedAllocationPriceModelTypeGroupedAllocation = shared.NewFloatingGroupedAllocationPriceModelTypeGroupedAllocation
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnionParam = shared.NewFloatingGroupedAllocationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType = shared.NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingGroupedTieredPackagePriceParam = shared.NewFloatingGroupedTieredPackagePriceParam
@@ -1744,47 +1498,6 @@ type NewFloatingGroupedTieredPackagePriceModelType = shared.NewFloatingGroupedTi
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage = shared.NewFloatingGroupedTieredPackagePriceModelTypeGroupedTieredPackage
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingGroupedTieredPriceParam = shared.NewFloatingGroupedTieredPriceParam
 
@@ -1816,47 +1529,6 @@ type NewFloatingGroupedTieredPriceModelType = shared.NewFloatingGroupedTieredPri
 
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPriceModelTypeGroupedTiered = shared.NewFloatingGroupedTieredPriceModelTypeGroupedTiered
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigUnionParam = shared.NewFloatingGroupedTieredPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType = shared.NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedTieredPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingGroupedWithMeteredMinimumPriceParam = shared.NewFloatingGroupedWithMeteredMinimumPriceParam
@@ -1890,47 +1562,6 @@ type NewFloatingGroupedWithMeteredMinimumPriceModelType = shared.NewFloatingGrou
 // This is an alias to an internal value.
 const NewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum = shared.NewFloatingGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingGroupedWithProratedMinimumPriceParam = shared.NewFloatingGroupedWithProratedMinimumPriceParam
 
@@ -1962,47 +1593,6 @@ type NewFloatingGroupedWithProratedMinimumPriceModelType = shared.NewFloatingGro
 
 // This is an alias to an internal value.
 const NewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum = shared.NewFloatingGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingMatrixPriceParam = shared.NewFloatingMatrixPriceParam
@@ -2036,47 +1626,6 @@ type NewFloatingMatrixPriceModelType = shared.NewFloatingMatrixPriceModelType
 // This is an alias to an internal value.
 const NewFloatingMatrixPriceModelTypeMatrix = shared.NewFloatingMatrixPriceModelTypeMatrix
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigUnionParam = shared.NewFloatingMatrixPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixPriceConversionRateConfigConversionRateType = shared.NewFloatingMatrixPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMatrixPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingMatrixPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMatrixPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingMatrixWithAllocationPriceParam = shared.NewFloatingMatrixWithAllocationPriceParam
 
@@ -2108,47 +1657,6 @@ type NewFloatingMatrixWithAllocationPriceModelType = shared.NewFloatingMatrixWit
 
 // This is an alias to an internal value.
 const NewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation = shared.NewFloatingMatrixWithAllocationPriceModelTypeMatrixWithAllocation
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingMatrixWithDisplayNamePriceParam = shared.NewFloatingMatrixWithDisplayNamePriceParam
@@ -2182,47 +1690,6 @@ type NewFloatingMatrixWithDisplayNamePriceModelType = shared.NewFloatingMatrixWi
 // This is an alias to an internal value.
 const NewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName = shared.NewFloatingMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingMaxGroupTieredPackagePriceParam = shared.NewFloatingMaxGroupTieredPackagePriceParam
 
@@ -2254,47 +1721,6 @@ type NewFloatingMaxGroupTieredPackagePriceModelType = shared.NewFloatingMaxGroup
 
 // This is an alias to an internal value.
 const NewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage = shared.NewFloatingMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingPackagePriceParam = shared.NewFloatingPackagePriceParam
@@ -2328,47 +1754,6 @@ type NewFloatingPackagePriceModelType = shared.NewFloatingPackagePriceModelType
 // This is an alias to an internal value.
 const NewFloatingPackagePriceModelTypePackage = shared.NewFloatingPackagePriceModelTypePackage
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigUnionParam = shared.NewFloatingPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingPackagePriceConversionRateConfigConversionRateType = shared.NewFloatingPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingPackagePriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingPackageWithAllocationPriceParam = shared.NewFloatingPackageWithAllocationPriceParam
 
@@ -2400,47 +1785,6 @@ type NewFloatingPackageWithAllocationPriceModelType = shared.NewFloatingPackageW
 
 // This is an alias to an internal value.
 const NewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation = shared.NewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingScalableMatrixWithTieredPricingPriceParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceParam
@@ -2474,47 +1818,6 @@ type NewFloatingScalableMatrixWithTieredPricingPriceModelType = shared.NewFloati
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.NewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingScalableMatrixWithUnitPricingPriceParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceParam
 
@@ -2546,47 +1849,6 @@ type NewFloatingScalableMatrixWithUnitPricingPriceModelType = shared.NewFloating
 
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.NewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingThresholdTotalAmountPriceParam = shared.NewFloatingThresholdTotalAmountPriceParam
@@ -2620,47 +1882,6 @@ type NewFloatingThresholdTotalAmountPriceModelType = shared.NewFloatingThreshold
 // This is an alias to an internal value.
 const NewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.NewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingTieredBPSPriceParam = shared.NewFloatingTieredBPSPriceParam
 
@@ -2692,47 +1913,6 @@ type NewFloatingTieredBPSPriceModelType = shared.NewFloatingTieredBPSPriceModelT
 
 // This is an alias to an internal value.
 const NewFloatingTieredBPSPriceModelTypeTieredBPS = shared.NewFloatingTieredBPSPriceModelTypeTieredBPS
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigUnionParam = shared.NewFloatingTieredBPSPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateConfigConversionRateType = shared.NewFloatingTieredBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingTieredPackagePriceParam = shared.NewFloatingTieredPackagePriceParam
@@ -2766,47 +1946,6 @@ type NewFloatingTieredPackagePriceModelType = shared.NewFloatingTieredPackagePri
 // This is an alias to an internal value.
 const NewFloatingTieredPackagePriceModelTypeTieredPackage = shared.NewFloatingTieredPackagePriceModelTypeTieredPackage
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigUnionParam = shared.NewFloatingTieredPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackagePriceConversionRateConfigConversionRateType = shared.NewFloatingTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredPackagePriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingTieredPackageWithMinimumPriceParam = shared.NewFloatingTieredPackageWithMinimumPriceParam
 
@@ -2838,47 +1977,6 @@ type NewFloatingTieredPackageWithMinimumPriceModelType = shared.NewFloatingTiere
 
 // This is an alias to an internal value.
 const NewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum = shared.NewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingTieredPriceParam = shared.NewFloatingTieredPriceParam
@@ -2912,47 +2010,6 @@ type NewFloatingTieredPriceModelType = shared.NewFloatingTieredPriceModelType
 // This is an alias to an internal value.
 const NewFloatingTieredPriceModelTypeTiered = shared.NewFloatingTieredPriceModelTypeTiered
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigUnionParam = shared.NewFloatingTieredPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredPriceConversionRateConfigConversionRateType = shared.NewFloatingTieredPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingTieredPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingTieredWithMinimumPriceParam = shared.NewFloatingTieredWithMinimumPriceParam
 
@@ -2984,47 +2041,6 @@ type NewFloatingTieredWithMinimumPriceModelType = shared.NewFloatingTieredWithMi
 
 // This is an alias to an internal value.
 const NewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.NewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingTieredWithProrationPriceParam = shared.NewFloatingTieredWithProrationPriceParam
@@ -3058,47 +2074,6 @@ type NewFloatingTieredWithProrationPriceModelType = shared.NewFloatingTieredWith
 // This is an alias to an internal value.
 const NewFloatingTieredWithProrationPriceModelTypeTieredWithProration = shared.NewFloatingTieredWithProrationPriceModelTypeTieredWithProration
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnionParam = shared.NewFloatingTieredWithProrationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType = shared.NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingUnitPriceParam = shared.NewFloatingUnitPriceParam
 
@@ -3130,47 +2105,6 @@ type NewFloatingUnitPriceModelType = shared.NewFloatingUnitPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingUnitPriceModelTypeUnit = shared.NewFloatingUnitPriceModelTypeUnit
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigUnionParam = shared.NewFloatingUnitPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitPriceConversionRateConfigConversionRateType = shared.NewFloatingUnitPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingUnitPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingUnitPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingUnitPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingUnitWithPercentPriceParam = shared.NewFloatingUnitWithPercentPriceParam
@@ -3204,47 +2138,6 @@ type NewFloatingUnitWithPercentPriceModelType = shared.NewFloatingUnitWithPercen
 // This is an alias to an internal value.
 const NewFloatingUnitWithPercentPriceModelTypeUnitWithPercent = shared.NewFloatingUnitWithPercentPriceModelTypeUnitWithPercent
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnionParam = shared.NewFloatingUnitWithPercentPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType = shared.NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewFloatingUnitWithProrationPriceParam = shared.NewFloatingUnitWithProrationPriceParam
 
@@ -3276,47 +2169,6 @@ type NewFloatingUnitWithProrationPriceModelType = shared.NewFloatingUnitWithPror
 
 // This is an alias to an internal value.
 const NewFloatingUnitWithProrationPriceModelTypeUnitWithProration = shared.NewFloatingUnitWithProrationPriceModelTypeUnitWithProration
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnionParam = shared.NewFloatingUnitWithProrationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewFloatingUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewFloatingUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType = shared.NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewMaximumParam = shared.NewMaximumParam
@@ -3461,47 +2313,6 @@ type NewPlanBPSPriceModelType = shared.NewPlanBPSPriceModelType
 // This is an alias to an internal value.
 const NewPlanBPSPriceModelTypeBPS = shared.NewPlanBPSPriceModelTypeBPS
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigUnionParam = shared.NewPlanBPSPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateConfigConversionRateType = shared.NewPlanBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanBPSPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanBulkBPSPriceParam = shared.NewPlanBulkBPSPriceParam
 
@@ -3533,47 +2344,6 @@ type NewPlanBulkBPSPriceModelType = shared.NewPlanBulkBPSPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanBulkBPSPriceModelTypeBulkBPS = shared.NewPlanBulkBPSPriceModelTypeBulkBPS
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigUnionParam = shared.NewPlanBulkBPSPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateConfigConversionRateType = shared.NewPlanBulkBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanBulkPriceParam = shared.NewPlanBulkPriceParam
@@ -3607,47 +2377,6 @@ type NewPlanBulkPriceModelType = shared.NewPlanBulkPriceModelType
 // This is an alias to an internal value.
 const NewPlanBulkPriceModelTypeBulk = shared.NewPlanBulkPriceModelTypeBulk
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigUnionParam = shared.NewPlanBulkPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanBulkPriceConversionRateConfigConversionRateType = shared.NewPlanBulkPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanBulkPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanBulkPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanBulkPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanBulkWithProrationPriceParam = shared.NewPlanBulkWithProrationPriceParam
 
@@ -3679,47 +2408,6 @@ type NewPlanBulkWithProrationPriceModelType = shared.NewPlanBulkWithProrationPri
 
 // This is an alias to an internal value.
 const NewPlanBulkWithProrationPriceModelTypeBulkWithProration = shared.NewPlanBulkWithProrationPriceModelTypeBulkWithProration
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigUnionParam = shared.NewPlanBulkWithProrationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType = shared.NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanCumulativeGroupedBulkPriceParam = shared.NewPlanCumulativeGroupedBulkPriceParam
@@ -3753,47 +2441,6 @@ type NewPlanCumulativeGroupedBulkPriceModelType = shared.NewPlanCumulativeGroupe
 // This is an alias to an internal value.
 const NewPlanCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk = shared.NewPlanCumulativeGroupedBulkPriceModelTypeCumulativeGroupedBulk
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanGroupedAllocationPriceParam = shared.NewPlanGroupedAllocationPriceParam
 
@@ -3825,47 +2472,6 @@ type NewPlanGroupedAllocationPriceModelType = shared.NewPlanGroupedAllocationPri
 
 // This is an alias to an internal value.
 const NewPlanGroupedAllocationPriceModelTypeGroupedAllocation = shared.NewPlanGroupedAllocationPriceModelTypeGroupedAllocation
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigUnionParam = shared.NewPlanGroupedAllocationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType = shared.NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanGroupedTieredPackagePriceParam = shared.NewPlanGroupedTieredPackagePriceParam
@@ -3899,47 +2505,6 @@ type NewPlanGroupedTieredPackagePriceModelType = shared.NewPlanGroupedTieredPack
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPackagePriceModelTypeGroupedTieredPackage = shared.NewPlanGroupedTieredPackagePriceModelTypeGroupedTieredPackage
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanGroupedTieredPriceParam = shared.NewPlanGroupedTieredPriceParam
 
@@ -3971,47 +2536,6 @@ type NewPlanGroupedTieredPriceModelType = shared.NewPlanGroupedTieredPriceModelT
 
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPriceModelTypeGroupedTiered = shared.NewPlanGroupedTieredPriceModelTypeGroupedTiered
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigUnionParam = shared.NewPlanGroupedTieredPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedTieredPriceConversionRateConfigConversionRateType = shared.NewPlanGroupedTieredPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedTieredPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanGroupedWithMeteredMinimumPriceParam = shared.NewPlanGroupedWithMeteredMinimumPriceParam
@@ -4045,47 +2569,6 @@ type NewPlanGroupedWithMeteredMinimumPriceModelType = shared.NewPlanGroupedWithM
 // This is an alias to an internal value.
 const NewPlanGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum = shared.NewPlanGroupedWithMeteredMinimumPriceModelTypeGroupedWithMeteredMinimum
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanGroupedWithProratedMinimumPriceParam = shared.NewPlanGroupedWithProratedMinimumPriceParam
 
@@ -4117,47 +2600,6 @@ type NewPlanGroupedWithProratedMinimumPriceModelType = shared.NewPlanGroupedWith
 
 // This is an alias to an internal value.
 const NewPlanGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum = shared.NewPlanGroupedWithProratedMinimumPriceModelTypeGroupedWithProratedMinimum
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanMatrixPriceParam = shared.NewPlanMatrixPriceParam
@@ -4191,47 +2633,6 @@ type NewPlanMatrixPriceModelType = shared.NewPlanMatrixPriceModelType
 // This is an alias to an internal value.
 const NewPlanMatrixPriceModelTypeMatrix = shared.NewPlanMatrixPriceModelTypeMatrix
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigUnionParam = shared.NewPlanMatrixPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixPriceConversionRateConfigConversionRateType = shared.NewPlanMatrixPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanMatrixPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanMatrixPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanMatrixPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanMatrixWithAllocationPriceParam = shared.NewPlanMatrixWithAllocationPriceParam
 
@@ -4263,47 +2664,6 @@ type NewPlanMatrixWithAllocationPriceModelType = shared.NewPlanMatrixWithAllocat
 
 // This is an alias to an internal value.
 const NewPlanMatrixWithAllocationPriceModelTypeMatrixWithAllocation = shared.NewPlanMatrixWithAllocationPriceModelTypeMatrixWithAllocation
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanMatrixWithDisplayNamePriceParam = shared.NewPlanMatrixWithDisplayNamePriceParam
@@ -4337,47 +2697,6 @@ type NewPlanMatrixWithDisplayNamePriceModelType = shared.NewPlanMatrixWithDispla
 // This is an alias to an internal value.
 const NewPlanMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName = shared.NewPlanMatrixWithDisplayNamePriceModelTypeMatrixWithDisplayName
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanMaxGroupTieredPackagePriceParam = shared.NewPlanMaxGroupTieredPackagePriceParam
 
@@ -4409,47 +2728,6 @@ type NewPlanMaxGroupTieredPackagePriceModelType = shared.NewPlanMaxGroupTieredPa
 
 // This is an alias to an internal value.
 const NewPlanMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage = shared.NewPlanMaxGroupTieredPackagePriceModelTypeMaxGroupTieredPackage
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanPackagePriceParam = shared.NewPlanPackagePriceParam
@@ -4483,47 +2761,6 @@ type NewPlanPackagePriceModelType = shared.NewPlanPackagePriceModelType
 // This is an alias to an internal value.
 const NewPlanPackagePriceModelTypePackage = shared.NewPlanPackagePriceModelTypePackage
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigUnionParam = shared.NewPlanPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanPackagePriceConversionRateConfigConversionRateType = shared.NewPlanPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanPackagePriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanPackageWithAllocationPriceParam = shared.NewPlanPackageWithAllocationPriceParam
 
@@ -4555,47 +2792,6 @@ type NewPlanPackageWithAllocationPriceModelType = shared.NewPlanPackageWithAlloc
 
 // This is an alias to an internal value.
 const NewPlanPackageWithAllocationPriceModelTypePackageWithAllocation = shared.NewPlanPackageWithAllocationPriceModelTypePackageWithAllocation
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnionParam = shared.NewPlanPackageWithAllocationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanPackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanPackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType = shared.NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanScalableMatrixWithTieredPricingPriceParam = shared.NewPlanScalableMatrixWithTieredPricingPriceParam
@@ -4629,47 +2825,6 @@ type NewPlanScalableMatrixWithTieredPricingPriceModelType = shared.NewPlanScalab
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.NewPlanScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanScalableMatrixWithUnitPricingPriceParam = shared.NewPlanScalableMatrixWithUnitPricingPriceParam
 
@@ -4701,47 +2856,6 @@ type NewPlanScalableMatrixWithUnitPricingPriceModelType = shared.NewPlanScalable
 
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.NewPlanScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanThresholdTotalAmountPriceParam = shared.NewPlanThresholdTotalAmountPriceParam
@@ -4775,47 +2889,6 @@ type NewPlanThresholdTotalAmountPriceModelType = shared.NewPlanThresholdTotalAmo
 // This is an alias to an internal value.
 const NewPlanThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.NewPlanThresholdTotalAmountPriceModelTypeThresholdTotalAmount
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanTierWithProrationPriceParam = shared.NewPlanTierWithProrationPriceParam
 
@@ -4847,47 +2920,6 @@ type NewPlanTierWithProrationPriceModelType = shared.NewPlanTierWithProrationPri
 
 // This is an alias to an internal value.
 const NewPlanTierWithProrationPriceModelTypeTieredWithProration = shared.NewPlanTierWithProrationPriceModelTypeTieredWithProration
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigUnionParam = shared.NewPlanTierWithProrationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanTierWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanTierWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigConversionRateType = shared.NewPlanTierWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanTieredBPSPriceParam = shared.NewPlanTieredBPSPriceParam
@@ -4921,47 +2953,6 @@ type NewPlanTieredBPSPriceModelType = shared.NewPlanTieredBPSPriceModelType
 // This is an alias to an internal value.
 const NewPlanTieredBPSPriceModelTypeTieredBPS = shared.NewPlanTieredBPSPriceModelTypeTieredBPS
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigUnionParam = shared.NewPlanTieredBPSPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateConfigConversionRateType = shared.NewPlanTieredBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanTieredPackagePriceParam = shared.NewPlanTieredPackagePriceParam
 
@@ -4993,47 +2984,6 @@ type NewPlanTieredPackagePriceModelType = shared.NewPlanTieredPackagePriceModelT
 
 // This is an alias to an internal value.
 const NewPlanTieredPackagePriceModelTypeTieredPackage = shared.NewPlanTieredPackagePriceModelTypeTieredPackage
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigUnionParam = shared.NewPlanTieredPackagePriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackagePriceConversionRateConfigConversionRateType = shared.NewPlanTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanTieredPackageWithMinimumPriceParam = shared.NewPlanTieredPackageWithMinimumPriceParam
@@ -5067,47 +3017,6 @@ type NewPlanTieredPackageWithMinimumPriceModelType = shared.NewPlanTieredPackage
 // This is an alias to an internal value.
 const NewPlanTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum = shared.NewPlanTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanTieredPriceParam = shared.NewPlanTieredPriceParam
 
@@ -5139,47 +3048,6 @@ type NewPlanTieredPriceModelType = shared.NewPlanTieredPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanTieredPriceModelTypeTiered = shared.NewPlanTieredPriceModelTypeTiered
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigUnionParam = shared.NewPlanTieredPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanTieredPriceConversionRateConfigConversionRateType = shared.NewPlanTieredPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTieredPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanTieredWithMinimumPriceParam = shared.NewPlanTieredWithMinimumPriceParam
@@ -5213,47 +3081,6 @@ type NewPlanTieredWithMinimumPriceModelType = shared.NewPlanTieredWithMinimumPri
 // This is an alias to an internal value.
 const NewPlanTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.NewPlanTieredWithMinimumPriceModelTypeTieredWithMinimum
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnionParam = shared.NewPlanTieredWithMinimumPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType = shared.NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanUnitPriceParam = shared.NewPlanUnitPriceParam
 
@@ -5285,47 +3112,6 @@ type NewPlanUnitPriceModelType = shared.NewPlanUnitPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanUnitPriceModelTypeUnit = shared.NewPlanUnitPriceModelTypeUnit
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigUnionParam = shared.NewPlanUnitPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanUnitPriceConversionRateConfigConversionRateType = shared.NewPlanUnitPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanUnitPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanUnitPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanUnitPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanUnitWithPercentPriceParam = shared.NewPlanUnitWithPercentPriceParam
@@ -5359,47 +3145,6 @@ type NewPlanUnitWithPercentPriceModelType = shared.NewPlanUnitWithPercentPriceMo
 // This is an alias to an internal value.
 const NewPlanUnitWithPercentPriceModelTypeUnitWithPercent = shared.NewPlanUnitWithPercentPriceModelTypeUnitWithPercent
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigUnionParam = shared.NewPlanUnitWithPercentPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType = shared.NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered
-
 // This is an alias to an internal type.
 type NewPlanUnitWithProrationPriceParam = shared.NewPlanUnitWithProrationPriceParam
 
@@ -5431,47 +3176,6 @@ type NewPlanUnitWithProrationPriceModelType = shared.NewPlanUnitWithProrationPri
 
 // This is an alias to an internal value.
 const NewPlanUnitWithProrationPriceModelTypeUnitWithProration = shared.NewPlanUnitWithProrationPriceModelTypeUnitWithProration
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigUnionParam = shared.NewPlanUnitWithProrationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam = shared.NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam = shared.NewPlanUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam = shared.NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam = shared.NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam = shared.NewPlanUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTierParam
-
-// This is an alias to an internal type.
-type NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType = shared.NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewUsageDiscountParam = shared.NewUsageDiscountParam
@@ -5636,45 +3340,6 @@ const PriceUnitPriceCadenceAnnual = shared.PriceUnitPriceCadenceAnnual
 const PriceUnitPriceCadenceCustom = shared.PriceUnitPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfig = shared.PriceUnitPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigUnitConversionRateConfig = shared.PriceUnitPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfig = shared.PriceUnitPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceUnitPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceUnitPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceUnitPriceConversionRateConfigConversionRateType = shared.PriceUnitPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitPriceConversionRateConfigConversionRateTypeUnit = shared.PriceUnitPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceUnitPriceConversionRateConfigConversionRateTypeTiered = shared.PriceUnitPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceUnitPriceModelType = shared.PriceUnitPriceModelType
 
 // This is an alias to an internal value.
@@ -5712,45 +3377,6 @@ const PricePackagePriceCadenceAnnual = shared.PricePackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const PricePackagePriceCadenceCustom = shared.PricePackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfig = shared.PricePackagePriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigUnitConversionRateConfig = shared.PricePackagePriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PricePackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PricePackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigTieredConversionRateConfig = shared.PricePackagePriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PricePackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PricePackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigConversionRateType = shared.PricePackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PricePackagePriceConversionRateConfigConversionRateTypeUnit = shared.PricePackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PricePackagePriceConversionRateConfigConversionRateTypeTiered = shared.PricePackagePriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PricePackagePriceModelType = shared.PricePackagePriceModelType
@@ -5792,45 +3418,6 @@ const PriceMatrixPriceCadenceAnnual = shared.PriceMatrixPriceCadenceAnnual
 const PriceMatrixPriceCadenceCustom = shared.PriceMatrixPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfig = shared.PriceMatrixPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigUnitConversionRateConfig = shared.PriceMatrixPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceMatrixPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfig = shared.PriceMatrixPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceMatrixPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigConversionRateType = shared.PriceMatrixPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixPriceConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceMatrixPriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceMatrixPriceModelType = shared.PriceMatrixPriceModelType
 
 // This is an alias to an internal value.
@@ -5868,45 +3455,6 @@ const PriceTieredPriceCadenceAnnual = shared.PriceTieredPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const PriceTieredPriceCadenceCustom = shared.PriceTieredPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfig = shared.PriceTieredPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigUnitConversionRateConfig = shared.PriceTieredPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfig = shared.PriceTieredPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceTieredPriceConversionRateConfigConversionRateType = shared.PriceTieredPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPriceConversionRateConfigConversionRateTypeUnit = shared.PriceTieredPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceTieredPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceTieredPriceModelType = shared.PriceTieredPriceModelType
@@ -5948,45 +3496,6 @@ const PriceTieredBPSPriceCadenceAnnual = shared.PriceTieredBPSPriceCadenceAnnual
 const PriceTieredBPSPriceCadenceCustom = shared.PriceTieredBPSPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfig = shared.PriceTieredBPSPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig = shared.PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceTieredBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig = shared.PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceTieredBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceConversionRateConfigConversionRateType = shared.PriceTieredBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceConversionRateConfigConversionRateTypeUnit = shared.PriceTieredBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredBPSPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceTieredBPSPriceModelType = shared.PriceTieredBPSPriceModelType
 
 // This is an alias to an internal value.
@@ -6024,45 +3533,6 @@ const PriceBPSPriceCadenceAnnual = shared.PriceBPSPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const PriceBPSPriceCadenceCustom = shared.PriceBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfig = shared.PriceBPSPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigUnitConversionRateConfig = shared.PriceBPSPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfig = shared.PriceBPSPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceBPSPriceConversionRateConfigConversionRateType = shared.PriceBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBPSPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceBPSPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBPSPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceBPSPriceModelType = shared.PriceBPSPriceModelType
@@ -6104,45 +3574,6 @@ const PriceBulkBPSPriceCadenceAnnual = shared.PriceBulkBPSPriceCadenceAnnual
 const PriceBulkBPSPriceCadenceCustom = shared.PriceBulkBPSPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfig = shared.PriceBulkBPSPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig = shared.PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceBulkBPSPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig = shared.PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceBulkBPSPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceConversionRateConfigConversionRateType = shared.PriceBulkBPSPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBulkBPSPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBulkBPSPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceBulkBPSPriceModelType = shared.PriceBulkBPSPriceModelType
 
 // This is an alias to an internal value.
@@ -6180,45 +3611,6 @@ const PriceBulkPriceCadenceAnnual = shared.PriceBulkPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const PriceBulkPriceCadenceCustom = shared.PriceBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfig = shared.PriceBulkPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigUnitConversionRateConfig = shared.PriceBulkPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfig = shared.PriceBulkPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceBulkPriceConversionRateConfigConversionRateType = shared.PriceBulkPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBulkPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceBulkPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBulkPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceBulkPriceModelType = shared.PriceBulkPriceModelType
@@ -6260,45 +3652,6 @@ const PriceThresholdTotalAmountPriceCadenceAnnual = shared.PriceThresholdTotalAm
 const PriceThresholdTotalAmountPriceCadenceCustom = shared.PriceThresholdTotalAmountPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfig = shared.PriceThresholdTotalAmountPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig = shared.PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceThresholdTotalAmountPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig = shared.PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceThresholdTotalAmountPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType = shared.PriceThresholdTotalAmountPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit = shared.PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered = shared.PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceThresholdTotalAmountPriceModelType = shared.PriceThresholdTotalAmountPriceModelType
 
 // This is an alias to an internal value.
@@ -6336,45 +3689,6 @@ const PriceTieredPackagePriceCadenceAnnual = shared.PriceTieredPackagePriceCaden
 
 // This is an alias to an internal value.
 const PriceTieredPackagePriceCadenceCustom = shared.PriceTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfig = shared.PriceTieredPackagePriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig = shared.PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig = shared.PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceTieredPackagePriceConversionRateConfigConversionRateType = shared.PriceTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.PriceTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceTieredPackagePriceModelType = shared.PriceTieredPackagePriceModelType
@@ -6416,45 +3730,6 @@ const PriceGroupedTieredPriceCadenceAnnual = shared.PriceGroupedTieredPriceCaden
 const PriceGroupedTieredPriceCadenceCustom = shared.PriceGroupedTieredPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfig = shared.PriceGroupedTieredPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig = shared.PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceGroupedTieredPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig = shared.PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceGroupedTieredPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigConversionRateType = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceGroupedTieredPriceModelType = shared.PriceGroupedTieredPriceModelType
 
 // This is an alias to an internal value.
@@ -6492,45 +3767,6 @@ const PriceTieredWithMinimumPriceCadenceAnnual = shared.PriceTieredWithMinimumPr
 
 // This is an alias to an internal value.
 const PriceTieredWithMinimumPriceCadenceCustom = shared.PriceTieredWithMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfig = shared.PriceTieredWithMinimumPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig = shared.PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceTieredWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig = shared.PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceTieredWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceTieredWithMinimumPriceConversionRateConfigConversionRateType = shared.PriceTieredWithMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPriceModelType = shared.PriceTieredWithMinimumPriceModelType
@@ -6572,45 +3808,6 @@ const PriceTieredPackageWithMinimumPriceCadenceAnnual = shared.PriceTieredPackag
 const PriceTieredPackageWithMinimumPriceCadenceCustom = shared.PriceTieredPackageWithMinimumPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfig = shared.PriceTieredPackageWithMinimumPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPriceModelType = shared.PriceTieredPackageWithMinimumPriceModelType
 
 // This is an alias to an internal value.
@@ -6648,45 +3845,6 @@ const PricePackageWithAllocationPriceCadenceAnnual = shared.PricePackageWithAllo
 
 // This is an alias to an internal value.
 const PricePackageWithAllocationPriceCadenceCustom = shared.PricePackageWithAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfig = shared.PricePackageWithAllocationPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig = shared.PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PricePackageWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig = shared.PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PricePackageWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PricePackageWithAllocationPriceConversionRateConfigConversionRateType = shared.PricePackageWithAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PricePackageWithAllocationPriceModelType = shared.PricePackageWithAllocationPriceModelType
@@ -6728,45 +3886,6 @@ const PriceUnitWithPercentPriceCadenceAnnual = shared.PriceUnitWithPercentPriceC
 const PriceUnitWithPercentPriceCadenceCustom = shared.PriceUnitWithPercentPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfig = shared.PriceUnitWithPercentPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig = shared.PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceUnitWithPercentPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig = shared.PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceUnitWithPercentPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceUnitWithPercentPriceConversionRateConfigConversionRateType = shared.PriceUnitWithPercentPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit = shared.PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered = shared.PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceUnitWithPercentPriceModelType = shared.PriceUnitWithPercentPriceModelType
 
 // This is an alias to an internal value.
@@ -6804,45 +3923,6 @@ const PriceMatrixWithAllocationPriceCadenceAnnual = shared.PriceMatrixWithAlloca
 
 // This is an alias to an internal value.
 const PriceMatrixWithAllocationPriceCadenceCustom = shared.PriceMatrixWithAllocationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfig = shared.PriceMatrixWithAllocationPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig = shared.PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceMatrixWithAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig = shared.PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceMatrixWithAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType = shared.PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceMatrixWithAllocationPriceModelType = shared.PriceMatrixWithAllocationPriceModelType
@@ -6884,45 +3964,6 @@ const PriceTieredWithProrationPriceCadenceAnnual = shared.PriceTieredWithProrati
 const PriceTieredWithProrationPriceCadenceCustom = shared.PriceTieredWithProrationPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfig = shared.PriceTieredWithProrationPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig = shared.PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceTieredWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig = shared.PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceTieredWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceTieredWithProrationPriceConversionRateConfigConversionRateType = shared.PriceTieredWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceTieredWithProrationPriceModelType = shared.PriceTieredWithProrationPriceModelType
 
 // This is an alias to an internal value.
@@ -6960,45 +4001,6 @@ const PriceUnitWithProrationPriceCadenceAnnual = shared.PriceUnitWithProrationPr
 
 // This is an alias to an internal value.
 const PriceUnitWithProrationPriceCadenceCustom = shared.PriceUnitWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfig = shared.PriceUnitWithProrationPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig = shared.PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceUnitWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig = shared.PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceUnitWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceUnitWithProrationPriceConversionRateConfigConversionRateType = shared.PriceUnitWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceUnitWithProrationPriceModelType = shared.PriceUnitWithProrationPriceModelType
@@ -7040,45 +4042,6 @@ const PriceGroupedAllocationPriceCadenceAnnual = shared.PriceGroupedAllocationPr
 const PriceGroupedAllocationPriceCadenceCustom = shared.PriceGroupedAllocationPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfig = shared.PriceGroupedAllocationPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig = shared.PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceGroupedAllocationPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig = shared.PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceGroupedAllocationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceGroupedAllocationPriceConversionRateConfigConversionRateType = shared.PriceGroupedAllocationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceGroupedAllocationPriceModelType = shared.PriceGroupedAllocationPriceModelType
 
 // This is an alias to an internal value.
@@ -7116,45 +4079,6 @@ const PriceGroupedWithProratedMinimumPriceCadenceAnnual = shared.PriceGroupedWit
 
 // This is an alias to an internal value.
 const PriceGroupedWithProratedMinimumPriceCadenceCustom = shared.PriceGroupedWithProratedMinimumPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfig = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceGroupedWithProratedMinimumPriceModelType = shared.PriceGroupedWithProratedMinimumPriceModelType
@@ -7196,45 +4120,6 @@ const PriceGroupedWithMeteredMinimumPriceCadenceAnnual = shared.PriceGroupedWith
 const PriceGroupedWithMeteredMinimumPriceCadenceCustom = shared.PriceGroupedWithMeteredMinimumPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfig = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceGroupedWithMeteredMinimumPriceModelType = shared.PriceGroupedWithMeteredMinimumPriceModelType
 
 // This is an alias to an internal value.
@@ -7272,45 +4157,6 @@ const PriceMatrixWithDisplayNamePriceCadenceAnnual = shared.PriceMatrixWithDispl
 
 // This is an alias to an internal value.
 const PriceMatrixWithDisplayNamePriceCadenceCustom = shared.PriceMatrixWithDisplayNamePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfig = shared.PriceMatrixWithDisplayNamePriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceMatrixWithDisplayNamePriceModelType = shared.PriceMatrixWithDisplayNamePriceModelType
@@ -7352,45 +4198,6 @@ const PriceBulkWithProrationPriceCadenceAnnual = shared.PriceBulkWithProrationPr
 const PriceBulkWithProrationPriceCadenceCustom = shared.PriceBulkWithProrationPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfig = shared.PriceBulkWithProrationPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig = shared.PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceBulkWithProrationPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig = shared.PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceBulkWithProrationPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigConversionRateType = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceBulkWithProrationPriceModelType = shared.PriceBulkWithProrationPriceModelType
 
 // This is an alias to an internal value.
@@ -7428,45 +4235,6 @@ const PriceGroupedTieredPackagePriceCadenceAnnual = shared.PriceGroupedTieredPac
 
 // This is an alias to an internal value.
 const PriceGroupedTieredPackagePriceCadenceCustom = shared.PriceGroupedTieredPackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfig = shared.PriceGroupedTieredPackagePriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig = shared.PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceGroupedTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig = shared.PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceGroupedTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType = shared.PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceGroupedTieredPackagePriceModelType = shared.PriceGroupedTieredPackagePriceModelType
@@ -7508,45 +4276,6 @@ const PriceMaxGroupTieredPackagePriceCadenceAnnual = shared.PriceMaxGroupTieredP
 const PriceMaxGroupTieredPackagePriceCadenceCustom = shared.PriceMaxGroupTieredPackagePriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfig = shared.PriceMaxGroupTieredPackagePriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceMaxGroupTieredPackagePriceModelType = shared.PriceMaxGroupTieredPackagePriceModelType
 
 // This is an alias to an internal value.
@@ -7584,45 +4313,6 @@ const PriceScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.PriceScalabl
 
 // This is an alias to an internal value.
 const PriceScalableMatrixWithUnitPricingPriceCadenceCustom = shared.PriceScalableMatrixWithUnitPricingPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfig = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceScalableMatrixWithUnitPricingPriceModelType = shared.PriceScalableMatrixWithUnitPricingPriceModelType
@@ -7664,45 +4354,6 @@ const PriceScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.PriceScala
 const PriceScalableMatrixWithTieredPricingPriceCadenceCustom = shared.PriceScalableMatrixWithTieredPricingPriceCadenceCustom
 
 // This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfig = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPriceModelType = shared.PriceScalableMatrixWithTieredPricingPriceModelType
 
 // This is an alias to an internal value.
@@ -7740,45 +4391,6 @@ const PriceCumulativeGroupedBulkPriceCadenceAnnual = shared.PriceCumulativeGroup
 
 // This is an alias to an internal value.
 const PriceCumulativeGroupedBulkPriceCadenceCustom = shared.PriceCumulativeGroupedBulkPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfig = shared.PriceCumulativeGroupedBulkPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigUnitConversionRateConfigUnitConfig
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfig
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigTieredConversionRateConfigTieredConfigTier
-
-// This is an alias to an internal type.
-type PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type PriceCumulativeGroupedBulkPriceModelType = shared.PriceCumulativeGroupedBulkPriceModelType
