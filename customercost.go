@@ -15,6 +15,7 @@ import (
 	"github.com/orbcorp/orb-go/internal/param"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 // CustomerCostService contains methods and other services that help with
@@ -293,8 +294,8 @@ func (r *CustomerCostService) ListByExternalID(ctx context.Context, externalCust
 }
 
 type CustomerCostListResponse struct {
-	Data []CustomerCostListResponseData `json:"data,required"`
-	JSON customerCostListResponseJSON   `json:"-"`
+	Data []shared.AggregatedCost      `json:"data,required"`
+	JSON customerCostListResponseJSON `json:"-"`
 }
 
 // customerCostListResponseJSON contains the JSON metadata for the struct
@@ -313,74 +314,9 @@ func (r customerCostListResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-type CustomerCostListResponseData struct {
-	PerPriceCosts []CustomerCostListResponseDataPerPriceCost `json:"per_price_costs,required"`
-	// Total costs for the timeframe, excluding any minimums and discounts.
-	Subtotal       string    `json:"subtotal,required"`
-	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
-	// Total costs for the timeframe, including any minimums and discounts.
-	Total string                           `json:"total,required"`
-	JSON  customerCostListResponseDataJSON `json:"-"`
-}
-
-// customerCostListResponseDataJSON contains the JSON metadata for the struct
-// [CustomerCostListResponseData]
-type customerCostListResponseDataJSON struct {
-	PerPriceCosts  apijson.Field
-	Subtotal       apijson.Field
-	TimeframeEnd   apijson.Field
-	TimeframeStart apijson.Field
-	Total          apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *CustomerCostListResponseData) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCostListResponseDataJSON) RawJSON() string {
-	return r.raw
-}
-
-type CustomerCostListResponseDataPerPriceCost struct {
-	// The price object
-	Price Price `json:"price,required"`
-	// The price the cost is associated with
-	PriceID string `json:"price_id,required"`
-	// Price's contributions for the timeframe, excluding any minimums and discounts.
-	Subtotal string `json:"subtotal,required"`
-	// Price's contributions for the timeframe, including minimums and discounts.
-	Total string `json:"total,required"`
-	// The price's quantity for the timeframe
-	Quantity float64                                      `json:"quantity,nullable"`
-	JSON     customerCostListResponseDataPerPriceCostJSON `json:"-"`
-}
-
-// customerCostListResponseDataPerPriceCostJSON contains the JSON metadata for the
-// struct [CustomerCostListResponseDataPerPriceCost]
-type customerCostListResponseDataPerPriceCostJSON struct {
-	Price       apijson.Field
-	PriceID     apijson.Field
-	Subtotal    apijson.Field
-	Total       apijson.Field
-	Quantity    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *CustomerCostListResponseDataPerPriceCost) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCostListResponseDataPerPriceCostJSON) RawJSON() string {
-	return r.raw
-}
-
 type CustomerCostListByExternalIDResponse struct {
-	Data []CustomerCostListByExternalIDResponseData `json:"data,required"`
-	JSON customerCostListByExternalIDResponseJSON   `json:"-"`
+	Data []shared.AggregatedCost                  `json:"data,required"`
+	JSON customerCostListByExternalIDResponseJSON `json:"-"`
 }
 
 // customerCostListByExternalIDResponseJSON contains the JSON metadata for the
@@ -396,71 +332,6 @@ func (r *CustomerCostListByExternalIDResponse) UnmarshalJSON(data []byte) (err e
 }
 
 func (r customerCostListByExternalIDResponseJSON) RawJSON() string {
-	return r.raw
-}
-
-type CustomerCostListByExternalIDResponseData struct {
-	PerPriceCosts []CustomerCostListByExternalIDResponseDataPerPriceCost `json:"per_price_costs,required"`
-	// Total costs for the timeframe, excluding any minimums and discounts.
-	Subtotal       string    `json:"subtotal,required"`
-	TimeframeEnd   time.Time `json:"timeframe_end,required" format:"date-time"`
-	TimeframeStart time.Time `json:"timeframe_start,required" format:"date-time"`
-	// Total costs for the timeframe, including any minimums and discounts.
-	Total string                                       `json:"total,required"`
-	JSON  customerCostListByExternalIDResponseDataJSON `json:"-"`
-}
-
-// customerCostListByExternalIDResponseDataJSON contains the JSON metadata for the
-// struct [CustomerCostListByExternalIDResponseData]
-type customerCostListByExternalIDResponseDataJSON struct {
-	PerPriceCosts  apijson.Field
-	Subtotal       apijson.Field
-	TimeframeEnd   apijson.Field
-	TimeframeStart apijson.Field
-	Total          apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *CustomerCostListByExternalIDResponseData) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCostListByExternalIDResponseDataJSON) RawJSON() string {
-	return r.raw
-}
-
-type CustomerCostListByExternalIDResponseDataPerPriceCost struct {
-	// The price object
-	Price Price `json:"price,required"`
-	// The price the cost is associated with
-	PriceID string `json:"price_id,required"`
-	// Price's contributions for the timeframe, excluding any minimums and discounts.
-	Subtotal string `json:"subtotal,required"`
-	// Price's contributions for the timeframe, including minimums and discounts.
-	Total string `json:"total,required"`
-	// The price's quantity for the timeframe
-	Quantity float64                                                  `json:"quantity,nullable"`
-	JSON     customerCostListByExternalIDResponseDataPerPriceCostJSON `json:"-"`
-}
-
-// customerCostListByExternalIDResponseDataPerPriceCostJSON contains the JSON
-// metadata for the struct [CustomerCostListByExternalIDResponseDataPerPriceCost]
-type customerCostListByExternalIDResponseDataPerPriceCostJSON struct {
-	Price       apijson.Field
-	PriceID     apijson.Field
-	Subtotal    apijson.Field
-	Total       apijson.Field
-	Quantity    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *CustomerCostListByExternalIDResponseDataPerPriceCost) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r customerCostListByExternalIDResponseDataPerPriceCostJSON) RawJSON() string {
 	return r.raw
 }
 

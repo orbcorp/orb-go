@@ -12,6 +12,7 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestCustomerNewWithOptionalParams(t *testing.T) {
@@ -29,8 +30,8 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 	_, err := client.Customers.New(context.TODO(), orb.CustomerNewParams{
 		Email: orb.F("dev@stainless.com"),
 		Name:  orb.F("x"),
-		AccountingSyncConfiguration: orb.F(orb.CustomerNewParamsAccountingSyncConfiguration{
-			AccountingProviders: orb.F([]orb.CustomerNewParamsAccountingSyncConfigurationAccountingProvider{{
+		AccountingSyncConfiguration: orb.F(orb.NewAccountingSyncConfigurationParam{
+			AccountingProviders: orb.F([]orb.AccountingProviderConfigParam{{
 				ExternalProviderID: orb.F("external_provider_id"),
 				ProviderType:       orb.F("provider_type"),
 			}}),
@@ -38,7 +39,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		}),
 		AdditionalEmails: orb.F([]string{"dev@stainless.com"}),
 		AutoCollection:   orb.F(true),
-		BillingAddress: orb.F(orb.CustomerNewParamsBillingAddress{
+		BillingAddress: orb.F(orb.AddressInputParam{
 			City:       orb.F("city"),
 			Country:    orb.F("country"),
 			Line1:      orb.F("line1"),
@@ -49,7 +50,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		Currency:           orb.F("currency"),
 		EmailDelivery:      orb.F(true),
 		ExternalCustomerID: orb.F("external_customer_id"),
-		Hierarchy: orb.F(orb.CustomerNewParamsHierarchy{
+		Hierarchy: orb.F(orb.CustomerHierarchyConfigParam{
 			ChildCustomerIDs: orb.F([]string{"string"}),
 			ParentCustomerID: orb.F("parent_customer_id"),
 		}),
@@ -58,10 +59,10 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		}),
 		PaymentProvider:   orb.F(orb.CustomerNewParamsPaymentProviderQuickbooks),
 		PaymentProviderID: orb.F("payment_provider_id"),
-		ReportingConfiguration: orb.F(orb.CustomerNewParamsReportingConfiguration{
+		ReportingConfiguration: orb.F(orb.NewReportingConfigurationParam{
 			Exempt: orb.F(true),
 		}),
-		ShippingAddress: orb.F(orb.CustomerNewParamsShippingAddress{
+		ShippingAddress: orb.F(orb.AddressInputParam{
 			City:       orb.F("city"),
 			Country:    orb.F("country"),
 			Line1:      orb.F("line1"),
@@ -69,14 +70,14 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 			PostalCode: orb.F("postal_code"),
 			State:      orb.F("state"),
 		}),
-		TaxConfiguration: orb.F[orb.CustomerNewParamsTaxConfigurationUnion](orb.CustomerNewParamsTaxConfigurationNewAvalaraTaxConfiguration{
+		TaxConfiguration: orb.F[orb.CustomerNewParamsTaxConfigurationUnion](orb.NewAvalaraTaxConfigurationParam{
 			TaxExempt:        orb.F(true),
-			TaxProvider:      orb.F(orb.CustomerNewParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara),
+			TaxProvider:      orb.F(orb.NewAvalaraTaxConfigurationTaxProviderAvalara),
 			TaxExemptionCode: orb.F("tax_exemption_code"),
 		}),
-		TaxID: orb.F(orb.CustomerNewParamsTaxID{
-			Country: orb.F(orb.CustomerNewParamsTaxIDCountryAd),
-			Type:    orb.F(orb.CustomerNewParamsTaxIDTypeAdNrt),
+		TaxID: orb.F(shared.CustomerTaxIDParam{
+			Country: orb.F(shared.CustomerTaxIDCountryAd),
+			Type:    orb.F(shared.CustomerTaxIDTypeAdNrt),
 			Value:   orb.F("value"),
 		}),
 		Timezone: orb.F("timezone"),
@@ -106,8 +107,8 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"customer_id",
 		orb.CustomerUpdateParams{
-			AccountingSyncConfiguration: orb.F(orb.CustomerUpdateParamsAccountingSyncConfiguration{
-				AccountingProviders: orb.F([]orb.CustomerUpdateParamsAccountingSyncConfigurationAccountingProvider{{
+			AccountingSyncConfiguration: orb.F(orb.NewAccountingSyncConfigurationParam{
+				AccountingProviders: orb.F([]orb.AccountingProviderConfigParam{{
 					ExternalProviderID: orb.F("external_provider_id"),
 					ProviderType:       orb.F("provider_type"),
 				}}),
@@ -115,7 +116,7 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			}),
 			AdditionalEmails: orb.F([]string{"string"}),
 			AutoCollection:   orb.F(true),
-			BillingAddress: orb.F(orb.CustomerUpdateParamsBillingAddress{
+			BillingAddress: orb.F(orb.AddressInputParam{
 				City:       orb.F("city"),
 				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
@@ -127,7 +128,7 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			Email:              orb.F("dev@stainless.com"),
 			EmailDelivery:      orb.F(true),
 			ExternalCustomerID: orb.F("external_customer_id"),
-			Hierarchy: orb.F(orb.CustomerUpdateParamsHierarchy{
+			Hierarchy: orb.F(orb.CustomerHierarchyConfigParam{
 				ChildCustomerIDs: orb.F([]string{"string"}),
 				ParentCustomerID: orb.F("parent_customer_id"),
 			}),
@@ -137,10 +138,10 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			Name:              orb.F("name"),
 			PaymentProvider:   orb.F(orb.CustomerUpdateParamsPaymentProviderQuickbooks),
 			PaymentProviderID: orb.F("payment_provider_id"),
-			ReportingConfiguration: orb.F(orb.CustomerUpdateParamsReportingConfiguration{
+			ReportingConfiguration: orb.F(orb.NewReportingConfigurationParam{
 				Exempt: orb.F(true),
 			}),
-			ShippingAddress: orb.F(orb.CustomerUpdateParamsShippingAddress{
+			ShippingAddress: orb.F(orb.AddressInputParam{
 				City:       orb.F("city"),
 				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
@@ -148,14 +149,14 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 				PostalCode: orb.F("postal_code"),
 				State:      orb.F("state"),
 			}),
-			TaxConfiguration: orb.F[orb.CustomerUpdateParamsTaxConfigurationUnion](orb.CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfiguration{
+			TaxConfiguration: orb.F[orb.CustomerUpdateParamsTaxConfigurationUnion](orb.NewAvalaraTaxConfigurationParam{
 				TaxExempt:        orb.F(true),
-				TaxProvider:      orb.F(orb.CustomerUpdateParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara),
+				TaxProvider:      orb.F(orb.NewAvalaraTaxConfigurationTaxProviderAvalara),
 				TaxExemptionCode: orb.F("tax_exemption_code"),
 			}),
-			TaxID: orb.F(orb.CustomerUpdateParamsTaxID{
-				Country: orb.F(orb.CustomerUpdateParamsTaxIDCountryAd),
-				Type:    orb.F(orb.CustomerUpdateParamsTaxIDTypeAdNrt),
+			TaxID: orb.F(shared.CustomerTaxIDParam{
+				Country: orb.F(shared.CustomerTaxIDCountryAd),
+				Type:    orb.F(shared.CustomerTaxIDTypeAdNrt),
 				Value:   orb.F("value"),
 			}),
 		},
@@ -324,8 +325,8 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"external_customer_id",
 		orb.CustomerUpdateByExternalIDParams{
-			AccountingSyncConfiguration: orb.F(orb.CustomerUpdateByExternalIDParamsAccountingSyncConfiguration{
-				AccountingProviders: orb.F([]orb.CustomerUpdateByExternalIDParamsAccountingSyncConfigurationAccountingProvider{{
+			AccountingSyncConfiguration: orb.F(orb.NewAccountingSyncConfigurationParam{
+				AccountingProviders: orb.F([]orb.AccountingProviderConfigParam{{
 					ExternalProviderID: orb.F("external_provider_id"),
 					ProviderType:       orb.F("provider_type"),
 				}}),
@@ -333,7 +334,7 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			}),
 			AdditionalEmails: orb.F([]string{"string"}),
 			AutoCollection:   orb.F(true),
-			BillingAddress: orb.F(orb.CustomerUpdateByExternalIDParamsBillingAddress{
+			BillingAddress: orb.F(orb.AddressInputParam{
 				City:       orb.F("city"),
 				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
@@ -345,7 +346,7 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			Email:              orb.F("dev@stainless.com"),
 			EmailDelivery:      orb.F(true),
 			ExternalCustomerID: orb.F("external_customer_id"),
-			Hierarchy: orb.F(orb.CustomerUpdateByExternalIDParamsHierarchy{
+			Hierarchy: orb.F(orb.CustomerHierarchyConfigParam{
 				ChildCustomerIDs: orb.F([]string{"string"}),
 				ParentCustomerID: orb.F("parent_customer_id"),
 			}),
@@ -355,10 +356,10 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			Name:              orb.F("name"),
 			PaymentProvider:   orb.F(orb.CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks),
 			PaymentProviderID: orb.F("payment_provider_id"),
-			ReportingConfiguration: orb.F(orb.CustomerUpdateByExternalIDParamsReportingConfiguration{
+			ReportingConfiguration: orb.F(orb.NewReportingConfigurationParam{
 				Exempt: orb.F(true),
 			}),
-			ShippingAddress: orb.F(orb.CustomerUpdateByExternalIDParamsShippingAddress{
+			ShippingAddress: orb.F(orb.AddressInputParam{
 				City:       orb.F("city"),
 				Country:    orb.F("country"),
 				Line1:      orb.F("line1"),
@@ -366,14 +367,14 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 				PostalCode: orb.F("postal_code"),
 				State:      orb.F("state"),
 			}),
-			TaxConfiguration: orb.F[orb.CustomerUpdateByExternalIDParamsTaxConfigurationUnion](orb.CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfiguration{
+			TaxConfiguration: orb.F[orb.CustomerUpdateByExternalIDParamsTaxConfigurationUnion](orb.NewAvalaraTaxConfigurationParam{
 				TaxExempt:        orb.F(true),
-				TaxProvider:      orb.F(orb.CustomerUpdateByExternalIDParamsTaxConfigurationNewAvalaraTaxConfigurationTaxProviderAvalara),
+				TaxProvider:      orb.F(orb.NewAvalaraTaxConfigurationTaxProviderAvalara),
 				TaxExemptionCode: orb.F("tax_exemption_code"),
 			}),
-			TaxID: orb.F(orb.CustomerUpdateByExternalIDParamsTaxID{
-				Country: orb.F(orb.CustomerUpdateByExternalIDParamsTaxIDCountryAd),
-				Type:    orb.F(orb.CustomerUpdateByExternalIDParamsTaxIDTypeAdNrt),
+			TaxID: orb.F(shared.CustomerTaxIDParam{
+				Country: orb.F(shared.CustomerTaxIDCountryAd),
+				Type:    orb.F(shared.CustomerTaxIDTypeAdNrt),
 				Value:   orb.F("value"),
 			}),
 		},
