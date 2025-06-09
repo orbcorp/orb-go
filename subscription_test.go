@@ -85,13 +85,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigParam{
-					ConversionRateType: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit),
-					UnitConfig: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam{
-						UnitAmount: orb.F("unit_amount"),
-					}),
-				}),
-				Currency: orb.F("currency"),
+				Currency:       orb.F("currency"),
 				DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 					DimensionValues:                 orb.F([]string{"string"}),
 					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
@@ -204,13 +198,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigParam{
-					ConversionRateType: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit),
-					UnitConfig: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam{
-						UnitAmount: orb.F("unit_amount"),
-					}),
-				}),
-				Currency: orb.F("currency"),
+				Currency:       orb.F("currency"),
 				DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 					DimensionValues:                 orb.F([]string{"string"}),
 					DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
@@ -521,12 +509,6 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceConversionRateConfigUnionParam](shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigParam{
-						ConversionRateType: orb.F(shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit),
-						UnitConfig: orb.F(shared.NewFloatingUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam{
-							UnitAmount: orb.F("unit_amount"),
-						}),
-					}),
 					DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 						DimensionValues:                 orb.F([]string{"string"}),
 						DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
@@ -700,13 +682,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigParam{
-						ConversionRateType: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit),
-						UnitConfig: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam{
-							UnitAmount: orb.F("unit_amount"),
-						}),
-					}),
-					Currency: orb.F("currency"),
+					Currency:       orb.F("currency"),
 					DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 						DimensionValues:                 orb.F([]string{"string"}),
 						DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
@@ -810,13 +786,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigParam{
-						ConversionRateType: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigConversionRateTypeUnit),
-						UnitConfig: orb.F(orb.NewSubscriptionUnitPriceConversionRateConfigUnitConversionRateConfigUnitConfigParam{
-							UnitAmount: orb.F("unit_amount"),
-						}),
-					}),
-					Currency: orb.F("currency"),
+					Currency:       orb.F("currency"),
 					DimensionalPriceConfiguration: orb.F(shared.NewDimensionalPriceConfigurationParam{
 						DimensionValues:                 orb.F([]string{"string"}),
 						DimensionalPriceGroupID:         orb.F("dimensional_price_group_id"),
