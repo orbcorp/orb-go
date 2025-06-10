@@ -76,7 +76,7 @@ To send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](
 
 ```go
 params := FooParams{
-	Name: orb.F("hello"),
+	Name: orb.F("hello world"),
 
 	// Explicitly send `"description": null`
 	Description: orb.Null[string](),
