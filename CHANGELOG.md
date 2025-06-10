@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0 (2025-06-10)
+
+Full Changelog: [v0.123.0...v1.0.0](https://github.com/orbcorp/orb-go/compare/v0.123.0...v1.0.0)
+
+### Bug Fixes
+
+* **internal:** fix CI ([8b425e1](https://github.com/orbcorp/orb-go/commit/8b425e1f88008a25a0a51d1fc26c4d7c09ed9c5c))
+
+
+### Chores
+
+* **internal:** intentionally fail CI ([bb4c3a7](https://github.com/orbcorp/orb-go/commit/bb4c3a7bf4b1401d8ed096c5e21b244b1082ac17))
+
 ## 0.123.0 (2025-06-09)
 
 Full Changelog: [v0.122.0...v0.123.0](https://github.com/orbcorp/orb-go/compare/v0.122.0...v0.123.0)

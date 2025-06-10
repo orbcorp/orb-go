@@ -22,7 +22,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/orbcorp/orb-go@v0.123.0'
+go get -u 'github.com/orbcorp/orb-go@v1.0.0'
 ```
 
 <!-- x-release-please-end -->
@@ -76,7 +76,7 @@ To send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](
 
 ```go
 params := FooParams{
-	Name: orb.F("hello"),
+	Name: orb.F("hello world"),
 
 	// Explicitly send `"description": null`
 	Description: orb.Null[string](),
