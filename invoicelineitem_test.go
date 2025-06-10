@@ -34,7 +34,7 @@ func TestInvoiceLineItemNew(t *testing.T) {
 		Quantity:  orb.F(1.000000),
 		StartDate: orb.F(time.Now()),
 	})
-	if err == nil {
+	if err != nil {
 		var apierr *orb.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
