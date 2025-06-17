@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0 (2025-06-17)
+
+Full Changelog: [v1.0.0...v1.1.0](https://github.com/orbcorp/orb-go/compare/v1.0.0...v1.1.0)
+
+### Features
+
+* **api:** api update ([5d313f3](https://github.com/orbcorp/orb-go/commit/5d313f3c94ad891e705569eade872f0c1ed03143))
+* **client:** add debug log helper ([0a099e8](https://github.com/orbcorp/orb-go/commit/0a099e8c07bc80b0d6458a44b906facde3d55872))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([6c72a2b](https://github.com/orbcorp/orb-go/commit/6c72a2bd0dac1b2747b0b15028105188c0c71bf6))
+
 ## 1.0.0 (2025-06-10)
 
 Full Changelog: [v0.123.0...v1.0.0](https://github.com/orbcorp/orb-go/compare/v0.123.0...v1.0.0)
