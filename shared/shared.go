@@ -3652,6 +3652,8 @@ func (r NewAmountDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionParams
 func (r NewAmountDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion() {
 }
 
+func (r NewAmountDiscountParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
+
 func (r NewAmountDiscountParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
 func (r NewAmountDiscountParam) ImplementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {}
@@ -7335,6 +7337,8 @@ func (r NewMaximumParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddAdju
 func (r NewMaximumParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion() {
 }
 
+func (r NewMaximumParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
+
 func (r NewMaximumParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
 func (r NewMaximumParam) ImplementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {}
@@ -7431,6 +7435,8 @@ func (r NewMinimumParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddAdju
 func (r NewMinimumParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion() {
 }
 
+func (r NewMinimumParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
+
 func (r NewMinimumParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
 func (r NewMinimumParam) ImplementsSubscriptionNewParamsReplaceAdjustmentsAdjustmentUnion() {}
@@ -7526,6 +7532,8 @@ func (r NewPercentageDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionPa
 
 func (r NewPercentageDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion() {
 }
+
+func (r NewPercentageDiscountParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
 
 func (r NewPercentageDiscountParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 
@@ -7630,6 +7638,9 @@ type NewPlanBPSPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanBPSPriceParam) MarshalJSON() (data []byte, err error) {
@@ -7645,7 +7656,7 @@ func (r NewPlanBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAd
 func (r NewPlanBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanBPSPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanBPSPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanBPSPriceCadence string
@@ -7760,6 +7771,9 @@ type NewPlanBulkBPSPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanBulkBPSPriceParam) MarshalJSON() (data []byte, err error) {
@@ -7776,7 +7790,7 @@ func (r NewPlanBulkBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionPara
 func (r NewPlanBulkBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanBulkBPSPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanBulkBPSPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanBulkBPSPriceCadence string
@@ -7891,6 +7905,9 @@ type NewPlanBulkPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanBulkPriceParam) MarshalJSON() (data []byte, err error) {
@@ -7907,7 +7924,7 @@ func (r NewPlanBulkPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsA
 func (r NewPlanBulkPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanBulkPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanBulkPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanBulkPriceCadence string
@@ -8022,6 +8039,9 @@ type NewPlanBulkWithProrationPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanBulkWithProrationPriceParam) MarshalJSON() (data []byte, err error) {
@@ -8039,7 +8059,7 @@ func (r NewPlanBulkWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 func (r NewPlanBulkWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanBulkWithProrationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanBulkWithProrationPriceCadence string
@@ -8154,6 +8174,9 @@ type NewPlanCumulativeGroupedBulkPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanCumulativeGroupedBulkPriceParam) MarshalJSON() (data []byte, err error) {
@@ -8172,7 +8195,7 @@ func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsBetaExternalPlanIDNewP
 func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanCumulativeGroupedBulkPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanCumulativeGroupedBulkPriceCadence string
@@ -8287,6 +8310,9 @@ type NewPlanGroupedAllocationPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanGroupedAllocationPriceParam) MarshalJSON() (data []byte, err error) {
@@ -8304,7 +8330,7 @@ func (r NewPlanGroupedAllocationPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 func (r NewPlanGroupedAllocationPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanGroupedAllocationPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanGroupedAllocationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanGroupedAllocationPriceCadence string
@@ -8419,6 +8445,9 @@ type NewPlanGroupedTieredPackagePriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanGroupedTieredPackagePriceParam) MarshalJSON() (data []byte, err error) {
@@ -8437,7 +8466,7 @@ func (r NewPlanGroupedTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewPl
 func (r NewPlanGroupedTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanGroupedTieredPackagePriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanGroupedTieredPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanGroupedTieredPackagePriceCadence string
@@ -8552,6 +8581,9 @@ type NewPlanGroupedTieredPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanGroupedTieredPriceParam) MarshalJSON() (data []byte, err error) {
@@ -8568,7 +8600,7 @@ func (r NewPlanGroupedTieredPriceParam) ImplementsBetaExternalPlanIDNewPlanVersi
 func (r NewPlanGroupedTieredPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanGroupedTieredPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanGroupedTieredPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanGroupedTieredPriceCadence string
@@ -8683,6 +8715,9 @@ type NewPlanGroupedWithMeteredMinimumPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanGroupedWithMeteredMinimumPriceParam) MarshalJSON() (data []byte, err error) {
@@ -8701,7 +8736,7 @@ func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsBetaExternalPlanID
 func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanGroupedWithMeteredMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanGroupedWithMeteredMinimumPriceCadence string
@@ -8816,6 +8851,9 @@ type NewPlanGroupedWithProratedMinimumPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanGroupedWithProratedMinimumPriceParam) MarshalJSON() (data []byte, err error) {
@@ -8834,7 +8872,7 @@ func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsBetaExternalPlanI
 func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanGroupedWithProratedMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanGroupedWithProratedMinimumPriceCadence string
@@ -8949,6 +8987,9 @@ type NewPlanMatrixPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanMatrixPriceParam) MarshalJSON() (data []byte, err error) {
@@ -8965,7 +9006,7 @@ func (r NewPlanMatrixPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParam
 func (r NewPlanMatrixPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanMatrixPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanMatrixPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanMatrixPriceCadence string
@@ -9080,6 +9121,9 @@ type NewPlanMatrixWithAllocationPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanMatrixWithAllocationPriceParam) MarshalJSON() (data []byte, err error) {
@@ -9098,7 +9142,7 @@ func (r NewPlanMatrixWithAllocationPriceParam) ImplementsBetaExternalPlanIDNewPl
 func (r NewPlanMatrixWithAllocationPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanMatrixWithAllocationPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanMatrixWithAllocationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanMatrixWithAllocationPriceCadence string
@@ -9213,6 +9257,9 @@ type NewPlanMatrixWithDisplayNamePriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanMatrixWithDisplayNamePriceParam) MarshalJSON() (data []byte, err error) {
@@ -9231,7 +9278,7 @@ func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsBetaExternalPlanIDNewP
 func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanMatrixWithDisplayNamePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanMatrixWithDisplayNamePriceCadence string
@@ -9346,6 +9393,9 @@ type NewPlanMaxGroupTieredPackagePriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanMaxGroupTieredPackagePriceParam) MarshalJSON() (data []byte, err error) {
@@ -9364,7 +9414,7 @@ func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewP
 func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanMaxGroupTieredPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanMaxGroupTieredPackagePriceCadence string
@@ -9479,6 +9529,9 @@ type NewPlanPackagePriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanPackagePriceParam) MarshalJSON() (data []byte, err error) {
@@ -9495,7 +9548,7 @@ func (r NewPlanPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionPara
 func (r NewPlanPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanPackagePriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanPackagePriceCadence string
@@ -9610,6 +9663,9 @@ type NewPlanPackageWithAllocationPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanPackageWithAllocationPriceParam) MarshalJSON() (data []byte, err error) {
@@ -9628,7 +9684,7 @@ func (r NewPlanPackageWithAllocationPriceParam) ImplementsBetaExternalPlanIDNewP
 func (r NewPlanPackageWithAllocationPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanPackageWithAllocationPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanPackageWithAllocationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanPackageWithAllocationPriceCadence string
@@ -9743,6 +9799,9 @@ type NewPlanScalableMatrixWithTieredPricingPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanScalableMatrixWithTieredPricingPriceParam) MarshalJSON() (data []byte, err error) {
@@ -9761,7 +9820,7 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsBetaExternal
 func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanScalableMatrixWithTieredPricingPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanScalableMatrixWithTieredPricingPriceCadence string
@@ -9876,6 +9935,9 @@ type NewPlanScalableMatrixWithUnitPricingPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanScalableMatrixWithUnitPricingPriceParam) MarshalJSON() (data []byte, err error) {
@@ -9894,7 +9956,7 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsBetaExternalPl
 func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanScalableMatrixWithUnitPricingPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanScalableMatrixWithUnitPricingPriceCadence string
@@ -10009,6 +10071,9 @@ type NewPlanThresholdTotalAmountPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanThresholdTotalAmountPriceParam) MarshalJSON() (data []byte, err error) {
@@ -10027,7 +10092,7 @@ func (r NewPlanThresholdTotalAmountPriceParam) ImplementsBetaExternalPlanIDNewPl
 func (r NewPlanThresholdTotalAmountPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanThresholdTotalAmountPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanThresholdTotalAmountPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanThresholdTotalAmountPriceCadence string
@@ -10142,6 +10207,9 @@ type NewPlanTierWithProrationPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanTierWithProrationPriceParam) MarshalJSON() (data []byte, err error) {
@@ -10159,7 +10227,7 @@ func (r NewPlanTierWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 func (r NewPlanTierWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanTierWithProrationPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanTierWithProrationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTierWithProrationPriceCadence string
@@ -10274,6 +10342,9 @@ type NewPlanTieredBPSPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanTieredBPSPriceParam) MarshalJSON() (data []byte, err error) {
@@ -10290,7 +10361,7 @@ func (r NewPlanTieredBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionPa
 func (r NewPlanTieredBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanTieredBPSPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanTieredBPSPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTieredBPSPriceCadence string
@@ -10405,6 +10476,9 @@ type NewPlanTieredPackagePriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanTieredPackagePriceParam) MarshalJSON() (data []byte, err error) {
@@ -10421,7 +10495,7 @@ func (r NewPlanTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersi
 func (r NewPlanTieredPackagePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanTieredPackagePriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanTieredPackagePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTieredPackagePriceCadence string
@@ -10536,6 +10610,9 @@ type NewPlanTieredPackageWithMinimumPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanTieredPackageWithMinimumPriceParam) MarshalJSON() (data []byte, err error) {
@@ -10554,7 +10631,7 @@ func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsBetaExternalPlanIDN
 func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanTieredPackageWithMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTieredPackageWithMinimumPriceCadence string
@@ -10669,6 +10746,9 @@ type NewPlanTieredPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanTieredPriceParam) MarshalJSON() (data []byte, err error) {
@@ -10685,7 +10765,7 @@ func (r NewPlanTieredPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParam
 func (r NewPlanTieredPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanTieredPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanTieredPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTieredPriceCadence string
@@ -10800,6 +10880,9 @@ type NewPlanTieredWithMinimumPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanTieredWithMinimumPriceParam) MarshalJSON() (data []byte, err error) {
@@ -10817,7 +10900,7 @@ func (r NewPlanTieredWithMinimumPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 func (r NewPlanTieredWithMinimumPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanTieredWithMinimumPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanTieredWithMinimumPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanTieredWithMinimumPriceCadence string
@@ -10932,6 +11015,9 @@ type NewPlanUnitPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanUnitPriceParam) MarshalJSON() (data []byte, err error) {
@@ -10948,7 +11034,7 @@ func (r NewPlanUnitPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsA
 func (r NewPlanUnitPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanUnitPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanUnitPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanUnitPriceCadence string
@@ -11063,6 +11149,9 @@ type NewPlanUnitWithPercentPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanUnitWithPercentPriceParam) MarshalJSON() (data []byte, err error) {
@@ -11080,7 +11169,7 @@ func (r NewPlanUnitWithPercentPriceParam) ImplementsBetaExternalPlanIDNewPlanVer
 func (r NewPlanUnitWithPercentPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanUnitWithPercentPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanUnitWithPercentPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanUnitWithPercentPriceCadence string
@@ -11195,6 +11284,9 @@ type NewPlanUnitWithProrationPriceParam struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
 }
 
 func (r NewPlanUnitWithProrationPriceParam) MarshalJSON() (data []byte, err error) {
@@ -11212,7 +11304,7 @@ func (r NewPlanUnitWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanV
 func (r NewPlanUnitWithProrationPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-func (r NewPlanUnitWithProrationPriceParam) ImplementsPlanNewParamsPriceUnion() {}
+func (r NewPlanUnitWithProrationPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
 
 // The cadence to bill for this price on.
 type NewPlanUnitWithProrationPriceCadence string
@@ -11320,6 +11412,8 @@ func (r NewUsageDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsA
 
 func (r NewUsageDiscountParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplaceAdjustmentsAdjustmentUnion() {
 }
+
+func (r NewUsageDiscountParam) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
 
 func (r NewUsageDiscountParam) ImplementsSubscriptionNewParamsAddAdjustmentsAdjustmentUnion() {}
 

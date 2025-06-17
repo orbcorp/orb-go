@@ -269,26 +269,29 @@ type BetaExternalPlanIDNewPlanVersionParamsAddPricesPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration           param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                          param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig            param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig           param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig           param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                              param.Field[interface{}]                              `json:"metadata"`
-	PackageConfig                         param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig           param.Field[interface{}]                              `json:"package_with_allocation_config"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]                              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]                              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]                              `json:"threshold_total_amount_config"`
-	TieredBPSConfig                       param.Field[shared.TieredBPSConfigParam]              `json:"tiered_bps_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam]                 `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]                              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]                              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]                              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]                              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]                   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]                              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]                              `json:"unit_with_proration_config"`
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                              `json:"metadata"`
+	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                           param.Field[string]                      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]                 `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]                 `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}]                 `json:"threshold_total_amount_config"`
+	TieredBPSConfig                       param.Field[shared.TieredBPSConfigParam] `json:"tiered_bps_config"`
+	TieredConfig                          param.Field[shared.TieredConfigParam]    `json:"tiered_config"`
+	TieredPackageConfig                   param.Field[interface{}]                 `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig        param.Field[interface{}]                 `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig               param.Field[interface{}]                 `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig             param.Field[interface{}]                 `json:"tiered_with_proration_config"`
+	UnitConfig                            param.Field[shared.UnitConfigParam]      `json:"unit_config"`
+	UnitWithPercentConfig                 param.Field[interface{}]                 `json:"unit_with_percent_config"`
+	UnitWithProrationConfig               param.Field[interface{}]                 `json:"unit_with_proration_config"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsAddPricesPrice) MarshalJSON() (data []byte, err error) {
@@ -578,26 +581,29 @@ type BetaExternalPlanIDNewPlanVersionParamsReplacePricesPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration           param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                          param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig            param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig           param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig           param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                              param.Field[interface{}]                              `json:"metadata"`
-	PackageConfig                         param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig           param.Field[interface{}]                              `json:"package_with_allocation_config"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]                              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]                              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]                              `json:"threshold_total_amount_config"`
-	TieredBPSConfig                       param.Field[shared.TieredBPSConfigParam]              `json:"tiered_bps_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam]                 `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]                              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]                              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]                              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]                              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]                   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]                              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]                              `json:"unit_with_proration_config"`
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                              `json:"metadata"`
+	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                           param.Field[string]                      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]                 `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]                 `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}]                 `json:"threshold_total_amount_config"`
+	TieredBPSConfig                       param.Field[shared.TieredBPSConfigParam] `json:"tiered_bps_config"`
+	TieredConfig                          param.Field[shared.TieredConfigParam]    `json:"tiered_config"`
+	TieredPackageConfig                   param.Field[interface{}]                 `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig        param.Field[interface{}]                 `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig               param.Field[interface{}]                 `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig             param.Field[interface{}]                 `json:"tiered_with_proration_config"`
+	UnitConfig                            param.Field[shared.UnitConfigParam]      `json:"unit_config"`
+	UnitWithPercentConfig                 param.Field[interface{}]                 `json:"unit_with_percent_config"`
+	UnitWithProrationConfig               param.Field[interface{}]                 `json:"unit_with_proration_config"`
 }
 
 func (r BetaExternalPlanIDNewPlanVersionParamsReplacePricesPrice) MarshalJSON() (data []byte, err error) {

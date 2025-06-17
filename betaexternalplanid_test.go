@@ -98,6 +98,7 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
 			}}),
 			RemoveAdjustments: orb.F([]orb.BetaExternalPlanIDNewPlanVersionParamsRemoveAdjustment{{
@@ -177,6 +178,7 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					Metadata: orb.F(map[string]string{
 						"foo": "string",
 					}),
+					ReferenceID: orb.F("reference_id"),
 				}),
 			}}),
 			SetAsDefault: orb.F(true),
