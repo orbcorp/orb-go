@@ -644,8 +644,11 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	// been applied.
 	Amount string `json:"amount,required"`
 	// The number of prepaid credits applied.
-	CreditsApplied string          `json:"credits_applied,required"`
-	Discount       shared.Discount `json:"discount,required,nullable"`
+	CreditsApplied string `json:"credits_applied,required"`
+	// This field is deprecated in favor of `adjustments`
+	//
+	// Deprecated: deprecated
+	Discount shared.Discount `json:"discount,required,nullable"`
 	// The end date of the range of time applied for this line item's price.
 	EndDate time.Time `json:"end_date,required" format:"date-time"`
 	// An additional filter that was used to calculate the usage for this line item.
