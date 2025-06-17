@@ -533,7 +533,10 @@ type PlanNewParams struct {
 	Name     param.Field[string] `json:"name,required"`
 	// Prices for this plan. If the plan has phases, this includes prices across all
 	// phases of the plan.
-	Prices param.Field[[]PlanNewParamsPriceUnion] `json:"prices,required"`
+	Prices param.Field[[]PlanNewParamsPrice] `json:"prices,required"`
+	// Adjustments for this plan. If the plan has phases, this includes adjustments
+	// across all phases of the plan.
+	Adjustments param.Field[[]PlanNewParamsAdjustment] `json:"adjustments"`
 	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
 	DefaultInvoiceMemo param.Field[string] `json:"default_invoice_memo"`
 	ExternalPlanID     param.Field[string] `json:"external_plan_id"`
@@ -545,6 +548,9 @@ type PlanNewParams struct {
 	// date for the invoice. If you intend the invoice to be due on issue, set this
 	// to 0.
 	NetTerms param.Field[int64] `json:"net_terms"`
+	// Configuration of pre-defined phases, each with their own prices and adjustments.
+	// Leave unspecified for plans with a single phase.
+	PlanPhases param.Field[[]PlanNewParamsPlanPhase] `json:"plan_phases"`
 	// The status of the plan to create (either active or draft). If not specified,
 	// this defaults to active.
 	Status param.Field[PlanNewParamsStatus] `json:"status"`
@@ -555,11 +561,25 @@ func (r PlanNewParams) MarshalJSON() (data []byte, err error) {
 }
 
 type PlanNewParamsPrice struct {
+	// The allocation price to add to the plan.
+	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
+	// The phase to add this price to.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
+	// The price to add to the plan
+	Price param.Field[PlanNewParamsPricesPriceUnion] `json:"price"`
+}
+
+func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The price to add to the plan
+type PlanNewParamsPricesPrice struct {
 	// The cadence to bill for this price on.
-	Cadence param.Field[PlanNewParamsPricesCadence] `json:"cadence,required"`
+	Cadence param.Field[PlanNewParamsPricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                       `json:"item_id,required"`
-	ModelType param.Field[PlanNewParamsPricesModelType] `json:"model_type,required"`
+	ItemID    param.Field[string]                            `json:"item_id,required"`
+	ModelType param.Field[PlanNewParamsPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -598,34 +618,39 @@ type PlanNewParamsPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration           param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                          param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig            param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig           param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig           param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                              param.Field[interface{}]                              `json:"metadata"`
-	PackageConfig                         param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig           param.Field[interface{}]                              `json:"package_with_allocation_config"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]                              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]                              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]                              `json:"threshold_total_amount_config"`
-	TieredBPSConfig                       param.Field[shared.TieredBPSConfigParam]              `json:"tiered_bps_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam]                 `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]                              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]                              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]                              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]                              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]                   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]                              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]                              `json:"unit_with_proration_config"`
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                              `json:"metadata"`
+	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID                           param.Field[string]                      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]                 `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]                 `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}]                 `json:"threshold_total_amount_config"`
+	TieredBPSConfig                       param.Field[shared.TieredBPSConfigParam] `json:"tiered_bps_config"`
+	TieredConfig                          param.Field[shared.TieredConfigParam]    `json:"tiered_config"`
+	TieredPackageConfig                   param.Field[interface{}]                 `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig        param.Field[interface{}]                 `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig               param.Field[interface{}]                 `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig             param.Field[interface{}]                 `json:"tiered_with_proration_config"`
+	UnitConfig                            param.Field[shared.UnitConfigParam]      `json:"unit_config"`
+	UnitWithPercentConfig                 param.Field[interface{}]                 `json:"unit_with_percent_config"`
+	UnitWithProrationConfig               param.Field[interface{}]                 `json:"unit_with_proration_config"`
 }
 
-func (r PlanNewParamsPrice) MarshalJSON() (data []byte, err error) {
+func (r PlanNewParamsPricesPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPrice) ImplementsPlanNewParamsPriceUnion() {}
+func (r PlanNewParamsPricesPrice) ImplementsPlanNewParamsPricesPriceUnion() {}
 
+// The price to add to the plan
+//
 // Satisfied by [shared.NewPlanUnitPriceParam], [shared.NewPlanPackagePriceParam],
 // [shared.NewPlanMatrixPriceParam], [shared.NewPlanTieredPriceParam],
 // [shared.NewPlanTieredBPSPriceParam], [shared.NewPlanBPSPriceParam],
@@ -649,67 +674,203 @@ func (r PlanNewParamsPrice) ImplementsPlanNewParamsPriceUnion() {}
 // [shared.NewPlanCumulativeGroupedBulkPriceParam],
 // [shared.NewPlanTieredPackageWithMinimumPriceParam],
 // [shared.NewPlanMatrixWithAllocationPriceParam],
-// [shared.NewPlanGroupedTieredPriceParam], [PlanNewParamsPrice].
-type PlanNewParamsPriceUnion interface {
-	ImplementsPlanNewParamsPriceUnion()
+// [shared.NewPlanGroupedTieredPriceParam], [PlanNewParamsPricesPrice].
+type PlanNewParamsPricesPriceUnion interface {
+	ImplementsPlanNewParamsPricesPriceUnion()
 }
 
 // The cadence to bill for this price on.
-type PlanNewParamsPricesCadence string
+type PlanNewParamsPricesPriceCadence string
 
 const (
-	PlanNewParamsPricesCadenceAnnual     PlanNewParamsPricesCadence = "annual"
-	PlanNewParamsPricesCadenceSemiAnnual PlanNewParamsPricesCadence = "semi_annual"
-	PlanNewParamsPricesCadenceMonthly    PlanNewParamsPricesCadence = "monthly"
-	PlanNewParamsPricesCadenceQuarterly  PlanNewParamsPricesCadence = "quarterly"
-	PlanNewParamsPricesCadenceOneTime    PlanNewParamsPricesCadence = "one_time"
-	PlanNewParamsPricesCadenceCustom     PlanNewParamsPricesCadence = "custom"
+	PlanNewParamsPricesPriceCadenceAnnual     PlanNewParamsPricesPriceCadence = "annual"
+	PlanNewParamsPricesPriceCadenceSemiAnnual PlanNewParamsPricesPriceCadence = "semi_annual"
+	PlanNewParamsPricesPriceCadenceMonthly    PlanNewParamsPricesPriceCadence = "monthly"
+	PlanNewParamsPricesPriceCadenceQuarterly  PlanNewParamsPricesPriceCadence = "quarterly"
+	PlanNewParamsPricesPriceCadenceOneTime    PlanNewParamsPricesPriceCadence = "one_time"
+	PlanNewParamsPricesPriceCadenceCustom     PlanNewParamsPricesPriceCadence = "custom"
 )
 
-func (r PlanNewParamsPricesCadence) IsKnown() bool {
+func (r PlanNewParamsPricesPriceCadence) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesCadenceAnnual, PlanNewParamsPricesCadenceSemiAnnual, PlanNewParamsPricesCadenceMonthly, PlanNewParamsPricesCadenceQuarterly, PlanNewParamsPricesCadenceOneTime, PlanNewParamsPricesCadenceCustom:
+	case PlanNewParamsPricesPriceCadenceAnnual, PlanNewParamsPricesPriceCadenceSemiAnnual, PlanNewParamsPricesPriceCadenceMonthly, PlanNewParamsPricesPriceCadenceQuarterly, PlanNewParamsPricesPriceCadenceOneTime, PlanNewParamsPricesPriceCadenceCustom:
 		return true
 	}
 	return false
 }
 
-type PlanNewParamsPricesModelType string
+type PlanNewParamsPricesPriceModelType string
 
 const (
-	PlanNewParamsPricesModelTypeUnit                            PlanNewParamsPricesModelType = "unit"
-	PlanNewParamsPricesModelTypePackage                         PlanNewParamsPricesModelType = "package"
-	PlanNewParamsPricesModelTypeMatrix                          PlanNewParamsPricesModelType = "matrix"
-	PlanNewParamsPricesModelTypeTiered                          PlanNewParamsPricesModelType = "tiered"
-	PlanNewParamsPricesModelTypeTieredBPS                       PlanNewParamsPricesModelType = "tiered_bps"
-	PlanNewParamsPricesModelTypeBPS                             PlanNewParamsPricesModelType = "bps"
-	PlanNewParamsPricesModelTypeBulkBPS                         PlanNewParamsPricesModelType = "bulk_bps"
-	PlanNewParamsPricesModelTypeBulk                            PlanNewParamsPricesModelType = "bulk"
-	PlanNewParamsPricesModelTypeThresholdTotalAmount            PlanNewParamsPricesModelType = "threshold_total_amount"
-	PlanNewParamsPricesModelTypeTieredPackage                   PlanNewParamsPricesModelType = "tiered_package"
-	PlanNewParamsPricesModelTypeTieredWithMinimum               PlanNewParamsPricesModelType = "tiered_with_minimum"
-	PlanNewParamsPricesModelTypeUnitWithPercent                 PlanNewParamsPricesModelType = "unit_with_percent"
-	PlanNewParamsPricesModelTypePackageWithAllocation           PlanNewParamsPricesModelType = "package_with_allocation"
-	PlanNewParamsPricesModelTypeTieredWithProration             PlanNewParamsPricesModelType = "tiered_with_proration"
-	PlanNewParamsPricesModelTypeUnitWithProration               PlanNewParamsPricesModelType = "unit_with_proration"
-	PlanNewParamsPricesModelTypeGroupedAllocation               PlanNewParamsPricesModelType = "grouped_allocation"
-	PlanNewParamsPricesModelTypeGroupedWithProratedMinimum      PlanNewParamsPricesModelType = "grouped_with_prorated_minimum"
-	PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum       PlanNewParamsPricesModelType = "grouped_with_metered_minimum"
-	PlanNewParamsPricesModelTypeMatrixWithDisplayName           PlanNewParamsPricesModelType = "matrix_with_display_name"
-	PlanNewParamsPricesModelTypeBulkWithProration               PlanNewParamsPricesModelType = "bulk_with_proration"
-	PlanNewParamsPricesModelTypeGroupedTieredPackage            PlanNewParamsPricesModelType = "grouped_tiered_package"
-	PlanNewParamsPricesModelTypeMaxGroupTieredPackage           PlanNewParamsPricesModelType = "max_group_tiered_package"
-	PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing   PlanNewParamsPricesModelType = "scalable_matrix_with_unit_pricing"
-	PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing PlanNewParamsPricesModelType = "scalable_matrix_with_tiered_pricing"
-	PlanNewParamsPricesModelTypeCumulativeGroupedBulk           PlanNewParamsPricesModelType = "cumulative_grouped_bulk"
-	PlanNewParamsPricesModelTypeTieredPackageWithMinimum        PlanNewParamsPricesModelType = "tiered_package_with_minimum"
-	PlanNewParamsPricesModelTypeMatrixWithAllocation            PlanNewParamsPricesModelType = "matrix_with_allocation"
-	PlanNewParamsPricesModelTypeGroupedTiered                   PlanNewParamsPricesModelType = "grouped_tiered"
+	PlanNewParamsPricesPriceModelTypeUnit                            PlanNewParamsPricesPriceModelType = "unit"
+	PlanNewParamsPricesPriceModelTypePackage                         PlanNewParamsPricesPriceModelType = "package"
+	PlanNewParamsPricesPriceModelTypeMatrix                          PlanNewParamsPricesPriceModelType = "matrix"
+	PlanNewParamsPricesPriceModelTypeTiered                          PlanNewParamsPricesPriceModelType = "tiered"
+	PlanNewParamsPricesPriceModelTypeTieredBPS                       PlanNewParamsPricesPriceModelType = "tiered_bps"
+	PlanNewParamsPricesPriceModelTypeBPS                             PlanNewParamsPricesPriceModelType = "bps"
+	PlanNewParamsPricesPriceModelTypeBulkBPS                         PlanNewParamsPricesPriceModelType = "bulk_bps"
+	PlanNewParamsPricesPriceModelTypeBulk                            PlanNewParamsPricesPriceModelType = "bulk"
+	PlanNewParamsPricesPriceModelTypeThresholdTotalAmount            PlanNewParamsPricesPriceModelType = "threshold_total_amount"
+	PlanNewParamsPricesPriceModelTypeTieredPackage                   PlanNewParamsPricesPriceModelType = "tiered_package"
+	PlanNewParamsPricesPriceModelTypeTieredWithMinimum               PlanNewParamsPricesPriceModelType = "tiered_with_minimum"
+	PlanNewParamsPricesPriceModelTypeUnitWithPercent                 PlanNewParamsPricesPriceModelType = "unit_with_percent"
+	PlanNewParamsPricesPriceModelTypePackageWithAllocation           PlanNewParamsPricesPriceModelType = "package_with_allocation"
+	PlanNewParamsPricesPriceModelTypeTieredWithProration             PlanNewParamsPricesPriceModelType = "tiered_with_proration"
+	PlanNewParamsPricesPriceModelTypeUnitWithProration               PlanNewParamsPricesPriceModelType = "unit_with_proration"
+	PlanNewParamsPricesPriceModelTypeGroupedAllocation               PlanNewParamsPricesPriceModelType = "grouped_allocation"
+	PlanNewParamsPricesPriceModelTypeGroupedWithProratedMinimum      PlanNewParamsPricesPriceModelType = "grouped_with_prorated_minimum"
+	PlanNewParamsPricesPriceModelTypeGroupedWithMeteredMinimum       PlanNewParamsPricesPriceModelType = "grouped_with_metered_minimum"
+	PlanNewParamsPricesPriceModelTypeMatrixWithDisplayName           PlanNewParamsPricesPriceModelType = "matrix_with_display_name"
+	PlanNewParamsPricesPriceModelTypeBulkWithProration               PlanNewParamsPricesPriceModelType = "bulk_with_proration"
+	PlanNewParamsPricesPriceModelTypeGroupedTieredPackage            PlanNewParamsPricesPriceModelType = "grouped_tiered_package"
+	PlanNewParamsPricesPriceModelTypeMaxGroupTieredPackage           PlanNewParamsPricesPriceModelType = "max_group_tiered_package"
+	PlanNewParamsPricesPriceModelTypeScalableMatrixWithUnitPricing   PlanNewParamsPricesPriceModelType = "scalable_matrix_with_unit_pricing"
+	PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing PlanNewParamsPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
+	PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk           PlanNewParamsPricesPriceModelType = "cumulative_grouped_bulk"
+	PlanNewParamsPricesPriceModelTypeTieredPackageWithMinimum        PlanNewParamsPricesPriceModelType = "tiered_package_with_minimum"
+	PlanNewParamsPricesPriceModelTypeMatrixWithAllocation            PlanNewParamsPricesPriceModelType = "matrix_with_allocation"
+	PlanNewParamsPricesPriceModelTypeGroupedTiered                   PlanNewParamsPricesPriceModelType = "grouped_tiered"
 )
 
-func (r PlanNewParamsPricesModelType) IsKnown() bool {
+func (r PlanNewParamsPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesModelTypeUnit, PlanNewParamsPricesModelTypePackage, PlanNewParamsPricesModelTypeMatrix, PlanNewParamsPricesModelTypeTiered, PlanNewParamsPricesModelTypeTieredBPS, PlanNewParamsPricesModelTypeBPS, PlanNewParamsPricesModelTypeBulkBPS, PlanNewParamsPricesModelTypeBulk, PlanNewParamsPricesModelTypeThresholdTotalAmount, PlanNewParamsPricesModelTypeTieredPackage, PlanNewParamsPricesModelTypeTieredWithMinimum, PlanNewParamsPricesModelTypeUnitWithPercent, PlanNewParamsPricesModelTypePackageWithAllocation, PlanNewParamsPricesModelTypeTieredWithProration, PlanNewParamsPricesModelTypeUnitWithProration, PlanNewParamsPricesModelTypeGroupedAllocation, PlanNewParamsPricesModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesModelTypeMatrixWithDisplayName, PlanNewParamsPricesModelTypeBulkWithProration, PlanNewParamsPricesModelTypeGroupedTieredPackage, PlanNewParamsPricesModelTypeMaxGroupTieredPackage, PlanNewParamsPricesModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesModelTypeCumulativeGroupedBulk, PlanNewParamsPricesModelTypeTieredPackageWithMinimum, PlanNewParamsPricesModelTypeMatrixWithAllocation, PlanNewParamsPricesModelTypeGroupedTiered:
+	case PlanNewParamsPricesPriceModelTypeUnit, PlanNewParamsPricesPriceModelTypePackage, PlanNewParamsPricesPriceModelTypeMatrix, PlanNewParamsPricesPriceModelTypeTiered, PlanNewParamsPricesPriceModelTypeTieredBPS, PlanNewParamsPricesPriceModelTypeBPS, PlanNewParamsPricesPriceModelTypeBulkBPS, PlanNewParamsPricesPriceModelTypeBulk, PlanNewParamsPricesPriceModelTypeThresholdTotalAmount, PlanNewParamsPricesPriceModelTypeTieredPackage, PlanNewParamsPricesPriceModelTypeTieredWithMinimum, PlanNewParamsPricesPriceModelTypeUnitWithPercent, PlanNewParamsPricesPriceModelTypePackageWithAllocation, PlanNewParamsPricesPriceModelTypeTieredWithProration, PlanNewParamsPricesPriceModelTypeUnitWithProration, PlanNewParamsPricesPriceModelTypeGroupedAllocation, PlanNewParamsPricesPriceModelTypeGroupedWithProratedMinimum, PlanNewParamsPricesPriceModelTypeGroupedWithMeteredMinimum, PlanNewParamsPricesPriceModelTypeMatrixWithDisplayName, PlanNewParamsPricesPriceModelTypeBulkWithProration, PlanNewParamsPricesPriceModelTypeGroupedTieredPackage, PlanNewParamsPricesPriceModelTypeMaxGroupTieredPackage, PlanNewParamsPricesPriceModelTypeScalableMatrixWithUnitPricing, PlanNewParamsPricesPriceModelTypeScalableMatrixWithTieredPricing, PlanNewParamsPricesPriceModelTypeCumulativeGroupedBulk, PlanNewParamsPricesPriceModelTypeTieredPackageWithMinimum, PlanNewParamsPricesPriceModelTypeMatrixWithAllocation, PlanNewParamsPricesPriceModelTypeGroupedTiered:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsAdjustment struct {
+	// The definition of a new adjustment to create and add to the plan.
+	Adjustment param.Field[PlanNewParamsAdjustmentsAdjustmentUnion] `json:"adjustment,required"`
+	// The phase to add this adjustment to.
+	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
+}
+
+func (r PlanNewParamsAdjustment) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The definition of a new adjustment to create and add to the plan.
+type PlanNewParamsAdjustmentsAdjustment struct {
+	AdjustmentType param.Field[PlanNewParamsAdjustmentsAdjustmentAdjustmentType] `json:"adjustment_type,required"`
+	AmountDiscount param.Field[string]                                           `json:"amount_discount"`
+	// If set, the adjustment will apply to every price on the subscription.
+	AppliesToAll      param.Field[PlanNewParamsAdjustmentsAdjustmentAppliesToAll] `json:"applies_to_all"`
+	AppliesToItemIDs  param.Field[interface{}]                                    `json:"applies_to_item_ids"`
+	AppliesToPriceIDs param.Field[interface{}]                                    `json:"applies_to_price_ids"`
+	// If set, only prices in the specified currency will have the adjustment applied.
+	Currency param.Field[string]      `json:"currency"`
+	Filters  param.Field[interface{}] `json:"filters"`
+	// When false, this adjustment will be applied to a single price. Otherwise, it
+	// will be applied at the invoice level, possibly to multiple prices.
+	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID             param.Field[string]  `json:"item_id"`
+	MaximumAmount      param.Field[string]  `json:"maximum_amount"`
+	MinimumAmount      param.Field[string]  `json:"minimum_amount"`
+	PercentageDiscount param.Field[float64] `json:"percentage_discount"`
+	// If set, only prices of the specified type will have the adjustment applied.
+	PriceType     param.Field[PlanNewParamsAdjustmentsAdjustmentPriceType] `json:"price_type"`
+	UsageDiscount param.Field[float64]                                     `json:"usage_discount"`
+}
+
+func (r PlanNewParamsAdjustmentsAdjustment) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PlanNewParamsAdjustmentsAdjustment) ImplementsPlanNewParamsAdjustmentsAdjustmentUnion() {}
+
+// The definition of a new adjustment to create and add to the plan.
+//
+// Satisfied by [shared.NewPercentageDiscountParam],
+// [shared.NewUsageDiscountParam], [shared.NewAmountDiscountParam],
+// [shared.NewMinimumParam], [shared.NewMaximumParam],
+// [PlanNewParamsAdjustmentsAdjustment].
+type PlanNewParamsAdjustmentsAdjustmentUnion interface {
+	ImplementsPlanNewParamsAdjustmentsAdjustmentUnion()
+}
+
+type PlanNewParamsAdjustmentsAdjustmentAdjustmentType string
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypePercentageDiscount PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "percentage_discount"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeUsageDiscount      PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "usage_discount"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeAmountDiscount     PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "amount_discount"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMinimum            PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "minimum"
+	PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMaximum            PlanNewParamsAdjustmentsAdjustmentAdjustmentType = "maximum"
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentAdjustmentType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentAdjustmentTypePercentageDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeUsageDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeAmountDiscount, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMinimum, PlanNewParamsAdjustmentsAdjustmentAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+// If set, the adjustment will apply to every price on the subscription.
+type PlanNewParamsAdjustmentsAdjustmentAppliesToAll bool
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentAppliesToAllTrue PlanNewParamsAdjustmentsAdjustmentAppliesToAll = true
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentAppliesToAll) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+// If set, only prices of the specified type will have the adjustment applied.
+type PlanNewParamsAdjustmentsAdjustmentPriceType string
+
+const (
+	PlanNewParamsAdjustmentsAdjustmentPriceTypeUsage          PlanNewParamsAdjustmentsAdjustmentPriceType = "usage"
+	PlanNewParamsAdjustmentsAdjustmentPriceTypeFixedInAdvance PlanNewParamsAdjustmentsAdjustmentPriceType = "fixed_in_advance"
+	PlanNewParamsAdjustmentsAdjustmentPriceTypeFixedInArrears PlanNewParamsAdjustmentsAdjustmentPriceType = "fixed_in_arrears"
+	PlanNewParamsAdjustmentsAdjustmentPriceTypeFixed          PlanNewParamsAdjustmentsAdjustmentPriceType = "fixed"
+	PlanNewParamsAdjustmentsAdjustmentPriceTypeInArrears      PlanNewParamsAdjustmentsAdjustmentPriceType = "in_arrears"
+)
+
+func (r PlanNewParamsAdjustmentsAdjustmentPriceType) IsKnown() bool {
+	switch r {
+	case PlanNewParamsAdjustmentsAdjustmentPriceTypeUsage, PlanNewParamsAdjustmentsAdjustmentPriceTypeFixedInAdvance, PlanNewParamsAdjustmentsAdjustmentPriceTypeFixedInArrears, PlanNewParamsAdjustmentsAdjustmentPriceTypeFixed, PlanNewParamsAdjustmentsAdjustmentPriceTypeInArrears:
+		return true
+	}
+	return false
+}
+
+type PlanNewParamsPlanPhase struct {
+	// Determines the ordering of the phase in a plan's lifecycle. 1 = first phase.
+	Order param.Field[int64] `json:"order,required"`
+	// Align billing cycle day with phase start date.
+	AlignBillingWithPhaseStartDate param.Field[bool] `json:"align_billing_with_phase_start_date"`
+	// How many terms of length `duration_unit` this phase is active for. If null, this
+	// phase is evergreen and active indefinitely
+	Duration     param.Field[int64]                               `json:"duration"`
+	DurationUnit param.Field[PlanNewParamsPlanPhasesDurationUnit] `json:"duration_unit"`
+}
+
+func (r PlanNewParamsPlanPhase) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PlanNewParamsPlanPhasesDurationUnit string
+
+const (
+	PlanNewParamsPlanPhasesDurationUnitDaily      PlanNewParamsPlanPhasesDurationUnit = "daily"
+	PlanNewParamsPlanPhasesDurationUnitMonthly    PlanNewParamsPlanPhasesDurationUnit = "monthly"
+	PlanNewParamsPlanPhasesDurationUnitQuarterly  PlanNewParamsPlanPhasesDurationUnit = "quarterly"
+	PlanNewParamsPlanPhasesDurationUnitSemiAnnual PlanNewParamsPlanPhasesDurationUnit = "semi_annual"
+	PlanNewParamsPlanPhasesDurationUnitAnnual     PlanNewParamsPlanPhasesDurationUnit = "annual"
+)
+
+func (r PlanNewParamsPlanPhasesDurationUnit) IsKnown() bool {
+	switch r {
+	case PlanNewParamsPlanPhasesDurationUnitDaily, PlanNewParamsPlanPhasesDurationUnitMonthly, PlanNewParamsPlanPhasesDurationUnitQuarterly, PlanNewParamsPlanPhasesDurationUnitSemiAnnual, PlanNewParamsPlanPhasesDurationUnitAnnual:
 		return true
 	}
 	return false
