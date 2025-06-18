@@ -2171,8 +2171,6 @@ func (r CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestPa
 
 type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
-	// An ISO 8601 format date that identifies the origination credit block to expire
-	ExpiryDate param.Field[time.Time] `json:"expiry_date,required" format:"date-time"`
 	// A future date (specified in YYYY-MM-DD format) used for expiration change,
 	// denoting when credits transferred (as part of a partial block expiration) should
 	// expire.
@@ -2190,6 +2188,8 @@ type CustomerCreditLedgerNewEntryParamsAddExpirationChangeCreditLedgerEntryReque
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
+	// An ISO 8601 format date that identifies the origination credit block to expire
+	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date-time"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
@@ -2447,8 +2447,6 @@ func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEn
 
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParams struct {
 	EntryType param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedgerEntryRequestParamsEntryType] `json:"entry_type,required"`
-	// An ISO 8601 format date that identifies the origination credit block to expire
-	ExpiryDate param.Field[time.Time] `json:"expiry_date,required" format:"date-time"`
 	// A future date (specified in YYYY-MM-DD format) used for expiration change,
 	// denoting when credits transferred (as part of a partial block expiration) should
 	// expire.
@@ -2466,6 +2464,8 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddExpirationChangeCreditLedg
 	// For example, this can be used to note an increment refers to trial credits, or
 	// for noting corrections as a result of an incident, etc.
 	Description param.Field[string] `json:"description"`
+	// An ISO 8601 format date that identifies the origination credit block to expire
+	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date-time"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
