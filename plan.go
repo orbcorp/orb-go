@@ -239,6 +239,9 @@ type PlanAdjustment struct {
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -262,21 +265,22 @@ type PlanAdjustment struct {
 
 // planAdjustmentJSON contains the JSON metadata for the struct [PlanAdjustment]
 type planAdjustmentJSON struct {
-	ID                 apijson.Field
-	AdjustmentType     apijson.Field
-	AppliesToPriceIDs  apijson.Field
-	Filters            apijson.Field
-	IsInvoiceLevel     apijson.Field
-	PlanPhaseOrder     apijson.Field
-	Reason             apijson.Field
-	AmountDiscount     apijson.Field
-	ItemID             apijson.Field
-	MaximumAmount      apijson.Field
-	MinimumAmount      apijson.Field
-	PercentageDiscount apijson.Field
-	UsageDiscount      apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	AmountDiscount       apijson.Field
+	ItemID               apijson.Field
+	MaximumAmount        apijson.Field
+	MinimumAmount        apijson.Field
+	PercentageDiscount   apijson.Field
+	UsageDiscount        apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r planAdjustmentJSON) RawJSON() string {
