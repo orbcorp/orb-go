@@ -87,6 +87,9 @@ type AdjustmentIntervalAdjustment struct {
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -111,21 +114,22 @@ type AdjustmentIntervalAdjustment struct {
 // adjustmentIntervalAdjustmentJSON contains the JSON metadata for the struct
 // [AdjustmentIntervalAdjustment]
 type adjustmentIntervalAdjustmentJSON struct {
-	ID                 apijson.Field
-	AdjustmentType     apijson.Field
-	AppliesToPriceIDs  apijson.Field
-	Filters            apijson.Field
-	IsInvoiceLevel     apijson.Field
-	PlanPhaseOrder     apijson.Field
-	Reason             apijson.Field
-	AmountDiscount     apijson.Field
-	ItemID             apijson.Field
-	MaximumAmount      apijson.Field
-	MinimumAmount      apijson.Field
-	PercentageDiscount apijson.Field
-	UsageDiscount      apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	AmountDiscount       apijson.Field
+	ItemID               apijson.Field
+	MaximumAmount        apijson.Field
+	MinimumAmount        apijson.Field
+	PercentageDiscount   apijson.Field
+	UsageDiscount        apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r adjustmentIntervalAdjustmentJSON) RawJSON() string {
@@ -2516,6 +2520,9 @@ type InvoiceLineItemsAdjustment struct {
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
 	// The amount by which to discount the prices this adjustment applies to in a given
 	// billing period.
 	AmountDiscount string `json:"amount_discount"`
@@ -2540,21 +2547,22 @@ type InvoiceLineItemsAdjustment struct {
 // invoiceLineItemsAdjustmentJSON contains the JSON metadata for the struct
 // [InvoiceLineItemsAdjustment]
 type invoiceLineItemsAdjustmentJSON struct {
-	ID                 apijson.Field
-	AdjustmentType     apijson.Field
-	Amount             apijson.Field
-	AppliesToPriceIDs  apijson.Field
-	Filters            apijson.Field
-	IsInvoiceLevel     apijson.Field
-	Reason             apijson.Field
-	AmountDiscount     apijson.Field
-	ItemID             apijson.Field
-	MaximumAmount      apijson.Field
-	MinimumAmount      apijson.Field
-	PercentageDiscount apijson.Field
-	UsageDiscount      apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	AmountDiscount       apijson.Field
+	ItemID               apijson.Field
+	MaximumAmount        apijson.Field
+	MinimumAmount        apijson.Field
+	PercentageDiscount   apijson.Field
+	UsageDiscount        apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r invoiceLineItemsAdjustmentJSON) RawJSON() string {
@@ -3265,23 +3273,27 @@ type MonetaryAmountDiscountAdjustment struct {
 	// that apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
-	Reason string                               `json:"reason,required,nullable"`
-	JSON   monetaryAmountDiscountAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                               `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 monetaryAmountDiscountAdjustmentJSON `json:"-"`
 }
 
 // monetaryAmountDiscountAdjustmentJSON contains the JSON metadata for the struct
 // [MonetaryAmountDiscountAdjustment]
 type monetaryAmountDiscountAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	Amount            apijson.Field
-	AmountDiscount    apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	Reason            apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AmountDiscount       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *MonetaryAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -3331,23 +3343,27 @@ type MonetaryMaximumAdjustment struct {
 	// adjustment applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
 	// The reason for the adjustment.
-	Reason string                        `json:"reason,required,nullable"`
-	JSON   monetaryMaximumAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                        `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 monetaryMaximumAdjustmentJSON `json:"-"`
 }
 
 // monetaryMaximumAdjustmentJSON contains the JSON metadata for the struct
 // [MonetaryMaximumAdjustment]
 type monetaryMaximumAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	Amount            apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	MaximumAmount     apijson.Field
-	Reason            apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	MaximumAmount        apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *MonetaryMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -3398,24 +3414,28 @@ type MonetaryMinimumAdjustment struct {
 	// adjustment applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
 	// The reason for the adjustment.
-	Reason string                        `json:"reason,required,nullable"`
-	JSON   monetaryMinimumAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                        `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 monetaryMinimumAdjustmentJSON `json:"-"`
 }
 
 // monetaryMinimumAdjustmentJSON contains the JSON metadata for the struct
 // [MonetaryMinimumAdjustment]
 type monetaryMinimumAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	Amount            apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	ItemID            apijson.Field
-	MinimumAmount     apijson.Field
-	Reason            apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	ItemID               apijson.Field
+	MinimumAmount        apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *MonetaryMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -3464,23 +3484,27 @@ type MonetaryPercentageDiscountAdjustment struct {
 	// intervals this adjustment applies to in a given billing period.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
 	// The reason for the adjustment.
-	Reason string                                   `json:"reason,required,nullable"`
-	JSON   monetaryPercentageDiscountAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                                   `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 monetaryPercentageDiscountAdjustmentJSON `json:"-"`
 }
 
 // monetaryPercentageDiscountAdjustmentJSON contains the JSON metadata for the
 // struct [MonetaryPercentageDiscountAdjustment]
 type monetaryPercentageDiscountAdjustmentJSON struct {
-	ID                 apijson.Field
-	AdjustmentType     apijson.Field
-	Amount             apijson.Field
-	AppliesToPriceIDs  apijson.Field
-	Filters            apijson.Field
-	IsInvoiceLevel     apijson.Field
-	PercentageDiscount apijson.Field
-	Reason             apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PercentageDiscount   apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *MonetaryPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -3528,6 +3552,9 @@ type MonetaryUsageDiscountAdjustment struct {
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64                             `json:"usage_discount,required"`
@@ -3537,16 +3564,17 @@ type MonetaryUsageDiscountAdjustment struct {
 // monetaryUsageDiscountAdjustmentJSON contains the JSON metadata for the struct
 // [MonetaryUsageDiscountAdjustment]
 type monetaryUsageDiscountAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	Amount            apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	Reason            apijson.Field
-	UsageDiscount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	UsageDiscount        apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *MonetaryUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -11765,23 +11793,27 @@ type PlanPhaseAmountDiscountAdjustment struct {
 	// The plan phase in which this adjustment is active.
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
-	Reason string                                `json:"reason,required,nullable"`
-	JSON   planPhaseAmountDiscountAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                                `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 planPhaseAmountDiscountAdjustmentJSON `json:"-"`
 }
 
 // planPhaseAmountDiscountAdjustmentJSON contains the JSON metadata for the struct
 // [PlanPhaseAmountDiscountAdjustment]
 type planPhaseAmountDiscountAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	AmountDiscount    apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	PlanPhaseOrder    apijson.Field
-	Reason            apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AmountDiscount       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *PlanPhaseAmountDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -11830,23 +11862,27 @@ type PlanPhaseMaximumAdjustment struct {
 	// The plan phase in which this adjustment is active.
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
-	Reason string                         `json:"reason,required,nullable"`
-	JSON   planPhaseMaximumAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                         `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 planPhaseMaximumAdjustmentJSON `json:"-"`
 }
 
 // planPhaseMaximumAdjustmentJSON contains the JSON metadata for the struct
 // [PlanPhaseMaximumAdjustment]
 type planPhaseMaximumAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	MaximumAmount     apijson.Field
-	PlanPhaseOrder    apijson.Field
-	Reason            apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	MaximumAmount        apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *PlanPhaseMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -11897,24 +11933,28 @@ type PlanPhaseMinimumAdjustment struct {
 	// The plan phase in which this adjustment is active.
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
-	Reason string                         `json:"reason,required,nullable"`
-	JSON   planPhaseMinimumAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                         `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 planPhaseMinimumAdjustmentJSON `json:"-"`
 }
 
 // planPhaseMinimumAdjustmentJSON contains the JSON metadata for the struct
 // [PlanPhaseMinimumAdjustment]
 type planPhaseMinimumAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	ItemID            apijson.Field
-	MinimumAmount     apijson.Field
-	PlanPhaseOrder    apijson.Field
-	Reason            apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	ItemID               apijson.Field
+	MinimumAmount        apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *PlanPhaseMinimumAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -11963,23 +12003,27 @@ type PlanPhasePercentageDiscountAdjustment struct {
 	// The plan phase in which this adjustment is active.
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
-	Reason string                                    `json:"reason,required,nullable"`
-	JSON   planPhasePercentageDiscountAdjustmentJSON `json:"-"`
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string                                    `json:"replaces_adjustment_id,required,nullable"`
+	JSON                 planPhasePercentageDiscountAdjustmentJSON `json:"-"`
 }
 
 // planPhasePercentageDiscountAdjustmentJSON contains the JSON metadata for the
 // struct [PlanPhasePercentageDiscountAdjustment]
 type planPhasePercentageDiscountAdjustmentJSON struct {
-	ID                 apijson.Field
-	AdjustmentType     apijson.Field
-	AppliesToPriceIDs  apijson.Field
-	Filters            apijson.Field
-	IsInvoiceLevel     apijson.Field
-	PercentageDiscount apijson.Field
-	PlanPhaseOrder     apijson.Field
-	Reason             apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PercentageDiscount   apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *PlanPhasePercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -12026,6 +12070,9 @@ type PlanPhaseUsageDiscountAdjustment struct {
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
 	// The number of usage units by which to discount the price this adjustment applies
 	// to in a given billing period.
 	UsageDiscount float64                              `json:"usage_discount,required"`
@@ -12035,16 +12082,17 @@ type PlanPhaseUsageDiscountAdjustment struct {
 // planPhaseUsageDiscountAdjustmentJSON contains the JSON metadata for the struct
 // [PlanPhaseUsageDiscountAdjustment]
 type planPhaseUsageDiscountAdjustmentJSON struct {
-	ID                apijson.Field
-	AdjustmentType    apijson.Field
-	AppliesToPriceIDs apijson.Field
-	Filters           apijson.Field
-	IsInvoiceLevel    apijson.Field
-	PlanPhaseOrder    apijson.Field
-	Reason            apijson.Field
-	UsageDiscount     apijson.Field
-	raw               string
-	ExtraFields       map[string]apijson.Field
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	PlanPhaseOrder       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	UsageDiscount        apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
 }
 
 func (r *PlanPhaseUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error) {
@@ -12140,9 +12188,12 @@ type Price struct {
 	Name           string         `json:"name,required"`
 	PlanPhaseOrder int64          `json:"plan_phase_order,required,nullable"`
 	PriceType      PricePriceType `json:"price_type,required"`
-	BPSConfig      BPSConfig      `json:"bps_config"`
-	BulkBPSConfig  BulkBPSConfig  `json:"bulk_bps_config"`
-	BulkConfig     BulkConfig     `json:"bulk_config"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID string        `json:"replaces_price_id,required,nullable"`
+	BPSConfig       BPSConfig     `json:"bps_config"`
+	BulkBPSConfig   BulkBPSConfig `json:"bulk_bps_config"`
+	BulkConfig      BulkConfig    `json:"bulk_config"`
 	// This field can have the runtime type of [map[string]interface{}].
 	BulkWithProrationConfig interface{} `json:"bulk_with_proration_config"`
 	// This field can have the runtime type of [map[string]interface{}].
@@ -12217,6 +12268,7 @@ type priceJSON struct {
 	Name                                  apijson.Field
 	PlanPhaseOrder                        apijson.Field
 	PriceType                             apijson.Field
+	ReplacesPriceID                       apijson.Field
 	BPSConfig                             apijson.Field
 	BulkBPSConfig                         apijson.Field
 	BulkConfig                            apijson.Field
@@ -12486,11 +12538,14 @@ type PriceUnitPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceUnitPriceModelType       `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceUnitPricePriceType       `json:"price_type,required"`
+	MinimumAmount  string                  `json:"minimum_amount,required,nullable"`
+	ModelType      PriceUnitPriceModelType `json:"model_type,required"`
+	Name           string                  `json:"name,required"`
+	PlanPhaseOrder int64                   `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceUnitPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	UnitConfig                    UnitConfig                    `json:"unit_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          priceUnitPriceJSON            `json:"-"`
@@ -12521,6 +12576,7 @@ type priceUnitPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	UnitConfig                    apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -12690,12 +12746,15 @@ type PricePackagePrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PricePackagePriceModelType    `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PackageConfig                 PackageConfig                 `json:"package_config,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PricePackagePricePriceType    `json:"price_type,required"`
+	MinimumAmount  string                     `json:"minimum_amount,required,nullable"`
+	ModelType      PricePackagePriceModelType `json:"model_type,required"`
+	Name           string                     `json:"name,required"`
+	PackageConfig  PackageConfig              `json:"package_config,required"`
+	PlanPhaseOrder int64                      `json:"plan_phase_order,required,nullable"`
+	PriceType      PricePackagePricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          pricePackagePriceJSON         `json:"-"`
 }
@@ -12727,6 +12786,7 @@ type pricePackagePriceJSON struct {
 	PackageConfig                 apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -12896,11 +12956,14 @@ type PriceMatrixPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceMatrixPriceModelType     `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceMatrixPricePriceType     `json:"price_type,required"`
+	MinimumAmount  string                    `json:"minimum_amount,required,nullable"`
+	ModelType      PriceMatrixPriceModelType `json:"model_type,required"`
+	Name           string                    `json:"name,required"`
+	PlanPhaseOrder int64                     `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceMatrixPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          priceMatrixPriceJSON          `json:"-"`
 }
@@ -12932,6 +12995,7 @@ type priceMatrixPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -13100,11 +13164,14 @@ type PriceTieredPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceTieredPriceModelType     `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceTieredPricePriceType     `json:"price_type,required"`
+	MinimumAmount  string                    `json:"minimum_amount,required,nullable"`
+	ModelType      PriceTieredPriceModelType `json:"model_type,required"`
+	Name           string                    `json:"name,required"`
+	PlanPhaseOrder int64                     `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceTieredPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	TieredConfig                  TieredConfig                  `json:"tiered_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          priceTieredPriceJSON          `json:"-"`
@@ -13136,6 +13203,7 @@ type priceTieredPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	TieredConfig                  apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -13305,11 +13373,14 @@ type PriceTieredBPSPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceTieredBPSPriceModelType  `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceTieredBPSPricePriceType  `json:"price_type,required"`
+	MinimumAmount  string                       `json:"minimum_amount,required,nullable"`
+	ModelType      PriceTieredBPSPriceModelType `json:"model_type,required"`
+	Name           string                       `json:"name,required"`
+	PlanPhaseOrder int64                        `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceTieredBPSPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	TieredBPSConfig               TieredBPSConfig               `json:"tiered_bps_config,required"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          priceTieredBPSPriceJSON       `json:"-"`
@@ -13341,6 +13412,7 @@ type priceTieredBPSPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	TieredBPSConfig               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -13511,11 +13583,14 @@ type PriceBPSPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceBPSPriceModelType        `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceBPSPricePriceType        `json:"price_type,required"`
+	MinimumAmount  string                 `json:"minimum_amount,required,nullable"`
+	ModelType      PriceBPSPriceModelType `json:"model_type,required"`
+	Name           string                 `json:"name,required"`
+	PlanPhaseOrder int64                  `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceBPSPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          priceBPSPriceJSON             `json:"-"`
 }
@@ -13546,6 +13621,7 @@ type priceBPSPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -13715,11 +13791,14 @@ type PriceBulkBPSPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceBulkBPSPriceModelType    `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceBulkBPSPricePriceType    `json:"price_type,required"`
+	MinimumAmount  string                     `json:"minimum_amount,required,nullable"`
+	ModelType      PriceBulkBPSPriceModelType `json:"model_type,required"`
+	Name           string                     `json:"name,required"`
+	PlanPhaseOrder int64                      `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceBulkBPSPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          priceBulkBPSPriceJSON         `json:"-"`
 }
@@ -13751,6 +13830,7 @@ type priceBulkBPSPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -13920,11 +14000,14 @@ type PriceBulkPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceBulkPriceModelType       `json:"model_type,required"`
-	Name                          string                        `json:"name,required"`
-	PlanPhaseOrder                int64                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceBulkPricePriceType       `json:"price_type,required"`
+	MinimumAmount  string                  `json:"minimum_amount,required,nullable"`
+	ModelType      PriceBulkPriceModelType `json:"model_type,required"`
+	Name           string                  `json:"name,required"`
+	PlanPhaseOrder int64                   `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceBulkPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
 	JSON                          priceBulkPriceJSON            `json:"-"`
 }
@@ -13955,6 +14038,7 @@ type priceBulkPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -14123,14 +14207,17 @@ type PriceThresholdTotalAmountPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                  `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceThresholdTotalAmountPriceModelType `json:"model_type,required"`
-	Name                          string                                  `json:"name,required"`
-	PlanPhaseOrder                int64                                   `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceThresholdTotalAmountPricePriceType `json:"price_type,required"`
-	ThresholdTotalAmountConfig    map[string]interface{}                  `json:"threshold_total_amount_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration           `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceThresholdTotalAmountPriceJSON      `json:"-"`
+	MinimumAmount  string                                  `json:"minimum_amount,required,nullable"`
+	ModelType      PriceThresholdTotalAmountPriceModelType `json:"model_type,required"`
+	Name           string                                  `json:"name,required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceThresholdTotalAmountPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                             `json:"replaces_price_id,required,nullable"`
+	ThresholdTotalAmountConfig    map[string]interface{}             `json:"threshold_total_amount_config,required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration      `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceThresholdTotalAmountPriceJSON `json:"-"`
 }
 
 // priceThresholdTotalAmountPriceJSON contains the JSON metadata for the struct
@@ -14159,6 +14246,7 @@ type priceThresholdTotalAmountPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	ThresholdTotalAmountConfig    apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -14328,14 +14416,17 @@ type PriceTieredPackagePrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                           `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceTieredPackagePriceModelType `json:"model_type,required"`
-	Name                          string                           `json:"name,required"`
-	PlanPhaseOrder                int64                            `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceTieredPackagePricePriceType `json:"price_type,required"`
-	TieredPackageConfig           map[string]interface{}           `json:"tiered_package_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration    `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredPackagePriceJSON      `json:"-"`
+	MinimumAmount  string                           `json:"minimum_amount,required,nullable"`
+	ModelType      PriceTieredPackagePriceModelType `json:"model_type,required"`
+	Name           string                           `json:"name,required"`
+	PlanPhaseOrder int64                            `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceTieredPackagePricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	TieredPackageConfig           map[string]interface{}        `json:"tiered_package_config,required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceTieredPackagePriceJSON   `json:"-"`
 }
 
 // priceTieredPackagePriceJSON contains the JSON metadata for the struct
@@ -14364,6 +14455,7 @@ type priceTieredPackagePriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	TieredPackageConfig           apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -14534,13 +14626,16 @@ type PriceGroupedTieredPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                           `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceGroupedTieredPriceModelType `json:"model_type,required"`
-	Name                          string                           `json:"name,required"`
-	PlanPhaseOrder                int64                            `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceGroupedTieredPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration    `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedTieredPriceJSON      `json:"-"`
+	MinimumAmount  string                           `json:"minimum_amount,required,nullable"`
+	ModelType      PriceGroupedTieredPriceModelType `json:"model_type,required"`
+	Name           string                           `json:"name,required"`
+	PlanPhaseOrder int64                            `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceGroupedTieredPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceGroupedTieredPriceJSON   `json:"-"`
 }
 
 // priceGroupedTieredPriceJSON contains the JSON metadata for the struct
@@ -14570,6 +14665,7 @@ type priceGroupedTieredPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -14738,14 +14834,17 @@ type PriceTieredWithMinimumPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                               `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceTieredWithMinimumPriceModelType `json:"model_type,required"`
-	Name                          string                               `json:"name,required"`
-	PlanPhaseOrder                int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceTieredWithMinimumPricePriceType `json:"price_type,required"`
-	TieredWithMinimumConfig       map[string]interface{}               `json:"tiered_with_minimum_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration        `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredWithMinimumPriceJSON      `json:"-"`
+	MinimumAmount  string                               `json:"minimum_amount,required,nullable"`
+	ModelType      PriceTieredWithMinimumPriceModelType `json:"model_type,required"`
+	Name           string                               `json:"name,required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceTieredWithMinimumPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                          `json:"replaces_price_id,required,nullable"`
+	TieredWithMinimumConfig       map[string]interface{}          `json:"tiered_with_minimum_config,required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration   `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceTieredWithMinimumPriceJSON `json:"-"`
 }
 
 // priceTieredWithMinimumPriceJSON contains the JSON metadata for the struct
@@ -14774,6 +14873,7 @@ type priceTieredWithMinimumPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	TieredWithMinimumConfig       apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -14943,14 +15043,17 @@ type PriceTieredPackageWithMinimumPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                  string                                      `json:"minimum_amount,required,nullable"`
-	ModelType                      PriceTieredPackageWithMinimumPriceModelType `json:"model_type,required"`
-	Name                           string                                      `json:"name,required"`
-	PlanPhaseOrder                 int64                                       `json:"plan_phase_order,required,nullable"`
-	PriceType                      PriceTieredPackageWithMinimumPricePriceType `json:"price_type,required"`
-	TieredPackageWithMinimumConfig map[string]interface{}                      `json:"tiered_package_with_minimum_config,required"`
-	DimensionalPriceConfiguration  DimensionalPriceConfiguration               `json:"dimensional_price_configuration,nullable"`
-	JSON                           priceTieredPackageWithMinimumPriceJSON      `json:"-"`
+	MinimumAmount  string                                      `json:"minimum_amount,required,nullable"`
+	ModelType      PriceTieredPackageWithMinimumPriceModelType `json:"model_type,required"`
+	Name           string                                      `json:"name,required"`
+	PlanPhaseOrder int64                                       `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceTieredPackageWithMinimumPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID                string                                 `json:"replaces_price_id,required,nullable"`
+	TieredPackageWithMinimumConfig map[string]interface{}                 `json:"tiered_package_with_minimum_config,required"`
+	DimensionalPriceConfiguration  DimensionalPriceConfiguration          `json:"dimensional_price_configuration,nullable"`
+	JSON                           priceTieredPackageWithMinimumPriceJSON `json:"-"`
 }
 
 // priceTieredPackageWithMinimumPriceJSON contains the JSON metadata for the struct
@@ -14979,6 +15082,7 @@ type priceTieredPackageWithMinimumPriceJSON struct {
 	Name                           apijson.Field
 	PlanPhaseOrder                 apijson.Field
 	PriceType                      apijson.Field
+	ReplacesPriceID                apijson.Field
 	TieredPackageWithMinimumConfig apijson.Field
 	DimensionalPriceConfiguration  apijson.Field
 	raw                            string
@@ -15148,14 +15252,17 @@ type PricePackageWithAllocationPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                   `json:"minimum_amount,required,nullable"`
-	ModelType                     PricePackageWithAllocationPriceModelType `json:"model_type,required"`
-	Name                          string                                   `json:"name,required"`
-	PackageWithAllocationConfig   map[string]interface{}                   `json:"package_with_allocation_config,required"`
-	PlanPhaseOrder                int64                                    `json:"plan_phase_order,required,nullable"`
-	PriceType                     PricePackageWithAllocationPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration            `json:"dimensional_price_configuration,nullable"`
-	JSON                          pricePackageWithAllocationPriceJSON      `json:"-"`
+	MinimumAmount               string                                   `json:"minimum_amount,required,nullable"`
+	ModelType                   PricePackageWithAllocationPriceModelType `json:"model_type,required"`
+	Name                        string                                   `json:"name,required"`
+	PackageWithAllocationConfig map[string]interface{}                   `json:"package_with_allocation_config,required"`
+	PlanPhaseOrder              int64                                    `json:"plan_phase_order,required,nullable"`
+	PriceType                   PricePackageWithAllocationPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
+	JSON                          pricePackageWithAllocationPriceJSON `json:"-"`
 }
 
 // pricePackageWithAllocationPriceJSON contains the JSON metadata for the struct
@@ -15185,6 +15292,7 @@ type pricePackageWithAllocationPriceJSON struct {
 	PackageWithAllocationConfig   apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -15353,14 +15461,17 @@ type PriceUnitWithPercentPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                             `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceUnitWithPercentPriceModelType `json:"model_type,required"`
-	Name                          string                             `json:"name,required"`
-	PlanPhaseOrder                int64                              `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceUnitWithPercentPricePriceType `json:"price_type,required"`
-	UnitWithPercentConfig         map[string]interface{}             `json:"unit_with_percent_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration      `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceUnitWithPercentPriceJSON      `json:"-"`
+	MinimumAmount  string                             `json:"minimum_amount,required,nullable"`
+	ModelType      PriceUnitWithPercentPriceModelType `json:"model_type,required"`
+	Name           string                             `json:"name,required"`
+	PlanPhaseOrder int64                              `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceUnitWithPercentPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	UnitWithPercentConfig         map[string]interface{}        `json:"unit_with_percent_config,required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceUnitWithPercentPriceJSON `json:"-"`
 }
 
 // priceUnitWithPercentPriceJSON contains the JSON metadata for the struct
@@ -15389,6 +15500,7 @@ type priceUnitWithPercentPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	UnitWithPercentConfig         apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -15559,13 +15671,16 @@ type PriceMatrixWithAllocationPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                  `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceMatrixWithAllocationPriceModelType `json:"model_type,required"`
-	Name                          string                                  `json:"name,required"`
-	PlanPhaseOrder                int64                                   `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceMatrixWithAllocationPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration           `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMatrixWithAllocationPriceJSON      `json:"-"`
+	MinimumAmount  string                                  `json:"minimum_amount,required,nullable"`
+	ModelType      PriceMatrixWithAllocationPriceModelType `json:"model_type,required"`
+	Name           string                                  `json:"name,required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceMatrixWithAllocationPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                             `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration      `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceMatrixWithAllocationPriceJSON `json:"-"`
 }
 
 // priceMatrixWithAllocationPriceJSON contains the JSON metadata for the struct
@@ -15595,6 +15710,7 @@ type priceMatrixWithAllocationPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -15763,14 +15879,17 @@ type PriceTieredWithProrationPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                 `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceTieredWithProrationPriceModelType `json:"model_type,required"`
-	Name                          string                                 `json:"name,required"`
-	PlanPhaseOrder                int64                                  `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceTieredWithProrationPricePriceType `json:"price_type,required"`
-	TieredWithProrationConfig     map[string]interface{}                 `json:"tiered_with_proration_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration          `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredWithProrationPriceJSON      `json:"-"`
+	MinimumAmount  string                                 `json:"minimum_amount,required,nullable"`
+	ModelType      PriceTieredWithProrationPriceModelType `json:"model_type,required"`
+	Name           string                                 `json:"name,required"`
+	PlanPhaseOrder int64                                  `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceTieredWithProrationPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                            `json:"replaces_price_id,required,nullable"`
+	TieredWithProrationConfig     map[string]interface{}            `json:"tiered_with_proration_config,required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration     `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceTieredWithProrationPriceJSON `json:"-"`
 }
 
 // priceTieredWithProrationPriceJSON contains the JSON metadata for the struct
@@ -15799,6 +15918,7 @@ type priceTieredWithProrationPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	TieredWithProrationConfig     apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -15968,14 +16088,17 @@ type PriceUnitWithProrationPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                               `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceUnitWithProrationPriceModelType `json:"model_type,required"`
-	Name                          string                               `json:"name,required"`
-	PlanPhaseOrder                int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceUnitWithProrationPricePriceType `json:"price_type,required"`
-	UnitWithProrationConfig       map[string]interface{}               `json:"unit_with_proration_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration        `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceUnitWithProrationPriceJSON      `json:"-"`
+	MinimumAmount  string                               `json:"minimum_amount,required,nullable"`
+	ModelType      PriceUnitWithProrationPriceModelType `json:"model_type,required"`
+	Name           string                               `json:"name,required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceUnitWithProrationPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                          `json:"replaces_price_id,required,nullable"`
+	UnitWithProrationConfig       map[string]interface{}          `json:"unit_with_proration_config,required"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration   `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceUnitWithProrationPriceJSON `json:"-"`
 }
 
 // priceUnitWithProrationPriceJSON contains the JSON metadata for the struct
@@ -16004,6 +16127,7 @@ type priceUnitWithProrationPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	UnitWithProrationConfig       apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
@@ -16174,13 +16298,16 @@ type PriceGroupedAllocationPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                               `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceGroupedAllocationPriceModelType `json:"model_type,required"`
-	Name                          string                               `json:"name,required"`
-	PlanPhaseOrder                int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceGroupedAllocationPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration        `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedAllocationPriceJSON      `json:"-"`
+	MinimumAmount  string                               `json:"minimum_amount,required,nullable"`
+	ModelType      PriceGroupedAllocationPriceModelType `json:"model_type,required"`
+	Name           string                               `json:"name,required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceGroupedAllocationPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                          `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration   `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceGroupedAllocationPriceJSON `json:"-"`
 }
 
 // priceGroupedAllocationPriceJSON contains the JSON metadata for the struct
@@ -16210,6 +16337,7 @@ type priceGroupedAllocationPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -16379,13 +16507,16 @@ type PriceGroupedWithProratedMinimumPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                        `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceGroupedWithProratedMinimumPriceModelType `json:"model_type,required"`
-	Name                          string                                        `json:"name,required"`
-	PlanPhaseOrder                int64                                         `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceGroupedWithProratedMinimumPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration                 `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedWithProratedMinimumPriceJSON      `json:"-"`
+	MinimumAmount  string                                        `json:"minimum_amount,required,nullable"`
+	ModelType      PriceGroupedWithProratedMinimumPriceModelType `json:"model_type,required"`
+	Name           string                                        `json:"name,required"`
+	PlanPhaseOrder int64                                         `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceGroupedWithProratedMinimumPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                                   `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration            `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceGroupedWithProratedMinimumPriceJSON `json:"-"`
 }
 
 // priceGroupedWithProratedMinimumPriceJSON contains the JSON metadata for the
@@ -16415,6 +16546,7 @@ type priceGroupedWithProratedMinimumPriceJSON struct {
 	Name                             apijson.Field
 	PlanPhaseOrder                   apijson.Field
 	PriceType                        apijson.Field
+	ReplacesPriceID                  apijson.Field
 	DimensionalPriceConfiguration    apijson.Field
 	raw                              string
 	ExtraFields                      map[string]apijson.Field
@@ -16586,13 +16718,16 @@ type PriceGroupedWithMeteredMinimumPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                       `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceGroupedWithMeteredMinimumPriceModelType `json:"model_type,required"`
-	Name                          string                                       `json:"name,required"`
-	PlanPhaseOrder                int64                                        `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceGroupedWithMeteredMinimumPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration                `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedWithMeteredMinimumPriceJSON      `json:"-"`
+	MinimumAmount  string                                       `json:"minimum_amount,required,nullable"`
+	ModelType      PriceGroupedWithMeteredMinimumPriceModelType `json:"model_type,required"`
+	Name           string                                       `json:"name,required"`
+	PlanPhaseOrder int64                                        `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceGroupedWithMeteredMinimumPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                                  `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration           `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceGroupedWithMeteredMinimumPriceJSON `json:"-"`
 }
 
 // priceGroupedWithMeteredMinimumPriceJSON contains the JSON metadata for the
@@ -16622,6 +16757,7 @@ type priceGroupedWithMeteredMinimumPriceJSON struct {
 	Name                            apijson.Field
 	PlanPhaseOrder                  apijson.Field
 	PriceType                       apijson.Field
+	ReplacesPriceID                 apijson.Field
 	DimensionalPriceConfiguration   apijson.Field
 	raw                             string
 	ExtraFields                     map[string]apijson.Field
@@ -16792,13 +16928,16 @@ type PriceMatrixWithDisplayNamePrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                   `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceMatrixWithDisplayNamePriceModelType `json:"model_type,required"`
-	Name                          string                                   `json:"name,required"`
-	PlanPhaseOrder                int64                                    `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceMatrixWithDisplayNamePricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration            `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMatrixWithDisplayNamePriceJSON      `json:"-"`
+	MinimumAmount  string                                   `json:"minimum_amount,required,nullable"`
+	ModelType      PriceMatrixWithDisplayNamePriceModelType `json:"model_type,required"`
+	Name           string                                   `json:"name,required"`
+	PlanPhaseOrder int64                                    `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceMatrixWithDisplayNamePricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceMatrixWithDisplayNamePriceJSON `json:"-"`
 }
 
 // priceMatrixWithDisplayNamePriceJSON contains the JSON metadata for the struct
@@ -16828,6 +16967,7 @@ type priceMatrixWithDisplayNamePriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -16997,13 +17137,16 @@ type PriceBulkWithProrationPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                               `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceBulkWithProrationPriceModelType `json:"model_type,required"`
-	Name                          string                               `json:"name,required"`
-	PlanPhaseOrder                int64                                `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceBulkWithProrationPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration        `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceBulkWithProrationPriceJSON      `json:"-"`
+	MinimumAmount  string                               `json:"minimum_amount,required,nullable"`
+	ModelType      PriceBulkWithProrationPriceModelType `json:"model_type,required"`
+	Name           string                               `json:"name,required"`
+	PlanPhaseOrder int64                                `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceBulkWithProrationPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                          `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration   `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceBulkWithProrationPriceJSON `json:"-"`
 }
 
 // priceBulkWithProrationPriceJSON contains the JSON metadata for the struct
@@ -17033,6 +17176,7 @@ type priceBulkWithProrationPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -17202,13 +17346,16 @@ type PriceGroupedTieredPackagePrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                  `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceGroupedTieredPackagePriceModelType `json:"model_type,required"`
-	Name                          string                                  `json:"name,required"`
-	PlanPhaseOrder                int64                                   `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceGroupedTieredPackagePricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration           `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceGroupedTieredPackagePriceJSON      `json:"-"`
+	MinimumAmount  string                                  `json:"minimum_amount,required,nullable"`
+	ModelType      PriceGroupedTieredPackagePriceModelType `json:"model_type,required"`
+	Name           string                                  `json:"name,required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceGroupedTieredPackagePricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                             `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration      `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceGroupedTieredPackagePriceJSON `json:"-"`
 }
 
 // priceGroupedTieredPackagePriceJSON contains the JSON metadata for the struct
@@ -17238,6 +17385,7 @@ type priceGroupedTieredPackagePriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -17407,13 +17555,16 @@ type PriceMaxGroupTieredPackagePrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                   `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceMaxGroupTieredPackagePriceModelType `json:"model_type,required"`
-	Name                          string                                   `json:"name,required"`
-	PlanPhaseOrder                int64                                    `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceMaxGroupTieredPackagePricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration            `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceMaxGroupTieredPackagePriceJSON      `json:"-"`
+	MinimumAmount  string                                   `json:"minimum_amount,required,nullable"`
+	ModelType      PriceMaxGroupTieredPackagePriceModelType `json:"model_type,required"`
+	Name           string                                   `json:"name,required"`
+	PlanPhaseOrder int64                                    `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceMaxGroupTieredPackagePricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceMaxGroupTieredPackagePriceJSON `json:"-"`
 }
 
 // priceMaxGroupTieredPackagePriceJSON contains the JSON metadata for the struct
@@ -17443,6 +17594,7 @@ type priceMaxGroupTieredPackagePriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
@@ -17611,14 +17763,17 @@ type PriceScalableMatrixWithUnitPricingPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                       string                                           `json:"minimum_amount,required,nullable"`
-	ModelType                           PriceScalableMatrixWithUnitPricingPriceModelType `json:"model_type,required"`
-	Name                                string                                           `json:"name,required"`
-	PlanPhaseOrder                      int64                                            `json:"plan_phase_order,required,nullable"`
-	PriceType                           PriceScalableMatrixWithUnitPricingPricePriceType `json:"price_type,required"`
-	ScalableMatrixWithUnitPricingConfig map[string]interface{}                           `json:"scalable_matrix_with_unit_pricing_config,required"`
-	DimensionalPriceConfiguration       DimensionalPriceConfiguration                    `json:"dimensional_price_configuration,nullable"`
-	JSON                                priceScalableMatrixWithUnitPricingPriceJSON      `json:"-"`
+	MinimumAmount  string                                           `json:"minimum_amount,required,nullable"`
+	ModelType      PriceScalableMatrixWithUnitPricingPriceModelType `json:"model_type,required"`
+	Name           string                                           `json:"name,required"`
+	PlanPhaseOrder int64                                            `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceScalableMatrixWithUnitPricingPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID                     string                                      `json:"replaces_price_id,required,nullable"`
+	ScalableMatrixWithUnitPricingConfig map[string]interface{}                      `json:"scalable_matrix_with_unit_pricing_config,required"`
+	DimensionalPriceConfiguration       DimensionalPriceConfiguration               `json:"dimensional_price_configuration,nullable"`
+	JSON                                priceScalableMatrixWithUnitPricingPriceJSON `json:"-"`
 }
 
 // priceScalableMatrixWithUnitPricingPriceJSON contains the JSON metadata for the
@@ -17647,6 +17802,7 @@ type priceScalableMatrixWithUnitPricingPriceJSON struct {
 	Name                                apijson.Field
 	PlanPhaseOrder                      apijson.Field
 	PriceType                           apijson.Field
+	ReplacesPriceID                     apijson.Field
 	ScalableMatrixWithUnitPricingConfig apijson.Field
 	DimensionalPriceConfiguration       apijson.Field
 	raw                                 string
@@ -17818,14 +17974,17 @@ type PriceScalableMatrixWithTieredPricingPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                         string                                             `json:"minimum_amount,required,nullable"`
-	ModelType                             PriceScalableMatrixWithTieredPricingPriceModelType `json:"model_type,required"`
-	Name                                  string                                             `json:"name,required"`
-	PlanPhaseOrder                        int64                                              `json:"plan_phase_order,required,nullable"`
-	PriceType                             PriceScalableMatrixWithTieredPricingPricePriceType `json:"price_type,required"`
-	ScalableMatrixWithTieredPricingConfig map[string]interface{}                             `json:"scalable_matrix_with_tiered_pricing_config,required"`
-	DimensionalPriceConfiguration         DimensionalPriceConfiguration                      `json:"dimensional_price_configuration,nullable"`
-	JSON                                  priceScalableMatrixWithTieredPricingPriceJSON      `json:"-"`
+	MinimumAmount  string                                             `json:"minimum_amount,required,nullable"`
+	ModelType      PriceScalableMatrixWithTieredPricingPriceModelType `json:"model_type,required"`
+	Name           string                                             `json:"name,required"`
+	PlanPhaseOrder int64                                              `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceScalableMatrixWithTieredPricingPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID                       string                                        `json:"replaces_price_id,required,nullable"`
+	ScalableMatrixWithTieredPricingConfig map[string]interface{}                        `json:"scalable_matrix_with_tiered_pricing_config,required"`
+	DimensionalPriceConfiguration         DimensionalPriceConfiguration                 `json:"dimensional_price_configuration,nullable"`
+	JSON                                  priceScalableMatrixWithTieredPricingPriceJSON `json:"-"`
 }
 
 // priceScalableMatrixWithTieredPricingPriceJSON contains the JSON metadata for the
@@ -17854,6 +18013,7 @@ type priceScalableMatrixWithTieredPricingPriceJSON struct {
 	Name                                  apijson.Field
 	PlanPhaseOrder                        apijson.Field
 	PriceType                             apijson.Field
+	ReplacesPriceID                       apijson.Field
 	ScalableMatrixWithTieredPricingConfig apijson.Field
 	DimensionalPriceConfiguration         apijson.Field
 	raw                                   string
@@ -18026,13 +18186,16 @@ type PriceCumulativeGroupedBulkPrice struct {
 	// Deprecated: deprecated
 	Minimum Minimum `json:"minimum,required,nullable"`
 	// Deprecated: deprecated
-	MinimumAmount                 string                                   `json:"minimum_amount,required,nullable"`
-	ModelType                     PriceCumulativeGroupedBulkPriceModelType `json:"model_type,required"`
-	Name                          string                                   `json:"name,required"`
-	PlanPhaseOrder                int64                                    `json:"plan_phase_order,required,nullable"`
-	PriceType                     PriceCumulativeGroupedBulkPricePriceType `json:"price_type,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration            `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceCumulativeGroupedBulkPriceJSON      `json:"-"`
+	MinimumAmount  string                                   `json:"minimum_amount,required,nullable"`
+	ModelType      PriceCumulativeGroupedBulkPriceModelType `json:"model_type,required"`
+	Name           string                                   `json:"name,required"`
+	PlanPhaseOrder int64                                    `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceCumulativeGroupedBulkPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                              `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration       `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceCumulativeGroupedBulkPriceJSON `json:"-"`
 }
 
 // priceCumulativeGroupedBulkPriceJSON contains the JSON metadata for the struct
@@ -18062,6 +18225,7 @@ type priceCumulativeGroupedBulkPriceJSON struct {
 	Name                          apijson.Field
 	PlanPhaseOrder                apijson.Field
 	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
 	DimensionalPriceConfiguration apijson.Field
 	raw                           string
 	ExtraFields                   map[string]apijson.Field
