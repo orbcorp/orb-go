@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.1 (2025-06-27)
+
+Full Changelog: [v1.4.0...v1.4.1](https://github.com/orbcorp/orb-go/compare/v1.4.0...v1.4.1)
+
+### Bug Fixes
+
+* **pagination:** check if page data is empty in GetNextPage ([cf0ae63](https://github.com/orbcorp/orb-go/commit/cf0ae63e4154fa70551acd5721678bd4e406ba7e))
+
 ## 1.4.0 (2025-06-26)
 
 Full Changelog: [v1.3.0...v1.4.0](https://github.com/orbcorp/orb-go/compare/v1.3.0...v1.4.0)
