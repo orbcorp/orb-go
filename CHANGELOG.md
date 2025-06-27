@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.2 (2025-06-27)
+
+Full Changelog: [v1.4.1...v1.4.2](https://github.com/orbcorp/orb-go/compare/v1.4.1...v1.4.2)
+
+### Bug Fixes
+
+* don't try to deserialize as json when ResponseBodyInto is []byte ([7409436](https://github.com/orbcorp/orb-go/commit/74094361ac185d50eb610c3f798b7dd69d63ab34))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([9c89995](https://github.com/orbcorp/orb-go/commit/9c8999555eab34b7c20e7bc5debad1e452a1dbb5))
+
 ## 1.4.1 (2025-06-27)
 
 Full Changelog: [v1.4.0...v1.4.1](https://github.com/orbcorp/orb-go/compare/v1.4.0...v1.4.1)
