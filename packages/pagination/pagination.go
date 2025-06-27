@@ -61,6 +61,9 @@ func (r pageJSON) RawJSON() string {
 // there is no next page, this function will return a 'nil' for the page value, but
 // will not return an error
 func (r *Page[T]) GetNextPage() (res *Page[T], err error) {
+	if len(r.Data) == 0 {
+		return nil, nil
+	}
 	next := r.PaginationMetadata.NextCursor
 	if len(next) == 0 {
 		return nil, nil
