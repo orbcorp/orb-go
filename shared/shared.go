@@ -3634,12 +3634,11 @@ const (
 	NewAllocationPriceCadenceQuarterly  NewAllocationPriceCadence = "quarterly"
 	NewAllocationPriceCadenceSemiAnnual NewAllocationPriceCadence = "semi_annual"
 	NewAllocationPriceCadenceAnnual     NewAllocationPriceCadence = "annual"
-	NewAllocationPriceCadenceCustom     NewAllocationPriceCadence = "custom"
 )
 
 func (r NewAllocationPriceCadence) IsKnown() bool {
 	switch r {
-	case NewAllocationPriceCadenceOneTime, NewAllocationPriceCadenceMonthly, NewAllocationPriceCadenceQuarterly, NewAllocationPriceCadenceSemiAnnual, NewAllocationPriceCadenceAnnual, NewAllocationPriceCadenceCustom:
+	case NewAllocationPriceCadenceOneTime, NewAllocationPriceCadenceMonthly, NewAllocationPriceCadenceQuarterly, NewAllocationPriceCadenceSemiAnnual, NewAllocationPriceCadenceAnnual:
 		return true
 	}
 	return false
