@@ -1235,9 +1235,6 @@ const NewAllocationPriceCadenceSemiAnnual = shared.NewAllocationPriceCadenceSemi
 // This is an alias to an internal value.
 const NewAllocationPriceCadenceAnnual = shared.NewAllocationPriceCadenceAnnual
 
-// This is an alias to an internal value.
-const NewAllocationPriceCadenceCustom = shared.NewAllocationPriceCadenceCustom
-
 // This is an alias to an internal type.
 type NewAmountDiscountParam = shared.NewAmountDiscountParam
 
