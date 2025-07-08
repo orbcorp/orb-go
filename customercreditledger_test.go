@@ -12,6 +12,7 @@ import (
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
 	"github.com/orbcorp/orb-go/option"
+	"github.com/orbcorp/orb-go/shared"
 )
 
 func TestCustomerCreditLedgerListWithOptionalParams(t *testing.T) {
@@ -76,6 +77,7 @@ func TestCustomerCreditLedgerNewEntryWithOptionalParams(t *testing.T) {
 			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
 				AutoCollection:           orb.F(true),
 				NetTerms:                 orb.F(int64(0)),
+				InvoiceDate:              orb.F[orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion](shared.UnionTime(time.Now())),
 				Memo:                     orb.F("memo"),
 				RequireSuccessfulPayment: orb.F(true),
 			}),
@@ -119,6 +121,7 @@ func TestCustomerCreditLedgerNewEntryByExternalIDWithOptionalParams(t *testing.T
 			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
 				AutoCollection:           orb.F(true),
 				NetTerms:                 orb.F(int64(0)),
+				InvoiceDate:              orb.F[orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion](shared.UnionTime(time.Now())),
 				Memo:                     orb.F("memo"),
 				RequireSuccessfulPayment: orb.F(true),
 			}),
