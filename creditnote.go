@@ -116,17 +116,17 @@ type CreditNoteNewParams struct {
 	LineItems param.Field[[]CreditNoteNewParamsLineItem] `json:"line_items,required"`
 	// An optional reason for the credit note.
 	Reason param.Field[CreditNoteNewParamsReason] `json:"reason,required"`
-	// A date string to specify the global credit note service period end date in the
-	// customer's timezone. This will be applied to all line items that don't have
-	// their own individual service periods specified. If not provided, line items will
-	// use their original invoice line item service periods. This date is inclusive.
+	// An optional date string to specify the global credit note service period end
+	// date in the customer's timezone. This will be applied to all line items. If not
+	// provided, line items will use their original invoice line item service periods.
+	// This date is inclusive.
 	EndDate param.Field[time.Time] `json:"end_date" format:"date"`
 	// An optional memo to attach to the credit note.
 	Memo param.Field[string] `json:"memo"`
-	// A date string to specify the global credit note service period start date in the
-	// customer's timezone. This will be applied to all line items that don't have
-	// their own individual service periods specified. If not provided, line items will
-	// use their original invoice line item service periods. This date is inclusive.
+	// An optional date string to specify the global credit note service period end
+	// date in the customer's timezone. This will be applied to all line items. If not
+	// provided, line items will use their original invoice line item service periods.
+	// This date is inclusive.
 	StartDate param.Field[time.Time] `json:"start_date" format:"date"`
 }
 
@@ -139,16 +139,17 @@ type CreditNoteNewParamsLineItem struct {
 	Amount param.Field[string] `json:"amount,required"`
 	// The ID of the line item to credit.
 	InvoiceLineItemID param.Field[string] `json:"invoice_line_item_id,required"`
-	// A date string to specify this line item's credit note service period end date in
-	// the customer's timezone. If provided, this will be used for this specific line
-	// item. If not provided, will use the global end_date if available, otherwise
-	// defaults to the original invoice line item's end date. This date is inclusive.
-	EndDate param.Field[time.Time] `json:"end_date" format:"date"`
-	// A date string to specify this line item's credit note service period start date
-	// in the customer's timezone. If provided, this will be used for this specific
-	// line item. If not provided, will use the global start_date if available,
-	// otherwise defaults to the original invoice line item's start date. This date is
+	// An optional date string to specify this line item's credit note service period
+	// end date in the customer's timezone. If provided, this will be used for this
+	// specific line item. If not provided, will use the global end_date if available,
+	// otherwise defaults to the original invoice line item's end date. This date is
 	// inclusive.
+	EndDate param.Field[time.Time] `json:"end_date" format:"date"`
+	// An optional date string to specify this line item's credit note service period
+	// start date in the customer's timezone. If provided, this will be used for this
+	// specific line item. If not provided, will use the global start_date if
+	// available, otherwise defaults to the original invoice line item's start date.
+	// This date is inclusive.
 	StartDate param.Field[time.Time] `json:"start_date" format:"date"`
 }
 
