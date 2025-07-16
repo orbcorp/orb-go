@@ -311,6 +311,8 @@ type PriceEvaluateMultipleResponseData struct {
 	Currency string `json:"currency,required"`
 	// The computed price groups associated with input price.
 	PriceGroups []EvaluatePriceGroup `json:"price_groups,required"`
+	// The external ID of the price
+	ExternalPriceID string `json:"external_price_id,nullable"`
 	// The index of the inline price
 	InlinePriceIndex int64 `json:"inline_price_index,nullable"`
 	// The ID of the price
@@ -323,6 +325,7 @@ type PriceEvaluateMultipleResponseData struct {
 type priceEvaluateMultipleResponseDataJSON struct {
 	Currency         apijson.Field
 	PriceGroups      apijson.Field
+	ExternalPriceID  apijson.Field
 	InlinePriceIndex apijson.Field
 	PriceID          apijson.Field
 	raw              string
@@ -363,6 +366,8 @@ type PriceEvaluatePreviewEventsResponseData struct {
 	Currency string `json:"currency,required"`
 	// The computed price groups associated with input price.
 	PriceGroups []EvaluatePriceGroup `json:"price_groups,required"`
+	// The external ID of the price
+	ExternalPriceID string `json:"external_price_id,nullable"`
 	// The index of the inline price
 	InlinePriceIndex int64 `json:"inline_price_index,nullable"`
 	// The ID of the price
@@ -375,6 +380,7 @@ type PriceEvaluatePreviewEventsResponseData struct {
 type priceEvaluatePreviewEventsResponseDataJSON struct {
 	Currency         apijson.Field
 	PriceGroups      apijson.Field
+	ExternalPriceID  apijson.Field
 	InlinePriceIndex apijson.Field
 	PriceID          apijson.Field
 	raw              string
@@ -3903,6 +3909,8 @@ func (r PriceEvaluateMultipleParams) MarshalJSON() (data []byte, err error) {
 }
 
 type PriceEvaluateMultipleParamsPriceEvaluation struct {
+	// The external ID of a price to evaluate that exists in your Orb account.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the underlying billable metric
@@ -4131,6 +4139,8 @@ func (r PriceEvaluatePreviewEventsParamsEvent) MarshalJSON() (data []byte, err e
 }
 
 type PriceEvaluatePreviewEventsParamsPriceEvaluation struct {
+	// The external ID of a price to evaluate that exists in your Orb account.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
 	// A boolean
 	// [computed property](/extensibility/advanced-metrics#computed-properties) used to
 	// filter the underlying billable metric

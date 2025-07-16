@@ -305,7 +305,7 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // is hit. To enable threshold billing, pass in an `invoicing_threshold`, which is
 // specified in the subscription's invoicing currency, when creating a
 // subscription. E.g. pass in `10.00` to issue an invoice when usage amounts hit
-// $10.00 for a subscription that invoices in USD.
+// \$10.00 for a subscription that invoices in USD.
 func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
 	opts = append(r.Options[:], opts...)
 	path := "subscriptions"
@@ -4957,7 +4957,8 @@ type Subscription struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription sorted by the start_date.
+	// The discount intervals for this subscription sorted by the start_date. This
+	// field is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
 	DiscountIntervals []SubscriptionDiscountInterval `json:"discount_intervals,required"`
@@ -4965,7 +4966,8 @@ type Subscription struct {
 	EndDate                  time.Time                              `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []shared.FixedFeeQuantityScheduleEntry `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                 `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription sorted by the start_date.
+	// The maximum intervals for this subscription sorted by the start_date. This field
+	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
 	MaximumIntervals []shared.MaximumInterval `json:"maximum_intervals,required"`
@@ -4974,7 +4976,8 @@ type Subscription struct {
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription sorted by the start_date.
+	// The minimum intervals for this subscription sorted by the start_date. This field
+	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
 	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals,required"`
@@ -7083,8 +7086,8 @@ type SubscriptionPriceIntervalsParamsEdit struct {
 	// billing cycle day will not be updated. Note that overlapping price intervals
 	// must have the same billing cycle day.
 	BillingCycleDay param.Field[int64] `json:"billing_cycle_day"`
-	// The updated end date of this price interval. If not specified, the start date
-	// will not be updated.
+	// The updated end date of this price interval. If not specified, the end date will
+	// not be updated.
 	EndDate param.Field[SubscriptionPriceIntervalsParamsEditEndDateUnion] `json:"end_date" format:"date-time"`
 	// An additional filter to apply to usage queries. This filter must be expressed as
 	// a boolean
@@ -7111,8 +7114,8 @@ func (r SubscriptionPriceIntervalsParamsEdit) MarshalJSON() (data []byte, err er
 	return apijson.MarshalRoot(r)
 }
 
-// The updated end date of this price interval. If not specified, the start date
-// will not be updated.
+// The updated end date of this price interval. If not specified, the end date will
+// not be updated.
 //
 // Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsEditEndDateUnion interface {
@@ -7141,8 +7144,8 @@ type SubscriptionPriceIntervalsParamsEditStartDateUnion interface {
 type SubscriptionPriceIntervalsParamsEditAdjustment struct {
 	// The id of the adjustment interval to edit.
 	AdjustmentIntervalID param.Field[string] `json:"adjustment_interval_id,required"`
-	// The updated end date of this adjustment interval. If not specified, the start
-	// date will not be updated.
+	// The updated end date of this adjustment interval. If not specified, the end date
+	// will not be updated.
 	EndDate param.Field[SubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion] `json:"end_date" format:"date-time"`
 	// The updated start date of this adjustment interval. If not specified, the start
 	// date will not be updated.
@@ -7153,8 +7156,8 @@ func (r SubscriptionPriceIntervalsParamsEditAdjustment) MarshalJSON() (data []by
 	return apijson.MarshalRoot(r)
 }
 
-// The updated end date of this adjustment interval. If not specified, the start
-// date will not be updated.
+// The updated end date of this adjustment interval. If not specified, the end date
+// will not be updated.
 //
 // Satisfied by [shared.UnionTime], [shared.BillingCycleRelativeDate].
 type SubscriptionPriceIntervalsParamsEditAdjustmentsEndDateUnion interface {
