@@ -30,9 +30,13 @@ func TestCreditNoteNewWithOptionalParams(t *testing.T) {
 		LineItems: orb.F([]orb.CreditNoteNewParamsLineItem{{
 			Amount:            orb.F("amount"),
 			InvoiceLineItemID: orb.F("4khy3nwzktxv7"),
+			EndDate:           orb.F(time.Now()),
+			StartDate:         orb.F(time.Now()),
 		}}),
-		Reason: orb.F(orb.CreditNoteNewParamsReasonDuplicate),
-		Memo:   orb.F("An optional memo for my credit note."),
+		Reason:    orb.F(orb.CreditNoteNewParamsReasonDuplicate),
+		EndDate:   orb.F(time.Now()),
+		Memo:      orb.F("An optional memo for my credit note."),
+		StartDate: orb.F(time.Now()),
 	})
 	if err != nil {
 		var apierr *orb.Error
