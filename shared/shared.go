@@ -995,22 +995,28 @@ type CreditNoteLineItem struct {
 	TaxAmounts []TaxAmount `json:"tax_amounts,required"`
 	// Any line item discounts from the invoice's line item.
 	Discounts []CreditNoteLineItemsDiscount `json:"discounts"`
-	JSON      creditNoteLineItemJSON        `json:"-"`
+	// The end time of the service period for this credit note line item.
+	EndTimeExclusive time.Time `json:"end_time_exclusive,nullable" format:"date-time"`
+	// The start time of the service period for this credit note line item.
+	StartTimeInclusive time.Time              `json:"start_time_inclusive,nullable" format:"date-time"`
+	JSON               creditNoteLineItemJSON `json:"-"`
 }
 
 // creditNoteLineItemJSON contains the JSON metadata for the struct
 // [CreditNoteLineItem]
 type creditNoteLineItemJSON struct {
-	ID          apijson.Field
-	Amount      apijson.Field
-	ItemID      apijson.Field
-	Name        apijson.Field
-	Quantity    apijson.Field
-	Subtotal    apijson.Field
-	TaxAmounts  apijson.Field
-	Discounts   apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID                 apijson.Field
+	Amount             apijson.Field
+	ItemID             apijson.Field
+	Name               apijson.Field
+	Quantity           apijson.Field
+	Subtotal           apijson.Field
+	TaxAmounts         apijson.Field
+	Discounts          apijson.Field
+	EndTimeExclusive   apijson.Field
+	StartTimeInclusive apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
 }
 
 func (r *CreditNoteLineItem) UnmarshalJSON(data []byte) (err error) {

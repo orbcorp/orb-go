@@ -134,7 +134,8 @@ type MutatedSubscription struct {
 	// Determines the default memo on this subscriptions' invoices. Note that if this
 	// is not provided, it is determined by the plan configuration.
 	DefaultInvoiceMemo string `json:"default_invoice_memo,required,nullable"`
-	// The discount intervals for this subscription sorted by the start_date.
+	// The discount intervals for this subscription sorted by the start_date. This
+	// field is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
 	DiscountIntervals []MutatedSubscriptionDiscountInterval `json:"discount_intervals,required"`
@@ -142,7 +143,8 @@ type MutatedSubscription struct {
 	EndDate                  time.Time                              `json:"end_date,required,nullable" format:"date-time"`
 	FixedFeeQuantitySchedule []shared.FixedFeeQuantityScheduleEntry `json:"fixed_fee_quantity_schedule,required"`
 	InvoicingThreshold       string                                 `json:"invoicing_threshold,required,nullable"`
-	// The maximum intervals for this subscription sorted by the start_date.
+	// The maximum intervals for this subscription sorted by the start_date. This field
+	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
 	MaximumIntervals []shared.MaximumInterval `json:"maximum_intervals,required"`
@@ -151,7 +153,8 @@ type MutatedSubscription struct {
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	// The minimum intervals for this subscription sorted by the start_date.
+	// The minimum intervals for this subscription sorted by the start_date. This field
+	// is deprecated in favor of `adjustment_intervals`.
 	//
 	// Deprecated: deprecated
 	MinimumIntervals []shared.MinimumInterval `json:"minimum_intervals,required"`
