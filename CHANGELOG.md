@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.7.0 (2025-07-16)
+
+Full Changelog: [v1.6.0...v1.7.0](https://github.com/orbcorp/orb-go/compare/v1.6.0...v1.7.0)
+
+### Features
+
+* **api:** api update ([e021366](https://github.com/orbcorp/orb-go/commit/e021366acb6d26753bda5e7309a1d937d15a7597))
+
+
+### Chores
+
+* **internal:** fix lint script for tests ([ba43baf](https://github.com/orbcorp/orb-go/commit/ba43baf6fff42dd4c82fdbbd6b4a39308d2f0e7f))
+* lint tests in subpackages ([1467c19](https://github.com/orbcorp/orb-go/commit/1467c19923c8614f76455f5a3408768dc42b0532))
+
 ## 1.6.0 (2025-07-08)
 
 Full Changelog: [v1.5.0...v1.6.0](https://github.com/orbcorp/orb-go/compare/v1.5.0...v1.6.0)
