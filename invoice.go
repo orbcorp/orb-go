@@ -1055,11 +1055,6 @@ type InvoiceNewParams struct {
 	// set to the current time in the customer's timezone.
 	InvoiceDate param.Field[time.Time]                  `json:"invoice_date,required" format:"date-time"`
 	LineItems   param.Field[[]InvoiceNewParamsLineItem] `json:"line_items,required"`
-	// Determines the difference between the invoice issue date for subscription
-	// invoices as the date that they are due. A value of '0' here represents that the
-	// invoice is due on issue, whereas a value of 30 represents that the customer has
-	// 30 days to pay the invoice.
-	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// The id of the `Customer` to create this invoice for. One of `customer_id` and
 	// `external_customer_id` are required.
 	CustomerID param.Field[string] `json:"customer_id"`
@@ -1074,6 +1069,11 @@ type InvoiceNewParams struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// Determines the difference between the invoice issue date for subscription
+	// invoices as the date that they are due. A value of '0' here represents that the
+	// invoice is due on issue, whereas a value of 30 represents that the customer has
+	// 30 days to pay the invoice.
+	NetTerms param.Field[int64] `json:"net_terms"`
 	// When true, this invoice will be submitted for issuance upon creation. When
 	// false, the resulting invoice will require manual review to issue. Defaulted to
 	// false.
