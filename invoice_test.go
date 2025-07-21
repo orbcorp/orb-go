@@ -41,7 +41,6 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 				UnitAmount: orb.F("unit_amount"),
 			}),
 		}}),
-		NetTerms:   orb.F(int64(0)),
 		CustomerID: orb.F("4khy3nwzktxv7"),
 		Discount: orb.F[shared.DiscountUnionParam](shared.PercentageDiscountParam{
 			DiscountType:       orb.F(shared.PercentageDiscountDiscountTypePercentage),
@@ -59,6 +58,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
+		NetTerms:      orb.F(int64(0)),
 		WillAutoIssue: orb.F(false),
 	})
 	if err != nil {
