@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.10.1 (2025-07-21)
+
+Full Changelog: [v1.10.0...v1.10.1](https://github.com/orbcorp/orb-go/compare/v1.10.0...v1.10.1)
+
+### Bug Fixes
+
+* **client:** process custom base url ahead of time ([fa2f4d4](https://github.com/orbcorp/orb-go/commit/fa2f4d4fd3224e341f8a70a647e9484ea7de106b))
+
 ## 1.10.0 (2025-07-17)
 
 Full Changelog: [v1.9.0...v1.10.0](https://github.com/orbcorp/orb-go/compare/v1.9.0...v1.10.0)
