@@ -923,8 +923,11 @@ type CustomerUpdateParams struct {
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email" format:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
-	// The external customer ID. This can only be set if empty and the customer has no
-	// past or current subscriptions.
+	// The external customer ID. This can only be set if the customer has no existing
+	// external customer ID. Since this action may change usage quantities for all
+	// existing subscriptions, it is disallowed if the customer has issued invoices
+	// with usage line items and subject to the same restrictions as backdated
+	// subscription creation.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
 	// The hierarchical relationships for this customer.
 	Hierarchy param.Field[CustomerHierarchyConfigParam] `json:"hierarchy"`
@@ -1155,8 +1158,11 @@ type CustomerUpdateByExternalIDParams struct {
 	// A valid customer email, to be used for invoicing and notifications.
 	Email         param.Field[string] `json:"email" format:"email"`
 	EmailDelivery param.Field[bool]   `json:"email_delivery"`
-	// The external customer ID. This can only be set if empty and the customer has no
-	// past or current subscriptions.
+	// The external customer ID. This can only be set if the customer has no existing
+	// external customer ID. Since this action may change usage quantities for all
+	// existing subscriptions, it is disallowed if the customer has issued invoices
+	// with usage line items and subject to the same restrictions as backdated
+	// subscription creation.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
 	// The hierarchical relationships for this customer.
 	Hierarchy param.Field[CustomerHierarchyConfigParam] `json:"hierarchy"`

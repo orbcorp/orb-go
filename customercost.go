@@ -336,7 +336,7 @@ func (r customerCostListByExternalIDResponseJSON) RawJSON() string {
 }
 
 type CustomerCostListParams struct {
-	// The currency to use.
+	// The currency or custom pricing unit to use.
 	Currency param.Field[string] `query:"currency"`
 	// Costs returned are exclusive of `timeframe_end`.
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
@@ -377,7 +377,7 @@ func (r CustomerCostListParamsViewMode) IsKnown() bool {
 }
 
 type CustomerCostListByExternalIDParams struct {
-	// The currency to use.
+	// The currency or custom pricing unit to use.
 	Currency param.Field[string] `query:"currency"`
 	// Costs returned are exclusive of `timeframe_end`.
 	TimeframeEnd param.Field[time.Time] `query:"timeframe_end" format:"date-time"`
