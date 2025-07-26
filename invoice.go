@@ -220,106 +220,145 @@ type InvoiceFetchUpcomingResponse struct {
 	//
 	// ### Supported Tax ID Countries and Types
 	//
-	// | Country              | Type         | Description                                                                                             |
-	// | -------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
-	// | Andorra              | `ad_nrt`     | Andorran NRT Number                                                                                     |
-	// | Argentina            | `ar_cuit`    | Argentinian Tax ID Number                                                                               |
-	// | Australia            | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
-	// | Australia            | `au_arn`     | Australian Taxation Office Reference Number                                                             |
-	// | Austria              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Bahrain              | `bh_vat`     | Bahraini VAT Number                                                                                     |
-	// | Belgium              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Bolivia              | `bo_tin`     | Bolivian Tax ID                                                                                         |
-	// | Brazil               | `br_cnpj`    | Brazilian CNPJ Number                                                                                   |
-	// | Brazil               | `br_cpf`     | Brazilian CPF Number                                                                                    |
-	// | Bulgaria             | `bg_uic`     | Bulgaria Unified Identification Code                                                                    |
-	// | Bulgaria             | `eu_vat`     | European VAT Number                                                                                     |
-	// | Canada               | `ca_bn`      | Canadian BN                                                                                             |
-	// | Canada               | `ca_gst_hst` | Canadian GST/HST Number                                                                                 |
-	// | Canada               | `ca_pst_bc`  | Canadian PST Number (British Columbia)                                                                  |
-	// | Canada               | `ca_pst_mb`  | Canadian PST Number (Manitoba)                                                                          |
-	// | Canada               | `ca_pst_sk`  | Canadian PST Number (Saskatchewan)                                                                      |
-	// | Canada               | `ca_qst`     | Canadian QST Number (Québec)                                                                            |
-	// | Chile                | `cl_tin`     | Chilean TIN                                                                                             |
-	// | China                | `cn_tin`     | Chinese Tax ID                                                                                          |
-	// | Colombia             | `co_nit`     | Colombian NIT Number                                                                                    |
-	// | Costa Rica           | `cr_tin`     | Costa Rican Tax ID                                                                                      |
-	// | Croatia              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Cyprus               | `eu_vat`     | European VAT Number                                                                                     |
-	// | Czech Republic       | `eu_vat`     | European VAT Number                                                                                     |
-	// | Denmark              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Dominican Republic   | `do_rcn`     | Dominican RCN Number                                                                                    |
-	// | Ecuador              | `ec_ruc`     | Ecuadorian RUC Number                                                                                   |
-	// | Egypt                | `eg_tin`     | Egyptian Tax Identification Number                                                                      |
-	// | El Salvador          | `sv_nit`     | El Salvadorian NIT Number                                                                               |
-	// | Estonia              | `eu_vat`     | European VAT Number                                                                                     |
-	// | EU                   | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
-	// | Finland              | `eu_vat`     | European VAT Number                                                                                     |
-	// | France               | `eu_vat`     | European VAT Number                                                                                     |
-	// | Georgia              | `ge_vat`     | Georgian VAT                                                                                            |
-	// | Germany              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Greece               | `eu_vat`     | European VAT Number                                                                                     |
-	// | Hong Kong            | `hk_br`      | Hong Kong BR Number                                                                                     |
-	// | Hungary              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Hungary              | `hu_tin`     | Hungary Tax Number (adószám)                                                                            |
-	// | Iceland              | `is_vat`     | Icelandic VAT                                                                                           |
-	// | India                | `in_gst`     | Indian GST Number                                                                                       |
-	// | Indonesia            | `id_npwp`    | Indonesian NPWP Number                                                                                  |
-	// | Ireland              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Israel               | `il_vat`     | Israel VAT                                                                                              |
-	// | Italy                | `eu_vat`     | European VAT Number                                                                                     |
-	// | Japan                | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
-	// | Japan                | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
-	// | Japan                | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
-	// | Kazakhstan           | `kz_bin`     | Kazakhstani Business Identification Number                                                              |
-	// | Kenya                | `ke_pin`     | Kenya Revenue Authority Personal Identification Number                                                  |
-	// | Latvia               | `eu_vat`     | European VAT Number                                                                                     |
-	// | Liechtenstein        | `li_uid`     | Liechtensteinian UID Number                                                                             |
-	// | Lithuania            | `eu_vat`     | European VAT Number                                                                                     |
-	// | Luxembourg           | `eu_vat`     | European VAT Number                                                                                     |
-	// | Malaysia             | `my_frp`     | Malaysian FRP Number                                                                                    |
-	// | Malaysia             | `my_itn`     | Malaysian ITN                                                                                           |
-	// | Malaysia             | `my_sst`     | Malaysian SST Number                                                                                    |
-	// | Malta                | `eu_vat `    | European VAT Number                                                                                     |
-	// | Mexico               | `mx_rfc`     | Mexican RFC Number                                                                                      |
-	// | Netherlands          | `eu_vat`     | European VAT Number                                                                                     |
-	// | New Zealand          | `nz_gst`     | New Zealand GST Number                                                                                  |
-	// | Nigeria              | `ng_tin`     | Nigerian Tax Identification Number                                                                      |
-	// | Norway               | `no_vat`     | Norwegian VAT Number                                                                                    |
-	// | Norway               | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
-	// | Oman                 | `om_vat`     | Omani VAT Number                                                                                        |
-	// | Peru                 | `pe_ruc`     | Peruvian RUC Number                                                                                     |
-	// | Philippines          | `ph_tin `    | Philippines Tax Identification Number                                                                   |
-	// | Poland               | `eu_vat`     | European VAT Number                                                                                     |
-	// | Portugal             | `eu_vat`     | European VAT Number                                                                                     |
-	// | Romania              | `eu_vat`     | European VAT Number                                                                                     |
-	// | Romania              | `ro_tin`     | Romanian Tax ID Number                                                                                  |
-	// | Russia               | `ru_inn`     | Russian INN                                                                                             |
-	// | Russia               | `ru_kpp`     | Russian KPP                                                                                             |
-	// | Saudi Arabia         | `sa_vat`     | Saudi Arabia VAT                                                                                        |
-	// | Serbia               | `rs_pib`     | Serbian PIB Number                                                                                      |
-	// | Singapore            | `sg_gst`     | Singaporean GST                                                                                         |
-	// | Singapore            | `sg_uen`     | Singaporean UEN                                                                                         |
-	// | Slovakia             | `eu_vat`     | European VAT Number                                                                                     |
-	// | Slovenia             | `eu_vat`     | European VAT Number                                                                                     |
-	// | Slovenia             | `si_tin`     | Slovenia Tax Number (davčna številka)                                                                   |
-	// | South Africa         | `za_vat`     | South African VAT Number                                                                                |
-	// | South Korea          | `kr_brn`     | Korean BRN                                                                                              |
-	// | Spain                | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
-	// | Spain                | `eu_vat`     | European VAT Number                                                                                     |
-	// | Sweden               | `eu_vat`     | European VAT Number                                                                                     |
-	// | Switzerland          | `ch_vat`     | Switzerland VAT Number                                                                                  |
-	// | Taiwan               | `tw_vat`     | Taiwanese VAT                                                                                           |
-	// | Thailand             | `th_vat`     | Thai VAT                                                                                                |
-	// | Turkey               | `tr_tin`     | Turkish Tax Identification Number                                                                       |
-	// | Ukraine              | `ua_vat`     | Ukrainian VAT                                                                                           |
-	// | United Arab Emirates | `ae_trn`     | United Arab Emirates TRN                                                                                |
-	// | United Kingdom       | `eu_vat`     | Northern Ireland VAT Number                                                                             |
-	// | United Kingdom       | `gb_vat`     | United Kingdom VAT Number                                                                               |
-	// | United States        | `us_ein`     | United States EIN                                                                                       |
-	// | Uruguay              | `uy_ruc`     | Uruguayan RUC Number                                                                                    |
-	// | Venezuela            | `ve_rif`     | Venezuelan RIF Number                                                                                   |
-	// | Vietnam              | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
+	// | Country                | Type         | Description                                                                                             |
+	// | ---------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Albania                | `al_tin`     | Albania Tax Identification Number                                                                       |
+	// | Andorra                | `ad_nrt`     | Andorran NRT Number                                                                                     |
+	// | Angola                 | `ao_tin`     | Angola Tax Identification Number                                                                        |
+	// | Argentina              | `ar_cuit`    | Argentinian Tax ID Number                                                                               |
+	// | Armenia                | `am_tin`     | Armenia Tax Identification Number                                                                       |
+	// | Aruba                  | `aw_tin`     | Aruba Tax Identification Number                                                                         |
+	// | Australia              | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
+	// | Australia              | `au_arn`     | Australian Taxation Office Reference Number                                                             |
+	// | Austria                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Azerbaijan             | `az_tin`     | Azerbaijan Tax Identification Number                                                                    |
+	// | Bahamas                | `bs_tin`     | Bahamas Tax Identification Number                                                                       |
+	// | Bahrain                | `bh_vat`     | Bahraini VAT Number                                                                                     |
+	// | Bangladesh             | `bd_bin`     | Bangladesh Business Identification Number                                                               |
+	// | Barbados               | `bb_tin`     | Barbados Tax Identification Number                                                                      |
+	// | Belarus                | `by_tin`     | Belarus TIN Number                                                                                      |
+	// | Belgium                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Benin                  | `bj_ifu`     | Benin Tax Identification Number (Identifiant Fiscal Unique)                                             |
+	// | Bolivia                | `bo_tin`     | Bolivian Tax ID                                                                                         |
+	// | Bosnia and Herzegovina | `ba_tin`     | Bosnia and Herzegovina Tax Identification Number                                                        |
+	// | Brazil                 | `br_cnpj`    | Brazilian CNPJ Number                                                                                   |
+	// | Brazil                 | `br_cpf`     | Brazilian CPF Number                                                                                    |
+	// | Bulgaria               | `bg_uic`     | Bulgaria Unified Identification Code                                                                    |
+	// | Bulgaria               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Burkina Faso           | `bf_ifu`     | Burkina Faso Tax Identification Number (Numéro d'Identifiant Fiscal Unique)                             |
+	// | Cambodia               | `kh_tin`     | Cambodia Tax Identification Number                                                                      |
+	// | Cameroon               | `cm_niu`     | Cameroon Tax Identification Number (Numéro d'Identifiant fiscal Unique)                                 |
+	// | Canada                 | `ca_bn`      | Canadian BN                                                                                             |
+	// | Canada                 | `ca_gst_hst` | Canadian GST/HST Number                                                                                 |
+	// | Canada                 | `ca_pst_bc`  | Canadian PST Number (British Columbia)                                                                  |
+	// | Canada                 | `ca_pst_mb`  | Canadian PST Number (Manitoba)                                                                          |
+	// | Canada                 | `ca_pst_sk`  | Canadian PST Number (Saskatchewan)                                                                      |
+	// | Canada                 | `ca_qst`     | Canadian QST Number (Québec)                                                                            |
+	// | Cape Verde             | `cv_nif`     | Cape Verde Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Chile                  | `cl_tin`     | Chilean TIN                                                                                             |
+	// | China                  | `cn_tin`     | Chinese Tax ID                                                                                          |
+	// | Colombia               | `co_nit`     | Colombian NIT Number                                                                                    |
+	// | Congo-Kinshasa         | `cd_nif`     | Congo (DR) Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Costa Rica             | `cr_tin`     | Costa Rican Tax ID                                                                                      |
+	// | Croatia                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Croatia                | `hr_oib`     | Croatian Personal Identification Number (OIB)                                                           |
+	// | Cyprus                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Czech Republic         | `eu_vat`     | European VAT Number                                                                                     |
+	// | Denmark                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Dominican Republic     | `do_rcn`     | Dominican RCN Number                                                                                    |
+	// | Ecuador                | `ec_ruc`     | Ecuadorian RUC Number                                                                                   |
+	// | Egypt                  | `eg_tin`     | Egyptian Tax Identification Number                                                                      |
+	// | El Salvador            | `sv_nit`     | El Salvadorian NIT Number                                                                               |
+	// | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
+	// | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+	// | Finland                | `eu_vat`     | European VAT Number                                                                                     |
+	// | France                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
+	// | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
+	// | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
+	// | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
+	// | Hungary                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Hungary                | `hu_tin`     | Hungary Tax Number (adószám)                                                                            |
+	// | Iceland                | `is_vat`     | Icelandic VAT                                                                                           |
+	// | India                  | `in_gst`     | Indian GST Number                                                                                       |
+	// | Indonesia              | `id_npwp`    | Indonesian NPWP Number                                                                                  |
+	// | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Israel                 | `il_vat`     | Israel VAT                                                                                              |
+	// | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
+	// | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
+	// | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
+	// | Kazakhstan             | `kz_bin`     | Kazakhstani Business Identification Number                                                              |
+	// | Kenya                  | `ke_pin`     | Kenya Revenue Authority Personal Identification Number                                                  |
+	// | Kyrgyzstan             | `kg_tin`     | Kyrgyzstan Tax Identification Number                                                                    |
+	// | Laos                   | `la_tin`     | Laos Tax Identification Number                                                                          |
+	// | Latvia                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Liechtenstein          | `li_uid`     | Liechtensteinian UID Number                                                                             |
+	// | Liechtenstein          | `li_vat`     | Liechtenstein VAT Number                                                                                |
+	// | Lithuania              | `eu_vat`     | European VAT Number                                                                                     |
+	// | Luxembourg             | `eu_vat`     | European VAT Number                                                                                     |
+	// | Malaysia               | `my_frp`     | Malaysian FRP Number                                                                                    |
+	// | Malaysia               | `my_itn`     | Malaysian ITN                                                                                           |
+	// | Malaysia               | `my_sst`     | Malaysian SST Number                                                                                    |
+	// | Malta                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Mauritania             | `mr_nif`     | Mauritania Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Mexico                 | `mx_rfc`     | Mexican RFC Number                                                                                      |
+	// | Moldova                | `md_vat`     | Moldova VAT Number                                                                                      |
+	// | Montenegro             | `me_pib`     | Montenegro PIB Number                                                                                   |
+	// | Morocco                | `ma_vat`     | Morocco VAT Number                                                                                      |
+	// | Nepal                  | `np_pan`     | Nepal PAN Number                                                                                        |
+	// | Netherlands            | `eu_vat`     | European VAT Number                                                                                     |
+	// | New Zealand            | `nz_gst`     | New Zealand GST Number                                                                                  |
+	// | Nigeria                | `ng_tin`     | Nigerian Tax Identification Number                                                                      |
+	// | North Macedonia        | `mk_vat`     | North Macedonia VAT Number                                                                              |
+	// | Northern Ireland       | `eu_vat`     | Northern Ireland VAT Number                                                                             |
+	// | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
+	// | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
+	// | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+	// | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
+	// | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
+	// | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Portugal               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Romania                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Romania                | `ro_tin`     | Romanian Tax ID Number                                                                                  |
+	// | Russia                 | `ru_inn`     | Russian INN                                                                                             |
+	// | Russia                 | `ru_kpp`     | Russian KPP                                                                                             |
+	// | Saudi Arabia           | `sa_vat`     | Saudi Arabia VAT                                                                                        |
+	// | Senegal                | `sn_ninea`   | Senegal NINEA Number                                                                                    |
+	// | Serbia                 | `rs_pib`     | Serbian PIB Number                                                                                      |
+	// | Singapore              | `sg_gst`     | Singaporean GST                                                                                         |
+	// | Singapore              | `sg_uen`     | Singaporean UEN                                                                                         |
+	// | Slovakia               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Slovenia               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Slovenia               | `si_tin`     | Slovenia Tax Number (davčna številka)                                                                   |
+	// | South Africa           | `za_vat`     | South African VAT Number                                                                                |
+	// | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
+	// | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
+	// | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
+	// | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
+	// | Switzerland            | `ch_vat`     | Switzerland VAT Number                                                                                  |
+	// | Taiwan                 | `tw_vat`     | Taiwanese VAT                                                                                           |
+	// | Tajikistan             | `tj_tin`     | Tajikistan Tax Identification Number                                                                    |
+	// | Tanzania               | `tz_vat`     | Tanzania VAT Number                                                                                     |
+	// | Thailand               | `th_vat`     | Thai VAT                                                                                                |
+	// | Turkey                 | `tr_tin`     | Turkish Tax Identification Number                                                                       |
+	// | Uganda                 | `ug_tin`     | Uganda Tax Identification Number                                                                        |
+	// | Ukraine                | `ua_vat`     | Ukrainian VAT                                                                                           |
+	// | United Arab Emirates   | `ae_trn`     | United Arab Emirates TRN                                                                                |
+	// | United Kingdom         | `gb_vat`     | United Kingdom VAT Number                                                                               |
+	// | United States          | `us_ein`     | United States EIN                                                                                       |
+	// | Uruguay                | `uy_ruc`     | Uruguayan RUC Number                                                                                    |
+	// | Uzbekistan             | `uz_tin`     | Uzbekistan TIN Number                                                                                   |
+	// | Uzbekistan             | `uz_vat`     | Uzbekistan VAT Number                                                                                   |
+	// | Venezuela              | `ve_rif`     | Venezuelan RIF Number                                                                                   |
+	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
+	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
+	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
 	CustomerTaxID shared.CustomerTaxID `json:"customer_tax_id,required,nullable"`
 	// This field is deprecated in favor of `discounts`. If a `discounts` list is
 	// provided, the first discount in the list will be returned. If the list is empty,
