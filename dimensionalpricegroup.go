@@ -66,6 +66,20 @@ func (r *DimensionalPriceGroupService) Get(ctx context.Context, dimensionalPrice
 	return
 }
 
+// This endpoint can be used to update the `external_dimensional_price_group_id`
+// and `metadata` of an existing dimensional price group. Other fields on a
+// dimensional price group are currently immutable.
+func (r *DimensionalPriceGroupService) Update(ctx context.Context, dimensionalPriceGroupID string, body DimensionalPriceGroupUpdateParams, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
+	opts = append(r.Options[:], opts...)
+	if dimensionalPriceGroupID == "" {
+		err = errors.New("missing required dimensional_price_group_id parameter")
+		return
+	}
+	path := fmt.Sprintf("dimensional_price_groups/%s", dimensionalPriceGroupID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
+	return
+}
+
 // List dimensional price groups
 func (r *DimensionalPriceGroupService) List(ctx context.Context, query DimensionalPriceGroupListParams, opts ...option.RequestOption) (res *pagination.Page[DimensionalPriceGroup], err error) {
 	var raw *http.Response
@@ -169,6 +183,22 @@ type DimensionalPriceGroupNewParams struct {
 }
 
 func (r DimensionalPriceGroupNewParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type DimensionalPriceGroupUpdateParams struct {
+	// An optional user-defined ID for this dimensional price group resource, used
+	// throughout the system as an alias for this dimensional price group. Use this
+	// field to identify a dimensional price group by an existing identifier in your
+	// system.
+	ExternalDimensionalPriceGroupID param.Field[string] `json:"external_dimensional_price_group_id"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r DimensionalPriceGroupUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
