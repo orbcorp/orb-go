@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.13.1 (2025-08-29)
+
+Full Changelog: [v1.13.0...v1.13.1](https://github.com/orbcorp/orb-go/compare/v1.13.0...v1.13.1)
+
+### Bug Fixes
+
+* close body before retrying ([51e5dae](https://github.com/orbcorp/orb-go/commit/51e5dae8d83195cf16d895fec642da4254f4baae))
+
+
+### Chores
+
+* **internal:** codegen related update ([411fc44](https://github.com/orbcorp/orb-go/commit/411fc44ed519807619fcc4fbfcb77af9f67d46e2))
+
 ## 1.13.0 (2025-07-26)
 
 Full Changelog: [v1.12.0...v1.13.0](https://github.com/orbcorp/orb-go/compare/v1.12.0...v1.13.0)
