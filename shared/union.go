@@ -8,10 +8,6 @@ import (
 
 type UnionTime time.Time
 
-func (UnionTime) ImplementsCustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion() {
-}
-func (UnionTime) ImplementsCustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion() {
-}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()             {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()               {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion()  {}
