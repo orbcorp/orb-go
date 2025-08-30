@@ -2121,7 +2121,7 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// An ISO 8601 format date that denotes when this invoice should be dated in the
 	// customer's timezone. If not provided, the invoice date will default to the
 	// credit block's effective date.
-	InvoiceDate param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion] `json:"invoice_date" format:"date"`
+	InvoiceDate param.Field[time.Time] `json:"invoice_date" format:"date-time"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
 	// If true, the new credit block will require that the corresponding invoice is
@@ -2131,15 +2131,6 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 
 func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
-}
-
-// An ISO 8601 format date that denotes when this invoice should be dated in the
-// customer's timezone. If not provided, the invoice date will default to the
-// credit block's effective date.
-//
-// Satisfied by [shared.UnionTime], [shared.UnionTime].
-type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion interface {
-	ImplementsCustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion()
 }
 
 type CustomerCreditLedgerNewEntryParamsAddDecrementCreditLedgerEntryRequestParams struct {
@@ -2410,7 +2401,7 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// An ISO 8601 format date that denotes when this invoice should be dated in the
 	// customer's timezone. If not provided, the invoice date will default to the
 	// credit block's effective date.
-	InvoiceDate param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion] `json:"invoice_date" format:"date"`
+	InvoiceDate param.Field[time.Time] `json:"invoice_date" format:"date-time"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
 	// If true, the new credit block will require that the corresponding invoice is
@@ -2420,15 +2411,6 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 
 func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
-}
-
-// An ISO 8601 format date that denotes when this invoice should be dated in the
-// customer's timezone. If not provided, the invoice date will default to the
-// credit block's effective date.
-//
-// Satisfied by [shared.UnionTime], [shared.UnionTime].
-type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion interface {
-	ImplementsCustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettingsInvoiceDateUnion()
 }
 
 type CustomerCreditLedgerNewEntryByExternalIDParamsAddDecrementCreditLedgerEntryRequestParams struct {
