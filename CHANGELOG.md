@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.13.2 (2025-08-30)
+
+Full Changelog: [v1.13.1...v1.13.2](https://github.com/orbcorp/orb-go/compare/v1.13.1...v1.13.2)
+
+### Bug Fixes
+
+* remove unnecessary time unions ([cb6460b](https://github.com/orbcorp/orb-go/commit/cb6460b6577d1f665145f915aaff7f6652010230))
+
 ## 1.13.1 (2025-08-29)
 
 Full Changelog: [v1.13.0...v1.13.1](https://github.com/orbcorp/orb-go/compare/v1.13.0...v1.13.1)
