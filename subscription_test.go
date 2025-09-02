@@ -85,7 +85,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+				ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
 					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
@@ -204,7 +204,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+				ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
 					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
@@ -521,7 +521,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+					ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
 						ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 						UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 							UnitAmount: orb.F("unit_amount"),
@@ -700,7 +700,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+					ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
 						ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 						UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 							UnitAmount: orb.F("unit_amount"),
@@ -810,7 +810,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 					}),
 					ConversionRate: orb.F(0.000000),
-					ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+					ConversionRateConfig: orb.F[orb.NewSubscriptionUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
 						ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 						UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 							UnitAmount: orb.F("unit_amount"),
