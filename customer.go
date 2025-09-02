@@ -264,6 +264,10 @@ type Customer struct {
 	ID               string   `json:"id,required"`
 	AdditionalEmails []string `json:"additional_emails,required"`
 	AutoCollection   bool     `json:"auto_collection,required"`
+	// Whether invoices for this customer should be automatically issued. If true,
+	// invoices will be automatically issued. If false, invoices will require manual
+	// approval. If null, inherits the account-level setting.
+	AutoIssuance bool `json:"auto_issuance,required,nullable"`
 	// The customer's current balance in their currency.
 	Balance        string         `json:"balance,required"`
 	BillingAddress shared.Address `json:"billing_address,required,nullable"`
@@ -456,6 +460,7 @@ type customerJSON struct {
 	ID                          apijson.Field
 	AdditionalEmails            apijson.Field
 	AutoCollection              apijson.Field
+	AutoIssuance                apijson.Field
 	Balance                     apijson.Field
 	BillingAddress              apijson.Field
 	CreatedAt                   apijson.Field
@@ -749,7 +754,12 @@ type CustomerNewParams struct {
 	// Used to determine if invoices for this customer will automatically attempt to
 	// charge a saved payment method, if available. This parameter defaults to `True`
 	// when a payment provider is provided on customer creation.
-	AutoCollection param.Field[bool]              `json:"auto_collection"`
+	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// Used to determine if invoices for this customer will be automatically issued. If
+	// true, invoices will be automatically issued. If false, invoices will require
+	// manual approval. If `null` is specified, the customer's auto issuance setting
+	// will be inherited from the account-level setting.
+	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.
@@ -993,7 +1003,12 @@ type CustomerUpdateParams struct {
 	// Used to determine if invoices for this customer will automatically attempt to
 	// charge a saved payment method, if available. This parameter defaults to `True`
 	// when a payment provider is provided on customer creation.
-	AutoCollection param.Field[bool]              `json:"auto_collection"`
+	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// Used to determine if invoices for this customer will be automatically issued. If
+	// true, invoices will be automatically issued. If false, invoices will require
+	// manual approval.If `null` is specified, the customer's auto issuance setting
+	// will be inherited from the account-level setting.
+	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.
@@ -1267,7 +1282,12 @@ type CustomerUpdateByExternalIDParams struct {
 	// Used to determine if invoices for this customer will automatically attempt to
 	// charge a saved payment method, if available. This parameter defaults to `True`
 	// when a payment provider is provided on customer creation.
-	AutoCollection param.Field[bool]              `json:"auto_collection"`
+	AutoCollection param.Field[bool] `json:"auto_collection"`
+	// Used to determine if invoices for this customer will be automatically issued. If
+	// true, invoices will be automatically issued. If false, invoices will require
+	// manual approval.If `null` is specified, the customer's auto issuance setting
+	// will be inherited from the account-level setting.
+	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
 	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.

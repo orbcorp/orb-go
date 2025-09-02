@@ -109,7 +109,7 @@ type InvoiceLineItemNewResponse struct {
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
 	SubLineItems []InvoiceLineItemNewResponseSubLineItem `json:"sub_line_items,required"`
-	// The line amount before before any adjustments.
+	// The line amount before any adjustments.
 	Subtotal string `json:"subtotal,required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
@@ -165,8 +165,8 @@ type InvoiceLineItemNewResponseAdjustment struct {
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// This field can have the runtime type of [[]shared.TransformPriceFilter].
 	Filters interface{} `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`

@@ -118,30 +118,6 @@ const BillingCycleRelativeDateStartOfTerm = shared.BillingCycleRelativeDateStart
 const BillingCycleRelativeDateEndOfTerm = shared.BillingCycleRelativeDateEndOfTerm
 
 // This is an alias to an internal type.
-type BPSConfig = shared.BPSConfig
-
-// This is an alias to an internal type.
-type BPSConfigParam = shared.BPSConfigParam
-
-// This is an alias to an internal type.
-type BPSTier = shared.BPSTier
-
-// This is an alias to an internal type.
-type BPSTierParam = shared.BPSTierParam
-
-// This is an alias to an internal type.
-type BulkBPSConfig = shared.BulkBPSConfig
-
-// This is an alias to an internal type.
-type BulkBPSConfigParam = shared.BulkBPSConfigParam
-
-// This is an alias to an internal type.
-type BulkBPSTier = shared.BulkBPSTier
-
-// This is an alias to an internal type.
-type BulkBPSTierParam = shared.BulkBPSTierParam
-
-// This is an alias to an internal type.
 type BulkConfig = shared.BulkConfig
 
 // This is an alias to an internal type.
@@ -1315,6 +1291,9 @@ const InvoiceCustomerBalanceTransactionsActionOverpaymentRefund = shared.Invoice
 // This is an alias to an internal value.
 const InvoiceCustomerBalanceTransactionsActionExternalPayment = shared.InvoiceCustomerBalanceTransactionsActionExternalPayment
 
+// This is an alias to an internal value.
+const InvoiceCustomerBalanceTransactionsActionSmallInvoiceCarryover = shared.InvoiceCustomerBalanceTransactionsActionSmallInvoiceCarryover
+
 // This is an alias to an internal type.
 type InvoiceCustomerBalanceTransactionsType = shared.InvoiceCustomerBalanceTransactionsType
 
@@ -1585,94 +1564,6 @@ const NewBillingCycleConfigurationDurationUnitMonth = shared.NewBillingCycleConf
 
 // This is an alias to an internal type.
 type NewDimensionalPriceConfigurationParam = shared.NewDimensionalPriceConfigurationParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceParam = shared.NewFloatingBPSPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingBPSPriceCadence = shared.NewFloatingBPSPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceCadenceAnnual = shared.NewFloatingBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceCadenceSemiAnnual = shared.NewFloatingBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceCadenceMonthly = shared.NewFloatingBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceCadenceQuarterly = shared.NewFloatingBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceCadenceOneTime = shared.NewFloatingBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceCadenceCustom = shared.NewFloatingBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceModelType = shared.NewFloatingBPSPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceModelTypeBPS = shared.NewFloatingBPSPriceModelTypeBPS
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceUnionParam = shared.NewFloatingBPSPriceUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingBPSPriceConversionRateType = shared.NewFloatingBPSPriceConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceConversionRateTypeUnit = shared.NewFloatingBPSPriceConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingBPSPriceConversionRateTypeTiered = shared.NewFloatingBPSPriceConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceParam = shared.NewFloatingBulkBPSPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceCadence = shared.NewFloatingBulkBPSPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceCadenceAnnual = shared.NewFloatingBulkBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceCadenceSemiAnnual = shared.NewFloatingBulkBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceCadenceMonthly = shared.NewFloatingBulkBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceCadenceQuarterly = shared.NewFloatingBulkBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceCadenceOneTime = shared.NewFloatingBulkBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceCadenceCustom = shared.NewFloatingBulkBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceModelType = shared.NewFloatingBulkBPSPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceModelTypeBulkBPS = shared.NewFloatingBulkBPSPriceModelTypeBulkBPS
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceUnionParam = shared.NewFloatingBulkBPSPriceUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingBulkBPSPriceConversionRateType = shared.NewFloatingBulkBPSPriceConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceConversionRateTypeUnit = shared.NewFloatingBulkBPSPriceConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingBulkBPSPriceConversionRateTypeTiered = shared.NewFloatingBulkBPSPriceConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewFloatingBulkPriceParam = shared.NewFloatingBulkPriceParam
@@ -2423,50 +2314,6 @@ const NewFloatingThresholdTotalAmountPriceConversionRateTypeUnit = shared.NewFlo
 const NewFloatingThresholdTotalAmountPriceConversionRateTypeTiered = shared.NewFloatingThresholdTotalAmountPriceConversionRateTypeTiered
 
 // This is an alias to an internal type.
-type NewFloatingTieredBPSPriceParam = shared.NewFloatingTieredBPSPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceCadence = shared.NewFloatingTieredBPSPriceCadence
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceCadenceAnnual = shared.NewFloatingTieredBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceCadenceSemiAnnual = shared.NewFloatingTieredBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceCadenceMonthly = shared.NewFloatingTieredBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceCadenceQuarterly = shared.NewFloatingTieredBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceCadenceOneTime = shared.NewFloatingTieredBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceCadenceCustom = shared.NewFloatingTieredBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceModelType = shared.NewFloatingTieredBPSPriceModelType
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceModelTypeTieredBPS = shared.NewFloatingTieredBPSPriceModelTypeTieredBPS
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceUnionParam = shared.NewFloatingTieredBPSPriceUnionParam
-
-// This is an alias to an internal type.
-type NewFloatingTieredBPSPriceConversionRateType = shared.NewFloatingTieredBPSPriceConversionRateType
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceConversionRateTypeUnit = shared.NewFloatingTieredBPSPriceConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewFloatingTieredBPSPriceConversionRateTypeTiered = shared.NewFloatingTieredBPSPriceConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type NewFloatingTieredPackagePriceParam = shared.NewFloatingTieredPackagePriceParam
 
 // The cadence to bill for this price on.
@@ -2928,94 +2775,6 @@ const NewPercentageDiscountPriceTypeFixed = shared.NewPercentageDiscountPriceTyp
 
 // This is an alias to an internal value.
 const NewPercentageDiscountPriceTypeInArrears = shared.NewPercentageDiscountPriceTypeInArrears
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceParam = shared.NewPlanBPSPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewPlanBPSPriceCadence = shared.NewPlanBPSPriceCadence
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceCadenceAnnual = shared.NewPlanBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceCadenceSemiAnnual = shared.NewPlanBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceCadenceMonthly = shared.NewPlanBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceCadenceQuarterly = shared.NewPlanBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceCadenceOneTime = shared.NewPlanBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceCadenceCustom = shared.NewPlanBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceModelType = shared.NewPlanBPSPriceModelType
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceModelTypeBPS = shared.NewPlanBPSPriceModelTypeBPS
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceUnionParam = shared.NewPlanBPSPriceUnionParam
-
-// This is an alias to an internal type.
-type NewPlanBPSPriceConversionRateType = shared.NewPlanBPSPriceConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceConversionRateTypeUnit = shared.NewPlanBPSPriceConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanBPSPriceConversionRateTypeTiered = shared.NewPlanBPSPriceConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceParam = shared.NewPlanBulkBPSPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceCadence = shared.NewPlanBulkBPSPriceCadence
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceCadenceAnnual = shared.NewPlanBulkBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceCadenceSemiAnnual = shared.NewPlanBulkBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceCadenceMonthly = shared.NewPlanBulkBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceCadenceQuarterly = shared.NewPlanBulkBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceCadenceOneTime = shared.NewPlanBulkBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceCadenceCustom = shared.NewPlanBulkBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceModelType = shared.NewPlanBulkBPSPriceModelType
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceModelTypeBulkBPS = shared.NewPlanBulkBPSPriceModelTypeBulkBPS
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceUnionParam = shared.NewPlanBulkBPSPriceUnionParam
-
-// This is an alias to an internal type.
-type NewPlanBulkBPSPriceConversionRateType = shared.NewPlanBulkBPSPriceConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceConversionRateTypeUnit = shared.NewPlanBulkBPSPriceConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanBulkBPSPriceConversionRateTypeTiered = shared.NewPlanBulkBPSPriceConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanBulkPriceParam = shared.NewPlanBulkPriceParam
@@ -3810,50 +3569,6 @@ const NewPlanTierWithProrationPriceConversionRateTypeUnit = shared.NewPlanTierWi
 const NewPlanTierWithProrationPriceConversionRateTypeTiered = shared.NewPlanTierWithProrationPriceConversionRateTypeTiered
 
 // This is an alias to an internal type.
-type NewPlanTieredBPSPriceParam = shared.NewPlanTieredBPSPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceCadence = shared.NewPlanTieredBPSPriceCadence
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceCadenceAnnual = shared.NewPlanTieredBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceCadenceSemiAnnual = shared.NewPlanTieredBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceCadenceMonthly = shared.NewPlanTieredBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceCadenceQuarterly = shared.NewPlanTieredBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceCadenceOneTime = shared.NewPlanTieredBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceCadenceCustom = shared.NewPlanTieredBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceModelType = shared.NewPlanTieredBPSPriceModelType
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceModelTypeTieredBPS = shared.NewPlanTieredBPSPriceModelTypeTieredBPS
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceUnionParam = shared.NewPlanTieredBPSPriceUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTieredBPSPriceConversionRateType = shared.NewPlanTieredBPSPriceConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceConversionRateTypeUnit = shared.NewPlanTieredBPSPriceConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTieredBPSPriceConversionRateTypeTiered = shared.NewPlanTieredBPSPriceConversionRateTypeTiered
-
-// This is an alias to an internal type.
 type NewPlanTieredPackagePriceParam = shared.NewPlanTieredPackagePriceParam
 
 // The cadence to bill for this price on.
@@ -4454,123 +4169,6 @@ const PriceTieredPricePriceTypeUsagePrice = shared.PriceTieredPricePriceTypeUsag
 
 // This is an alias to an internal value.
 const PriceTieredPricePriceTypeFixedPrice = shared.PriceTieredPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceTieredBPSPrice = shared.PriceTieredBPSPrice
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceCadence = shared.PriceTieredBPSPriceCadence
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceCadenceOneTime = shared.PriceTieredBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceCadenceMonthly = shared.PriceTieredBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceCadenceQuarterly = shared.PriceTieredBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceCadenceSemiAnnual = shared.PriceTieredBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceCadenceAnnual = shared.PriceTieredBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceCadenceCustom = shared.PriceTieredBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceTieredBPSPriceModelType = shared.PriceTieredBPSPriceModelType
-
-// This is an alias to an internal value.
-const PriceTieredBPSPriceModelTypeTieredBPS = shared.PriceTieredBPSPriceModelTypeTieredBPS
-
-// This is an alias to an internal type.
-type PriceTieredBPSPricePriceType = shared.PriceTieredBPSPricePriceType
-
-// This is an alias to an internal value.
-const PriceTieredBPSPricePriceTypeUsagePrice = shared.PriceTieredBPSPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceTieredBPSPricePriceTypeFixedPrice = shared.PriceTieredBPSPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceBPSPrice = shared.PriceBPSPrice
-
-// This is an alias to an internal type.
-type PriceBPSPriceCadence = shared.PriceBPSPriceCadence
-
-// This is an alias to an internal value.
-const PriceBPSPriceCadenceOneTime = shared.PriceBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceBPSPriceCadenceMonthly = shared.PriceBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceBPSPriceCadenceQuarterly = shared.PriceBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceBPSPriceCadenceSemiAnnual = shared.PriceBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceBPSPriceCadenceAnnual = shared.PriceBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceBPSPriceCadenceCustom = shared.PriceBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceBPSPriceModelType = shared.PriceBPSPriceModelType
-
-// This is an alias to an internal value.
-const PriceBPSPriceModelTypeBPS = shared.PriceBPSPriceModelTypeBPS
-
-// This is an alias to an internal type.
-type PriceBPSPricePriceType = shared.PriceBPSPricePriceType
-
-// This is an alias to an internal value.
-const PriceBPSPricePriceTypeUsagePrice = shared.PriceBPSPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceBPSPricePriceTypeFixedPrice = shared.PriceBPSPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceBulkBPSPrice = shared.PriceBulkBPSPrice
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceCadence = shared.PriceBulkBPSPriceCadence
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceCadenceOneTime = shared.PriceBulkBPSPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceCadenceMonthly = shared.PriceBulkBPSPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceCadenceQuarterly = shared.PriceBulkBPSPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceCadenceSemiAnnual = shared.PriceBulkBPSPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceCadenceAnnual = shared.PriceBulkBPSPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceCadenceCustom = shared.PriceBulkBPSPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceBulkBPSPriceModelType = shared.PriceBulkBPSPriceModelType
-
-// This is an alias to an internal value.
-const PriceBulkBPSPriceModelTypeBulkBPS = shared.PriceBulkBPSPriceModelTypeBulkBPS
-
-// This is an alias to an internal type.
-type PriceBulkBPSPricePriceType = shared.PriceBulkBPSPricePriceType
-
-// This is an alias to an internal value.
-const PriceBulkBPSPricePriceTypeUsagePrice = shared.PriceBulkBPSPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceBulkBPSPricePriceTypeFixedPrice = shared.PriceBulkBPSPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceBulkPrice = shared.PriceBulkPrice
@@ -5431,6 +5029,48 @@ const PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice = shared.PriceGro
 const PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice = shared.PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
+type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
+
+// This is an alias to an internal type.
+type PriceMinimumCompositePriceCadence = shared.PriceMinimumCompositePriceCadence
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCadenceOneTime = shared.PriceMinimumCompositePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCadenceMonthly = shared.PriceMinimumCompositePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCadenceQuarterly = shared.PriceMinimumCompositePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCadenceSemiAnnual = shared.PriceMinimumCompositePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCadenceAnnual = shared.PriceMinimumCompositePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCadenceCustom = shared.PriceMinimumCompositePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceMinimumCompositePriceMinimumConfig = shared.PriceMinimumCompositePriceMinimumConfig
+
+// This is an alias to an internal type.
+type PriceMinimumCompositePriceModelType = shared.PriceMinimumCompositePriceModelType
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceModelTypeMinimum = shared.PriceMinimumCompositePriceModelTypeMinimum
+
+// This is an alias to an internal type.
+type PriceMinimumCompositePricePriceType = shared.PriceMinimumCompositePricePriceType
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePricePriceTypeUsagePrice = shared.PriceMinimumCompositePricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePricePriceTypeFixedPrice = shared.PriceMinimumCompositePricePriceTypeFixedPrice
+
+// This is an alias to an internal type.
 type PriceCadence = shared.PriceCadence
 
 // This is an alias to an internal value.
@@ -5465,15 +5105,6 @@ const PriceModelTypeMatrix = shared.PriceModelTypeMatrix
 
 // This is an alias to an internal value.
 const PriceModelTypeTiered = shared.PriceModelTypeTiered
-
-// This is an alias to an internal value.
-const PriceModelTypeTieredBPS = shared.PriceModelTypeTieredBPS
-
-// This is an alias to an internal value.
-const PriceModelTypeBPS = shared.PriceModelTypeBPS
-
-// This is an alias to an internal value.
-const PriceModelTypeBulkBPS = shared.PriceModelTypeBulkBPS
 
 // This is an alias to an internal value.
 const PriceModelTypeBulk = shared.PriceModelTypeBulk
@@ -5541,6 +5172,9 @@ const PriceModelTypeCumulativeGroupedBulk = shared.PriceModelTypeCumulativeGroup
 // This is an alias to an internal value.
 const PriceModelTypeGroupedWithMinMaxThresholds = shared.PriceModelTypeGroupedWithMinMaxThresholds
 
+// This is an alias to an internal value.
+const PriceModelTypeMinimum = shared.PriceModelTypeMinimum
+
 // This is an alias to an internal type.
 type PricePriceType = shared.PricePriceType
 
@@ -5592,12 +5226,6 @@ type TierSubLineItemType = shared.TierSubLineItemType
 
 // This is an alias to an internal value.
 const TierSubLineItemTypeTier = shared.TierSubLineItemTypeTier
-
-// This is an alias to an internal type.
-type TieredBPSConfig = shared.TieredBPSConfig
-
-// This is an alias to an internal type.
-type TieredBPSConfigParam = shared.TieredBPSConfigParam
 
 // This is an alias to an internal type.
 type TieredConfig = shared.TieredConfig
