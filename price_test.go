@@ -199,7 +199,7 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+				ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
 					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
@@ -279,7 +279,7 @@ func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
+				ConversionRateConfig: orb.F[shared.NewFloatingUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
 					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
