@@ -117,15 +117,23 @@ const BillingCycleRelativeDateStartOfTerm = shared.BillingCycleRelativeDateStart
 // This is an alias to an internal value.
 const BillingCycleRelativeDateEndOfTerm = shared.BillingCycleRelativeDateEndOfTerm
 
+// Configuration for bulk pricing
+//
 // This is an alias to an internal type.
 type BulkConfig = shared.BulkConfig
 
+// Configuration for bulk pricing
+//
 // This is an alias to an internal type.
 type BulkConfigParam = shared.BulkConfigParam
 
+// Configuration for a single bulk pricing tier
+//
 // This is an alias to an internal type.
 type BulkTier = shared.BulkTier
 
+// Configuration for a single bulk pricing tier
+//
 // This is an alias to an internal type.
 type BulkTierParam = shared.BulkTierParam
 
@@ -1404,9 +1412,13 @@ type InvoiceTiny = shared.InvoiceTiny
 // This is an alias to an internal type.
 type ItemSlim = shared.ItemSlim
 
+// Configuration for matrix pricing
+//
 // This is an alias to an internal type.
 type MatrixConfig = shared.MatrixConfig
 
+// Configuration for matrix pricing
+//
 // This is an alias to an internal type.
 type MatrixConfigParam = shared.MatrixConfigParam
 
@@ -1419,17 +1431,35 @@ type MatrixSubLineItemType = shared.MatrixSubLineItemType
 // This is an alias to an internal value.
 const MatrixSubLineItemTypeMatrix = shared.MatrixSubLineItemTypeMatrix
 
+// Configuration for a single matrix value
+//
 // This is an alias to an internal type.
 type MatrixValue = shared.MatrixValue
 
+// Configuration for a single matrix value
+//
 // This is an alias to an internal type.
 type MatrixValueParam = shared.MatrixValueParam
 
+// Configuration for matrix pricing with usage allocation
+//
 // This is an alias to an internal type.
 type MatrixWithAllocationConfig = shared.MatrixWithAllocationConfig
 
+// Configuration for a single matrix value
+//
+// This is an alias to an internal type.
+type MatrixWithAllocationConfigMatrixValue = shared.MatrixWithAllocationConfigMatrixValue
+
+// Configuration for matrix pricing with usage allocation
+//
 // This is an alias to an internal type.
 type MatrixWithAllocationConfigParam = shared.MatrixWithAllocationConfigParam
+
+// Configuration for a single matrix value
+//
+// This is an alias to an internal type.
+type MatrixWithAllocationConfigMatrixValueParam = shared.MatrixWithAllocationConfigMatrixValueParam
 
 // This is an alias to an internal type.
 type Maximum = shared.Maximum
@@ -1591,6 +1621,8 @@ const NewFloatingBulkPriceCadenceOneTime = shared.NewFloatingBulkPriceCadenceOne
 // This is an alias to an internal value.
 const NewFloatingBulkPriceCadenceCustom = shared.NewFloatingBulkPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingBulkPriceModelType = shared.NewFloatingBulkPriceModelType
 
@@ -1611,6 +1643,16 @@ const NewFloatingBulkPriceConversionRateConfigConversionRateTypeTiered = shared.
 
 // This is an alias to an internal type.
 type NewFloatingBulkWithProrationPriceParam = shared.NewFloatingBulkWithProrationPriceParam
+
+// Configuration for bulk_with_proration pricing
+//
+// This is an alias to an internal type.
+type NewFloatingBulkWithProrationPriceBulkWithProrationConfigParam = shared.NewFloatingBulkWithProrationPriceBulkWithProrationConfigParam
+
+// Configuration for a single bulk pricing tier with proration
+//
+// This is an alias to an internal type.
+type NewFloatingBulkWithProrationPriceBulkWithProrationConfigTierParam = shared.NewFloatingBulkWithProrationPriceBulkWithProrationConfigTierParam
 
 // The cadence to bill for this price on.
 //
@@ -1635,6 +1677,8 @@ const NewFloatingBulkWithProrationPriceCadenceOneTime = shared.NewFloatingBulkWi
 // This is an alias to an internal value.
 const NewFloatingBulkWithProrationPriceCadenceCustom = shared.NewFloatingBulkWithProrationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingBulkWithProrationPriceModelType = shared.NewFloatingBulkWithProrationPriceModelType
 
@@ -1679,6 +1723,18 @@ const NewFloatingCumulativeGroupedBulkPriceCadenceOneTime = shared.NewFloatingCu
 // This is an alias to an internal value.
 const NewFloatingCumulativeGroupedBulkPriceCadenceCustom = shared.NewFloatingCumulativeGroupedBulkPriceCadenceCustom
 
+// Configuration for cumulative_grouped_bulk pricing
+//
+// This is an alias to an internal type.
+type NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam = shared.NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam
+
+// Configuration for a dimension value entry
+//
+// This is an alias to an internal type.
+type NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam = shared.NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingCumulativeGroupedBulkPriceModelType = shared.NewFloatingCumulativeGroupedBulkPriceModelType
 
@@ -1723,6 +1779,13 @@ const NewFloatingGroupedAllocationPriceCadenceOneTime = shared.NewFloatingGroupe
 // This is an alias to an internal value.
 const NewFloatingGroupedAllocationPriceCadenceCustom = shared.NewFloatingGroupedAllocationPriceCadenceCustom
 
+// Configuration for grouped_allocation pricing
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedAllocationPriceGroupedAllocationConfigParam = shared.NewFloatingGroupedAllocationPriceGroupedAllocationConfigParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingGroupedAllocationPriceModelType = shared.NewFloatingGroupedAllocationPriceModelType
 
@@ -1767,6 +1830,18 @@ const NewFloatingGroupedTieredPackagePriceCadenceOneTime = shared.NewFloatingGro
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPackagePriceCadenceCustom = shared.NewFloatingGroupedTieredPackagePriceCadenceCustom
 
+// Configuration for grouped_tiered_package pricing
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam = shared.NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam = shared.NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingGroupedTieredPackagePriceModelType = shared.NewFloatingGroupedTieredPackagePriceModelType
 
@@ -1811,6 +1886,18 @@ const NewFloatingGroupedTieredPriceCadenceOneTime = shared.NewFloatingGroupedTie
 // This is an alias to an internal value.
 const NewFloatingGroupedTieredPriceCadenceCustom = shared.NewFloatingGroupedTieredPriceCadenceCustom
 
+// Configuration for grouped_tiered pricing
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedTieredPriceGroupedTieredConfigParam = shared.NewFloatingGroupedTieredPriceGroupedTieredConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedTieredPriceGroupedTieredConfigTierParam = shared.NewFloatingGroupedTieredPriceGroupedTieredConfigTierParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingGroupedTieredPriceModelType = shared.NewFloatingGroupedTieredPriceModelType
 
@@ -1855,6 +1942,23 @@ const NewFloatingGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewFloati
 // This is an alias to an internal value.
 const NewFloatingGroupedWithMeteredMinimumPriceCadenceCustom = shared.NewFloatingGroupedWithMeteredMinimumPriceCadenceCustom
 
+// Configuration for grouped_with_metered_minimum pricing
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam = shared.NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam
+
+// Configuration for a scaling factor
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam = shared.NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam
+
+// Configuration for a unit amount
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam = shared.NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingGroupedWithMeteredMinimumPriceModelType = shared.NewFloatingGroupedWithMeteredMinimumPriceModelType
 
@@ -1899,6 +2003,13 @@ const NewFloatingGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewFloat
 // This is an alias to an internal value.
 const NewFloatingGroupedWithProratedMinimumPriceCadenceCustom = shared.NewFloatingGroupedWithProratedMinimumPriceCadenceCustom
 
+// Configuration for grouped_with_prorated_minimum pricing
+//
+// This is an alias to an internal type.
+type NewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam = shared.NewFloatingGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingGroupedWithProratedMinimumPriceModelType = shared.NewFloatingGroupedWithProratedMinimumPriceModelType
 
@@ -1943,6 +2054,8 @@ const NewFloatingMatrixPriceCadenceOneTime = shared.NewFloatingMatrixPriceCadenc
 // This is an alias to an internal value.
 const NewFloatingMatrixPriceCadenceCustom = shared.NewFloatingMatrixPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingMatrixPriceModelType = shared.NewFloatingMatrixPriceModelType
 
@@ -1987,6 +2100,8 @@ const NewFloatingMatrixWithAllocationPriceCadenceOneTime = shared.NewFloatingMat
 // This is an alias to an internal value.
 const NewFloatingMatrixWithAllocationPriceCadenceCustom = shared.NewFloatingMatrixWithAllocationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingMatrixWithAllocationPriceModelType = shared.NewFloatingMatrixWithAllocationPriceModelType
 
@@ -2031,6 +2146,18 @@ const NewFloatingMatrixWithDisplayNamePriceCadenceOneTime = shared.NewFloatingMa
 // This is an alias to an internal value.
 const NewFloatingMatrixWithDisplayNamePriceCadenceCustom = shared.NewFloatingMatrixWithDisplayNamePriceCadenceCustom
 
+// Configuration for matrix_with_display_name pricing
+//
+// This is an alias to an internal type.
+type NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam = shared.NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam
+
+// Configuration for a unit amount item
+//
+// This is an alias to an internal type.
+type NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam = shared.NewFloatingMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingMatrixWithDisplayNamePriceModelType = shared.NewFloatingMatrixWithDisplayNamePriceModelType
 
@@ -2075,6 +2202,18 @@ const NewFloatingMaxGroupTieredPackagePriceCadenceOneTime = shared.NewFloatingMa
 // This is an alias to an internal value.
 const NewFloatingMaxGroupTieredPackagePriceCadenceCustom = shared.NewFloatingMaxGroupTieredPackagePriceCadenceCustom
 
+// Configuration for max_group_tiered_package pricing
+//
+// This is an alias to an internal type.
+type NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam = shared.NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam = shared.NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingMaxGroupTieredPackagePriceModelType = shared.NewFloatingMaxGroupTieredPackagePriceModelType
 
@@ -2119,9 +2258,13 @@ const NewFloatingMinimumCompositePriceCadenceOneTime = shared.NewFloatingMinimum
 // This is an alias to an internal value.
 const NewFloatingMinimumCompositePriceCadenceCustom = shared.NewFloatingMinimumCompositePriceCadenceCustom
 
+// Configuration for minimum pricing
+//
 // This is an alias to an internal type.
 type NewFloatingMinimumCompositePriceMinimumConfigParam = shared.NewFloatingMinimumCompositePriceMinimumConfigParam
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingMinimumCompositePriceModelType = shared.NewFloatingMinimumCompositePriceModelType
 
@@ -2166,6 +2309,8 @@ const NewFloatingPackagePriceCadenceOneTime = shared.NewFloatingPackagePriceCade
 // This is an alias to an internal value.
 const NewFloatingPackagePriceCadenceCustom = shared.NewFloatingPackagePriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingPackagePriceModelType = shared.NewFloatingPackagePriceModelType
 
@@ -2210,11 +2355,18 @@ const NewFloatingPackageWithAllocationPriceCadenceOneTime = shared.NewFloatingPa
 // This is an alias to an internal value.
 const NewFloatingPackageWithAllocationPriceCadenceCustom = shared.NewFloatingPackageWithAllocationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingPackageWithAllocationPriceModelType = shared.NewFloatingPackageWithAllocationPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation = shared.NewFloatingPackageWithAllocationPriceModelTypePackageWithAllocation
+
+// Configuration for package_with_allocation pricing
+//
+// This is an alias to an internal type.
+type NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam = shared.NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam
 
 // This is an alias to an internal type.
 type NewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam = shared.NewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam
@@ -2254,11 +2406,28 @@ const NewFloatingScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.New
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom = shared.NewFloatingScalableMatrixWithTieredPricingPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingScalableMatrixWithTieredPricingPriceModelType = shared.NewFloatingScalableMatrixWithTieredPricingPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.NewFloatingScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
+
+// Configuration for scalable_matrix_with_tiered_pricing pricing
+//
+// This is an alias to an internal type.
+type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam
+
+// Configuration for a single matrix scaling factor
+//
+// This is an alias to an internal type.
+type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam
+
+// Configuration for a single tier entry with business logic
+//
+// This is an alias to an internal type.
+type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam
 
 // This is an alias to an internal type.
 type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam = shared.NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam
@@ -2298,11 +2467,23 @@ const NewFloatingScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewFl
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom = shared.NewFloatingScalableMatrixWithUnitPricingPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingScalableMatrixWithUnitPricingPriceModelType = shared.NewFloatingScalableMatrixWithUnitPricingPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.NewFloatingScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
+
+// Configuration for scalable_matrix_with_unit_pricing pricing
+//
+// This is an alias to an internal type.
+type NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam
+
+// Configuration for a single matrix scaling factor
+//
+// This is an alias to an internal type.
+type NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam
 
 // This is an alias to an internal type.
 type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam = shared.NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam
@@ -2342,11 +2523,23 @@ const NewFloatingThresholdTotalAmountPriceCadenceOneTime = shared.NewFloatingThr
 // This is an alias to an internal value.
 const NewFloatingThresholdTotalAmountPriceCadenceCustom = shared.NewFloatingThresholdTotalAmountPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingThresholdTotalAmountPriceModelType = shared.NewFloatingThresholdTotalAmountPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.NewFloatingThresholdTotalAmountPriceModelTypeThresholdTotalAmount
+
+// Configuration for threshold_total_amount pricing
+//
+// This is an alias to an internal type.
+type NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigParam = shared.NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigParam
+
+// Configuration for a single threshold
+//
+// This is an alias to an internal type.
+type NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam = shared.NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam
 
 // This is an alias to an internal type.
 type NewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam = shared.NewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam
@@ -2386,11 +2579,23 @@ const NewFloatingTieredPackagePriceCadenceOneTime = shared.NewFloatingTieredPack
 // This is an alias to an internal value.
 const NewFloatingTieredPackagePriceCadenceCustom = shared.NewFloatingTieredPackagePriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingTieredPackagePriceModelType = shared.NewFloatingTieredPackagePriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingTieredPackagePriceModelTypeTieredPackage = shared.NewFloatingTieredPackagePriceModelTypeTieredPackage
+
+// Configuration for tiered_package pricing
+//
+// This is an alias to an internal type.
+type NewFloatingTieredPackagePriceTieredPackageConfigParam = shared.NewFloatingTieredPackagePriceTieredPackageConfigParam
+
+// Configuration for a single tier with business logic
+//
+// This is an alias to an internal type.
+type NewFloatingTieredPackagePriceTieredPackageConfigTierParam = shared.NewFloatingTieredPackagePriceTieredPackageConfigTierParam
 
 // This is an alias to an internal type.
 type NewFloatingTieredPackagePriceConversionRateConfigUnionParam = shared.NewFloatingTieredPackagePriceConversionRateConfigUnionParam
@@ -2430,11 +2635,23 @@ const NewFloatingTieredPackageWithMinimumPriceCadenceOneTime = shared.NewFloatin
 // This is an alias to an internal value.
 const NewFloatingTieredPackageWithMinimumPriceCadenceCustom = shared.NewFloatingTieredPackageWithMinimumPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingTieredPackageWithMinimumPriceModelType = shared.NewFloatingTieredPackageWithMinimumPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum = shared.NewFloatingTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum
+
+// Configuration for tiered_package_with_minimum pricing
+//
+// This is an alias to an internal type.
+type NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam = shared.NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam = shared.NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam
 
 // This is an alias to an internal type.
 type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam = shared.NewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam
@@ -2474,6 +2691,8 @@ const NewFloatingTieredPriceCadenceOneTime = shared.NewFloatingTieredPriceCadenc
 // This is an alias to an internal value.
 const NewFloatingTieredPriceCadenceCustom = shared.NewFloatingTieredPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingTieredPriceModelType = shared.NewFloatingTieredPriceModelType
 
@@ -2518,11 +2737,23 @@ const NewFloatingTieredWithMinimumPriceCadenceOneTime = shared.NewFloatingTiered
 // This is an alias to an internal value.
 const NewFloatingTieredWithMinimumPriceCadenceCustom = shared.NewFloatingTieredWithMinimumPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingTieredWithMinimumPriceModelType = shared.NewFloatingTieredWithMinimumPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.NewFloatingTieredWithMinimumPriceModelTypeTieredWithMinimum
+
+// Configuration for tiered_with_minimum pricing
+//
+// This is an alias to an internal type.
+type NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigParam = shared.NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam = shared.NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam
 
 // This is an alias to an internal type.
 type NewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam = shared.NewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam
@@ -2562,11 +2793,23 @@ const NewFloatingTieredWithProrationPriceCadenceOneTime = shared.NewFloatingTier
 // This is an alias to an internal value.
 const NewFloatingTieredWithProrationPriceCadenceCustom = shared.NewFloatingTieredWithProrationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingTieredWithProrationPriceModelType = shared.NewFloatingTieredWithProrationPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingTieredWithProrationPriceModelTypeTieredWithProration = shared.NewFloatingTieredWithProrationPriceModelTypeTieredWithProration
+
+// Configuration for tiered_with_proration pricing
+//
+// This is an alias to an internal type.
+type NewFloatingTieredWithProrationPriceTieredWithProrationConfigParam = shared.NewFloatingTieredWithProrationPriceTieredWithProrationConfigParam
+
+// Configuration for a single tiered with proration tier
+//
+// This is an alias to an internal type.
+type NewFloatingTieredWithProrationPriceTieredWithProrationConfigTierParam = shared.NewFloatingTieredWithProrationPriceTieredWithProrationConfigTierParam
 
 // This is an alias to an internal type.
 type NewFloatingTieredWithProrationPriceConversionRateConfigUnionParam = shared.NewFloatingTieredWithProrationPriceConversionRateConfigUnionParam
@@ -2606,6 +2849,8 @@ const NewFloatingUnitPriceCadenceOneTime = shared.NewFloatingUnitPriceCadenceOne
 // This is an alias to an internal value.
 const NewFloatingUnitPriceCadenceCustom = shared.NewFloatingUnitPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingUnitPriceModelType = shared.NewFloatingUnitPriceModelType
 
@@ -2650,11 +2895,18 @@ const NewFloatingUnitWithPercentPriceCadenceOneTime = shared.NewFloatingUnitWith
 // This is an alias to an internal value.
 const NewFloatingUnitWithPercentPriceCadenceCustom = shared.NewFloatingUnitWithPercentPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingUnitWithPercentPriceModelType = shared.NewFloatingUnitWithPercentPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingUnitWithPercentPriceModelTypeUnitWithPercent = shared.NewFloatingUnitWithPercentPriceModelTypeUnitWithPercent
+
+// Configuration for unit_with_percent pricing
+//
+// This is an alias to an internal type.
+type NewFloatingUnitWithPercentPriceUnitWithPercentConfigParam = shared.NewFloatingUnitWithPercentPriceUnitWithPercentConfigParam
 
 // This is an alias to an internal type.
 type NewFloatingUnitWithPercentPriceConversionRateConfigUnionParam = shared.NewFloatingUnitWithPercentPriceConversionRateConfigUnionParam
@@ -2694,11 +2946,18 @@ const NewFloatingUnitWithProrationPriceCadenceOneTime = shared.NewFloatingUnitWi
 // This is an alias to an internal value.
 const NewFloatingUnitWithProrationPriceCadenceCustom = shared.NewFloatingUnitWithProrationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewFloatingUnitWithProrationPriceModelType = shared.NewFloatingUnitWithProrationPriceModelType
 
 // This is an alias to an internal value.
 const NewFloatingUnitWithProrationPriceModelTypeUnitWithProration = shared.NewFloatingUnitWithProrationPriceModelTypeUnitWithProration
+
+// Configuration for unit_with_proration pricing
+//
+// This is an alias to an internal type.
+type NewFloatingUnitWithProrationPriceUnitWithProrationConfigParam = shared.NewFloatingUnitWithProrationPriceUnitWithProrationConfigParam
 
 // This is an alias to an internal type.
 type NewFloatingUnitWithProrationPriceConversionRateConfigUnionParam = shared.NewFloatingUnitWithProrationPriceConversionRateConfigUnionParam
@@ -2849,6 +3108,8 @@ const NewPlanBulkPriceCadenceOneTime = shared.NewPlanBulkPriceCadenceOneTime
 // This is an alias to an internal value.
 const NewPlanBulkPriceCadenceCustom = shared.NewPlanBulkPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanBulkPriceModelType = shared.NewPlanBulkPriceModelType
 
@@ -2869,6 +3130,16 @@ const NewPlanBulkPriceConversionRateConfigConversionRateTypeTiered = shared.NewP
 
 // This is an alias to an internal type.
 type NewPlanBulkWithProrationPriceParam = shared.NewPlanBulkWithProrationPriceParam
+
+// Configuration for bulk_with_proration pricing
+//
+// This is an alias to an internal type.
+type NewPlanBulkWithProrationPriceBulkWithProrationConfigParam = shared.NewPlanBulkWithProrationPriceBulkWithProrationConfigParam
+
+// Configuration for a single bulk pricing tier with proration
+//
+// This is an alias to an internal type.
+type NewPlanBulkWithProrationPriceBulkWithProrationConfigTierParam = shared.NewPlanBulkWithProrationPriceBulkWithProrationConfigTierParam
 
 // The cadence to bill for this price on.
 //
@@ -2893,6 +3164,8 @@ const NewPlanBulkWithProrationPriceCadenceOneTime = shared.NewPlanBulkWithProrat
 // This is an alias to an internal value.
 const NewPlanBulkWithProrationPriceCadenceCustom = shared.NewPlanBulkWithProrationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanBulkWithProrationPriceModelType = shared.NewPlanBulkWithProrationPriceModelType
 
@@ -2937,6 +3210,18 @@ const NewPlanCumulativeGroupedBulkPriceCadenceOneTime = shared.NewPlanCumulative
 // This is an alias to an internal value.
 const NewPlanCumulativeGroupedBulkPriceCadenceCustom = shared.NewPlanCumulativeGroupedBulkPriceCadenceCustom
 
+// Configuration for cumulative_grouped_bulk pricing
+//
+// This is an alias to an internal type.
+type NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam = shared.NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam
+
+// Configuration for a dimension value entry
+//
+// This is an alias to an internal type.
+type NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam = shared.NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanCumulativeGroupedBulkPriceModelType = shared.NewPlanCumulativeGroupedBulkPriceModelType
 
@@ -2981,6 +3266,13 @@ const NewPlanGroupedAllocationPriceCadenceOneTime = shared.NewPlanGroupedAllocat
 // This is an alias to an internal value.
 const NewPlanGroupedAllocationPriceCadenceCustom = shared.NewPlanGroupedAllocationPriceCadenceCustom
 
+// Configuration for grouped_allocation pricing
+//
+// This is an alias to an internal type.
+type NewPlanGroupedAllocationPriceGroupedAllocationConfigParam = shared.NewPlanGroupedAllocationPriceGroupedAllocationConfigParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanGroupedAllocationPriceModelType = shared.NewPlanGroupedAllocationPriceModelType
 
@@ -3025,6 +3317,18 @@ const NewPlanGroupedTieredPackagePriceCadenceOneTime = shared.NewPlanGroupedTier
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPackagePriceCadenceCustom = shared.NewPlanGroupedTieredPackagePriceCadenceCustom
 
+// Configuration for grouped_tiered_package pricing
+//
+// This is an alias to an internal type.
+type NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam = shared.NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam = shared.NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanGroupedTieredPackagePriceModelType = shared.NewPlanGroupedTieredPackagePriceModelType
 
@@ -3069,6 +3373,18 @@ const NewPlanGroupedTieredPriceCadenceOneTime = shared.NewPlanGroupedTieredPrice
 // This is an alias to an internal value.
 const NewPlanGroupedTieredPriceCadenceCustom = shared.NewPlanGroupedTieredPriceCadenceCustom
 
+// Configuration for grouped_tiered pricing
+//
+// This is an alias to an internal type.
+type NewPlanGroupedTieredPriceGroupedTieredConfigParam = shared.NewPlanGroupedTieredPriceGroupedTieredConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewPlanGroupedTieredPriceGroupedTieredConfigTierParam = shared.NewPlanGroupedTieredPriceGroupedTieredConfigTierParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanGroupedTieredPriceModelType = shared.NewPlanGroupedTieredPriceModelType
 
@@ -3113,6 +3429,23 @@ const NewPlanGroupedWithMeteredMinimumPriceCadenceOneTime = shared.NewPlanGroupe
 // This is an alias to an internal value.
 const NewPlanGroupedWithMeteredMinimumPriceCadenceCustom = shared.NewPlanGroupedWithMeteredMinimumPriceCadenceCustom
 
+// Configuration for grouped_with_metered_minimum pricing
+//
+// This is an alias to an internal type.
+type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam = shared.NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam
+
+// Configuration for a scaling factor
+//
+// This is an alias to an internal type.
+type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam = shared.NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam
+
+// Configuration for a unit amount
+//
+// This is an alias to an internal type.
+type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam = shared.NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanGroupedWithMeteredMinimumPriceModelType = shared.NewPlanGroupedWithMeteredMinimumPriceModelType
 
@@ -3157,6 +3490,13 @@ const NewPlanGroupedWithProratedMinimumPriceCadenceOneTime = shared.NewPlanGroup
 // This is an alias to an internal value.
 const NewPlanGroupedWithProratedMinimumPriceCadenceCustom = shared.NewPlanGroupedWithProratedMinimumPriceCadenceCustom
 
+// Configuration for grouped_with_prorated_minimum pricing
+//
+// This is an alias to an internal type.
+type NewPlanGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam = shared.NewPlanGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanGroupedWithProratedMinimumPriceModelType = shared.NewPlanGroupedWithProratedMinimumPriceModelType
 
@@ -3201,6 +3541,8 @@ const NewPlanMatrixPriceCadenceOneTime = shared.NewPlanMatrixPriceCadenceOneTime
 // This is an alias to an internal value.
 const NewPlanMatrixPriceCadenceCustom = shared.NewPlanMatrixPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanMatrixPriceModelType = shared.NewPlanMatrixPriceModelType
 
@@ -3245,6 +3587,8 @@ const NewPlanMatrixWithAllocationPriceCadenceOneTime = shared.NewPlanMatrixWithA
 // This is an alias to an internal value.
 const NewPlanMatrixWithAllocationPriceCadenceCustom = shared.NewPlanMatrixWithAllocationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanMatrixWithAllocationPriceModelType = shared.NewPlanMatrixWithAllocationPriceModelType
 
@@ -3289,6 +3633,18 @@ const NewPlanMatrixWithDisplayNamePriceCadenceOneTime = shared.NewPlanMatrixWith
 // This is an alias to an internal value.
 const NewPlanMatrixWithDisplayNamePriceCadenceCustom = shared.NewPlanMatrixWithDisplayNamePriceCadenceCustom
 
+// Configuration for matrix_with_display_name pricing
+//
+// This is an alias to an internal type.
+type NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam = shared.NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam
+
+// Configuration for a unit amount item
+//
+// This is an alias to an internal type.
+type NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam = shared.NewPlanMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanMatrixWithDisplayNamePriceModelType = shared.NewPlanMatrixWithDisplayNamePriceModelType
 
@@ -3333,6 +3689,18 @@ const NewPlanMaxGroupTieredPackagePriceCadenceOneTime = shared.NewPlanMaxGroupTi
 // This is an alias to an internal value.
 const NewPlanMaxGroupTieredPackagePriceCadenceCustom = shared.NewPlanMaxGroupTieredPackagePriceCadenceCustom
 
+// Configuration for max_group_tiered_package pricing
+//
+// This is an alias to an internal type.
+type NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam = shared.NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam = shared.NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanMaxGroupTieredPackagePriceModelType = shared.NewPlanMaxGroupTieredPackagePriceModelType
 
@@ -3377,9 +3745,13 @@ const NewPlanMinimumCompositePriceCadenceOneTime = shared.NewPlanMinimumComposit
 // This is an alias to an internal value.
 const NewPlanMinimumCompositePriceCadenceCustom = shared.NewPlanMinimumCompositePriceCadenceCustom
 
+// Configuration for minimum pricing
+//
 // This is an alias to an internal type.
 type NewPlanMinimumCompositePriceMinimumConfigParam = shared.NewPlanMinimumCompositePriceMinimumConfigParam
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanMinimumCompositePriceModelType = shared.NewPlanMinimumCompositePriceModelType
 
@@ -3424,6 +3796,8 @@ const NewPlanPackagePriceCadenceOneTime = shared.NewPlanPackagePriceCadenceOneTi
 // This is an alias to an internal value.
 const NewPlanPackagePriceCadenceCustom = shared.NewPlanPackagePriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanPackagePriceModelType = shared.NewPlanPackagePriceModelType
 
@@ -3468,11 +3842,18 @@ const NewPlanPackageWithAllocationPriceCadenceOneTime = shared.NewPlanPackageWit
 // This is an alias to an internal value.
 const NewPlanPackageWithAllocationPriceCadenceCustom = shared.NewPlanPackageWithAllocationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanPackageWithAllocationPriceModelType = shared.NewPlanPackageWithAllocationPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanPackageWithAllocationPriceModelTypePackageWithAllocation = shared.NewPlanPackageWithAllocationPriceModelTypePackageWithAllocation
+
+// Configuration for package_with_allocation pricing
+//
+// This is an alias to an internal type.
+type NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam = shared.NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam
 
 // This is an alias to an internal type.
 type NewPlanPackageWithAllocationPriceConversionRateConfigUnionParam = shared.NewPlanPackageWithAllocationPriceConversionRateConfigUnionParam
@@ -3512,11 +3893,28 @@ const NewPlanScalableMatrixWithTieredPricingPriceCadenceOneTime = shared.NewPlan
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithTieredPricingPriceCadenceCustom = shared.NewPlanScalableMatrixWithTieredPricingPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanScalableMatrixWithTieredPricingPriceModelType = shared.NewPlanScalableMatrixWithTieredPricingPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing = shared.NewPlanScalableMatrixWithTieredPricingPriceModelTypeScalableMatrixWithTieredPricing
+
+// Configuration for scalable_matrix_with_tiered_pricing pricing
+//
+// This is an alias to an internal type.
+type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam = shared.NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam
+
+// Configuration for a single matrix scaling factor
+//
+// This is an alias to an internal type.
+type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam = shared.NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam
+
+// Configuration for a single tier entry with business logic
+//
+// This is an alias to an internal type.
+type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam = shared.NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam
 
 // This is an alias to an internal type.
 type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam = shared.NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam
@@ -3556,11 +3954,23 @@ const NewPlanScalableMatrixWithUnitPricingPriceCadenceOneTime = shared.NewPlanSc
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithUnitPricingPriceCadenceCustom = shared.NewPlanScalableMatrixWithUnitPricingPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanScalableMatrixWithUnitPricingPriceModelType = shared.NewPlanScalableMatrixWithUnitPricingPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing = shared.NewPlanScalableMatrixWithUnitPricingPriceModelTypeScalableMatrixWithUnitPricing
+
+// Configuration for scalable_matrix_with_unit_pricing pricing
+//
+// This is an alias to an internal type.
+type NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam = shared.NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam
+
+// Configuration for a single matrix scaling factor
+//
+// This is an alias to an internal type.
+type NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam = shared.NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam
 
 // This is an alias to an internal type.
 type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam = shared.NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam
@@ -3600,11 +4010,23 @@ const NewPlanThresholdTotalAmountPriceCadenceOneTime = shared.NewPlanThresholdTo
 // This is an alias to an internal value.
 const NewPlanThresholdTotalAmountPriceCadenceCustom = shared.NewPlanThresholdTotalAmountPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanThresholdTotalAmountPriceModelType = shared.NewPlanThresholdTotalAmountPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanThresholdTotalAmountPriceModelTypeThresholdTotalAmount = shared.NewPlanThresholdTotalAmountPriceModelTypeThresholdTotalAmount
+
+// Configuration for threshold_total_amount pricing
+//
+// This is an alias to an internal type.
+type NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigParam = shared.NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigParam
+
+// Configuration for a single threshold
+//
+// This is an alias to an internal type.
+type NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam = shared.NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam
 
 // This is an alias to an internal type.
 type NewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam
@@ -3617,50 +4039,6 @@ const NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit
 
 // This is an alias to an internal value.
 const NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceParam = shared.NewPlanTierWithProrationPriceParam
-
-// The cadence to bill for this price on.
-//
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceCadence = shared.NewPlanTierWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceCadenceAnnual = shared.NewPlanTierWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceCadenceSemiAnnual = shared.NewPlanTierWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceCadenceMonthly = shared.NewPlanTierWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceCadenceQuarterly = shared.NewPlanTierWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceCadenceOneTime = shared.NewPlanTierWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceCadenceCustom = shared.NewPlanTierWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceModelType = shared.NewPlanTierWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceModelTypeTieredWithProration = shared.NewPlanTierWithProrationPriceModelTypeTieredWithProration
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigUnionParam = shared.NewPlanTierWithProrationPriceConversionRateConfigUnionParam
-
-// This is an alias to an internal type.
-type NewPlanTierWithProrationPriceConversionRateConfigConversionRateType = shared.NewPlanTierWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanTieredPackagePriceParam = shared.NewPlanTieredPackagePriceParam
@@ -3688,11 +4066,23 @@ const NewPlanTieredPackagePriceCadenceOneTime = shared.NewPlanTieredPackagePrice
 // This is an alias to an internal value.
 const NewPlanTieredPackagePriceCadenceCustom = shared.NewPlanTieredPackagePriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanTieredPackagePriceModelType = shared.NewPlanTieredPackagePriceModelType
 
 // This is an alias to an internal value.
 const NewPlanTieredPackagePriceModelTypeTieredPackage = shared.NewPlanTieredPackagePriceModelTypeTieredPackage
+
+// Configuration for tiered_package pricing
+//
+// This is an alias to an internal type.
+type NewPlanTieredPackagePriceTieredPackageConfigParam = shared.NewPlanTieredPackagePriceTieredPackageConfigParam
+
+// Configuration for a single tier with business logic
+//
+// This is an alias to an internal type.
+type NewPlanTieredPackagePriceTieredPackageConfigTierParam = shared.NewPlanTieredPackagePriceTieredPackageConfigTierParam
 
 // This is an alias to an internal type.
 type NewPlanTieredPackagePriceConversionRateConfigUnionParam = shared.NewPlanTieredPackagePriceConversionRateConfigUnionParam
@@ -3732,11 +4122,23 @@ const NewPlanTieredPackageWithMinimumPriceCadenceOneTime = shared.NewPlanTieredP
 // This is an alias to an internal value.
 const NewPlanTieredPackageWithMinimumPriceCadenceCustom = shared.NewPlanTieredPackageWithMinimumPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanTieredPackageWithMinimumPriceModelType = shared.NewPlanTieredPackageWithMinimumPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum = shared.NewPlanTieredPackageWithMinimumPriceModelTypeTieredPackageWithMinimum
+
+// Configuration for tiered_package_with_minimum pricing
+//
+// This is an alias to an internal type.
+type NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam = shared.NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam = shared.NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam
 
 // This is an alias to an internal type.
 type NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam = shared.NewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam
@@ -3776,6 +4178,8 @@ const NewPlanTieredPriceCadenceOneTime = shared.NewPlanTieredPriceCadenceOneTime
 // This is an alias to an internal value.
 const NewPlanTieredPriceCadenceCustom = shared.NewPlanTieredPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanTieredPriceModelType = shared.NewPlanTieredPriceModelType
 
@@ -3820,11 +4224,23 @@ const NewPlanTieredWithMinimumPriceCadenceOneTime = shared.NewPlanTieredWithMini
 // This is an alias to an internal value.
 const NewPlanTieredWithMinimumPriceCadenceCustom = shared.NewPlanTieredWithMinimumPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanTieredWithMinimumPriceModelType = shared.NewPlanTieredWithMinimumPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanTieredWithMinimumPriceModelTypeTieredWithMinimum = shared.NewPlanTieredWithMinimumPriceModelTypeTieredWithMinimum
+
+// Configuration for tiered_with_minimum pricing
+//
+// This is an alias to an internal type.
+type NewPlanTieredWithMinimumPriceTieredWithMinimumConfigParam = shared.NewPlanTieredWithMinimumPriceTieredWithMinimumConfigParam
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam = shared.NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam
 
 // This is an alias to an internal type.
 type NewPlanTieredWithMinimumPriceConversionRateConfigUnionParam = shared.NewPlanTieredWithMinimumPriceConversionRateConfigUnionParam
@@ -3864,6 +4280,8 @@ const NewPlanUnitPriceCadenceOneTime = shared.NewPlanUnitPriceCadenceOneTime
 // This is an alias to an internal value.
 const NewPlanUnitPriceCadenceCustom = shared.NewPlanUnitPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanUnitPriceModelType = shared.NewPlanUnitPriceModelType
 
@@ -3908,11 +4326,18 @@ const NewPlanUnitWithPercentPriceCadenceOneTime = shared.NewPlanUnitWithPercentP
 // This is an alias to an internal value.
 const NewPlanUnitWithPercentPriceCadenceCustom = shared.NewPlanUnitWithPercentPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanUnitWithPercentPriceModelType = shared.NewPlanUnitWithPercentPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanUnitWithPercentPriceModelTypeUnitWithPercent = shared.NewPlanUnitWithPercentPriceModelTypeUnitWithPercent
+
+// Configuration for unit_with_percent pricing
+//
+// This is an alias to an internal type.
+type NewPlanUnitWithPercentPriceUnitWithPercentConfigParam = shared.NewPlanUnitWithPercentPriceUnitWithPercentConfigParam
 
 // This is an alias to an internal type.
 type NewPlanUnitWithPercentPriceConversionRateConfigUnionParam = shared.NewPlanUnitWithPercentPriceConversionRateConfigUnionParam
@@ -3952,11 +4377,18 @@ const NewPlanUnitWithProrationPriceCadenceOneTime = shared.NewPlanUnitWithProrat
 // This is an alias to an internal value.
 const NewPlanUnitWithProrationPriceCadenceCustom = shared.NewPlanUnitWithProrationPriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type NewPlanUnitWithProrationPriceModelType = shared.NewPlanUnitWithProrationPriceModelType
 
 // This is an alias to an internal value.
 const NewPlanUnitWithProrationPriceModelTypeUnitWithProration = shared.NewPlanUnitWithProrationPriceModelTypeUnitWithProration
+
+// Configuration for unit_with_proration pricing
+//
+// This is an alias to an internal type.
+type NewPlanUnitWithProrationPriceUnitWithProrationConfigParam = shared.NewPlanUnitWithProrationPriceUnitWithProrationConfigParam
 
 // This is an alias to an internal type.
 type NewPlanUnitWithProrationPriceConversionRateConfigUnionParam = shared.NewPlanUnitWithProrationPriceConversionRateConfigUnionParam
@@ -4016,9 +4448,13 @@ type OtherSubLineItemType = shared.OtherSubLineItemType
 // This is an alias to an internal value.
 const OtherSubLineItemTypeNull = shared.OtherSubLineItemTypeNull
 
+// Configuration for package pricing
+//
 // This is an alias to an internal type.
 type PackageConfig = shared.PackageConfig
 
+// Configuration for package pricing
+//
 // This is an alias to an internal type.
 type PackageConfigParam = shared.PackageConfigParam
 
@@ -4144,6 +4580,8 @@ const PriceUnitPriceConversionRateConfigConversionRateTypeUnit = shared.PriceUni
 // This is an alias to an internal value.
 const PriceUnitPriceConversionRateConfigConversionRateTypeTiered = shared.PriceUnitPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceUnitPriceModelType = shared.PriceUnitPriceModelType
 
@@ -4158,108 +4596,6 @@ const PriceUnitPricePriceTypeUsagePrice = shared.PriceUnitPricePriceTypeUsagePri
 
 // This is an alias to an internal value.
 const PriceUnitPricePriceTypeFixedPrice = shared.PriceUnitPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PricePackagePrice = shared.PricePackagePrice
-
-// This is an alias to an internal type.
-type PricePackagePriceCadence = shared.PricePackagePriceCadence
-
-// This is an alias to an internal value.
-const PricePackagePriceCadenceOneTime = shared.PricePackagePriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PricePackagePriceCadenceMonthly = shared.PricePackagePriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PricePackagePriceCadenceQuarterly = shared.PricePackagePriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PricePackagePriceCadenceSemiAnnual = shared.PricePackagePriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PricePackagePriceCadenceAnnual = shared.PricePackagePriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PricePackagePriceCadenceCustom = shared.PricePackagePriceCadenceCustom
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfig = shared.PricePackagePriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PricePackagePriceConversionRateConfigConversionRateType = shared.PricePackagePriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PricePackagePriceConversionRateConfigConversionRateTypeUnit = shared.PricePackagePriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PricePackagePriceConversionRateConfigConversionRateTypeTiered = shared.PricePackagePriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PricePackagePriceModelType = shared.PricePackagePriceModelType
-
-// This is an alias to an internal value.
-const PricePackagePriceModelTypePackage = shared.PricePackagePriceModelTypePackage
-
-// This is an alias to an internal type.
-type PricePackagePricePriceType = shared.PricePackagePricePriceType
-
-// This is an alias to an internal value.
-const PricePackagePricePriceTypeUsagePrice = shared.PricePackagePricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PricePackagePricePriceTypeFixedPrice = shared.PricePackagePricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceMatrixPrice = shared.PriceMatrixPrice
-
-// This is an alias to an internal type.
-type PriceMatrixPriceCadence = shared.PriceMatrixPriceCadence
-
-// This is an alias to an internal value.
-const PriceMatrixPriceCadenceOneTime = shared.PriceMatrixPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceMatrixPriceCadenceMonthly = shared.PriceMatrixPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceMatrixPriceCadenceQuarterly = shared.PriceMatrixPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceMatrixPriceCadenceSemiAnnual = shared.PriceMatrixPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceMatrixPriceCadenceAnnual = shared.PriceMatrixPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceMatrixPriceCadenceCustom = shared.PriceMatrixPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfig = shared.PriceMatrixPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceMatrixPriceConversionRateConfigConversionRateType = shared.PriceMatrixPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceMatrixPriceConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceMatrixPriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceMatrixPriceModelType = shared.PriceMatrixPriceModelType
-
-// This is an alias to an internal value.
-const PriceMatrixPriceModelTypeMatrix = shared.PriceMatrixPriceModelTypeMatrix
-
-// This is an alias to an internal type.
-type PriceMatrixPricePriceType = shared.PriceMatrixPricePriceType
-
-// This is an alias to an internal value.
-const PriceMatrixPricePriceTypeUsagePrice = shared.PriceMatrixPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceMatrixPricePriceTypeFixedPrice = shared.PriceMatrixPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceTieredPrice = shared.PriceTieredPrice
@@ -4297,6 +4633,8 @@ const PriceTieredPriceConversionRateConfigConversionRateTypeUnit = shared.PriceT
 // This is an alias to an internal value.
 const PriceTieredPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceTieredPriceModelType = shared.PriceTieredPriceModelType
 
@@ -4348,6 +4686,8 @@ const PriceBulkPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBul
 // This is an alias to an internal value.
 const PriceBulkPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBulkPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceBulkPriceModelType = shared.PriceBulkPriceModelType
 
@@ -4362,6 +4702,112 @@ const PriceBulkPricePriceTypeUsagePrice = shared.PriceBulkPricePriceTypeUsagePri
 
 // This is an alias to an internal value.
 const PriceBulkPricePriceTypeFixedPrice = shared.PriceBulkPricePriceTypeFixedPrice
+
+// This is an alias to an internal type.
+type PricePackagePrice = shared.PricePackagePrice
+
+// This is an alias to an internal type.
+type PricePackagePriceCadence = shared.PricePackagePriceCadence
+
+// This is an alias to an internal value.
+const PricePackagePriceCadenceOneTime = shared.PricePackagePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PricePackagePriceCadenceMonthly = shared.PricePackagePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PricePackagePriceCadenceQuarterly = shared.PricePackagePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PricePackagePriceCadenceSemiAnnual = shared.PricePackagePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PricePackagePriceCadenceAnnual = shared.PricePackagePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PricePackagePriceCadenceCustom = shared.PricePackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PricePackagePriceConversionRateConfig = shared.PricePackagePriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PricePackagePriceConversionRateConfigConversionRateType = shared.PricePackagePriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PricePackagePriceConversionRateConfigConversionRateTypeUnit = shared.PricePackagePriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PricePackagePriceConversionRateConfigConversionRateTypeTiered = shared.PricePackagePriceConversionRateConfigConversionRateTypeTiered
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PricePackagePriceModelType = shared.PricePackagePriceModelType
+
+// This is an alias to an internal value.
+const PricePackagePriceModelTypePackage = shared.PricePackagePriceModelTypePackage
+
+// This is an alias to an internal type.
+type PricePackagePricePriceType = shared.PricePackagePricePriceType
+
+// This is an alias to an internal value.
+const PricePackagePricePriceTypeUsagePrice = shared.PricePackagePricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PricePackagePricePriceTypeFixedPrice = shared.PricePackagePricePriceTypeFixedPrice
+
+// This is an alias to an internal type.
+type PriceMatrixPrice = shared.PriceMatrixPrice
+
+// This is an alias to an internal type.
+type PriceMatrixPriceCadence = shared.PriceMatrixPriceCadence
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCadenceOneTime = shared.PriceMatrixPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCadenceMonthly = shared.PriceMatrixPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCadenceQuarterly = shared.PriceMatrixPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCadenceSemiAnnual = shared.PriceMatrixPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCadenceAnnual = shared.PriceMatrixPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCadenceCustom = shared.PriceMatrixPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceMatrixPriceConversionRateConfig = shared.PriceMatrixPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceMatrixPriceConversionRateConfigConversionRateType = shared.PriceMatrixPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceMatrixPriceConversionRateConfigConversionRateTypeUnit = shared.PriceMatrixPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceMatrixPriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixPriceConversionRateConfigConversionRateTypeTiered
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceMatrixPriceModelType = shared.PriceMatrixPriceModelType
+
+// This is an alias to an internal value.
+const PriceMatrixPriceModelTypeMatrix = shared.PriceMatrixPriceModelTypeMatrix
+
+// This is an alias to an internal type.
+type PriceMatrixPricePriceType = shared.PriceMatrixPricePriceType
+
+// This is an alias to an internal value.
+const PriceMatrixPricePriceTypeUsagePrice = shared.PriceMatrixPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceMatrixPricePriceTypeFixedPrice = shared.PriceMatrixPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceThresholdTotalAmountPrice = shared.PriceThresholdTotalAmountPrice
@@ -4399,6 +4845,8 @@ const PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit =
 // This is an alias to an internal value.
 const PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered = shared.PriceThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceThresholdTotalAmountPriceModelType = shared.PriceThresholdTotalAmountPriceModelType
 
@@ -4413,6 +4861,16 @@ const PriceThresholdTotalAmountPricePriceTypeUsagePrice = shared.PriceThresholdT
 
 // This is an alias to an internal value.
 const PriceThresholdTotalAmountPricePriceTypeFixedPrice = shared.PriceThresholdTotalAmountPricePriceTypeFixedPrice
+
+// Configuration for threshold_total_amount pricing
+//
+// This is an alias to an internal type.
+type PriceThresholdTotalAmountPriceThresholdTotalAmountConfig = shared.PriceThresholdTotalAmountPriceThresholdTotalAmountConfig
+
+// Configuration for a single threshold
+//
+// This is an alias to an internal type.
+type PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable = shared.PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable
 
 // This is an alias to an internal type.
 type PriceTieredPackagePrice = shared.PriceTieredPackagePrice
@@ -4450,6 +4908,8 @@ const PriceTieredPackagePriceConversionRateConfigConversionRateTypeUnit = shared
 // This is an alias to an internal value.
 const PriceTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceTieredPackagePriceModelType = shared.PriceTieredPackagePriceModelType
 
@@ -4465,56 +4925,15 @@ const PriceTieredPackagePricePriceTypeUsagePrice = shared.PriceTieredPackagePric
 // This is an alias to an internal value.
 const PriceTieredPackagePricePriceTypeFixedPrice = shared.PriceTieredPackagePricePriceTypeFixedPrice
 
+// Configuration for tiered_package pricing
+//
 // This is an alias to an internal type.
-type PriceGroupedTieredPrice = shared.PriceGroupedTieredPrice
+type PriceTieredPackagePriceTieredPackageConfig = shared.PriceTieredPackagePriceTieredPackageConfig
 
+// Configuration for a single tier with business logic
+//
 // This is an alias to an internal type.
-type PriceGroupedTieredPriceCadence = shared.PriceGroupedTieredPriceCadence
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceCadenceOneTime = shared.PriceGroupedTieredPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceCadenceMonthly = shared.PriceGroupedTieredPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceCadenceQuarterly = shared.PriceGroupedTieredPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceCadenceSemiAnnual = shared.PriceGroupedTieredPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceCadenceAnnual = shared.PriceGroupedTieredPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceCadenceCustom = shared.PriceGroupedTieredPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfig = shared.PriceGroupedTieredPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceConversionRateConfigConversionRateType = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPriceModelType = shared.PriceGroupedTieredPriceModelType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPriceModelTypeGroupedTiered = shared.PriceGroupedTieredPriceModelTypeGroupedTiered
-
-// This is an alias to an internal type.
-type PriceGroupedTieredPricePriceType = shared.PriceGroupedTieredPricePriceType
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPricePriceTypeUsagePrice = shared.PriceGroupedTieredPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceGroupedTieredPricePriceTypeFixedPrice = shared.PriceGroupedTieredPricePriceTypeFixedPrice
+type PriceTieredPackagePriceTieredPackageConfigTier = shared.PriceTieredPackagePriceTieredPackageConfigTier
 
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPrice = shared.PriceTieredWithMinimumPrice
@@ -4552,6 +4971,8 @@ const PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit = sh
 // This is an alias to an internal value.
 const PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPriceModelType = shared.PriceTieredWithMinimumPriceModelType
 
@@ -4566,6 +4987,79 @@ const PriceTieredWithMinimumPricePriceTypeUsagePrice = shared.PriceTieredWithMin
 
 // This is an alias to an internal value.
 const PriceTieredWithMinimumPricePriceTypeFixedPrice = shared.PriceTieredWithMinimumPricePriceTypeFixedPrice
+
+// Configuration for tiered_with_minimum pricing
+//
+// This is an alias to an internal type.
+type PriceTieredWithMinimumPriceTieredWithMinimumConfig = shared.PriceTieredWithMinimumPriceTieredWithMinimumConfig
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type PriceTieredWithMinimumPriceTieredWithMinimumConfigTier = shared.PriceTieredWithMinimumPriceTieredWithMinimumConfigTier
+
+// This is an alias to an internal type.
+type PriceGroupedTieredPrice = shared.PriceGroupedTieredPrice
+
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceCadence = shared.PriceGroupedTieredPriceCadence
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCadenceOneTime = shared.PriceGroupedTieredPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCadenceMonthly = shared.PriceGroupedTieredPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCadenceQuarterly = shared.PriceGroupedTieredPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCadenceSemiAnnual = shared.PriceGroupedTieredPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCadenceAnnual = shared.PriceGroupedTieredPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCadenceCustom = shared.PriceGroupedTieredPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceConversionRateConfig = shared.PriceGroupedTieredPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceConversionRateConfigConversionRateType = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedTieredPriceConversionRateConfigConversionRateTypeTiered
+
+// Configuration for grouped_tiered pricing
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceGroupedTieredConfig = shared.PriceGroupedTieredPriceGroupedTieredConfig
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceGroupedTieredConfigTier = shared.PriceGroupedTieredPriceGroupedTieredConfigTier
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceModelType = shared.PriceGroupedTieredPriceModelType
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceModelTypeGroupedTiered = shared.PriceGroupedTieredPriceModelTypeGroupedTiered
+
+// This is an alias to an internal type.
+type PriceGroupedTieredPricePriceType = shared.PriceGroupedTieredPricePriceType
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPricePriceTypeUsagePrice = shared.PriceGroupedTieredPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPricePriceTypeFixedPrice = shared.PriceGroupedTieredPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPrice = shared.PriceTieredPackageWithMinimumPrice
@@ -4603,6 +5097,8 @@ const PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUn
 // This is an alias to an internal value.
 const PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPriceModelType = shared.PriceTieredPackageWithMinimumPriceModelType
 
@@ -4617,6 +5113,16 @@ const PriceTieredPackageWithMinimumPricePriceTypeUsagePrice = shared.PriceTiered
 
 // This is an alias to an internal value.
 const PriceTieredPackageWithMinimumPricePriceTypeFixedPrice = shared.PriceTieredPackageWithMinimumPricePriceTypeFixedPrice
+
+// Configuration for tiered_package_with_minimum pricing
+//
+// This is an alias to an internal type.
+type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig = shared.PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier = shared.PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier
 
 // This is an alias to an internal type.
 type PricePackageWithAllocationPrice = shared.PricePackageWithAllocationPrice
@@ -4654,11 +5160,18 @@ const PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit 
 // This is an alias to an internal value.
 const PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PricePackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PricePackageWithAllocationPriceModelType = shared.PricePackageWithAllocationPriceModelType
 
 // This is an alias to an internal value.
 const PricePackageWithAllocationPriceModelTypePackageWithAllocation = shared.PricePackageWithAllocationPriceModelTypePackageWithAllocation
+
+// Configuration for package_with_allocation pricing
+//
+// This is an alias to an internal type.
+type PricePackageWithAllocationPricePackageWithAllocationConfig = shared.PricePackageWithAllocationPricePackageWithAllocationConfig
 
 // This is an alias to an internal type.
 type PricePackageWithAllocationPricePriceType = shared.PricePackageWithAllocationPricePriceType
@@ -4705,6 +5218,8 @@ const PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit = shar
 // This is an alias to an internal value.
 const PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered = shared.PriceUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceUnitWithPercentPriceModelType = shared.PriceUnitWithPercentPriceModelType
 
@@ -4719,6 +5234,11 @@ const PriceUnitWithPercentPricePriceTypeUsagePrice = shared.PriceUnitWithPercent
 
 // This is an alias to an internal value.
 const PriceUnitWithPercentPricePriceTypeFixedPrice = shared.PriceUnitWithPercentPricePriceTypeFixedPrice
+
+// Configuration for unit_with_percent pricing
+//
+// This is an alias to an internal type.
+type PriceUnitWithPercentPriceUnitWithPercentConfig = shared.PriceUnitWithPercentPriceUnitWithPercentConfig
 
 // This is an alias to an internal type.
 type PriceMatrixWithAllocationPrice = shared.PriceMatrixWithAllocationPrice
@@ -4756,6 +5276,8 @@ const PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit =
 // This is an alias to an internal value.
 const PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceMatrixWithAllocationPriceModelType = shared.PriceMatrixWithAllocationPriceModelType
 
@@ -4807,6 +5329,8 @@ const PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit = 
 // This is an alias to an internal value.
 const PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceTieredWithProrationPriceModelType = shared.PriceTieredWithProrationPriceModelType
 
@@ -4821,6 +5345,16 @@ const PriceTieredWithProrationPricePriceTypeUsagePrice = shared.PriceTieredWithP
 
 // This is an alias to an internal value.
 const PriceTieredWithProrationPricePriceTypeFixedPrice = shared.PriceTieredWithProrationPricePriceTypeFixedPrice
+
+// Configuration for tiered_with_proration pricing
+//
+// This is an alias to an internal type.
+type PriceTieredWithProrationPriceTieredWithProrationConfig = shared.PriceTieredWithProrationPriceTieredWithProrationConfig
+
+// Configuration for a single tiered with proration tier
+//
+// This is an alias to an internal type.
+type PriceTieredWithProrationPriceTieredWithProrationConfigTier = shared.PriceTieredWithProrationPriceTieredWithProrationConfigTier
 
 // This is an alias to an internal type.
 type PriceUnitWithProrationPrice = shared.PriceUnitWithProrationPrice
@@ -4858,6 +5392,8 @@ const PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit = sh
 // This is an alias to an internal value.
 const PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceUnitWithProrationPriceModelType = shared.PriceUnitWithProrationPriceModelType
 
@@ -4872,6 +5408,11 @@ const PriceUnitWithProrationPricePriceTypeUsagePrice = shared.PriceUnitWithProra
 
 // This is an alias to an internal value.
 const PriceUnitWithProrationPricePriceTypeFixedPrice = shared.PriceUnitWithProrationPricePriceTypeFixedPrice
+
+// Configuration for unit_with_proration pricing
+//
+// This is an alias to an internal type.
+type PriceUnitWithProrationPriceUnitWithProrationConfig = shared.PriceUnitWithProrationPriceUnitWithProrationConfig
 
 // This is an alias to an internal type.
 type PriceGroupedAllocationPrice = shared.PriceGroupedAllocationPrice
@@ -4909,6 +5450,13 @@ const PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit = sh
 // This is an alias to an internal value.
 const PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for grouped_allocation pricing
+//
+// This is an alias to an internal type.
+type PriceGroupedAllocationPriceGroupedAllocationConfig = shared.PriceGroupedAllocationPriceGroupedAllocationConfig
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceGroupedAllocationPriceModelType = shared.PriceGroupedAllocationPriceModelType
 
@@ -4923,6 +5471,69 @@ const PriceGroupedAllocationPricePriceTypeUsagePrice = shared.PriceGroupedAlloca
 
 // This is an alias to an internal value.
 const PriceGroupedAllocationPricePriceTypeFixedPrice = shared.PriceGroupedAllocationPricePriceTypeFixedPrice
+
+// This is an alias to an internal type.
+type PriceBulkWithProrationPrice = shared.PriceBulkWithProrationPrice
+
+// Configuration for bulk_with_proration pricing
+//
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceBulkWithProrationConfig = shared.PriceBulkWithProrationPriceBulkWithProrationConfig
+
+// Configuration for a single bulk pricing tier with proration
+//
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceBulkWithProrationConfigTier = shared.PriceBulkWithProrationPriceBulkWithProrationConfigTier
+
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceCadence = shared.PriceBulkWithProrationPriceCadence
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCadenceOneTime = shared.PriceBulkWithProrationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCadenceMonthly = shared.PriceBulkWithProrationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCadenceQuarterly = shared.PriceBulkWithProrationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCadenceSemiAnnual = shared.PriceBulkWithProrationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCadenceAnnual = shared.PriceBulkWithProrationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCadenceCustom = shared.PriceBulkWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceConversionRateConfig = shared.PriceBulkWithProrationPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceConversionRateConfigConversionRateType = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceModelType = shared.PriceBulkWithProrationPriceModelType
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceModelTypeBulkWithProration = shared.PriceBulkWithProrationPriceModelTypeBulkWithProration
+
+// This is an alias to an internal type.
+type PriceBulkWithProrationPricePriceType = shared.PriceBulkWithProrationPricePriceType
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPricePriceTypeUsagePrice = shared.PriceBulkWithProrationPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPricePriceTypeFixedPrice = shared.PriceBulkWithProrationPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceGroupedWithProratedMinimumPrice = shared.PriceGroupedWithProratedMinimumPrice
@@ -4960,6 +5571,13 @@ const PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType
 // This is an alias to an internal value.
 const PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for grouped_with_prorated_minimum pricing
+//
+// This is an alias to an internal type.
+type PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig = shared.PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceGroupedWithProratedMinimumPriceModelType = shared.PriceGroupedWithProratedMinimumPriceModelType
 
@@ -5011,6 +5629,23 @@ const PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeU
 // This is an alias to an internal value.
 const PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for grouped_with_metered_minimum pricing
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig = shared.PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig
+
+// Configuration for a scaling factor
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor = shared.PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor
+
+// Configuration for a unit amount
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount = shared.PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceGroupedWithMeteredMinimumPriceModelType = shared.PriceGroupedWithMeteredMinimumPriceModelType
 
@@ -5025,6 +5660,64 @@ const PriceGroupedWithMeteredMinimumPricePriceTypeUsagePrice = shared.PriceGroup
 
 // This is an alias to an internal value.
 const PriceGroupedWithMeteredMinimumPricePriceTypeFixedPrice = shared.PriceGroupedWithMeteredMinimumPricePriceTypeFixedPrice
+
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPrice = shared.PriceGroupedWithMinMaxThresholdsPrice
+
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceCadence = shared.PriceGroupedWithMinMaxThresholdsPriceCadence
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCadenceOneTime = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCadenceMonthly = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCadenceQuarterly = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCadenceAnnual = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCadenceCustom = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered
+
+// Configuration for grouped_with_min_max_thresholds pricing
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig = shared.PriceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceModelType = shared.PriceGroupedWithMinMaxThresholdsPriceModelType
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds = shared.PriceGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds
+
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPricePriceType = shared.PriceGroupedWithMinMaxThresholdsPricePriceType
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice = shared.PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice = shared.PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceMatrixWithDisplayNamePrice = shared.PriceMatrixWithDisplayNamePrice
@@ -5062,6 +5755,18 @@ const PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit 
 // This is an alias to an internal value.
 const PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered = shared.PriceMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for matrix_with_display_name pricing
+//
+// This is an alias to an internal type.
+type PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig = shared.PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig
+
+// Configuration for a unit amount item
+//
+// This is an alias to an internal type.
+type PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount = shared.PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmount
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceMatrixWithDisplayNamePriceModelType = shared.PriceMatrixWithDisplayNamePriceModelType
 
@@ -5076,57 +5781,6 @@ const PriceMatrixWithDisplayNamePricePriceTypeUsagePrice = shared.PriceMatrixWit
 
 // This is an alias to an internal value.
 const PriceMatrixWithDisplayNamePricePriceTypeFixedPrice = shared.PriceMatrixWithDisplayNamePricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPrice = shared.PriceBulkWithProrationPrice
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceCadence = shared.PriceBulkWithProrationPriceCadence
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceCadenceOneTime = shared.PriceBulkWithProrationPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceCadenceMonthly = shared.PriceBulkWithProrationPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceCadenceQuarterly = shared.PriceBulkWithProrationPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceCadenceSemiAnnual = shared.PriceBulkWithProrationPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceCadenceAnnual = shared.PriceBulkWithProrationPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceCadenceCustom = shared.PriceBulkWithProrationPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfig = shared.PriceBulkWithProrationPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceConversionRateConfigConversionRateType = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPriceModelType = shared.PriceBulkWithProrationPriceModelType
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPriceModelTypeBulkWithProration = shared.PriceBulkWithProrationPriceModelTypeBulkWithProration
-
-// This is an alias to an internal type.
-type PriceBulkWithProrationPricePriceType = shared.PriceBulkWithProrationPricePriceType
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPricePriceTypeUsagePrice = shared.PriceBulkWithProrationPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceBulkWithProrationPricePriceTypeFixedPrice = shared.PriceBulkWithProrationPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceGroupedTieredPackagePrice = shared.PriceGroupedTieredPackagePrice
@@ -5164,6 +5818,18 @@ const PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit =
 // This is an alias to an internal value.
 const PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for grouped_tiered_package pricing
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPackagePriceGroupedTieredPackageConfig = shared.PriceGroupedTieredPackagePriceGroupedTieredPackageConfig
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPackagePriceGroupedTieredPackageConfigTier = shared.PriceGroupedTieredPackagePriceGroupedTieredPackageConfigTier
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceGroupedTieredPackagePriceModelType = shared.PriceGroupedTieredPackagePriceModelType
 
@@ -5215,6 +5881,18 @@ const PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit 
 // This is an alias to an internal value.
 const PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered = shared.PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for max_group_tiered_package pricing
+//
+// This is an alias to an internal type.
+type PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig = shared.PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig
+
+// Configuration for a single tier
+//
+// This is an alias to an internal type.
+type PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier = shared.PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceMaxGroupTieredPackagePriceModelType = shared.PriceMaxGroupTieredPackagePriceModelType
 
@@ -5266,6 +5944,8 @@ const PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateT
 // This is an alias to an internal value.
 const PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceScalableMatrixWithUnitPricingPriceModelType = shared.PriceScalableMatrixWithUnitPricingPriceModelType
 
@@ -5280,6 +5960,16 @@ const PriceScalableMatrixWithUnitPricingPricePriceTypeUsagePrice = shared.PriceS
 
 // This is an alias to an internal value.
 const PriceScalableMatrixWithUnitPricingPricePriceTypeFixedPrice = shared.PriceScalableMatrixWithUnitPricingPricePriceTypeFixedPrice
+
+// Configuration for scalable_matrix_with_unit_pricing pricing
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig = shared.PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfig
+
+// Configuration for a single matrix scaling factor
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor = shared.PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor
 
 // This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPrice = shared.PriceScalableMatrixWithTieredPricingPrice
@@ -5317,6 +6007,8 @@ const PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRat
 // This is an alias to an internal value.
 const PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPriceModelType = shared.PriceScalableMatrixWithTieredPricingPriceModelType
 
@@ -5331,6 +6023,21 @@ const PriceScalableMatrixWithTieredPricingPricePriceTypeUsagePrice = shared.Pric
 
 // This is an alias to an internal value.
 const PriceScalableMatrixWithTieredPricingPricePriceTypeFixedPrice = shared.PriceScalableMatrixWithTieredPricingPricePriceTypeFixedPrice
+
+// Configuration for scalable_matrix_with_tiered_pricing pricing
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig = shared.PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig
+
+// Configuration for a single matrix scaling factor
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor = shared.PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor
+
+// Configuration for a single tier entry with business logic
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier = shared.PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier
 
 // This is an alias to an internal type.
 type PriceCumulativeGroupedBulkPrice = shared.PriceCumulativeGroupedBulkPrice
@@ -5368,6 +6075,18 @@ const PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit 
 // This is an alias to an internal value.
 const PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered = shared.PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for cumulative_grouped_bulk pricing
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig = shared.PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig
+
+// Configuration for a dimension value entry
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue = shared.PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue
+
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceCumulativeGroupedBulkPriceModelType = shared.PriceCumulativeGroupedBulkPriceModelType
 
@@ -5382,57 +6101,6 @@ const PriceCumulativeGroupedBulkPricePriceTypeUsagePrice = shared.PriceCumulativ
 
 // This is an alias to an internal value.
 const PriceCumulativeGroupedBulkPricePriceTypeFixedPrice = shared.PriceCumulativeGroupedBulkPricePriceTypeFixedPrice
-
-// This is an alias to an internal type.
-type PriceGroupedWithMinMaxThresholdsPrice = shared.PriceGroupedWithMinMaxThresholdsPrice
-
-// This is an alias to an internal type.
-type PriceGroupedWithMinMaxThresholdsPriceCadence = shared.PriceGroupedWithMinMaxThresholdsPriceCadence
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceCadenceOneTime = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceOneTime
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceCadenceMonthly = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceMonthly
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceCadenceQuarterly = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceQuarterly
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceCadenceAnnual = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceAnnual
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceCadenceCustom = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceCustom
-
-// This is an alias to an internal type.
-type PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig
-
-// This is an alias to an internal type.
-type PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered
-
-// This is an alias to an internal type.
-type PriceGroupedWithMinMaxThresholdsPriceModelType = shared.PriceGroupedWithMinMaxThresholdsPriceModelType
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds = shared.PriceGroupedWithMinMaxThresholdsPriceModelTypeGroupedWithMinMaxThresholds
-
-// This is an alias to an internal type.
-type PriceGroupedWithMinMaxThresholdsPricePriceType = shared.PriceGroupedWithMinMaxThresholdsPricePriceType
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice = shared.PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice
-
-// This is an alias to an internal value.
-const PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice = shared.PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice
 
 // This is an alias to an internal type.
 type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
@@ -5470,9 +6138,13 @@ const PriceMinimumCompositePriceConversionRateConfigConversionRateTypeUnit = sha
 // This is an alias to an internal value.
 const PriceMinimumCompositePriceConversionRateConfigConversionRateTypeTiered = shared.PriceMinimumCompositePriceConversionRateConfigConversionRateTypeTiered
 
+// Configuration for minimum pricing
+//
 // This is an alias to an internal type.
 type PriceMinimumCompositePriceMinimumConfig = shared.PriceMinimumCompositePriceMinimumConfig
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceMinimumCompositePriceModelType = shared.PriceMinimumCompositePriceModelType
 
@@ -5509,17 +6181,13 @@ const PriceCadenceAnnual = shared.PriceCadenceAnnual
 // This is an alias to an internal value.
 const PriceCadenceCustom = shared.PriceCadenceCustom
 
+// The pricing model type
+//
 // This is an alias to an internal type.
 type PriceModelType = shared.PriceModelType
 
 // This is an alias to an internal value.
 const PriceModelTypeUnit = shared.PriceModelTypeUnit
-
-// This is an alias to an internal value.
-const PriceModelTypePackage = shared.PriceModelTypePackage
-
-// This is an alias to an internal value.
-const PriceModelTypeMatrix = shared.PriceModelTypeMatrix
 
 // This is an alias to an internal value.
 const PriceModelTypeTiered = shared.PriceModelTypeTiered
@@ -5528,16 +6196,22 @@ const PriceModelTypeTiered = shared.PriceModelTypeTiered
 const PriceModelTypeBulk = shared.PriceModelTypeBulk
 
 // This is an alias to an internal value.
+const PriceModelTypePackage = shared.PriceModelTypePackage
+
+// This is an alias to an internal value.
+const PriceModelTypeMatrix = shared.PriceModelTypeMatrix
+
+// This is an alias to an internal value.
 const PriceModelTypeThresholdTotalAmount = shared.PriceModelTypeThresholdTotalAmount
 
 // This is an alias to an internal value.
 const PriceModelTypeTieredPackage = shared.PriceModelTypeTieredPackage
 
 // This is an alias to an internal value.
-const PriceModelTypeGroupedTiered = shared.PriceModelTypeGroupedTiered
+const PriceModelTypeTieredWithMinimum = shared.PriceModelTypeTieredWithMinimum
 
 // This is an alias to an internal value.
-const PriceModelTypeTieredWithMinimum = shared.PriceModelTypeTieredWithMinimum
+const PriceModelTypeGroupedTiered = shared.PriceModelTypeGroupedTiered
 
 // This is an alias to an internal value.
 const PriceModelTypeTieredPackageWithMinimum = shared.PriceModelTypeTieredPackageWithMinimum
@@ -5561,16 +6235,19 @@ const PriceModelTypeUnitWithProration = shared.PriceModelTypeUnitWithProration
 const PriceModelTypeGroupedAllocation = shared.PriceModelTypeGroupedAllocation
 
 // This is an alias to an internal value.
+const PriceModelTypeBulkWithProration = shared.PriceModelTypeBulkWithProration
+
+// This is an alias to an internal value.
 const PriceModelTypeGroupedWithProratedMinimum = shared.PriceModelTypeGroupedWithProratedMinimum
 
 // This is an alias to an internal value.
 const PriceModelTypeGroupedWithMeteredMinimum = shared.PriceModelTypeGroupedWithMeteredMinimum
 
 // This is an alias to an internal value.
-const PriceModelTypeMatrixWithDisplayName = shared.PriceModelTypeMatrixWithDisplayName
+const PriceModelTypeGroupedWithMinMaxThresholds = shared.PriceModelTypeGroupedWithMinMaxThresholds
 
 // This is an alias to an internal value.
-const PriceModelTypeBulkWithProration = shared.PriceModelTypeBulkWithProration
+const PriceModelTypeMatrixWithDisplayName = shared.PriceModelTypeMatrixWithDisplayName
 
 // This is an alias to an internal value.
 const PriceModelTypeGroupedTieredPackage = shared.PriceModelTypeGroupedTieredPackage
@@ -5586,9 +6263,6 @@ const PriceModelTypeScalableMatrixWithTieredPricing = shared.PriceModelTypeScala
 
 // This is an alias to an internal value.
 const PriceModelTypeCumulativeGroupedBulk = shared.PriceModelTypeCumulativeGroupedBulk
-
-// This is an alias to an internal value.
-const PriceModelTypeGroupedWithMinMaxThresholds = shared.PriceModelTypeGroupedWithMinMaxThresholds
 
 // This is an alias to an internal value.
 const PriceModelTypeMinimum = shared.PriceModelTypeMinimum
@@ -5627,17 +6301,21 @@ type SubscriptionTrialInfo = shared.SubscriptionTrialInfo
 // This is an alias to an internal type.
 type TaxAmount = shared.TaxAmount
 
+// Configuration for a single tier
+//
 // This is an alias to an internal type.
 type Tier = shared.Tier
 
+// Configuration for a single tier
+//
 // This is an alias to an internal type.
 type TierParam = shared.TierParam
 
 // This is an alias to an internal type.
-type TierConfig = shared.TierConfig
+type TierSubLineItem = shared.TierSubLineItem
 
 // This is an alias to an internal type.
-type TierSubLineItem = shared.TierSubLineItem
+type TierSubLineItemTierConfig = shared.TierSubLineItemTierConfig
 
 // This is an alias to an internal type.
 type TierSubLineItemType = shared.TierSubLineItemType
@@ -5645,9 +6323,13 @@ type TierSubLineItemType = shared.TierSubLineItemType
 // This is an alias to an internal value.
 const TierSubLineItemTypeTier = shared.TierSubLineItemTypeTier
 
+// Configuration for tiered pricing
+//
 // This is an alias to an internal type.
 type TieredConfig = shared.TieredConfig
 
+// Configuration for tiered pricing
+//
 // This is an alias to an internal type.
 type TieredConfigParam = shared.TieredConfigParam
 
@@ -5712,9 +6394,13 @@ const TrialDiscountDiscountTypeTrial = shared.TrialDiscountDiscountTypeTrial
 // This is an alias to an internal type.
 type TrialDiscountParam = shared.TrialDiscountParam
 
+// Configuration for unit pricing
+//
 // This is an alias to an internal type.
 type UnitConfig = shared.UnitConfig
 
+// Configuration for unit pricing
+//
 // This is an alias to an internal type.
 type UnitConfigParam = shared.UnitConfigParam
 

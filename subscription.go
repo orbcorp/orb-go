@@ -1153,11 +1153,13 @@ func (r DiscountOverrideDiscountType) IsKnown() bool {
 }
 
 type NewSubscriptionBulkPriceParam struct {
+	// Configuration for bulk pricing
 	BulkConfig param.Field[shared.BulkConfigParam] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionBulkPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                            `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -1232,6 +1234,7 @@ func (r NewSubscriptionBulkPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionBulkPriceModelType string
 
 const (
@@ -1282,11 +1285,13 @@ func (r NewSubscriptionBulkPriceConversionRateConfigConversionRateType) IsKnown(
 }
 
 type NewSubscriptionBulkWithProrationPriceParam struct {
-	BulkWithProrationConfig param.Field[map[string]interface{}] `json:"bulk_with_proration_config,required"`
+	// Configuration for bulk_with_proration pricing
+	BulkWithProrationConfig param.Field[NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam] `json:"bulk_with_proration_config,required"`
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionBulkWithProrationPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                         `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionBulkWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -1343,6 +1348,28 @@ func (r NewSubscriptionBulkWithProrationPriceParam) implementsSubscriptionSchedu
 func (r NewSubscriptionBulkWithProrationPriceParam) implementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion() {
 }
 
+// Configuration for bulk_with_proration pricing
+type NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam struct {
+	// Bulk tiers for rating based on total usage volume
+	Tiers param.Field[[]NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigTierParam] `json:"tiers,required"`
+}
+
+func (r NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single bulk pricing tier with proration
+type NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigTierParam struct {
+	// Cost per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// The lower bound for this tier
+	TierLowerBound param.Field[string] `json:"tier_lower_bound"`
+}
+
+func (r NewSubscriptionBulkWithProrationPriceBulkWithProrationConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 // The cadence to bill for this price on.
 type NewSubscriptionBulkWithProrationPriceCadence string
 
@@ -1363,6 +1390,7 @@ func (r NewSubscriptionBulkWithProrationPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionBulkWithProrationPriceModelType string
 
 const (
@@ -1414,10 +1442,12 @@ func (r NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateT
 
 type NewSubscriptionCumulativeGroupedBulkPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence                     param.Field[NewSubscriptionCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
-	CumulativeGroupedBulkConfig param.Field[map[string]interface{}]                           `json:"cumulative_grouped_bulk_config,required"`
+	Cadence param.Field[NewSubscriptionCumulativeGroupedBulkPriceCadence] `json:"cadence,required"`
+	// Configuration for cumulative_grouped_bulk pricing
+	CumulativeGroupedBulkConfig param.Field[NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam] `json:"cumulative_grouped_bulk_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                             `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionCumulativeGroupedBulkPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -1494,6 +1524,33 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for cumulative_grouped_bulk pricing
+type NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam struct {
+	// Each tier lower bound must have the same group of values.
+	DimensionValues param.Field[[]NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values,required"`
+	// Grouping key name
+	Group param.Field[string] `json:"group,required"`
+}
+
+func (r NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a dimension value entry
+type NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam struct {
+	// Grouping key value
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Unit amount for this combination
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionCumulativeGroupedBulkPriceModelType string
 
 const (
@@ -1545,10 +1602,12 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionR
 
 type NewSubscriptionGroupedAllocationPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence                 param.Field[NewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
-	GroupedAllocationConfig param.Field[map[string]interface{}]                       `json:"grouped_allocation_config,required"`
+	Cadence param.Field[NewSubscriptionGroupedAllocationPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_allocation pricing
+	GroupedAllocationConfig param.Field[NewSubscriptionGroupedAllocationPriceGroupedAllocationConfigParam] `json:"grouped_allocation_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                         `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionGroupedAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -1625,6 +1684,21 @@ func (r NewSubscriptionGroupedAllocationPriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for grouped_allocation pricing
+type NewSubscriptionGroupedAllocationPriceGroupedAllocationConfigParam struct {
+	// Usage allocation per group
+	Allocation param.Field[string] `json:"allocation,required"`
+	// How to determine the groups that should each be allocated some quantity
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// Unit rate for post-allocation
+	OverageUnitRate param.Field[string] `json:"overage_unit_rate,required"`
+}
+
+func (r NewSubscriptionGroupedAllocationPriceGroupedAllocationConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionGroupedAllocationPriceModelType string
 
 const (
@@ -1676,10 +1750,12 @@ func (r NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateT
 
 type NewSubscriptionGroupedTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence                    param.Field[NewSubscriptionGroupedTieredPackagePriceCadence] `json:"cadence,required"`
-	GroupedTieredPackageConfig param.Field[map[string]interface{}]                          `json:"grouped_tiered_package_config,required"`
+	Cadence param.Field[NewSubscriptionGroupedTieredPackagePriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_tiered_package pricing
+	GroupedTieredPackageConfig param.Field[NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam] `json:"grouped_tiered_package_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                            `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionGroupedTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -1756,6 +1832,34 @@ func (r NewSubscriptionGroupedTieredPackagePriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for grouped_tiered_package pricing
+type NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam struct {
+	// The event property used to group before tiering
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// Package size
+	PackageSize param.Field[string] `json:"package_size,required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds.
+	Tiers param.Field[[]NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam] `json:"tiers,required"`
+}
+
+func (r NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam struct {
+	// Price per package
+	PerUnit param.Field[string] `json:"per_unit,required"`
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+}
+
+func (r NewSubscriptionGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionGroupedTieredPackagePriceModelType string
 
 const (
@@ -1807,10 +1911,12 @@ func (r NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRa
 
 type NewSubscriptionGroupedTieredPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence             param.Field[NewSubscriptionGroupedTieredPriceCadence] `json:"cadence,required"`
-	GroupedTieredConfig param.Field[map[string]interface{}]                   `json:"grouped_tiered_config,required"`
+	Cadence param.Field[NewSubscriptionGroupedTieredPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_tiered pricing
+	GroupedTieredConfig param.Field[NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam] `json:"grouped_tiered_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                     `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionGroupedTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -1887,6 +1993,32 @@ func (r NewSubscriptionGroupedTieredPriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for grouped_tiered pricing
+type NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam struct {
+	// The billable metric property used to group before tiering
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// Apply tiered pricing to each segment generated after grouping with the provided
+	// key
+	Tiers param.Field[[]NewSubscriptionGroupedTieredPriceGroupedTieredConfigTierParam] `json:"tiers,required"`
+}
+
+func (r NewSubscriptionGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type NewSubscriptionGroupedTieredPriceGroupedTieredConfigTierParam struct {
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionGroupedTieredPriceGroupedTieredConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionGroupedTieredPriceModelType string
 
 const (
@@ -1938,10 +2070,12 @@ func (r NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType)
 
 type NewSubscriptionGroupedWithMeteredMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence                         param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
-	GroupedWithMeteredMinimumConfig param.Field[map[string]interface{}]                               `json:"grouped_with_metered_minimum_config,required"`
+	Cadence param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_metered_minimum pricing
+	GroupedWithMeteredMinimumConfig param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam] `json:"grouped_with_metered_minimum_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                 `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -2018,6 +2152,53 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for grouped_with_metered_minimum pricing
+type NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam struct {
+	// Used to partition the usage into groups. The minimum amount is applied to each
+	// group.
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The minimum amount to charge per group per unit
+	MinimumUnitAmount param.Field[string] `json:"minimum_unit_amount,required"`
+	// Used to determine the unit rate
+	PricingKey param.Field[string] `json:"pricing_key,required"`
+	// Scale the unit rates by the scaling factor.
+	ScalingFactors param.Field[[]NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam] `json:"scaling_factors,required"`
+	// Used to determine the unit rate scaling factor
+	ScalingKey param.Field[string] `json:"scaling_key,required"`
+	// Apply per unit pricing to each pricing value. The minimum amount is applied any
+	// unmatched usage.
+	UnitAmounts param.Field[[]NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam] `json:"unit_amounts,required"`
+}
+
+func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a scaling factor
+type NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam struct {
+	// Scaling factor
+	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
+	// Scaling value
+	ScalingValue param.Field[string] `json:"scaling_value,required"`
+}
+
+func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a unit amount
+type NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam struct {
+	// Pricing value
+	PricingValue param.Field[string] `json:"pricing_value,required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionGroupedWithMeteredMinimumPriceModelType string
 
 const (
@@ -2069,10 +2250,12 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConvers
 
 type NewSubscriptionGroupedWithProratedMinimumPriceParam struct {
 	// The cadence to bill for this price on.
-	Cadence                          param.Field[NewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
-	GroupedWithProratedMinimumConfig param.Field[map[string]interface{}]                                `json:"grouped_with_prorated_minimum_config,required"`
+	Cadence param.Field[NewSubscriptionGroupedWithProratedMinimumPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_prorated_minimum pricing
+	GroupedWithProratedMinimumConfig param.Field[NewSubscriptionGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam] `json:"grouped_with_prorated_minimum_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                  `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionGroupedWithProratedMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -2149,6 +2332,21 @@ func (r NewSubscriptionGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for grouped_with_prorated_minimum pricing
+type NewSubscriptionGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam struct {
+	// How to determine the groups that should each have a minimum
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The minimum amount to charge per group
+	Minimum param.Field[string] `json:"minimum,required"`
+	// The amount to charge per unit
+	UnitRate param.Field[string] `json:"unit_rate,required"`
+}
+
+func (r NewSubscriptionGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionGroupedWithProratedMinimumPriceModelType string
 
 const (
@@ -2202,9 +2400,11 @@ type NewSubscriptionMatrixPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionMatrixPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID       param.Field[string]                              `json:"item_id,required"`
-	MatrixConfig param.Field[shared.MatrixConfigParam]            `json:"matrix_config,required"`
-	ModelType    param.Field[NewSubscriptionMatrixPriceModelType] `json:"model_type,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config,required"`
+	// The pricing model type
+	ModelType param.Field[NewSubscriptionMatrixPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -2278,6 +2478,7 @@ func (r NewSubscriptionMatrixPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionMatrixPriceModelType string
 
 const (
@@ -2331,9 +2532,11 @@ type NewSubscriptionMatrixWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionMatrixWithAllocationPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID                     param.Field[string]                                            `json:"item_id,required"`
-	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam]            `json:"matrix_with_allocation_config,required"`
-	ModelType                  param.Field[NewSubscriptionMatrixWithAllocationPriceModelType] `json:"model_type,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config,required"`
+	// The pricing model type
+	ModelType param.Field[NewSubscriptionMatrixWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -2409,6 +2612,7 @@ func (r NewSubscriptionMatrixWithAllocationPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionMatrixWithAllocationPriceModelType string
 
 const (
@@ -2462,9 +2666,11 @@ type NewSubscriptionMatrixWithDisplayNamePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionMatrixWithDisplayNamePriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID                      param.Field[string]                                             `json:"item_id,required"`
-	MatrixWithDisplayNameConfig param.Field[map[string]interface{}]                             `json:"matrix_with_display_name_config,required"`
-	ModelType                   param.Field[NewSubscriptionMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// Configuration for matrix_with_display_name pricing
+	MatrixWithDisplayNameConfig param.Field[NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam] `json:"matrix_with_display_name_config,required"`
+	// The pricing model type
+	ModelType param.Field[NewSubscriptionMatrixWithDisplayNamePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -2540,6 +2746,33 @@ func (r NewSubscriptionMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for matrix_with_display_name pricing
+type NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam struct {
+	// Used to determine the unit rate
+	Dimension param.Field[string] `json:"dimension,required"`
+	// Apply per unit pricing to each dimension value
+	UnitAmounts param.Field[[]NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam] `json:"unit_amounts,required"`
+}
+
+func (r NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a unit amount item
+type NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam struct {
+	// The dimension value
+	DimensionValue param.Field[string] `json:"dimension_value,required"`
+	// Display name for this dimension value
+	DisplayName param.Field[string] `json:"display_name,required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionMatrixWithDisplayNamePriceMatrixWithDisplayNameConfigUnitAmountParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionMatrixWithDisplayNamePriceModelType string
 
 const (
@@ -2593,9 +2826,11 @@ type NewSubscriptionMaxGroupTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionMaxGroupTieredPackagePriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID                      param.Field[string]                                             `json:"item_id,required"`
-	MaxGroupTieredPackageConfig param.Field[map[string]interface{}]                             `json:"max_group_tiered_package_config,required"`
-	ModelType                   param.Field[NewSubscriptionMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// Configuration for max_group_tiered_package pricing
+	MaxGroupTieredPackageConfig param.Field[NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam] `json:"max_group_tiered_package_config,required"`
+	// The pricing model type
+	ModelType param.Field[NewSubscriptionMaxGroupTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -2671,6 +2906,33 @@ func (r NewSubscriptionMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for max_group_tiered_package pricing
+type NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam struct {
+	// The event property used to group before tiering the group with the highest value
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// Package size
+	PackageSize param.Field[string] `json:"package_size,required"`
+	// Apply tiered pricing to the largest group after grouping with the provided key.
+	Tiers param.Field[[]NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers,required"`
+}
+
+func (r NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam struct {
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type NewSubscriptionMaxGroupTieredPackagePriceModelType string
 
 const (
@@ -2724,9 +2986,11 @@ type NewSubscriptionMinimumCompositePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionMinimumCompositePriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID        param.Field[string]                                                 `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// Configuration for minimum pricing
 	MinimumConfig param.Field[NewSubscriptionMinimumCompositePriceMinimumConfigParam] `json:"minimum_config,required"`
-	ModelType     param.Field[NewSubscriptionMinimumCompositePriceModelType]          `json:"model_type,required"`
+	// The pricing model type
+	ModelType param.Field[NewSubscriptionMinimumCompositePriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
 	// The id of the billable metric for the price. Only needed if the price is
@@ -2802,11 +3066,11 @@ func (r NewSubscriptionMinimumCompositePriceCadence) IsKnown() bool {
 	return false
 }
 
+// Configuration for minimum pricing
 type NewSubscriptionMinimumCompositePriceMinimumConfigParam struct {
 	// The minimum amount to apply
 	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// By default, subtotals from minimum composite prices are prorated based on the
-	// service period. Set to false to disable proration.
+	// If true, subtotals from this price are prorated based on the service period
 	Prorated param.Field[bool] `json:"prorated"`
 }
 
@@ -2814,6 +3078,7 @@ func (r NewSubscriptionMinimumCompositePriceMinimumConfigParam) MarshalJSON() (d
 	return apijson.MarshalRoot(r)
 }
 
+// The pricing model type
 type NewSubscriptionMinimumCompositePriceModelType string
 
 const (
@@ -2867,10 +3132,12 @@ type NewSubscriptionPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionPackagePriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                               `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name          param.Field[string]                    `json:"name,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for package pricing
 	PackageConfig param.Field[shared.PackageConfigParam] `json:"package_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
@@ -2943,6 +3210,7 @@ func (r NewSubscriptionPackagePriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionPackagePriceModelType string
 
 const (
@@ -2996,11 +3264,13 @@ type NewSubscriptionPackageWithAllocationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionPackageWithAllocationPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                             `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionPackageWithAllocationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                        param.Field[string]                 `json:"name,required"`
-	PackageWithAllocationConfig param.Field[map[string]interface{}] `json:"package_with_allocation_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for package_with_allocation pricing
+	PackageWithAllocationConfig param.Field[NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigParam] `json:"package_with_allocation_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3074,6 +3344,7 @@ func (r NewSubscriptionPackageWithAllocationPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionPackageWithAllocationPriceModelType string
 
 const (
@@ -3086,6 +3357,20 @@ func (r NewSubscriptionPackageWithAllocationPriceModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Configuration for package_with_allocation pricing
+type NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigParam struct {
+	// Usage allocation
+	Allocation param.Field[string] `json:"allocation,required"`
+	// Price per package
+	PackageAmount param.Field[string] `json:"package_amount,required"`
+	// Package size
+	PackageSize param.Field[string] `json:"package_size,required"`
+}
+
+func (r NewSubscriptionPackageWithAllocationPricePackageWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionPackageWithAllocationPriceConversionRateConfigParam struct {
@@ -3127,11 +3412,13 @@ type NewSubscriptionScalableMatrixWithTieredPricingPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                       `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                                  param.Field[string]                 `json:"name,required"`
-	ScalableMatrixWithTieredPricingConfig param.Field[map[string]interface{}] `json:"scalable_matrix_with_tiered_pricing_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for scalable_matrix_with_tiered_pricing pricing
+	ScalableMatrixWithTieredPricingConfig param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam] `json:"scalable_matrix_with_tiered_pricing_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3205,6 +3492,7 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceCadence) IsKnown() bo
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionScalableMatrixWithTieredPricingPriceModelType string
 
 const (
@@ -3217,6 +3505,48 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceModelType) IsKnown() 
 		return true
 	}
 	return false
+}
+
+// Configuration for scalable_matrix_with_tiered_pricing pricing
+type NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam struct {
+	// Used for the scalable matrix first dimension
+	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	// Apply a scaling factor to each dimension
+	MatrixScalingFactors param.Field[[]NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
+	// Tier pricing structure
+	Tiers param.Field[[]NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam] `json:"tiers,required"`
+	// Used for the scalable matrix second dimension (optional)
+	SecondDimension param.Field[string] `json:"second_dimension"`
+}
+
+func (r NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single matrix scaling factor
+type NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam struct {
+	// First dimension value
+	FirstDimensionValue param.Field[string] `json:"first_dimension_value,required"`
+	// Scaling factor
+	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
+	// Second dimension value (optional)
+	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
+}
+
+func (r NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier entry with business logic
+type NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam struct {
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
@@ -3258,11 +3588,13 @@ type NewSubscriptionScalableMatrixWithUnitPricingPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                     `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                                param.Field[string]                 `json:"name,required"`
-	ScalableMatrixWithUnitPricingConfig param.Field[map[string]interface{}] `json:"scalable_matrix_with_unit_pricing_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for scalable_matrix_with_unit_pricing pricing
+	ScalableMatrixWithUnitPricingConfig param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam] `json:"scalable_matrix_with_unit_pricing_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3336,6 +3668,7 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionScalableMatrixWithUnitPricingPriceModelType string
 
 const (
@@ -3348,6 +3681,38 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceModelType) IsKnown() bo
 		return true
 	}
 	return false
+}
+
+// Configuration for scalable_matrix_with_unit_pricing pricing
+type NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam struct {
+	// Used to determine the unit rate
+	FirstDimension param.Field[string] `json:"first_dimension,required"`
+	// Apply a scaling factor to each dimension
+	MatrixScalingFactors param.Field[[]NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
+	// The final unit price to rate against the output of the matrix
+	UnitPrice param.Field[string] `json:"unit_price,required"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+	// Used to determine the unit rate (optional)
+	SecondDimension param.Field[string] `json:"second_dimension"`
+}
+
+func (r NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single matrix scaling factor
+type NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam struct {
+	// First dimension value
+	FirstDimensionValue param.Field[string] `json:"first_dimension_value,required"`
+	// Scaling factor
+	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
+	// Second dimension value (optional)
+	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
+}
+
+func (r NewSubscriptionScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
@@ -3389,11 +3754,13 @@ type NewSubscriptionThresholdTotalAmountPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionThresholdTotalAmountPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                            `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionThresholdTotalAmountPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                       param.Field[string]                 `json:"name,required"`
-	ThresholdTotalAmountConfig param.Field[map[string]interface{}] `json:"threshold_total_amount_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for threshold_total_amount pricing
+	ThresholdTotalAmountConfig param.Field[NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigParam] `json:"threshold_total_amount_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3467,6 +3834,7 @@ func (r NewSubscriptionThresholdTotalAmountPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionThresholdTotalAmountPriceModelType string
 
 const (
@@ -3479,6 +3847,31 @@ func (r NewSubscriptionThresholdTotalAmountPriceModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Configuration for threshold_total_amount pricing
+type NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigParam struct {
+	// When the quantity consumed passes a provided threshold, the configured total
+	// will be charged
+	ConsumptionTable param.Field[[]NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam] `json:"consumption_table,required"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+}
+
+func (r NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single threshold
+type NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam struct {
+	// Quantity threshold
+	Threshold param.Field[string] `json:"threshold,required"`
+	// Total amount for this threshold
+	TotalAmount param.Field[string] `json:"total_amount,required"`
+}
+
+func (r NewSubscriptionThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionThresholdTotalAmountPriceConversionRateConfigParam struct {
@@ -3516,146 +3909,17 @@ func (r NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRa
 	return false
 }
 
-type NewSubscriptionTierWithProrationPriceParam struct {
-	// The cadence to bill for this price on.
-	Cadence param.Field[NewSubscriptionTierWithProrationPriceCadence] `json:"cadence,required"`
-	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                         `json:"item_id,required"`
-	ModelType param.Field[NewSubscriptionTierWithProrationPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name                      param.Field[string]                 `json:"name,required"`
-	TieredWithProrationConfig param.Field[map[string]interface{}] `json:"tiered_with_proration_config,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
-	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
-	// price is billed.
-	Currency param.Field[string] `json:"currency"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-	// A transient ID that can be used to reference this price when adding adjustments
-	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
-}
-
-func (r NewSubscriptionTierWithProrationPriceParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewSubscriptionTierWithProrationPriceParam) implementsSubscriptionNewParamsAddPricesPriceUnion() {
-}
-
-func (r NewSubscriptionTierWithProrationPriceParam) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
-}
-
-func (r NewSubscriptionTierWithProrationPriceParam) implementsSubscriptionSchedulePlanChangeParamsAddPricesPriceUnion() {
-}
-
-func (r NewSubscriptionTierWithProrationPriceParam) implementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion() {
-}
-
-// The cadence to bill for this price on.
-type NewSubscriptionTierWithProrationPriceCadence string
-
-const (
-	NewSubscriptionTierWithProrationPriceCadenceAnnual     NewSubscriptionTierWithProrationPriceCadence = "annual"
-	NewSubscriptionTierWithProrationPriceCadenceSemiAnnual NewSubscriptionTierWithProrationPriceCadence = "semi_annual"
-	NewSubscriptionTierWithProrationPriceCadenceMonthly    NewSubscriptionTierWithProrationPriceCadence = "monthly"
-	NewSubscriptionTierWithProrationPriceCadenceQuarterly  NewSubscriptionTierWithProrationPriceCadence = "quarterly"
-	NewSubscriptionTierWithProrationPriceCadenceOneTime    NewSubscriptionTierWithProrationPriceCadence = "one_time"
-	NewSubscriptionTierWithProrationPriceCadenceCustom     NewSubscriptionTierWithProrationPriceCadence = "custom"
-)
-
-func (r NewSubscriptionTierWithProrationPriceCadence) IsKnown() bool {
-	switch r {
-	case NewSubscriptionTierWithProrationPriceCadenceAnnual, NewSubscriptionTierWithProrationPriceCadenceSemiAnnual, NewSubscriptionTierWithProrationPriceCadenceMonthly, NewSubscriptionTierWithProrationPriceCadenceQuarterly, NewSubscriptionTierWithProrationPriceCadenceOneTime, NewSubscriptionTierWithProrationPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type NewSubscriptionTierWithProrationPriceModelType string
-
-const (
-	NewSubscriptionTierWithProrationPriceModelTypeTieredWithProration NewSubscriptionTierWithProrationPriceModelType = "tiered_with_proration"
-)
-
-func (r NewSubscriptionTierWithProrationPriceModelType) IsKnown() bool {
-	switch r {
-	case NewSubscriptionTierWithProrationPriceModelTypeTieredWithProration:
-		return true
-	}
-	return false
-}
-
-type NewSubscriptionTierWithProrationPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
-}
-
-func (r NewSubscriptionTierWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewSubscriptionTierWithProrationPriceConversionRateConfigParam) ImplementsNewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionTierWithProrationPriceConversionRateConfigParam].
-type NewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam interface {
-	ImplementsNewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam()
-}
-
-type NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType string
-
-const (
-	NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType = "unit"
-	NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewSubscriptionTieredPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionTieredPackagePriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                     `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionTieredPackagePriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                param.Field[string]                 `json:"name,required"`
-	TieredPackageConfig param.Field[map[string]interface{}] `json:"tiered_package_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_package pricing
+	TieredPackageConfig param.Field[NewSubscriptionTieredPackagePriceTieredPackageConfigParam] `json:"tiered_package_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3729,6 +3993,7 @@ func (r NewSubscriptionTieredPackagePriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionTieredPackagePriceModelType string
 
 const (
@@ -3741,6 +4006,31 @@ func (r NewSubscriptionTieredPackagePriceModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Configuration for tiered_package pricing
+type NewSubscriptionTieredPackagePriceTieredPackageConfigParam struct {
+	// Package size
+	PackageSize param.Field[string] `json:"package_size,required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds.
+	Tiers param.Field[[]NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers,required"`
+}
+
+func (r NewSubscriptionTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier with business logic
+type NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam struct {
+	// Price per package
+	PerUnit param.Field[string] `json:"per_unit,required"`
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+}
+
+func (r NewSubscriptionTieredPackagePriceTieredPackageConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionTieredPackagePriceConversionRateConfigParam struct {
@@ -3782,11 +4072,13 @@ type NewSubscriptionTieredPackageWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionTieredPackageWithMinimumPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionTieredPackageWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                           param.Field[string]                 `json:"name,required"`
-	TieredPackageWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_package_with_minimum_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_package_with_minimum pricing
+	TieredPackageWithMinimumConfig param.Field[NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam] `json:"tiered_package_with_minimum_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -3860,6 +4152,7 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionTieredPackageWithMinimumPriceModelType string
 
 const (
@@ -3872,6 +4165,33 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Configuration for tiered_package_with_minimum pricing
+type NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam struct {
+	// Package size
+	PackageSize param.Field[float64] `json:"package_size,required"`
+	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
+	// are defined using exclusive lower bounds.
+	Tiers param.Field[[]NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam] `json:"tiers,required"`
+}
+
+func (r NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam struct {
+	// Minimum amount
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// Price per package
+	PerUnit param.Field[string] `json:"per_unit,required"`
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+}
+
+func (r NewSubscriptionTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigParam struct {
@@ -3913,10 +4233,12 @@ type NewSubscriptionTieredPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionTieredPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                              `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionTieredPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name         param.Field[string]                   `json:"name,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered pricing
 	TieredConfig param.Field[shared.TieredConfigParam] `json:"tiered_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
@@ -3989,6 +4311,7 @@ func (r NewSubscriptionTieredPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionTieredPriceModelType string
 
 const (
@@ -4042,11 +4365,13 @@ type NewSubscriptionTieredWithMinimumPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionTieredWithMinimumPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                         `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionTieredWithMinimumPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                    param.Field[string]                 `json:"name,required"`
-	TieredWithMinimumConfig param.Field[map[string]interface{}] `json:"tiered_with_minimum_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_with_minimum pricing
+	TieredWithMinimumConfig param.Field[NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigParam] `json:"tiered_with_minimum_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4120,6 +4445,7 @@ func (r NewSubscriptionTieredWithMinimumPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionTieredWithMinimumPriceModelType string
 
 const (
@@ -4132,6 +4458,35 @@ func (r NewSubscriptionTieredWithMinimumPriceModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Configuration for tiered_with_minimum pricing
+type NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigParam struct {
+	// Tiered pricing with a minimum amount dependent on the volume tier. Tiers are
+	// defined using exclusive lower bounds.
+	Tiers param.Field[[]NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam] `json:"tiers,required"`
+	// If true, tiers with an accrued amount of 0 will not be included in the rating.
+	HideZeroAmountTiers param.Field[bool] `json:"hide_zero_amount_tiers"`
+	// If true, the unit price will be prorated to the billing period
+	Prorate param.Field[bool] `json:"prorate"`
+}
+
+func (r NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tier
+type NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam struct {
+	// Minimum amount
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// Tier lower bound
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Per unit amount
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionTieredWithMinimumPriceTieredWithMinimumConfigTierParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionTieredWithMinimumPriceConversionRateConfigParam struct {
@@ -4173,10 +4528,12 @@ type NewSubscriptionUnitPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionUnitPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                            `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionUnitPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name       param.Field[string]                 `json:"name,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for unit pricing
 	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
@@ -4249,6 +4606,7 @@ func (r NewSubscriptionUnitPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionUnitPriceModelType string
 
 const (
@@ -4302,11 +4660,13 @@ type NewSubscriptionUnitWithPercentPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionUnitWithPercentPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                       `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionUnitWithPercentPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                  param.Field[string]                 `json:"name,required"`
-	UnitWithPercentConfig param.Field[map[string]interface{}] `json:"unit_with_percent_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for unit_with_percent pricing
+	UnitWithPercentConfig param.Field[NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam] `json:"unit_with_percent_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4380,6 +4740,7 @@ func (r NewSubscriptionUnitWithPercentPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionUnitWithPercentPriceModelType string
 
 const (
@@ -4392,6 +4753,18 @@ func (r NewSubscriptionUnitWithPercentPriceModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Configuration for unit_with_percent pricing
+type NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam struct {
+	// What percent, out of 100, of the calculated total to charge
+	Percent param.Field[string] `json:"percent,required"`
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionUnitWithPercentPriceUnitWithPercentConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionUnitWithPercentPriceConversionRateConfigParam struct {
@@ -4433,11 +4806,13 @@ type NewSubscriptionUnitWithProrationPriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewSubscriptionUnitWithProrationPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                         `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[NewSubscriptionUnitWithProrationPriceModelType] `json:"model_type,required"`
 	// The name of the price.
-	Name                    param.Field[string]                 `json:"name,required"`
-	UnitWithProrationConfig param.Field[map[string]interface{}] `json:"unit_with_proration_config,required"`
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for unit_with_proration pricing
+	UnitWithProrationConfig param.Field[NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam] `json:"unit_with_proration_config,required"`
 	// The id of the billable metric for the price. Only needed if the price is
 	// usage-based.
 	BillableMetricID param.Field[string] `json:"billable_metric_id"`
@@ -4511,6 +4886,7 @@ func (r NewSubscriptionUnitWithProrationPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type NewSubscriptionUnitWithProrationPriceModelType string
 
 const (
@@ -4523,6 +4899,16 @@ func (r NewSubscriptionUnitWithProrationPriceModelType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+// Configuration for unit_with_proration pricing
+type NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam struct {
+	// Rate per unit of usage
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r NewSubscriptionUnitWithProrationPriceUnitWithProrationConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type NewSubscriptionUnitWithProrationPriceConversionRateConfigParam struct {
@@ -5481,7 +5867,7 @@ type SubscriptionNewParamsAddPrice struct {
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
-	// The definition of a new price to create and add to the subscription.
+	// New subscription price request body params.
 	Price param.Field[SubscriptionNewParamsAddPricesPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
 	PriceID param.Field[string] `json:"price_id"`
@@ -5495,12 +5881,13 @@ func (r SubscriptionNewParamsAddPrice) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 type SubscriptionNewParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsAddPricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                       `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -5513,8 +5900,9 @@ type SubscriptionNewParamsAddPricesPrice struct {
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
 	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	BulkConfig                param.Field[shared.BulkConfigParam]                   `json:"bulk_config"`
-	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
 	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
@@ -5540,28 +5928,33 @@ type SubscriptionNewParamsAddPricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                    param.Field[interface{}]                              `json:"metadata"`
-	MinimumConfig               param.Field[interface{}]                              `json:"minimum_config"`
-	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID                           param.Field[string]                   `json:"reference_id"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]              `json:"threshold_total_amount_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]              `json:"unit_with_proration_config"`
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionNewParamsAddPricesPrice) MarshalJSON() (data []byte, err error) {
@@ -5570,44 +5963,194 @@ func (r SubscriptionNewParamsAddPricesPrice) MarshalJSON() (data []byte, err err
 
 func (r SubscriptionNewParamsAddPricesPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {}
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 //
-// Satisfied by [NewSubscriptionUnitPriceParam],
-// [NewSubscriptionPackagePriceParam], [NewSubscriptionMatrixPriceParam],
-// [NewSubscriptionTieredPriceParam], [NewSubscriptionBulkPriceParam],
+// Satisfied by [NewSubscriptionUnitPriceParam], [NewSubscriptionTieredPriceParam],
+// [NewSubscriptionBulkPriceParam], [NewSubscriptionPackagePriceParam],
+// [NewSubscriptionMatrixPriceParam],
 // [NewSubscriptionThresholdTotalAmountPriceParam],
 // [NewSubscriptionTieredPackagePriceParam],
 // [NewSubscriptionTieredWithMinimumPriceParam],
-// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionGroupedTieredPriceParam],
+// [NewSubscriptionTieredPackageWithMinimumPriceParam],
 // [NewSubscriptionPackageWithAllocationPriceParam],
-// [NewSubscriptionTierWithProrationPriceParam],
+// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionMatrixWithAllocationPriceParam],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice],
 // [NewSubscriptionUnitWithProrationPriceParam],
 // [NewSubscriptionGroupedAllocationPriceParam],
-// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
 // [NewSubscriptionBulkWithProrationPriceParam],
+// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
+// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
+// [NewSubscriptionMatrixWithDisplayNamePriceParam],
+// [NewSubscriptionGroupedTieredPackagePriceParam],
+// [NewSubscriptionMaxGroupTieredPackagePriceParam],
 // [NewSubscriptionScalableMatrixWithUnitPricingPriceParam],
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
-// [NewSubscriptionMaxGroupTieredPackagePriceParam],
-// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
-// [NewSubscriptionMatrixWithDisplayNamePriceParam],
-// [NewSubscriptionGroupedTieredPackagePriceParam],
-// [NewSubscriptionMatrixWithAllocationPriceParam],
-// [NewSubscriptionTieredPackageWithMinimumPriceParam],
-// [NewSubscriptionGroupedTieredPriceParam],
-// [SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionNewParamsAddPricesPrice].
 type SubscriptionNewParamsAddPricesPriceUnion interface {
 	implementsSubscriptionNewParamsAddPricesPriceUnion()
 }
 
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice) implementsSubscriptionNewParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                           `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                             `json:"unit_config"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig].
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, SubscriptionNewParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence                           param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
-	GroupedWithMinMaxThresholdsConfig param.Field[map[string]interface{}]                                                                    `json:"grouped_with_min_max_thresholds_config,required"`
+	Cadence param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                      `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -5675,6 +6218,23 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThres
 	return false
 }
 
+// Configuration for grouped_with_min_max_thresholds pricing
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+}
+
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType string
 
 const (
@@ -5744,41 +6304,42 @@ func (r SubscriptionNewParamsAddPricesPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type SubscriptionNewParamsAddPricesPriceModelType string
 
 const (
 	SubscriptionNewParamsAddPricesPriceModelTypeUnit                            SubscriptionNewParamsAddPricesPriceModelType = "unit"
-	SubscriptionNewParamsAddPricesPriceModelTypePackage                         SubscriptionNewParamsAddPricesPriceModelType = "package"
-	SubscriptionNewParamsAddPricesPriceModelTypeMatrix                          SubscriptionNewParamsAddPricesPriceModelType = "matrix"
 	SubscriptionNewParamsAddPricesPriceModelTypeTiered                          SubscriptionNewParamsAddPricesPriceModelType = "tiered"
 	SubscriptionNewParamsAddPricesPriceModelTypeBulk                            SubscriptionNewParamsAddPricesPriceModelType = "bulk"
+	SubscriptionNewParamsAddPricesPriceModelTypePackage                         SubscriptionNewParamsAddPricesPriceModelType = "package"
+	SubscriptionNewParamsAddPricesPriceModelTypeMatrix                          SubscriptionNewParamsAddPricesPriceModelType = "matrix"
 	SubscriptionNewParamsAddPricesPriceModelTypeThresholdTotalAmount            SubscriptionNewParamsAddPricesPriceModelType = "threshold_total_amount"
 	SubscriptionNewParamsAddPricesPriceModelTypeTieredPackage                   SubscriptionNewParamsAddPricesPriceModelType = "tiered_package"
 	SubscriptionNewParamsAddPricesPriceModelTypeTieredWithMinimum               SubscriptionNewParamsAddPricesPriceModelType = "tiered_with_minimum"
-	SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent                 SubscriptionNewParamsAddPricesPriceModelType = "unit_with_percent"
+	SubscriptionNewParamsAddPricesPriceModelTypeGroupedTiered                   SubscriptionNewParamsAddPricesPriceModelType = "grouped_tiered"
+	SubscriptionNewParamsAddPricesPriceModelTypeTieredPackageWithMinimum        SubscriptionNewParamsAddPricesPriceModelType = "tiered_package_with_minimum"
 	SubscriptionNewParamsAddPricesPriceModelTypePackageWithAllocation           SubscriptionNewParamsAddPricesPriceModelType = "package_with_allocation"
+	SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent                 SubscriptionNewParamsAddPricesPriceModelType = "unit_with_percent"
+	SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithAllocation            SubscriptionNewParamsAddPricesPriceModelType = "matrix_with_allocation"
 	SubscriptionNewParamsAddPricesPriceModelTypeTieredWithProration             SubscriptionNewParamsAddPricesPriceModelType = "tiered_with_proration"
 	SubscriptionNewParamsAddPricesPriceModelTypeUnitWithProration               SubscriptionNewParamsAddPricesPriceModelType = "unit_with_proration"
 	SubscriptionNewParamsAddPricesPriceModelTypeGroupedAllocation               SubscriptionNewParamsAddPricesPriceModelType = "grouped_allocation"
-	SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionNewParamsAddPricesPriceModelType = "grouped_with_prorated_minimum"
 	SubscriptionNewParamsAddPricesPriceModelTypeBulkWithProration               SubscriptionNewParamsAddPricesPriceModelType = "bulk_with_proration"
+	SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionNewParamsAddPricesPriceModelType = "grouped_with_prorated_minimum"
+	SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionNewParamsAddPricesPriceModelType = "grouped_with_metered_minimum"
+	SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionNewParamsAddPricesPriceModelType = "grouped_with_min_max_thresholds"
+	SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithDisplayName           SubscriptionNewParamsAddPricesPriceModelType = "matrix_with_display_name"
+	SubscriptionNewParamsAddPricesPriceModelTypeGroupedTieredPackage            SubscriptionNewParamsAddPricesPriceModelType = "grouped_tiered_package"
+	SubscriptionNewParamsAddPricesPriceModelTypeMaxGroupTieredPackage           SubscriptionNewParamsAddPricesPriceModelType = "max_group_tiered_package"
 	SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing   SubscriptionNewParamsAddPricesPriceModelType = "scalable_matrix_with_unit_pricing"
 	SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionNewParamsAddPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedBulk           SubscriptionNewParamsAddPricesPriceModelType = "cumulative_grouped_bulk"
-	SubscriptionNewParamsAddPricesPriceModelTypeMaxGroupTieredPackage           SubscriptionNewParamsAddPricesPriceModelType = "max_group_tiered_package"
-	SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionNewParamsAddPricesPriceModelType = "grouped_with_metered_minimum"
-	SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithDisplayName           SubscriptionNewParamsAddPricesPriceModelType = "matrix_with_display_name"
-	SubscriptionNewParamsAddPricesPriceModelTypeGroupedTieredPackage            SubscriptionNewParamsAddPricesPriceModelType = "grouped_tiered_package"
-	SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithAllocation            SubscriptionNewParamsAddPricesPriceModelType = "matrix_with_allocation"
-	SubscriptionNewParamsAddPricesPriceModelTypeTieredPackageWithMinimum        SubscriptionNewParamsAddPricesPriceModelType = "tiered_package_with_minimum"
-	SubscriptionNewParamsAddPricesPriceModelTypeGroupedTiered                   SubscriptionNewParamsAddPricesPriceModelType = "grouped_tiered"
-	SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionNewParamsAddPricesPriceModelType = "grouped_with_min_max_thresholds"
 	SubscriptionNewParamsAddPricesPriceModelTypeMinimum                         SubscriptionNewParamsAddPricesPriceModelType = "minimum"
 )
 
 func (r SubscriptionNewParamsAddPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceModelTypeUnit, SubscriptionNewParamsAddPricesPriceModelTypePackage, SubscriptionNewParamsAddPricesPriceModelTypeMatrix, SubscriptionNewParamsAddPricesPriceModelTypeTiered, SubscriptionNewParamsAddPricesPriceModelTypeBulk, SubscriptionNewParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsAddPricesPriceModelTypeMinimum:
+	case SubscriptionNewParamsAddPricesPriceModelTypeUnit, SubscriptionNewParamsAddPricesPriceModelTypeTiered, SubscriptionNewParamsAddPricesPriceModelTypeBulk, SubscriptionNewParamsAddPricesPriceModelTypePackage, SubscriptionNewParamsAddPricesPriceModelTypeMatrix, SubscriptionNewParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionNewParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionNewParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsAddPricesPriceModelTypeMinimum:
 		return true
 	}
 	return false
@@ -5948,7 +6509,7 @@ type SubscriptionNewParamsReplacePrice struct {
 	//
 	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
-	// The definition of a new price to create and add to the subscription.
+	// New subscription price request body params.
 	Price param.Field[SubscriptionNewParamsReplacePricesPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
 	PriceID param.Field[string] `json:"price_id"`
@@ -5958,12 +6519,13 @@ func (r SubscriptionNewParamsReplacePrice) MarshalJSON() (data []byte, err error
 	return apijson.MarshalRoot(r)
 }
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 type SubscriptionNewParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                           `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -5976,8 +6538,9 @@ type SubscriptionNewParamsReplacePricesPrice struct {
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
 	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	BulkConfig                param.Field[shared.BulkConfigParam]                   `json:"bulk_config"`
-	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
 	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
@@ -6003,28 +6566,33 @@ type SubscriptionNewParamsReplacePricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                    param.Field[interface{}]                              `json:"metadata"`
-	MinimumConfig               param.Field[interface{}]                              `json:"minimum_config"`
-	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID                           param.Field[string]                   `json:"reference_id"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]              `json:"threshold_total_amount_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]              `json:"unit_with_proration_config"`
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionNewParamsReplacePricesPrice) MarshalJSON() (data []byte, err error) {
@@ -6034,44 +6602,194 @@ func (r SubscriptionNewParamsReplacePricesPrice) MarshalJSON() (data []byte, err
 func (r SubscriptionNewParamsReplacePricesPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
 }
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 //
-// Satisfied by [NewSubscriptionUnitPriceParam],
-// [NewSubscriptionPackagePriceParam], [NewSubscriptionMatrixPriceParam],
-// [NewSubscriptionTieredPriceParam], [NewSubscriptionBulkPriceParam],
+// Satisfied by [NewSubscriptionUnitPriceParam], [NewSubscriptionTieredPriceParam],
+// [NewSubscriptionBulkPriceParam], [NewSubscriptionPackagePriceParam],
+// [NewSubscriptionMatrixPriceParam],
 // [NewSubscriptionThresholdTotalAmountPriceParam],
 // [NewSubscriptionTieredPackagePriceParam],
 // [NewSubscriptionTieredWithMinimumPriceParam],
-// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionGroupedTieredPriceParam],
+// [NewSubscriptionTieredPackageWithMinimumPriceParam],
 // [NewSubscriptionPackageWithAllocationPriceParam],
-// [NewSubscriptionTierWithProrationPriceParam],
+// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionMatrixWithAllocationPriceParam],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice],
 // [NewSubscriptionUnitWithProrationPriceParam],
 // [NewSubscriptionGroupedAllocationPriceParam],
-// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
 // [NewSubscriptionBulkWithProrationPriceParam],
+// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
+// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
+// [NewSubscriptionMatrixWithDisplayNamePriceParam],
+// [NewSubscriptionGroupedTieredPackagePriceParam],
+// [NewSubscriptionMaxGroupTieredPackagePriceParam],
 // [NewSubscriptionScalableMatrixWithUnitPricingPriceParam],
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
-// [NewSubscriptionMaxGroupTieredPackagePriceParam],
-// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
-// [NewSubscriptionMatrixWithDisplayNamePriceParam],
-// [NewSubscriptionGroupedTieredPackagePriceParam],
-// [NewSubscriptionMatrixWithAllocationPriceParam],
-// [NewSubscriptionTieredPackageWithMinimumPriceParam],
-// [NewSubscriptionGroupedTieredPriceParam],
-// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionNewParamsReplacePricesPrice].
 type SubscriptionNewParamsReplacePricesPriceUnion interface {
 	implementsSubscriptionNewParamsReplacePricesPriceUnion()
 }
 
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice) implementsSubscriptionNewParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                               `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                 `json:"unit_config"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig].
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, SubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence                           param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
-	GroupedWithMinMaxThresholdsConfig param.Field[map[string]interface{}]                                                                        `json:"grouped_with_min_max_thresholds_config,required"`
+	Cadence param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                          `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -6139,6 +6857,23 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxT
 	return false
 }
 
+// Configuration for grouped_with_min_max_thresholds pricing
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+}
+
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType string
 
 const (
@@ -6208,41 +6943,42 @@ func (r SubscriptionNewParamsReplacePricesPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type SubscriptionNewParamsReplacePricesPriceModelType string
 
 const (
 	SubscriptionNewParamsReplacePricesPriceModelTypeUnit                            SubscriptionNewParamsReplacePricesPriceModelType = "unit"
-	SubscriptionNewParamsReplacePricesPriceModelTypePackage                         SubscriptionNewParamsReplacePricesPriceModelType = "package"
-	SubscriptionNewParamsReplacePricesPriceModelTypeMatrix                          SubscriptionNewParamsReplacePricesPriceModelType = "matrix"
 	SubscriptionNewParamsReplacePricesPriceModelTypeTiered                          SubscriptionNewParamsReplacePricesPriceModelType = "tiered"
 	SubscriptionNewParamsReplacePricesPriceModelTypeBulk                            SubscriptionNewParamsReplacePricesPriceModelType = "bulk"
+	SubscriptionNewParamsReplacePricesPriceModelTypePackage                         SubscriptionNewParamsReplacePricesPriceModelType = "package"
+	SubscriptionNewParamsReplacePricesPriceModelTypeMatrix                          SubscriptionNewParamsReplacePricesPriceModelType = "matrix"
 	SubscriptionNewParamsReplacePricesPriceModelTypeThresholdTotalAmount            SubscriptionNewParamsReplacePricesPriceModelType = "threshold_total_amount"
 	SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackage                   SubscriptionNewParamsReplacePricesPriceModelType = "tiered_package"
 	SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithMinimum               SubscriptionNewParamsReplacePricesPriceModelType = "tiered_with_minimum"
-	SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent                 SubscriptionNewParamsReplacePricesPriceModelType = "unit_with_percent"
+	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTiered                   SubscriptionNewParamsReplacePricesPriceModelType = "grouped_tiered"
+	SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackageWithMinimum        SubscriptionNewParamsReplacePricesPriceModelType = "tiered_package_with_minimum"
 	SubscriptionNewParamsReplacePricesPriceModelTypePackageWithAllocation           SubscriptionNewParamsReplacePricesPriceModelType = "package_with_allocation"
+	SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent                 SubscriptionNewParamsReplacePricesPriceModelType = "unit_with_percent"
+	SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithAllocation            SubscriptionNewParamsReplacePricesPriceModelType = "matrix_with_allocation"
 	SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithProration             SubscriptionNewParamsReplacePricesPriceModelType = "tiered_with_proration"
 	SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithProration               SubscriptionNewParamsReplacePricesPriceModelType = "unit_with_proration"
 	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedAllocation               SubscriptionNewParamsReplacePricesPriceModelType = "grouped_allocation"
-	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionNewParamsReplacePricesPriceModelType = "grouped_with_prorated_minimum"
 	SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithProration               SubscriptionNewParamsReplacePricesPriceModelType = "bulk_with_proration"
+	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionNewParamsReplacePricesPriceModelType = "grouped_with_prorated_minimum"
+	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionNewParamsReplacePricesPriceModelType = "grouped_with_metered_minimum"
+	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionNewParamsReplacePricesPriceModelType = "grouped_with_min_max_thresholds"
+	SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithDisplayName           SubscriptionNewParamsReplacePricesPriceModelType = "matrix_with_display_name"
+	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTieredPackage            SubscriptionNewParamsReplacePricesPriceModelType = "grouped_tiered_package"
+	SubscriptionNewParamsReplacePricesPriceModelTypeMaxGroupTieredPackage           SubscriptionNewParamsReplacePricesPriceModelType = "max_group_tiered_package"
 	SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing   SubscriptionNewParamsReplacePricesPriceModelType = "scalable_matrix_with_unit_pricing"
 	SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionNewParamsReplacePricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedBulk           SubscriptionNewParamsReplacePricesPriceModelType = "cumulative_grouped_bulk"
-	SubscriptionNewParamsReplacePricesPriceModelTypeMaxGroupTieredPackage           SubscriptionNewParamsReplacePricesPriceModelType = "max_group_tiered_package"
-	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionNewParamsReplacePricesPriceModelType = "grouped_with_metered_minimum"
-	SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithDisplayName           SubscriptionNewParamsReplacePricesPriceModelType = "matrix_with_display_name"
-	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTieredPackage            SubscriptionNewParamsReplacePricesPriceModelType = "grouped_tiered_package"
-	SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithAllocation            SubscriptionNewParamsReplacePricesPriceModelType = "matrix_with_allocation"
-	SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackageWithMinimum        SubscriptionNewParamsReplacePricesPriceModelType = "tiered_package_with_minimum"
-	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTiered                   SubscriptionNewParamsReplacePricesPriceModelType = "grouped_tiered"
-	SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionNewParamsReplacePricesPriceModelType = "grouped_with_min_max_thresholds"
 	SubscriptionNewParamsReplacePricesPriceModelTypeMinimum                         SubscriptionNewParamsReplacePricesPriceModelType = "minimum"
 )
 
 func (r SubscriptionNewParamsReplacePricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceModelTypeUnit, SubscriptionNewParamsReplacePricesPriceModelTypePackage, SubscriptionNewParamsReplacePricesPriceModelTypeMatrix, SubscriptionNewParamsReplacePricesPriceModelTypeTiered, SubscriptionNewParamsReplacePricesPriceModelTypeBulk, SubscriptionNewParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsReplacePricesPriceModelTypeMinimum:
+	case SubscriptionNewParamsReplacePricesPriceModelTypeUnit, SubscriptionNewParamsReplacePricesPriceModelTypeTiered, SubscriptionNewParamsReplacePricesPriceModelTypeBulk, SubscriptionNewParamsReplacePricesPriceModelTypePackage, SubscriptionNewParamsReplacePricesPriceModelTypeMatrix, SubscriptionNewParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionNewParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionNewParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionNewParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionNewParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionNewParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionNewParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionNewParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionNewParamsReplacePricesPriceModelTypeMinimum:
 		return true
 	}
 	return false
@@ -6522,7 +7258,7 @@ type SubscriptionPriceIntervalsParamsAdd struct {
 	// The minimum amount that will be billed for this price interval for a given
 	// billing period.
 	MinimumAmount param.Field[float64] `json:"minimum_amount"`
-	// The definition of a new price to create and add to the subscription.
+	// New floating price request body params.
 	Price param.Field[SubscriptionPriceIntervalsParamsAddPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
 	PriceID param.Field[string] `json:"price_id"`
@@ -6693,14 +7429,15 @@ func (r SubscriptionPriceIntervalsParamsAddFixedFeeQuantityTransition) MarshalJS
 	return apijson.MarshalRoot(r)
 }
 
-// The definition of a new price to create and add to the subscription.
+// New floating price request body params.
 type SubscriptionPriceIntervalsParamsAddPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
 	Currency param.Field[string] `json:"currency,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                            `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -6713,8 +7450,9 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
 	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	BulkConfig                param.Field[shared.BulkConfigParam]                   `json:"bulk_config"`
-	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
 	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
@@ -6736,26 +7474,31 @@ type SubscriptionPriceIntervalsParamsAddPrice struct {
 	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration           param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                          param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig            param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig           param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig           param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                              param.Field[interface{}]                              `json:"metadata"`
-	MinimumConfig                         param.Field[interface{}]                              `json:"minimum_config"`
-	PackageConfig                         param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig           param.Field[interface{}]                              `json:"package_with_allocation_config"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]                              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]                              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]                              `json:"threshold_total_amount_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam]                 `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]                              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]                              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]                              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]                              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]                   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]                              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]                              `json:"unit_with_proration_config"`
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
+	// Configuration for package pricing
+	PackageConfig                         param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig           param.Field[interface{}]               `json:"package_with_allocation_config"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]               `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]               `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}]               `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionPriceIntervalsParamsAddPrice) MarshalJSON() (data []byte, err error) {
@@ -6765,32 +7508,32 @@ func (r SubscriptionPriceIntervalsParamsAddPrice) MarshalJSON() (data []byte, er
 func (r SubscriptionPriceIntervalsParamsAddPrice) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
 }
 
-// The definition of a new price to create and add to the subscription.
+// New floating price request body params.
 //
 // Satisfied by [shared.NewFloatingUnitPriceParam],
-// [shared.NewFloatingPackagePriceParam], [shared.NewFloatingMatrixPriceParam],
-// [shared.NewFloatingMatrixWithAllocationPriceParam],
 // [shared.NewFloatingTieredPriceParam], [shared.NewFloatingBulkPriceParam],
+// [shared.NewFloatingPackagePriceParam], [shared.NewFloatingMatrixPriceParam],
 // [shared.NewFloatingThresholdTotalAmountPriceParam],
 // [shared.NewFloatingTieredPackagePriceParam],
-// [shared.NewFloatingGroupedTieredPriceParam],
-// [shared.NewFloatingMaxGroupTieredPackagePriceParam],
 // [shared.NewFloatingTieredWithMinimumPriceParam],
-// [shared.NewFloatingPackageWithAllocationPriceParam],
+// [shared.NewFloatingGroupedTieredPriceParam],
 // [shared.NewFloatingTieredPackageWithMinimumPriceParam],
+// [shared.NewFloatingPackageWithAllocationPriceParam],
 // [shared.NewFloatingUnitWithPercentPriceParam],
+// [shared.NewFloatingMatrixWithAllocationPriceParam],
 // [shared.NewFloatingTieredWithProrationPriceParam],
 // [shared.NewFloatingUnitWithProrationPriceParam],
 // [shared.NewFloatingGroupedAllocationPriceParam],
+// [shared.NewFloatingBulkWithProrationPriceParam],
 // [shared.NewFloatingGroupedWithProratedMinimumPriceParam],
 // [shared.NewFloatingGroupedWithMeteredMinimumPriceParam],
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPrice],
 // [shared.NewFloatingMatrixWithDisplayNamePriceParam],
-// [shared.NewFloatingBulkWithProrationPriceParam],
 // [shared.NewFloatingGroupedTieredPackagePriceParam],
+// [shared.NewFloatingMaxGroupTieredPackagePriceParam],
 // [shared.NewFloatingScalableMatrixWithUnitPricingPriceParam],
 // [shared.NewFloatingScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewFloatingCumulativeGroupedBulkPriceParam],
-// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPrice],
 // [shared.NewFloatingMinimumCompositePriceParam],
 // [SubscriptionPriceIntervalsParamsAddPrice].
 type SubscriptionPriceIntervalsParamsAddPriceUnion interface {
@@ -6801,10 +7544,12 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresho
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
 	// An ISO 4217 currency string for which this price is billed in.
-	Currency                          param.Field[string]                 `json:"currency,required"`
-	GroupedWithMinMaxThresholdsConfig param.Field[map[string]interface{}] `json:"grouped_with_min_max_thresholds_config,required"`
+	Currency param.Field[string] `json:"currency,required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                       `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -6866,6 +7611,23 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThre
 	return false
 }
 
+// Configuration for grouped_with_min_max_thresholds pricing
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+}
+
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceModelType string
 
 const (
@@ -6935,41 +7697,42 @@ func (r SubscriptionPriceIntervalsParamsAddPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type SubscriptionPriceIntervalsParamsAddPriceModelType string
 
 const (
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit                            SubscriptionPriceIntervalsParamsAddPriceModelType = "unit"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypePackage                         SubscriptionPriceIntervalsParamsAddPriceModelType = "package"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix                          SubscriptionPriceIntervalsParamsAddPriceModelType = "matrix"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation            SubscriptionPriceIntervalsParamsAddPriceModelType = "matrix_with_allocation"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered                          SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk                            SubscriptionPriceIntervalsParamsAddPriceModelType = "bulk"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypePackage                         SubscriptionPriceIntervalsParamsAddPriceModelType = "package"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix                          SubscriptionPriceIntervalsParamsAddPriceModelType = "matrix"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount            SubscriptionPriceIntervalsParamsAddPriceModelType = "threshold_total_amount"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage                   SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered                   SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_tiered"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage           SubscriptionPriceIntervalsParamsAddPriceModelType = "max_group_tiered_package"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum               SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_with_minimum"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation           SubscriptionPriceIntervalsParamsAddPriceModelType = "package_with_allocation"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered                   SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_tiered"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum        SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_package_with_minimum"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation           SubscriptionPriceIntervalsParamsAddPriceModelType = "package_with_allocation"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent                 SubscriptionPriceIntervalsParamsAddPriceModelType = "unit_with_percent"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation            SubscriptionPriceIntervalsParamsAddPriceModelType = "matrix_with_allocation"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration             SubscriptionPriceIntervalsParamsAddPriceModelType = "tiered_with_proration"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration               SubscriptionPriceIntervalsParamsAddPriceModelType = "unit_with_proration"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation               SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_allocation"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration               SubscriptionPriceIntervalsParamsAddPriceModelType = "bulk_with_proration"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum      SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_with_prorated_minimum"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum       SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_with_metered_minimum"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_with_min_max_thresholds"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName           SubscriptionPriceIntervalsParamsAddPriceModelType = "matrix_with_display_name"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration               SubscriptionPriceIntervalsParamsAddPriceModelType = "bulk_with_proration"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage            SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_tiered_package"
+	SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage           SubscriptionPriceIntervalsParamsAddPriceModelType = "max_group_tiered_package"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing   SubscriptionPriceIntervalsParamsAddPriceModelType = "scalable_matrix_with_unit_pricing"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing SubscriptionPriceIntervalsParamsAddPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk           SubscriptionPriceIntervalsParamsAddPriceModelType = "cumulative_grouped_bulk"
-	SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionPriceIntervalsParamsAddPriceModelType = "grouped_with_min_max_thresholds"
 	SubscriptionPriceIntervalsParamsAddPriceModelTypeMinimum                         SubscriptionPriceIntervalsParamsAddPriceModelType = "minimum"
 )
 
 func (r SubscriptionPriceIntervalsParamsAddPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionPriceIntervalsParamsAddPriceModelTypeMinimum:
+	case SubscriptionPriceIntervalsParamsAddPriceModelTypeUnit, SubscriptionPriceIntervalsParamsAddPriceModelTypeTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypePackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrix, SubscriptionPriceIntervalsParamsAddPriceModelTypeThresholdTotalAmount, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTiered, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredPackageWithMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypePackageWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithPercent, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeTieredWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeUnitWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedAllocation, SubscriptionPriceIntervalsParamsAddPriceModelTypeBulkWithProration, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithProratedMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMeteredMinimum, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionPriceIntervalsParamsAddPriceModelTypeMatrixWithDisplayName, SubscriptionPriceIntervalsParamsAddPriceModelTypeGroupedTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeMaxGroupTieredPackage, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionPriceIntervalsParamsAddPriceModelTypeCumulativeGroupedBulk, SubscriptionPriceIntervalsParamsAddPriceModelTypeMinimum:
 		return true
 	}
 	return false
@@ -7481,7 +8244,7 @@ type SubscriptionSchedulePlanChangeParamsAddPrice struct {
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
-	// The definition of a new price to create and add to the subscription.
+	// New subscription price request body params.
 	Price param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
 	PriceID param.Field[string] `json:"price_id"`
@@ -7495,12 +8258,13 @@ func (r SubscriptionSchedulePlanChangeParamsAddPrice) MarshalJSON() (data []byte
 	return apijson.MarshalRoot(r)
 }
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                      `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -7513,8 +8277,9 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
 	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	BulkConfig                param.Field[shared.BulkConfigParam]                   `json:"bulk_config"`
-	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
 	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
@@ -7540,28 +8305,33 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                    param.Field[interface{}]                              `json:"metadata"`
-	MinimumConfig               param.Field[interface{}]                              `json:"minimum_config"`
-	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID                           param.Field[string]                   `json:"reference_id"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]              `json:"threshold_total_amount_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]              `json:"unit_with_proration_config"`
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPrice) MarshalJSON() (data []byte, err error) {
@@ -7571,44 +8341,194 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPrice) MarshalJSON() (data 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPrice) implementsSubscriptionSchedulePlanChangeParamsAddPricesPriceUnion() {
 }
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 //
-// Satisfied by [NewSubscriptionUnitPriceParam],
-// [NewSubscriptionPackagePriceParam], [NewSubscriptionMatrixPriceParam],
-// [NewSubscriptionTieredPriceParam], [NewSubscriptionBulkPriceParam],
+// Satisfied by [NewSubscriptionUnitPriceParam], [NewSubscriptionTieredPriceParam],
+// [NewSubscriptionBulkPriceParam], [NewSubscriptionPackagePriceParam],
+// [NewSubscriptionMatrixPriceParam],
 // [NewSubscriptionThresholdTotalAmountPriceParam],
 // [NewSubscriptionTieredPackagePriceParam],
 // [NewSubscriptionTieredWithMinimumPriceParam],
-// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionGroupedTieredPriceParam],
+// [NewSubscriptionTieredPackageWithMinimumPriceParam],
 // [NewSubscriptionPackageWithAllocationPriceParam],
-// [NewSubscriptionTierWithProrationPriceParam],
+// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionMatrixWithAllocationPriceParam],
+// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice],
 // [NewSubscriptionUnitWithProrationPriceParam],
 // [NewSubscriptionGroupedAllocationPriceParam],
-// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
 // [NewSubscriptionBulkWithProrationPriceParam],
+// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
+// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
+// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
+// [NewSubscriptionMatrixWithDisplayNamePriceParam],
+// [NewSubscriptionGroupedTieredPackagePriceParam],
+// [NewSubscriptionMaxGroupTieredPackagePriceParam],
 // [NewSubscriptionScalableMatrixWithUnitPricingPriceParam],
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
-// [NewSubscriptionMaxGroupTieredPackagePriceParam],
-// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
-// [NewSubscriptionMatrixWithDisplayNamePriceParam],
-// [NewSubscriptionGroupedTieredPackagePriceParam],
-// [NewSubscriptionMatrixWithAllocationPriceParam],
-// [NewSubscriptionTieredPackageWithMinimumPriceParam],
-// [NewSubscriptionGroupedTieredPriceParam],
-// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionSchedulePlanChangeParamsAddPricesPrice].
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceUnion interface {
 	implementsSubscriptionSchedulePlanChangeParamsAddPricesPriceUnion()
 }
 
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPrice) implementsSubscriptionSchedulePlanChangeParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                            `json:"unit_config"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig].
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence                           param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
-	GroupedWithMinMaxThresholdsConfig param.Field[map[string]interface{}]                                                                                   `json:"grouped_with_min_max_thresholds_config,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                                     `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -7676,6 +8596,23 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGrouped
 	return false
 }
 
+// Configuration for grouped_with_min_max_thresholds pricing
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType string
 
 const (
@@ -7745,41 +8682,42 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceCadence) IsKnown() boo
 	return false
 }
 
+// The pricing model type
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType string
 
 const (
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnit                            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "unit"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackage                         SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "package"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrix                          SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "matrix"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTiered                          SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "tiered"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulk                            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "bulk"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackage                         SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "package"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrix                          SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "matrix"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeThresholdTotalAmount            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "threshold_total_amount"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackage                   SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "tiered_package"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithMinimum               SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "tiered_with_minimum"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithPercent                 SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "unit_with_percent"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTiered                   SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_tiered"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackageWithMinimum        SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "tiered_package_with_minimum"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackageWithAllocation           SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "package_with_allocation"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithPercent                 SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "unit_with_percent"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithAllocation            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "matrix_with_allocation"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithProration             SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "tiered_with_proration"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithProration               SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "unit_with_proration"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedAllocation               SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_allocation"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_with_prorated_minimum"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulkWithProration               SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "bulk_with_proration"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_with_prorated_minimum"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_with_metered_minimum"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_with_min_max_thresholds"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithDisplayName           SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "matrix_with_display_name"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTieredPackage            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_tiered_package"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMaxGroupTieredPackage           SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "max_group_tiered_package"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing   SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "scalable_matrix_with_unit_pricing"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedBulk           SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "cumulative_grouped_bulk"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMaxGroupTieredPackage           SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "max_group_tiered_package"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_with_metered_minimum"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithDisplayName           SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "matrix_with_display_name"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTieredPackage            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_tiered_package"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithAllocation            SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "matrix_with_allocation"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackageWithMinimum        SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "tiered_package_with_minimum"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTiered                   SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_tiered"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "grouped_with_min_max_thresholds"
 	SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMinimum                         SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType = "minimum"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMinimum:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsAddPricesPriceModelTypeMinimum:
 		return true
 	}
 	return false
@@ -7952,7 +8890,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePrice struct {
 	//
 	// Deprecated: deprecated
 	MinimumAmount param.Field[string] `json:"minimum_amount"`
-	// The definition of a new price to create and add to the subscription.
+	// New subscription price request body params.
 	Price param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion] `json:"price"`
 	// The id of the price to add to the subscription.
 	PriceID param.Field[string] `json:"price_id"`
@@ -7962,12 +8900,13 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePrice) MarshalJSON() (data []
 	return apijson.MarshalRoot(r)
 }
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                          `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -7980,8 +8919,9 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
 	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	BulkConfig                param.Field[shared.BulkConfigParam]                   `json:"bulk_config"`
-	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
 	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
@@ -8007,28 +8947,33 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                    param.Field[interface{}]                              `json:"metadata"`
-	MinimumConfig               param.Field[interface{}]                              `json:"minimum_config"`
-	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID                           param.Field[string]                   `json:"reference_id"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]              `json:"threshold_total_amount_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]              `json:"unit_with_proration_config"`
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
 }
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPrice) MarshalJSON() (data []byte, err error) {
@@ -8038,44 +8983,194 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPrice) MarshalJSON() (d
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPrice) implementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion() {
 }
 
-// The definition of a new price to create and add to the subscription.
+// New subscription price request body params.
 //
-// Satisfied by [NewSubscriptionUnitPriceParam],
-// [NewSubscriptionPackagePriceParam], [NewSubscriptionMatrixPriceParam],
-// [NewSubscriptionTieredPriceParam], [NewSubscriptionBulkPriceParam],
+// Satisfied by [NewSubscriptionUnitPriceParam], [NewSubscriptionTieredPriceParam],
+// [NewSubscriptionBulkPriceParam], [NewSubscriptionPackagePriceParam],
+// [NewSubscriptionMatrixPriceParam],
 // [NewSubscriptionThresholdTotalAmountPriceParam],
 // [NewSubscriptionTieredPackagePriceParam],
 // [NewSubscriptionTieredWithMinimumPriceParam],
-// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionGroupedTieredPriceParam],
+// [NewSubscriptionTieredPackageWithMinimumPriceParam],
 // [NewSubscriptionPackageWithAllocationPriceParam],
-// [NewSubscriptionTierWithProrationPriceParam],
+// [NewSubscriptionUnitWithPercentPriceParam],
+// [NewSubscriptionMatrixWithAllocationPriceParam],
+// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice],
 // [NewSubscriptionUnitWithProrationPriceParam],
 // [NewSubscriptionGroupedAllocationPriceParam],
-// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
 // [NewSubscriptionBulkWithProrationPriceParam],
+// [NewSubscriptionGroupedWithProratedMinimumPriceParam],
+// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
+// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
+// [NewSubscriptionMatrixWithDisplayNamePriceParam],
+// [NewSubscriptionGroupedTieredPackagePriceParam],
+// [NewSubscriptionMaxGroupTieredPackagePriceParam],
 // [NewSubscriptionScalableMatrixWithUnitPricingPriceParam],
 // [NewSubscriptionScalableMatrixWithTieredPricingPriceParam],
 // [NewSubscriptionCumulativeGroupedBulkPriceParam],
-// [NewSubscriptionMaxGroupTieredPackagePriceParam],
-// [NewSubscriptionGroupedWithMeteredMinimumPriceParam],
-// [NewSubscriptionMatrixWithDisplayNamePriceParam],
-// [NewSubscriptionGroupedTieredPackagePriceParam],
-// [NewSubscriptionMatrixWithAllocationPriceParam],
-// [NewSubscriptionTieredPackageWithMinimumPriceParam],
-// [NewSubscriptionGroupedTieredPriceParam],
-// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice],
 // [NewSubscriptionMinimumCompositePriceParam],
 // [SubscriptionSchedulePlanChangeParamsReplacePricesPrice].
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion interface {
 	implementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion()
 }
 
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
+	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPrice) implementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "semi_annual"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "monthly"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly  SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "quarterly"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime    SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "one_time"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom     SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence = "custom"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceSemiAnnual, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceMonthly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceQuarterly, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceOneTime, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                `json:"unit_config"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfig].
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence                           param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
-	GroupedWithMinMaxThresholdsConfig param.Field[map[string]interface{}]                                                                                       `json:"grouped_with_min_max_thresholds_config,required"`
+	Cadence param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                                         `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -8143,6 +9238,23 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGro
 	return false
 }
 
+// Configuration for grouped_with_min_max_thresholds pricing
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+}
+
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceModelType string
 
 const (
@@ -8212,41 +9324,42 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceCadence) IsKnown()
 	return false
 }
 
+// The pricing model type
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType string
 
 const (
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnit                            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "unit"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackage                         SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "package"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrix                          SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "matrix"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTiered                          SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "tiered"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulk                            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "bulk"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackage                         SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "package"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrix                          SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "matrix"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeThresholdTotalAmount            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "threshold_total_amount"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackage                   SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "tiered_package"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithMinimum               SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "tiered_with_minimum"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithPercent                 SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "unit_with_percent"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTiered                   SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_tiered"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackageWithMinimum        SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "tiered_package_with_minimum"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackageWithAllocation           SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "package_with_allocation"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithPercent                 SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "unit_with_percent"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithAllocation            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "matrix_with_allocation"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithProration             SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "tiered_with_proration"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithProration               SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "unit_with_proration"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedAllocation               SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_allocation"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_with_prorated_minimum"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulkWithProration               SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "bulk_with_proration"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum      SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_with_prorated_minimum"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_with_metered_minimum"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_with_min_max_thresholds"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithDisplayName           SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "matrix_with_display_name"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTieredPackage            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_tiered_package"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMaxGroupTieredPackage           SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "max_group_tiered_package"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing   SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "scalable_matrix_with_unit_pricing"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedBulk           SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "cumulative_grouped_bulk"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMaxGroupTieredPackage           SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "max_group_tiered_package"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum       SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_with_metered_minimum"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithDisplayName           SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "matrix_with_display_name"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTieredPackage            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_tiered_package"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithAllocation            SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "matrix_with_allocation"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackageWithMinimum        SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "tiered_package_with_minimum"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTiered                   SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_tiered"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds     SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "grouped_with_min_max_thresholds"
 	SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMinimum                         SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType = "minimum"
 )
 
 func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMinimum:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrix, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeThresholdTotalAmount, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTiered, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypePackageWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithPercent, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeTieredWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeUnitWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedAllocation, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeBulkWithProration, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMatrixWithDisplayName, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeGroupedTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, SubscriptionSchedulePlanChangeParamsReplacePricesPriceModelTypeMinimum:
 		return true
 	}
 	return false

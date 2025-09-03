@@ -749,7 +749,8 @@ type CustomerNewParams struct {
 	Name                        param.Field[string]                              `json:"name,required"`
 	AccountingSyncConfiguration param.Field[NewAccountingSyncConfigurationParam] `json:"accounting_sync_configuration"`
 	// Additional email addresses for this customer. If populated, these email
-	// addresses will be CC'd for customer communications.
+	// addresses will be CC'd for customer communications. The total number of email
+	// addresses (including the primary email) cannot exceed 50.
 	AdditionalEmails param.Field[[]string] `json:"additional_emails" format:"email"`
 	// Used to determine if invoices for this customer will automatically attempt to
 	// charge a saved payment method, if available. This parameter defaults to `True`
@@ -974,9 +975,37 @@ func (r CustomerNewParamsTaxConfiguration) MarshalJSON() (data []byte, err error
 func (r CustomerNewParamsTaxConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {}
 
 // Satisfied by [NewAvalaraTaxConfigurationParam], [NewTaxJarConfigurationParam],
-// [NewSphereConfigurationParam], [CustomerNewParamsTaxConfiguration].
+// [NewSphereConfigurationParam],
+// [CustomerNewParamsTaxConfigurationNewNumeralConfiguration],
+// [CustomerNewParamsTaxConfiguration].
 type CustomerNewParamsTaxConfigurationUnion interface {
 	implementsCustomerNewParamsTaxConfigurationUnion()
+}
+
+type CustomerNewParamsTaxConfigurationNewNumeralConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerNewParamsTaxConfigurationNewNumeralConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerNewParamsTaxConfigurationNewNumeralConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {
+}
+
+type CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider string
+
+const (
+	CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProviderNumeral CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider = "numeral"
+)
+
+func (r CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProviderNumeral:
+		return true
+	}
+	return false
 }
 
 type CustomerNewParamsTaxConfigurationTaxProvider string
@@ -985,11 +1014,12 @@ const (
 	CustomerNewParamsTaxConfigurationTaxProviderAvalara CustomerNewParamsTaxConfigurationTaxProvider = "avalara"
 	CustomerNewParamsTaxConfigurationTaxProviderTaxjar  CustomerNewParamsTaxConfigurationTaxProvider = "taxjar"
 	CustomerNewParamsTaxConfigurationTaxProviderSphere  CustomerNewParamsTaxConfigurationTaxProvider = "sphere"
+	CustomerNewParamsTaxConfigurationTaxProviderNumeral CustomerNewParamsTaxConfigurationTaxProvider = "numeral"
 )
 
 func (r CustomerNewParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar, CustomerNewParamsTaxConfigurationTaxProviderSphere:
+	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar, CustomerNewParamsTaxConfigurationTaxProviderSphere, CustomerNewParamsTaxConfigurationTaxProviderNumeral:
 		return true
 	}
 	return false
@@ -998,7 +1028,8 @@ func (r CustomerNewParamsTaxConfigurationTaxProvider) IsKnown() bool {
 type CustomerUpdateParams struct {
 	AccountingSyncConfiguration param.Field[NewAccountingSyncConfigurationParam] `json:"accounting_sync_configuration"`
 	// Additional email addresses for this customer. If populated, these email
-	// addresses will be CC'd for customer communications.
+	// addresses will be CC'd for customer communications. The total number of email
+	// addresses (including the primary email) cannot exceed 50.
 	AdditionalEmails param.Field[[]string] `json:"additional_emails"`
 	// Used to determine if invoices for this customer will automatically attempt to
 	// charge a saved payment method, if available. This parameter defaults to `True`
@@ -1233,9 +1264,37 @@ func (r CustomerUpdateParamsTaxConfiguration) MarshalJSON() (data []byte, err er
 func (r CustomerUpdateParamsTaxConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {}
 
 // Satisfied by [NewAvalaraTaxConfigurationParam], [NewTaxJarConfigurationParam],
-// [NewSphereConfigurationParam], [CustomerUpdateParamsTaxConfiguration].
+// [NewSphereConfigurationParam],
+// [CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration],
+// [CustomerUpdateParamsTaxConfiguration].
 type CustomerUpdateParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateParamsTaxConfigurationUnion()
+}
+
+type CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                   `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider string
+
+const (
+	CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProviderNumeral CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider = "numeral"
+)
+
+func (r CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProviderNumeral:
+		return true
+	}
+	return false
 }
 
 type CustomerUpdateParamsTaxConfigurationTaxProvider string
@@ -1244,11 +1303,12 @@ const (
 	CustomerUpdateParamsTaxConfigurationTaxProviderAvalara CustomerUpdateParamsTaxConfigurationTaxProvider = "avalara"
 	CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateParamsTaxConfigurationTaxProvider = "taxjar"
 	CustomerUpdateParamsTaxConfigurationTaxProviderSphere  CustomerUpdateParamsTaxConfigurationTaxProvider = "sphere"
+	CustomerUpdateParamsTaxConfigurationTaxProviderNumeral CustomerUpdateParamsTaxConfigurationTaxProvider = "numeral"
 )
 
 func (r CustomerUpdateParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateParamsTaxConfigurationTaxProviderSphere:
+	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateParamsTaxConfigurationTaxProviderSphere, CustomerUpdateParamsTaxConfigurationTaxProviderNumeral:
 		return true
 	}
 	return false
@@ -1277,7 +1337,8 @@ func (r CustomerListParams) URLQuery() (v url.Values) {
 type CustomerUpdateByExternalIDParams struct {
 	AccountingSyncConfiguration param.Field[NewAccountingSyncConfigurationParam] `json:"accounting_sync_configuration"`
 	// Additional email addresses for this customer. If populated, these email
-	// addresses will be CC'd for customer communications.
+	// addresses will be CC'd for customer communications. The total number of email
+	// addresses (including the primary email) cannot exceed 50.
 	AdditionalEmails param.Field[[]string] `json:"additional_emails"`
 	// Used to determine if invoices for this customer will automatically attempt to
 	// charge a saved payment method, if available. This parameter defaults to `True`
@@ -1514,9 +1575,36 @@ func (r CustomerUpdateByExternalIDParamsTaxConfiguration) implementsCustomerUpda
 
 // Satisfied by [NewAvalaraTaxConfigurationParam], [NewTaxJarConfigurationParam],
 // [NewSphereConfigurationParam],
+// [CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration],
 // [CustomerUpdateByExternalIDParamsTaxConfiguration].
 type CustomerUpdateByExternalIDParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion()
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                               `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration) implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProvider string
+
+const (
+	CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProviderNumeral CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProvider = "numeral"
+)
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProviderNumeral:
+		return true
+	}
+	return false
 }
 
 type CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider string
@@ -1525,11 +1613,12 @@ const (
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "avalara"
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "taxjar"
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "sphere"
+	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "numeral"
 )
 
 func (r CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere:
+	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral:
 		return true
 	}
 	return false
