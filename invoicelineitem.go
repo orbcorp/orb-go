@@ -306,9 +306,10 @@ type InvoiceLineItemNewResponseSubLineItem struct {
 	Quantity     float64                                    `json:"quantity,required"`
 	Type         InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
 	MatrixConfig shared.SubLineItemMatrixConfig             `json:"matrix_config"`
-	TierConfig   shared.TierConfig                          `json:"tier_config"`
-	JSON         invoiceLineItemNewResponseSubLineItemJSON  `json:"-"`
-	union        InvoiceLineItemNewResponseSubLineItemsUnion
+	// This field can have the runtime type of [shared.TierSubLineItemTierConfig].
+	TierConfig interface{}                               `json:"tier_config"`
+	JSON       invoiceLineItemNewResponseSubLineItemJSON `json:"-"`
+	union      InvoiceLineItemNewResponseSubLineItemsUnion
 }
 
 // invoiceLineItemNewResponseSubLineItemJSON contains the JSON metadata for the

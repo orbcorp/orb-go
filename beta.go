@@ -449,7 +449,7 @@ type BetaNewPlanVersionParamsAddPrice struct {
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
 	// The phase to add this price to.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
-	// The price to add to the plan
+	// New plan price request body params.
 	Price param.Field[BetaNewPlanVersionParamsAddPricesPriceUnion] `json:"price"`
 }
 
@@ -457,12 +457,13 @@ func (r BetaNewPlanVersionParamsAddPrice) MarshalJSON() (data []byte, err error)
 	return apijson.MarshalRoot(r)
 }
 
-// The price to add to the plan
+// New plan price request body params.
 type BetaNewPlanVersionParamsAddPricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[BetaNewPlanVersionParamsAddPricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                          `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[BetaNewPlanVersionParamsAddPricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -475,8 +476,9 @@ type BetaNewPlanVersionParamsAddPricesPrice struct {
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
 	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	BulkConfig                param.Field[shared.BulkConfigParam]                   `json:"bulk_config"`
-	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
 	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
@@ -502,28 +504,33 @@ type BetaNewPlanVersionParamsAddPricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                    param.Field[interface{}]                              `json:"metadata"`
-	MinimumConfig               param.Field[interface{}]                              `json:"minimum_config"`
-	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID                           param.Field[string]                   `json:"reference_id"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]              `json:"threshold_total_amount_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]              `json:"unit_with_proration_config"`
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
 }
 
 func (r BetaNewPlanVersionParamsAddPricesPrice) MarshalJSON() (data []byte, err error) {
@@ -533,43 +540,194 @@ func (r BetaNewPlanVersionParamsAddPricesPrice) MarshalJSON() (data []byte, err 
 func (r BetaNewPlanVersionParamsAddPricesPrice) ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion() {
 }
 
-// The price to add to the plan
+// New plan price request body params.
 //
-// Satisfied by [shared.NewPlanUnitPriceParam], [shared.NewPlanPackagePriceParam],
-// [shared.NewPlanMatrixPriceParam], [shared.NewPlanTieredPriceParam],
-// [shared.NewPlanBulkPriceParam], [shared.NewPlanThresholdTotalAmountPriceParam],
+// Satisfied by [shared.NewPlanUnitPriceParam], [shared.NewPlanTieredPriceParam],
+// [shared.NewPlanBulkPriceParam], [shared.NewPlanPackagePriceParam],
+// [shared.NewPlanMatrixPriceParam],
+// [shared.NewPlanThresholdTotalAmountPriceParam],
 // [shared.NewPlanTieredPackagePriceParam],
 // [shared.NewPlanTieredWithMinimumPriceParam],
-// [shared.NewPlanUnitWithPercentPriceParam],
+// [shared.NewPlanGroupedTieredPriceParam],
+// [shared.NewPlanTieredPackageWithMinimumPriceParam],
 // [shared.NewPlanPackageWithAllocationPriceParam],
-// [shared.NewPlanTierWithProrationPriceParam],
+// [shared.NewPlanUnitWithPercentPriceParam],
+// [shared.NewPlanMatrixWithAllocationPriceParam],
+// [BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPrice],
 // [shared.NewPlanUnitWithProrationPriceParam],
 // [shared.NewPlanGroupedAllocationPriceParam],
+// [shared.NewPlanBulkWithProrationPriceParam],
 // [shared.NewPlanGroupedWithProratedMinimumPriceParam],
 // [shared.NewPlanGroupedWithMeteredMinimumPriceParam],
 // [BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice],
 // [shared.NewPlanMatrixWithDisplayNamePriceParam],
-// [shared.NewPlanBulkWithProrationPriceParam],
 // [shared.NewPlanGroupedTieredPackagePriceParam],
 // [shared.NewPlanMaxGroupTieredPackagePriceParam],
 // [shared.NewPlanScalableMatrixWithUnitPricingPriceParam],
 // [shared.NewPlanScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewPlanCumulativeGroupedBulkPriceParam],
-// [shared.NewPlanTieredPackageWithMinimumPriceParam],
-// [shared.NewPlanMatrixWithAllocationPriceParam],
-// [shared.NewPlanGroupedTieredPriceParam],
 // [shared.NewPlanMinimumCompositePriceParam],
 // [BetaNewPlanVersionParamsAddPricesPrice].
 type BetaNewPlanVersionParamsAddPricesPriceUnion interface {
 	ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion()
 }
 
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
+	ModelType param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPrice) ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence string
+
+const (
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceAnnual     BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence = "annual"
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceSemiAnnual BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence = "semi_annual"
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceMonthly    BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence = "monthly"
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceQuarterly  BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence = "quarterly"
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceOneTime    BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence = "one_time"
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceCustom     BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence = "custom"
+)
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceAnnual, BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceSemiAnnual, BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceMonthly, BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceQuarterly, BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceOneTime, BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelType string
+
+const (
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelTypeTieredWithProration BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                        `json:"unit_config"`
+}
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfig) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfig].
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence                           param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
-	GroupedWithMinMaxThresholdsConfig param.Field[map[string]interface{}]                                                               `json:"grouped_with_min_max_thresholds_config,required"`
+	Cadence param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                 `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -637,6 +795,23 @@ func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholds
 	return false
 }
 
+// Configuration for grouped_with_min_max_thresholds pricing
+type BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+}
+
+func (r BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type BetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType string
 
 const (
@@ -706,41 +881,42 @@ func (r BetaNewPlanVersionParamsAddPricesPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type BetaNewPlanVersionParamsAddPricesPriceModelType string
 
 const (
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeUnit                            BetaNewPlanVersionParamsAddPricesPriceModelType = "unit"
-	BetaNewPlanVersionParamsAddPricesPriceModelTypePackage                         BetaNewPlanVersionParamsAddPricesPriceModelType = "package"
-	BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrix                          BetaNewPlanVersionParamsAddPricesPriceModelType = "matrix"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeTiered                          BetaNewPlanVersionParamsAddPricesPriceModelType = "tiered"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeBulk                            BetaNewPlanVersionParamsAddPricesPriceModelType = "bulk"
+	BetaNewPlanVersionParamsAddPricesPriceModelTypePackage                         BetaNewPlanVersionParamsAddPricesPriceModelType = "package"
+	BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrix                          BetaNewPlanVersionParamsAddPricesPriceModelType = "matrix"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeThresholdTotalAmount            BetaNewPlanVersionParamsAddPricesPriceModelType = "threshold_total_amount"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredPackage                   BetaNewPlanVersionParamsAddPricesPriceModelType = "tiered_package"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredWithMinimum               BetaNewPlanVersionParamsAddPricesPriceModelType = "tiered_with_minimum"
-	BetaNewPlanVersionParamsAddPricesPriceModelTypeUnitWithPercent                 BetaNewPlanVersionParamsAddPricesPriceModelType = "unit_with_percent"
+	BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedTiered                   BetaNewPlanVersionParamsAddPricesPriceModelType = "grouped_tiered"
+	BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredPackageWithMinimum        BetaNewPlanVersionParamsAddPricesPriceModelType = "tiered_package_with_minimum"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypePackageWithAllocation           BetaNewPlanVersionParamsAddPricesPriceModelType = "package_with_allocation"
+	BetaNewPlanVersionParamsAddPricesPriceModelTypeUnitWithPercent                 BetaNewPlanVersionParamsAddPricesPriceModelType = "unit_with_percent"
+	BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithAllocation            BetaNewPlanVersionParamsAddPricesPriceModelType = "matrix_with_allocation"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredWithProration             BetaNewPlanVersionParamsAddPricesPriceModelType = "tiered_with_proration"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeUnitWithProration               BetaNewPlanVersionParamsAddPricesPriceModelType = "unit_with_proration"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedAllocation               BetaNewPlanVersionParamsAddPricesPriceModelType = "grouped_allocation"
+	BetaNewPlanVersionParamsAddPricesPriceModelTypeBulkWithProration               BetaNewPlanVersionParamsAddPricesPriceModelType = "bulk_with_proration"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithProratedMinimum      BetaNewPlanVersionParamsAddPricesPriceModelType = "grouped_with_prorated_minimum"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum       BetaNewPlanVersionParamsAddPricesPriceModelType = "grouped_with_metered_minimum"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds     BetaNewPlanVersionParamsAddPricesPriceModelType = "grouped_with_min_max_thresholds"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithDisplayName           BetaNewPlanVersionParamsAddPricesPriceModelType = "matrix_with_display_name"
-	BetaNewPlanVersionParamsAddPricesPriceModelTypeBulkWithProration               BetaNewPlanVersionParamsAddPricesPriceModelType = "bulk_with_proration"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedTieredPackage            BetaNewPlanVersionParamsAddPricesPriceModelType = "grouped_tiered_package"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeMaxGroupTieredPackage           BetaNewPlanVersionParamsAddPricesPriceModelType = "max_group_tiered_package"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing   BetaNewPlanVersionParamsAddPricesPriceModelType = "scalable_matrix_with_unit_pricing"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing BetaNewPlanVersionParamsAddPricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedBulk           BetaNewPlanVersionParamsAddPricesPriceModelType = "cumulative_grouped_bulk"
-	BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredPackageWithMinimum        BetaNewPlanVersionParamsAddPricesPriceModelType = "tiered_package_with_minimum"
-	BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithAllocation            BetaNewPlanVersionParamsAddPricesPriceModelType = "matrix_with_allocation"
-	BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedTiered                   BetaNewPlanVersionParamsAddPricesPriceModelType = "grouped_tiered"
 	BetaNewPlanVersionParamsAddPricesPriceModelTypeMinimum                         BetaNewPlanVersionParamsAddPricesPriceModelType = "minimum"
 )
 
 func (r BetaNewPlanVersionParamsAddPricesPriceModelType) IsKnown() bool {
 	switch r {
-	case BetaNewPlanVersionParamsAddPricesPriceModelTypeUnit, BetaNewPlanVersionParamsAddPricesPriceModelTypePackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrix, BetaNewPlanVersionParamsAddPricesPriceModelTypeTiered, BetaNewPlanVersionParamsAddPricesPriceModelTypeBulk, BetaNewPlanVersionParamsAddPricesPriceModelTypeThresholdTotalAmount, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredPackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredWithMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypeUnitWithPercent, BetaNewPlanVersionParamsAddPricesPriceModelTypePackageWithAllocation, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredWithProration, BetaNewPlanVersionParamsAddPricesPriceModelTypeUnitWithProration, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedAllocation, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithDisplayName, BetaNewPlanVersionParamsAddPricesPriceModelTypeBulkWithProration, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedTieredPackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeMaxGroupTieredPackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, BetaNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, BetaNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedBulk, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredPackageWithMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithAllocation, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedTiered, BetaNewPlanVersionParamsAddPricesPriceModelTypeMinimum:
+	case BetaNewPlanVersionParamsAddPricesPriceModelTypeUnit, BetaNewPlanVersionParamsAddPricesPriceModelTypeTiered, BetaNewPlanVersionParamsAddPricesPriceModelTypeBulk, BetaNewPlanVersionParamsAddPricesPriceModelTypePackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrix, BetaNewPlanVersionParamsAddPricesPriceModelTypeThresholdTotalAmount, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredPackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredWithMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedTiered, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredPackageWithMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypePackageWithAllocation, BetaNewPlanVersionParamsAddPricesPriceModelTypeUnitWithPercent, BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithAllocation, BetaNewPlanVersionParamsAddPricesPriceModelTypeTieredWithProration, BetaNewPlanVersionParamsAddPricesPriceModelTypeUnitWithProration, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedAllocation, BetaNewPlanVersionParamsAddPricesPriceModelTypeBulkWithProration, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithProratedMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMeteredMinimum, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedWithMinMaxThresholds, BetaNewPlanVersionParamsAddPricesPriceModelTypeMatrixWithDisplayName, BetaNewPlanVersionParamsAddPricesPriceModelTypeGroupedTieredPackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeMaxGroupTieredPackage, BetaNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithUnitPricing, BetaNewPlanVersionParamsAddPricesPriceModelTypeScalableMatrixWithTieredPricing, BetaNewPlanVersionParamsAddPricesPriceModelTypeCumulativeGroupedBulk, BetaNewPlanVersionParamsAddPricesPriceModelTypeMinimum:
 		return true
 	}
 	return false
@@ -881,7 +1057,7 @@ type BetaNewPlanVersionParamsReplacePrice struct {
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
 	// The phase to replace this price from.
 	PlanPhaseOrder param.Field[int64] `json:"plan_phase_order"`
-	// The price to add to the plan
+	// New plan price request body params.
 	Price param.Field[BetaNewPlanVersionParamsReplacePricesPriceUnion] `json:"price"`
 }
 
@@ -889,12 +1065,13 @@ func (r BetaNewPlanVersionParamsReplacePrice) MarshalJSON() (data []byte, err er
 	return apijson.MarshalRoot(r)
 }
 
-// The price to add to the plan
+// New plan price request body params.
 type BetaNewPlanVersionParamsReplacePricesPrice struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[BetaNewPlanVersionParamsReplacePricesPriceCadence] `json:"cadence,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                              `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[BetaNewPlanVersionParamsReplacePricesPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -907,8 +1084,9 @@ type BetaNewPlanVersionParamsReplacePricesPrice struct {
 	// For custom cadence: specifies the duration of the billing period in days or
 	// months.
 	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	BulkConfig                param.Field[shared.BulkConfigParam]                   `json:"bulk_config"`
-	BulkWithProrationConfig   param.Field[interface{}]                              `json:"bulk_with_proration_config"`
+	// Configuration for bulk pricing
+	BulkConfig              param.Field[shared.BulkConfigParam] `json:"bulk_config"`
+	BulkWithProrationConfig param.Field[interface{}]            `json:"bulk_with_proration_config"`
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate              param.Field[float64]     `json:"conversion_rate"`
 	ConversionRateConfig        param.Field[interface{}] `json:"conversion_rate_config"`
@@ -934,28 +1112,33 @@ type BetaNewPlanVersionParamsReplacePricesPrice struct {
 	// Within each billing cycle, specifies the cadence at which invoices are produced.
 	// If unspecified, a single invoice is produced per billing cycle.
 	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	MatrixConfig                param.Field[shared.MatrixConfigParam]                 `json:"matrix_config"`
-	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam]   `json:"matrix_with_allocation_config"`
-	MatrixWithDisplayNameConfig param.Field[interface{}]                              `json:"matrix_with_display_name_config"`
-	MaxGroupTieredPackageConfig param.Field[interface{}]                              `json:"max_group_tiered_package_config"`
-	Metadata                    param.Field[interface{}]                              `json:"metadata"`
-	MinimumConfig               param.Field[interface{}]                              `json:"minimum_config"`
-	PackageConfig               param.Field[shared.PackageConfigParam]                `json:"package_config"`
-	PackageWithAllocationConfig param.Field[interface{}]                              `json:"package_with_allocation_config"`
+	// Configuration for matrix pricing
+	MatrixConfig param.Field[shared.MatrixConfigParam] `json:"matrix_config"`
+	// Configuration for matrix_with_allocation pricing
+	MatrixWithAllocationConfig  param.Field[shared.MatrixWithAllocationConfigParam] `json:"matrix_with_allocation_config"`
+	MatrixWithDisplayNameConfig param.Field[interface{}]                            `json:"matrix_with_display_name_config"`
+	MaxGroupTieredPackageConfig param.Field[interface{}]                            `json:"max_group_tiered_package_config"`
+	Metadata                    param.Field[interface{}]                            `json:"metadata"`
+	MinimumConfig               param.Field[interface{}]                            `json:"minimum_config"`
+	// Configuration for package pricing
+	PackageConfig               param.Field[shared.PackageConfigParam] `json:"package_config"`
+	PackageWithAllocationConfig param.Field[interface{}]               `json:"package_with_allocation_config"`
 	// A transient ID that can be used to reference this price when adding adjustments
 	// in the same API call.
-	ReferenceID                           param.Field[string]                   `json:"reference_id"`
-	ScalableMatrixWithTieredPricingConfig param.Field[interface{}]              `json:"scalable_matrix_with_tiered_pricing_config"`
-	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}]              `json:"scalable_matrix_with_unit_pricing_config"`
-	ThresholdTotalAmountConfig            param.Field[interface{}]              `json:"threshold_total_amount_config"`
-	TieredConfig                          param.Field[shared.TieredConfigParam] `json:"tiered_config"`
-	TieredPackageConfig                   param.Field[interface{}]              `json:"tiered_package_config"`
-	TieredPackageWithMinimumConfig        param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
-	TieredWithMinimumConfig               param.Field[interface{}]              `json:"tiered_with_minimum_config"`
-	TieredWithProrationConfig             param.Field[interface{}]              `json:"tiered_with_proration_config"`
-	UnitConfig                            param.Field[shared.UnitConfigParam]   `json:"unit_config"`
-	UnitWithPercentConfig                 param.Field[interface{}]              `json:"unit_with_percent_config"`
-	UnitWithProrationConfig               param.Field[interface{}]              `json:"unit_with_proration_config"`
+	ReferenceID                           param.Field[string]      `json:"reference_id"`
+	ScalableMatrixWithTieredPricingConfig param.Field[interface{}] `json:"scalable_matrix_with_tiered_pricing_config"`
+	ScalableMatrixWithUnitPricingConfig   param.Field[interface{}] `json:"scalable_matrix_with_unit_pricing_config"`
+	ThresholdTotalAmountConfig            param.Field[interface{}] `json:"threshold_total_amount_config"`
+	// Configuration for tiered pricing
+	TieredConfig                   param.Field[shared.TieredConfigParam] `json:"tiered_config"`
+	TieredPackageConfig            param.Field[interface{}]              `json:"tiered_package_config"`
+	TieredPackageWithMinimumConfig param.Field[interface{}]              `json:"tiered_package_with_minimum_config"`
+	TieredWithMinimumConfig        param.Field[interface{}]              `json:"tiered_with_minimum_config"`
+	TieredWithProrationConfig      param.Field[interface{}]              `json:"tiered_with_proration_config"`
+	// Configuration for unit pricing
+	UnitConfig              param.Field[shared.UnitConfigParam] `json:"unit_config"`
+	UnitWithPercentConfig   param.Field[interface{}]            `json:"unit_with_percent_config"`
+	UnitWithProrationConfig param.Field[interface{}]            `json:"unit_with_proration_config"`
 }
 
 func (r BetaNewPlanVersionParamsReplacePricesPrice) MarshalJSON() (data []byte, err error) {
@@ -965,43 +1148,194 @@ func (r BetaNewPlanVersionParamsReplacePricesPrice) MarshalJSON() (data []byte, 
 func (r BetaNewPlanVersionParamsReplacePricesPrice) ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion() {
 }
 
-// The price to add to the plan
+// New plan price request body params.
 //
-// Satisfied by [shared.NewPlanUnitPriceParam], [shared.NewPlanPackagePriceParam],
-// [shared.NewPlanMatrixPriceParam], [shared.NewPlanTieredPriceParam],
-// [shared.NewPlanBulkPriceParam], [shared.NewPlanThresholdTotalAmountPriceParam],
+// Satisfied by [shared.NewPlanUnitPriceParam], [shared.NewPlanTieredPriceParam],
+// [shared.NewPlanBulkPriceParam], [shared.NewPlanPackagePriceParam],
+// [shared.NewPlanMatrixPriceParam],
+// [shared.NewPlanThresholdTotalAmountPriceParam],
 // [shared.NewPlanTieredPackagePriceParam],
 // [shared.NewPlanTieredWithMinimumPriceParam],
-// [shared.NewPlanUnitWithPercentPriceParam],
+// [shared.NewPlanGroupedTieredPriceParam],
+// [shared.NewPlanTieredPackageWithMinimumPriceParam],
 // [shared.NewPlanPackageWithAllocationPriceParam],
-// [shared.NewPlanTierWithProrationPriceParam],
+// [shared.NewPlanUnitWithPercentPriceParam],
+// [shared.NewPlanMatrixWithAllocationPriceParam],
+// [BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPrice],
 // [shared.NewPlanUnitWithProrationPriceParam],
 // [shared.NewPlanGroupedAllocationPriceParam],
+// [shared.NewPlanBulkWithProrationPriceParam],
 // [shared.NewPlanGroupedWithProratedMinimumPriceParam],
 // [shared.NewPlanGroupedWithMeteredMinimumPriceParam],
 // [BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPrice],
 // [shared.NewPlanMatrixWithDisplayNamePriceParam],
-// [shared.NewPlanBulkWithProrationPriceParam],
 // [shared.NewPlanGroupedTieredPackagePriceParam],
 // [shared.NewPlanMaxGroupTieredPackagePriceParam],
 // [shared.NewPlanScalableMatrixWithUnitPricingPriceParam],
 // [shared.NewPlanScalableMatrixWithTieredPricingPriceParam],
 // [shared.NewPlanCumulativeGroupedBulkPriceParam],
-// [shared.NewPlanTieredPackageWithMinimumPriceParam],
-// [shared.NewPlanMatrixWithAllocationPriceParam],
-// [shared.NewPlanGroupedTieredPriceParam],
 // [shared.NewPlanMinimumCompositePriceParam],
 // [BetaNewPlanVersionParamsReplacePricesPrice].
 type BetaNewPlanVersionParamsReplacePricesPriceUnion interface {
 	ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion()
 }
 
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPrice struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
+	ModelType param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelType] `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// Configuration for tiered_with_proration pricing
+	TieredWithProrationConfig param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig] `json:"tiered_with_proration_config,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[shared.NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPrice) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPrice) ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence string
+
+const (
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceAnnual     BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence = "annual"
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceSemiAnnual BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence = "semi_annual"
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceMonthly    BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence = "monthly"
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceQuarterly  BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence = "quarterly"
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceOneTime    BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence = "one_time"
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceCustom     BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence = "custom"
+)
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadence) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceAnnual, BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceSemiAnnual, BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceMonthly, BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceQuarterly, BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceOneTime, BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelType string
+
+const (
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelTypeTieredWithProration BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelType = "tiered_with_proration"
+)
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceModelTypeTieredWithProration:
+		return true
+	}
+	return false
+}
+
+// Configuration for tiered_with_proration pricing
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig struct {
+	// Tiers for rating based on total usage quantities into the specified tier with
+	// proration
+	Tiers param.Field[[]BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier] `json:"tiers,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// Configuration for a single tiered with proration tier
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier struct {
+	// Inclusive tier starting value
+	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
+	// Amount per unit
+	UnitAmount param.Field[string] `json:"unit_amount,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceTieredWithProrationConfigTier) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfig struct {
+	ConversionRateType param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                            `json:"unit_config"`
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfig) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfig].
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion interface {
+	ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion()
+}
+
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType string
+
+const (
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit   BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeUnit, BetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPrice struct {
 	// The cadence to bill for this price on.
-	Cadence                           param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
-	GroupedWithMinMaxThresholdsConfig param.Field[map[string]interface{}]                                                                   `json:"grouped_with_min_max_thresholds_config,required"`
+	Cadence param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceCadence] `json:"cadence,required"`
+	// Configuration for grouped_with_min_max_thresholds pricing
+	GroupedWithMinMaxThresholdsConfig param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig] `json:"grouped_with_min_max_thresholds_config,required"`
 	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                                                                                     `json:"item_id,required"`
+	ItemID param.Field[string] `json:"item_id,required"`
+	// The pricing model type
 	ModelType param.Field[BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType] `json:"model_type,required"`
 	// The name of the price.
 	Name param.Field[string] `json:"name,required"`
@@ -1069,6 +1403,23 @@ func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresh
 	return false
 }
 
+// Configuration for grouped_with_min_max_thresholds pricing
+type BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig struct {
+	// The event property used to group before applying thresholds
+	GroupingKey param.Field[string] `json:"grouping_key,required"`
+	// The maximum amount to charge each group
+	MaximumCharge param.Field[string] `json:"maximum_charge,required"`
+	// The minimum amount to charge each group, regardless of usage
+	MinimumCharge param.Field[string] `json:"minimum_charge,required"`
+	// The base price charged per group
+	PerUnitRate param.Field[string] `json:"per_unit_rate,required"`
+}
+
+func (r BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The pricing model type
 type BetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType string
 
 const (
@@ -1138,41 +1489,42 @@ func (r BetaNewPlanVersionParamsReplacePricesPriceCadence) IsKnown() bool {
 	return false
 }
 
+// The pricing model type
 type BetaNewPlanVersionParamsReplacePricesPriceModelType string
 
 const (
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnit                            BetaNewPlanVersionParamsReplacePricesPriceModelType = "unit"
-	BetaNewPlanVersionParamsReplacePricesPriceModelTypePackage                         BetaNewPlanVersionParamsReplacePricesPriceModelType = "package"
-	BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrix                          BetaNewPlanVersionParamsReplacePricesPriceModelType = "matrix"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeTiered                          BetaNewPlanVersionParamsReplacePricesPriceModelType = "tiered"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeBulk                            BetaNewPlanVersionParamsReplacePricesPriceModelType = "bulk"
+	BetaNewPlanVersionParamsReplacePricesPriceModelTypePackage                         BetaNewPlanVersionParamsReplacePricesPriceModelType = "package"
+	BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrix                          BetaNewPlanVersionParamsReplacePricesPriceModelType = "matrix"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeThresholdTotalAmount            BetaNewPlanVersionParamsReplacePricesPriceModelType = "threshold_total_amount"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackage                   BetaNewPlanVersionParamsReplacePricesPriceModelType = "tiered_package"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithMinimum               BetaNewPlanVersionParamsReplacePricesPriceModelType = "tiered_with_minimum"
-	BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithPercent                 BetaNewPlanVersionParamsReplacePricesPriceModelType = "unit_with_percent"
+	BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTiered                   BetaNewPlanVersionParamsReplacePricesPriceModelType = "grouped_tiered"
+	BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackageWithMinimum        BetaNewPlanVersionParamsReplacePricesPriceModelType = "tiered_package_with_minimum"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypePackageWithAllocation           BetaNewPlanVersionParamsReplacePricesPriceModelType = "package_with_allocation"
+	BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithPercent                 BetaNewPlanVersionParamsReplacePricesPriceModelType = "unit_with_percent"
+	BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithAllocation            BetaNewPlanVersionParamsReplacePricesPriceModelType = "matrix_with_allocation"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithProration             BetaNewPlanVersionParamsReplacePricesPriceModelType = "tiered_with_proration"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithProration               BetaNewPlanVersionParamsReplacePricesPriceModelType = "unit_with_proration"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedAllocation               BetaNewPlanVersionParamsReplacePricesPriceModelType = "grouped_allocation"
+	BetaNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithProration               BetaNewPlanVersionParamsReplacePricesPriceModelType = "bulk_with_proration"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum      BetaNewPlanVersionParamsReplacePricesPriceModelType = "grouped_with_prorated_minimum"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum       BetaNewPlanVersionParamsReplacePricesPriceModelType = "grouped_with_metered_minimum"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds     BetaNewPlanVersionParamsReplacePricesPriceModelType = "grouped_with_min_max_thresholds"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithDisplayName           BetaNewPlanVersionParamsReplacePricesPriceModelType = "matrix_with_display_name"
-	BetaNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithProration               BetaNewPlanVersionParamsReplacePricesPriceModelType = "bulk_with_proration"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTieredPackage            BetaNewPlanVersionParamsReplacePricesPriceModelType = "grouped_tiered_package"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeMaxGroupTieredPackage           BetaNewPlanVersionParamsReplacePricesPriceModelType = "max_group_tiered_package"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing   BetaNewPlanVersionParamsReplacePricesPriceModelType = "scalable_matrix_with_unit_pricing"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing BetaNewPlanVersionParamsReplacePricesPriceModelType = "scalable_matrix_with_tiered_pricing"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedBulk           BetaNewPlanVersionParamsReplacePricesPriceModelType = "cumulative_grouped_bulk"
-	BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackageWithMinimum        BetaNewPlanVersionParamsReplacePricesPriceModelType = "tiered_package_with_minimum"
-	BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithAllocation            BetaNewPlanVersionParamsReplacePricesPriceModelType = "matrix_with_allocation"
-	BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTiered                   BetaNewPlanVersionParamsReplacePricesPriceModelType = "grouped_tiered"
 	BetaNewPlanVersionParamsReplacePricesPriceModelTypeMinimum                         BetaNewPlanVersionParamsReplacePricesPriceModelType = "minimum"
 )
 
 func (r BetaNewPlanVersionParamsReplacePricesPriceModelType) IsKnown() bool {
 	switch r {
-	case BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnit, BetaNewPlanVersionParamsReplacePricesPriceModelTypePackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrix, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTiered, BetaNewPlanVersionParamsReplacePricesPriceModelTypeBulk, BetaNewPlanVersionParamsReplacePricesPriceModelTypeThresholdTotalAmount, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithPercent, BetaNewPlanVersionParamsReplacePricesPriceModelTypePackageWithAllocation, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithProration, BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithProration, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedAllocation, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithDisplayName, BetaNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithProration, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTieredPackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, BetaNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, BetaNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithAllocation, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTiered, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMinimum:
+	case BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnit, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTiered, BetaNewPlanVersionParamsReplacePricesPriceModelTypeBulk, BetaNewPlanVersionParamsReplacePricesPriceModelTypePackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrix, BetaNewPlanVersionParamsReplacePricesPriceModelTypeThresholdTotalAmount, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTiered, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredPackageWithMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypePackageWithAllocation, BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithPercent, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithAllocation, BetaNewPlanVersionParamsReplacePricesPriceModelTypeTieredWithProration, BetaNewPlanVersionParamsReplacePricesPriceModelTypeUnitWithProration, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedAllocation, BetaNewPlanVersionParamsReplacePricesPriceModelTypeBulkWithProration, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithProratedMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMeteredMinimum, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedWithMinMaxThresholds, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMatrixWithDisplayName, BetaNewPlanVersionParamsReplacePricesPriceModelTypeGroupedTieredPackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMaxGroupTieredPackage, BetaNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithUnitPricing, BetaNewPlanVersionParamsReplacePricesPriceModelTypeScalableMatrixWithTieredPricing, BetaNewPlanVersionParamsReplacePricesPriceModelTypeCumulativeGroupedBulk, BetaNewPlanVersionParamsReplacePricesPriceModelTypeMinimum:
 		return true
 	}
 	return false

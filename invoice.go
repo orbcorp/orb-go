@@ -933,9 +933,10 @@ type InvoiceFetchUpcomingResponseLineItemsSubLineItem struct {
 	Quantity     float64                                               `json:"quantity,required"`
 	Type         InvoiceFetchUpcomingResponseLineItemsSubLineItemsType `json:"type,required"`
 	MatrixConfig shared.SubLineItemMatrixConfig                        `json:"matrix_config"`
-	TierConfig   shared.TierConfig                                     `json:"tier_config"`
-	JSON         invoiceFetchUpcomingResponseLineItemsSubLineItemJSON  `json:"-"`
-	union        InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion
+	// This field can have the runtime type of [shared.TierSubLineItemTierConfig].
+	TierConfig interface{}                                          `json:"tier_config"`
+	JSON       invoiceFetchUpcomingResponseLineItemsSubLineItemJSON `json:"-"`
+	union      InvoiceFetchUpcomingResponseLineItemsSubLineItemsUnion
 }
 
 // invoiceFetchUpcomingResponseLineItemsSubLineItemJSON contains the JSON metadata
@@ -1144,7 +1145,8 @@ type InvoiceNewParamsLineItem struct {
 	// The number of units on the line item
 	Quantity param.Field[float64] `json:"quantity,required"`
 	// A date string to specify the line item's start date in the customer's timezone.
-	StartDate  param.Field[time.Time]              `json:"start_date,required" format:"date"`
+	StartDate param.Field[time.Time] `json:"start_date,required" format:"date"`
+	// Configuration for unit pricing
 	UnitConfig param.Field[shared.UnitConfigParam] `json:"unit_config,required"`
 }
 
