@@ -1173,7 +1173,7 @@ type NewSubscriptionBulkPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionBulkPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionBulkPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1246,34 +1246,36 @@ func (r NewSubscriptionBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionBulkPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionBulkPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]     `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]       `json:"unit_config"`
+type NewSubscriptionBulkPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                           `json:"unit_config"`
 }
 
-func (r NewSubscriptionBulkPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionBulkPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionBulkPriceParam) ImplementsNewSubscriptionBulkPriceUnionParam() {}
-
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam], [NewSubscriptionBulkPriceParam].
-type NewSubscriptionBulkPriceUnionParam interface {
-	ImplementsNewSubscriptionBulkPriceUnionParam()
+func (r NewSubscriptionBulkPriceConversionRateConfigParam) ImplementsNewSubscriptionBulkPriceConversionRateConfigUnionParam() {
 }
 
-type NewSubscriptionBulkPriceConversionRateType string
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewSubscriptionBulkPriceConversionRateConfigParam].
+type NewSubscriptionBulkPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionBulkPriceConversionRateConfigUnionParam()
+}
+
+type NewSubscriptionBulkPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionBulkPriceConversionRateTypeUnit   NewSubscriptionBulkPriceConversionRateType = "unit"
-	NewSubscriptionBulkPriceConversionRateTypeTiered NewSubscriptionBulkPriceConversionRateType = "tiered"
+	NewSubscriptionBulkPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionBulkPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionBulkPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionBulkPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionBulkPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionBulkPriceConversionRateTypeUnit, NewSubscriptionBulkPriceConversionRateTypeTiered:
+	case NewSubscriptionBulkPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionBulkPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -1300,7 +1302,7 @@ type NewSubscriptionBulkWithProrationPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionBulkWithProrationPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionBulkWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1375,36 +1377,36 @@ func (r NewSubscriptionBulkWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionBulkWithProrationPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionBulkWithProrationPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                  `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                    `json:"unit_config"`
+type NewSubscriptionBulkWithProrationPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
 
-func (r NewSubscriptionBulkWithProrationPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionBulkWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionBulkWithProrationPriceParam) ImplementsNewSubscriptionBulkWithProrationPriceUnionParam() {
+func (r NewSubscriptionBulkWithProrationPriceConversionRateConfigParam) ImplementsNewSubscriptionBulkWithProrationPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionBulkWithProrationPriceParam].
-type NewSubscriptionBulkWithProrationPriceUnionParam interface {
-	ImplementsNewSubscriptionBulkWithProrationPriceUnionParam()
+// [NewSubscriptionBulkWithProrationPriceConversionRateConfigParam].
+type NewSubscriptionBulkWithProrationPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionBulkWithProrationPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionBulkWithProrationPriceConversionRateType string
+type NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionBulkWithProrationPriceConversionRateTypeUnit   NewSubscriptionBulkWithProrationPriceConversionRateType = "unit"
-	NewSubscriptionBulkWithProrationPriceConversionRateTypeTiered NewSubscriptionBulkWithProrationPriceConversionRateType = "tiered"
+	NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionBulkWithProrationPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionBulkWithProrationPriceConversionRateTypeUnit, NewSubscriptionBulkWithProrationPriceConversionRateTypeTiered:
+	case NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionBulkWithProrationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -1431,7 +1433,7 @@ type NewSubscriptionCumulativeGroupedBulkPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionCumulativeGroupedBulkPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1506,36 +1508,36 @@ func (r NewSubscriptionCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionCumulativeGroupedBulkPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionCumulativeGroupedBulkPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                      `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                        `json:"unit_config"`
+type NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
 
-func (r NewSubscriptionCumulativeGroupedBulkPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionCumulativeGroupedBulkPriceParam) ImplementsNewSubscriptionCumulativeGroupedBulkPriceUnionParam() {
+func (r NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigParam) ImplementsNewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionCumulativeGroupedBulkPriceParam].
-type NewSubscriptionCumulativeGroupedBulkPriceUnionParam interface {
-	ImplementsNewSubscriptionCumulativeGroupedBulkPriceUnionParam()
+// [NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigParam].
+type NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionCumulativeGroupedBulkPriceConversionRateType string
+type NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionCumulativeGroupedBulkPriceConversionRateTypeUnit   NewSubscriptionCumulativeGroupedBulkPriceConversionRateType = "unit"
-	NewSubscriptionCumulativeGroupedBulkPriceConversionRateTypeTiered NewSubscriptionCumulativeGroupedBulkPriceConversionRateType = "tiered"
+	NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionCumulativeGroupedBulkPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionCumulativeGroupedBulkPriceConversionRateTypeUnit, NewSubscriptionCumulativeGroupedBulkPriceConversionRateTypeTiered:
+	case NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionCumulativeGroupedBulkPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -1562,7 +1564,7 @@ type NewSubscriptionGroupedAllocationPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionGroupedAllocationPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionGroupedAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1637,36 +1639,36 @@ func (r NewSubscriptionGroupedAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionGroupedAllocationPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedAllocationPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                  `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                    `json:"unit_config"`
+type NewSubscriptionGroupedAllocationPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
 
-func (r NewSubscriptionGroupedAllocationPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionGroupedAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionGroupedAllocationPriceParam) ImplementsNewSubscriptionGroupedAllocationPriceUnionParam() {
+func (r NewSubscriptionGroupedAllocationPriceConversionRateConfigParam) ImplementsNewSubscriptionGroupedAllocationPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionGroupedAllocationPriceParam].
-type NewSubscriptionGroupedAllocationPriceUnionParam interface {
-	ImplementsNewSubscriptionGroupedAllocationPriceUnionParam()
+// [NewSubscriptionGroupedAllocationPriceConversionRateConfigParam].
+type NewSubscriptionGroupedAllocationPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionGroupedAllocationPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionGroupedAllocationPriceConversionRateType string
+type NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionGroupedAllocationPriceConversionRateTypeUnit   NewSubscriptionGroupedAllocationPriceConversionRateType = "unit"
-	NewSubscriptionGroupedAllocationPriceConversionRateTypeTiered NewSubscriptionGroupedAllocationPriceConversionRateType = "tiered"
+	NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionGroupedAllocationPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedAllocationPriceConversionRateTypeUnit, NewSubscriptionGroupedAllocationPriceConversionRateTypeTiered:
+	case NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -1693,7 +1695,7 @@ type NewSubscriptionGroupedTieredPackagePriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionGroupedTieredPackagePriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionGroupedTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1768,36 +1770,36 @@ func (r NewSubscriptionGroupedTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionGroupedTieredPackagePriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedTieredPackagePriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                     `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                       `json:"unit_config"`
+type NewSubscriptionGroupedTieredPackagePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
 
-func (r NewSubscriptionGroupedTieredPackagePriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionGroupedTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionGroupedTieredPackagePriceParam) ImplementsNewSubscriptionGroupedTieredPackagePriceUnionParam() {
+func (r NewSubscriptionGroupedTieredPackagePriceConversionRateConfigParam) ImplementsNewSubscriptionGroupedTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionGroupedTieredPackagePriceParam].
-type NewSubscriptionGroupedTieredPackagePriceUnionParam interface {
-	ImplementsNewSubscriptionGroupedTieredPackagePriceUnionParam()
+// [NewSubscriptionGroupedTieredPackagePriceConversionRateConfigParam].
+type NewSubscriptionGroupedTieredPackagePriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionGroupedTieredPackagePriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionGroupedTieredPackagePriceConversionRateType string
+type NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionGroupedTieredPackagePriceConversionRateTypeUnit   NewSubscriptionGroupedTieredPackagePriceConversionRateType = "unit"
-	NewSubscriptionGroupedTieredPackagePriceConversionRateTypeTiered NewSubscriptionGroupedTieredPackagePriceConversionRateType = "tiered"
+	NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionGroupedTieredPackagePriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedTieredPackagePriceConversionRateTypeUnit, NewSubscriptionGroupedTieredPackagePriceConversionRateTypeTiered:
+	case NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionGroupedTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -1824,7 +1826,7 @@ type NewSubscriptionGroupedTieredPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionGroupedTieredPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionGroupedTieredPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -1899,36 +1901,36 @@ func (r NewSubscriptionGroupedTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionGroupedTieredPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedTieredPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]              `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                `json:"unit_config"`
+type NewSubscriptionGroupedTieredPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                    `json:"unit_config"`
 }
 
-func (r NewSubscriptionGroupedTieredPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionGroupedTieredPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionGroupedTieredPriceParam) ImplementsNewSubscriptionGroupedTieredPriceUnionParam() {
+func (r NewSubscriptionGroupedTieredPriceConversionRateConfigParam) ImplementsNewSubscriptionGroupedTieredPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionGroupedTieredPriceParam].
-type NewSubscriptionGroupedTieredPriceUnionParam interface {
-	ImplementsNewSubscriptionGroupedTieredPriceUnionParam()
+// [NewSubscriptionGroupedTieredPriceConversionRateConfigParam].
+type NewSubscriptionGroupedTieredPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionGroupedTieredPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionGroupedTieredPriceConversionRateType string
+type NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionGroupedTieredPriceConversionRateTypeUnit   NewSubscriptionGroupedTieredPriceConversionRateType = "unit"
-	NewSubscriptionGroupedTieredPriceConversionRateTypeTiered NewSubscriptionGroupedTieredPriceConversionRateType = "tiered"
+	NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionGroupedTieredPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedTieredPriceConversionRateTypeUnit, NewSubscriptionGroupedTieredPriceConversionRateTypeTiered:
+	case NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionGroupedTieredPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -1955,7 +1957,7 @@ type NewSubscriptionGroupedWithMeteredMinimumPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2030,36 +2032,36 @@ func (r NewSubscriptionGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionGroupedWithMeteredMinimumPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                          `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                            `json:"unit_config"`
+type NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                              `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                `json:"unit_config"`
 }
 
-func (r NewSubscriptionGroupedWithMeteredMinimumPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionGroupedWithMeteredMinimumPriceParam) ImplementsNewSubscriptionGroupedWithMeteredMinimumPriceUnionParam() {
+func (r NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigParam) ImplementsNewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionGroupedWithMeteredMinimumPriceParam].
-type NewSubscriptionGroupedWithMeteredMinimumPriceUnionParam interface {
-	ImplementsNewSubscriptionGroupedWithMeteredMinimumPriceUnionParam()
+// [NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigParam].
+type NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateType string
+type NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateTypeUnit   NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateType = "unit"
-	NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateTypeTiered NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateType = "tiered"
+	NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateTypeUnit, NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateTypeTiered:
+	case NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -2086,7 +2088,7 @@ type NewSubscriptionGroupedWithProratedMinimumPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionGroupedWithProratedMinimumPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2161,36 +2163,36 @@ func (r NewSubscriptionGroupedWithProratedMinimumPriceModelType) IsKnown() bool 
 	return false
 }
 
-type NewSubscriptionGroupedWithProratedMinimumPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionGroupedWithProratedMinimumPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                           `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                             `json:"unit_config"`
+type NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                               `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                 `json:"unit_config"`
 }
 
-func (r NewSubscriptionGroupedWithProratedMinimumPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionGroupedWithProratedMinimumPriceParam) ImplementsNewSubscriptionGroupedWithProratedMinimumPriceUnionParam() {
+func (r NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigParam) ImplementsNewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionGroupedWithProratedMinimumPriceParam].
-type NewSubscriptionGroupedWithProratedMinimumPriceUnionParam interface {
-	ImplementsNewSubscriptionGroupedWithProratedMinimumPriceUnionParam()
+// [NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigParam].
+type NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionGroupedWithProratedMinimumPriceConversionRateType string
+type NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionGroupedWithProratedMinimumPriceConversionRateTypeUnit   NewSubscriptionGroupedWithProratedMinimumPriceConversionRateType = "unit"
-	NewSubscriptionGroupedWithProratedMinimumPriceConversionRateTypeTiered NewSubscriptionGroupedWithProratedMinimumPriceConversionRateType = "tiered"
+	NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionGroupedWithProratedMinimumPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionGroupedWithProratedMinimumPriceConversionRateTypeUnit, NewSubscriptionGroupedWithProratedMinimumPriceConversionRateTypeTiered:
+	case NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionGroupedWithProratedMinimumPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -2217,7 +2219,7 @@ type NewSubscriptionMatrixPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionMatrixPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionMatrixPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2290,34 +2292,36 @@ func (r NewSubscriptionMatrixPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionMatrixPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionMatrixPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]       `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]         `json:"unit_config"`
+type NewSubscriptionMatrixPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                           `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                             `json:"unit_config"`
 }
 
-func (r NewSubscriptionMatrixPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionMatrixPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionMatrixPriceParam) ImplementsNewSubscriptionMatrixPriceUnionParam() {}
-
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam], [NewSubscriptionMatrixPriceParam].
-type NewSubscriptionMatrixPriceUnionParam interface {
-	ImplementsNewSubscriptionMatrixPriceUnionParam()
+func (r NewSubscriptionMatrixPriceConversionRateConfigParam) ImplementsNewSubscriptionMatrixPriceConversionRateConfigUnionParam() {
 }
 
-type NewSubscriptionMatrixPriceConversionRateType string
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewSubscriptionMatrixPriceConversionRateConfigParam].
+type NewSubscriptionMatrixPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionMatrixPriceConversionRateConfigUnionParam()
+}
+
+type NewSubscriptionMatrixPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionMatrixPriceConversionRateTypeUnit   NewSubscriptionMatrixPriceConversionRateType = "unit"
-	NewSubscriptionMatrixPriceConversionRateTypeTiered NewSubscriptionMatrixPriceConversionRateType = "tiered"
+	NewSubscriptionMatrixPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionMatrixPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionMatrixPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionMatrixPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionMatrixPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionMatrixPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMatrixPriceConversionRateTypeUnit, NewSubscriptionMatrixPriceConversionRateTypeTiered:
+	case NewSubscriptionMatrixPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionMatrixPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -2344,7 +2348,7 @@ type NewSubscriptionMatrixWithAllocationPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionMatrixWithAllocationPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionMatrixWithAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2419,36 +2423,36 @@ func (r NewSubscriptionMatrixWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionMatrixWithAllocationPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionMatrixWithAllocationPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                     `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                       `json:"unit_config"`
+type NewSubscriptionMatrixWithAllocationPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
 
-func (r NewSubscriptionMatrixWithAllocationPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionMatrixWithAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionMatrixWithAllocationPriceParam) ImplementsNewSubscriptionMatrixWithAllocationPriceUnionParam() {
+func (r NewSubscriptionMatrixWithAllocationPriceConversionRateConfigParam) ImplementsNewSubscriptionMatrixWithAllocationPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionMatrixWithAllocationPriceParam].
-type NewSubscriptionMatrixWithAllocationPriceUnionParam interface {
-	ImplementsNewSubscriptionMatrixWithAllocationPriceUnionParam()
+// [NewSubscriptionMatrixWithAllocationPriceConversionRateConfigParam].
+type NewSubscriptionMatrixWithAllocationPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionMatrixWithAllocationPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionMatrixWithAllocationPriceConversionRateType string
+type NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionMatrixWithAllocationPriceConversionRateTypeUnit   NewSubscriptionMatrixWithAllocationPriceConversionRateType = "unit"
-	NewSubscriptionMatrixWithAllocationPriceConversionRateTypeTiered NewSubscriptionMatrixWithAllocationPriceConversionRateType = "tiered"
+	NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionMatrixWithAllocationPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMatrixWithAllocationPriceConversionRateTypeUnit, NewSubscriptionMatrixWithAllocationPriceConversionRateTypeTiered:
+	case NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionMatrixWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -2475,7 +2479,7 @@ type NewSubscriptionMatrixWithDisplayNamePriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionMatrixWithDisplayNamePriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2550,36 +2554,36 @@ func (r NewSubscriptionMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionMatrixWithDisplayNamePriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionMatrixWithDisplayNamePriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                      `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                        `json:"unit_config"`
+type NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
 
-func (r NewSubscriptionMatrixWithDisplayNamePriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionMatrixWithDisplayNamePriceParam) ImplementsNewSubscriptionMatrixWithDisplayNamePriceUnionParam() {
+func (r NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigParam) ImplementsNewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionMatrixWithDisplayNamePriceParam].
-type NewSubscriptionMatrixWithDisplayNamePriceUnionParam interface {
-	ImplementsNewSubscriptionMatrixWithDisplayNamePriceUnionParam()
+// [NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigParam].
+type NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionMatrixWithDisplayNamePriceConversionRateType string
+type NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionMatrixWithDisplayNamePriceConversionRateTypeUnit   NewSubscriptionMatrixWithDisplayNamePriceConversionRateType = "unit"
-	NewSubscriptionMatrixWithDisplayNamePriceConversionRateTypeTiered NewSubscriptionMatrixWithDisplayNamePriceConversionRateType = "tiered"
+	NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionMatrixWithDisplayNamePriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMatrixWithDisplayNamePriceConversionRateTypeUnit, NewSubscriptionMatrixWithDisplayNamePriceConversionRateTypeTiered:
+	case NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionMatrixWithDisplayNamePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -2606,7 +2610,7 @@ type NewSubscriptionMaxGroupTieredPackagePriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionMaxGroupTieredPackagePriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2681,36 +2685,36 @@ func (r NewSubscriptionMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionMaxGroupTieredPackagePriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionMaxGroupTieredPackagePriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                      `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                        `json:"unit_config"`
+type NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
 
-func (r NewSubscriptionMaxGroupTieredPackagePriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionMaxGroupTieredPackagePriceParam) ImplementsNewSubscriptionMaxGroupTieredPackagePriceUnionParam() {
+func (r NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigParam) ImplementsNewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionMaxGroupTieredPackagePriceParam].
-type NewSubscriptionMaxGroupTieredPackagePriceUnionParam interface {
-	ImplementsNewSubscriptionMaxGroupTieredPackagePriceUnionParam()
+// [NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigParam].
+type NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionMaxGroupTieredPackagePriceConversionRateType string
+type NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionMaxGroupTieredPackagePriceConversionRateTypeUnit   NewSubscriptionMaxGroupTieredPackagePriceConversionRateType = "unit"
-	NewSubscriptionMaxGroupTieredPackagePriceConversionRateTypeTiered NewSubscriptionMaxGroupTieredPackagePriceConversionRateType = "tiered"
+	NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionMaxGroupTieredPackagePriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMaxGroupTieredPackagePriceConversionRateTypeUnit, NewSubscriptionMaxGroupTieredPackagePriceConversionRateTypeTiered:
+	case NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -2737,7 +2741,7 @@ type NewSubscriptionMinimumCompositePriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionMinimumCompositePriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionMinimumCompositePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2824,36 +2828,36 @@ func (r NewSubscriptionMinimumCompositePriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionMinimumCompositePriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionMinimumCompositePriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                 `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                   `json:"unit_config"`
+type NewSubscriptionMinimumCompositePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                       `json:"unit_config"`
 }
 
-func (r NewSubscriptionMinimumCompositePriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionMinimumCompositePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionMinimumCompositePriceParam) ImplementsNewSubscriptionMinimumCompositePriceUnionParam() {
+func (r NewSubscriptionMinimumCompositePriceConversionRateConfigParam) ImplementsNewSubscriptionMinimumCompositePriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionMinimumCompositePriceParam].
-type NewSubscriptionMinimumCompositePriceUnionParam interface {
-	ImplementsNewSubscriptionMinimumCompositePriceUnionParam()
+// [NewSubscriptionMinimumCompositePriceConversionRateConfigParam].
+type NewSubscriptionMinimumCompositePriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionMinimumCompositePriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionMinimumCompositePriceConversionRateType string
+type NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionMinimumCompositePriceConversionRateTypeUnit   NewSubscriptionMinimumCompositePriceConversionRateType = "unit"
-	NewSubscriptionMinimumCompositePriceConversionRateTypeTiered NewSubscriptionMinimumCompositePriceConversionRateType = "tiered"
+	NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateTypeTiered NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionMinimumCompositePriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionMinimumCompositePriceConversionRateTypeUnit, NewSubscriptionMinimumCompositePriceConversionRateTypeTiered:
+	case NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionMinimumCompositePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -2880,7 +2884,7 @@ type NewSubscriptionPackagePriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionPackagePriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -2953,34 +2957,36 @@ func (r NewSubscriptionPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionPackagePriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionPackagePriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]        `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]          `json:"unit_config"`
+type NewSubscriptionPackagePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                            `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                              `json:"unit_config"`
 }
 
-func (r NewSubscriptionPackagePriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionPackagePriceParam) ImplementsNewSubscriptionPackagePriceUnionParam() {}
-
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam], [NewSubscriptionPackagePriceParam].
-type NewSubscriptionPackagePriceUnionParam interface {
-	ImplementsNewSubscriptionPackagePriceUnionParam()
+func (r NewSubscriptionPackagePriceConversionRateConfigParam) ImplementsNewSubscriptionPackagePriceConversionRateConfigUnionParam() {
 }
 
-type NewSubscriptionPackagePriceConversionRateType string
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewSubscriptionPackagePriceConversionRateConfigParam].
+type NewSubscriptionPackagePriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionPackagePriceConversionRateConfigUnionParam()
+}
+
+type NewSubscriptionPackagePriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionPackagePriceConversionRateTypeUnit   NewSubscriptionPackagePriceConversionRateType = "unit"
-	NewSubscriptionPackagePriceConversionRateTypeTiered NewSubscriptionPackagePriceConversionRateType = "tiered"
+	NewSubscriptionPackagePriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionPackagePriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionPackagePriceConversionRateConfigConversionRateTypeTiered NewSubscriptionPackagePriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionPackagePriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionPackagePriceConversionRateTypeUnit, NewSubscriptionPackagePriceConversionRateTypeTiered:
+	case NewSubscriptionPackagePriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionPackagePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3007,7 +3013,7 @@ type NewSubscriptionPackageWithAllocationPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionPackageWithAllocationPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionPackageWithAllocationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3082,36 +3088,36 @@ func (r NewSubscriptionPackageWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionPackageWithAllocationPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionPackageWithAllocationPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                      `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                        `json:"unit_config"`
+type NewSubscriptionPackageWithAllocationPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                          `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                            `json:"unit_config"`
 }
 
-func (r NewSubscriptionPackageWithAllocationPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionPackageWithAllocationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionPackageWithAllocationPriceParam) ImplementsNewSubscriptionPackageWithAllocationPriceUnionParam() {
+func (r NewSubscriptionPackageWithAllocationPriceConversionRateConfigParam) ImplementsNewSubscriptionPackageWithAllocationPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionPackageWithAllocationPriceParam].
-type NewSubscriptionPackageWithAllocationPriceUnionParam interface {
-	ImplementsNewSubscriptionPackageWithAllocationPriceUnionParam()
+// [NewSubscriptionPackageWithAllocationPriceConversionRateConfigParam].
+type NewSubscriptionPackageWithAllocationPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionPackageWithAllocationPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionPackageWithAllocationPriceConversionRateType string
+type NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionPackageWithAllocationPriceConversionRateTypeUnit   NewSubscriptionPackageWithAllocationPriceConversionRateType = "unit"
-	NewSubscriptionPackageWithAllocationPriceConversionRateTypeTiered NewSubscriptionPackageWithAllocationPriceConversionRateType = "tiered"
+	NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionPackageWithAllocationPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionPackageWithAllocationPriceConversionRateTypeUnit, NewSubscriptionPackageWithAllocationPriceConversionRateTypeTiered:
+	case NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionPackageWithAllocationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3138,7 +3144,7 @@ type NewSubscriptionScalableMatrixWithTieredPricingPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3213,36 +3219,36 @@ func (r NewSubscriptionScalableMatrixWithTieredPricingPriceModelType) IsKnown() 
 	return false
 }
 
-type NewSubscriptionScalableMatrixWithTieredPricingPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                  `json:"unit_config"`
+type NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                      `json:"unit_config"`
 }
 
-func (r NewSubscriptionScalableMatrixWithTieredPricingPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionScalableMatrixWithTieredPricingPriceParam) ImplementsNewSubscriptionScalableMatrixWithTieredPricingPriceUnionParam() {
+func (r NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigParam) ImplementsNewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionScalableMatrixWithTieredPricingPriceParam].
-type NewSubscriptionScalableMatrixWithTieredPricingPriceUnionParam interface {
-	ImplementsNewSubscriptionScalableMatrixWithTieredPricingPriceUnionParam()
+// [NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigParam].
+type NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateType string
+type NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateTypeUnit   NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateType = "unit"
-	NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateTypeTiered NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateType = "tiered"
+	NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateTypeUnit, NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateTypeTiered:
+	case NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3269,7 +3275,7 @@ type NewSubscriptionScalableMatrixWithUnitPricingPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3344,36 +3350,36 @@ func (r NewSubscriptionScalableMatrixWithUnitPricingPriceModelType) IsKnown() bo
 	return false
 }
 
-type NewSubscriptionScalableMatrixWithUnitPricingPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                              `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                `json:"unit_config"`
+type NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                    `json:"unit_config"`
 }
 
-func (r NewSubscriptionScalableMatrixWithUnitPricingPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionScalableMatrixWithUnitPricingPriceParam) ImplementsNewSubscriptionScalableMatrixWithUnitPricingPriceUnionParam() {
+func (r NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigParam) ImplementsNewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionScalableMatrixWithUnitPricingPriceParam].
-type NewSubscriptionScalableMatrixWithUnitPricingPriceUnionParam interface {
-	ImplementsNewSubscriptionScalableMatrixWithUnitPricingPriceUnionParam()
+// [NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigParam].
+type NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateType string
+type NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateTypeUnit   NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateType = "unit"
-	NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateTypeTiered NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateType = "tiered"
+	NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateTypeUnit, NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateTypeTiered:
+	case NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3400,7 +3406,7 @@ type NewSubscriptionThresholdTotalAmountPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionThresholdTotalAmountPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionThresholdTotalAmountPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3475,36 +3481,36 @@ func (r NewSubscriptionThresholdTotalAmountPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionThresholdTotalAmountPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionThresholdTotalAmountPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                     `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                       `json:"unit_config"`
+type NewSubscriptionThresholdTotalAmountPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                           `json:"unit_config"`
 }
 
-func (r NewSubscriptionThresholdTotalAmountPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionThresholdTotalAmountPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionThresholdTotalAmountPriceParam) ImplementsNewSubscriptionThresholdTotalAmountPriceUnionParam() {
+func (r NewSubscriptionThresholdTotalAmountPriceConversionRateConfigParam) ImplementsNewSubscriptionThresholdTotalAmountPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionThresholdTotalAmountPriceParam].
-type NewSubscriptionThresholdTotalAmountPriceUnionParam interface {
-	ImplementsNewSubscriptionThresholdTotalAmountPriceUnionParam()
+// [NewSubscriptionThresholdTotalAmountPriceConversionRateConfigParam].
+type NewSubscriptionThresholdTotalAmountPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionThresholdTotalAmountPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionThresholdTotalAmountPriceConversionRateType string
+type NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionThresholdTotalAmountPriceConversionRateTypeUnit   NewSubscriptionThresholdTotalAmountPriceConversionRateType = "unit"
-	NewSubscriptionThresholdTotalAmountPriceConversionRateTypeTiered NewSubscriptionThresholdTotalAmountPriceConversionRateType = "tiered"
+	NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionThresholdTotalAmountPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionThresholdTotalAmountPriceConversionRateTypeUnit, NewSubscriptionThresholdTotalAmountPriceConversionRateTypeTiered:
+	case NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3531,7 +3537,7 @@ type NewSubscriptionTierWithProrationPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionTierWithProrationPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3606,36 +3612,36 @@ func (r NewSubscriptionTierWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionTierWithProrationPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionTierWithProrationPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                  `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                    `json:"unit_config"`
+type NewSubscriptionTierWithProrationPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
 
-func (r NewSubscriptionTierWithProrationPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionTierWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionTierWithProrationPriceParam) ImplementsNewSubscriptionTierWithProrationPriceUnionParam() {
+func (r NewSubscriptionTierWithProrationPriceConversionRateConfigParam) ImplementsNewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionTierWithProrationPriceParam].
-type NewSubscriptionTierWithProrationPriceUnionParam interface {
-	ImplementsNewSubscriptionTierWithProrationPriceUnionParam()
+// [NewSubscriptionTierWithProrationPriceConversionRateConfigParam].
+type NewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionTierWithProrationPriceConversionRateType string
+type NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionTierWithProrationPriceConversionRateTypeUnit   NewSubscriptionTierWithProrationPriceConversionRateType = "unit"
-	NewSubscriptionTierWithProrationPriceConversionRateTypeTiered NewSubscriptionTierWithProrationPriceConversionRateType = "tiered"
+	NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionTierWithProrationPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTierWithProrationPriceConversionRateTypeUnit, NewSubscriptionTierWithProrationPriceConversionRateTypeTiered:
+	case NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionTierWithProrationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3662,7 +3668,7 @@ type NewSubscriptionTieredPackagePriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionTieredPackagePriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionTieredPackagePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3737,36 +3743,36 @@ func (r NewSubscriptionTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionTieredPackagePriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredPackagePriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]              `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                `json:"unit_config"`
+type NewSubscriptionTieredPackagePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                    `json:"unit_config"`
 }
 
-func (r NewSubscriptionTieredPackagePriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionTieredPackagePriceParam) ImplementsNewSubscriptionTieredPackagePriceUnionParam() {
+func (r NewSubscriptionTieredPackagePriceConversionRateConfigParam) ImplementsNewSubscriptionTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionTieredPackagePriceParam].
-type NewSubscriptionTieredPackagePriceUnionParam interface {
-	ImplementsNewSubscriptionTieredPackagePriceUnionParam()
+// [NewSubscriptionTieredPackagePriceConversionRateConfigParam].
+type NewSubscriptionTieredPackagePriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionTieredPackagePriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionTieredPackagePriceConversionRateType string
+type NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionTieredPackagePriceConversionRateTypeUnit   NewSubscriptionTieredPackagePriceConversionRateType = "unit"
-	NewSubscriptionTieredPackagePriceConversionRateTypeTiered NewSubscriptionTieredPackagePriceConversionRateType = "tiered"
+	NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateTypeTiered NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionTieredPackagePriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredPackagePriceConversionRateTypeUnit, NewSubscriptionTieredPackagePriceConversionRateTypeTiered:
+	case NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3793,7 +3799,7 @@ type NewSubscriptionTieredPackageWithMinimumPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionTieredPackageWithMinimumPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3868,36 +3874,36 @@ func (r NewSubscriptionTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionTieredPackageWithMinimumPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredPackageWithMinimumPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                         `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                           `json:"unit_config"`
+type NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                               `json:"unit_config"`
 }
 
-func (r NewSubscriptionTieredPackageWithMinimumPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionTieredPackageWithMinimumPriceParam) ImplementsNewSubscriptionTieredPackageWithMinimumPriceUnionParam() {
+func (r NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigParam) ImplementsNewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionTieredPackageWithMinimumPriceParam].
-type NewSubscriptionTieredPackageWithMinimumPriceUnionParam interface {
-	ImplementsNewSubscriptionTieredPackageWithMinimumPriceUnionParam()
+// [NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigParam].
+type NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionTieredPackageWithMinimumPriceConversionRateType string
+type NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionTieredPackageWithMinimumPriceConversionRateTypeUnit   NewSubscriptionTieredPackageWithMinimumPriceConversionRateType = "unit"
-	NewSubscriptionTieredPackageWithMinimumPriceConversionRateTypeTiered NewSubscriptionTieredPackageWithMinimumPriceConversionRateType = "tiered"
+	NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionTieredPackageWithMinimumPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredPackageWithMinimumPriceConversionRateTypeUnit, NewSubscriptionTieredPackageWithMinimumPriceConversionRateTypeTiered:
+	case NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionTieredPackageWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -3924,7 +3930,7 @@ type NewSubscriptionTieredPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionTieredPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionTieredPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -3997,34 +4003,36 @@ func (r NewSubscriptionTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionTieredPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]       `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]         `json:"unit_config"`
+type NewSubscriptionTieredPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                           `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                             `json:"unit_config"`
 }
 
-func (r NewSubscriptionTieredPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionTieredPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionTieredPriceParam) ImplementsNewSubscriptionTieredPriceUnionParam() {}
-
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam], [NewSubscriptionTieredPriceParam].
-type NewSubscriptionTieredPriceUnionParam interface {
-	ImplementsNewSubscriptionTieredPriceUnionParam()
+func (r NewSubscriptionTieredPriceConversionRateConfigParam) ImplementsNewSubscriptionTieredPriceConversionRateConfigUnionParam() {
 }
 
-type NewSubscriptionTieredPriceConversionRateType string
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewSubscriptionTieredPriceConversionRateConfigParam].
+type NewSubscriptionTieredPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionTieredPriceConversionRateConfigUnionParam()
+}
+
+type NewSubscriptionTieredPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionTieredPriceConversionRateTypeUnit   NewSubscriptionTieredPriceConversionRateType = "unit"
-	NewSubscriptionTieredPriceConversionRateTypeTiered NewSubscriptionTieredPriceConversionRateType = "tiered"
+	NewSubscriptionTieredPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionTieredPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionTieredPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionTieredPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionTieredPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionTieredPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredPriceConversionRateTypeUnit, NewSubscriptionTieredPriceConversionRateTypeTiered:
+	case NewSubscriptionTieredPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionTieredPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -4051,7 +4059,7 @@ type NewSubscriptionTieredWithMinimumPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionTieredWithMinimumPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionTieredWithMinimumPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -4126,36 +4134,36 @@ func (r NewSubscriptionTieredWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionTieredWithMinimumPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionTieredWithMinimumPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                  `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                    `json:"unit_config"`
+type NewSubscriptionTieredWithMinimumPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
 
-func (r NewSubscriptionTieredWithMinimumPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionTieredWithMinimumPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionTieredWithMinimumPriceParam) ImplementsNewSubscriptionTieredWithMinimumPriceUnionParam() {
+func (r NewSubscriptionTieredWithMinimumPriceConversionRateConfigParam) ImplementsNewSubscriptionTieredWithMinimumPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionTieredWithMinimumPriceParam].
-type NewSubscriptionTieredWithMinimumPriceUnionParam interface {
-	ImplementsNewSubscriptionTieredWithMinimumPriceUnionParam()
+// [NewSubscriptionTieredWithMinimumPriceConversionRateConfigParam].
+type NewSubscriptionTieredWithMinimumPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionTieredWithMinimumPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionTieredWithMinimumPriceConversionRateType string
+type NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionTieredWithMinimumPriceConversionRateTypeUnit   NewSubscriptionTieredWithMinimumPriceConversionRateType = "unit"
-	NewSubscriptionTieredWithMinimumPriceConversionRateTypeTiered NewSubscriptionTieredWithMinimumPriceConversionRateType = "tiered"
+	NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionTieredWithMinimumPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionTieredWithMinimumPriceConversionRateTypeUnit, NewSubscriptionTieredWithMinimumPriceConversionRateTypeTiered:
+	case NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionTieredWithMinimumPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -4182,7 +4190,7 @@ type NewSubscriptionUnitPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionUnitPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionUnitPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -4255,34 +4263,36 @@ func (r NewSubscriptionUnitPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionUnitPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionUnitPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]     `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]       `json:"unit_config"`
+type NewSubscriptionUnitPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                         `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                           `json:"unit_config"`
 }
 
-func (r NewSubscriptionUnitPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionUnitPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionUnitPriceParam) ImplementsNewSubscriptionUnitPriceUnionParam() {}
-
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam], [NewSubscriptionUnitPriceParam].
-type NewSubscriptionUnitPriceUnionParam interface {
-	ImplementsNewSubscriptionUnitPriceUnionParam()
+func (r NewSubscriptionUnitPriceConversionRateConfigParam) ImplementsNewSubscriptionUnitPriceConversionRateConfigUnionParam() {
 }
 
-type NewSubscriptionUnitPriceConversionRateType string
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewSubscriptionUnitPriceConversionRateConfigParam].
+type NewSubscriptionUnitPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionUnitPriceConversionRateConfigUnionParam()
+}
+
+type NewSubscriptionUnitPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionUnitPriceConversionRateTypeUnit   NewSubscriptionUnitPriceConversionRateType = "unit"
-	NewSubscriptionUnitPriceConversionRateTypeTiered NewSubscriptionUnitPriceConversionRateType = "tiered"
+	NewSubscriptionUnitPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionUnitPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionUnitPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionUnitPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionUnitPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionUnitPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionUnitPriceConversionRateTypeUnit, NewSubscriptionUnitPriceConversionRateTypeTiered:
+	case NewSubscriptionUnitPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionUnitPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -4309,7 +4319,7 @@ type NewSubscriptionUnitWithPercentPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionUnitWithPercentPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionUnitWithPercentPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -4384,36 +4394,36 @@ func (r NewSubscriptionUnitWithPercentPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionUnitWithPercentPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionUnitWithPercentPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                  `json:"unit_config"`
+type NewSubscriptionUnitWithPercentPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                      `json:"unit_config"`
 }
 
-func (r NewSubscriptionUnitWithPercentPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionUnitWithPercentPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionUnitWithPercentPriceParam) ImplementsNewSubscriptionUnitWithPercentPriceUnionParam() {
+func (r NewSubscriptionUnitWithPercentPriceConversionRateConfigParam) ImplementsNewSubscriptionUnitWithPercentPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionUnitWithPercentPriceParam].
-type NewSubscriptionUnitWithPercentPriceUnionParam interface {
-	ImplementsNewSubscriptionUnitWithPercentPriceUnionParam()
+// [NewSubscriptionUnitWithPercentPriceConversionRateConfigParam].
+type NewSubscriptionUnitWithPercentPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionUnitWithPercentPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionUnitWithPercentPriceConversionRateType string
+type NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionUnitWithPercentPriceConversionRateTypeUnit   NewSubscriptionUnitWithPercentPriceConversionRateType = "unit"
-	NewSubscriptionUnitWithPercentPriceConversionRateTypeTiered NewSubscriptionUnitWithPercentPriceConversionRateType = "tiered"
+	NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionUnitWithPercentPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionUnitWithPercentPriceConversionRateTypeUnit, NewSubscriptionUnitWithPercentPriceConversionRateTypeTiered:
+	case NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionUnitWithPercentPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -4440,7 +4450,7 @@ type NewSubscriptionUnitWithProrationPriceParam struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewSubscriptionUnitWithProrationPriceUnionParam] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[NewSubscriptionUnitWithProrationPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -4515,36 +4525,36 @@ func (r NewSubscriptionUnitWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-type NewSubscriptionUnitWithProrationPriceParam struct {
-	ConversionRateType param.Field[NewSubscriptionUnitWithProrationPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                  `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                    `json:"unit_config"`
+type NewSubscriptionUnitWithProrationPriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                        `json:"unit_config"`
 }
 
-func (r NewSubscriptionUnitWithProrationPriceParam) MarshalJSON() (data []byte, err error) {
+func (r NewSubscriptionUnitWithProrationPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r NewSubscriptionUnitWithProrationPriceParam) ImplementsNewSubscriptionUnitWithProrationPriceUnionParam() {
+func (r NewSubscriptionUnitWithProrationPriceConversionRateConfigParam) ImplementsNewSubscriptionUnitWithProrationPriceConversionRateConfigUnionParam() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [NewSubscriptionUnitWithProrationPriceParam].
-type NewSubscriptionUnitWithProrationPriceUnionParam interface {
-	ImplementsNewSubscriptionUnitWithProrationPriceUnionParam()
+// [NewSubscriptionUnitWithProrationPriceConversionRateConfigParam].
+type NewSubscriptionUnitWithProrationPriceConversionRateConfigUnionParam interface {
+	ImplementsNewSubscriptionUnitWithProrationPriceConversionRateConfigUnionParam()
 }
 
-type NewSubscriptionUnitWithProrationPriceConversionRateType string
+type NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateType string
 
 const (
-	NewSubscriptionUnitWithProrationPriceConversionRateTypeUnit   NewSubscriptionUnitWithProrationPriceConversionRateType = "unit"
-	NewSubscriptionUnitWithProrationPriceConversionRateTypeTiered NewSubscriptionUnitWithProrationPriceConversionRateType = "tiered"
+	NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit   NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateType = "unit"
+	NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r NewSubscriptionUnitWithProrationPriceConversionRateType) IsKnown() bool {
+func (r NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case NewSubscriptionUnitWithProrationPriceConversionRateTypeUnit, NewSubscriptionUnitWithProrationPriceConversionRateTypeTiered:
+	case NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewSubscriptionUnitWithProrationPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -5613,7 +5623,7 @@ type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThreshol
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -5679,36 +5689,36 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThres
 	return false
 }
 
-type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
-	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                               `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                 `json:"unit_config"`
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                   `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                     `json:"unit_config"`
 }
 
-func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion() {
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice].
-type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion interface {
-	ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion()
+// [SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
 }
 
-type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType string
+type SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
 
 const (
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit   SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "unit"
-	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "tiered"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType) IsKnown() bool {
+func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered:
+	case SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, SubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -6077,7 +6087,7 @@ type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThre
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -6143,36 +6153,36 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxT
 	return false
 }
 
-type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
-	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                   `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                     `json:"unit_config"`
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                       `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                         `json:"unit_config"`
 }
 
-func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion() {
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice].
-type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion interface {
-	ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion()
+// [SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
 }
 
-type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType string
+type SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
 
 const (
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit   SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "unit"
-	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "tiered"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType) IsKnown() bool {
+func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered:
+	case SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, SubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -6810,7 +6820,7 @@ type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresho
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceUnion] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
 	// For dimensional price: specifies a price group and dimension values
 	DimensionalPriceConfiguration param.Field[shared.NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
 	// An alias for the price.
@@ -6870,36 +6880,36 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThre
 	return false
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPrice struct {
-	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                  `json:"unit_config"`
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                    `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                      `json:"unit_config"`
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPrice) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceUnion() {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPrice].
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceUnion interface {
-	ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceUnion()
+// [SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
 }
 
-type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateType string
+type SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
 
 const (
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit   SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateType = "unit"
-	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateType = "tiered"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateType) IsKnown() bool {
+func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered:
+	case SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, SubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -7614,7 +7624,7 @@ type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWit
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -7680,36 +7690,36 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGrouped
 	return false
 }
 
-type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                              `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                `json:"unit_config"`
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                  `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                    `json:"unit_config"`
 }
 
-func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion() {
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice].
-type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion interface {
-	ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion()
+// [SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
 }
 
-type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType string
+type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
 
 const (
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "unit"
-	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "tiered"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType) IsKnown() bool {
+func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered:
+	case SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -8081,7 +8091,7 @@ type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupe
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -8147,36 +8157,36 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGro
 	return false
 }
 
-type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice struct {
-	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                  `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                    `json:"unit_config"`
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                                                      `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                                                        `json:"unit_config"`
 }
 
-func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion() {
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPrice].
-type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion interface {
-	ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceUnion()
+// [SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
 }
 
-type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType string
+type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
 
 const (
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "unit"
-	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType = "tiered"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateType) IsKnown() bool {
+func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered:
+	case SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
