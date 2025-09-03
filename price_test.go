@@ -34,7 +34,8 @@ func TestPriceNewWithOptionalParams(t *testing.T) {
 		ModelType: orb.F(orb.PriceNewParamsNewFloatingUnitPriceModelTypeUnit),
 		Name:      orb.F("Annual fee"),
 		UnitConfig: orb.F(shared.UnitConfigParam{
-			UnitAmount: orb.F("unit_amount"),
+			UnitAmount:    orb.F("unit_amount"),
+			ScalingFactor: orb.F(0.000000),
 		}),
 		BillableMetricID: orb.F("billable_metric_id"),
 		BilledInAdvance:  orb.F(true),
@@ -190,7 +191,8 @@ func TestPriceEvaluateMultipleWithOptionalParams(t *testing.T) {
 				ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
 				UnitConfig: orb.F(shared.UnitConfigParam{
-					UnitAmount: orb.F("unit_amount"),
+					UnitAmount:    orb.F("unit_amount"),
+					ScalingFactor: orb.F(0.000000),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
@@ -270,7 +272,8 @@ func TestPriceEvaluatePreviewEventsWithOptionalParams(t *testing.T) {
 				ModelType: orb.F(shared.NewFloatingUnitPriceModelTypeUnit),
 				Name:      orb.F("Annual fee"),
 				UnitConfig: orb.F(shared.UnitConfigParam{
-					UnitAmount: orb.F("unit_amount"),
+					UnitAmount:    orb.F("unit_amount"),
+					ScalingFactor: orb.F(0.000000),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
