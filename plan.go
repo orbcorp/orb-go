@@ -703,7 +703,7 @@ type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice struct {
 	// The per unit conversion rate of the price currency to the invoicing currency.
 	ConversionRate param.Field[float64] `json:"conversion_rate"`
 	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceUnion] `json:"conversion_rate_config"`
+	ConversionRateConfig param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion] `json:"conversion_rate_config"`
 	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
 	// price is billed.
 	Currency param.Field[string] `json:"currency"`
@@ -769,36 +769,36 @@ func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceModelType
 	return false
 }
 
-type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice struct {
-	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
-	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                              `json:"unit_config"`
+type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfig struct {
+	ConversionRateType param.Field[PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[shared.ConversionRateTieredConfigParam]                                                                `json:"tiered_config"`
+	UnitConfig         param.Field[shared.ConversionRateUnitConfigParam]                                                                  `json:"unit_config"`
 }
 
-func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice) MarshalJSON() (data []byte, err error) {
+func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfig) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceUnion() {
+func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfig) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
-// [PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPrice].
-type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceUnion interface {
-	ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceUnion()
+// [PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion interface {
+	ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion()
 }
 
-type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateType string
+type PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType string
 
 const (
-	PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit   PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateType = "unit"
-	PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateType = "tiered"
+	PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit   PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "unit"
+	PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType = "tiered"
 )
 
-func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateType) IsKnown() bool {
+func (r PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
-	case PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateTypeUnit, PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateTypeTiered:
+	case PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeUnit, PlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false

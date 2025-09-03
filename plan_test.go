@@ -57,7 +57,7 @@ func TestPlanNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.NewBillingCycleConfigurationDurationUnitDay),
 				}),
 				ConversionRate: orb.F(0.000000),
-				ConversionRateConfig: orb.F[shared.NewPlanUnitPriceUnionParam](shared.UnitConversionRateConfigParam{
+				ConversionRateConfig: orb.F[shared.NewPlanUnitPriceConversionRateConfigUnionParam](shared.UnitConversionRateConfigParam{
 					ConversionRateType: orb.F(shared.UnitConversionRateConfigConversionRateTypeUnit),
 					UnitConfig: orb.F(shared.ConversionRateUnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
