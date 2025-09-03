@@ -5312,6 +5312,142 @@ func (r NewFloatingMaxGroupTieredPackagePriceConversionRateType) IsKnown() bool 
 	return false
 }
 
+type NewFloatingMinimumCompositePriceParam struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[NewFloatingMinimumCompositePriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the price will be associated with.
+	ItemID        param.Field[string]                                             `json:"item_id,required"`
+	MinimumConfig param.Field[NewFloatingMinimumCompositePriceMinimumConfigParam] `json:"minimum_config,required"`
+	ModelType     param.Field[NewFloatingMinimumCompositePriceModelType]          `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[NewFloatingMinimumCompositePriceUnionParam] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r NewFloatingMinimumCompositePriceParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewFloatingMinimumCompositePriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
+}
+
+func (r NewFloatingMinimumCompositePriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
+}
+
+func (r NewFloatingMinimumCompositePriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type NewFloatingMinimumCompositePriceCadence string
+
+const (
+	NewFloatingMinimumCompositePriceCadenceAnnual     NewFloatingMinimumCompositePriceCadence = "annual"
+	NewFloatingMinimumCompositePriceCadenceSemiAnnual NewFloatingMinimumCompositePriceCadence = "semi_annual"
+	NewFloatingMinimumCompositePriceCadenceMonthly    NewFloatingMinimumCompositePriceCadence = "monthly"
+	NewFloatingMinimumCompositePriceCadenceQuarterly  NewFloatingMinimumCompositePriceCadence = "quarterly"
+	NewFloatingMinimumCompositePriceCadenceOneTime    NewFloatingMinimumCompositePriceCadence = "one_time"
+	NewFloatingMinimumCompositePriceCadenceCustom     NewFloatingMinimumCompositePriceCadence = "custom"
+)
+
+func (r NewFloatingMinimumCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case NewFloatingMinimumCompositePriceCadenceAnnual, NewFloatingMinimumCompositePriceCadenceSemiAnnual, NewFloatingMinimumCompositePriceCadenceMonthly, NewFloatingMinimumCompositePriceCadenceQuarterly, NewFloatingMinimumCompositePriceCadenceOneTime, NewFloatingMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type NewFloatingMinimumCompositePriceMinimumConfigParam struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// By default, subtotals from minimum composite prices are prorated based on the
+	// service period. Set to false to disable proration.
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r NewFloatingMinimumCompositePriceMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type NewFloatingMinimumCompositePriceModelType string
+
+const (
+	NewFloatingMinimumCompositePriceModelTypeMinimum NewFloatingMinimumCompositePriceModelType = "minimum"
+)
+
+func (r NewFloatingMinimumCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case NewFloatingMinimumCompositePriceModelTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type NewFloatingMinimumCompositePriceParam struct {
+	ConversionRateType param.Field[NewFloatingMinimumCompositePriceConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[ConversionRateTieredConfigParam]                    `json:"tiered_config"`
+	UnitConfig         param.Field[ConversionRateUnitConfigParam]                      `json:"unit_config"`
+}
+
+func (r NewFloatingMinimumCompositePriceParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewFloatingMinimumCompositePriceParam) ImplementsNewFloatingMinimumCompositePriceUnionParam() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewFloatingMinimumCompositePriceParam].
+type NewFloatingMinimumCompositePriceUnionParam interface {
+	ImplementsNewFloatingMinimumCompositePriceUnionParam()
+}
+
+type NewFloatingMinimumCompositePriceConversionRateType string
+
+const (
+	NewFloatingMinimumCompositePriceConversionRateTypeUnit   NewFloatingMinimumCompositePriceConversionRateType = "unit"
+	NewFloatingMinimumCompositePriceConversionRateTypeTiered NewFloatingMinimumCompositePriceConversionRateType = "tiered"
+)
+
+func (r NewFloatingMinimumCompositePriceConversionRateType) IsKnown() bool {
+	switch r {
+	case NewFloatingMinimumCompositePriceConversionRateTypeUnit, NewFloatingMinimumCompositePriceConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
 type NewFloatingPackagePriceParam struct {
 	// The cadence to bill for this price on.
 	Cadence param.Field[NewFloatingPackagePriceCadence] `json:"cadence,required"`
@@ -8779,6 +8915,148 @@ const (
 func (r NewPlanMaxGroupTieredPackagePriceConversionRateType) IsKnown() bool {
 	switch r {
 	case NewPlanMaxGroupTieredPackagePriceConversionRateTypeUnit, NewPlanMaxGroupTieredPackagePriceConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type NewPlanMinimumCompositePriceParam struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[NewPlanMinimumCompositePriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID        param.Field[string]                                         `json:"item_id,required"`
+	MinimumConfig param.Field[NewPlanMinimumCompositePriceMinimumConfigParam] `json:"minimum_config,required"`
+	ModelType     param.Field[NewPlanMinimumCompositePriceModelType]          `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[NewPlanMinimumCompositePriceUnionParam] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r NewPlanMinimumCompositePriceParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+// The cadence to bill for this price on.
+type NewPlanMinimumCompositePriceCadence string
+
+const (
+	NewPlanMinimumCompositePriceCadenceAnnual     NewPlanMinimumCompositePriceCadence = "annual"
+	NewPlanMinimumCompositePriceCadenceSemiAnnual NewPlanMinimumCompositePriceCadence = "semi_annual"
+	NewPlanMinimumCompositePriceCadenceMonthly    NewPlanMinimumCompositePriceCadence = "monthly"
+	NewPlanMinimumCompositePriceCadenceQuarterly  NewPlanMinimumCompositePriceCadence = "quarterly"
+	NewPlanMinimumCompositePriceCadenceOneTime    NewPlanMinimumCompositePriceCadence = "one_time"
+	NewPlanMinimumCompositePriceCadenceCustom     NewPlanMinimumCompositePriceCadence = "custom"
+)
+
+func (r NewPlanMinimumCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case NewPlanMinimumCompositePriceCadenceAnnual, NewPlanMinimumCompositePriceCadenceSemiAnnual, NewPlanMinimumCompositePriceCadenceMonthly, NewPlanMinimumCompositePriceCadenceQuarterly, NewPlanMinimumCompositePriceCadenceOneTime, NewPlanMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type NewPlanMinimumCompositePriceMinimumConfigParam struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// By default, subtotals from minimum composite prices are prorated based on the
+	// service period. Set to false to disable proration.
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r NewPlanMinimumCompositePriceMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type NewPlanMinimumCompositePriceModelType string
+
+const (
+	NewPlanMinimumCompositePriceModelTypeMinimum NewPlanMinimumCompositePriceModelType = "minimum"
+)
+
+func (r NewPlanMinimumCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case NewPlanMinimumCompositePriceModelTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type NewPlanMinimumCompositePriceParam struct {
+	ConversionRateType param.Field[NewPlanMinimumCompositePriceConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[ConversionRateTieredConfigParam]                `json:"tiered_config"`
+	UnitConfig         param.Field[ConversionRateUnitConfigParam]                  `json:"unit_config"`
+}
+
+func (r NewPlanMinimumCompositePriceParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsNewPlanMinimumCompositePriceUnionParam() {}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam], [NewPlanMinimumCompositePriceParam].
+type NewPlanMinimumCompositePriceUnionParam interface {
+	ImplementsNewPlanMinimumCompositePriceUnionParam()
+}
+
+type NewPlanMinimumCompositePriceConversionRateType string
+
+const (
+	NewPlanMinimumCompositePriceConversionRateTypeUnit   NewPlanMinimumCompositePriceConversionRateType = "unit"
+	NewPlanMinimumCompositePriceConversionRateTypeTiered NewPlanMinimumCompositePriceConversionRateType = "tiered"
+)
+
+func (r NewPlanMinimumCompositePriceConversionRateType) IsKnown() bool {
+	switch r {
+	case NewPlanMinimumCompositePriceConversionRateTypeUnit, NewPlanMinimumCompositePriceConversionRateTypeTiered:
 		return true
 	}
 	return false

@@ -2094,6 +2094,53 @@ const NewFloatingMaxGroupTieredPackagePriceConversionRateTypeUnit = shared.NewFl
 const NewFloatingMaxGroupTieredPackagePriceConversionRateTypeTiered = shared.NewFloatingMaxGroupTieredPackagePriceConversionRateTypeTiered
 
 // This is an alias to an internal type.
+type NewFloatingMinimumCompositePriceParam = shared.NewFloatingMinimumCompositePriceParam
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type NewFloatingMinimumCompositePriceCadence = shared.NewFloatingMinimumCompositePriceCadence
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceCadenceAnnual = shared.NewFloatingMinimumCompositePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceCadenceSemiAnnual = shared.NewFloatingMinimumCompositePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceCadenceMonthly = shared.NewFloatingMinimumCompositePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceCadenceQuarterly = shared.NewFloatingMinimumCompositePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceCadenceOneTime = shared.NewFloatingMinimumCompositePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceCadenceCustom = shared.NewFloatingMinimumCompositePriceCadenceCustom
+
+// This is an alias to an internal type.
+type NewFloatingMinimumCompositePriceMinimumConfigParam = shared.NewFloatingMinimumCompositePriceMinimumConfigParam
+
+// This is an alias to an internal type.
+type NewFloatingMinimumCompositePriceModelType = shared.NewFloatingMinimumCompositePriceModelType
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceModelTypeMinimum = shared.NewFloatingMinimumCompositePriceModelTypeMinimum
+
+// This is an alias to an internal type.
+type NewFloatingMinimumCompositePriceUnionParam = shared.NewFloatingMinimumCompositePriceUnionParam
+
+// This is an alias to an internal type.
+type NewFloatingMinimumCompositePriceConversionRateType = shared.NewFloatingMinimumCompositePriceConversionRateType
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceConversionRateTypeUnit = shared.NewFloatingMinimumCompositePriceConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const NewFloatingMinimumCompositePriceConversionRateTypeTiered = shared.NewFloatingMinimumCompositePriceConversionRateTypeTiered
+
+// This is an alias to an internal type.
 type NewFloatingPackagePriceParam = shared.NewFloatingPackagePriceParam
 
 // The cadence to bill for this price on.
@@ -3303,6 +3350,53 @@ const NewPlanMaxGroupTieredPackagePriceConversionRateTypeUnit = shared.NewPlanMa
 
 // This is an alias to an internal value.
 const NewPlanMaxGroupTieredPackagePriceConversionRateTypeTiered = shared.NewPlanMaxGroupTieredPackagePriceConversionRateTypeTiered
+
+// This is an alias to an internal type.
+type NewPlanMinimumCompositePriceParam = shared.NewPlanMinimumCompositePriceParam
+
+// The cadence to bill for this price on.
+//
+// This is an alias to an internal type.
+type NewPlanMinimumCompositePriceCadence = shared.NewPlanMinimumCompositePriceCadence
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceCadenceAnnual = shared.NewPlanMinimumCompositePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceCadenceSemiAnnual = shared.NewPlanMinimumCompositePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceCadenceMonthly = shared.NewPlanMinimumCompositePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceCadenceQuarterly = shared.NewPlanMinimumCompositePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceCadenceOneTime = shared.NewPlanMinimumCompositePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceCadenceCustom = shared.NewPlanMinimumCompositePriceCadenceCustom
+
+// This is an alias to an internal type.
+type NewPlanMinimumCompositePriceMinimumConfigParam = shared.NewPlanMinimumCompositePriceMinimumConfigParam
+
+// This is an alias to an internal type.
+type NewPlanMinimumCompositePriceModelType = shared.NewPlanMinimumCompositePriceModelType
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceModelTypeMinimum = shared.NewPlanMinimumCompositePriceModelTypeMinimum
+
+// This is an alias to an internal type.
+type NewPlanMinimumCompositePriceUnionParam = shared.NewPlanMinimumCompositePriceUnionParam
+
+// This is an alias to an internal type.
+type NewPlanMinimumCompositePriceConversionRateType = shared.NewPlanMinimumCompositePriceConversionRateType
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceConversionRateTypeUnit = shared.NewPlanMinimumCompositePriceConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const NewPlanMinimumCompositePriceConversionRateTypeTiered = shared.NewPlanMinimumCompositePriceConversionRateTypeTiered
 
 // This is an alias to an internal type.
 type NewPlanPackagePriceParam = shared.NewPlanPackagePriceParam
