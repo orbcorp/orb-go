@@ -152,8 +152,8 @@ func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, body Invoi
 	return
 }
 
-// This endpoint allows an invoice's status to be set the `paid` status. This can
-// only be done to invoices that are in the `issued` status.
+// This endpoint allows an invoice's status to be set to the `paid` status. This
+// can only be done to invoices that are in the `issued` or `synced` status.
 func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body InvoiceMarkPaidParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
 	opts = append(r.Options[:], opts...)
 	if invoiceID == "" {
@@ -178,8 +178,8 @@ func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, opts ...opti
 	return
 }
 
-// This endpoint allows an invoice's status to be set the `void` status. This can
-// only be done to invoices that are in the `issued` status.
+// This endpoint allows an invoice's status to be set to the `void` status. This
+// can only be done to invoices that are in the `issued` status.
 //
 // If the associated invoice has used the customer balance to change the amount
 // due, the customer balance operation will be reverted. For example, if the
@@ -620,20 +620,21 @@ func (r invoiceFetchUpcomingResponseCustomerBalanceTransactionJSON) RawJSON() st
 type InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction string
 
 const (
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionAppliedToInvoice     InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "applied_to_invoice"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionManualAdjustment     InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "manual_adjustment"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionProratedRefund       InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "prorated_refund"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionRevertProratedRefund InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "revert_prorated_refund"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionReturnFromVoiding    InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "return_from_voiding"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteApplied    InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "credit_note_applied"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteVoided     InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "credit_note_voided"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionOverpaymentRefund    InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "overpayment_refund"
-	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionExternalPayment      InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "external_payment"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionAppliedToInvoice      InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "applied_to_invoice"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionManualAdjustment      InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "manual_adjustment"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionProratedRefund        InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "prorated_refund"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionRevertProratedRefund  InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "revert_prorated_refund"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionReturnFromVoiding     InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "return_from_voiding"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteApplied     InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "credit_note_applied"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteVoided      InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "credit_note_voided"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionOverpaymentRefund     InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "overpayment_refund"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionExternalPayment       InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "external_payment"
+	InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionSmallInvoiceCarryover InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction = "small_invoice_carryover"
 )
 
 func (r InvoiceFetchUpcomingResponseCustomerBalanceTransactionsAction) IsKnown() bool {
 	switch r {
-	case InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionAppliedToInvoice, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionManualAdjustment, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionProratedRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionRevertProratedRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionReturnFromVoiding, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteApplied, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteVoided, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionOverpaymentRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionExternalPayment:
+	case InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionAppliedToInvoice, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionManualAdjustment, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionProratedRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionRevertProratedRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionReturnFromVoiding, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteApplied, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionCreditNoteVoided, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionOverpaymentRefund, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionExternalPayment, InvoiceFetchUpcomingResponseCustomerBalanceTransactionsActionSmallInvoiceCarryover:
 		return true
 	}
 	return false
@@ -735,7 +736,7 @@ type InvoiceFetchUpcomingResponseLineItem struct {
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
 	SubLineItems []InvoiceFetchUpcomingResponseLineItemsSubLineItem `json:"sub_line_items,required"`
-	// The line amount before before any adjustments.
+	// The line amount before any adjustments.
 	Subtotal string `json:"subtotal,required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
@@ -791,8 +792,8 @@ type InvoiceFetchUpcomingResponseLineItemsAdjustment struct {
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// This field can have the runtime type of [[]shared.TransformPriceFilter].
 	Filters interface{} `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
@@ -1028,6 +1029,9 @@ type InvoiceFetchUpcomingResponsePaymentAttempt struct {
 	PaymentProvider InvoiceFetchUpcomingResponsePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
 	// The ID of the payment attempt in the payment provider.
 	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	// URL to the downloadable PDF version of the receipt. This field will be `null`
+	// for payment attempts that did not succeed.
+	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
 	// Whether the payment attempt succeeded.
 	Succeeded bool                                           `json:"succeeded,required"`
 	JSON      invoiceFetchUpcomingResponsePaymentAttemptJSON `json:"-"`
@@ -1041,6 +1045,7 @@ type invoiceFetchUpcomingResponsePaymentAttemptJSON struct {
 	CreatedAt         apijson.Field
 	PaymentProvider   apijson.Field
 	PaymentProviderID apijson.Field
+	ReceiptPdf        apijson.Field
 	Succeeded         apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -1100,19 +1105,24 @@ type InvoiceNewParams struct {
 	CustomerID param.Field[string] `json:"customer_id"`
 	// An optional discount to attach to the invoice.
 	Discount param.Field[shared.DiscountUnionParam] `json:"discount"`
+	// An optional custom due date for the invoice. If not set, the due date will be
+	// calculated based on the `net_terms` value.
+	DueDate param.Field[time.Time] `json:"due_date" format:"date-time"`
 	// The `external_customer_id` of the `Customer` to create this invoice for. One of
 	// `customer_id` and `external_customer_id` are required.
 	ExternalCustomerID param.Field[string] `json:"external_customer_id"`
-	// An optional memo to attach to the invoice.
+	// An optional memo to attach to the invoice. If no memo is provided, we will
+	// attach the default memo
 	Memo param.Field[string] `json:"memo"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
-	// Determines the difference between the invoice issue date for subscription
-	// invoices as the date that they are due. A value of '0' here represents that the
-	// invoice is due on issue, whereas a value of 30 represents that the customer has
-	// 30 days to pay the invoice.
+	// The net terms determines the due date of the invoice. Due date is calculated
+	// based on the invoice or issuance date, depending on the account's configured due
+	// date calculation method. A value of '0' here represents that the invoice is due
+	// on issue, whereas a value of '30' represents that the customer has 30 days to
+	// pay the invoice. Do not set this field if you want to set a custom due date.
 	NetTerms param.Field[int64] `json:"net_terms"`
 	// When true, this invoice will be submitted for issuance upon creation. When
 	// false, the resulting invoice will require manual review to issue. Defaulted to
@@ -1157,10 +1167,19 @@ func (r InvoiceNewParamsLineItemsModelType) IsKnown() bool {
 }
 
 type InvoiceUpdateParams struct {
+	// An optional custom due date for the invoice. If not set, the due date will be
+	// calculated based on the `net_terms` value.
+	DueDate param.Field[time.Time] `json:"due_date" format:"date-time"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// The net terms determines the due date of the invoice. Due date is calculated
+	// based on the invoice or issuance date, depending on the account's configured due
+	// date calculation method. A value of '0' here represents that the invoice is due
+	// on issue, whereas a value of '30' represents that the customer has 30 days to
+	// pay the invoice. Do not set this field if you want to set a custom due date.
+	NetTerms param.Field[int64] `json:"net_terms"`
 }
 
 func (r InvoiceUpdateParams) MarshalJSON() (data []byte, err error) {

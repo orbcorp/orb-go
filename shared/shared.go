@@ -80,8 +80,8 @@ type AdjustmentIntervalAdjustment struct {
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// This field can have the runtime type of [[]TransformPriceFilter].
 	Filters interface{} `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The plan phase in which this adjustment is active.
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
@@ -535,158 +535,6 @@ func (r BillingCycleRelativeDate) ImplementsSubscriptionPriceIntervalsParamsEdit
 }
 
 func (r BillingCycleRelativeDate) ImplementsSubscriptionPriceIntervalsParamsEditAdjustmentsStartDateUnion() {
-}
-
-type BPSConfig struct {
-	// Basis point take rate per event
-	BPS float64 `json:"bps,required"`
-	// Optional currency amount maximum to cap spend per event
-	PerUnitMaximum string        `json:"per_unit_maximum,nullable"`
-	JSON           bpsConfigJSON `json:"-"`
-}
-
-// bpsConfigJSON contains the JSON metadata for the struct [BPSConfig]
-type bpsConfigJSON struct {
-	BPS            apijson.Field
-	PerUnitMaximum apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *BPSConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r bpsConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type BPSConfigParam struct {
-	// Basis point take rate per event
-	BPS param.Field[float64] `json:"bps,required"`
-	// Optional currency amount maximum to cap spend per event
-	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
-}
-
-func (r BPSConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type BPSTier struct {
-	// Per-event basis point rate
-	BPS float64 `json:"bps,required"`
-	// Exclusive tier starting value
-	MinimumAmount string `json:"minimum_amount,required"`
-	// Inclusive tier ending value
-	MaximumAmount string `json:"maximum_amount,nullable"`
-	// Per unit maximum to charge
-	PerUnitMaximum string      `json:"per_unit_maximum,nullable"`
-	JSON           bpsTierJSON `json:"-"`
-}
-
-// bpsTierJSON contains the JSON metadata for the struct [BPSTier]
-type bpsTierJSON struct {
-	BPS            apijson.Field
-	MinimumAmount  apijson.Field
-	MaximumAmount  apijson.Field
-	PerUnitMaximum apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *BPSTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r bpsTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type BPSTierParam struct {
-	// Per-event basis point rate
-	BPS param.Field[float64] `json:"bps,required"`
-	// Exclusive tier starting value
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Inclusive tier ending value
-	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// Per unit maximum to charge
-	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
-}
-
-func (r BPSTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type BulkBPSConfig struct {
-	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
-	// tier based on total volume
-	Tiers []BulkBPSTier     `json:"tiers,required"`
-	JSON  bulkBPSConfigJSON `json:"-"`
-}
-
-// bulkBPSConfigJSON contains the JSON metadata for the struct [BulkBPSConfig]
-type bulkBPSConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *BulkBPSConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r bulkBPSConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type BulkBPSConfigParam struct {
-	// Tiers for a bulk BPS pricing model where all usage is aggregated to a single
-	// tier based on total volume
-	Tiers param.Field[[]BulkBPSTierParam] `json:"tiers,required"`
-}
-
-func (r BulkBPSConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-type BulkBPSTier struct {
-	// Basis points to rate on
-	BPS float64 `json:"bps,required"`
-	// Upper bound for tier
-	MaximumAmount string `json:"maximum_amount,nullable"`
-	// The maximum amount to charge for any one event
-	PerUnitMaximum string          `json:"per_unit_maximum,nullable"`
-	JSON           bulkBPSTierJSON `json:"-"`
-}
-
-// bulkBPSTierJSON contains the JSON metadata for the struct [BulkBPSTier]
-type bulkBPSTierJSON struct {
-	BPS            apijson.Field
-	MaximumAmount  apijson.Field
-	PerUnitMaximum apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *BulkBPSTier) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r bulkBPSTierJSON) RawJSON() string {
-	return r.raw
-}
-
-type BulkBPSTierParam struct {
-	// Basis points to rate on
-	BPS param.Field[float64] `json:"bps,required"`
-	// Upper bound for tier
-	MaximumAmount param.Field[string] `json:"maximum_amount"`
-	// The maximum amount to charge for any one event
-	PerUnitMaximum param.Field[string] `json:"per_unit_maximum"`
-}
-
-func (r BulkBPSTierParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
 }
 
 type BulkConfig struct {
@@ -2541,20 +2389,21 @@ func (r invoiceCustomerBalanceTransactionJSON) RawJSON() string {
 type InvoiceCustomerBalanceTransactionsAction string
 
 const (
-	InvoiceCustomerBalanceTransactionsActionAppliedToInvoice     InvoiceCustomerBalanceTransactionsAction = "applied_to_invoice"
-	InvoiceCustomerBalanceTransactionsActionManualAdjustment     InvoiceCustomerBalanceTransactionsAction = "manual_adjustment"
-	InvoiceCustomerBalanceTransactionsActionProratedRefund       InvoiceCustomerBalanceTransactionsAction = "prorated_refund"
-	InvoiceCustomerBalanceTransactionsActionRevertProratedRefund InvoiceCustomerBalanceTransactionsAction = "revert_prorated_refund"
-	InvoiceCustomerBalanceTransactionsActionReturnFromVoiding    InvoiceCustomerBalanceTransactionsAction = "return_from_voiding"
-	InvoiceCustomerBalanceTransactionsActionCreditNoteApplied    InvoiceCustomerBalanceTransactionsAction = "credit_note_applied"
-	InvoiceCustomerBalanceTransactionsActionCreditNoteVoided     InvoiceCustomerBalanceTransactionsAction = "credit_note_voided"
-	InvoiceCustomerBalanceTransactionsActionOverpaymentRefund    InvoiceCustomerBalanceTransactionsAction = "overpayment_refund"
-	InvoiceCustomerBalanceTransactionsActionExternalPayment      InvoiceCustomerBalanceTransactionsAction = "external_payment"
+	InvoiceCustomerBalanceTransactionsActionAppliedToInvoice      InvoiceCustomerBalanceTransactionsAction = "applied_to_invoice"
+	InvoiceCustomerBalanceTransactionsActionManualAdjustment      InvoiceCustomerBalanceTransactionsAction = "manual_adjustment"
+	InvoiceCustomerBalanceTransactionsActionProratedRefund        InvoiceCustomerBalanceTransactionsAction = "prorated_refund"
+	InvoiceCustomerBalanceTransactionsActionRevertProratedRefund  InvoiceCustomerBalanceTransactionsAction = "revert_prorated_refund"
+	InvoiceCustomerBalanceTransactionsActionReturnFromVoiding     InvoiceCustomerBalanceTransactionsAction = "return_from_voiding"
+	InvoiceCustomerBalanceTransactionsActionCreditNoteApplied     InvoiceCustomerBalanceTransactionsAction = "credit_note_applied"
+	InvoiceCustomerBalanceTransactionsActionCreditNoteVoided      InvoiceCustomerBalanceTransactionsAction = "credit_note_voided"
+	InvoiceCustomerBalanceTransactionsActionOverpaymentRefund     InvoiceCustomerBalanceTransactionsAction = "overpayment_refund"
+	InvoiceCustomerBalanceTransactionsActionExternalPayment       InvoiceCustomerBalanceTransactionsAction = "external_payment"
+	InvoiceCustomerBalanceTransactionsActionSmallInvoiceCarryover InvoiceCustomerBalanceTransactionsAction = "small_invoice_carryover"
 )
 
 func (r InvoiceCustomerBalanceTransactionsAction) IsKnown() bool {
 	switch r {
-	case InvoiceCustomerBalanceTransactionsActionAppliedToInvoice, InvoiceCustomerBalanceTransactionsActionManualAdjustment, InvoiceCustomerBalanceTransactionsActionProratedRefund, InvoiceCustomerBalanceTransactionsActionRevertProratedRefund, InvoiceCustomerBalanceTransactionsActionReturnFromVoiding, InvoiceCustomerBalanceTransactionsActionCreditNoteApplied, InvoiceCustomerBalanceTransactionsActionCreditNoteVoided, InvoiceCustomerBalanceTransactionsActionOverpaymentRefund, InvoiceCustomerBalanceTransactionsActionExternalPayment:
+	case InvoiceCustomerBalanceTransactionsActionAppliedToInvoice, InvoiceCustomerBalanceTransactionsActionManualAdjustment, InvoiceCustomerBalanceTransactionsActionProratedRefund, InvoiceCustomerBalanceTransactionsActionRevertProratedRefund, InvoiceCustomerBalanceTransactionsActionReturnFromVoiding, InvoiceCustomerBalanceTransactionsActionCreditNoteApplied, InvoiceCustomerBalanceTransactionsActionCreditNoteVoided, InvoiceCustomerBalanceTransactionsActionOverpaymentRefund, InvoiceCustomerBalanceTransactionsActionExternalPayment, InvoiceCustomerBalanceTransactionsActionSmallInvoiceCarryover:
 		return true
 	}
 	return false
@@ -2656,7 +2505,7 @@ type InvoiceLineItem struct {
 	// For complex pricing structures, the line item can be broken down further in
 	// `sub_line_items`.
 	SubLineItems []InvoiceLineItemsSubLineItem `json:"sub_line_items,required"`
-	// The line amount before before any adjustments.
+	// The line amount before any adjustments.
 	Subtotal string `json:"subtotal,required"`
 	// An array of tax rates and their incurred tax amounts. Empty if no tax
 	// integration is configured.
@@ -2711,8 +2560,8 @@ type InvoiceLineItemsAdjustment struct {
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
 	// This field can have the runtime type of [[]TransformPriceFilter].
 	Filters interface{} `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
@@ -2944,6 +2793,9 @@ type InvoicePaymentAttempt struct {
 	PaymentProvider InvoicePaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
 	// The ID of the payment attempt in the payment provider.
 	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	// URL to the downloadable PDF version of the receipt. This field will be `null`
+	// for payment attempts that did not succeed.
+	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
 	// Whether the payment attempt succeeded.
 	Succeeded bool                      `json:"succeeded,required"`
 	JSON      invoicePaymentAttemptJSON `json:"-"`
@@ -2957,6 +2809,7 @@ type invoicePaymentAttemptJSON struct {
 	CreatedAt         apijson.Field
 	PaymentProvider   apijson.Field
 	PaymentProviderID apijson.Field
+	ReceiptPdf        apijson.Field
 	Succeeded         apijson.Field
 	raw               string
 	ExtraFields       map[string]apijson.Field
@@ -3465,8 +3318,8 @@ type MonetaryAmountDiscountAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
@@ -3532,8 +3385,8 @@ type MonetaryMaximumAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
@@ -3601,8 +3454,8 @@ type MonetaryMinimumAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
@@ -3673,8 +3526,8 @@ type MonetaryPercentageDiscountAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
@@ -3743,8 +3596,8 @@ type MonetaryUsageDiscountAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The reason for the adjustment.
 	Reason string `json:"reason,required,nullable"`
@@ -3979,257 +3832,6 @@ func (r NewDimensionalPriceConfigurationParam) MarshalJSON() (data []byte, err e
 	return apijson.MarshalRoot(r)
 }
 
-type NewFloatingBPSPriceParam struct {
-	BPSConfig param.Field[BPSConfigParam] `json:"bps_config,required"`
-	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingBPSPriceCadence] `json:"cadence,required"`
-	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                       `json:"item_id,required"`
-	ModelType param.Field[NewFloatingBPSPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-}
-
-func (r NewFloatingBPSPriceParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBPSPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {}
-
-func (r NewFloatingBPSPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingBPSPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
-
-// The cadence to bill for this price on.
-type NewFloatingBPSPriceCadence string
-
-const (
-	NewFloatingBPSPriceCadenceAnnual     NewFloatingBPSPriceCadence = "annual"
-	NewFloatingBPSPriceCadenceSemiAnnual NewFloatingBPSPriceCadence = "semi_annual"
-	NewFloatingBPSPriceCadenceMonthly    NewFloatingBPSPriceCadence = "monthly"
-	NewFloatingBPSPriceCadenceQuarterly  NewFloatingBPSPriceCadence = "quarterly"
-	NewFloatingBPSPriceCadenceOneTime    NewFloatingBPSPriceCadence = "one_time"
-	NewFloatingBPSPriceCadenceCustom     NewFloatingBPSPriceCadence = "custom"
-)
-
-func (r NewFloatingBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case NewFloatingBPSPriceCadenceAnnual, NewFloatingBPSPriceCadenceSemiAnnual, NewFloatingBPSPriceCadenceMonthly, NewFloatingBPSPriceCadenceQuarterly, NewFloatingBPSPriceCadenceOneTime, NewFloatingBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBPSPriceModelType string
-
-const (
-	NewFloatingBPSPriceModelTypeBPS NewFloatingBPSPriceModelType = "bps"
-)
-
-func (r NewFloatingBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case NewFloatingBPSPriceModelTypeBPS:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[ConversionRateTieredConfigParam]                           `json:"tiered_config"`
-	UnitConfig         param.Field[ConversionRateUnitConfigParam]                             `json:"unit_config"`
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBPSPriceConversionRateConfigParam) ImplementsNewFloatingBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [NewFloatingBPSPriceConversionRateConfigParam].
-type NewFloatingBPSPriceConversionRateConfigUnionParam interface {
-	ImplementsNewFloatingBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBPSPriceConversionRateConfigConversionRateTypeUnit   NewFloatingBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingBPSPriceConversionRateConfigConversionRateTypeTiered NewFloatingBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBPSPriceConversionRateConfigConversionRateTypeUnit, NewFloatingBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkBPSPriceParam struct {
-	BulkBPSConfig param.Field[BulkBPSConfigParam] `json:"bulk_bps_config,required"`
-	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingBulkBPSPriceCadence] `json:"cadence,required"`
-	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                           `json:"item_id,required"`
-	ModelType param.Field[NewFloatingBulkBPSPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingBulkBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-}
-
-func (r NewFloatingBulkBPSPriceParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkBPSPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingBulkBPSPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingBulkBPSPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
-
-// The cadence to bill for this price on.
-type NewFloatingBulkBPSPriceCadence string
-
-const (
-	NewFloatingBulkBPSPriceCadenceAnnual     NewFloatingBulkBPSPriceCadence = "annual"
-	NewFloatingBulkBPSPriceCadenceSemiAnnual NewFloatingBulkBPSPriceCadence = "semi_annual"
-	NewFloatingBulkBPSPriceCadenceMonthly    NewFloatingBulkBPSPriceCadence = "monthly"
-	NewFloatingBulkBPSPriceCadenceQuarterly  NewFloatingBulkBPSPriceCadence = "quarterly"
-	NewFloatingBulkBPSPriceCadenceOneTime    NewFloatingBulkBPSPriceCadence = "one_time"
-	NewFloatingBulkBPSPriceCadenceCustom     NewFloatingBulkBPSPriceCadence = "custom"
-)
-
-func (r NewFloatingBulkBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkBPSPriceCadenceAnnual, NewFloatingBulkBPSPriceCadenceSemiAnnual, NewFloatingBulkBPSPriceCadenceMonthly, NewFloatingBulkBPSPriceCadenceQuarterly, NewFloatingBulkBPSPriceCadenceOneTime, NewFloatingBulkBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type NewFloatingBulkBPSPriceModelType string
-
-const (
-	NewFloatingBulkBPSPriceModelTypeBulkBPS NewFloatingBulkBPSPriceModelType = "bulk_bps"
-)
-
-func (r NewFloatingBulkBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkBPSPriceModelTypeBulkBPS:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingBulkBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingBulkBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[ConversionRateTieredConfigParam]                               `json:"tiered_config"`
-	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                 `json:"unit_config"`
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigParam) ImplementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [NewFloatingBulkBPSPriceConversionRateConfigParam].
-type NewFloatingBulkBPSPriceConversionRateConfigUnionParam interface {
-	ImplementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingBulkBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeUnit   NewFloatingBulkBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeTiered NewFloatingBulkBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingBulkBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeUnit, NewFloatingBulkBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewFloatingBulkPriceParam struct {
 	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
@@ -4318,7 +3920,6 @@ func (r NewFloatingBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingBulkPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                            `json:"tiered_config"`
@@ -4332,8 +3933,6 @@ func (r NewFloatingBulkPriceConversionRateConfigParam) MarshalJSON() (data []byt
 func (r NewFloatingBulkPriceConversionRateConfigParam) ImplementsNewFloatingBulkPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingBulkPriceConversionRateConfigParam].
@@ -4445,7 +4044,6 @@ func (r NewFloatingBulkWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingBulkWithProrationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -4459,8 +4057,6 @@ func (r NewFloatingBulkWithProrationPriceConversionRateConfigParam) MarshalJSON(
 func (r NewFloatingBulkWithProrationPriceConversionRateConfigParam) ImplementsNewFloatingBulkWithProrationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingBulkWithProrationPriceConversionRateConfigParam].
@@ -4572,7 +4168,6 @@ func (r NewFloatingCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
@@ -4586,8 +4181,6 @@ func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam) MarshalJ
 func (r NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam) ImplementsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingCumulativeGroupedBulkPriceConversionRateConfigParam].
@@ -4699,7 +4292,6 @@ func (r NewFloatingGroupedAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingGroupedAllocationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -4713,8 +4305,6 @@ func (r NewFloatingGroupedAllocationPriceConversionRateConfigParam) MarshalJSON(
 func (r NewFloatingGroupedAllocationPriceConversionRateConfigParam) ImplementsNewFloatingGroupedAllocationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingGroupedAllocationPriceConversionRateConfigParam].
@@ -4826,7 +4416,6 @@ func (r NewFloatingGroupedTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingGroupedTieredPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
@@ -4840,8 +4429,6 @@ func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigParam) MarshalJS
 func (r NewFloatingGroupedTieredPackagePriceConversionRateConfigParam) ImplementsNewFloatingGroupedTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingGroupedTieredPackagePriceConversionRateConfigParam].
@@ -4953,7 +4540,6 @@ func (r NewFloatingGroupedTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingGroupedTieredPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
@@ -4967,8 +4553,6 @@ func (r NewFloatingGroupedTieredPriceConversionRateConfigParam) MarshalJSON() (d
 func (r NewFloatingGroupedTieredPriceConversionRateConfigParam) ImplementsNewFloatingGroupedTieredPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingGroupedTieredPriceConversionRateConfigParam].
@@ -5080,7 +4664,6 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                 `json:"tiered_config"`
@@ -5094,8 +4677,6 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam) Mars
 func (r NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam) ImplementsNewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingGroupedWithMeteredMinimumPriceConversionRateConfigParam].
@@ -5207,7 +4788,6 @@ func (r NewFloatingGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                  `json:"tiered_config"`
@@ -5221,8 +4801,6 @@ func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam) Mar
 func (r NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam) ImplementsNewFloatingGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingGroupedWithProratedMinimumPriceConversionRateConfigParam].
@@ -5333,7 +4911,6 @@ func (r NewFloatingMatrixPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingMatrixPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                              `json:"tiered_config"`
@@ -5347,8 +4924,6 @@ func (r NewFloatingMatrixPriceConversionRateConfigParam) MarshalJSON() (data []b
 func (r NewFloatingMatrixPriceConversionRateConfigParam) ImplementsNewFloatingMatrixPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingMatrixPriceConversionRateConfigParam].
@@ -5460,7 +5035,6 @@ func (r NewFloatingMatrixWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingMatrixWithAllocationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
@@ -5474,8 +5048,6 @@ func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigParam) MarshalJS
 func (r NewFloatingMatrixWithAllocationPriceConversionRateConfigParam) ImplementsNewFloatingMatrixWithAllocationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingMatrixWithAllocationPriceConversionRateConfigParam].
@@ -5587,7 +5159,6 @@ func (r NewFloatingMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
@@ -5601,8 +5172,6 @@ func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam) MarshalJ
 func (r NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam) ImplementsNewFloatingMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingMatrixWithDisplayNamePriceConversionRateConfigParam].
@@ -5714,7 +5283,6 @@ func (r NewFloatingMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
@@ -5728,8 +5296,6 @@ func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam) MarshalJ
 func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam) ImplementsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingMaxGroupTieredPackagePriceConversionRateConfigParam].
@@ -5747,6 +5313,142 @@ const (
 func (r NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
 	case NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewFloatingMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type NewFloatingMinimumCompositePriceParam struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[NewFloatingMinimumCompositePriceCadence] `json:"cadence,required"`
+	// An ISO 4217 currency string for which this price is billed in.
+	Currency param.Field[string] `json:"currency,required"`
+	// The id of the item the price will be associated with.
+	ItemID        param.Field[string]                                             `json:"item_id,required"`
+	MinimumConfig param.Field[NewFloatingMinimumCompositePriceMinimumConfigParam] `json:"minimum_config,required"`
+	ModelType     param.Field[NewFloatingMinimumCompositePriceModelType]          `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[NewFloatingMinimumCompositePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+}
+
+func (r NewFloatingMinimumCompositePriceParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewFloatingMinimumCompositePriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
+}
+
+func (r NewFloatingMinimumCompositePriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
+}
+
+func (r NewFloatingMinimumCompositePriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {
+}
+
+// The cadence to bill for this price on.
+type NewFloatingMinimumCompositePriceCadence string
+
+const (
+	NewFloatingMinimumCompositePriceCadenceAnnual     NewFloatingMinimumCompositePriceCadence = "annual"
+	NewFloatingMinimumCompositePriceCadenceSemiAnnual NewFloatingMinimumCompositePriceCadence = "semi_annual"
+	NewFloatingMinimumCompositePriceCadenceMonthly    NewFloatingMinimumCompositePriceCadence = "monthly"
+	NewFloatingMinimumCompositePriceCadenceQuarterly  NewFloatingMinimumCompositePriceCadence = "quarterly"
+	NewFloatingMinimumCompositePriceCadenceOneTime    NewFloatingMinimumCompositePriceCadence = "one_time"
+	NewFloatingMinimumCompositePriceCadenceCustom     NewFloatingMinimumCompositePriceCadence = "custom"
+)
+
+func (r NewFloatingMinimumCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case NewFloatingMinimumCompositePriceCadenceAnnual, NewFloatingMinimumCompositePriceCadenceSemiAnnual, NewFloatingMinimumCompositePriceCadenceMonthly, NewFloatingMinimumCompositePriceCadenceQuarterly, NewFloatingMinimumCompositePriceCadenceOneTime, NewFloatingMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type NewFloatingMinimumCompositePriceMinimumConfigParam struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// By default, subtotals from minimum composite prices are prorated based on the
+	// service period. Set to false to disable proration.
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r NewFloatingMinimumCompositePriceMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type NewFloatingMinimumCompositePriceModelType string
+
+const (
+	NewFloatingMinimumCompositePriceModelTypeMinimum NewFloatingMinimumCompositePriceModelType = "minimum"
+)
+
+func (r NewFloatingMinimumCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case NewFloatingMinimumCompositePriceModelTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type NewFloatingMinimumCompositePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
+	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                          `json:"unit_config"`
+}
+
+func (r NewFloatingMinimumCompositePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewFloatingMinimumCompositePriceConversionRateConfigParam) ImplementsNewFloatingMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewFloatingMinimumCompositePriceConversionRateConfigParam].
+type NewFloatingMinimumCompositePriceConversionRateConfigUnionParam interface {
+	ImplementsNewFloatingMinimumCompositePriceConversionRateConfigUnionParam()
+}
+
+type NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	NewFloatingMinimumCompositePriceConversionRateConfigConversionRateTypeUnit   NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType = "unit"
+	NewFloatingMinimumCompositePriceConversionRateConfigConversionRateTypeTiered NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r NewFloatingMinimumCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case NewFloatingMinimumCompositePriceConversionRateConfigConversionRateTypeUnit, NewFloatingMinimumCompositePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -5840,7 +5542,6 @@ func (r NewFloatingPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                               `json:"tiered_config"`
@@ -5854,8 +5555,6 @@ func (r NewFloatingPackagePriceConversionRateConfigParam) MarshalJSON() (data []
 func (r NewFloatingPackagePriceConversionRateConfigParam) ImplementsNewFloatingPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingPackagePriceConversionRateConfigParam].
@@ -5967,7 +5666,6 @@ func (r NewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingPackageWithAllocationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
@@ -5981,8 +5679,6 @@ func (r NewFloatingPackageWithAllocationPriceConversionRateConfigParam) MarshalJ
 func (r NewFloatingPackageWithAllocationPriceConversionRateConfigParam) ImplementsNewFloatingPackageWithAllocationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingPackageWithAllocationPriceConversionRateConfigParam].
@@ -6094,7 +5790,6 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                       `json:"tiered_config"`
@@ -6108,8 +5803,6 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam
 func (r NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam) ImplementsNewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingScalableMatrixWithTieredPricingPriceConversionRateConfigParam].
@@ -6221,7 +5914,6 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                     `json:"tiered_config"`
@@ -6235,8 +5927,6 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam) 
 func (r NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam) ImplementsNewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingScalableMatrixWithUnitPricingPriceConversionRateConfigParam].
@@ -6348,7 +6038,6 @@ func (r NewFloatingThresholdTotalAmountPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingThresholdTotalAmountPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
@@ -6362,8 +6051,6 @@ func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigParam) MarshalJS
 func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigParam) ImplementsNewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingThresholdTotalAmountPriceConversionRateConfigParam].
@@ -6381,132 +6068,6 @@ const (
 func (r NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
 	case NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeUnit, NewFloatingThresholdTotalAmountPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredBPSPriceParam struct {
-	// The cadence to bill for this price on.
-	Cadence param.Field[NewFloatingTieredBPSPriceCadence] `json:"cadence,required"`
-	// An ISO 4217 currency string for which this price is billed in.
-	Currency param.Field[string] `json:"currency,required"`
-	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                             `json:"item_id,required"`
-	ModelType param.Field[NewFloatingTieredBPSPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name            param.Field[string]               `json:"name,required"`
-	TieredBPSConfig param.Field[TieredBPSConfigParam] `json:"tiered_bps_config,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewFloatingTieredBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-}
-
-func (r NewFloatingTieredBPSPriceParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredBPSPriceParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredBPSPriceParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceUnion() {
-}
-
-func (r NewFloatingTieredBPSPriceParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceUnion() {}
-
-// The cadence to bill for this price on.
-type NewFloatingTieredBPSPriceCadence string
-
-const (
-	NewFloatingTieredBPSPriceCadenceAnnual     NewFloatingTieredBPSPriceCadence = "annual"
-	NewFloatingTieredBPSPriceCadenceSemiAnnual NewFloatingTieredBPSPriceCadence = "semi_annual"
-	NewFloatingTieredBPSPriceCadenceMonthly    NewFloatingTieredBPSPriceCadence = "monthly"
-	NewFloatingTieredBPSPriceCadenceQuarterly  NewFloatingTieredBPSPriceCadence = "quarterly"
-	NewFloatingTieredBPSPriceCadenceOneTime    NewFloatingTieredBPSPriceCadence = "one_time"
-	NewFloatingTieredBPSPriceCadenceCustom     NewFloatingTieredBPSPriceCadence = "custom"
-)
-
-func (r NewFloatingTieredBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredBPSPriceCadenceAnnual, NewFloatingTieredBPSPriceCadenceSemiAnnual, NewFloatingTieredBPSPriceCadenceMonthly, NewFloatingTieredBPSPriceCadenceQuarterly, NewFloatingTieredBPSPriceCadenceOneTime, NewFloatingTieredBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type NewFloatingTieredBPSPriceModelType string
-
-const (
-	NewFloatingTieredBPSPriceModelTypeTieredBPS NewFloatingTieredBPSPriceModelType = "tiered_bps"
-)
-
-func (r NewFloatingTieredBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredBPSPriceModelTypeTieredBPS:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewFloatingTieredBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewFloatingTieredBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                 `json:"tiered_config"`
-	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                   `json:"unit_config"`
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigParam) ImplementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [NewFloatingTieredBPSPriceConversionRateConfigParam].
-type NewFloatingTieredBPSPriceConversionRateConfigUnionParam interface {
-	ImplementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewFloatingTieredBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeUnit   NewFloatingTieredBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeTiered NewFloatingTieredBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewFloatingTieredBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeUnit, NewFloatingTieredBPSPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -6601,7 +6162,6 @@ func (r NewFloatingTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingTieredPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
@@ -6615,8 +6175,6 @@ func (r NewFloatingTieredPackagePriceConversionRateConfigParam) MarshalJSON() (d
 func (r NewFloatingTieredPackagePriceConversionRateConfigParam) ImplementsNewFloatingTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingTieredPackagePriceConversionRateConfigParam].
@@ -6728,7 +6286,6 @@ func (r NewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                `json:"tiered_config"`
@@ -6742,8 +6299,6 @@ func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam) Marsh
 func (r NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam) ImplementsNewFloatingTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingTieredPackageWithMinimumPriceConversionRateConfigParam].
@@ -6854,7 +6409,6 @@ func (r NewFloatingTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingTieredPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                              `json:"tiered_config"`
@@ -6868,8 +6422,6 @@ func (r NewFloatingTieredPriceConversionRateConfigParam) MarshalJSON() (data []b
 func (r NewFloatingTieredPriceConversionRateConfigParam) ImplementsNewFloatingTieredPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingTieredPriceConversionRateConfigParam].
@@ -6981,7 +6533,6 @@ func (r NewFloatingTieredWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingTieredWithMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -6995,8 +6546,6 @@ func (r NewFloatingTieredWithMinimumPriceConversionRateConfigParam) MarshalJSON(
 func (r NewFloatingTieredWithMinimumPriceConversionRateConfigParam) ImplementsNewFloatingTieredWithMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingTieredWithMinimumPriceConversionRateConfigParam].
@@ -7108,7 +6657,6 @@ func (r NewFloatingTieredWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingTieredWithProrationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingTieredWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                           `json:"tiered_config"`
@@ -7122,8 +6670,6 @@ func (r NewFloatingTieredWithProrationPriceConversionRateConfigParam) MarshalJSO
 func (r NewFloatingTieredWithProrationPriceConversionRateConfigParam) ImplementsNewFloatingTieredWithProrationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingTieredWithProrationPriceConversionRateConfigParam].
@@ -7234,7 +6780,6 @@ func (r NewFloatingUnitPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingUnitPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                            `json:"tiered_config"`
@@ -7248,8 +6793,6 @@ func (r NewFloatingUnitPriceConversionRateConfigParam) MarshalJSON() (data []byt
 func (r NewFloatingUnitPriceConversionRateConfigParam) ImplementsNewFloatingUnitPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingUnitPriceConversionRateConfigParam].
@@ -7361,7 +6904,6 @@ func (r NewFloatingUnitWithPercentPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingUnitWithPercentPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                       `json:"tiered_config"`
@@ -7375,8 +6917,6 @@ func (r NewFloatingUnitWithPercentPriceConversionRateConfigParam) MarshalJSON() 
 func (r NewFloatingUnitWithPercentPriceConversionRateConfigParam) ImplementsNewFloatingUnitWithPercentPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingUnitWithPercentPriceConversionRateConfigParam].
@@ -7488,7 +7028,6 @@ func (r NewFloatingUnitWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewFloatingUnitWithProrationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewFloatingUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -7502,8 +7041,6 @@ func (r NewFloatingUnitWithProrationPriceConversionRateConfigParam) MarshalJSON(
 func (r NewFloatingUnitWithProrationPriceConversionRateConfigParam) ImplementsNewFloatingUnitWithProrationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewFloatingUnitWithProrationPriceConversionRateConfigParam].
@@ -7820,273 +7357,6 @@ func (r NewPercentageDiscountPriceType) IsKnown() bool {
 	return false
 }
 
-type NewPlanBPSPriceParam struct {
-	BPSConfig param.Field[BPSConfigParam] `json:"bps_config,required"`
-	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanBPSPriceCadence] `json:"cadence,required"`
-	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                   `json:"item_id,required"`
-	ModelType param.Field[NewPlanBPSPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
-	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
-	// price is billed.
-	Currency param.Field[string] `json:"currency"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-	// A transient ID that can be used to reference this price when adding adjustments
-	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
-}
-
-func (r NewPlanBPSPriceParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBPSPriceParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion() {}
-
-func (r NewPlanBPSPriceParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion() {}
-
-func (r NewPlanBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion() {}
-
-func (r NewPlanBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
-}
-
-func (r NewPlanBPSPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
-
-// The cadence to bill for this price on.
-type NewPlanBPSPriceCadence string
-
-const (
-	NewPlanBPSPriceCadenceAnnual     NewPlanBPSPriceCadence = "annual"
-	NewPlanBPSPriceCadenceSemiAnnual NewPlanBPSPriceCadence = "semi_annual"
-	NewPlanBPSPriceCadenceMonthly    NewPlanBPSPriceCadence = "monthly"
-	NewPlanBPSPriceCadenceQuarterly  NewPlanBPSPriceCadence = "quarterly"
-	NewPlanBPSPriceCadenceOneTime    NewPlanBPSPriceCadence = "one_time"
-	NewPlanBPSPriceCadenceCustom     NewPlanBPSPriceCadence = "custom"
-)
-
-func (r NewPlanBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case NewPlanBPSPriceCadenceAnnual, NewPlanBPSPriceCadenceSemiAnnual, NewPlanBPSPriceCadenceMonthly, NewPlanBPSPriceCadenceQuarterly, NewPlanBPSPriceCadenceOneTime, NewPlanBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type NewPlanBPSPriceModelType string
-
-const (
-	NewPlanBPSPriceModelTypeBPS NewPlanBPSPriceModelType = "bps"
-)
-
-func (r NewPlanBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case NewPlanBPSPriceModelTypeBPS:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[ConversionRateTieredConfigParam]                       `json:"tiered_config"`
-	UnitConfig         param.Field[ConversionRateUnitConfigParam]                         `json:"unit_config"`
-}
-
-func (r NewPlanBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBPSPriceConversionRateConfigParam) ImplementsNewPlanBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [NewPlanBPSPriceConversionRateConfigParam].
-type NewPlanBPSPriceConversionRateConfigUnionParam interface {
-	ImplementsNewPlanBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBPSPriceConversionRateConfigConversionRateTypeUnit   NewPlanBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanBPSPriceConversionRateConfigConversionRateTypeTiered NewPlanBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBPSPriceConversionRateConfigConversionRateTypeUnit, NewPlanBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkBPSPriceParam struct {
-	BulkBPSConfig param.Field[BulkBPSConfigParam] `json:"bulk_bps_config,required"`
-	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanBulkBPSPriceCadence] `json:"cadence,required"`
-	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                       `json:"item_id,required"`
-	ModelType param.Field[NewPlanBulkBPSPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name param.Field[string] `json:"name,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanBulkBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
-	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
-	// price is billed.
-	Currency param.Field[string] `json:"currency"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-	// A transient ID that can be used to reference this price when adding adjustments
-	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
-}
-
-func (r NewPlanBulkBPSPriceParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkBPSPriceParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion() {}
-
-func (r NewPlanBulkBPSPriceParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion() {}
-
-func (r NewPlanBulkBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion() {
-}
-
-func (r NewPlanBulkBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
-}
-
-func (r NewPlanBulkBPSPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
-
-// The cadence to bill for this price on.
-type NewPlanBulkBPSPriceCadence string
-
-const (
-	NewPlanBulkBPSPriceCadenceAnnual     NewPlanBulkBPSPriceCadence = "annual"
-	NewPlanBulkBPSPriceCadenceSemiAnnual NewPlanBulkBPSPriceCadence = "semi_annual"
-	NewPlanBulkBPSPriceCadenceMonthly    NewPlanBulkBPSPriceCadence = "monthly"
-	NewPlanBulkBPSPriceCadenceQuarterly  NewPlanBulkBPSPriceCadence = "quarterly"
-	NewPlanBulkBPSPriceCadenceOneTime    NewPlanBulkBPSPriceCadence = "one_time"
-	NewPlanBulkBPSPriceCadenceCustom     NewPlanBulkBPSPriceCadence = "custom"
-)
-
-func (r NewPlanBulkBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case NewPlanBulkBPSPriceCadenceAnnual, NewPlanBulkBPSPriceCadenceSemiAnnual, NewPlanBulkBPSPriceCadenceMonthly, NewPlanBulkBPSPriceCadenceQuarterly, NewPlanBulkBPSPriceCadenceOneTime, NewPlanBulkBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type NewPlanBulkBPSPriceModelType string
-
-const (
-	NewPlanBulkBPSPriceModelTypeBulkBPS NewPlanBulkBPSPriceModelType = "bulk_bps"
-)
-
-func (r NewPlanBulkBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkBPSPriceModelTypeBulkBPS:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanBulkBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanBulkBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[ConversionRateTieredConfigParam]                           `json:"tiered_config"`
-	UnitConfig         param.Field[ConversionRateUnitConfigParam]                             `json:"unit_config"`
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanBulkBPSPriceConversionRateConfigParam) ImplementsNewPlanBulkBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [NewPlanBulkBPSPriceConversionRateConfigParam].
-type NewPlanBulkBPSPriceConversionRateConfigUnionParam interface {
-	ImplementsNewPlanBulkBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanBulkBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeUnit   NewPlanBulkBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeTiered NewPlanBulkBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanBulkBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeUnit, NewPlanBulkBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
 type NewPlanBulkPriceParam struct {
 	BulkConfig param.Field[BulkConfigParam] `json:"bulk_config,required"`
 	// The cadence to bill for this price on.
@@ -8183,7 +7453,6 @@ func (r NewPlanBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanBulkPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                        `json:"tiered_config"`
@@ -8197,8 +7466,6 @@ func (r NewPlanBulkPriceConversionRateConfigParam) MarshalJSON() (data []byte, e
 func (r NewPlanBulkPriceConversionRateConfigParam) ImplementsNewPlanBulkPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanBulkPriceConversionRateConfigParam].
@@ -8318,7 +7585,6 @@ func (r NewPlanBulkWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanBulkWithProrationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanBulkWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
@@ -8332,8 +7598,6 @@ func (r NewPlanBulkWithProrationPriceConversionRateConfigParam) MarshalJSON() (d
 func (r NewPlanBulkWithProrationPriceConversionRateConfigParam) ImplementsNewPlanBulkWithProrationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanBulkWithProrationPriceConversionRateConfigParam].
@@ -8454,7 +7718,6 @@ func (r NewPlanCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanCumulativeGroupedBulkPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -8468,8 +7731,6 @@ func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam) MarshalJSON(
 func (r NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam) ImplementsNewPlanCumulativeGroupedBulkPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanCumulativeGroupedBulkPriceConversionRateConfigParam].
@@ -8589,7 +7850,6 @@ func (r NewPlanGroupedAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanGroupedAllocationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanGroupedAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
@@ -8603,8 +7863,6 @@ func (r NewPlanGroupedAllocationPriceConversionRateConfigParam) MarshalJSON() (d
 func (r NewPlanGroupedAllocationPriceConversionRateConfigParam) ImplementsNewPlanGroupedAllocationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanGroupedAllocationPriceConversionRateConfigParam].
@@ -8725,7 +7983,6 @@ func (r NewPlanGroupedTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanGroupedTieredPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanGroupedTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
@@ -8739,8 +7996,6 @@ func (r NewPlanGroupedTieredPackagePriceConversionRateConfigParam) MarshalJSON()
 func (r NewPlanGroupedTieredPackagePriceConversionRateConfigParam) ImplementsNewPlanGroupedTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanGroupedTieredPackagePriceConversionRateConfigParam].
@@ -8859,7 +8114,6 @@ func (r NewPlanGroupedTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanGroupedTieredPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanGroupedTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                 `json:"tiered_config"`
@@ -8873,8 +8127,6 @@ func (r NewPlanGroupedTieredPriceConversionRateConfigParam) MarshalJSON() (data 
 func (r NewPlanGroupedTieredPriceConversionRateConfigParam) ImplementsNewPlanGroupedTieredPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanGroupedTieredPriceConversionRateConfigParam].
@@ -8995,7 +8247,6 @@ func (r NewPlanGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                             `json:"tiered_config"`
@@ -9009,8 +8260,6 @@ func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam) MarshalJ
 func (r NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam) ImplementsNewPlanGroupedWithMeteredMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanGroupedWithMeteredMinimumPriceConversionRateConfigParam].
@@ -9131,7 +8380,6 @@ func (r NewPlanGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanGroupedWithProratedMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                              `json:"tiered_config"`
@@ -9145,8 +8393,6 @@ func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam) Marshal
 func (r NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam) ImplementsNewPlanGroupedWithProratedMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanGroupedWithProratedMinimumPriceConversionRateConfigParam].
@@ -9265,7 +8511,6 @@ func (r NewPlanMatrixPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanMatrixPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanMatrixPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                          `json:"tiered_config"`
@@ -9279,8 +8524,6 @@ func (r NewPlanMatrixPriceConversionRateConfigParam) MarshalJSON() (data []byte,
 func (r NewPlanMatrixPriceConversionRateConfigParam) ImplementsNewPlanMatrixPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanMatrixPriceConversionRateConfigParam].
@@ -9401,7 +8644,6 @@ func (r NewPlanMatrixWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanMatrixWithAllocationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanMatrixWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
@@ -9415,8 +8657,6 @@ func (r NewPlanMatrixWithAllocationPriceConversionRateConfigParam) MarshalJSON()
 func (r NewPlanMatrixWithAllocationPriceConversionRateConfigParam) ImplementsNewPlanMatrixWithAllocationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanMatrixWithAllocationPriceConversionRateConfigParam].
@@ -9537,7 +8777,6 @@ func (r NewPlanMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanMatrixWithDisplayNamePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -9551,8 +8790,6 @@ func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam) MarshalJSON(
 func (r NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam) ImplementsNewPlanMatrixWithDisplayNamePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanMatrixWithDisplayNamePriceConversionRateConfigParam].
@@ -9673,7 +8910,6 @@ func (r NewPlanMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -9687,8 +8923,6 @@ func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam) MarshalJSON(
 func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam) ImplementsNewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanMaxGroupTieredPackagePriceConversionRateConfigParam].
@@ -9706,6 +8940,150 @@ const (
 func (r NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
 	case NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeUnit, NewPlanMaxGroupTieredPackagePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type NewPlanMinimumCompositePriceParam struct {
+	// The cadence to bill for this price on.
+	Cadence param.Field[NewPlanMinimumCompositePriceCadence] `json:"cadence,required"`
+	// The id of the item the price will be associated with.
+	ItemID        param.Field[string]                                         `json:"item_id,required"`
+	MinimumConfig param.Field[NewPlanMinimumCompositePriceMinimumConfigParam] `json:"minimum_config,required"`
+	ModelType     param.Field[NewPlanMinimumCompositePriceModelType]          `json:"model_type,required"`
+	// The name of the price.
+	Name param.Field[string] `json:"name,required"`
+	// The id of the billable metric for the price. Only needed if the price is
+	// usage-based.
+	BillableMetricID param.Field[string] `json:"billable_metric_id"`
+	// If the Price represents a fixed cost, the price will be billed in-advance if
+	// this is true, and in-arrears if this is false.
+	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
+	// For custom cadence: specifies the duration of the billing period in days or
+	// months.
+	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
+	// The per unit conversion rate of the price currency to the invoicing currency.
+	ConversionRate param.Field[float64] `json:"conversion_rate"`
+	// The configuration for the rate of the price currency to the invoicing currency.
+	ConversionRateConfig param.Field[NewPlanMinimumCompositePriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
+	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
+	// price is billed.
+	Currency param.Field[string] `json:"currency"`
+	// For dimensional price: specifies a price group and dimension values
+	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
+	// An alias for the price.
+	ExternalPriceID param.Field[string] `json:"external_price_id"`
+	// If the Price represents a fixed cost, this represents the quantity of units
+	// applied.
+	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
+	// The property used to group this price on an invoice
+	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
+	// Within each billing cycle, specifies the cadence at which invoices are produced.
+	// If unspecified, a single invoice is produced per billing cycle.
+	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
+	// User-specified key/value pairs for the resource. Individual keys can be removed
+	// by setting the value to `null`, and the entire metadata mapping can be cleared
+	// by setting `metadata` to `null`.
+	Metadata param.Field[map[string]string] `json:"metadata"`
+	// A transient ID that can be used to reference this price when adding adjustments
+	// in the same API call.
+	ReferenceID param.Field[string] `json:"reference_id"`
+}
+
+func (r NewPlanMinimumCompositePriceParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion() {}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
+}
+
+func (r NewPlanMinimumCompositePriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
+
+// The cadence to bill for this price on.
+type NewPlanMinimumCompositePriceCadence string
+
+const (
+	NewPlanMinimumCompositePriceCadenceAnnual     NewPlanMinimumCompositePriceCadence = "annual"
+	NewPlanMinimumCompositePriceCadenceSemiAnnual NewPlanMinimumCompositePriceCadence = "semi_annual"
+	NewPlanMinimumCompositePriceCadenceMonthly    NewPlanMinimumCompositePriceCadence = "monthly"
+	NewPlanMinimumCompositePriceCadenceQuarterly  NewPlanMinimumCompositePriceCadence = "quarterly"
+	NewPlanMinimumCompositePriceCadenceOneTime    NewPlanMinimumCompositePriceCadence = "one_time"
+	NewPlanMinimumCompositePriceCadenceCustom     NewPlanMinimumCompositePriceCadence = "custom"
+)
+
+func (r NewPlanMinimumCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case NewPlanMinimumCompositePriceCadenceAnnual, NewPlanMinimumCompositePriceCadenceSemiAnnual, NewPlanMinimumCompositePriceCadenceMonthly, NewPlanMinimumCompositePriceCadenceQuarterly, NewPlanMinimumCompositePriceCadenceOneTime, NewPlanMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type NewPlanMinimumCompositePriceMinimumConfigParam struct {
+	// The minimum amount to apply
+	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
+	// By default, subtotals from minimum composite prices are prorated based on the
+	// service period. Set to false to disable proration.
+	Prorated param.Field[bool] `json:"prorated"`
+}
+
+func (r NewPlanMinimumCompositePriceMinimumConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type NewPlanMinimumCompositePriceModelType string
+
+const (
+	NewPlanMinimumCompositePriceModelTypeMinimum NewPlanMinimumCompositePriceModelType = "minimum"
+)
+
+func (r NewPlanMinimumCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case NewPlanMinimumCompositePriceModelTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type NewPlanMinimumCompositePriceConversionRateConfigParam struct {
+	ConversionRateType param.Field[NewPlanMinimumCompositePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
+	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                    `json:"tiered_config"`
+	UnitConfig         param.Field[ConversionRateUnitConfigParam]                                      `json:"unit_config"`
+}
+
+func (r NewPlanMinimumCompositePriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r NewPlanMinimumCompositePriceConversionRateConfigParam) ImplementsNewPlanMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
+// Satisfied by [shared.UnitConversionRateConfigParam],
+// [shared.TieredConversionRateConfigParam],
+// [NewPlanMinimumCompositePriceConversionRateConfigParam].
+type NewPlanMinimumCompositePriceConversionRateConfigUnionParam interface {
+	ImplementsNewPlanMinimumCompositePriceConversionRateConfigUnionParam()
+}
+
+type NewPlanMinimumCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	NewPlanMinimumCompositePriceConversionRateConfigConversionRateTypeUnit   NewPlanMinimumCompositePriceConversionRateConfigConversionRateType = "unit"
+	NewPlanMinimumCompositePriceConversionRateConfigConversionRateTypeTiered NewPlanMinimumCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r NewPlanMinimumCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case NewPlanMinimumCompositePriceConversionRateConfigConversionRateTypeUnit, NewPlanMinimumCompositePriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -9807,7 +9185,6 @@ func (r NewPlanPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                           `json:"tiered_config"`
@@ -9821,8 +9198,6 @@ func (r NewPlanPackagePriceConversionRateConfigParam) MarshalJSON() (data []byte
 func (r NewPlanPackagePriceConversionRateConfigParam) ImplementsNewPlanPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanPackagePriceConversionRateConfigParam].
@@ -9943,7 +9318,6 @@ func (r NewPlanPackageWithAllocationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanPackageWithAllocationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanPackageWithAllocationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                         `json:"tiered_config"`
@@ -9957,8 +9331,6 @@ func (r NewPlanPackageWithAllocationPriceConversionRateConfigParam) MarshalJSON(
 func (r NewPlanPackageWithAllocationPriceConversionRateConfigParam) ImplementsNewPlanPackageWithAllocationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanPackageWithAllocationPriceConversionRateConfigParam].
@@ -10079,7 +9451,6 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                   `json:"tiered_config"`
@@ -10093,8 +9464,6 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam) Ma
 func (r NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam) ImplementsNewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanScalableMatrixWithTieredPricingPriceConversionRateConfigParam].
@@ -10215,7 +9584,6 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                                 `json:"tiered_config"`
@@ -10229,8 +9597,6 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam) Mars
 func (r NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam) ImplementsNewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanScalableMatrixWithUnitPricingPriceConversionRateConfigParam].
@@ -10351,7 +9717,6 @@ func (r NewPlanThresholdTotalAmountPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanThresholdTotalAmountPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanThresholdTotalAmountPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                        `json:"tiered_config"`
@@ -10365,8 +9730,6 @@ func (r NewPlanThresholdTotalAmountPriceConversionRateConfigParam) MarshalJSON()
 func (r NewPlanThresholdTotalAmountPriceConversionRateConfigParam) ImplementsNewPlanThresholdTotalAmountPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanThresholdTotalAmountPriceConversionRateConfigParam].
@@ -10486,7 +9849,6 @@ func (r NewPlanTierWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanTierWithProrationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanTierWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
@@ -10500,8 +9862,6 @@ func (r NewPlanTierWithProrationPriceConversionRateConfigParam) MarshalJSON() (d
 func (r NewPlanTierWithProrationPriceConversionRateConfigParam) ImplementsNewPlanTierWithProrationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanTierWithProrationPriceConversionRateConfigParam].
@@ -10519,140 +9879,6 @@ const (
 func (r NewPlanTierWithProrationPriceConversionRateConfigConversionRateType) IsKnown() bool {
 	switch r {
 	case NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeUnit, NewPlanTierWithProrationPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredBPSPriceParam struct {
-	// The cadence to bill for this price on.
-	Cadence param.Field[NewPlanTieredBPSPriceCadence] `json:"cadence,required"`
-	// The id of the item the price will be associated with.
-	ItemID    param.Field[string]                         `json:"item_id,required"`
-	ModelType param.Field[NewPlanTieredBPSPriceModelType] `json:"model_type,required"`
-	// The name of the price.
-	Name            param.Field[string]               `json:"name,required"`
-	TieredBPSConfig param.Field[TieredBPSConfigParam] `json:"tiered_bps_config,required"`
-	// The id of the billable metric for the price. Only needed if the price is
-	// usage-based.
-	BillableMetricID param.Field[string] `json:"billable_metric_id"`
-	// If the Price represents a fixed cost, the price will be billed in-advance if
-	// this is true, and in-arrears if this is false.
-	BilledInAdvance param.Field[bool] `json:"billed_in_advance"`
-	// For custom cadence: specifies the duration of the billing period in days or
-	// months.
-	BillingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"billing_cycle_configuration"`
-	// The per unit conversion rate of the price currency to the invoicing currency.
-	ConversionRate param.Field[float64] `json:"conversion_rate"`
-	// The configuration for the rate of the price currency to the invoicing currency.
-	ConversionRateConfig param.Field[NewPlanTieredBPSPriceConversionRateConfigUnionParam] `json:"conversion_rate_config"`
-	// An ISO 4217 currency string, or custom pricing unit identifier, in which this
-	// price is billed.
-	Currency param.Field[string] `json:"currency"`
-	// For dimensional price: specifies a price group and dimension values
-	DimensionalPriceConfiguration param.Field[NewDimensionalPriceConfigurationParam] `json:"dimensional_price_configuration"`
-	// An alias for the price.
-	ExternalPriceID param.Field[string] `json:"external_price_id"`
-	// If the Price represents a fixed cost, this represents the quantity of units
-	// applied.
-	FixedPriceQuantity param.Field[float64] `json:"fixed_price_quantity"`
-	// The property used to group this price on an invoice
-	InvoiceGroupingKey param.Field[string] `json:"invoice_grouping_key"`
-	// Within each billing cycle, specifies the cadence at which invoices are produced.
-	// If unspecified, a single invoice is produced per billing cycle.
-	InvoicingCycleConfiguration param.Field[NewBillingCycleConfigurationParam] `json:"invoicing_cycle_configuration"`
-	// User-specified key/value pairs for the resource. Individual keys can be removed
-	// by setting the value to `null`, and the entire metadata mapping can be cleared
-	// by setting `metadata` to `null`.
-	Metadata param.Field[map[string]string] `json:"metadata"`
-	// A transient ID that can be used to reference this price when adding adjustments
-	// in the same API call.
-	ReferenceID param.Field[string] `json:"reference_id"`
-}
-
-func (r NewPlanTieredBPSPriceParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredBPSPriceParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceUnion() {}
-
-func (r NewPlanTieredBPSPriceParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceUnion() {}
-
-func (r NewPlanTieredBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion() {
-}
-
-func (r NewPlanTieredBPSPriceParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion() {
-}
-
-func (r NewPlanTieredBPSPriceParam) ImplementsPlanNewParamsPricesPriceUnion() {}
-
-// The cadence to bill for this price on.
-type NewPlanTieredBPSPriceCadence string
-
-const (
-	NewPlanTieredBPSPriceCadenceAnnual     NewPlanTieredBPSPriceCadence = "annual"
-	NewPlanTieredBPSPriceCadenceSemiAnnual NewPlanTieredBPSPriceCadence = "semi_annual"
-	NewPlanTieredBPSPriceCadenceMonthly    NewPlanTieredBPSPriceCadence = "monthly"
-	NewPlanTieredBPSPriceCadenceQuarterly  NewPlanTieredBPSPriceCadence = "quarterly"
-	NewPlanTieredBPSPriceCadenceOneTime    NewPlanTieredBPSPriceCadence = "one_time"
-	NewPlanTieredBPSPriceCadenceCustom     NewPlanTieredBPSPriceCadence = "custom"
-)
-
-func (r NewPlanTieredBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case NewPlanTieredBPSPriceCadenceAnnual, NewPlanTieredBPSPriceCadenceSemiAnnual, NewPlanTieredBPSPriceCadenceMonthly, NewPlanTieredBPSPriceCadenceQuarterly, NewPlanTieredBPSPriceCadenceOneTime, NewPlanTieredBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type NewPlanTieredBPSPriceModelType string
-
-const (
-	NewPlanTieredBPSPriceModelTypeTieredBPS NewPlanTieredBPSPriceModelType = "tiered_bps"
-)
-
-func (r NewPlanTieredBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredBPSPriceModelTypeTieredBPS:
-		return true
-	}
-	return false
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-type NewPlanTieredBPSPriceConversionRateConfigParam struct {
-	ConversionRateType param.Field[NewPlanTieredBPSPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
-	TieredConfig       param.Field[ConversionRateTieredConfigParam]                             `json:"tiered_config"`
-	UnitConfig         param.Field[ConversionRateUnitConfigParam]                               `json:"unit_config"`
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
-func (r NewPlanTieredBPSPriceConversionRateConfigParam) ImplementsNewPlanTieredBPSPriceConversionRateConfigUnionParam() {
-}
-
-// The configuration for the rate of the price currency to the invoicing currency.
-//
-// Satisfied by [shared.UnitConversionRateConfigParam],
-// [shared.TieredConversionRateConfigParam],
-// [NewPlanTieredBPSPriceConversionRateConfigParam].
-type NewPlanTieredBPSPriceConversionRateConfigUnionParam interface {
-	ImplementsNewPlanTieredBPSPriceConversionRateConfigUnionParam()
-}
-
-type NewPlanTieredBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeUnit   NewPlanTieredBPSPriceConversionRateConfigConversionRateType = "unit"
-	NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeTiered NewPlanTieredBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r NewPlanTieredBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeUnit, NewPlanTieredBPSPriceConversionRateConfigConversionRateTypeTiered:
 		return true
 	}
 	return false
@@ -10754,7 +9980,6 @@ func (r NewPlanTieredPackagePriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanTieredPackagePriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanTieredPackagePriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                 `json:"tiered_config"`
@@ -10768,8 +9993,6 @@ func (r NewPlanTieredPackagePriceConversionRateConfigParam) MarshalJSON() (data 
 func (r NewPlanTieredPackagePriceConversionRateConfigParam) ImplementsNewPlanTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanTieredPackagePriceConversionRateConfigParam].
@@ -10890,7 +10113,6 @@ func (r NewPlanTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanTieredPackageWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                            `json:"tiered_config"`
@@ -10904,8 +10126,6 @@ func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam) MarshalJS
 func (r NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam) ImplementsNewPlanTieredPackageWithMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanTieredPackageWithMinimumPriceConversionRateConfigParam].
@@ -11024,7 +10244,6 @@ func (r NewPlanTieredPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanTieredPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanTieredPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                          `json:"tiered_config"`
@@ -11038,8 +10257,6 @@ func (r NewPlanTieredPriceConversionRateConfigParam) MarshalJSON() (data []byte,
 func (r NewPlanTieredPriceConversionRateConfigParam) ImplementsNewPlanTieredPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanTieredPriceConversionRateConfigParam].
@@ -11159,7 +10376,6 @@ func (r NewPlanTieredWithMinimumPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanTieredWithMinimumPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanTieredWithMinimumPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
@@ -11173,8 +10389,6 @@ func (r NewPlanTieredWithMinimumPriceConversionRateConfigParam) MarshalJSON() (d
 func (r NewPlanTieredWithMinimumPriceConversionRateConfigParam) ImplementsNewPlanTieredWithMinimumPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanTieredWithMinimumPriceConversionRateConfigParam].
@@ -11293,7 +10507,6 @@ func (r NewPlanUnitPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanUnitPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanUnitPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                        `json:"tiered_config"`
@@ -11307,8 +10520,6 @@ func (r NewPlanUnitPriceConversionRateConfigParam) MarshalJSON() (data []byte, e
 func (r NewPlanUnitPriceConversionRateConfigParam) ImplementsNewPlanUnitPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanUnitPriceConversionRateConfigParam].
@@ -11428,7 +10639,6 @@ func (r NewPlanUnitWithPercentPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanUnitWithPercentPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanUnitWithPercentPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                   `json:"tiered_config"`
@@ -11442,8 +10652,6 @@ func (r NewPlanUnitWithPercentPriceConversionRateConfigParam) MarshalJSON() (dat
 func (r NewPlanUnitWithPercentPriceConversionRateConfigParam) ImplementsNewPlanUnitWithPercentPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanUnitWithPercentPriceConversionRateConfigParam].
@@ -11563,7 +10771,6 @@ func (r NewPlanUnitWithProrationPriceModelType) IsKnown() bool {
 	return false
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
 type NewPlanUnitWithProrationPriceConversionRateConfigParam struct {
 	ConversionRateType param.Field[NewPlanUnitWithProrationPriceConversionRateConfigConversionRateType] `json:"conversion_rate_type,required"`
 	TieredConfig       param.Field[ConversionRateTieredConfigParam]                                     `json:"tiered_config"`
@@ -11577,8 +10784,6 @@ func (r NewPlanUnitWithProrationPriceConversionRateConfigParam) MarshalJSON() (d
 func (r NewPlanUnitWithProrationPriceConversionRateConfigParam) ImplementsNewPlanUnitWithProrationPriceConversionRateConfigUnionParam() {
 }
 
-// The configuration for the rate of the price currency to the invoicing currency.
-//
 // Satisfied by [shared.UnitConversionRateConfigParam],
 // [shared.TieredConversionRateConfigParam],
 // [NewPlanUnitWithProrationPriceConversionRateConfigParam].
@@ -11982,8 +11187,8 @@ type PlanPhaseAmountDiscountAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The plan phase in which this adjustment is active.
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
@@ -12048,8 +11253,8 @@ type PlanPhaseMaximumAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The maximum amount to charge in a given billing period for the prices this
 	// adjustment applies to.
@@ -12117,8 +11322,8 @@ type PlanPhaseMinimumAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The item ID that revenue from this minimum will be attributed to.
 	ItemID string `json:"item_id,required"`
@@ -12189,8 +11394,8 @@ type PlanPhasePercentageDiscountAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The percentage (as a value between 0 and 1) by which to discount the price
 	// intervals this adjustment applies to in a given billing period.
@@ -12258,8 +11463,8 @@ type PlanPhaseUsageDiscountAdjustment struct {
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
 	Filters []TransformPriceFilter `json:"filters,required"`
-	// True for adjustments that apply to an entire invocice, false for adjustments
-	// that apply to only one price.
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
 	// The plan phase in which this adjustment is active.
 	PlanPhaseOrder int64 `json:"plan_phase_order,required,nullable"`
@@ -12333,12 +11538,12 @@ type Price struct {
 	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                   `json:"conversion_rate,required,nullable"`
+	// This field can have the runtime type of [[]TransformPriceFilter].
+	CompositePriceFilters interface{} `json:"composite_price_filters,required"`
+	ConversionRate        float64     `json:"conversion_rate,required,nullable"`
 	// This field can have the runtime type of [PriceUnitPriceConversionRateConfig],
 	// [PricePackagePriceConversionRateConfig], [PriceMatrixPriceConversionRateConfig],
-	// [PriceTieredPriceConversionRateConfig],
-	// [PriceTieredBPSPriceConversionRateConfig], [PriceBPSPriceConversionRateConfig],
-	// [PriceBulkBPSPriceConversionRateConfig], [PriceBulkPriceConversionRateConfig],
+	// [PriceTieredPriceConversionRateConfig], [PriceBulkPriceConversionRateConfig],
 	// [PriceThresholdTotalAmountPriceConversionRateConfig],
 	// [PriceTieredPackagePriceConversionRateConfig],
 	// [PriceGroupedTieredPriceConversionRateConfig],
@@ -12359,7 +11564,8 @@ type Price struct {
 	// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfig],
 	// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfig],
 	// [PriceCumulativeGroupedBulkPriceConversionRateConfig],
-	// [PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig].
+	// [PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig],
+	// [PriceMinimumCompositePriceConversionRateConfig].
 	ConversionRateConfig interface{} `json:"conversion_rate_config,required"`
 	CreatedAt            time.Time   `json:"created_at,required" format:"date-time"`
 	CreditAllocation     Allocation  `json:"credit_allocation,required,nullable"`
@@ -12386,10 +11592,8 @@ type Price struct {
 	PriceType      PricePriceType `json:"price_type,required"`
 	// The price id this price replaces. This price will take the place of the replaced
 	// price in plan version migrations.
-	ReplacesPriceID string        `json:"replaces_price_id,required,nullable"`
-	BPSConfig       BPSConfig     `json:"bps_config"`
-	BulkBPSConfig   BulkBPSConfig `json:"bulk_bps_config"`
-	BulkConfig      BulkConfig    `json:"bulk_config"`
+	ReplacesPriceID string     `json:"replaces_price_id,required,nullable"`
+	BulkConfig      BulkConfig `json:"bulk_config"`
 	// This field can have the runtime type of [map[string]interface{}].
 	BulkWithProrationConfig interface{} `json:"bulk_with_proration_config"`
 	// This field can have the runtime type of [map[string]interface{}].
@@ -12412,8 +11616,11 @@ type Price struct {
 	// This field can have the runtime type of [map[string]interface{}].
 	MatrixWithDisplayNameConfig interface{} `json:"matrix_with_display_name_config"`
 	// This field can have the runtime type of [map[string]interface{}].
-	MaxGroupTieredPackageConfig interface{}   `json:"max_group_tiered_package_config"`
-	PackageConfig               PackageConfig `json:"package_config"`
+	MaxGroupTieredPackageConfig interface{} `json:"max_group_tiered_package_config"`
+	// This field can have the runtime type of
+	// [PriceMinimumCompositePriceMinimumConfig].
+	MinimumConfig interface{}   `json:"minimum_config"`
+	PackageConfig PackageConfig `json:"package_config"`
 	// This field can have the runtime type of [map[string]interface{}].
 	PackageWithAllocationConfig interface{} `json:"package_with_allocation_config"`
 	// This field can have the runtime type of [map[string]interface{}].
@@ -12421,9 +11628,8 @@ type Price struct {
 	// This field can have the runtime type of [map[string]interface{}].
 	ScalableMatrixWithUnitPricingConfig interface{} `json:"scalable_matrix_with_unit_pricing_config"`
 	// This field can have the runtime type of [map[string]interface{}].
-	ThresholdTotalAmountConfig interface{}     `json:"threshold_total_amount_config"`
-	TieredBPSConfig            TieredBPSConfig `json:"tiered_bps_config"`
-	TieredConfig               TieredConfig    `json:"tiered_config"`
+	ThresholdTotalAmountConfig interface{}  `json:"threshold_total_amount_config"`
+	TieredConfig               TieredConfig `json:"tiered_config"`
 	// This field can have the runtime type of [map[string]interface{}].
 	TieredPackageConfig interface{} `json:"tiered_package_config"`
 	// This field can have the runtime type of [map[string]interface{}].
@@ -12447,6 +11653,7 @@ type priceJSON struct {
 	BillableMetric                        apijson.Field
 	BillingCycleConfiguration             apijson.Field
 	Cadence                               apijson.Field
+	CompositePriceFilters                 apijson.Field
 	ConversionRate                        apijson.Field
 	ConversionRateConfig                  apijson.Field
 	CreatedAt                             apijson.Field
@@ -12467,8 +11674,6 @@ type priceJSON struct {
 	PlanPhaseOrder                        apijson.Field
 	PriceType                             apijson.Field
 	ReplacesPriceID                       apijson.Field
-	BPSConfig                             apijson.Field
-	BulkBPSConfig                         apijson.Field
 	BulkConfig                            apijson.Field
 	BulkWithProrationConfig               apijson.Field
 	CumulativeGroupedBulkConfig           apijson.Field
@@ -12483,12 +11688,12 @@ type priceJSON struct {
 	MatrixWithAllocationConfig            apijson.Field
 	MatrixWithDisplayNameConfig           apijson.Field
 	MaxGroupTieredPackageConfig           apijson.Field
+	MinimumConfig                         apijson.Field
 	PackageConfig                         apijson.Field
 	PackageWithAllocationConfig           apijson.Field
 	ScalableMatrixWithTieredPricingConfig apijson.Field
 	ScalableMatrixWithUnitPricingConfig   apijson.Field
 	ThresholdTotalAmountConfig            apijson.Field
-	TieredBPSConfig                       apijson.Field
 	TieredConfig                          apijson.Field
 	TieredPackageConfig                   apijson.Field
 	TieredPackageWithMinimumConfig        apijson.Field
@@ -12518,19 +11723,18 @@ func (r *Price) UnmarshalJSON(data []byte) (err error) {
 // types for more type safety.
 //
 // Possible runtime types of the union are [PriceUnitPrice], [PricePackagePrice],
-// [PriceMatrixPrice], [PriceTieredPrice], [PriceTieredBPSPrice], [PriceBPSPrice],
-// [PriceBulkBPSPrice], [PriceBulkPrice], [PriceThresholdTotalAmountPrice],
-// [PriceTieredPackagePrice], [PriceGroupedTieredPrice],
-// [PriceTieredWithMinimumPrice], [PriceTieredPackageWithMinimumPrice],
-// [PricePackageWithAllocationPrice], [PriceUnitWithPercentPrice],
-// [PriceMatrixWithAllocationPrice], [PriceTieredWithProrationPrice],
-// [PriceUnitWithProrationPrice], [PriceGroupedAllocationPrice],
-// [PriceGroupedWithProratedMinimumPrice], [PriceGroupedWithMeteredMinimumPrice],
-// [PriceMatrixWithDisplayNamePrice], [PriceBulkWithProrationPrice],
-// [PriceGroupedTieredPackagePrice], [PriceMaxGroupTieredPackagePrice],
-// [PriceScalableMatrixWithUnitPricingPrice],
+// [PriceMatrixPrice], [PriceTieredPrice], [PriceBulkPrice],
+// [PriceThresholdTotalAmountPrice], [PriceTieredPackagePrice],
+// [PriceGroupedTieredPrice], [PriceTieredWithMinimumPrice],
+// [PriceTieredPackageWithMinimumPrice], [PricePackageWithAllocationPrice],
+// [PriceUnitWithPercentPrice], [PriceMatrixWithAllocationPrice],
+// [PriceTieredWithProrationPrice], [PriceUnitWithProrationPrice],
+// [PriceGroupedAllocationPrice], [PriceGroupedWithProratedMinimumPrice],
+// [PriceGroupedWithMeteredMinimumPrice], [PriceMatrixWithDisplayNamePrice],
+// [PriceBulkWithProrationPrice], [PriceGroupedTieredPackagePrice],
+// [PriceMaxGroupTieredPackagePrice], [PriceScalableMatrixWithUnitPricingPrice],
 // [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
-// [PriceGroupedWithMinMaxThresholdsPrice].
+// [PriceGroupedWithMinMaxThresholdsPrice], [PriceMinimumCompositePrice].
 func (r Price) AsUnion() PriceUnion {
 	return r.union
 }
@@ -12547,18 +11751,18 @@ func (r Price) AsUnion() PriceUnion {
 // [the core concepts documentation](/core-concepts#plan-and-price)
 //
 // Union satisfied by [PriceUnitPrice], [PricePackagePrice], [PriceMatrixPrice],
-// [PriceTieredPrice], [PriceTieredBPSPrice], [PriceBPSPrice], [PriceBulkBPSPrice],
-// [PriceBulkPrice], [PriceThresholdTotalAmountPrice], [PriceTieredPackagePrice],
-// [PriceGroupedTieredPrice], [PriceTieredWithMinimumPrice],
-// [PriceTieredPackageWithMinimumPrice], [PricePackageWithAllocationPrice],
-// [PriceUnitWithPercentPrice], [PriceMatrixWithAllocationPrice],
-// [PriceTieredWithProrationPrice], [PriceUnitWithProrationPrice],
-// [PriceGroupedAllocationPrice], [PriceGroupedWithProratedMinimumPrice],
-// [PriceGroupedWithMeteredMinimumPrice], [PriceMatrixWithDisplayNamePrice],
-// [PriceBulkWithProrationPrice], [PriceGroupedTieredPackagePrice],
-// [PriceMaxGroupTieredPackagePrice], [PriceScalableMatrixWithUnitPricingPrice],
-// [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice]
-// or [PriceGroupedWithMinMaxThresholdsPrice].
+// [PriceTieredPrice], [PriceBulkPrice], [PriceThresholdTotalAmountPrice],
+// [PriceTieredPackagePrice], [PriceGroupedTieredPrice],
+// [PriceTieredWithMinimumPrice], [PriceTieredPackageWithMinimumPrice],
+// [PricePackageWithAllocationPrice], [PriceUnitWithPercentPrice],
+// [PriceMatrixWithAllocationPrice], [PriceTieredWithProrationPrice],
+// [PriceUnitWithProrationPrice], [PriceGroupedAllocationPrice],
+// [PriceGroupedWithProratedMinimumPrice], [PriceGroupedWithMeteredMinimumPrice],
+// [PriceMatrixWithDisplayNamePrice], [PriceBulkWithProrationPrice],
+// [PriceGroupedTieredPackagePrice], [PriceMaxGroupTieredPackagePrice],
+// [PriceScalableMatrixWithUnitPricingPrice],
+// [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
+// [PriceGroupedWithMinMaxThresholdsPrice] or [PriceMinimumCompositePrice].
 type PriceUnion interface {
 	implementsPrice()
 }
@@ -12586,21 +11790,6 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceTieredPrice{}),
 			DiscriminatorValue: "tiered",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceTieredBPSPrice{}),
-			DiscriminatorValue: "tiered_bps",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBPSPrice{}),
-			DiscriminatorValue: "bps",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(PriceBulkBPSPrice{}),
-			DiscriminatorValue: "bulk_bps",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -12712,6 +11901,11 @@ func init() {
 			Type:               reflect.TypeOf(PriceGroupedWithMinMaxThresholdsPrice{}),
 			DiscriminatorValue: "grouped_with_min_max_thresholds",
 		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceMinimumCompositePrice{}),
+			DiscriminatorValue: "minimum",
+		},
 	)
 }
 
@@ -12720,6 +11914,7 @@ type PriceUnitPrice struct {
 	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceUnitPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceUnitPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
@@ -12762,6 +11957,7 @@ type priceUnitPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -12928,6 +12124,7 @@ type PricePackagePrice struct {
 	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
 	Cadence                   PricePackagePriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PricePackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
@@ -12971,6 +12168,7 @@ type pricePackagePriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -13137,6 +12335,7 @@ type PriceMatrixPrice struct {
 	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceMatrixPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter               `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceMatrixPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
@@ -13180,6 +12379,7 @@ type priceMatrixPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -13346,6 +12546,7 @@ type PriceTieredPrice struct {
 	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceTieredPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter               `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceTieredPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
@@ -13389,6 +12590,7 @@ type priceTieredPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -13550,638 +12752,13 @@ func (r PriceTieredPricePriceType) IsKnown() bool {
 	return false
 }
 
-type PriceTieredBPSPrice struct {
-	ID                        string                                  `json:"id,required"`
-	BillableMetric            BillableMetricTiny                      `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration               `json:"billing_cycle_configuration,required"`
-	Cadence                   PriceTieredBPSPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                                 `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredBPSPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                               `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                              `json:"credit_allocation,required,nullable"`
-	Currency                  string                                  `json:"currency,required"`
-	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
-	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
-	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
-	// User specified key-value pairs for the resource. If not present, this defaults
-	// to an empty dictionary. Individual keys can be removed by setting the value to
-	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
-	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
-	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
-	// Deprecated: deprecated
-	MinimumAmount  string                       `json:"minimum_amount,required,nullable"`
-	ModelType      PriceTieredBPSPriceModelType `json:"model_type,required"`
-	Name           string                       `json:"name,required"`
-	PlanPhaseOrder int64                        `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceTieredBPSPricePriceType `json:"price_type,required"`
-	// The price id this price replaces. This price will take the place of the replaced
-	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	TieredBPSConfig               TieredBPSConfig               `json:"tiered_bps_config,required"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceTieredBPSPriceJSON       `json:"-"`
-}
-
-// priceTieredBPSPriceJSON contains the JSON metadata for the struct
-// [PriceTieredBPSPrice]
-type priceTieredBPSPriceJSON struct {
-	ID                            apijson.Field
-	BillableMetric                apijson.Field
-	BillingCycleConfiguration     apijson.Field
-	Cadence                       apijson.Field
-	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
-	CreatedAt                     apijson.Field
-	CreditAllocation              apijson.Field
-	Currency                      apijson.Field
-	Discount                      apijson.Field
-	ExternalPriceID               apijson.Field
-	FixedPriceQuantity            apijson.Field
-	InvoicingCycleConfiguration   apijson.Field
-	Item                          apijson.Field
-	Maximum                       apijson.Field
-	MaximumAmount                 apijson.Field
-	Metadata                      apijson.Field
-	Minimum                       apijson.Field
-	MinimumAmount                 apijson.Field
-	ModelType                     apijson.Field
-	Name                          apijson.Field
-	PlanPhaseOrder                apijson.Field
-	PriceType                     apijson.Field
-	ReplacesPriceID               apijson.Field
-	TieredBPSConfig               apijson.Field
-	DimensionalPriceConfiguration apijson.Field
-	raw                           string
-	ExtraFields                   map[string]apijson.Field
-}
-
-func (r *PriceTieredBPSPrice) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceTieredBPSPriceJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceTieredBPSPrice) implementsPrice() {}
-
-type PriceTieredBPSPriceCadence string
-
-const (
-	PriceTieredBPSPriceCadenceOneTime    PriceTieredBPSPriceCadence = "one_time"
-	PriceTieredBPSPriceCadenceMonthly    PriceTieredBPSPriceCadence = "monthly"
-	PriceTieredBPSPriceCadenceQuarterly  PriceTieredBPSPriceCadence = "quarterly"
-	PriceTieredBPSPriceCadenceSemiAnnual PriceTieredBPSPriceCadence = "semi_annual"
-	PriceTieredBPSPriceCadenceAnnual     PriceTieredBPSPriceCadence = "annual"
-	PriceTieredBPSPriceCadenceCustom     PriceTieredBPSPriceCadence = "custom"
-)
-
-func (r PriceTieredBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case PriceTieredBPSPriceCadenceOneTime, PriceTieredBPSPriceCadenceMonthly, PriceTieredBPSPriceCadenceQuarterly, PriceTieredBPSPriceCadenceSemiAnnual, PriceTieredBPSPriceCadenceAnnual, PriceTieredBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type PriceTieredBPSPriceConversionRateConfig struct {
-	ConversionRateType PriceTieredBPSPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       ConversionRateTieredConfig                                `json:"tiered_config"`
-	UnitConfig         ConversionRateUnitConfig                                  `json:"unit_config"`
-	JSON               priceTieredBPSPriceConversionRateConfigJSON               `json:"-"`
-	union              PriceTieredBPSPriceConversionRateConfigUnion
-}
-
-// priceTieredBPSPriceConversionRateConfigJSON contains the JSON metadata for the
-// struct [PriceTieredBPSPriceConversionRateConfig]
-type priceTieredBPSPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceTieredBPSPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceTieredBPSPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceTieredBPSPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceTieredBPSPriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are [UnitConversionRateConfig],
-// [TieredConversionRateConfig].
-func (r PriceTieredBPSPriceConversionRateConfig) AsUnion() PriceTieredBPSPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by [UnitConversionRateConfig] or [TieredConversionRateConfig].
-type PriceTieredBPSPriceConversionRateConfigUnion interface {
-	ImplementsPriceTieredBPSPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceTieredBPSPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(UnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(TieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceTieredBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceTieredBPSPriceConversionRateConfigConversionRateTypeUnit   PriceTieredBPSPriceConversionRateConfigConversionRateType = "unit"
-	PriceTieredBPSPriceConversionRateConfigConversionRateTypeTiered PriceTieredBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceTieredBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceTieredBPSPriceConversionRateConfigConversionRateTypeUnit, PriceTieredBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceTieredBPSPriceModelType string
-
-const (
-	PriceTieredBPSPriceModelTypeTieredBPS PriceTieredBPSPriceModelType = "tiered_bps"
-)
-
-func (r PriceTieredBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case PriceTieredBPSPriceModelTypeTieredBPS:
-		return true
-	}
-	return false
-}
-
-type PriceTieredBPSPricePriceType string
-
-const (
-	PriceTieredBPSPricePriceTypeUsagePrice PriceTieredBPSPricePriceType = "usage_price"
-	PriceTieredBPSPricePriceTypeFixedPrice PriceTieredBPSPricePriceType = "fixed_price"
-)
-
-func (r PriceTieredBPSPricePriceType) IsKnown() bool {
-	switch r {
-	case PriceTieredBPSPricePriceTypeUsagePrice, PriceTieredBPSPricePriceTypeFixedPrice:
-		return true
-	}
-	return false
-}
-
-type PriceBPSPrice struct {
-	ID                        string                            `json:"id,required"`
-	BillableMetric            BillableMetricTiny                `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration         `json:"billing_cycle_configuration,required"`
-	BPSConfig                 BPSConfig                         `json:"bps_config,required"`
-	Cadence                   PriceBPSPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                           `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceBPSPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                        `json:"credit_allocation,required,nullable"`
-	Currency                  string                            `json:"currency,required"`
-	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
-	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
-	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
-	// User specified key-value pairs for the resource. If not present, this defaults
-	// to an empty dictionary. Individual keys can be removed by setting the value to
-	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
-	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
-	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
-	// Deprecated: deprecated
-	MinimumAmount  string                 `json:"minimum_amount,required,nullable"`
-	ModelType      PriceBPSPriceModelType `json:"model_type,required"`
-	Name           string                 `json:"name,required"`
-	PlanPhaseOrder int64                  `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceBPSPricePriceType `json:"price_type,required"`
-	// The price id this price replaces. This price will take the place of the replaced
-	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceBPSPriceJSON             `json:"-"`
-}
-
-// priceBPSPriceJSON contains the JSON metadata for the struct [PriceBPSPrice]
-type priceBPSPriceJSON struct {
-	ID                            apijson.Field
-	BillableMetric                apijson.Field
-	BillingCycleConfiguration     apijson.Field
-	BPSConfig                     apijson.Field
-	Cadence                       apijson.Field
-	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
-	CreatedAt                     apijson.Field
-	CreditAllocation              apijson.Field
-	Currency                      apijson.Field
-	Discount                      apijson.Field
-	ExternalPriceID               apijson.Field
-	FixedPriceQuantity            apijson.Field
-	InvoicingCycleConfiguration   apijson.Field
-	Item                          apijson.Field
-	Maximum                       apijson.Field
-	MaximumAmount                 apijson.Field
-	Metadata                      apijson.Field
-	Minimum                       apijson.Field
-	MinimumAmount                 apijson.Field
-	ModelType                     apijson.Field
-	Name                          apijson.Field
-	PlanPhaseOrder                apijson.Field
-	PriceType                     apijson.Field
-	ReplacesPriceID               apijson.Field
-	DimensionalPriceConfiguration apijson.Field
-	raw                           string
-	ExtraFields                   map[string]apijson.Field
-}
-
-func (r *PriceBPSPrice) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBPSPriceJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBPSPrice) implementsPrice() {}
-
-type PriceBPSPriceCadence string
-
-const (
-	PriceBPSPriceCadenceOneTime    PriceBPSPriceCadence = "one_time"
-	PriceBPSPriceCadenceMonthly    PriceBPSPriceCadence = "monthly"
-	PriceBPSPriceCadenceQuarterly  PriceBPSPriceCadence = "quarterly"
-	PriceBPSPriceCadenceSemiAnnual PriceBPSPriceCadence = "semi_annual"
-	PriceBPSPriceCadenceAnnual     PriceBPSPriceCadence = "annual"
-	PriceBPSPriceCadenceCustom     PriceBPSPriceCadence = "custom"
-)
-
-func (r PriceBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case PriceBPSPriceCadenceOneTime, PriceBPSPriceCadenceMonthly, PriceBPSPriceCadenceQuarterly, PriceBPSPriceCadenceSemiAnnual, PriceBPSPriceCadenceAnnual, PriceBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type PriceBPSPriceConversionRateConfig struct {
-	ConversionRateType PriceBPSPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       ConversionRateTieredConfig                          `json:"tiered_config"`
-	UnitConfig         ConversionRateUnitConfig                            `json:"unit_config"`
-	JSON               priceBPSPriceConversionRateConfigJSON               `json:"-"`
-	union              PriceBPSPriceConversionRateConfigUnion
-}
-
-// priceBPSPriceConversionRateConfigJSON contains the JSON metadata for the struct
-// [PriceBPSPriceConversionRateConfig]
-type priceBPSPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceBPSPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceBPSPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceBPSPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceBPSPriceConversionRateConfigUnion] interface which you
-// can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are [UnitConversionRateConfig],
-// [TieredConversionRateConfig].
-func (r PriceBPSPriceConversionRateConfig) AsUnion() PriceBPSPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by [UnitConversionRateConfig] or [TieredConversionRateConfig].
-type PriceBPSPriceConversionRateConfigUnion interface {
-	ImplementsPriceBPSPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceBPSPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(UnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(TieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceBPSPriceConversionRateConfigConversionRateTypeUnit   PriceBPSPriceConversionRateConfigConversionRateType = "unit"
-	PriceBPSPriceConversionRateConfigConversionRateTypeTiered PriceBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBPSPriceConversionRateConfigConversionRateTypeUnit, PriceBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceBPSPriceModelType string
-
-const (
-	PriceBPSPriceModelTypeBPS PriceBPSPriceModelType = "bps"
-)
-
-func (r PriceBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case PriceBPSPriceModelTypeBPS:
-		return true
-	}
-	return false
-}
-
-type PriceBPSPricePriceType string
-
-const (
-	PriceBPSPricePriceTypeUsagePrice PriceBPSPricePriceType = "usage_price"
-	PriceBPSPricePriceTypeFixedPrice PriceBPSPricePriceType = "fixed_price"
-)
-
-func (r PriceBPSPricePriceType) IsKnown() bool {
-	switch r {
-	case PriceBPSPricePriceTypeUsagePrice, PriceBPSPricePriceTypeFixedPrice:
-		return true
-	}
-	return false
-}
-
-type PriceBulkBPSPrice struct {
-	ID                        string                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
-	BulkBPSConfig             BulkBPSConfig                         `json:"bulk_bps_config,required"`
-	Cadence                   PriceBulkBPSPriceCadence              `json:"cadence,required"`
-	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceBulkBPSPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                            `json:"credit_allocation,required,nullable"`
-	Currency                  string                                `json:"currency,required"`
-	// Deprecated: deprecated
-	Discount                    Discount                  `json:"discount,required,nullable"`
-	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
-	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
-	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
-	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
-	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
-	// User specified key-value pairs for the resource. If not present, this defaults
-	// to an empty dictionary. Individual keys can be removed by setting the value to
-	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
-	// `null`.
-	Metadata map[string]string `json:"metadata,required"`
-	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
-	// Deprecated: deprecated
-	MinimumAmount  string                     `json:"minimum_amount,required,nullable"`
-	ModelType      PriceBulkBPSPriceModelType `json:"model_type,required"`
-	Name           string                     `json:"name,required"`
-	PlanPhaseOrder int64                      `json:"plan_phase_order,required,nullable"`
-	PriceType      PriceBulkBPSPricePriceType `json:"price_type,required"`
-	// The price id this price replaces. This price will take the place of the replaced
-	// price in plan version migrations.
-	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
-	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
-	JSON                          priceBulkBPSPriceJSON         `json:"-"`
-}
-
-// priceBulkBPSPriceJSON contains the JSON metadata for the struct
-// [PriceBulkBPSPrice]
-type priceBulkBPSPriceJSON struct {
-	ID                            apijson.Field
-	BillableMetric                apijson.Field
-	BillingCycleConfiguration     apijson.Field
-	BulkBPSConfig                 apijson.Field
-	Cadence                       apijson.Field
-	ConversionRate                apijson.Field
-	ConversionRateConfig          apijson.Field
-	CreatedAt                     apijson.Field
-	CreditAllocation              apijson.Field
-	Currency                      apijson.Field
-	Discount                      apijson.Field
-	ExternalPriceID               apijson.Field
-	FixedPriceQuantity            apijson.Field
-	InvoicingCycleConfiguration   apijson.Field
-	Item                          apijson.Field
-	Maximum                       apijson.Field
-	MaximumAmount                 apijson.Field
-	Metadata                      apijson.Field
-	Minimum                       apijson.Field
-	MinimumAmount                 apijson.Field
-	ModelType                     apijson.Field
-	Name                          apijson.Field
-	PlanPhaseOrder                apijson.Field
-	PriceType                     apijson.Field
-	ReplacesPriceID               apijson.Field
-	DimensionalPriceConfiguration apijson.Field
-	raw                           string
-	ExtraFields                   map[string]apijson.Field
-}
-
-func (r *PriceBulkBPSPrice) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r priceBulkBPSPriceJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r PriceBulkBPSPrice) implementsPrice() {}
-
-type PriceBulkBPSPriceCadence string
-
-const (
-	PriceBulkBPSPriceCadenceOneTime    PriceBulkBPSPriceCadence = "one_time"
-	PriceBulkBPSPriceCadenceMonthly    PriceBulkBPSPriceCadence = "monthly"
-	PriceBulkBPSPriceCadenceQuarterly  PriceBulkBPSPriceCadence = "quarterly"
-	PriceBulkBPSPriceCadenceSemiAnnual PriceBulkBPSPriceCadence = "semi_annual"
-	PriceBulkBPSPriceCadenceAnnual     PriceBulkBPSPriceCadence = "annual"
-	PriceBulkBPSPriceCadenceCustom     PriceBulkBPSPriceCadence = "custom"
-)
-
-func (r PriceBulkBPSPriceCadence) IsKnown() bool {
-	switch r {
-	case PriceBulkBPSPriceCadenceOneTime, PriceBulkBPSPriceCadenceMonthly, PriceBulkBPSPriceCadenceQuarterly, PriceBulkBPSPriceCadenceSemiAnnual, PriceBulkBPSPriceCadenceAnnual, PriceBulkBPSPriceCadenceCustom:
-		return true
-	}
-	return false
-}
-
-type PriceBulkBPSPriceConversionRateConfig struct {
-	ConversionRateType PriceBulkBPSPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
-	TieredConfig       ConversionRateTieredConfig                              `json:"tiered_config"`
-	UnitConfig         ConversionRateUnitConfig                                `json:"unit_config"`
-	JSON               priceBulkBPSPriceConversionRateConfigJSON               `json:"-"`
-	union              PriceBulkBPSPriceConversionRateConfigUnion
-}
-
-// priceBulkBPSPriceConversionRateConfigJSON contains the JSON metadata for the
-// struct [PriceBulkBPSPriceConversionRateConfig]
-type priceBulkBPSPriceConversionRateConfigJSON struct {
-	ConversionRateType apijson.Field
-	TieredConfig       apijson.Field
-	UnitConfig         apijson.Field
-	raw                string
-	ExtraFields        map[string]apijson.Field
-}
-
-func (r priceBulkBPSPriceConversionRateConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-func (r *PriceBulkBPSPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
-	*r = PriceBulkBPSPriceConversionRateConfig{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
-	}
-	return apijson.Port(r.union, &r)
-}
-
-// AsUnion returns a [PriceBulkBPSPriceConversionRateConfigUnion] interface which
-// you can cast to the specific types for more type safety.
-//
-// Possible runtime types of the union are [UnitConversionRateConfig],
-// [TieredConversionRateConfig].
-func (r PriceBulkBPSPriceConversionRateConfig) AsUnion() PriceBulkBPSPriceConversionRateConfigUnion {
-	return r.union
-}
-
-// Union satisfied by [UnitConversionRateConfig] or [TieredConversionRateConfig].
-type PriceBulkBPSPriceConversionRateConfigUnion interface {
-	ImplementsPriceBulkBPSPriceConversionRateConfig()
-}
-
-func init() {
-	apijson.RegisterUnion(
-		reflect.TypeOf((*PriceBulkBPSPriceConversionRateConfigUnion)(nil)).Elem(),
-		"conversion_rate_type",
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(UnitConversionRateConfig{}),
-			DiscriminatorValue: "unit",
-		},
-		apijson.UnionVariant{
-			TypeFilter:         gjson.JSON,
-			Type:               reflect.TypeOf(TieredConversionRateConfig{}),
-			DiscriminatorValue: "tiered",
-		},
-	)
-}
-
-type PriceBulkBPSPriceConversionRateConfigConversionRateType string
-
-const (
-	PriceBulkBPSPriceConversionRateConfigConversionRateTypeUnit   PriceBulkBPSPriceConversionRateConfigConversionRateType = "unit"
-	PriceBulkBPSPriceConversionRateConfigConversionRateTypeTiered PriceBulkBPSPriceConversionRateConfigConversionRateType = "tiered"
-)
-
-func (r PriceBulkBPSPriceConversionRateConfigConversionRateType) IsKnown() bool {
-	switch r {
-	case PriceBulkBPSPriceConversionRateConfigConversionRateTypeUnit, PriceBulkBPSPriceConversionRateConfigConversionRateTypeTiered:
-		return true
-	}
-	return false
-}
-
-type PriceBulkBPSPriceModelType string
-
-const (
-	PriceBulkBPSPriceModelTypeBulkBPS PriceBulkBPSPriceModelType = "bulk_bps"
-)
-
-func (r PriceBulkBPSPriceModelType) IsKnown() bool {
-	switch r {
-	case PriceBulkBPSPriceModelTypeBulkBPS:
-		return true
-	}
-	return false
-}
-
-type PriceBulkBPSPricePriceType string
-
-const (
-	PriceBulkBPSPricePriceTypeUsagePrice PriceBulkBPSPricePriceType = "usage_price"
-	PriceBulkBPSPricePriceTypeFixedPrice PriceBulkBPSPricePriceType = "fixed_price"
-)
-
-func (r PriceBulkBPSPricePriceType) IsKnown() bool {
-	switch r {
-	case PriceBulkBPSPricePriceTypeUsagePrice, PriceBulkBPSPricePriceTypeFixedPrice:
-		return true
-	}
-	return false
-}
-
 type PriceBulkPrice struct {
 	ID                        string                             `json:"id,required"`
 	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
 	BulkConfig                BulkConfig                         `json:"bulk_config,required"`
 	Cadence                   PriceBulkPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceBulkPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
@@ -14224,6 +12801,7 @@ type priceBulkPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	BulkConfig                    apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -14389,6 +12967,7 @@ type PriceThresholdTotalAmountPrice struct {
 	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceThresholdTotalAmountPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceThresholdTotalAmountPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
@@ -14432,6 +13011,7 @@ type priceThresholdTotalAmountPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -14598,6 +13178,7 @@ type PriceTieredPackagePrice struct {
 	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceTieredPackagePriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                      `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
@@ -14641,6 +13222,7 @@ type priceTieredPackagePriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -14807,6 +13389,7 @@ type PriceGroupedTieredPrice struct {
 	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceGroupedTieredPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                      `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceGroupedTieredPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
@@ -14850,6 +13433,7 @@ type priceGroupedTieredPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -15016,6 +13600,7 @@ type PriceTieredWithMinimumPrice struct {
 	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceTieredWithMinimumPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceTieredWithMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
@@ -15059,6 +13644,7 @@ type priceTieredWithMinimumPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -15225,6 +13811,7 @@ type PriceTieredPackageWithMinimumPrice struct {
 	BillableMetric            BillableMetricTiny                                     `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                              `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceTieredPackageWithMinimumPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                                 `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceTieredPackageWithMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                              `json:"created_at,required" format:"date-time"`
@@ -15268,6 +13855,7 @@ type priceTieredPackageWithMinimumPriceJSON struct {
 	BillableMetric                 apijson.Field
 	BillingCycleConfiguration      apijson.Field
 	Cadence                        apijson.Field
+	CompositePriceFilters          apijson.Field
 	ConversionRate                 apijson.Field
 	ConversionRateConfig           apijson.Field
 	CreatedAt                      apijson.Field
@@ -15434,6 +14022,7 @@ type PricePackageWithAllocationPrice struct {
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
 	Cadence                   PricePackageWithAllocationPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PricePackageWithAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
@@ -15477,6 +14066,7 @@ type pricePackageWithAllocationPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -15643,6 +14233,7 @@ type PriceUnitWithPercentPrice struct {
 	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceUnitWithPercentPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                        `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceUnitWithPercentPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                     `json:"created_at,required" format:"date-time"`
@@ -15686,6 +14277,7 @@ type priceUnitWithPercentPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -15852,6 +14444,7 @@ type PriceMatrixWithAllocationPrice struct {
 	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceMatrixWithAllocationPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceMatrixWithAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
@@ -15895,6 +14488,7 @@ type priceMatrixWithAllocationPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -16061,6 +14655,7 @@ type PriceTieredWithProrationPrice struct {
 	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceTieredWithProrationPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                            `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceTieredWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
@@ -16104,6 +14699,7 @@ type priceTieredWithProrationPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -16270,6 +14866,7 @@ type PriceUnitWithProrationPrice struct {
 	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceUnitWithProrationPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceUnitWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
@@ -16313,6 +14910,7 @@ type priceUnitWithProrationPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -16479,6 +15077,7 @@ type PriceGroupedAllocationPrice struct {
 	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceGroupedAllocationPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceGroupedAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
@@ -16522,6 +15121,7 @@ type priceGroupedAllocationPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -16688,6 +15288,7 @@ type PriceGroupedWithProratedMinimumPrice struct {
 	BillableMetric            BillableMetricTiny                                       `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceGroupedWithProratedMinimumPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                                   `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                  `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceGroupedWithProratedMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                                `json:"created_at,required" format:"date-time"`
@@ -16731,6 +15332,7 @@ type priceGroupedWithProratedMinimumPriceJSON struct {
 	BillableMetric                   apijson.Field
 	BillingCycleConfiguration        apijson.Field
 	Cadence                          apijson.Field
+	CompositePriceFilters            apijson.Field
 	ConversionRate                   apijson.Field
 	ConversionRateConfig             apijson.Field
 	CreatedAt                        apijson.Field
@@ -16899,6 +15501,7 @@ type PriceGroupedWithMeteredMinimumPrice struct {
 	BillableMetric            BillableMetricTiny                                      `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                               `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                                  `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                 `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceGroupedWithMeteredMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                               `json:"created_at,required" format:"date-time"`
@@ -16942,6 +15545,7 @@ type priceGroupedWithMeteredMinimumPriceJSON struct {
 	BillableMetric                  apijson.Field
 	BillingCycleConfiguration       apijson.Field
 	Cadence                         apijson.Field
+	CompositePriceFilters           apijson.Field
 	ConversionRate                  apijson.Field
 	ConversionRateConfig            apijson.Field
 	CreatedAt                       apijson.Field
@@ -17109,6 +15713,7 @@ type PriceMatrixWithDisplayNamePrice struct {
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceMatrixWithDisplayNamePriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceMatrixWithDisplayNamePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
@@ -17152,6 +15757,7 @@ type priceMatrixWithDisplayNamePriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -17319,6 +15925,7 @@ type PriceBulkWithProrationPrice struct {
 	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
 	BulkWithProrationConfig   map[string]interface{}                          `json:"bulk_with_proration_config,required"`
 	Cadence                   PriceBulkWithProrationPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceBulkWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
@@ -17362,6 +15969,7 @@ type priceBulkWithProrationPriceJSON struct {
 	BillingCycleConfiguration     apijson.Field
 	BulkWithProrationConfig       apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -17527,6 +16135,7 @@ type PriceGroupedTieredPackagePrice struct {
 	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceGroupedTieredPackagePriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceGroupedTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
@@ -17570,6 +16179,7 @@ type priceGroupedTieredPackagePriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -17736,6 +16346,7 @@ type PriceMaxGroupTieredPackagePrice struct {
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceMaxGroupTieredPackagePriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceMaxGroupTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
@@ -17779,6 +16390,7 @@ type priceMaxGroupTieredPackagePriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -17945,6 +16557,7 @@ type PriceScalableMatrixWithUnitPricingPrice struct {
 	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                                      `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceScalableMatrixWithUnitPricingPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                                   `json:"created_at,required" format:"date-time"`
@@ -17988,6 +16601,7 @@ type priceScalableMatrixWithUnitPricingPriceJSON struct {
 	BillableMetric                      apijson.Field
 	BillingCycleConfiguration           apijson.Field
 	Cadence                             apijson.Field
+	CompositePriceFilters               apijson.Field
 	ConversionRate                      apijson.Field
 	ConversionRateConfig                apijson.Field
 	CreatedAt                           apijson.Field
@@ -18156,6 +16770,7 @@ type PriceScalableMatrixWithTieredPricingPrice struct {
 	BillableMetric            BillableMetricTiny                                            `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                     `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                                        `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                       `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceScalableMatrixWithTieredPricingPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                                     `json:"created_at,required" format:"date-time"`
@@ -18199,6 +16814,7 @@ type priceScalableMatrixWithTieredPricingPriceJSON struct {
 	BillableMetric                        apijson.Field
 	BillingCycleConfiguration             apijson.Field
 	Cadence                               apijson.Field
+	CompositePriceFilters                 apijson.Field
 	ConversionRate                        apijson.Field
 	ConversionRateConfig                  apijson.Field
 	CreatedAt                             apijson.Field
@@ -18367,6 +16983,7 @@ type PriceCumulativeGroupedBulkPrice struct {
 	BillableMetric              BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration   BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
 	Cadence                     PriceCumulativeGroupedBulkPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters       []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate              float64                                             `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig        PriceCumulativeGroupedBulkPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                   time.Time                                           `json:"created_at,required" format:"date-time"`
@@ -18410,6 +17027,7 @@ type priceCumulativeGroupedBulkPriceJSON struct {
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
 	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
 	ConversionRateConfig          apijson.Field
 	CreatedAt                     apijson.Field
@@ -18576,6 +17194,7 @@ type PriceGroupedWithMinMaxThresholdsPrice struct {
 	BillableMetric            BillableMetricTiny                                        `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                 `json:"billing_cycle_configuration,required"`
 	Cadence                   PriceGroupedWithMinMaxThresholdsPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                                    `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                   `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig      PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
 	CreatedAt                 time.Time                                                 `json:"created_at,required" format:"date-time"`
@@ -18619,6 +17238,7 @@ type priceGroupedWithMinMaxThresholdsPriceJSON struct {
 	BillableMetric                    apijson.Field
 	BillingCycleConfiguration         apijson.Field
 	Cadence                           apijson.Field
+	CompositePriceFilters             apijson.Field
 	ConversionRate                    apijson.Field
 	ConversionRateConfig              apijson.Field
 	CreatedAt                         apijson.Field
@@ -18782,6 +17402,243 @@ func (r PriceGroupedWithMinMaxThresholdsPricePriceType) IsKnown() bool {
 	return false
 }
 
+type PriceMinimumCompositePrice struct {
+	ID                        string                                         `json:"id,required"`
+	BillableMetric            BillableMetricTiny                             `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                      `json:"billing_cycle_configuration,required"`
+	Cadence                   PriceMinimumCompositePriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                         `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                        `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceMinimumCompositePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                      `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                     `json:"credit_allocation,required,nullable"`
+	Currency                  string                                         `json:"currency,required"`
+	// Deprecated: deprecated
+	Discount                    Discount                  `json:"discount,required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	Item                        ItemSlim                  `json:"item,required"`
+	// Deprecated: deprecated
+	Maximum Maximum `json:"maximum,required,nullable"`
+	// Deprecated: deprecated
+	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// Deprecated: deprecated
+	Minimum Minimum `json:"minimum,required,nullable"`
+	// Deprecated: deprecated
+	MinimumAmount  string                                  `json:"minimum_amount,required,nullable"`
+	MinimumConfig  PriceMinimumCompositePriceMinimumConfig `json:"minimum_config,required"`
+	ModelType      PriceMinimumCompositePriceModelType     `json:"model_type,required"`
+	Name           string                                  `json:"name,required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceMinimumCompositePricePriceType     `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                         `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration  `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceMinimumCompositePriceJSON `json:"-"`
+}
+
+// priceMinimumCompositePriceJSON contains the JSON metadata for the struct
+// [PriceMinimumCompositePrice]
+type priceMinimumCompositePriceJSON struct {
+	ID                            apijson.Field
+	BillableMetric                apijson.Field
+	BillingCycleConfiguration     apijson.Field
+	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
+	ConversionRate                apijson.Field
+	ConversionRateConfig          apijson.Field
+	CreatedAt                     apijson.Field
+	CreditAllocation              apijson.Field
+	Currency                      apijson.Field
+	Discount                      apijson.Field
+	ExternalPriceID               apijson.Field
+	FixedPriceQuantity            apijson.Field
+	InvoicingCycleConfiguration   apijson.Field
+	Item                          apijson.Field
+	Maximum                       apijson.Field
+	MaximumAmount                 apijson.Field
+	Metadata                      apijson.Field
+	Minimum                       apijson.Field
+	MinimumAmount                 apijson.Field
+	MinimumConfig                 apijson.Field
+	ModelType                     apijson.Field
+	Name                          apijson.Field
+	PlanPhaseOrder                apijson.Field
+	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
+	DimensionalPriceConfiguration apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *PriceMinimumCompositePrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMinimumCompositePriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceMinimumCompositePrice) implementsPrice() {}
+
+type PriceMinimumCompositePriceCadence string
+
+const (
+	PriceMinimumCompositePriceCadenceOneTime    PriceMinimumCompositePriceCadence = "one_time"
+	PriceMinimumCompositePriceCadenceMonthly    PriceMinimumCompositePriceCadence = "monthly"
+	PriceMinimumCompositePriceCadenceQuarterly  PriceMinimumCompositePriceCadence = "quarterly"
+	PriceMinimumCompositePriceCadenceSemiAnnual PriceMinimumCompositePriceCadence = "semi_annual"
+	PriceMinimumCompositePriceCadenceAnnual     PriceMinimumCompositePriceCadence = "annual"
+	PriceMinimumCompositePriceCadenceCustom     PriceMinimumCompositePriceCadence = "custom"
+)
+
+func (r PriceMinimumCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case PriceMinimumCompositePriceCadenceOneTime, PriceMinimumCompositePriceCadenceMonthly, PriceMinimumCompositePriceCadenceQuarterly, PriceMinimumCompositePriceCadenceSemiAnnual, PriceMinimumCompositePriceCadenceAnnual, PriceMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceMinimumCompositePriceConversionRateConfig struct {
+	ConversionRateType PriceMinimumCompositePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	TieredConfig       ConversionRateTieredConfig                                       `json:"tiered_config"`
+	UnitConfig         ConversionRateUnitConfig                                         `json:"unit_config"`
+	JSON               priceMinimumCompositePriceConversionRateConfigJSON               `json:"-"`
+	union              PriceMinimumCompositePriceConversionRateConfigUnion
+}
+
+// priceMinimumCompositePriceConversionRateConfigJSON contains the JSON metadata
+// for the struct [PriceMinimumCompositePriceConversionRateConfig]
+type priceMinimumCompositePriceConversionRateConfigJSON struct {
+	ConversionRateType apijson.Field
+	TieredConfig       apijson.Field
+	UnitConfig         apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r priceMinimumCompositePriceConversionRateConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *PriceMinimumCompositePriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
+	*r = PriceMinimumCompositePriceConversionRateConfig{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [PriceMinimumCompositePriceConversionRateConfigUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are [UnitConversionRateConfig],
+// [TieredConversionRateConfig].
+func (r PriceMinimumCompositePriceConversionRateConfig) AsUnion() PriceMinimumCompositePriceConversionRateConfigUnion {
+	return r.union
+}
+
+// Union satisfied by [UnitConversionRateConfig] or [TieredConversionRateConfig].
+type PriceMinimumCompositePriceConversionRateConfigUnion interface {
+	ImplementsPriceMinimumCompositePriceConversionRateConfig()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*PriceMinimumCompositePriceConversionRateConfigUnion)(nil)).Elem(),
+		"conversion_rate_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(UnitConversionRateConfig{}),
+			DiscriminatorValue: "unit",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(TieredConversionRateConfig{}),
+			DiscriminatorValue: "tiered",
+		},
+	)
+}
+
+type PriceMinimumCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	PriceMinimumCompositePriceConversionRateConfigConversionRateTypeUnit   PriceMinimumCompositePriceConversionRateConfigConversionRateType = "unit"
+	PriceMinimumCompositePriceConversionRateConfigConversionRateTypeTiered PriceMinimumCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceMinimumCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceMinimumCompositePriceConversionRateConfigConversionRateTypeUnit, PriceMinimumCompositePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+type PriceMinimumCompositePriceMinimumConfig struct {
+	// The minimum amount to apply
+	MinimumAmount string `json:"minimum_amount,required"`
+	// By default, subtotals from minimum composite prices are prorated based on the
+	// service period. Set to false to disable proration.
+	Prorated bool                                        `json:"prorated,nullable"`
+	JSON     priceMinimumCompositePriceMinimumConfigJSON `json:"-"`
+}
+
+// priceMinimumCompositePriceMinimumConfigJSON contains the JSON metadata for the
+// struct [PriceMinimumCompositePriceMinimumConfig]
+type priceMinimumCompositePriceMinimumConfigJSON struct {
+	MinimumAmount apijson.Field
+	Prorated      apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *PriceMinimumCompositePriceMinimumConfig) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMinimumCompositePriceMinimumConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+type PriceMinimumCompositePriceModelType string
+
+const (
+	PriceMinimumCompositePriceModelTypeMinimum PriceMinimumCompositePriceModelType = "minimum"
+)
+
+func (r PriceMinimumCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case PriceMinimumCompositePriceModelTypeMinimum:
+		return true
+	}
+	return false
+}
+
+type PriceMinimumCompositePricePriceType string
+
+const (
+	PriceMinimumCompositePricePriceTypeUsagePrice PriceMinimumCompositePricePriceType = "usage_price"
+	PriceMinimumCompositePricePriceTypeFixedPrice PriceMinimumCompositePricePriceType = "fixed_price"
+)
+
+func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
+	switch r {
+	case PriceMinimumCompositePricePriceTypeUsagePrice, PriceMinimumCompositePricePriceTypeFixedPrice:
+		return true
+	}
+	return false
+}
+
 type PriceCadence string
 
 const (
@@ -18808,9 +17665,6 @@ const (
 	PriceModelTypePackage                         PriceModelType = "package"
 	PriceModelTypeMatrix                          PriceModelType = "matrix"
 	PriceModelTypeTiered                          PriceModelType = "tiered"
-	PriceModelTypeTieredBPS                       PriceModelType = "tiered_bps"
-	PriceModelTypeBPS                             PriceModelType = "bps"
-	PriceModelTypeBulkBPS                         PriceModelType = "bulk_bps"
 	PriceModelTypeBulk                            PriceModelType = "bulk"
 	PriceModelTypeThresholdTotalAmount            PriceModelType = "threshold_total_amount"
 	PriceModelTypeTieredPackage                   PriceModelType = "tiered_package"
@@ -18833,11 +17687,12 @@ const (
 	PriceModelTypeScalableMatrixWithTieredPricing PriceModelType = "scalable_matrix_with_tiered_pricing"
 	PriceModelTypeCumulativeGroupedBulk           PriceModelType = "cumulative_grouped_bulk"
 	PriceModelTypeGroupedWithMinMaxThresholds     PriceModelType = "grouped_with_min_max_thresholds"
+	PriceModelTypeMinimum                         PriceModelType = "minimum"
 )
 
 func (r PriceModelType) IsKnown() bool {
 	switch r {
-	case PriceModelTypeUnit, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeTiered, PriceModelTypeTieredBPS, PriceModelTypeBPS, PriceModelTypeBulkBPS, PriceModelTypeBulk, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeGroupedTiered, PriceModelTypeTieredWithMinimum, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeMatrixWithDisplayName, PriceModelTypeBulkWithProration, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeGroupedWithMinMaxThresholds:
+	case PriceModelTypeUnit, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeTiered, PriceModelTypeBulk, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeGroupedTiered, PriceModelTypeTieredWithMinimum, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeMatrixWithDisplayName, PriceModelTypeBulkWithProration, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeGroupedWithMinMaxThresholds, PriceModelTypeMinimum:
 		return true
 	}
 	return false
@@ -19176,38 +18031,6 @@ func (r TierSubLineItemType) IsKnown() bool {
 	return false
 }
 
-type TieredBPSConfig struct {
-	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
-	// tiers
-	Tiers []BPSTier           `json:"tiers,required"`
-	JSON  tieredBPSConfigJSON `json:"-"`
-}
-
-// tieredBPSConfigJSON contains the JSON metadata for the struct [TieredBPSConfig]
-type tieredBPSConfigJSON struct {
-	Tiers       apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *TieredBPSConfig) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r tieredBPSConfigJSON) RawJSON() string {
-	return r.raw
-}
-
-type TieredBPSConfigParam struct {
-	// Tiers for a Graduated BPS pricing model, where usage is bucketed into specified
-	// tiers
-	Tiers param.Field[[]BPSTierParam] `json:"tiers,required"`
-}
-
-func (r TieredBPSConfigParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
 type TieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
 	Tiers []Tier           `json:"tiers,required"`
@@ -19269,12 +18092,6 @@ func (r TieredConversionRateConfig) ImplementsPriceMatrixPriceConversionRateConf
 
 func (r TieredConversionRateConfig) ImplementsPriceTieredPriceConversionRateConfig() {}
 
-func (r TieredConversionRateConfig) ImplementsPriceTieredBPSPriceConversionRateConfig() {}
-
-func (r TieredConversionRateConfig) ImplementsPriceBPSPriceConversionRateConfig() {}
-
-func (r TieredConversionRateConfig) ImplementsPriceBulkBPSPriceConversionRateConfig() {}
-
 func (r TieredConversionRateConfig) ImplementsPriceBulkPriceConversionRateConfig() {}
 
 func (r TieredConversionRateConfig) ImplementsPriceThresholdTotalAmountPriceConversionRateConfig() {}
@@ -19325,6 +18142,8 @@ func (r TieredConversionRateConfig) ImplementsPriceCumulativeGroupedBulkPriceCon
 func (r TieredConversionRateConfig) ImplementsPriceGroupedWithMinMaxThresholdsPriceConversionRateConfig() {
 }
 
+func (r TieredConversionRateConfig) ImplementsPriceMinimumCompositePriceConversionRateConfig() {}
+
 type TieredConversionRateConfigConversionRateType string
 
 const (
@@ -19346,12 +18165,6 @@ type TieredConversionRateConfigParam struct {
 
 func (r TieredConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
-}
-
-func (r TieredConversionRateConfigParam) ImplementsNewFloatingBPSPriceConversionRateConfigUnionParam() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewFloatingBulkPriceConversionRateConfigUnionParam() {
@@ -19390,6 +18203,9 @@ func (r TieredConversionRateConfigParam) ImplementsNewFloatingMatrixWithDisplayN
 func (r TieredConversionRateConfigParam) ImplementsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsNewFloatingMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsNewFloatingPackagePriceConversionRateConfigUnionParam() {
 }
 
@@ -19403,9 +18219,6 @@ func (r TieredConversionRateConfigParam) ImplementsNewFloatingScalableMatrixWith
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewFloatingTieredPackagePriceConversionRateConfigUnionParam() {
@@ -19430,11 +18243,6 @@ func (r TieredConversionRateConfigParam) ImplementsNewFloatingUnitWithPercentPri
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewFloatingUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsNewPlanBPSPriceConversionRateConfigUnionParam() {}
-
-func (r TieredConversionRateConfigParam) ImplementsNewPlanBulkBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewPlanBulkPriceConversionRateConfigUnionParam() {}
@@ -19472,6 +18280,9 @@ func (r TieredConversionRateConfigParam) ImplementsNewPlanMatrixWithDisplayNameP
 func (r TieredConversionRateConfigParam) ImplementsNewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsNewPlanMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsNewPlanPackagePriceConversionRateConfigUnionParam() {
 }
 
@@ -19488,9 +18299,6 @@ func (r TieredConversionRateConfigParam) ImplementsNewPlanThresholdTotalAmountPr
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewPlanTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsNewPlanTieredBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewPlanTieredPackagePriceConversionRateConfigUnionParam() {
@@ -19513,6 +18321,21 @@ func (r TieredConversionRateConfigParam) ImplementsNewPlanUnitWithPercentPriceCo
 func (r TieredConversionRateConfigParam) ImplementsNewPlanUnitWithProrationPriceConversionRateConfigUnionParam() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnitPriceConversionRateConfigUnion() {
 }
 
@@ -19526,15 +18349,6 @@ func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMatr
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingTieredPriceConversionRateConfigUnion() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingTieredBPSPriceConversionRateConfigUnion() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingBPSPriceConversionRateConfigUnion() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingBulkBPSPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingBulkPriceConversionRateConfigUnion() {
@@ -19597,10 +18411,16 @@ func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingScal
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnion() {
 }
 
-func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionBPSPriceConversionRateConfigUnionParam() {
+func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
-func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionBulkBPSPriceConversionRateConfigUnionParam() {
+func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionBulkPriceConversionRateConfigUnionParam() {
@@ -19639,6 +18459,9 @@ func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionMatrixWithDisp
 func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionPackagePriceConversionRateConfigUnionParam() {
 }
 
@@ -19655,9 +18478,6 @@ func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionThresholdTotal
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionTieredBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionTieredPackagePriceConversionRateConfigUnionParam() {
@@ -19679,6 +18499,21 @@ func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionUnitWithPercen
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionUnitWithProrationPriceConversionRateConfigUnionParam() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 type TransformPriceFilter struct {
@@ -19891,12 +18726,6 @@ func (r UnitConversionRateConfig) ImplementsPriceMatrixPriceConversionRateConfig
 
 func (r UnitConversionRateConfig) ImplementsPriceTieredPriceConversionRateConfig() {}
 
-func (r UnitConversionRateConfig) ImplementsPriceTieredBPSPriceConversionRateConfig() {}
-
-func (r UnitConversionRateConfig) ImplementsPriceBPSPriceConversionRateConfig() {}
-
-func (r UnitConversionRateConfig) ImplementsPriceBulkBPSPriceConversionRateConfig() {}
-
 func (r UnitConversionRateConfig) ImplementsPriceBulkPriceConversionRateConfig() {}
 
 func (r UnitConversionRateConfig) ImplementsPriceThresholdTotalAmountPriceConversionRateConfig() {}
@@ -19947,6 +18776,8 @@ func (r UnitConversionRateConfig) ImplementsPriceCumulativeGroupedBulkPriceConve
 func (r UnitConversionRateConfig) ImplementsPriceGroupedWithMinMaxThresholdsPriceConversionRateConfig() {
 }
 
+func (r UnitConversionRateConfig) ImplementsPriceMinimumCompositePriceConversionRateConfig() {}
+
 type UnitConversionRateConfigConversionRateType string
 
 const (
@@ -19968,12 +18799,6 @@ type UnitConversionRateConfigParam struct {
 
 func (r UnitConversionRateConfigParam) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
-}
-
-func (r UnitConversionRateConfigParam) ImplementsNewFloatingBPSPriceConversionRateConfigUnionParam() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsNewFloatingBulkBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewFloatingBulkPriceConversionRateConfigUnionParam() {
@@ -20012,6 +18837,9 @@ func (r UnitConversionRateConfigParam) ImplementsNewFloatingMatrixWithDisplayNam
 func (r UnitConversionRateConfigParam) ImplementsNewFloatingMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsNewFloatingMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsNewFloatingPackagePriceConversionRateConfigUnionParam() {
 }
 
@@ -20025,9 +18853,6 @@ func (r UnitConversionRateConfigParam) ImplementsNewFloatingScalableMatrixWithUn
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewFloatingThresholdTotalAmountPriceConversionRateConfigUnionParam() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsNewFloatingTieredBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewFloatingTieredPackagePriceConversionRateConfigUnionParam() {
@@ -20052,11 +18877,6 @@ func (r UnitConversionRateConfigParam) ImplementsNewFloatingUnitWithPercentPrice
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewFloatingUnitWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsNewPlanBPSPriceConversionRateConfigUnionParam() {}
-
-func (r UnitConversionRateConfigParam) ImplementsNewPlanBulkBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewPlanBulkPriceConversionRateConfigUnionParam() {}
@@ -20093,6 +18913,9 @@ func (r UnitConversionRateConfigParam) ImplementsNewPlanMatrixWithDisplayNamePri
 func (r UnitConversionRateConfigParam) ImplementsNewPlanMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsNewPlanMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsNewPlanPackagePriceConversionRateConfigUnionParam() {
 }
 
@@ -20109,9 +18932,6 @@ func (r UnitConversionRateConfigParam) ImplementsNewPlanThresholdTotalAmountPric
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewPlanTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsNewPlanTieredBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewPlanTieredPackagePriceConversionRateConfigUnionParam() {
@@ -20133,6 +18953,21 @@ func (r UnitConversionRateConfigParam) ImplementsNewPlanUnitWithPercentPriceConv
 func (r UnitConversionRateConfigParam) ImplementsNewPlanUnitWithProrationPriceConversionRateConfigUnionParam() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnitPriceConversionRateConfigUnion() {
 }
 
@@ -20146,15 +18981,6 @@ func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMatrix
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingTieredPriceConversionRateConfigUnion() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingTieredBPSPriceConversionRateConfigUnion() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingBPSPriceConversionRateConfigUnion() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingBulkBPSPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingBulkPriceConversionRateConfigUnion() {
@@ -20217,10 +19043,16 @@ func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingScalab
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingCumulativeGroupedBulkPriceConversionRateConfigUnion() {
 }
 
-func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionBPSPriceConversionRateConfigUnionParam() {
+func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
-func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionBulkBPSPriceConversionRateConfigUnionParam() {
+func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionBulkPriceConversionRateConfigUnionParam() {
@@ -20259,6 +19091,9 @@ func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionMatrixWithDispla
 func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionMaxGroupTieredPackagePriceConversionRateConfigUnionParam() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionMinimumCompositePriceConversionRateConfigUnionParam() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionPackagePriceConversionRateConfigUnionParam() {
 }
 
@@ -20275,9 +19110,6 @@ func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionThresholdTotalAm
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionTierWithProrationPriceConversionRateConfigUnionParam() {
-}
-
-func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionTieredBPSPriceConversionRateConfigUnionParam() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionTieredPackagePriceConversionRateConfigUnionParam() {
@@ -20299,6 +19131,21 @@ func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionUnitWithPercentP
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionUnitWithProrationPriceConversionRateConfigUnionParam() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
 type UsageDiscount struct {

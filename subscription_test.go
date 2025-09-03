@@ -547,6 +547,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				UsageCustomerIDs: orb.F([]string{"string"}),
 			}}),
 			AddAdjustments: orb.F([]orb.SubscriptionPriceIntervalsParamsAddAdjustment{{
+				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion](shared.UnionTime(time.Now())),
 				Adjustment: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsAdjustmentUnion](shared.NewPercentageDiscountParam{
 					AdjustmentType:     orb.F(shared.NewPercentageDiscountAdjustmentTypePercentageDiscount),
 					PercentageDiscount: orb.F(0.000000),
@@ -562,8 +563,8 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					IsInvoiceLevel: orb.F(true),
 					PriceType:      orb.F(shared.NewPercentageDiscountPriceTypeUsage),
 				}),
-				StartDate: orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion](shared.UnionTime(time.Now())),
-				EndDate:   orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion](shared.UnionTime(time.Now())),
+				AdjustmentID: orb.F("h74gfhdjvn7ujokd"),
+				EndDate:      orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion](shared.UnionTime(time.Now())),
 			}}),
 			AllowInvoiceCreditOrVoid: orb.F(true),
 			Edit: orb.F([]orb.SubscriptionPriceIntervalsParamsEdit{{

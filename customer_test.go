@@ -39,6 +39,7 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		}),
 		AdditionalEmails: orb.F([]string{"dev@stainless.com"}),
 		AutoCollection:   orb.F(true),
+		AutoIssuance:     orb.F(true),
 		BillingAddress: orb.F(orb.AddressInputParam{
 			City:       orb.F("city"),
 			Country:    orb.F("country"),
@@ -116,6 +117,7 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			}),
 			AdditionalEmails: orb.F([]string{"string"}),
 			AutoCollection:   orb.F(true),
+			AutoIssuance:     orb.F(true),
 			BillingAddress: orb.F(orb.AddressInputParam{
 				City:       orb.F("city"),
 				Country:    orb.F("country"),
@@ -334,6 +336,7 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			}),
 			AdditionalEmails: orb.F([]string{"string"}),
 			AutoCollection:   orb.F(true),
+			AutoIssuance:     orb.F(true),
 			BillingAddress: orb.F(orb.AddressInputParam{
 				City:       orb.F("city"),
 				Country:    orb.F("country"),

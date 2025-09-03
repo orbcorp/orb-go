@@ -53,6 +53,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			}}),
 			Reason: orb.F("reason"),
 		}),
+		DueDate:            orb.F(time.Now()),
 		ExternalCustomerID: orb.F("external-customer-id"),
 		Memo:               orb.F("An optional memo for my invoice."),
 		Metadata: orb.F(map[string]string{
@@ -86,9 +87,11 @@ func TestInvoiceUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"invoice_id",
 		orb.InvoiceUpdateParams{
+			DueDate: orb.F(time.Now()),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
+			NetTerms: orb.F(int64(0)),
 		},
 	)
 	if err != nil {

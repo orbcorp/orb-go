@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.14.0 (2025-09-03)
+
+Full Changelog: [v1.13.2...v1.14.0](https://github.com/orbcorp/orb-go/compare/v1.13.2...v1.14.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** define shared model ConversionRateConfig
+
+### Features
+
+* **api:** api update ([2fd4755](https://github.com/orbcorp/orb-go/commit/2fd47556e83c0c24b66c65c2a1ccab6e8c905584))
+* **api:** define shared model ConversionRateConfig ([1154cde](https://github.com/orbcorp/orb-go/commit/1154cde1e113ce4135d7e60e527b9c9dcc56f108))
+* extract minimum composite to type ([cb7740c](https://github.com/orbcorp/orb-go/commit/cb7740c54a5fd1dfc6c55a773e0827390fc20d98))
+
+
+### Bug Fixes
+
+* remove null from release please manifest ([08f913f](https://github.com/orbcorp/orb-go/commit/08f913fdba4143c6dd632f81a579bc3bfa03d246))
+* resolve build issues ([8a06d2d](https://github.com/orbcorp/orb-go/commit/8a06d2d0be935f1653eb08cf1d2472893fd6d3b7))
+* use release please annotations on more places ([cbaa68e](https://github.com/orbcorp/orb-go/commit/cbaa68ed87d643cf23b8e3ea9e19fb55dfa82e3a))
+
 ## 1.13.2 (2025-08-30)
 
 Full Changelog: [v1.13.1...v1.13.2](https://github.com/orbcorp/orb-go/compare/v1.13.1...v1.13.2)
