@@ -13117,13 +13117,14 @@ func (r PriceUnitPriceModelType) IsKnown() bool {
 type PriceUnitPricePriceType string
 
 const (
-	PriceUnitPricePriceTypeUsagePrice PriceUnitPricePriceType = "usage_price"
-	PriceUnitPricePriceTypeFixedPrice PriceUnitPricePriceType = "fixed_price"
+	PriceUnitPricePriceTypeUsagePrice     PriceUnitPricePriceType = "usage_price"
+	PriceUnitPricePriceTypeFixedPrice     PriceUnitPricePriceType = "fixed_price"
+	PriceUnitPricePriceTypeCompositePrice PriceUnitPricePriceType = "composite_price"
 )
 
 func (r PriceUnitPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceUnitPricePriceTypeUsagePrice, PriceUnitPricePriceTypeFixedPrice:
+	case PriceUnitPricePriceTypeUsagePrice, PriceUnitPricePriceTypeFixedPrice, PriceUnitPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -13331,13 +13332,14 @@ func (r PriceTieredPriceModelType) IsKnown() bool {
 type PriceTieredPricePriceType string
 
 const (
-	PriceTieredPricePriceTypeUsagePrice PriceTieredPricePriceType = "usage_price"
-	PriceTieredPricePriceTypeFixedPrice PriceTieredPricePriceType = "fixed_price"
+	PriceTieredPricePriceTypeUsagePrice     PriceTieredPricePriceType = "usage_price"
+	PriceTieredPricePriceTypeFixedPrice     PriceTieredPricePriceType = "fixed_price"
+	PriceTieredPricePriceTypeCompositePrice PriceTieredPricePriceType = "composite_price"
 )
 
 func (r PriceTieredPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceTieredPricePriceTypeUsagePrice, PriceTieredPricePriceTypeFixedPrice:
+	case PriceTieredPricePriceTypeUsagePrice, PriceTieredPricePriceTypeFixedPrice, PriceTieredPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -13544,13 +13546,14 @@ func (r PriceBulkPriceModelType) IsKnown() bool {
 type PriceBulkPricePriceType string
 
 const (
-	PriceBulkPricePriceTypeUsagePrice PriceBulkPricePriceType = "usage_price"
-	PriceBulkPricePriceTypeFixedPrice PriceBulkPricePriceType = "fixed_price"
+	PriceBulkPricePriceTypeUsagePrice     PriceBulkPricePriceType = "usage_price"
+	PriceBulkPricePriceTypeFixedPrice     PriceBulkPricePriceType = "fixed_price"
+	PriceBulkPricePriceTypeCompositePrice PriceBulkPricePriceType = "composite_price"
 )
 
 func (r PriceBulkPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceBulkPricePriceTypeUsagePrice, PriceBulkPricePriceTypeFixedPrice:
+	case PriceBulkPricePriceTypeUsagePrice, PriceBulkPricePriceTypeFixedPrice, PriceBulkPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -13758,13 +13761,14 @@ func (r PricePackagePriceModelType) IsKnown() bool {
 type PricePackagePricePriceType string
 
 const (
-	PricePackagePricePriceTypeUsagePrice PricePackagePricePriceType = "usage_price"
-	PricePackagePricePriceTypeFixedPrice PricePackagePricePriceType = "fixed_price"
+	PricePackagePricePriceTypeUsagePrice     PricePackagePricePriceType = "usage_price"
+	PricePackagePricePriceTypeFixedPrice     PricePackagePricePriceType = "fixed_price"
+	PricePackagePricePriceTypeCompositePrice PricePackagePricePriceType = "composite_price"
 )
 
 func (r PricePackagePricePriceType) IsKnown() bool {
 	switch r {
-	case PricePackagePricePriceTypeUsagePrice, PricePackagePricePriceTypeFixedPrice:
+	case PricePackagePricePriceTypeUsagePrice, PricePackagePricePriceTypeFixedPrice, PricePackagePricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -13972,13 +13976,14 @@ func (r PriceMatrixPriceModelType) IsKnown() bool {
 type PriceMatrixPricePriceType string
 
 const (
-	PriceMatrixPricePriceTypeUsagePrice PriceMatrixPricePriceType = "usage_price"
-	PriceMatrixPricePriceTypeFixedPrice PriceMatrixPricePriceType = "fixed_price"
+	PriceMatrixPricePriceTypeUsagePrice     PriceMatrixPricePriceType = "usage_price"
+	PriceMatrixPricePriceTypeFixedPrice     PriceMatrixPricePriceType = "fixed_price"
+	PriceMatrixPricePriceTypeCompositePrice PriceMatrixPricePriceType = "composite_price"
 )
 
 func (r PriceMatrixPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceMatrixPricePriceTypeUsagePrice, PriceMatrixPricePriceTypeFixedPrice:
+	case PriceMatrixPricePriceTypeUsagePrice, PriceMatrixPricePriceTypeFixedPrice, PriceMatrixPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -14186,13 +14191,14 @@ func (r PriceThresholdTotalAmountPriceModelType) IsKnown() bool {
 type PriceThresholdTotalAmountPricePriceType string
 
 const (
-	PriceThresholdTotalAmountPricePriceTypeUsagePrice PriceThresholdTotalAmountPricePriceType = "usage_price"
-	PriceThresholdTotalAmountPricePriceTypeFixedPrice PriceThresholdTotalAmountPricePriceType = "fixed_price"
+	PriceThresholdTotalAmountPricePriceTypeUsagePrice     PriceThresholdTotalAmountPricePriceType = "usage_price"
+	PriceThresholdTotalAmountPricePriceTypeFixedPrice     PriceThresholdTotalAmountPricePriceType = "fixed_price"
+	PriceThresholdTotalAmountPricePriceTypeCompositePrice PriceThresholdTotalAmountPricePriceType = "composite_price"
 )
 
 func (r PriceThresholdTotalAmountPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceThresholdTotalAmountPricePriceTypeUsagePrice, PriceThresholdTotalAmountPricePriceTypeFixedPrice:
+	case PriceThresholdTotalAmountPricePriceTypeUsagePrice, PriceThresholdTotalAmountPricePriceTypeFixedPrice, PriceThresholdTotalAmountPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -14455,13 +14461,14 @@ func (r PriceTieredPackagePriceModelType) IsKnown() bool {
 type PriceTieredPackagePricePriceType string
 
 const (
-	PriceTieredPackagePricePriceTypeUsagePrice PriceTieredPackagePricePriceType = "usage_price"
-	PriceTieredPackagePricePriceTypeFixedPrice PriceTieredPackagePricePriceType = "fixed_price"
+	PriceTieredPackagePricePriceTypeUsagePrice     PriceTieredPackagePricePriceType = "usage_price"
+	PriceTieredPackagePricePriceTypeFixedPrice     PriceTieredPackagePricePriceType = "fixed_price"
+	PriceTieredPackagePricePriceTypeCompositePrice PriceTieredPackagePricePriceType = "composite_price"
 )
 
 func (r PriceTieredPackagePricePriceType) IsKnown() bool {
 	switch r {
-	case PriceTieredPackagePricePriceTypeUsagePrice, PriceTieredPackagePricePriceTypeFixedPrice:
+	case PriceTieredPackagePricePriceTypeUsagePrice, PriceTieredPackagePricePriceTypeFixedPrice, PriceTieredPackagePricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -14722,13 +14729,14 @@ func (r PriceTieredWithMinimumPriceModelType) IsKnown() bool {
 type PriceTieredWithMinimumPricePriceType string
 
 const (
-	PriceTieredWithMinimumPricePriceTypeUsagePrice PriceTieredWithMinimumPricePriceType = "usage_price"
-	PriceTieredWithMinimumPricePriceTypeFixedPrice PriceTieredWithMinimumPricePriceType = "fixed_price"
+	PriceTieredWithMinimumPricePriceTypeUsagePrice     PriceTieredWithMinimumPricePriceType = "usage_price"
+	PriceTieredWithMinimumPricePriceTypeFixedPrice     PriceTieredWithMinimumPricePriceType = "fixed_price"
+	PriceTieredWithMinimumPricePriceTypeCompositePrice PriceTieredWithMinimumPricePriceType = "composite_price"
 )
 
 func (r PriceTieredWithMinimumPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceTieredWithMinimumPricePriceTypeUsagePrice, PriceTieredWithMinimumPricePriceTypeFixedPrice:
+	case PriceTieredWithMinimumPricePriceTypeUsagePrice, PriceTieredWithMinimumPricePriceTypeFixedPrice, PriceTieredWithMinimumPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -15048,13 +15056,14 @@ func (r PriceGroupedTieredPriceModelType) IsKnown() bool {
 type PriceGroupedTieredPricePriceType string
 
 const (
-	PriceGroupedTieredPricePriceTypeUsagePrice PriceGroupedTieredPricePriceType = "usage_price"
-	PriceGroupedTieredPricePriceTypeFixedPrice PriceGroupedTieredPricePriceType = "fixed_price"
+	PriceGroupedTieredPricePriceTypeUsagePrice     PriceGroupedTieredPricePriceType = "usage_price"
+	PriceGroupedTieredPricePriceTypeFixedPrice     PriceGroupedTieredPricePriceType = "fixed_price"
+	PriceGroupedTieredPricePriceTypeCompositePrice PriceGroupedTieredPricePriceType = "composite_price"
 )
 
 func (r PriceGroupedTieredPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceGroupedTieredPricePriceTypeUsagePrice, PriceGroupedTieredPricePriceTypeFixedPrice:
+	case PriceGroupedTieredPricePriceTypeUsagePrice, PriceGroupedTieredPricePriceTypeFixedPrice, PriceGroupedTieredPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -15262,13 +15271,14 @@ func (r PriceTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 type PriceTieredPackageWithMinimumPricePriceType string
 
 const (
-	PriceTieredPackageWithMinimumPricePriceTypeUsagePrice PriceTieredPackageWithMinimumPricePriceType = "usage_price"
-	PriceTieredPackageWithMinimumPricePriceTypeFixedPrice PriceTieredPackageWithMinimumPricePriceType = "fixed_price"
+	PriceTieredPackageWithMinimumPricePriceTypeUsagePrice     PriceTieredPackageWithMinimumPricePriceType = "usage_price"
+	PriceTieredPackageWithMinimumPricePriceTypeFixedPrice     PriceTieredPackageWithMinimumPricePriceType = "fixed_price"
+	PriceTieredPackageWithMinimumPricePriceTypeCompositePrice PriceTieredPackageWithMinimumPricePriceType = "composite_price"
 )
 
 func (r PriceTieredPackageWithMinimumPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceTieredPackageWithMinimumPricePriceTypeUsagePrice, PriceTieredPackageWithMinimumPricePriceTypeFixedPrice:
+	case PriceTieredPackageWithMinimumPricePriceTypeUsagePrice, PriceTieredPackageWithMinimumPricePriceTypeFixedPrice, PriceTieredPackageWithMinimumPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -15564,13 +15574,14 @@ func (r pricePackageWithAllocationPricePackageWithAllocationConfigJSON) RawJSON(
 type PricePackageWithAllocationPricePriceType string
 
 const (
-	PricePackageWithAllocationPricePriceTypeUsagePrice PricePackageWithAllocationPricePriceType = "usage_price"
-	PricePackageWithAllocationPricePriceTypeFixedPrice PricePackageWithAllocationPricePriceType = "fixed_price"
+	PricePackageWithAllocationPricePriceTypeUsagePrice     PricePackageWithAllocationPricePriceType = "usage_price"
+	PricePackageWithAllocationPricePriceTypeFixedPrice     PricePackageWithAllocationPricePriceType = "fixed_price"
+	PricePackageWithAllocationPricePriceTypeCompositePrice PricePackageWithAllocationPricePriceType = "composite_price"
 )
 
 func (r PricePackageWithAllocationPricePriceType) IsKnown() bool {
 	switch r {
-	case PricePackageWithAllocationPricePriceTypeUsagePrice, PricePackageWithAllocationPricePriceTypeFixedPrice:
+	case PricePackageWithAllocationPricePriceTypeUsagePrice, PricePackageWithAllocationPricePriceTypeFixedPrice, PricePackageWithAllocationPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -15778,13 +15789,14 @@ func (r PriceUnitWithPercentPriceModelType) IsKnown() bool {
 type PriceUnitWithPercentPricePriceType string
 
 const (
-	PriceUnitWithPercentPricePriceTypeUsagePrice PriceUnitWithPercentPricePriceType = "usage_price"
-	PriceUnitWithPercentPricePriceTypeFixedPrice PriceUnitWithPercentPricePriceType = "fixed_price"
+	PriceUnitWithPercentPricePriceTypeUsagePrice     PriceUnitWithPercentPricePriceType = "usage_price"
+	PriceUnitWithPercentPricePriceTypeFixedPrice     PriceUnitWithPercentPricePriceType = "fixed_price"
+	PriceUnitWithPercentPricePriceTypeCompositePrice PriceUnitWithPercentPricePriceType = "composite_price"
 )
 
 func (r PriceUnitWithPercentPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceUnitWithPercentPricePriceTypeUsagePrice, PriceUnitWithPercentPricePriceTypeFixedPrice:
+	case PriceUnitWithPercentPricePriceTypeUsagePrice, PriceUnitWithPercentPricePriceTypeFixedPrice, PriceUnitWithPercentPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -16018,13 +16030,14 @@ func (r PriceMatrixWithAllocationPriceModelType) IsKnown() bool {
 type PriceMatrixWithAllocationPricePriceType string
 
 const (
-	PriceMatrixWithAllocationPricePriceTypeUsagePrice PriceMatrixWithAllocationPricePriceType = "usage_price"
-	PriceMatrixWithAllocationPricePriceTypeFixedPrice PriceMatrixWithAllocationPricePriceType = "fixed_price"
+	PriceMatrixWithAllocationPricePriceTypeUsagePrice     PriceMatrixWithAllocationPricePriceType = "usage_price"
+	PriceMatrixWithAllocationPricePriceTypeFixedPrice     PriceMatrixWithAllocationPricePriceType = "fixed_price"
+	PriceMatrixWithAllocationPricePriceTypeCompositePrice PriceMatrixWithAllocationPricePriceType = "composite_price"
 )
 
 func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceMatrixWithAllocationPricePriceTypeUsagePrice, PriceMatrixWithAllocationPricePriceTypeFixedPrice:
+	case PriceMatrixWithAllocationPricePriceTypeUsagePrice, PriceMatrixWithAllocationPricePriceTypeFixedPrice, PriceMatrixWithAllocationPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -16232,13 +16245,14 @@ func (r PriceTieredWithProrationPriceModelType) IsKnown() bool {
 type PriceTieredWithProrationPricePriceType string
 
 const (
-	PriceTieredWithProrationPricePriceTypeUsagePrice PriceTieredWithProrationPricePriceType = "usage_price"
-	PriceTieredWithProrationPricePriceTypeFixedPrice PriceTieredWithProrationPricePriceType = "fixed_price"
+	PriceTieredWithProrationPricePriceTypeUsagePrice     PriceTieredWithProrationPricePriceType = "usage_price"
+	PriceTieredWithProrationPricePriceTypeFixedPrice     PriceTieredWithProrationPricePriceType = "fixed_price"
+	PriceTieredWithProrationPricePriceTypeCompositePrice PriceTieredWithProrationPricePriceType = "composite_price"
 )
 
 func (r PriceTieredWithProrationPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceTieredWithProrationPricePriceTypeUsagePrice, PriceTieredWithProrationPricePriceTypeFixedPrice:
+	case PriceTieredWithProrationPricePriceTypeUsagePrice, PriceTieredWithProrationPricePriceTypeFixedPrice, PriceTieredWithProrationPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -16497,13 +16511,14 @@ func (r PriceUnitWithProrationPriceModelType) IsKnown() bool {
 type PriceUnitWithProrationPricePriceType string
 
 const (
-	PriceUnitWithProrationPricePriceTypeUsagePrice PriceUnitWithProrationPricePriceType = "usage_price"
-	PriceUnitWithProrationPricePriceTypeFixedPrice PriceUnitWithProrationPricePriceType = "fixed_price"
+	PriceUnitWithProrationPricePriceTypeUsagePrice     PriceUnitWithProrationPricePriceType = "usage_price"
+	PriceUnitWithProrationPricePriceTypeFixedPrice     PriceUnitWithProrationPricePriceType = "fixed_price"
+	PriceUnitWithProrationPricePriceTypeCompositePrice PriceUnitWithProrationPricePriceType = "composite_price"
 )
 
 func (r PriceUnitWithProrationPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceUnitWithProrationPricePriceTypeUsagePrice, PriceUnitWithProrationPricePriceTypeFixedPrice:
+	case PriceUnitWithProrationPricePriceTypeUsagePrice, PriceUnitWithProrationPricePriceTypeFixedPrice, PriceUnitWithProrationPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -16763,13 +16778,14 @@ func (r PriceGroupedAllocationPriceModelType) IsKnown() bool {
 type PriceGroupedAllocationPricePriceType string
 
 const (
-	PriceGroupedAllocationPricePriceTypeUsagePrice PriceGroupedAllocationPricePriceType = "usage_price"
-	PriceGroupedAllocationPricePriceTypeFixedPrice PriceGroupedAllocationPricePriceType = "fixed_price"
+	PriceGroupedAllocationPricePriceTypeUsagePrice     PriceGroupedAllocationPricePriceType = "usage_price"
+	PriceGroupedAllocationPricePriceTypeFixedPrice     PriceGroupedAllocationPricePriceType = "fixed_price"
+	PriceGroupedAllocationPricePriceTypeCompositePrice PriceGroupedAllocationPricePriceType = "composite_price"
 )
 
 func (r PriceGroupedAllocationPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceGroupedAllocationPricePriceTypeUsagePrice, PriceGroupedAllocationPricePriceTypeFixedPrice:
+	case PriceGroupedAllocationPricePriceTypeUsagePrice, PriceGroupedAllocationPricePriceTypeFixedPrice, PriceGroupedAllocationPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -17026,13 +17042,14 @@ func (r PriceBulkWithProrationPriceModelType) IsKnown() bool {
 type PriceBulkWithProrationPricePriceType string
 
 const (
-	PriceBulkWithProrationPricePriceTypeUsagePrice PriceBulkWithProrationPricePriceType = "usage_price"
-	PriceBulkWithProrationPricePriceTypeFixedPrice PriceBulkWithProrationPricePriceType = "fixed_price"
+	PriceBulkWithProrationPricePriceTypeUsagePrice     PriceBulkWithProrationPricePriceType = "usage_price"
+	PriceBulkWithProrationPricePriceTypeFixedPrice     PriceBulkWithProrationPricePriceType = "fixed_price"
+	PriceBulkWithProrationPricePriceTypeCompositePrice PriceBulkWithProrationPricePriceType = "composite_price"
 )
 
 func (r PriceBulkWithProrationPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceBulkWithProrationPricePriceTypeUsagePrice, PriceBulkWithProrationPricePriceTypeFixedPrice:
+	case PriceBulkWithProrationPricePriceTypeUsagePrice, PriceBulkWithProrationPricePriceTypeFixedPrice, PriceBulkWithProrationPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -17272,13 +17289,14 @@ func (r PriceGroupedWithProratedMinimumPriceModelType) IsKnown() bool {
 type PriceGroupedWithProratedMinimumPricePriceType string
 
 const (
-	PriceGroupedWithProratedMinimumPricePriceTypeUsagePrice PriceGroupedWithProratedMinimumPricePriceType = "usage_price"
-	PriceGroupedWithProratedMinimumPricePriceTypeFixedPrice PriceGroupedWithProratedMinimumPricePriceType = "fixed_price"
+	PriceGroupedWithProratedMinimumPricePriceTypeUsagePrice     PriceGroupedWithProratedMinimumPricePriceType = "usage_price"
+	PriceGroupedWithProratedMinimumPricePriceTypeFixedPrice     PriceGroupedWithProratedMinimumPricePriceType = "fixed_price"
+	PriceGroupedWithProratedMinimumPricePriceTypeCompositePrice PriceGroupedWithProratedMinimumPricePriceType = "composite_price"
 )
 
 func (r PriceGroupedWithProratedMinimumPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceGroupedWithProratedMinimumPricePriceTypeUsagePrice, PriceGroupedWithProratedMinimumPricePriceTypeFixedPrice:
+	case PriceGroupedWithProratedMinimumPricePriceTypeUsagePrice, PriceGroupedWithProratedMinimumPricePriceTypeFixedPrice, PriceGroupedWithProratedMinimumPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -17582,13 +17600,14 @@ func (r PriceGroupedWithMeteredMinimumPriceModelType) IsKnown() bool {
 type PriceGroupedWithMeteredMinimumPricePriceType string
 
 const (
-	PriceGroupedWithMeteredMinimumPricePriceTypeUsagePrice PriceGroupedWithMeteredMinimumPricePriceType = "usage_price"
-	PriceGroupedWithMeteredMinimumPricePriceTypeFixedPrice PriceGroupedWithMeteredMinimumPricePriceType = "fixed_price"
+	PriceGroupedWithMeteredMinimumPricePriceTypeUsagePrice     PriceGroupedWithMeteredMinimumPricePriceType = "usage_price"
+	PriceGroupedWithMeteredMinimumPricePriceTypeFixedPrice     PriceGroupedWithMeteredMinimumPricePriceType = "fixed_price"
+	PriceGroupedWithMeteredMinimumPricePriceTypeCompositePrice PriceGroupedWithMeteredMinimumPricePriceType = "composite_price"
 )
 
 func (r PriceGroupedWithMeteredMinimumPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceGroupedWithMeteredMinimumPricePriceTypeUsagePrice, PriceGroupedWithMeteredMinimumPricePriceTypeFixedPrice:
+	case PriceGroupedWithMeteredMinimumPricePriceTypeUsagePrice, PriceGroupedWithMeteredMinimumPricePriceTypeFixedPrice, PriceGroupedWithMeteredMinimumPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -17831,13 +17850,14 @@ func (r PriceGroupedWithMinMaxThresholdsPriceModelType) IsKnown() bool {
 type PriceGroupedWithMinMaxThresholdsPricePriceType string
 
 const (
-	PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice PriceGroupedWithMinMaxThresholdsPricePriceType = "usage_price"
-	PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice PriceGroupedWithMinMaxThresholdsPricePriceType = "fixed_price"
+	PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice     PriceGroupedWithMinMaxThresholdsPricePriceType = "usage_price"
+	PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice     PriceGroupedWithMinMaxThresholdsPricePriceType = "fixed_price"
+	PriceGroupedWithMinMaxThresholdsPricePriceTypeCompositePrice PriceGroupedWithMinMaxThresholdsPricePriceType = "composite_price"
 )
 
 func (r PriceGroupedWithMinMaxThresholdsPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice, PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice:
+	case PriceGroupedWithMinMaxThresholdsPricePriceTypeUsagePrice, PriceGroupedWithMinMaxThresholdsPricePriceTypeFixedPrice, PriceGroupedWithMinMaxThresholdsPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -18102,13 +18122,14 @@ func (r PriceMatrixWithDisplayNamePriceModelType) IsKnown() bool {
 type PriceMatrixWithDisplayNamePricePriceType string
 
 const (
-	PriceMatrixWithDisplayNamePricePriceTypeUsagePrice PriceMatrixWithDisplayNamePricePriceType = "usage_price"
-	PriceMatrixWithDisplayNamePricePriceTypeFixedPrice PriceMatrixWithDisplayNamePricePriceType = "fixed_price"
+	PriceMatrixWithDisplayNamePricePriceTypeUsagePrice     PriceMatrixWithDisplayNamePricePriceType = "usage_price"
+	PriceMatrixWithDisplayNamePricePriceTypeFixedPrice     PriceMatrixWithDisplayNamePricePriceType = "fixed_price"
+	PriceMatrixWithDisplayNamePricePriceTypeCompositePrice PriceMatrixWithDisplayNamePricePriceType = "composite_price"
 )
 
 func (r PriceMatrixWithDisplayNamePricePriceType) IsKnown() bool {
 	switch r {
-	case PriceMatrixWithDisplayNamePricePriceTypeUsagePrice, PriceMatrixWithDisplayNamePricePriceTypeFixedPrice:
+	case PriceMatrixWithDisplayNamePricePriceTypeUsagePrice, PriceMatrixWithDisplayNamePricePriceTypeFixedPrice, PriceMatrixWithDisplayNamePricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -18374,13 +18395,14 @@ func (r PriceGroupedTieredPackagePriceModelType) IsKnown() bool {
 type PriceGroupedTieredPackagePricePriceType string
 
 const (
-	PriceGroupedTieredPackagePricePriceTypeUsagePrice PriceGroupedTieredPackagePricePriceType = "usage_price"
-	PriceGroupedTieredPackagePricePriceTypeFixedPrice PriceGroupedTieredPackagePricePriceType = "fixed_price"
+	PriceGroupedTieredPackagePricePriceTypeUsagePrice     PriceGroupedTieredPackagePricePriceType = "usage_price"
+	PriceGroupedTieredPackagePricePriceTypeFixedPrice     PriceGroupedTieredPackagePricePriceType = "fixed_price"
+	PriceGroupedTieredPackagePricePriceTypeCompositePrice PriceGroupedTieredPackagePricePriceType = "composite_price"
 )
 
 func (r PriceGroupedTieredPackagePricePriceType) IsKnown() bool {
 	switch r {
-	case PriceGroupedTieredPackagePricePriceTypeUsagePrice, PriceGroupedTieredPackagePricePriceTypeFixedPrice:
+	case PriceGroupedTieredPackagePricePriceTypeUsagePrice, PriceGroupedTieredPackagePricePriceTypeFixedPrice, PriceGroupedTieredPackagePricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -18645,13 +18667,14 @@ func (r PriceMaxGroupTieredPackagePriceModelType) IsKnown() bool {
 type PriceMaxGroupTieredPackagePricePriceType string
 
 const (
-	PriceMaxGroupTieredPackagePricePriceTypeUsagePrice PriceMaxGroupTieredPackagePricePriceType = "usage_price"
-	PriceMaxGroupTieredPackagePricePriceTypeFixedPrice PriceMaxGroupTieredPackagePricePriceType = "fixed_price"
+	PriceMaxGroupTieredPackagePricePriceTypeUsagePrice     PriceMaxGroupTieredPackagePricePriceType = "usage_price"
+	PriceMaxGroupTieredPackagePricePriceTypeFixedPrice     PriceMaxGroupTieredPackagePricePriceType = "fixed_price"
+	PriceMaxGroupTieredPackagePricePriceTypeCompositePrice PriceMaxGroupTieredPackagePricePriceType = "composite_price"
 )
 
 func (r PriceMaxGroupTieredPackagePricePriceType) IsKnown() bool {
 	switch r {
-	case PriceMaxGroupTieredPackagePricePriceTypeUsagePrice, PriceMaxGroupTieredPackagePricePriceTypeFixedPrice:
+	case PriceMaxGroupTieredPackagePricePriceTypeUsagePrice, PriceMaxGroupTieredPackagePricePriceTypeFixedPrice, PriceMaxGroupTieredPackagePricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -18861,13 +18884,14 @@ func (r PriceScalableMatrixWithUnitPricingPriceModelType) IsKnown() bool {
 type PriceScalableMatrixWithUnitPricingPricePriceType string
 
 const (
-	PriceScalableMatrixWithUnitPricingPricePriceTypeUsagePrice PriceScalableMatrixWithUnitPricingPricePriceType = "usage_price"
-	PriceScalableMatrixWithUnitPricingPricePriceTypeFixedPrice PriceScalableMatrixWithUnitPricingPricePriceType = "fixed_price"
+	PriceScalableMatrixWithUnitPricingPricePriceTypeUsagePrice     PriceScalableMatrixWithUnitPricingPricePriceType = "usage_price"
+	PriceScalableMatrixWithUnitPricingPricePriceTypeFixedPrice     PriceScalableMatrixWithUnitPricingPricePriceType = "fixed_price"
+	PriceScalableMatrixWithUnitPricingPricePriceTypeCompositePrice PriceScalableMatrixWithUnitPricingPricePriceType = "composite_price"
 )
 
 func (r PriceScalableMatrixWithUnitPricingPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceScalableMatrixWithUnitPricingPricePriceTypeUsagePrice, PriceScalableMatrixWithUnitPricingPricePriceTypeFixedPrice:
+	case PriceScalableMatrixWithUnitPricingPricePriceTypeUsagePrice, PriceScalableMatrixWithUnitPricingPricePriceTypeFixedPrice, PriceScalableMatrixWithUnitPricingPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -19143,13 +19167,14 @@ func (r PriceScalableMatrixWithTieredPricingPriceModelType) IsKnown() bool {
 type PriceScalableMatrixWithTieredPricingPricePriceType string
 
 const (
-	PriceScalableMatrixWithTieredPricingPricePriceTypeUsagePrice PriceScalableMatrixWithTieredPricingPricePriceType = "usage_price"
-	PriceScalableMatrixWithTieredPricingPricePriceTypeFixedPrice PriceScalableMatrixWithTieredPricingPricePriceType = "fixed_price"
+	PriceScalableMatrixWithTieredPricingPricePriceTypeUsagePrice     PriceScalableMatrixWithTieredPricingPricePriceType = "usage_price"
+	PriceScalableMatrixWithTieredPricingPricePriceTypeFixedPrice     PriceScalableMatrixWithTieredPricingPricePriceType = "fixed_price"
+	PriceScalableMatrixWithTieredPricingPricePriceTypeCompositePrice PriceScalableMatrixWithTieredPricingPricePriceType = "composite_price"
 )
 
 func (r PriceScalableMatrixWithTieredPricingPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceScalableMatrixWithTieredPricingPricePriceTypeUsagePrice, PriceScalableMatrixWithTieredPricingPricePriceTypeFixedPrice:
+	case PriceScalableMatrixWithTieredPricingPricePriceTypeUsagePrice, PriceScalableMatrixWithTieredPricingPricePriceTypeFixedPrice, PriceScalableMatrixWithTieredPricingPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -19504,13 +19529,14 @@ func (r PriceCumulativeGroupedBulkPriceModelType) IsKnown() bool {
 type PriceCumulativeGroupedBulkPricePriceType string
 
 const (
-	PriceCumulativeGroupedBulkPricePriceTypeUsagePrice PriceCumulativeGroupedBulkPricePriceType = "usage_price"
-	PriceCumulativeGroupedBulkPricePriceTypeFixedPrice PriceCumulativeGroupedBulkPricePriceType = "fixed_price"
+	PriceCumulativeGroupedBulkPricePriceTypeUsagePrice     PriceCumulativeGroupedBulkPricePriceType = "usage_price"
+	PriceCumulativeGroupedBulkPricePriceTypeFixedPrice     PriceCumulativeGroupedBulkPricePriceType = "fixed_price"
+	PriceCumulativeGroupedBulkPricePriceTypeCompositePrice PriceCumulativeGroupedBulkPricePriceType = "composite_price"
 )
 
 func (r PriceCumulativeGroupedBulkPricePriceType) IsKnown() bool {
 	switch r {
-	case PriceCumulativeGroupedBulkPricePriceTypeUsagePrice, PriceCumulativeGroupedBulkPricePriceTypeFixedPrice:
+	case PriceCumulativeGroupedBulkPricePriceTypeUsagePrice, PriceCumulativeGroupedBulkPricePriceTypeFixedPrice, PriceCumulativeGroupedBulkPricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -19744,13 +19770,14 @@ func (r PriceMinimumCompositePriceModelType) IsKnown() bool {
 type PriceMinimumCompositePricePriceType string
 
 const (
-	PriceMinimumCompositePricePriceTypeUsagePrice PriceMinimumCompositePricePriceType = "usage_price"
-	PriceMinimumCompositePricePriceTypeFixedPrice PriceMinimumCompositePricePriceType = "fixed_price"
+	PriceMinimumCompositePricePriceTypeUsagePrice     PriceMinimumCompositePricePriceType = "usage_price"
+	PriceMinimumCompositePricePriceTypeFixedPrice     PriceMinimumCompositePricePriceType = "fixed_price"
+	PriceMinimumCompositePricePriceTypeCompositePrice PriceMinimumCompositePricePriceType = "composite_price"
 )
 
 func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
 	switch r {
-	case PriceMinimumCompositePricePriceTypeUsagePrice, PriceMinimumCompositePricePriceTypeFixedPrice:
+	case PriceMinimumCompositePricePriceTypeUsagePrice, PriceMinimumCompositePricePriceTypeFixedPrice, PriceMinimumCompositePricePriceTypeCompositePrice:
 		return true
 	}
 	return false
@@ -19819,13 +19846,14 @@ func (r PriceModelType) IsKnown() bool {
 type PricePriceType string
 
 const (
-	PricePriceTypeUsagePrice PricePriceType = "usage_price"
-	PricePriceTypeFixedPrice PricePriceType = "fixed_price"
+	PricePriceTypeUsagePrice     PricePriceType = "usage_price"
+	PricePriceTypeFixedPrice     PricePriceType = "fixed_price"
+	PricePriceTypeCompositePrice PricePriceType = "composite_price"
 )
 
 func (r PricePriceType) IsKnown() bool {
 	switch r {
-	case PricePriceTypeUsagePrice, PricePriceTypeFixedPrice:
+	case PricePriceTypeUsagePrice, PricePriceTypeFixedPrice, PricePriceTypeCompositePrice:
 		return true
 	}
 	return false
