@@ -6612,7 +6612,9 @@ type NewFloatingTieredPackagePriceTieredPackageConfigParam struct {
 	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
-	// are defined using exclusive lower bounds.
+	// are defined using exclusive lower bounds. The tier bounds are defined based on
+	// the total quantity rather than the number of packages, so they must be multiples
+	// of the package size.
 	Tiers param.Field[[]NewFloatingTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers,required"`
 }
 
@@ -10841,7 +10843,9 @@ type NewPlanTieredPackagePriceTieredPackageConfigParam struct {
 	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
-	// are defined using exclusive lower bounds.
+	// are defined using exclusive lower bounds. The tier bounds are defined based on
+	// the total quantity rather than the number of packages, so they must be multiples
+	// of the package size.
 	Tiers param.Field[[]NewPlanTieredPackagePriceTieredPackageConfigTierParam] `json:"tiers,required"`
 }
 
@@ -14479,7 +14483,9 @@ type PriceTieredPackagePriceTieredPackageConfig struct {
 	// Package size
 	PackageSize string `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
-	// are defined using exclusive lower bounds.
+	// are defined using exclusive lower bounds. The tier bounds are defined based on
+	// the total quantity rather than the number of packages, so they must be multiples
+	// of the package size.
 	Tiers []PriceTieredPackagePriceTieredPackageConfigTier `json:"tiers,required"`
 	JSON  priceTieredPackagePriceTieredPackageConfigJSON   `json:"-"`
 }
