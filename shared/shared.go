@@ -610,7 +610,7 @@ type ChangedSubscriptionResources struct {
 	// The credit notes that were created as part of this operation.
 	CreatedCreditNotes []CreditNote `json:"created_credit_notes,required"`
 	// The invoices that were created as part of this operation.
-	CreatedInvoices []Invoice `json:"created_invoices,required"`
+	CreatedInvoices []ChangedSubscriptionResourcesCreatedInvoice `json:"created_invoices,required"`
 	// The credit notes that were voided as part of this operation.
 	VoidedCreditNotes []CreditNote `json:"voided_credit_notes,required"`
 	// The invoices that were voided as part of this operation.
@@ -635,6 +635,905 @@ func (r *ChangedSubscriptionResources) UnmarshalJSON(data []byte) (err error) {
 
 func (r changedSubscriptionResourcesJSON) RawJSON() string {
 	return r.raw
+}
+
+type ChangedSubscriptionResourcesCreatedInvoice struct {
+	ID string `json:"id,required"`
+	// This is the final amount required to be charged to the customer and reflects the
+	// application of the customer balance to the `total` of the invoice.
+	AmountDue      string                                                    `json:"amount_due,required"`
+	AutoCollection ChangedSubscriptionResourcesCreatedInvoicesAutoCollection `json:"auto_collection,required"`
+	BillingAddress Address                                                   `json:"billing_address,required,nullable"`
+	// The creation time of the resource in Orb.
+	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	// A list of credit notes associated with the invoice
+	CreditNotes []ChangedSubscriptionResourcesCreatedInvoicesCreditNote `json:"credit_notes,required"`
+	// An ISO 4217 currency string or `credits`
+	Currency                    string                                                                  `json:"currency,required"`
+	Customer                    CustomerMinified                                                        `json:"customer,required"`
+	CustomerBalanceTransactions []ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction `json:"customer_balance_transactions,required"`
+	// Tax IDs are commonly required to be displayed on customer invoices, which are
+	// added to the headers of invoices.
+	//
+	// ### Supported Tax ID Countries and Types
+	//
+	// | Country                | Type         | Description                                                                                             |
+	// | ---------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+	// | Albania                | `al_tin`     | Albania Tax Identification Number                                                                       |
+	// | Andorra                | `ad_nrt`     | Andorran NRT Number                                                                                     |
+	// | Angola                 | `ao_tin`     | Angola Tax Identification Number                                                                        |
+	// | Argentina              | `ar_cuit`    | Argentinian Tax ID Number                                                                               |
+	// | Armenia                | `am_tin`     | Armenia Tax Identification Number                                                                       |
+	// | Aruba                  | `aw_tin`     | Aruba Tax Identification Number                                                                         |
+	// | Australia              | `au_abn`     | Australian Business Number (AU ABN)                                                                     |
+	// | Australia              | `au_arn`     | Australian Taxation Office Reference Number                                                             |
+	// | Austria                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Azerbaijan             | `az_tin`     | Azerbaijan Tax Identification Number                                                                    |
+	// | Bahamas                | `bs_tin`     | Bahamas Tax Identification Number                                                                       |
+	// | Bahrain                | `bh_vat`     | Bahraini VAT Number                                                                                     |
+	// | Bangladesh             | `bd_bin`     | Bangladesh Business Identification Number                                                               |
+	// | Barbados               | `bb_tin`     | Barbados Tax Identification Number                                                                      |
+	// | Belarus                | `by_tin`     | Belarus TIN Number                                                                                      |
+	// | Belgium                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Benin                  | `bj_ifu`     | Benin Tax Identification Number (Identifiant Fiscal Unique)                                             |
+	// | Bolivia                | `bo_tin`     | Bolivian Tax ID                                                                                         |
+	// | Bosnia and Herzegovina | `ba_tin`     | Bosnia and Herzegovina Tax Identification Number                                                        |
+	// | Brazil                 | `br_cnpj`    | Brazilian CNPJ Number                                                                                   |
+	// | Brazil                 | `br_cpf`     | Brazilian CPF Number                                                                                    |
+	// | Bulgaria               | `bg_uic`     | Bulgaria Unified Identification Code                                                                    |
+	// | Bulgaria               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Burkina Faso           | `bf_ifu`     | Burkina Faso Tax Identification Number (Numéro d'Identifiant Fiscal Unique)                             |
+	// | Cambodia               | `kh_tin`     | Cambodia Tax Identification Number                                                                      |
+	// | Cameroon               | `cm_niu`     | Cameroon Tax Identification Number (Numéro d'Identifiant fiscal Unique)                                 |
+	// | Canada                 | `ca_bn`      | Canadian BN                                                                                             |
+	// | Canada                 | `ca_gst_hst` | Canadian GST/HST Number                                                                                 |
+	// | Canada                 | `ca_pst_bc`  | Canadian PST Number (British Columbia)                                                                  |
+	// | Canada                 | `ca_pst_mb`  | Canadian PST Number (Manitoba)                                                                          |
+	// | Canada                 | `ca_pst_sk`  | Canadian PST Number (Saskatchewan)                                                                      |
+	// | Canada                 | `ca_qst`     | Canadian QST Number (Québec)                                                                            |
+	// | Cape Verde             | `cv_nif`     | Cape Verde Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Chile                  | `cl_tin`     | Chilean TIN                                                                                             |
+	// | China                  | `cn_tin`     | Chinese Tax ID                                                                                          |
+	// | Colombia               | `co_nit`     | Colombian NIT Number                                                                                    |
+	// | Congo-Kinshasa         | `cd_nif`     | Congo (DR) Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Costa Rica             | `cr_tin`     | Costa Rican Tax ID                                                                                      |
+	// | Croatia                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Croatia                | `hr_oib`     | Croatian Personal Identification Number (OIB)                                                           |
+	// | Cyprus                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Czech Republic         | `eu_vat`     | European VAT Number                                                                                     |
+	// | Denmark                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Dominican Republic     | `do_rcn`     | Dominican RCN Number                                                                                    |
+	// | Ecuador                | `ec_ruc`     | Ecuadorian RUC Number                                                                                   |
+	// | Egypt                  | `eg_tin`     | Egyptian Tax Identification Number                                                                      |
+	// | El Salvador            | `sv_nit`     | El Salvadorian NIT Number                                                                               |
+	// | Estonia                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Ethiopia               | `et_tin`     | Ethiopia Tax Identification Number                                                                      |
+	// | European Union         | `eu_oss_vat` | European One Stop Shop VAT Number for non-Union scheme                                                  |
+	// | Finland                | `eu_vat`     | European VAT Number                                                                                     |
+	// | France                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Georgia                | `ge_vat`     | Georgian VAT                                                                                            |
+	// | Germany                | `de_stn`     | German Tax Number (Steuernummer)                                                                        |
+	// | Germany                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Greece                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Guinea                 | `gn_nif`     | Guinea Tax Identification Number (Número de Identificação Fiscal)                                       |
+	// | Hong Kong              | `hk_br`      | Hong Kong BR Number                                                                                     |
+	// | Hungary                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Hungary                | `hu_tin`     | Hungary Tax Number (adószám)                                                                            |
+	// | Iceland                | `is_vat`     | Icelandic VAT                                                                                           |
+	// | India                  | `in_gst`     | Indian GST Number                                                                                       |
+	// | Indonesia              | `id_npwp`    | Indonesian NPWP Number                                                                                  |
+	// | Ireland                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Israel                 | `il_vat`     | Israel VAT                                                                                              |
+	// | Italy                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Japan                  | `jp_cn`      | Japanese Corporate Number (_Hōjin Bangō_)                                                               |
+	// | Japan                  | `jp_rn`      | Japanese Registered Foreign Businesses' Registration Number (_Tōroku Kokugai Jigyōsha no Tōroku Bangō_) |
+	// | Japan                  | `jp_trn`     | Japanese Tax Registration Number (_Tōroku Bangō_)                                                       |
+	// | Kazakhstan             | `kz_bin`     | Kazakhstani Business Identification Number                                                              |
+	// | Kenya                  | `ke_pin`     | Kenya Revenue Authority Personal Identification Number                                                  |
+	// | Kyrgyzstan             | `kg_tin`     | Kyrgyzstan Tax Identification Number                                                                    |
+	// | Laos                   | `la_tin`     | Laos Tax Identification Number                                                                          |
+	// | Latvia                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Liechtenstein          | `li_uid`     | Liechtensteinian UID Number                                                                             |
+	// | Liechtenstein          | `li_vat`     | Liechtenstein VAT Number                                                                                |
+	// | Lithuania              | `eu_vat`     | European VAT Number                                                                                     |
+	// | Luxembourg             | `eu_vat`     | European VAT Number                                                                                     |
+	// | Malaysia               | `my_frp`     | Malaysian FRP Number                                                                                    |
+	// | Malaysia               | `my_itn`     | Malaysian ITN                                                                                           |
+	// | Malaysia               | `my_sst`     | Malaysian SST Number                                                                                    |
+	// | Malta                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Mauritania             | `mr_nif`     | Mauritania Tax Identification Number (Número de Identificação Fiscal)                                   |
+	// | Mexico                 | `mx_rfc`     | Mexican RFC Number                                                                                      |
+	// | Moldova                | `md_vat`     | Moldova VAT Number                                                                                      |
+	// | Montenegro             | `me_pib`     | Montenegro PIB Number                                                                                   |
+	// | Morocco                | `ma_vat`     | Morocco VAT Number                                                                                      |
+	// | Nepal                  | `np_pan`     | Nepal PAN Number                                                                                        |
+	// | Netherlands            | `eu_vat`     | European VAT Number                                                                                     |
+	// | New Zealand            | `nz_gst`     | New Zealand GST Number                                                                                  |
+	// | Nigeria                | `ng_tin`     | Nigerian Tax Identification Number                                                                      |
+	// | North Macedonia        | `mk_vat`     | North Macedonia VAT Number                                                                              |
+	// | Northern Ireland       | `eu_vat`     | Northern Ireland VAT Number                                                                             |
+	// | Norway                 | `no_vat`     | Norwegian VAT Number                                                                                    |
+	// | Norway                 | `no_voec`    | Norwegian VAT on e-commerce Number                                                                      |
+	// | Oman                   | `om_vat`     | Omani VAT Number                                                                                        |
+	// | Peru                   | `pe_ruc`     | Peruvian RUC Number                                                                                     |
+	// | Philippines            | `ph_tin`     | Philippines Tax Identification Number                                                                   |
+	// | Poland                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Portugal               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Romania                | `eu_vat`     | European VAT Number                                                                                     |
+	// | Romania                | `ro_tin`     | Romanian Tax ID Number                                                                                  |
+	// | Russia                 | `ru_inn`     | Russian INN                                                                                             |
+	// | Russia                 | `ru_kpp`     | Russian KPP                                                                                             |
+	// | Saudi Arabia           | `sa_vat`     | Saudi Arabia VAT                                                                                        |
+	// | Senegal                | `sn_ninea`   | Senegal NINEA Number                                                                                    |
+	// | Serbia                 | `rs_pib`     | Serbian PIB Number                                                                                      |
+	// | Singapore              | `sg_gst`     | Singaporean GST                                                                                         |
+	// | Singapore              | `sg_uen`     | Singaporean UEN                                                                                         |
+	// | Slovakia               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Slovenia               | `eu_vat`     | European VAT Number                                                                                     |
+	// | Slovenia               | `si_tin`     | Slovenia Tax Number (davčna številka)                                                                   |
+	// | South Africa           | `za_vat`     | South African VAT Number                                                                                |
+	// | South Korea            | `kr_brn`     | Korean BRN                                                                                              |
+	// | Spain                  | `es_cif`     | Spanish NIF Number (previously Spanish CIF Number)                                                      |
+	// | Spain                  | `eu_vat`     | European VAT Number                                                                                     |
+	// | Suriname               | `sr_fin`     | Suriname FIN Number                                                                                     |
+	// | Sweden                 | `eu_vat`     | European VAT Number                                                                                     |
+	// | Switzerland            | `ch_uid`     | Switzerland UID Number                                                                                  |
+	// | Switzerland            | `ch_vat`     | Switzerland VAT Number                                                                                  |
+	// | Taiwan                 | `tw_vat`     | Taiwanese VAT                                                                                           |
+	// | Tajikistan             | `tj_tin`     | Tajikistan Tax Identification Number                                                                    |
+	// | Tanzania               | `tz_vat`     | Tanzania VAT Number                                                                                     |
+	// | Thailand               | `th_vat`     | Thai VAT                                                                                                |
+	// | Turkey                 | `tr_tin`     | Turkish Tax Identification Number                                                                       |
+	// | Uganda                 | `ug_tin`     | Uganda Tax Identification Number                                                                        |
+	// | Ukraine                | `ua_vat`     | Ukrainian VAT                                                                                           |
+	// | United Arab Emirates   | `ae_trn`     | United Arab Emirates TRN                                                                                |
+	// | United Kingdom         | `gb_vat`     | United Kingdom VAT Number                                                                               |
+	// | United States          | `us_ein`     | United States EIN                                                                                       |
+	// | Uruguay                | `uy_ruc`     | Uruguayan RUC Number                                                                                    |
+	// | Uzbekistan             | `uz_tin`     | Uzbekistan TIN Number                                                                                   |
+	// | Uzbekistan             | `uz_vat`     | Uzbekistan VAT Number                                                                                   |
+	// | Venezuela              | `ve_rif`     | Venezuelan RIF Number                                                                                   |
+	// | Vietnam                | `vn_tin`     | Vietnamese Tax ID Number                                                                                |
+	// | Zambia                 | `zm_tin`     | Zambia Tax Identification Number                                                                        |
+	// | Zimbabwe               | `zw_tin`     | Zimbabwe Tax Identification Number                                                                      |
+	CustomerTaxID CustomerTaxID `json:"customer_tax_id,required,nullable"`
+	// This field is deprecated in favor of `discounts`. If a `discounts` list is
+	// provided, the first discount in the list will be returned. If the list is empty,
+	// `None` will be returned.
+	//
+	// Deprecated: deprecated
+	Discount  interface{}            `json:"discount,required"`
+	Discounts []InvoiceLevelDiscount `json:"discounts,required"`
+	// When the invoice payment is due. The due date is null if the invoice is not yet
+	// finalized.
+	DueDate time.Time `json:"due_date,required,nullable" format:"date-time"`
+	// If the invoice has a status of `draft`, this will be the time that the invoice
+	// will be eligible to be issued, otherwise it will be `null`. If `auto-issue` is
+	// true, the invoice will automatically begin issuing at this time.
+	EligibleToIssueAt time.Time `json:"eligible_to_issue_at,required,nullable" format:"date-time"`
+	// A URL for the customer-facing invoice portal. This URL expires 30 days after the
+	// invoice's due date, or 60 days after being re-generated through the UI.
+	HostedInvoiceURL string `json:"hosted_invoice_url,required,nullable"`
+	// The scheduled date of the invoice
+	InvoiceDate time.Time `json:"invoice_date,required" format:"date-time"`
+	// Automatically generated invoice number to help track and reconcile invoices.
+	// Invoice numbers have a prefix such as `RFOBWG`. These can be sequential per
+	// account or customer.
+	InvoiceNumber string `json:"invoice_number,required"`
+	// The link to download the PDF representation of the `Invoice`.
+	InvoicePdf    string                                                   `json:"invoice_pdf,required,nullable"`
+	InvoiceSource ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource `json:"invoice_source,required"`
+	// True if the invoice has only in-advance fixed fees and is payable now
+	IsPayableNow bool `json:"is_payable_now,required"`
+	// If the invoice failed to issue, this will be the last time it failed to issue
+	// (even if it is now in a different state.)
+	IssueFailedAt time.Time `json:"issue_failed_at,required,nullable" format:"date-time"`
+	// If the invoice has been issued, this will be the time it transitioned to
+	// `issued` (even if it is now in a different state.)
+	IssuedAt time.Time `json:"issued_at,required,nullable" format:"date-time"`
+	// The breakdown of prices in this invoice.
+	LineItems     []ChangedSubscriptionResourcesCreatedInvoicesLineItem `json:"line_items,required"`
+	Maximum       Maximum                                               `json:"maximum,required,nullable"`
+	MaximumAmount string                                                `json:"maximum_amount,required,nullable"`
+	// Free-form text which is available on the invoice PDF and the Orb invoice portal.
+	Memo string `json:"memo,required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata      map[string]string `json:"metadata,required"`
+	Minimum       Minimum           `json:"minimum,required,nullable"`
+	MinimumAmount string            `json:"minimum_amount,required,nullable"`
+	// If the invoice has a status of `paid`, this gives a timestamp when the invoice
+	// was paid.
+	PaidAt time.Time `json:"paid_at,required,nullable" format:"date-time"`
+	// A list of payment attempts associated with the invoice
+	PaymentAttempts []ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt `json:"payment_attempts,required"`
+	// If payment was attempted on this invoice but failed, this will be the time of
+	// the most recent attempt.
+	PaymentFailedAt time.Time `json:"payment_failed_at,required,nullable" format:"date-time"`
+	// If payment was attempted on this invoice, this will be the start time of the
+	// most recent attempt. This field is especially useful for delayed-notification
+	// payment mechanisms (like bank transfers), where payment can take 3 days or more.
+	PaymentStartedAt time.Time `json:"payment_started_at,required,nullable" format:"date-time"`
+	// If the invoice is in draft, this timestamp will reflect when the invoice is
+	// scheduled to be issued.
+	ScheduledIssueAt time.Time                                         `json:"scheduled_issue_at,required,nullable" format:"date-time"`
+	ShippingAddress  Address                                           `json:"shipping_address,required,nullable"`
+	Status           ChangedSubscriptionResourcesCreatedInvoicesStatus `json:"status,required"`
+	Subscription     SubscriptionMinified                              `json:"subscription,required,nullable"`
+	// The total before any discounts and minimums are applied.
+	Subtotal string `json:"subtotal,required"`
+	// If the invoice failed to sync, this will be the last time an external invoicing
+	// provider sync was attempted. This field will always be `null` for invoices using
+	// Orb Invoicing.
+	SyncFailedAt time.Time `json:"sync_failed_at,required,nullable" format:"date-time"`
+	// The total after any minimums and discounts have been applied.
+	Total string `json:"total,required"`
+	// If the invoice has a status of `void`, this gives a timestamp when the invoice
+	// was voided.
+	VoidedAt time.Time `json:"voided_at,required,nullable" format:"date-time"`
+	// This is true if the invoice will be automatically issued in the future, and
+	// false otherwise.
+	WillAutoIssue bool                                           `json:"will_auto_issue,required"`
+	JSON          changedSubscriptionResourcesCreatedInvoiceJSON `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoiceJSON contains the JSON metadata for
+// the struct [ChangedSubscriptionResourcesCreatedInvoice]
+type changedSubscriptionResourcesCreatedInvoiceJSON struct {
+	ID                          apijson.Field
+	AmountDue                   apijson.Field
+	AutoCollection              apijson.Field
+	BillingAddress              apijson.Field
+	CreatedAt                   apijson.Field
+	CreditNotes                 apijson.Field
+	Currency                    apijson.Field
+	Customer                    apijson.Field
+	CustomerBalanceTransactions apijson.Field
+	CustomerTaxID               apijson.Field
+	Discount                    apijson.Field
+	Discounts                   apijson.Field
+	DueDate                     apijson.Field
+	EligibleToIssueAt           apijson.Field
+	HostedInvoiceURL            apijson.Field
+	InvoiceDate                 apijson.Field
+	InvoiceNumber               apijson.Field
+	InvoicePdf                  apijson.Field
+	InvoiceSource               apijson.Field
+	IsPayableNow                apijson.Field
+	IssueFailedAt               apijson.Field
+	IssuedAt                    apijson.Field
+	LineItems                   apijson.Field
+	Maximum                     apijson.Field
+	MaximumAmount               apijson.Field
+	Memo                        apijson.Field
+	Metadata                    apijson.Field
+	Minimum                     apijson.Field
+	MinimumAmount               apijson.Field
+	PaidAt                      apijson.Field
+	PaymentAttempts             apijson.Field
+	PaymentFailedAt             apijson.Field
+	PaymentStartedAt            apijson.Field
+	ScheduledIssueAt            apijson.Field
+	ShippingAddress             apijson.Field
+	Status                      apijson.Field
+	Subscription                apijson.Field
+	Subtotal                    apijson.Field
+	SyncFailedAt                apijson.Field
+	Total                       apijson.Field
+	VoidedAt                    apijson.Field
+	WillAutoIssue               apijson.Field
+	raw                         string
+	ExtraFields                 map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoiceJSON) RawJSON() string {
+	return r.raw
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesAutoCollection struct {
+	// True only if auto-collection is enabled for this invoice.
+	Enabled bool `json:"enabled,required,nullable"`
+	// If the invoice is scheduled for auto-collection, this field will reflect when
+	// the next attempt will occur. If dunning has been exhausted, or auto-collection
+	// is not enabled for this invoice, this field will be `null`.
+	NextAttemptAt time.Time `json:"next_attempt_at,required,nullable" format:"date-time"`
+	// Number of auto-collection payment attempts.
+	NumAttempts int64 `json:"num_attempts,required,nullable"`
+	// If Orb has ever attempted payment auto-collection for this invoice, this field
+	// will reflect when that attempt occurred. In conjunction with `next_attempt_at`,
+	// this can be used to tell whether the invoice is currently in dunning (that is,
+	// `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or
+	// if dunning has been exhausted (`previously_attempted_at` is non-null, but
+	// `next_attempt_time` is null).
+	PreviouslyAttemptedAt time.Time                                                     `json:"previously_attempted_at,required,nullable" format:"date-time"`
+	JSON                  changedSubscriptionResourcesCreatedInvoicesAutoCollectionJSON `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesAutoCollectionJSON contains the JSON
+// metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesAutoCollection]
+type changedSubscriptionResourcesCreatedInvoicesAutoCollectionJSON struct {
+	Enabled               apijson.Field
+	NextAttemptAt         apijson.Field
+	NumAttempts           apijson.Field
+	PreviouslyAttemptedAt apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesAutoCollection) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesAutoCollectionJSON) RawJSON() string {
+	return r.raw
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesCreditNote struct {
+	ID               string `json:"id,required"`
+	CreditNoteNumber string `json:"credit_note_number,required"`
+	// An optional memo supplied on the credit note.
+	Memo   string `json:"memo,required,nullable"`
+	Reason string `json:"reason,required"`
+	Total  string `json:"total,required"`
+	Type   string `json:"type,required"`
+	// If the credit note has a status of `void`, this gives a timestamp when the
+	// credit note was voided.
+	VoidedAt time.Time                                                 `json:"voided_at,required,nullable" format:"date-time"`
+	JSON     changedSubscriptionResourcesCreatedInvoicesCreditNoteJSON `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesCreditNoteJSON contains the JSON
+// metadata for the struct [ChangedSubscriptionResourcesCreatedInvoicesCreditNote]
+type changedSubscriptionResourcesCreatedInvoicesCreditNoteJSON struct {
+	ID               apijson.Field
+	CreditNoteNumber apijson.Field
+	Memo             apijson.Field
+	Reason           apijson.Field
+	Total            apijson.Field
+	Type             apijson.Field
+	VoidedAt         apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesCreditNote) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesCreditNoteJSON) RawJSON() string {
+	return r.raw
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction struct {
+	// A unique id for this transaction.
+	ID     string                                                                       `json:"id,required"`
+	Action ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction `json:"action,required"`
+	// The value of the amount changed in the transaction.
+	Amount string `json:"amount,required"`
+	// The creation time of this transaction.
+	CreatedAt  time.Time      `json:"created_at,required" format:"date-time"`
+	CreditNote CreditNoteTiny `json:"credit_note,required,nullable"`
+	// An optional description provided for manual customer balance adjustments.
+	Description string `json:"description,required,nullable"`
+	// The new value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	EndingBalance string      `json:"ending_balance,required"`
+	Invoice       InvoiceTiny `json:"invoice,required,nullable"`
+	// The original value of the customer's balance prior to the transaction, in the
+	// customer's currency.
+	StartingBalance string                                                                     `json:"starting_balance,required"`
+	Type            ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType `json:"type,required"`
+	JSON            changedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionJSON  `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionJSON
+// contains the JSON metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction]
+type changedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionJSON struct {
+	ID              apijson.Field
+	Action          apijson.Field
+	Amount          apijson.Field
+	CreatedAt       apijson.Field
+	CreditNote      apijson.Field
+	Description     apijson.Field
+	EndingBalance   apijson.Field
+	Invoice         apijson.Field
+	StartingBalance apijson.Field
+	Type            apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionJSON) RawJSON() string {
+	return r.raw
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionAppliedToInvoice      ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "applied_to_invoice"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionManualAdjustment      ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "manual_adjustment"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionProratedRefund        ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "prorated_refund"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionRevertProratedRefund  ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "revert_prorated_refund"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionReturnFromVoiding     ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "return_from_voiding"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteApplied     ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "credit_note_applied"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteVoided      ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "credit_note_voided"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionOverpaymentRefund     ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "overpayment_refund"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionExternalPayment       ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "external_payment"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionSmallInvoiceCarryover ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = "small_invoice_carryover"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionAppliedToInvoice, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionManualAdjustment, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionProratedRefund, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionRevertProratedRefund, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionReturnFromVoiding, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteApplied, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteVoided, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionOverpaymentRefund, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionExternalPayment, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionSmallInvoiceCarryover:
+		return true
+	}
+	return false
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeIncrement ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType = "increment"
+	ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeDecrement ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType = "decrement"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeIncrement, ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeDecrement:
+		return true
+	}
+	return false
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceSubscription ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource = "subscription"
+	ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourcePartial      ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource = "partial"
+	ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceOneOff       ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource = "one_off"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceSubscription, ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourcePartial, ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceOneOff:
+		return true
+	}
+	return false
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesLineItem struct {
+	// A unique ID for this line item.
+	ID string `json:"id,required"`
+	// The line amount after any adjustments and before overage conversion, credits and
+	// partial invoicing.
+	AdjustedSubtotal string `json:"adjusted_subtotal,required"`
+	// All adjustments applied to the line item in the order they were applied based on
+	// invoice calculations (ie. usage discounts -> amount discounts -> percentage
+	// discounts -> minimums -> maximums).
+	Adjustments []ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment `json:"adjustments,required"`
+	// The final amount for a line item after all adjustments and pre paid credits have
+	// been applied.
+	Amount string `json:"amount,required"`
+	// The number of prepaid credits applied.
+	CreditsApplied string `json:"credits_applied,required"`
+	// This field is deprecated in favor of `adjustments`
+	//
+	// Deprecated: deprecated
+	Discount Discount `json:"discount,required,nullable"`
+	// The end date of the range of time applied for this line item's price.
+	EndDate time.Time `json:"end_date,required" format:"date-time"`
+	// An additional filter that was used to calculate the usage for this line item.
+	Filter string `json:"filter,required,nullable"`
+	// [DEPRECATED] For configured prices that are split by a grouping key, this will
+	// be populated with the key and a value. The `amount` and `subtotal` will be the
+	// values for this particular grouping.
+	Grouping string `json:"grouping,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	Maximum Maximum `json:"maximum,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	Minimum Minimum `json:"minimum,required,nullable"`
+	// This field is deprecated in favor of `adjustments`.
+	//
+	// Deprecated: deprecated
+	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	// The name of the price associated with this line item.
+	Name string `json:"name,required"`
+	// Any amount applied from a partial invoice
+	PartiallyInvoicedAmount string `json:"partially_invoiced_amount,required"`
+	// The Price resource represents a price that can be billed on a subscription,
+	// resulting in a charge on an invoice in the form of an invoice line item. Prices
+	// take a quantity and determine an amount to bill.
+	//
+	// Orb supports a few different pricing models out of the box. Each of these models
+	// is serialized differently in a given Price object. The model_type field
+	// determines the key for the configuration object that is present.
+	//
+	// For more on the types of prices, see
+	// [the core concepts documentation](/core-concepts#plan-and-price)
+	Price Price `json:"price,required"`
+	// Either the fixed fee quantity or the usage during the service period.
+	Quantity float64 `json:"quantity,required"`
+	// The start date of the range of time applied for this line item's price.
+	StartDate time.Time `json:"start_date,required" format:"date-time"`
+	// For complex pricing structures, the line item can be broken down further in
+	// `sub_line_items`.
+	SubLineItems []ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem `json:"sub_line_items,required"`
+	// The line amount before any adjustments.
+	Subtotal string `json:"subtotal,required"`
+	// An array of tax rates and their incurred tax amounts. Empty if no tax
+	// integration is configured.
+	TaxAmounts []TaxAmount `json:"tax_amounts,required"`
+	// A list of customer ids that were used to calculate the usage for this line item.
+	UsageCustomerIDs []string                                                `json:"usage_customer_ids,required,nullable"`
+	JSON             changedSubscriptionResourcesCreatedInvoicesLineItemJSON `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesLineItemJSON contains the JSON
+// metadata for the struct [ChangedSubscriptionResourcesCreatedInvoicesLineItem]
+type changedSubscriptionResourcesCreatedInvoicesLineItemJSON struct {
+	ID                      apijson.Field
+	AdjustedSubtotal        apijson.Field
+	Adjustments             apijson.Field
+	Amount                  apijson.Field
+	CreditsApplied          apijson.Field
+	Discount                apijson.Field
+	EndDate                 apijson.Field
+	Filter                  apijson.Field
+	Grouping                apijson.Field
+	Maximum                 apijson.Field
+	MaximumAmount           apijson.Field
+	Minimum                 apijson.Field
+	MinimumAmount           apijson.Field
+	Name                    apijson.Field
+	PartiallyInvoicedAmount apijson.Field
+	Price                   apijson.Field
+	Quantity                apijson.Field
+	StartDate               apijson.Field
+	SubLineItems            apijson.Field
+	Subtotal                apijson.Field
+	TaxAmounts              apijson.Field
+	UsageCustomerIDs        apijson.Field
+	raw                     string
+	ExtraFields             map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesLineItem) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment struct {
+	ID             string                                                                        `json:"id,required"`
+	AdjustmentType ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType `json:"adjustment_type,required"`
+	// The value applied by an adjustment.
+	Amount string `json:"amount,required"`
+	// This field can have the runtime type of [[]string].
+	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
+	// This field can have the runtime type of [[]TransformPriceFilter].
+	Filters interface{} `json:"filters,required"`
+	// True for adjustments that apply to an entire invoice, false for adjustments that
+	// apply to only one price.
+	IsInvoiceLevel bool `json:"is_invoice_level,required"`
+	// The reason for the adjustment.
+	Reason string `json:"reason,required,nullable"`
+	// The adjustment id this adjustment replaces. This adjustment will take the place
+	// of the replaced adjustment in plan version migrations.
+	ReplacesAdjustmentID string `json:"replaces_adjustment_id,required,nullable"`
+	// The amount by which to discount the prices this adjustment applies to in a given
+	// billing period.
+	AmountDiscount string `json:"amount_discount"`
+	// The item ID that revenue from this minimum will be attributed to.
+	ItemID string `json:"item_id"`
+	// The maximum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MaximumAmount string `json:"maximum_amount"`
+	// The minimum amount to charge in a given billing period for the prices this
+	// adjustment applies to.
+	MinimumAmount string `json:"minimum_amount"`
+	// The percentage (as a value between 0 and 1) by which to discount the price
+	// intervals this adjustment applies to in a given billing period.
+	PercentageDiscount float64 `json:"percentage_discount"`
+	// The number of usage units by which to discount the price this adjustment applies
+	// to in a given billing period.
+	UsageDiscount float64                                                            `json:"usage_discount"`
+	JSON          changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentJSON `json:"-"`
+	union         ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsUnion
+}
+
+// changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentJSON contains the
+// JSON metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment]
+type changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentJSON struct {
+	ID                   apijson.Field
+	AdjustmentType       apijson.Field
+	Amount               apijson.Field
+	AppliesToPriceIDs    apijson.Field
+	Filters              apijson.Field
+	IsInvoiceLevel       apijson.Field
+	Reason               apijson.Field
+	ReplacesAdjustmentID apijson.Field
+	AmountDiscount       apijson.Field
+	ItemID               apijson.Field
+	MaximumAmount        apijson.Field
+	MinimumAmount        apijson.Field
+	PercentageDiscount   apijson.Field
+	UsageDiscount        apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment) UnmarshalJSON(data []byte) (err error) {
+	*r = ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are [MonetaryUsageDiscountAdjustment],
+// [MonetaryAmountDiscountAdjustment], [MonetaryPercentageDiscountAdjustment],
+// [MonetaryMinimumAdjustment], [MonetaryMaximumAdjustment].
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment) AsUnion() ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsUnion {
+	return r.union
+}
+
+// Union satisfied by [MonetaryUsageDiscountAdjustment],
+// [MonetaryAmountDiscountAdjustment], [MonetaryPercentageDiscountAdjustment],
+// [MonetaryMinimumAdjustment] or [MonetaryMaximumAdjustment].
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsUnion interface {
+	ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsUnion)(nil)).Elem(),
+		"adjustment_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(MonetaryUsageDiscountAdjustment{}),
+			DiscriminatorValue: "usage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(MonetaryAmountDiscountAdjustment{}),
+			DiscriminatorValue: "amount_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(MonetaryPercentageDiscountAdjustment{}),
+			DiscriminatorValue: "percentage_discount",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(MonetaryMinimumAdjustment{}),
+			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(MonetaryMaximumAdjustment{}),
+			DiscriminatorValue: "maximum",
+		},
+	)
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount      ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "usage_discount"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount     ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "amount_discount"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "percentage_discount"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum            ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "minimum"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum            ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = "maximum"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum, ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum:
+		return true
+	}
+	return false
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem struct {
+	// The total amount for this sub line item.
+	Amount       string                                                               `json:"amount,required"`
+	Grouping     SubLineItemGrouping                                                  `json:"grouping,required,nullable"`
+	Name         string                                                               `json:"name,required"`
+	Quantity     float64                                                              `json:"quantity,required"`
+	Type         ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType `json:"type,required"`
+	MatrixConfig SubLineItemMatrixConfig                                              `json:"matrix_config"`
+	// This field can have the runtime type of [TierSubLineItemTierConfig].
+	TierConfig interface{}                                                         `json:"tier_config"`
+	JSON       changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON `json:"-"`
+	union      ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsUnion
+}
+
+// changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON contains the
+// JSON metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem]
+type changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON struct {
+	Amount       apijson.Field
+	Grouping     apijson.Field
+	Name         apijson.Field
+	Quantity     apijson.Field
+	Type         apijson.Field
+	MatrixConfig apijson.Field
+	TierConfig   apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem) UnmarshalJSON(data []byte) (err error) {
+	*r = ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a
+// [ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are [MatrixSubLineItem], [TierSubLineItem],
+// [OtherSubLineItem].
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem) AsUnion() ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsUnion {
+	return r.union
+}
+
+// Union satisfied by [MatrixSubLineItem], [TierSubLineItem] or [OtherSubLineItem].
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsUnion interface {
+	ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsUnion)(nil)).Elem(),
+		"type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(MatrixSubLineItem{}),
+			DiscriminatorValue: "matrix",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(TierSubLineItem{}),
+			DiscriminatorValue: "tier",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(OtherSubLineItem{}),
+			DiscriminatorValue: "'null'",
+		},
+	)
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeMatrix ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType = "matrix"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeTier   ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType = "tier"
+	ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeNull   ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType = "'null'"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeMatrix, ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeTier, ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeNull:
+		return true
+	}
+	return false
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt struct {
+	// The ID of the payment attempt.
+	ID string `json:"id,required"`
+	// The amount of the payment attempt.
+	Amount string `json:"amount,required"`
+	// The time at which the payment attempt was created.
+	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	// The payment provider that attempted to collect the payment.
+	PaymentProvider ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider `json:"payment_provider,required,nullable"`
+	// The ID of the payment attempt in the payment provider.
+	PaymentProviderID string `json:"payment_provider_id,required,nullable"`
+	// URL to the downloadable PDF version of the receipt. This field will be `null`
+	// for payment attempts that did not succeed.
+	ReceiptPdf string `json:"receipt_pdf,required,nullable"`
+	// Whether the payment attempt succeeded.
+	Succeeded bool                                                          `json:"succeeded,required"`
+	JSON      changedSubscriptionResourcesCreatedInvoicesPaymentAttemptJSON `json:"-"`
+}
+
+// changedSubscriptionResourcesCreatedInvoicesPaymentAttemptJSON contains the JSON
+// metadata for the struct
+// [ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt]
+type changedSubscriptionResourcesCreatedInvoicesPaymentAttemptJSON struct {
+	ID                apijson.Field
+	Amount            apijson.Field
+	CreatedAt         apijson.Field
+	PaymentProvider   apijson.Field
+	PaymentProviderID apijson.Field
+	ReceiptPdf        apijson.Field
+	Succeeded         apijson.Field
+	raw               string
+	ExtraFields       map[string]apijson.Field
+}
+
+func (r *ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r changedSubscriptionResourcesCreatedInvoicesPaymentAttemptJSON) RawJSON() string {
+	return r.raw
+}
+
+// The payment provider that attempted to collect the payment.
+type ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider = "stripe"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe:
+		return true
+	}
+	return false
+}
+
+type ChangedSubscriptionResourcesCreatedInvoicesStatus string
+
+const (
+	ChangedSubscriptionResourcesCreatedInvoicesStatusIssued ChangedSubscriptionResourcesCreatedInvoicesStatus = "issued"
+	ChangedSubscriptionResourcesCreatedInvoicesStatusPaid   ChangedSubscriptionResourcesCreatedInvoicesStatus = "paid"
+	ChangedSubscriptionResourcesCreatedInvoicesStatusSynced ChangedSubscriptionResourcesCreatedInvoicesStatus = "synced"
+	ChangedSubscriptionResourcesCreatedInvoicesStatusVoid   ChangedSubscriptionResourcesCreatedInvoicesStatus = "void"
+	ChangedSubscriptionResourcesCreatedInvoicesStatusDraft  ChangedSubscriptionResourcesCreatedInvoicesStatus = "draft"
+)
+
+func (r ChangedSubscriptionResourcesCreatedInvoicesStatus) IsKnown() bool {
+	switch r {
+	case ChangedSubscriptionResourcesCreatedInvoicesStatusIssued, ChangedSubscriptionResourcesCreatedInvoicesStatusPaid, ChangedSubscriptionResourcesCreatedInvoicesStatusSynced, ChangedSubscriptionResourcesCreatedInvoicesStatusVoid, ChangedSubscriptionResourcesCreatedInvoicesStatusDraft:
+		return true
+	}
+	return false
 }
 
 type ConversionRateTier struct {
@@ -3078,6 +3977,9 @@ func (r matrixSubLineItemJSON) RawJSON() string {
 	return r.raw
 }
 
+func (r MatrixSubLineItem) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem() {
+}
+
 func (r MatrixSubLineItem) ImplementsInvoiceLineItemsSubLineItem() {}
 
 func (r MatrixSubLineItem) ImplementsInvoiceLineItemNewResponseSubLineItem() {}
@@ -3402,6 +4304,9 @@ func (r monetaryAmountDiscountAdjustmentJSON) RawJSON() string {
 	return r.raw
 }
 
+func (r MonetaryAmountDiscountAdjustment) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment() {
+}
+
 func (r MonetaryAmountDiscountAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
 
 func (r MonetaryAmountDiscountAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {}
@@ -3470,6 +4375,9 @@ func (r *MonetaryMaximumAdjustment) UnmarshalJSON(data []byte) (err error) {
 
 func (r monetaryMaximumAdjustmentJSON) RawJSON() string {
 	return r.raw
+}
+
+func (r MonetaryMaximumAdjustment) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment() {
 }
 
 func (r MonetaryMaximumAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
@@ -3544,6 +4452,9 @@ func (r monetaryMinimumAdjustmentJSON) RawJSON() string {
 	return r.raw
 }
 
+func (r MonetaryMinimumAdjustment) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment() {
+}
+
 func (r MonetaryMinimumAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
 
 func (r MonetaryMinimumAdjustment) ImplementsInvoiceLineItemNewResponseAdjustment() {}
@@ -3611,6 +4522,9 @@ func (r *MonetaryPercentageDiscountAdjustment) UnmarshalJSON(data []byte) (err e
 
 func (r monetaryPercentageDiscountAdjustmentJSON) RawJSON() string {
 	return r.raw
+}
+
+func (r MonetaryPercentageDiscountAdjustment) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment() {
 }
 
 func (r MonetaryPercentageDiscountAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
@@ -3681,6 +4595,9 @@ func (r *MonetaryUsageDiscountAdjustment) UnmarshalJSON(data []byte) (err error)
 
 func (r monetaryUsageDiscountAdjustmentJSON) RawJSON() string {
 	return r.raw
+}
+
+func (r MonetaryUsageDiscountAdjustment) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment() {
 }
 
 func (r MonetaryUsageDiscountAdjustment) ImplementsInvoiceLineItemsAdjustment() {}
@@ -11915,6 +12832,9 @@ func (r otherSubLineItemJSON) RawJSON() string {
 	return r.raw
 }
 
+func (r OtherSubLineItem) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem() {
+}
+
 func (r OtherSubLineItem) ImplementsInvoiceLineItemsSubLineItem() {}
 
 func (r OtherSubLineItem) ImplementsInvoiceLineItemNewResponseSubLineItem() {}
@@ -12520,6 +13440,7 @@ type Price struct {
 	ID                        string                    `json:"id,required"`
 	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceCadence              `json:"cadence,required"`
 	// This field can have the runtime type of [[]TransformPriceFilter].
 	CompositePriceFilters interface{} `json:"composite_price_filters,required"`
@@ -12662,6 +13583,7 @@ type priceJSON struct {
 	ID                                    apijson.Field
 	BillableMetric                        apijson.Field
 	BillingCycleConfiguration             apijson.Field
+	BillingMode                           apijson.Field
 	Cadence                               apijson.Field
 	CompositePriceFilters                 apijson.Field
 	ConversionRate                        apijson.Field
@@ -12924,6 +13846,7 @@ type PriceUnitPrice struct {
 	ID                        string                             `json:"id,required"`
 	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceUnitPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceUnitPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
@@ -12969,6 +13892,7 @@ type priceUnitPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -13006,6 +13930,21 @@ func (r priceUnitPriceJSON) RawJSON() string {
 }
 
 func (r PriceUnitPrice) implementsPrice() {}
+
+type PriceUnitPriceBillingMode string
+
+const (
+	PriceUnitPriceBillingModeInAdvance PriceUnitPriceBillingMode = "in_advance"
+	PriceUnitPriceBillingModeInArrear  PriceUnitPriceBillingMode = "in_arrear"
+)
+
+func (r PriceUnitPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceUnitPriceBillingModeInAdvance, PriceUnitPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceUnitPriceCadence string
 
@@ -13138,6 +14077,7 @@ type PriceTieredPrice struct {
 	ID                        string                               `json:"id,required"`
 	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceTieredPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter               `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
@@ -13184,6 +14124,7 @@ type priceTieredPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -13221,6 +14162,21 @@ func (r priceTieredPriceJSON) RawJSON() string {
 }
 
 func (r PriceTieredPrice) implementsPrice() {}
+
+type PriceTieredPriceBillingMode string
+
+const (
+	PriceTieredPriceBillingModeInAdvance PriceTieredPriceBillingMode = "in_advance"
+	PriceTieredPriceBillingModeInArrear  PriceTieredPriceBillingMode = "in_arrear"
+)
+
+func (r PriceTieredPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceTieredPriceBillingModeInAdvance, PriceTieredPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceTieredPriceCadence string
 
@@ -13353,6 +14309,7 @@ type PriceBulkPrice struct {
 	ID                        string                    `json:"id,required"`
 	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceBulkPriceBillingMode `json:"billing_mode,required"`
 	// Configuration for bulk pricing
 	BulkConfig            BulkConfig                         `json:"bulk_config,required"`
 	Cadence               PriceBulkPriceCadence              `json:"cadence,required"`
@@ -13398,6 +14355,7 @@ type priceBulkPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	BulkConfig                    apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
@@ -13435,6 +14393,21 @@ func (r priceBulkPriceJSON) RawJSON() string {
 }
 
 func (r PriceBulkPrice) implementsPrice() {}
+
+type PriceBulkPriceBillingMode string
+
+const (
+	PriceBulkPriceBillingModeInAdvance PriceBulkPriceBillingMode = "in_advance"
+	PriceBulkPriceBillingModeInArrear  PriceBulkPriceBillingMode = "in_arrear"
+)
+
+func (r PriceBulkPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceBulkPriceBillingModeInAdvance, PriceBulkPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceBulkPriceCadence string
 
@@ -13567,6 +14540,7 @@ type PricePackagePrice struct {
 	ID                        string                                `json:"id,required"`
 	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
+	BillingMode               PricePackagePriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PricePackagePriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
@@ -13613,6 +14587,7 @@ type pricePackagePriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -13650,6 +14625,21 @@ func (r pricePackagePriceJSON) RawJSON() string {
 }
 
 func (r PricePackagePrice) implementsPrice() {}
+
+type PricePackagePriceBillingMode string
+
+const (
+	PricePackagePriceBillingModeInAdvance PricePackagePriceBillingMode = "in_advance"
+	PricePackagePriceBillingModeInArrear  PricePackagePriceBillingMode = "in_arrear"
+)
+
+func (r PricePackagePriceBillingMode) IsKnown() bool {
+	switch r {
+	case PricePackagePriceBillingModeInAdvance, PricePackagePriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PricePackagePriceCadence string
 
@@ -13782,6 +14772,7 @@ type PriceMatrixPrice struct {
 	ID                        string                               `json:"id,required"`
 	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMatrixPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceMatrixPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter               `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
@@ -13828,6 +14819,7 @@ type priceMatrixPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -13865,6 +14857,21 @@ func (r priceMatrixPriceJSON) RawJSON() string {
 }
 
 func (r PriceMatrixPrice) implementsPrice() {}
+
+type PriceMatrixPriceBillingMode string
+
+const (
+	PriceMatrixPriceBillingModeInAdvance PriceMatrixPriceBillingMode = "in_advance"
+	PriceMatrixPriceBillingModeInArrear  PriceMatrixPriceBillingMode = "in_arrear"
+)
+
+func (r PriceMatrixPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceMatrixPriceBillingModeInAdvance, PriceMatrixPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceMatrixPriceCadence string
 
@@ -13997,6 +15004,7 @@ type PriceThresholdTotalAmountPrice struct {
 	ID                        string                                             `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceThresholdTotalAmountPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceThresholdTotalAmountPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
@@ -14043,6 +15051,7 @@ type priceThresholdTotalAmountPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -14080,6 +15089,21 @@ func (r priceThresholdTotalAmountPriceJSON) RawJSON() string {
 }
 
 func (r PriceThresholdTotalAmountPrice) implementsPrice() {}
+
+type PriceThresholdTotalAmountPriceBillingMode string
+
+const (
+	PriceThresholdTotalAmountPriceBillingModeInAdvance PriceThresholdTotalAmountPriceBillingMode = "in_advance"
+	PriceThresholdTotalAmountPriceBillingModeInArrear  PriceThresholdTotalAmountPriceBillingMode = "in_arrear"
+)
+
+func (r PriceThresholdTotalAmountPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPriceBillingModeInAdvance, PriceThresholdTotalAmountPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceThresholdTotalAmountPriceCadence string
 
@@ -14267,6 +15291,7 @@ type PriceTieredPackagePrice struct {
 	ID                        string                                      `json:"id,required"`
 	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredPackagePriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceTieredPackagePriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                      `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
@@ -14313,6 +15338,7 @@ type priceTieredPackagePriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -14350,6 +15376,21 @@ func (r priceTieredPackagePriceJSON) RawJSON() string {
 }
 
 func (r PriceTieredPackagePrice) implementsPrice() {}
+
+type PriceTieredPackagePriceBillingMode string
+
+const (
+	PriceTieredPackagePriceBillingModeInAdvance PriceTieredPackagePriceBillingMode = "in_advance"
+	PriceTieredPackagePriceBillingModeInArrear  PriceTieredPackagePriceBillingMode = "in_arrear"
+)
+
+func (r PriceTieredPackagePriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePriceBillingModeInAdvance, PriceTieredPackagePriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceTieredPackagePriceCadence string
 
@@ -14537,6 +15578,7 @@ type PriceTieredWithMinimumPrice struct {
 	ID                        string                                          `json:"id,required"`
 	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredWithMinimumPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceTieredWithMinimumPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
@@ -14583,6 +15625,7 @@ type priceTieredWithMinimumPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -14620,6 +15663,21 @@ func (r priceTieredWithMinimumPriceJSON) RawJSON() string {
 }
 
 func (r PriceTieredWithMinimumPrice) implementsPrice() {}
+
+type PriceTieredWithMinimumPriceBillingMode string
+
+const (
+	PriceTieredWithMinimumPriceBillingModeInAdvance PriceTieredWithMinimumPriceBillingMode = "in_advance"
+	PriceTieredWithMinimumPriceBillingModeInArrear  PriceTieredWithMinimumPriceBillingMode = "in_arrear"
+)
+
+func (r PriceTieredWithMinimumPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPriceBillingModeInAdvance, PriceTieredWithMinimumPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceTieredWithMinimumPriceCadence string
 
@@ -14811,6 +15869,7 @@ type PriceGroupedTieredPrice struct {
 	ID                        string                                      `json:"id,required"`
 	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedTieredPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceGroupedTieredPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                      `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
@@ -14857,6 +15916,7 @@ type priceGroupedTieredPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -14894,6 +15954,21 @@ func (r priceGroupedTieredPriceJSON) RawJSON() string {
 }
 
 func (r PriceGroupedTieredPrice) implementsPrice() {}
+
+type PriceGroupedTieredPriceBillingMode string
+
+const (
+	PriceGroupedTieredPriceBillingModeInAdvance PriceGroupedTieredPriceBillingMode = "in_advance"
+	PriceGroupedTieredPriceBillingModeInArrear  PriceGroupedTieredPriceBillingMode = "in_arrear"
+)
+
+func (r PriceGroupedTieredPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPriceBillingModeInAdvance, PriceGroupedTieredPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceGroupedTieredPriceCadence string
 
@@ -15079,6 +16154,7 @@ type PriceTieredPackageWithMinimumPrice struct {
 	ID                        string                                                 `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                     `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                              `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredPackageWithMinimumPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceTieredPackageWithMinimumPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                                 `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                `json:"conversion_rate,required,nullable"`
@@ -15125,6 +16201,7 @@ type priceTieredPackageWithMinimumPriceJSON struct {
 	ID                             apijson.Field
 	BillableMetric                 apijson.Field
 	BillingCycleConfiguration      apijson.Field
+	BillingMode                    apijson.Field
 	Cadence                        apijson.Field
 	CompositePriceFilters          apijson.Field
 	ConversionRate                 apijson.Field
@@ -15162,6 +16239,21 @@ func (r priceTieredPackageWithMinimumPriceJSON) RawJSON() string {
 }
 
 func (r PriceTieredPackageWithMinimumPrice) implementsPrice() {}
+
+type PriceTieredPackageWithMinimumPriceBillingMode string
+
+const (
+	PriceTieredPackageWithMinimumPriceBillingModeInAdvance PriceTieredPackageWithMinimumPriceBillingMode = "in_advance"
+	PriceTieredPackageWithMinimumPriceBillingModeInArrear  PriceTieredPackageWithMinimumPriceBillingMode = "in_arrear"
+)
+
+func (r PriceTieredPackageWithMinimumPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPriceBillingModeInAdvance, PriceTieredPackageWithMinimumPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceTieredPackageWithMinimumPriceCadence string
 
@@ -15352,6 +16444,7 @@ type PricePackageWithAllocationPrice struct {
 	ID                        string                                              `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
+	BillingMode               PricePackageWithAllocationPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PricePackageWithAllocationPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
@@ -15398,6 +16491,7 @@ type pricePackageWithAllocationPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -15435,6 +16529,21 @@ func (r pricePackageWithAllocationPriceJSON) RawJSON() string {
 }
 
 func (r PricePackageWithAllocationPrice) implementsPrice() {}
+
+type PricePackageWithAllocationPriceBillingMode string
+
+const (
+	PricePackageWithAllocationPriceBillingModeInAdvance PricePackageWithAllocationPriceBillingMode = "in_advance"
+	PricePackageWithAllocationPriceBillingModeInArrear  PricePackageWithAllocationPriceBillingMode = "in_arrear"
+)
+
+func (r PricePackageWithAllocationPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPriceBillingModeInAdvance, PricePackageWithAllocationPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PricePackageWithAllocationPriceCadence string
 
@@ -15597,6 +16706,7 @@ type PriceUnitWithPercentPrice struct {
 	ID                        string                                        `json:"id,required"`
 	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceUnitWithPercentPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceUnitWithPercentPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                        `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
@@ -15643,6 +16753,7 @@ type priceUnitWithPercentPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -15680,6 +16791,21 @@ func (r priceUnitWithPercentPriceJSON) RawJSON() string {
 }
 
 func (r PriceUnitWithPercentPrice) implementsPrice() {}
+
+type PriceUnitWithPercentPriceBillingMode string
+
+const (
+	PriceUnitWithPercentPriceBillingModeInAdvance PriceUnitWithPercentPriceBillingMode = "in_advance"
+	PriceUnitWithPercentPriceBillingModeInArrear  PriceUnitWithPercentPriceBillingMode = "in_arrear"
+)
+
+func (r PriceUnitWithPercentPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPriceBillingModeInAdvance, PriceUnitWithPercentPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceUnitWithPercentPriceCadence string
 
@@ -15838,6 +16964,7 @@ type PriceMatrixWithAllocationPrice struct {
 	ID                        string                                             `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMatrixWithAllocationPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceMatrixWithAllocationPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
@@ -15884,6 +17011,7 @@ type priceMatrixWithAllocationPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -15921,6 +17049,21 @@ func (r priceMatrixWithAllocationPriceJSON) RawJSON() string {
 }
 
 func (r PriceMatrixWithAllocationPrice) implementsPrice() {}
+
+type PriceMatrixWithAllocationPriceBillingMode string
+
+const (
+	PriceMatrixWithAllocationPriceBillingModeInAdvance PriceMatrixWithAllocationPriceBillingMode = "in_advance"
+	PriceMatrixWithAllocationPriceBillingModeInArrear  PriceMatrixWithAllocationPriceBillingMode = "in_arrear"
+)
+
+func (r PriceMatrixWithAllocationPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPriceBillingModeInAdvance, PriceMatrixWithAllocationPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceMatrixWithAllocationPriceCadence string
 
@@ -16053,6 +17196,7 @@ type PriceTieredWithProrationPrice struct {
 	ID                        string                                            `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredWithProrationPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceTieredWithProrationPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                            `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
@@ -16099,6 +17243,7 @@ type priceTieredWithProrationPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -16136,6 +17281,21 @@ func (r priceTieredWithProrationPriceJSON) RawJSON() string {
 }
 
 func (r PriceTieredWithProrationPrice) implementsPrice() {}
+
+type PriceTieredWithProrationPriceBillingMode string
+
+const (
+	PriceTieredWithProrationPriceBillingModeInAdvance PriceTieredWithProrationPriceBillingMode = "in_advance"
+	PriceTieredWithProrationPriceBillingModeInArrear  PriceTieredWithProrationPriceBillingMode = "in_arrear"
+)
+
+func (r PriceTieredWithProrationPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceTieredWithProrationPriceBillingModeInAdvance, PriceTieredWithProrationPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceTieredWithProrationPriceCadence string
 
@@ -16319,6 +17479,7 @@ type PriceUnitWithProrationPrice struct {
 	ID                        string                                          `json:"id,required"`
 	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceUnitWithProrationPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceUnitWithProrationPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
@@ -16365,6 +17526,7 @@ type priceUnitWithProrationPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -16402,6 +17564,21 @@ func (r priceUnitWithProrationPriceJSON) RawJSON() string {
 }
 
 func (r PriceUnitWithProrationPrice) implementsPrice() {}
+
+type PriceUnitWithProrationPriceBillingMode string
+
+const (
+	PriceUnitWithProrationPriceBillingModeInAdvance PriceUnitWithProrationPriceBillingMode = "in_advance"
+	PriceUnitWithProrationPriceBillingModeInArrear  PriceUnitWithProrationPriceBillingMode = "in_arrear"
+)
+
+func (r PriceUnitWithProrationPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceUnitWithProrationPriceBillingModeInAdvance, PriceUnitWithProrationPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceUnitWithProrationPriceCadence string
 
@@ -16557,6 +17734,7 @@ type PriceGroupedAllocationPrice struct {
 	ID                        string                                          `json:"id,required"`
 	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedAllocationPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceGroupedAllocationPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
@@ -16603,6 +17781,7 @@ type priceGroupedAllocationPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -16640,6 +17819,21 @@ func (r priceGroupedAllocationPriceJSON) RawJSON() string {
 }
 
 func (r PriceGroupedAllocationPrice) implementsPrice() {}
+
+type PriceGroupedAllocationPriceBillingMode string
+
+const (
+	PriceGroupedAllocationPriceBillingModeInAdvance PriceGroupedAllocationPriceBillingMode = "in_advance"
+	PriceGroupedAllocationPriceBillingModeInArrear  PriceGroupedAllocationPriceBillingMode = "in_arrear"
+)
+
+func (r PriceGroupedAllocationPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceGroupedAllocationPriceBillingModeInAdvance, PriceGroupedAllocationPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceGroupedAllocationPriceCadence string
 
@@ -16798,9 +17992,10 @@ func (r PriceGroupedAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceBulkWithProrationPrice struct {
-	ID                        string                    `json:"id,required"`
-	BillableMetric            BillableMetricTiny        `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
+	ID                        string                                 `json:"id,required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceBulkWithProrationPriceBillingMode `json:"billing_mode,required"`
 	// Configuration for bulk_with_proration pricing
 	BulkWithProrationConfig PriceBulkWithProrationPriceBulkWithProrationConfig `json:"bulk_with_proration_config,required"`
 	Cadence                 PriceBulkWithProrationPriceCadence                 `json:"cadence,required"`
@@ -16847,6 +18042,7 @@ type priceBulkWithProrationPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	BulkWithProrationConfig       apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
@@ -16884,6 +18080,21 @@ func (r priceBulkWithProrationPriceJSON) RawJSON() string {
 }
 
 func (r PriceBulkWithProrationPrice) implementsPrice() {}
+
+type PriceBulkWithProrationPriceBillingMode string
+
+const (
+	PriceBulkWithProrationPriceBillingModeInAdvance PriceBulkWithProrationPriceBillingMode = "in_advance"
+	PriceBulkWithProrationPriceBillingModeInArrear  PriceBulkWithProrationPriceBillingMode = "in_arrear"
+)
+
+func (r PriceBulkWithProrationPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceBulkWithProrationPriceBillingModeInAdvance, PriceBulkWithProrationPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 // Configuration for bulk_with_proration pricing
 type PriceBulkWithProrationPriceBulkWithProrationConfig struct {
@@ -17065,6 +18276,7 @@ type PriceGroupedWithProratedMinimumPrice struct {
 	ID                        string                                                   `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                       `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedWithProratedMinimumPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceGroupedWithProratedMinimumPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                                   `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                  `json:"conversion_rate,required,nullable"`
@@ -17111,6 +18323,7 @@ type priceGroupedWithProratedMinimumPriceJSON struct {
 	ID                               apijson.Field
 	BillableMetric                   apijson.Field
 	BillingCycleConfiguration        apijson.Field
+	BillingMode                      apijson.Field
 	Cadence                          apijson.Field
 	CompositePriceFilters            apijson.Field
 	ConversionRate                   apijson.Field
@@ -17148,6 +18361,21 @@ func (r priceGroupedWithProratedMinimumPriceJSON) RawJSON() string {
 }
 
 func (r PriceGroupedWithProratedMinimumPrice) implementsPrice() {}
+
+type PriceGroupedWithProratedMinimumPriceBillingMode string
+
+const (
+	PriceGroupedWithProratedMinimumPriceBillingModeInAdvance PriceGroupedWithProratedMinimumPriceBillingMode = "in_advance"
+	PriceGroupedWithProratedMinimumPriceBillingModeInArrear  PriceGroupedWithProratedMinimumPriceBillingMode = "in_arrear"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceBillingModeInAdvance, PriceGroupedWithProratedMinimumPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceGroupedWithProratedMinimumPriceCadence string
 
@@ -17312,6 +18540,7 @@ type PriceGroupedWithMeteredMinimumPrice struct {
 	ID                        string                                                  `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                      `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                               `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedWithMeteredMinimumPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                                  `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                 `json:"conversion_rate,required,nullable"`
@@ -17358,6 +18587,7 @@ type priceGroupedWithMeteredMinimumPriceJSON struct {
 	ID                              apijson.Field
 	BillableMetric                  apijson.Field
 	BillingCycleConfiguration       apijson.Field
+	BillingMode                     apijson.Field
 	Cadence                         apijson.Field
 	CompositePriceFilters           apijson.Field
 	ConversionRate                  apijson.Field
@@ -17395,6 +18625,21 @@ func (r priceGroupedWithMeteredMinimumPriceJSON) RawJSON() string {
 }
 
 func (r PriceGroupedWithMeteredMinimumPrice) implementsPrice() {}
+
+type PriceGroupedWithMeteredMinimumPriceBillingMode string
+
+const (
+	PriceGroupedWithMeteredMinimumPriceBillingModeInAdvance PriceGroupedWithMeteredMinimumPriceBillingMode = "in_advance"
+	PriceGroupedWithMeteredMinimumPriceBillingModeInArrear  PriceGroupedWithMeteredMinimumPriceBillingMode = "in_arrear"
+)
+
+func (r PriceGroupedWithMeteredMinimumPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithMeteredMinimumPriceBillingModeInAdvance, PriceGroupedWithMeteredMinimumPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceGroupedWithMeteredMinimumPriceCadence string
 
@@ -17623,6 +18868,7 @@ type PriceGroupedWithMinMaxThresholdsPrice struct {
 	ID                        string                                                    `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                        `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                 `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedWithMinMaxThresholdsPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceGroupedWithMinMaxThresholdsPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                                    `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                   `json:"conversion_rate,required,nullable"`
@@ -17669,6 +18915,7 @@ type priceGroupedWithMinMaxThresholdsPriceJSON struct {
 	ID                                apijson.Field
 	BillableMetric                    apijson.Field
 	BillingCycleConfiguration         apijson.Field
+	BillingMode                       apijson.Field
 	Cadence                           apijson.Field
 	CompositePriceFilters             apijson.Field
 	ConversionRate                    apijson.Field
@@ -17706,6 +18953,21 @@ func (r priceGroupedWithMinMaxThresholdsPriceJSON) RawJSON() string {
 }
 
 func (r PriceGroupedWithMinMaxThresholdsPrice) implementsPrice() {}
+
+type PriceGroupedWithMinMaxThresholdsPriceBillingMode string
+
+const (
+	PriceGroupedWithMinMaxThresholdsPriceBillingModeInAdvance PriceGroupedWithMinMaxThresholdsPriceBillingMode = "in_advance"
+	PriceGroupedWithMinMaxThresholdsPriceBillingModeInArrear  PriceGroupedWithMinMaxThresholdsPriceBillingMode = "in_arrear"
+)
+
+func (r PriceGroupedWithMinMaxThresholdsPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithMinMaxThresholdsPriceBillingModeInAdvance, PriceGroupedWithMinMaxThresholdsPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceGroupedWithMinMaxThresholdsPriceCadence string
 
@@ -17873,6 +19135,7 @@ type PriceMatrixWithDisplayNamePrice struct {
 	ID                        string                                              `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMatrixWithDisplayNamePriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceMatrixWithDisplayNamePriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
@@ -17919,6 +19182,7 @@ type priceMatrixWithDisplayNamePriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -17956,6 +19220,21 @@ func (r priceMatrixWithDisplayNamePriceJSON) RawJSON() string {
 }
 
 func (r PriceMatrixWithDisplayNamePrice) implementsPrice() {}
+
+type PriceMatrixWithDisplayNamePriceBillingMode string
+
+const (
+	PriceMatrixWithDisplayNamePriceBillingModeInAdvance PriceMatrixWithDisplayNamePriceBillingMode = "in_advance"
+	PriceMatrixWithDisplayNamePriceBillingModeInArrear  PriceMatrixWithDisplayNamePriceBillingMode = "in_arrear"
+)
+
+func (r PriceMatrixWithDisplayNamePriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithDisplayNamePriceBillingModeInAdvance, PriceMatrixWithDisplayNamePriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceMatrixWithDisplayNamePriceCadence string
 
@@ -18145,6 +19424,7 @@ type PriceGroupedTieredPackagePrice struct {
 	ID                        string                                             `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedTieredPackagePriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceGroupedTieredPackagePriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
@@ -18191,6 +19471,7 @@ type priceGroupedTieredPackagePriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -18228,6 +19509,21 @@ func (r priceGroupedTieredPackagePriceJSON) RawJSON() string {
 }
 
 func (r PriceGroupedTieredPackagePrice) implementsPrice() {}
+
+type PriceGroupedTieredPackagePriceBillingMode string
+
+const (
+	PriceGroupedTieredPackagePriceBillingModeInAdvance PriceGroupedTieredPackagePriceBillingMode = "in_advance"
+	PriceGroupedTieredPackagePriceBillingModeInArrear  PriceGroupedTieredPackagePriceBillingMode = "in_arrear"
+)
+
+func (r PriceGroupedTieredPackagePriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPackagePriceBillingModeInAdvance, PriceGroupedTieredPackagePriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceGroupedTieredPackagePriceCadence string
 
@@ -18418,6 +19714,7 @@ type PriceMaxGroupTieredPackagePrice struct {
 	ID                        string                                              `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMaxGroupTieredPackagePriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceMaxGroupTieredPackagePriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
@@ -18464,6 +19761,7 @@ type priceMaxGroupTieredPackagePriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -18501,6 +19799,21 @@ func (r priceMaxGroupTieredPackagePriceJSON) RawJSON() string {
 }
 
 func (r PriceMaxGroupTieredPackagePrice) implementsPrice() {}
+
+type PriceMaxGroupTieredPackagePriceBillingMode string
+
+const (
+	PriceMaxGroupTieredPackagePriceBillingModeInAdvance PriceMaxGroupTieredPackagePriceBillingMode = "in_advance"
+	PriceMaxGroupTieredPackagePriceBillingModeInArrear  PriceMaxGroupTieredPackagePriceBillingMode = "in_arrear"
+)
+
+func (r PriceMaxGroupTieredPackagePriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceMaxGroupTieredPackagePriceBillingModeInAdvance, PriceMaxGroupTieredPackagePriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceMaxGroupTieredPackagePriceCadence string
 
@@ -18690,6 +20003,7 @@ type PriceScalableMatrixWithUnitPricingPrice struct {
 	ID                        string                                                      `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceScalableMatrixWithUnitPricingPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                                      `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
@@ -18736,6 +20050,7 @@ type priceScalableMatrixWithUnitPricingPriceJSON struct {
 	ID                                  apijson.Field
 	BillableMetric                      apijson.Field
 	BillingCycleConfiguration           apijson.Field
+	BillingMode                         apijson.Field
 	Cadence                             apijson.Field
 	CompositePriceFilters               apijson.Field
 	ConversionRate                      apijson.Field
@@ -18773,6 +20088,21 @@ func (r priceScalableMatrixWithUnitPricingPriceJSON) RawJSON() string {
 }
 
 func (r PriceScalableMatrixWithUnitPricingPrice) implementsPrice() {}
+
+type PriceScalableMatrixWithUnitPricingPriceBillingMode string
+
+const (
+	PriceScalableMatrixWithUnitPricingPriceBillingModeInAdvance PriceScalableMatrixWithUnitPricingPriceBillingMode = "in_advance"
+	PriceScalableMatrixWithUnitPricingPriceBillingModeInArrear  PriceScalableMatrixWithUnitPricingPriceBillingMode = "in_arrear"
+)
+
+func (r PriceScalableMatrixWithUnitPricingPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithUnitPricingPriceBillingModeInAdvance, PriceScalableMatrixWithUnitPricingPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceScalableMatrixWithUnitPricingPriceCadence string
 
@@ -18973,6 +20303,7 @@ type PriceScalableMatrixWithTieredPricingPrice struct {
 	ID                        string                                                        `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                            `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                                     `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceScalableMatrixWithTieredPricingPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                                        `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                                       `json:"conversion_rate,required,nullable"`
@@ -19019,6 +20350,7 @@ type priceScalableMatrixWithTieredPricingPriceJSON struct {
 	ID                                    apijson.Field
 	BillableMetric                        apijson.Field
 	BillingCycleConfiguration             apijson.Field
+	BillingMode                           apijson.Field
 	Cadence                               apijson.Field
 	CompositePriceFilters                 apijson.Field
 	ConversionRate                        apijson.Field
@@ -19056,6 +20388,21 @@ func (r priceScalableMatrixWithTieredPricingPriceJSON) RawJSON() string {
 }
 
 func (r PriceScalableMatrixWithTieredPricingPrice) implementsPrice() {}
+
+type PriceScalableMatrixWithTieredPricingPriceBillingMode string
+
+const (
+	PriceScalableMatrixWithTieredPricingPriceBillingModeInAdvance PriceScalableMatrixWithTieredPricingPriceBillingMode = "in_advance"
+	PriceScalableMatrixWithTieredPricingPriceBillingModeInArrear  PriceScalableMatrixWithTieredPricingPriceBillingMode = "in_arrear"
+)
+
+func (r PriceScalableMatrixWithTieredPricingPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithTieredPricingPriceBillingModeInAdvance, PriceScalableMatrixWithTieredPricingPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceScalableMatrixWithTieredPricingPriceCadence string
 
@@ -19280,6 +20627,7 @@ type PriceCumulativeGroupedBulkPrice struct {
 	ID                        string                                              `json:"id,required"`
 	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceCumulativeGroupedBulkPriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceCumulativeGroupedBulkPriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
@@ -19326,6 +20674,7 @@ type priceCumulativeGroupedBulkPriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -19363,6 +20712,21 @@ func (r priceCumulativeGroupedBulkPriceJSON) RawJSON() string {
 }
 
 func (r PriceCumulativeGroupedBulkPrice) implementsPrice() {}
+
+type PriceCumulativeGroupedBulkPriceBillingMode string
+
+const (
+	PriceCumulativeGroupedBulkPriceBillingModeInAdvance PriceCumulativeGroupedBulkPriceBillingMode = "in_advance"
+	PriceCumulativeGroupedBulkPriceBillingModeInArrear  PriceCumulativeGroupedBulkPriceBillingMode = "in_arrear"
+)
+
+func (r PriceCumulativeGroupedBulkPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceCumulativeGroupedBulkPriceBillingModeInAdvance, PriceCumulativeGroupedBulkPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceCumulativeGroupedBulkPriceCadence string
 
@@ -19552,6 +20916,7 @@ type PriceMinimumCompositePrice struct {
 	ID                        string                                         `json:"id,required"`
 	BillableMetric            BillableMetricTiny                             `json:"billable_metric,required,nullable"`
 	BillingCycleConfiguration BillingCycleConfiguration                      `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMinimumCompositePriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceMinimumCompositePriceCadence              `json:"cadence,required"`
 	CompositePriceFilters     []TransformPriceFilter                         `json:"composite_price_filters,required,nullable"`
 	ConversionRate            float64                                        `json:"conversion_rate,required,nullable"`
@@ -19598,6 +20963,7 @@ type priceMinimumCompositePriceJSON struct {
 	ID                            apijson.Field
 	BillableMetric                apijson.Field
 	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
 	Cadence                       apijson.Field
 	CompositePriceFilters         apijson.Field
 	ConversionRate                apijson.Field
@@ -19635,6 +21001,21 @@ func (r priceMinimumCompositePriceJSON) RawJSON() string {
 }
 
 func (r PriceMinimumCompositePrice) implementsPrice() {}
+
+type PriceMinimumCompositePriceBillingMode string
+
+const (
+	PriceMinimumCompositePriceBillingModeInAdvance PriceMinimumCompositePriceBillingMode = "in_advance"
+	PriceMinimumCompositePriceBillingModeInArrear  PriceMinimumCompositePriceBillingMode = "in_arrear"
+)
+
+func (r PriceMinimumCompositePriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceMinimumCompositePriceBillingModeInAdvance, PriceMinimumCompositePriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
 
 type PriceMinimumCompositePriceCadence string
 
@@ -19784,6 +21165,21 @@ const (
 func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
 	switch r {
 	case PriceMinimumCompositePricePriceTypeUsagePrice, PriceMinimumCompositePricePriceTypeFixedPrice, PriceMinimumCompositePricePriceTypeCompositePrice:
+		return true
+	}
+	return false
+}
+
+type PriceBillingMode string
+
+const (
+	PriceBillingModeInAdvance PriceBillingMode = "in_advance"
+	PriceBillingModeInArrear  PriceBillingMode = "in_arrear"
+)
+
+func (r PriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceBillingModeInAdvance, PriceBillingModeInArrear:
 		return true
 	}
 	return false
@@ -20141,6 +21537,9 @@ func (r *TierSubLineItem) UnmarshalJSON(data []byte) (err error) {
 
 func (r tierSubLineItemJSON) RawJSON() string {
 	return r.raw
+}
+
+func (r TierSubLineItem) ImplementsChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem() {
 }
 
 func (r TierSubLineItem) ImplementsInvoiceLineItemsSubLineItem() {}

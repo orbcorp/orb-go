@@ -141,6 +141,140 @@ type BulkTierParam = shared.BulkTierParam
 type ChangedSubscriptionResources = shared.ChangedSubscriptionResources
 
 // This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoice = shared.ChangedSubscriptionResourcesCreatedInvoice
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesAutoCollection = shared.ChangedSubscriptionResourcesCreatedInvoicesAutoCollection
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesCreditNote = shared.ChangedSubscriptionResourcesCreatedInvoicesCreditNote
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransaction
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsAction
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionAppliedToInvoice = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionAppliedToInvoice
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionManualAdjustment = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionManualAdjustment
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionProratedRefund = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionProratedRefund
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionRevertProratedRefund = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionRevertProratedRefund
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionReturnFromVoiding = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionReturnFromVoiding
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteApplied = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteApplied
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteVoided = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionCreditNoteVoided
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionOverpaymentRefund = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionOverpaymentRefund
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionExternalPayment = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionExternalPayment
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionSmallInvoiceCarryover = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsActionSmallInvoiceCarryover
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsType
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeIncrement = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeIncrement
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeDecrement = shared.ChangedSubscriptionResourcesCreatedInvoicesCustomerBalanceTransactionsTypeDecrement
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource = shared.ChangedSubscriptionResourcesCreatedInvoicesInvoiceSource
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceSubscription = shared.ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceSubscription
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourcePartial = shared.ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourcePartial
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceOneOff = shared.ChangedSubscriptionResourcesCreatedInvoicesInvoiceSourceOneOff
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItem = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItem
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentType
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeUsageDiscount
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeAmountDiscount
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypePercentageDiscount
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMinimum
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustmentsAdjustmentTypeMaximum
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeMatrix = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeMatrix
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeTier = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeTier
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeNull = shared.ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsTypeNull
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt = shared.ChangedSubscriptionResourcesCreatedInvoicesPaymentAttempt
+
+// The payment provider that attempted to collect the payment.
+//
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider = shared.ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProvider
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe = shared.ChangedSubscriptionResourcesCreatedInvoicesPaymentAttemptsPaymentProviderStripe
+
+// This is an alias to an internal type.
+type ChangedSubscriptionResourcesCreatedInvoicesStatus = shared.ChangedSubscriptionResourcesCreatedInvoicesStatus
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesStatusIssued = shared.ChangedSubscriptionResourcesCreatedInvoicesStatusIssued
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesStatusPaid = shared.ChangedSubscriptionResourcesCreatedInvoicesStatusPaid
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesStatusSynced = shared.ChangedSubscriptionResourcesCreatedInvoicesStatusSynced
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesStatusVoid = shared.ChangedSubscriptionResourcesCreatedInvoicesStatusVoid
+
+// This is an alias to an internal value.
+const ChangedSubscriptionResourcesCreatedInvoicesStatusDraft = shared.ChangedSubscriptionResourcesCreatedInvoicesStatusDraft
+
+// This is an alias to an internal type.
 type ConversionRateTier = shared.ConversionRateTier
 
 // This is an alias to an internal type.
@@ -4548,6 +4682,15 @@ type Price = shared.Price
 type PriceUnitPrice = shared.PriceUnitPrice
 
 // This is an alias to an internal type.
+type PriceUnitPriceBillingMode = shared.PriceUnitPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceUnitPriceBillingModeInAdvance = shared.PriceUnitPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceUnitPriceBillingModeInArrear = shared.PriceUnitPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceUnitPriceCadence = shared.PriceUnitPriceCadence
 
 // This is an alias to an internal value.
@@ -4602,6 +4745,15 @@ const PriceUnitPricePriceTypeCompositePrice = shared.PriceUnitPricePriceTypeComp
 
 // This is an alias to an internal type.
 type PriceTieredPrice = shared.PriceTieredPrice
+
+// This is an alias to an internal type.
+type PriceTieredPriceBillingMode = shared.PriceTieredPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceTieredPriceBillingModeInAdvance = shared.PriceTieredPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceTieredPriceBillingModeInArrear = shared.PriceTieredPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceTieredPriceCadence = shared.PriceTieredPriceCadence
@@ -4660,6 +4812,15 @@ const PriceTieredPricePriceTypeCompositePrice = shared.PriceTieredPricePriceType
 type PriceBulkPrice = shared.PriceBulkPrice
 
 // This is an alias to an internal type.
+type PriceBulkPriceBillingMode = shared.PriceBulkPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceBulkPriceBillingModeInAdvance = shared.PriceBulkPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceBulkPriceBillingModeInArrear = shared.PriceBulkPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceBulkPriceCadence = shared.PriceBulkPriceCadence
 
 // This is an alias to an internal value.
@@ -4714,6 +4875,15 @@ const PriceBulkPricePriceTypeCompositePrice = shared.PriceBulkPricePriceTypeComp
 
 // This is an alias to an internal type.
 type PricePackagePrice = shared.PricePackagePrice
+
+// This is an alias to an internal type.
+type PricePackagePriceBillingMode = shared.PricePackagePriceBillingMode
+
+// This is an alias to an internal value.
+const PricePackagePriceBillingModeInAdvance = shared.PricePackagePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PricePackagePriceBillingModeInArrear = shared.PricePackagePriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PricePackagePriceCadence = shared.PricePackagePriceCadence
@@ -4772,6 +4942,15 @@ const PricePackagePricePriceTypeCompositePrice = shared.PricePackagePricePriceTy
 type PriceMatrixPrice = shared.PriceMatrixPrice
 
 // This is an alias to an internal type.
+type PriceMatrixPriceBillingMode = shared.PriceMatrixPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceMatrixPriceBillingModeInAdvance = shared.PriceMatrixPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceMatrixPriceBillingModeInArrear = shared.PriceMatrixPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceMatrixPriceCadence = shared.PriceMatrixPriceCadence
 
 // This is an alias to an internal value.
@@ -4826,6 +5005,15 @@ const PriceMatrixPricePriceTypeCompositePrice = shared.PriceMatrixPricePriceType
 
 // This is an alias to an internal type.
 type PriceThresholdTotalAmountPrice = shared.PriceThresholdTotalAmountPrice
+
+// This is an alias to an internal type.
+type PriceThresholdTotalAmountPriceBillingMode = shared.PriceThresholdTotalAmountPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceBillingModeInAdvance = shared.PriceThresholdTotalAmountPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceBillingModeInArrear = shared.PriceThresholdTotalAmountPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceThresholdTotalAmountPriceCadence = shared.PriceThresholdTotalAmountPriceCadence
@@ -4894,6 +5082,15 @@ type PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable = 
 type PriceTieredPackagePrice = shared.PriceTieredPackagePrice
 
 // This is an alias to an internal type.
+type PriceTieredPackagePriceBillingMode = shared.PriceTieredPackagePriceBillingMode
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceBillingModeInAdvance = shared.PriceTieredPackagePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceBillingModeInArrear = shared.PriceTieredPackagePriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceTieredPackagePriceCadence = shared.PriceTieredPackagePriceCadence
 
 // This is an alias to an internal value.
@@ -4958,6 +5155,15 @@ type PriceTieredPackagePriceTieredPackageConfigTier = shared.PriceTieredPackageP
 
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPrice = shared.PriceTieredWithMinimumPrice
+
+// This is an alias to an internal type.
+type PriceTieredWithMinimumPriceBillingMode = shared.PriceTieredWithMinimumPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceBillingModeInAdvance = shared.PriceTieredWithMinimumPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceBillingModeInArrear = shared.PriceTieredWithMinimumPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPriceCadence = shared.PriceTieredWithMinimumPriceCadence
@@ -5026,6 +5232,15 @@ type PriceTieredWithMinimumPriceTieredWithMinimumConfigTier = shared.PriceTiered
 type PriceGroupedTieredPrice = shared.PriceGroupedTieredPrice
 
 // This is an alias to an internal type.
+type PriceGroupedTieredPriceBillingMode = shared.PriceGroupedTieredPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceBillingModeInAdvance = shared.PriceGroupedTieredPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceBillingModeInArrear = shared.PriceGroupedTieredPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceGroupedTieredPriceCadence = shared.PriceGroupedTieredPriceCadence
 
 // This is an alias to an internal value.
@@ -5090,6 +5305,15 @@ const PriceGroupedTieredPricePriceTypeCompositePrice = shared.PriceGroupedTiered
 
 // This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPrice = shared.PriceTieredPackageWithMinimumPrice
+
+// This is an alias to an internal type.
+type PriceTieredPackageWithMinimumPriceBillingMode = shared.PriceTieredPackageWithMinimumPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceBillingModeInAdvance = shared.PriceTieredPackageWithMinimumPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceBillingModeInArrear = shared.PriceTieredPackageWithMinimumPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPriceCadence = shared.PriceTieredPackageWithMinimumPriceCadence
@@ -5158,6 +5382,15 @@ type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier = shar
 type PricePackageWithAllocationPrice = shared.PricePackageWithAllocationPrice
 
 // This is an alias to an internal type.
+type PricePackageWithAllocationPriceBillingMode = shared.PricePackageWithAllocationPriceBillingMode
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceBillingModeInAdvance = shared.PricePackageWithAllocationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceBillingModeInArrear = shared.PricePackageWithAllocationPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PricePackageWithAllocationPriceCadence = shared.PricePackageWithAllocationPriceCadence
 
 // This is an alias to an internal value.
@@ -5217,6 +5450,15 @@ const PricePackageWithAllocationPricePriceTypeCompositePrice = shared.PricePacka
 
 // This is an alias to an internal type.
 type PriceUnitWithPercentPrice = shared.PriceUnitWithPercentPrice
+
+// This is an alias to an internal type.
+type PriceUnitWithPercentPriceBillingMode = shared.PriceUnitWithPercentPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceBillingModeInAdvance = shared.PriceUnitWithPercentPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceBillingModeInArrear = shared.PriceUnitWithPercentPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceUnitWithPercentPriceCadence = shared.PriceUnitWithPercentPriceCadence
@@ -5280,6 +5522,15 @@ type PriceUnitWithPercentPriceUnitWithPercentConfig = shared.PriceUnitWithPercen
 type PriceMatrixWithAllocationPrice = shared.PriceMatrixWithAllocationPrice
 
 // This is an alias to an internal type.
+type PriceMatrixWithAllocationPriceBillingMode = shared.PriceMatrixWithAllocationPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceBillingModeInAdvance = shared.PriceMatrixWithAllocationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceBillingModeInArrear = shared.PriceMatrixWithAllocationPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceMatrixWithAllocationPriceCadence = shared.PriceMatrixWithAllocationPriceCadence
 
 // This is an alias to an internal value.
@@ -5334,6 +5585,15 @@ const PriceMatrixWithAllocationPricePriceTypeCompositePrice = shared.PriceMatrix
 
 // This is an alias to an internal type.
 type PriceTieredWithProrationPrice = shared.PriceTieredWithProrationPrice
+
+// This is an alias to an internal type.
+type PriceTieredWithProrationPriceBillingMode = shared.PriceTieredWithProrationPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceBillingModeInAdvance = shared.PriceTieredWithProrationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceBillingModeInArrear = shared.PriceTieredWithProrationPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceTieredWithProrationPriceCadence = shared.PriceTieredWithProrationPriceCadence
@@ -5402,6 +5662,15 @@ type PriceTieredWithProrationPriceTieredWithProrationConfigTier = shared.PriceTi
 type PriceUnitWithProrationPrice = shared.PriceUnitWithProrationPrice
 
 // This is an alias to an internal type.
+type PriceUnitWithProrationPriceBillingMode = shared.PriceUnitWithProrationPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceBillingModeInAdvance = shared.PriceUnitWithProrationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceBillingModeInArrear = shared.PriceUnitWithProrationPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceUnitWithProrationPriceCadence = shared.PriceUnitWithProrationPriceCadence
 
 // This is an alias to an internal value.
@@ -5463,6 +5732,15 @@ type PriceUnitWithProrationPriceUnitWithProrationConfig = shared.PriceUnitWithPr
 type PriceGroupedAllocationPrice = shared.PriceGroupedAllocationPrice
 
 // This is an alias to an internal type.
+type PriceGroupedAllocationPriceBillingMode = shared.PriceGroupedAllocationPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceBillingModeInAdvance = shared.PriceGroupedAllocationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceBillingModeInArrear = shared.PriceGroupedAllocationPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceGroupedAllocationPriceCadence = shared.PriceGroupedAllocationPriceCadence
 
 // This is an alias to an internal value.
@@ -5522,6 +5800,15 @@ const PriceGroupedAllocationPricePriceTypeCompositePrice = shared.PriceGroupedAl
 
 // This is an alias to an internal type.
 type PriceBulkWithProrationPrice = shared.PriceBulkWithProrationPrice
+
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceBillingMode = shared.PriceBulkWithProrationPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceBillingModeInAdvance = shared.PriceBulkWithProrationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceBillingModeInArrear = shared.PriceBulkWithProrationPriceBillingModeInArrear
 
 // Configuration for bulk_with_proration pricing
 //
@@ -5590,6 +5877,15 @@ const PriceBulkWithProrationPricePriceTypeCompositePrice = shared.PriceBulkWithP
 type PriceGroupedWithProratedMinimumPrice = shared.PriceGroupedWithProratedMinimumPrice
 
 // This is an alias to an internal type.
+type PriceGroupedWithProratedMinimumPriceBillingMode = shared.PriceGroupedWithProratedMinimumPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceBillingModeInAdvance = shared.PriceGroupedWithProratedMinimumPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceBillingModeInArrear = shared.PriceGroupedWithProratedMinimumPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceGroupedWithProratedMinimumPriceCadence = shared.PriceGroupedWithProratedMinimumPriceCadence
 
 // This is an alias to an internal value.
@@ -5649,6 +5945,15 @@ const PriceGroupedWithProratedMinimumPricePriceTypeCompositePrice = shared.Price
 
 // This is an alias to an internal type.
 type PriceGroupedWithMeteredMinimumPrice = shared.PriceGroupedWithMeteredMinimumPrice
+
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceBillingMode = shared.PriceGroupedWithMeteredMinimumPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceBillingModeInAdvance = shared.PriceGroupedWithMeteredMinimumPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceBillingModeInArrear = shared.PriceGroupedWithMeteredMinimumPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceGroupedWithMeteredMinimumPriceCadence = shared.PriceGroupedWithMeteredMinimumPriceCadence
@@ -5722,6 +6027,15 @@ const PriceGroupedWithMeteredMinimumPricePriceTypeCompositePrice = shared.PriceG
 type PriceGroupedWithMinMaxThresholdsPrice = shared.PriceGroupedWithMinMaxThresholdsPrice
 
 // This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceBillingMode = shared.PriceGroupedWithMinMaxThresholdsPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceBillingModeInAdvance = shared.PriceGroupedWithMinMaxThresholdsPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceBillingModeInArrear = shared.PriceGroupedWithMinMaxThresholdsPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceGroupedWithMinMaxThresholdsPriceCadence = shared.PriceGroupedWithMinMaxThresholdsPriceCadence
 
 // This is an alias to an internal value.
@@ -5781,6 +6095,15 @@ const PriceGroupedWithMinMaxThresholdsPricePriceTypeCompositePrice = shared.Pric
 
 // This is an alias to an internal type.
 type PriceMatrixWithDisplayNamePrice = shared.PriceMatrixWithDisplayNamePrice
+
+// This is an alias to an internal type.
+type PriceMatrixWithDisplayNamePriceBillingMode = shared.PriceMatrixWithDisplayNamePriceBillingMode
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceBillingModeInAdvance = shared.PriceMatrixWithDisplayNamePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceBillingModeInArrear = shared.PriceMatrixWithDisplayNamePriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceMatrixWithDisplayNamePriceCadence = shared.PriceMatrixWithDisplayNamePriceCadence
@@ -5849,6 +6172,15 @@ const PriceMatrixWithDisplayNamePricePriceTypeCompositePrice = shared.PriceMatri
 type PriceGroupedTieredPackagePrice = shared.PriceGroupedTieredPackagePrice
 
 // This is an alias to an internal type.
+type PriceGroupedTieredPackagePriceBillingMode = shared.PriceGroupedTieredPackagePriceBillingMode
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceBillingModeInAdvance = shared.PriceGroupedTieredPackagePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceBillingModeInArrear = shared.PriceGroupedTieredPackagePriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceGroupedTieredPackagePriceCadence = shared.PriceGroupedTieredPackagePriceCadence
 
 // This is an alias to an internal value.
@@ -5913,6 +6245,15 @@ const PriceGroupedTieredPackagePricePriceTypeCompositePrice = shared.PriceGroupe
 
 // This is an alias to an internal type.
 type PriceMaxGroupTieredPackagePrice = shared.PriceMaxGroupTieredPackagePrice
+
+// This is an alias to an internal type.
+type PriceMaxGroupTieredPackagePriceBillingMode = shared.PriceMaxGroupTieredPackagePriceBillingMode
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceBillingModeInAdvance = shared.PriceMaxGroupTieredPackagePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceBillingModeInArrear = shared.PriceMaxGroupTieredPackagePriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceMaxGroupTieredPackagePriceCadence = shared.PriceMaxGroupTieredPackagePriceCadence
@@ -5981,6 +6322,15 @@ const PriceMaxGroupTieredPackagePricePriceTypeCompositePrice = shared.PriceMaxGr
 type PriceScalableMatrixWithUnitPricingPrice = shared.PriceScalableMatrixWithUnitPricingPrice
 
 // This is an alias to an internal type.
+type PriceScalableMatrixWithUnitPricingPriceBillingMode = shared.PriceScalableMatrixWithUnitPricingPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceBillingModeInAdvance = shared.PriceScalableMatrixWithUnitPricingPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceBillingModeInArrear = shared.PriceScalableMatrixWithUnitPricingPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceScalableMatrixWithUnitPricingPriceCadence = shared.PriceScalableMatrixWithUnitPricingPriceCadence
 
 // This is an alias to an internal value.
@@ -6045,6 +6395,15 @@ type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigM
 
 // This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPrice = shared.PriceScalableMatrixWithTieredPricingPrice
+
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceBillingMode = shared.PriceScalableMatrixWithTieredPricingPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceBillingModeInAdvance = shared.PriceScalableMatrixWithTieredPricingPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceBillingModeInArrear = shared.PriceScalableMatrixWithTieredPricingPriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPriceCadence = shared.PriceScalableMatrixWithTieredPricingPriceCadence
@@ -6118,6 +6477,15 @@ type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingCon
 type PriceCumulativeGroupedBulkPrice = shared.PriceCumulativeGroupedBulkPrice
 
 // This is an alias to an internal type.
+type PriceCumulativeGroupedBulkPriceBillingMode = shared.PriceCumulativeGroupedBulkPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceBillingModeInAdvance = shared.PriceCumulativeGroupedBulkPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceBillingModeInArrear = shared.PriceCumulativeGroupedBulkPriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceCumulativeGroupedBulkPriceCadence = shared.PriceCumulativeGroupedBulkPriceCadence
 
 // This is an alias to an internal value.
@@ -6184,6 +6552,15 @@ const PriceCumulativeGroupedBulkPricePriceTypeCompositePrice = shared.PriceCumul
 type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
 
 // This is an alias to an internal type.
+type PriceMinimumCompositePriceBillingMode = shared.PriceMinimumCompositePriceBillingMode
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceBillingModeInAdvance = shared.PriceMinimumCompositePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceBillingModeInArrear = shared.PriceMinimumCompositePriceBillingModeInArrear
+
+// This is an alias to an internal type.
 type PriceMinimumCompositePriceCadence = shared.PriceMinimumCompositePriceCadence
 
 // This is an alias to an internal value.
@@ -6240,6 +6617,15 @@ const PriceMinimumCompositePricePriceTypeFixedPrice = shared.PriceMinimumComposi
 
 // This is an alias to an internal value.
 const PriceMinimumCompositePricePriceTypeCompositePrice = shared.PriceMinimumCompositePricePriceTypeCompositePrice
+
+// This is an alias to an internal type.
+type PriceBillingMode = shared.PriceBillingMode
+
+// This is an alias to an internal value.
+const PriceBillingModeInAdvance = shared.PriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceBillingModeInArrear = shared.PriceBillingModeInArrear
 
 // This is an alias to an internal type.
 type PriceCadence = shared.PriceCadence
