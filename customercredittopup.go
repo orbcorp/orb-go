@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -45,7 +46,7 @@ func NewCustomerCreditTopUpService(opts ...option.RequestOption) (r *CustomerCre
 // If a top-up already exists for this customer in the same currency, the existing
 // top-up will be replaced.
 func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string, body CustomerCreditTopUpNewParams, opts ...option.RequestOption) (res *CustomerCreditTopUpNewResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -58,7 +59,7 @@ func (r *CustomerCreditTopUpService) New(ctx context.Context, customerID string,
 // List top-ups
 func (r *CustomerCreditTopUpService) List(ctx context.Context, customerID string, query CustomerCreditTopUpListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -85,7 +86,7 @@ func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, custome
 // This deactivates the top-up and voids any invoices associated with pending
 // credit blocks purchased through the top-up.
 func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID string, topUpID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -108,7 +109,7 @@ func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID stri
 // If a top-up already exists for this customer in the same currency, the existing
 // top-up will be replaced.
 func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, externalCustomerID string, body CustomerCreditTopUpNewByExternalIDParams, opts ...option.RequestOption) (res *CustomerCreditTopUpNewByExternalIDResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
 		return
@@ -121,7 +122,7 @@ func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, extern
 // This deactivates the top-up and voids any invoices associated with pending
 // credit blocks purchased through the top-up.
 func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, externalCustomerID string, topUpID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
@@ -139,7 +140,7 @@ func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, ext
 // List top-ups by external ID
 func (r *CustomerCreditTopUpService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditTopUpListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditTopUpListByExternalIDResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")

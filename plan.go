@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -44,7 +45,7 @@ func NewPlanService(opts ...option.RequestOption) (r *PlanService) {
 
 // This endpoint allows creation of plans including their prices.
 func (r *PlanService) New(ctx context.Context, body PlanNewParams, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "plans"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -55,7 +56,7 @@ func (r *PlanService) New(ctx context.Context, body PlanNewParams, opts ...optio
 //
 // Other fields on a plan are currently immutable.
 func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
 		return
@@ -72,7 +73,7 @@ func (r *PlanService) Update(ctx context.Context, planID string, body PlanUpdate
 // retrieve the next page of results if they exist.
 func (r *PlanService) List(ctx context.Context, query PlanListParams, opts ...option.RequestOption) (res *pagination.Page[Plan], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "plans"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -114,7 +115,7 @@ func (r *PlanService) ListAutoPaging(ctx context.Context, query PlanListParams, 
 // Orb supports plan phases, also known as contract ramps. For plans with phases,
 // the serialized prices refer to all prices across all phases.
 func (r *PlanService) Fetch(ctx context.Context, planID string, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
 		return

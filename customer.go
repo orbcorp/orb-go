@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -57,7 +58,7 @@ func NewCustomerService(opts ...option.RequestOption) (r *CustomerService) {
 //   - [Timezone localization](/essentials/timezones) can be configured on a
 //     per-customer basis by setting the `timezone` parameter
 func (r *CustomerService) New(ctx context.Context, body CustomerNewParams, opts ...option.RequestOption) (res *Customer, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "customers"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -69,7 +70,7 @@ func (r *CustomerService) New(ctx context.Context, body CustomerNewParams, opts 
 // `additional_emails` of an existing customer. Other fields on a customer are
 // currently immutable.
 func (r *CustomerService) Update(ctx context.Context, customerID string, body CustomerUpdateParams, opts ...option.RequestOption) (res *Customer, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -87,7 +88,7 @@ func (r *CustomerService) Update(ctx context.Context, customerID string, body Cu
 // See [Customer](/core-concepts##customer) for an overview of the customer model.
 func (r *CustomerService) List(ctx context.Context, query CustomerListParams, opts ...option.RequestOption) (res *pagination.Page[Customer], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "customers"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -125,7 +126,7 @@ func (r *CustomerService) ListAutoPaging(ctx context.Context, query CustomerList
 // customer on subsequent GET requests while deletion is in process will reflect
 // its deletion.
 func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -143,7 +144,7 @@ func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ..
 // See the [Customer resource](/core-concepts#customer) for a full discussion of
 // the Customer model.
 func (r *CustomerService) Fetch(ctx context.Context, customerID string, opts ...option.RequestOption) (res *Customer, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -159,7 +160,7 @@ func (r *CustomerService) Fetch(ctx context.Context, customerID string, opts ...
 // Note that the resource and semantics of this endpoint exactly mirror
 // [Get Customer](fetch-customer).
 func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustomerID string, opts ...option.RequestOption) (res *Customer, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
 		return
@@ -176,7 +177,7 @@ func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustome
 //
 // **Note**: This functionality is currently only available for Stripe.
 func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -194,7 +195,7 @@ func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, cus
 //
 // **Note**: This functionality is currently only available for Stripe.
 func (r *CustomerService) SyncPaymentMethodsFromGatewayByExternalCustomerID(ctx context.Context, externalCustomerID string, opts ...option.RequestOption) (err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
@@ -210,7 +211,7 @@ func (r *CustomerService) SyncPaymentMethodsFromGatewayByExternalCustomerID(ctx 
 // resource and semantics of this endpoint exactly mirror
 // [Update Customer](update-customer).
 func (r *CustomerService) UpdateByExternalID(ctx context.Context, id string, body CustomerUpdateByExternalIDParams, opts ...option.RequestOption) (res *Customer, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return

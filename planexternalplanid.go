@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/param"
@@ -38,7 +39,7 @@ func NewPlanExternalPlanIDService(opts ...option.RequestOption) (r *PlanExternal
 //
 // Other fields on a plan are currently immutable.
 func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPlanID string, body PlanExternalPlanIDUpdateParams, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if otherExternalPlanID == "" {
 		err = errors.New("missing required other_external_plan_id parameter")
 		return
@@ -65,7 +66,7 @@ func (r *PlanExternalPlanIDService) Update(ctx context.Context, otherExternalPla
 // that is present. A detailed explanation of price types can be found in the
 // [Price schema](/core-concepts#plan-and-price). "
 func (r *PlanExternalPlanIDService) Fetch(ctx context.Context, externalPlanID string, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
 		return

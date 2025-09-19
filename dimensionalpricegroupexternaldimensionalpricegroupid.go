@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/param"
@@ -37,7 +38,7 @@ func NewDimensionalPriceGroupExternalDimensionalPriceGroupIDService(opts ...opti
 
 // Fetch dimensional price group by external ID
 func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Get(ctx context.Context, externalDimensionalPriceGroupID string, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalDimensionalPriceGroupID == "" {
 		err = errors.New("missing required external_dimensional_price_group_id parameter")
 		return
@@ -51,7 +52,7 @@ func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Get(ctx co
 // and `metadata` of an existing dimensional price group. Other fields on a
 // dimensional price group are currently immutable.
 func (r *DimensionalPriceGroupExternalDimensionalPriceGroupIDService) Update(ctx context.Context, externalDimensionalPriceGroupID string, body DimensionalPriceGroupExternalDimensionalPriceGroupIDUpdateParams, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalDimensionalPriceGroupID == "" {
 		err = errors.New("missing required external_dimensional_price_group_id parameter")
 		return

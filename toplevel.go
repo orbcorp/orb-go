@@ -5,6 +5,7 @@ package orb
 import (
 	"context"
 	"net/http"
+	"slices"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/requestconfig"
@@ -37,7 +38,7 @@ func NewTopLevelService(opts ...option.RequestOption) (r *TopLevelService) {
 //
 // This API does not have any side-effects or return any Orb resources.
 func (r *TopLevelService) Ping(ctx context.Context, opts ...option.RequestOption) (res *TopLevelPingResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "ping"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return

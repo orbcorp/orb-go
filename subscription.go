@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -307,7 +308,7 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // subscription. E.g. pass in `10.00` to issue an invoice when usage amounts hit
 // \$10.00 for a subscription that invoices in USD.
 func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "subscriptions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -317,7 +318,7 @@ func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParam
 // `auto_collection`, `invoicing_threshold`, and `default_invoice_memo` properties
 // on a subscription.
 func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string, body SubscriptionUpdateParams, opts ...option.RequestOption) (res *Subscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -338,7 +339,7 @@ func (r *SubscriptionService) Update(ctx context.Context, subscriptionID string,
 // parameters.
 func (r *SubscriptionService) List(ctx context.Context, query SubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "subscriptions"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -432,7 +433,7 @@ func (r *SubscriptionService) ListAutoPaging(ctx context.Context, query Subscrip
 // dates for the subscription. See the section on
 // [cancellation behaviors](/product-catalog/creating-subscriptions#cancellation-behaviors).
 func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string, body SubscriptionCancelParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -445,7 +446,7 @@ func (r *SubscriptionService) Cancel(ctx context.Context, subscriptionID string,
 // This endpoint is used to fetch a [Subscription](/core-concepts##subscription)
 // given an identifier.
 func (r *SubscriptionService) Fetch(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *Subscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -466,7 +467,7 @@ func (r *SubscriptionService) Fetch(ctx context.Context, subscriptionID string, 
 // de-aggregate costs when a customer's subscription has started and stopped on the
 // same day).
 func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID string, query SubscriptionFetchCostsParams, opts ...option.RequestOption) (res *SubscriptionFetchCostsResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -482,7 +483,7 @@ func (r *SubscriptionService) FetchCosts(ctx context.Context, subscriptionID str
 // changes.
 func (r *SubscriptionService) FetchSchedule(ctx context.Context, subscriptionID string, query SubscriptionFetchScheduleParams, opts ...option.RequestOption) (res *pagination.Page[SubscriptionFetchScheduleResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
@@ -708,7 +709,7 @@ func (r *SubscriptionService) FetchScheduleAutoPaging(ctx context.Context, subsc
 // - `second_dimension_key`: `provider`
 // - `second_dimension_value`: `aws`
 func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID string, query SubscriptionFetchUsageParams, opts ...option.RequestOption) (res *SubscriptionUsage, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -791,7 +792,7 @@ func (r *SubscriptionService) FetchUsage(ctx context.Context, subscriptionID str
 // `fixed_fee_quantity_transitions` property on a subscription’s serialized price
 // intervals.
 func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID string, body SubscriptionPriceIntervalsParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -803,7 +804,7 @@ func (r *SubscriptionService) PriceIntervals(ctx context.Context, subscriptionID
 
 // Redeem a coupon effective at a given time.
 func (r *SubscriptionService) RedeemCoupon(ctx context.Context, subscriptionID string, body SubscriptionRedeemCouponParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -997,7 +998,7 @@ func (r *SubscriptionService) RedeemCoupon(ctx context.Context, subscriptionID s
 // behavior, see
 // [Modifying subscriptions](/product-catalog/modifying-subscriptions#prorations-for-in-advance-fees).
 func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscriptionID string, body SubscriptionSchedulePlanChangeParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -1010,7 +1011,7 @@ func (r *SubscriptionService) SchedulePlanChange(ctx context.Context, subscripti
 // Manually trigger a phase, effective the given date (or the current time, if not
 // specified).
 func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID string, body SubscriptionTriggerPhaseParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -1027,7 +1028,7 @@ func (r *SubscriptionService) TriggerPhase(ctx context.Context, subscriptionID s
 // cancellation. This operation will turn on auto-renew, ensuring that the
 // subscription does not end at the currently scheduled cancellation time.
 func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -1043,7 +1044,7 @@ func (r *SubscriptionService) UnscheduleCancellation(ctx context.Context, subscr
 // If there are no updates scheduled, a request validation error will be returned
 // with a 400 status code.
 func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Context, subscriptionID string, body SubscriptionUnscheduleFixedFeeQuantityUpdatesParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -1056,7 +1057,7 @@ func (r *SubscriptionService) UnscheduleFixedFeeQuantityUpdates(ctx context.Cont
 // This endpoint can be used to unschedule any pending plan changes on an existing
 // subscription. When called, all upcoming plan changes will be unscheduled.
 func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, subscriptionID string, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -1081,7 +1082,7 @@ func (r *SubscriptionService) UnschedulePendingPlanChanges(ctx context.Context, 
 // If the fee is an in-advance fixed fee, it will also issue an immediate invoice
 // for the difference for the remainder of the billing period.
 func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscriptionID string, body SubscriptionUpdateFixedFeeQuantityParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -1110,7 +1111,7 @@ func (r *SubscriptionService) UpdateFixedFeeQuantity(ctx context.Context, subscr
 // added, that change will be pushed back by the same amount of time the trial is
 // extended).
 func (r *SubscriptionService) UpdateTrial(ctx context.Context, subscriptionID string, body SubscriptionUpdateTrialParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return

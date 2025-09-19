@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -66,7 +67,7 @@ func NewCreditNoteService(opts ...option.RequestOption) (r *CreditNoteService) {
 // both the start date and end date completely (from start of start_date to end of
 // end_date).
 func (r *CreditNoteService) New(ctx context.Context, body CreditNoteNewParams, opts ...option.RequestOption) (res *shared.CreditNote, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "credit_notes"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -77,7 +78,7 @@ func (r *CreditNoteService) New(ctx context.Context, body CreditNoteNewParams, o
 // reverse chronological order by `creation_time`.
 func (r *CreditNoteService) List(ctx context.Context, query CreditNoteListParams, opts ...option.RequestOption) (res *pagination.Page[shared.CreditNote], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "credit_notes"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -102,7 +103,7 @@ func (r *CreditNoteService) ListAutoPaging(ctx context.Context, query CreditNote
 // This endpoint is used to fetch a single [`Credit Note`](/invoicing/credit-notes)
 // given an identifier.
 func (r *CreditNoteService) Fetch(ctx context.Context, creditNoteID string, opts ...option.RequestOption) (res *shared.CreditNote, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if creditNoteID == "" {
 		err = errors.New("missing required credit_note_id parameter")
 		return

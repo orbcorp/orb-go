@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -41,7 +42,7 @@ func NewCustomerBalanceTransactionService(opts ...option.RequestOption) (r *Cust
 // Creates an immutable balance transaction that updates the customer's balance and
 // returns back the newly created transaction.
 func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID string, body CustomerBalanceTransactionNewParams, opts ...option.RequestOption) (res *CustomerBalanceTransactionNewResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -74,7 +75,7 @@ func (r *CustomerBalanceTransactionService) New(ctx context.Context, customerID 
 // all adjustments and invoice applications.
 func (r *CustomerBalanceTransactionService) List(ctx context.Context, customerID string, query CustomerBalanceTransactionListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerBalanceTransactionListResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
