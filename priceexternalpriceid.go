@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/param"
@@ -38,7 +39,7 @@ func NewPriceExternalPriceIDService(opts ...option.RequestOption) (r *PriceExter
 // pass null for the metadata value, it will clear any existing metadata for that
 // price.
 func (r *PriceExternalPriceIDService) Update(ctx context.Context, externalPriceID string, body PriceExternalPriceIDUpdateParams, opts ...option.RequestOption) (res *shared.Price, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalPriceID == "" {
 		err = errors.New("missing required external_price_id parameter")
 		return
@@ -52,7 +53,7 @@ func (r *PriceExternalPriceIDService) Update(ctx context.Context, externalPriceI
 // [price creation API](/api-reference/price/create-price) for more information
 // about external price aliases.
 func (r *PriceExternalPriceIDService) Fetch(ctx context.Context, externalPriceID string, opts ...option.RequestOption) (res *shared.Price, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalPriceID == "" {
 		err = errors.New("missing required external_price_id parameter")
 		return

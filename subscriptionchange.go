@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -47,7 +48,7 @@ func NewSubscriptionChangeService(opts ...option.RequestOption) (r *Subscription
 // ...). The subscription change will be referenced by the
 // `pending_subscription_change` field in the response.
 func (r *SubscriptionChangeService) Get(ctx context.Context, subscriptionChangeID string, opts ...option.RequestOption) (res *SubscriptionChangeGetResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionChangeID == "" {
 		err = errors.New("missing required subscription_change_id parameter")
 		return
@@ -61,7 +62,7 @@ func (r *SubscriptionChangeService) Get(ctx context.Context, subscriptionChangeI
 // is passed with a request to this endpoint, any eligible invoices that were
 // created will be issued immediately if they only contain in-advance fees.
 func (r *SubscriptionChangeService) Apply(ctx context.Context, subscriptionChangeID string, body SubscriptionChangeApplyParams, opts ...option.RequestOption) (res *SubscriptionChangeApplyResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionChangeID == "" {
 		err = errors.New("missing required subscription_change_id parameter")
 		return
@@ -75,7 +76,7 @@ func (r *SubscriptionChangeService) Apply(ctx context.Context, subscriptionChang
 // subscription can only have one "pending" change at a time - use this endpoint to
 // cancel an existing change before creating a new one.
 func (r *SubscriptionChangeService) Cancel(ctx context.Context, subscriptionChangeID string, opts ...option.RequestOption) (res *SubscriptionChangeCancelResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionChangeID == "" {
 		err = errors.New("missing required subscription_change_id parameter")
 		return

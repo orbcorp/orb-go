@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/apiquery"
@@ -48,7 +49,7 @@ func NewDimensionalPriceGroupService(opts ...option.RequestOption) (r *Dimension
 // widget. We can create a price group with a dimension "color" and two prices: one
 // that charges \$10 per red widget and one that charges \$20 per blue widget.
 func (r *DimensionalPriceGroupService) New(ctx context.Context, body DimensionalPriceGroupNewParams, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "dimensional_price_groups"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -56,7 +57,7 @@ func (r *DimensionalPriceGroupService) New(ctx context.Context, body Dimensional
 
 // Fetch dimensional price group
 func (r *DimensionalPriceGroupService) Get(ctx context.Context, dimensionalPriceGroupID string, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if dimensionalPriceGroupID == "" {
 		err = errors.New("missing required dimensional_price_group_id parameter")
 		return
@@ -70,7 +71,7 @@ func (r *DimensionalPriceGroupService) Get(ctx context.Context, dimensionalPrice
 // and `metadata` of an existing dimensional price group. Other fields on a
 // dimensional price group are currently immutable.
 func (r *DimensionalPriceGroupService) Update(ctx context.Context, dimensionalPriceGroupID string, body DimensionalPriceGroupUpdateParams, opts ...option.RequestOption) (res *DimensionalPriceGroup, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if dimensionalPriceGroupID == "" {
 		err = errors.New("missing required dimensional_price_group_id parameter")
 		return
@@ -83,7 +84,7 @@ func (r *DimensionalPriceGroupService) Update(ctx context.Context, dimensionalPr
 // List dimensional price groups
 func (r *DimensionalPriceGroupService) List(ctx context.Context, query DimensionalPriceGroupListParams, opts ...option.RequestOption) (res *pagination.Page[DimensionalPriceGroup], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "dimensional_price_groups"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

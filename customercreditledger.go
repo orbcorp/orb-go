@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -123,7 +124,7 @@ func NewCustomerCreditLedgerService(opts ...option.RequestOption) (r *CustomerCr
 // entry will be added to the ledger to indicate the adjustment of credits.
 func (r *CustomerCreditLedgerService) List(ctx context.Context, customerID string, query CustomerCreditLedgerListParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditLedgerListResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
@@ -344,7 +345,7 @@ func (r *CustomerCreditLedgerService) ListAutoPaging(ctx context.Context, custom
 // that was originally decremented from, and `amount` indicates how many credits to
 // return to the customer, up to the block's initial balance.
 func (r *CustomerCreditLedgerService) NewEntry(ctx context.Context, customerID string, body CustomerCreditLedgerNewEntryParams, opts ...option.RequestOption) (res *CustomerCreditLedgerNewEntryResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -471,7 +472,7 @@ func (r *CustomerCreditLedgerService) NewEntry(ctx context.Context, customerID s
 // that was originally decremented from, and `amount` indicates how many credits to
 // return to the customer, up to the block's initial balance.
 func (r *CustomerCreditLedgerService) NewEntryByExternalID(ctx context.Context, externalCustomerID string, body CustomerCreditLedgerNewEntryByExternalIDParams, opts ...option.RequestOption) (res *CustomerCreditLedgerNewEntryByExternalIDResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
 		return
@@ -564,7 +565,7 @@ func (r *CustomerCreditLedgerService) NewEntryByExternalID(ctx context.Context, 
 // entry will be added to the ledger to indicate the adjustment of credits.
 func (r *CustomerCreditLedgerService) ListByExternalID(ctx context.Context, externalCustomerID string, query CustomerCreditLedgerListByExternalIDParams, opts ...option.RequestOption) (res *pagination.Page[CustomerCreditLedgerListByExternalIDResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")

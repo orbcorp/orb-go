@@ -6,6 +6,7 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -48,7 +49,7 @@ func NewEventVolumeService(opts ...option.RequestOption) (r *EventVolumeService)
 // timestamp is passed in for either start or end time, the response includes the
 // hours the timestamp falls in.
 func (r *EventVolumeService) List(ctx context.Context, query EventVolumeListParams, opts ...option.RequestOption) (res *EventVolumes, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "events/volume"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return

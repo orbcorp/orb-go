@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -39,7 +40,7 @@ func NewItemService(opts ...option.RequestOption) (r *ItemService) {
 
 // This endpoint is used to create an [Item](/core-concepts#item).
 func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...option.RequestOption) (res *Item, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "items"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -47,7 +48,7 @@ func (r *ItemService) New(ctx context.Context, body ItemNewParams, opts ...optio
 
 // This endpoint can be used to update properties on the Item.
 func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdateParams, opts ...option.RequestOption) (res *Item, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
 		return
@@ -61,7 +62,7 @@ func (r *ItemService) Update(ctx context.Context, itemID string, body ItemUpdate
 // creation time.
 func (r *ItemService) List(ctx context.Context, query ItemListParams, opts ...option.RequestOption) (res *pagination.Page[Item], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "items"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -84,7 +85,7 @@ func (r *ItemService) ListAutoPaging(ctx context.Context, query ItemListParams, 
 
 // Archive item
 func (r *ItemService) Archive(ctx context.Context, itemID string, opts ...option.RequestOption) (res *Item, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
 		return
@@ -96,7 +97,7 @@ func (r *ItemService) Archive(ctx context.Context, itemID string, opts ...option
 
 // This endpoint returns an item identified by its item_id.
 func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.RequestOption) (res *Item, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if itemID == "" {
 		err = errors.New("missing required item_id parameter")
 		return

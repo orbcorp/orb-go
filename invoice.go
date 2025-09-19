@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -42,7 +43,7 @@ func NewInvoiceService(opts ...option.RequestOption) (r *InvoiceService) {
 
 // This endpoint is used to create a one-off invoice for a customer.
 func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "invoices"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -55,7 +56,7 @@ func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ..
 // `metadata` can be modified regardless of invoice state. `net_terms` and
 // `due_date` can only be modified if the invoice is in a `draft` state.
 func (r *InvoiceService) Update(ctx context.Context, invoiceID string, body InvoiceUpdateParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return
@@ -80,7 +81,7 @@ func (r *InvoiceService) Update(ctx context.Context, invoiceID string, body Invo
 // regularly refreshes invoices asynchronously.
 func (r *InvoiceService) List(ctx context.Context, query InvoiceListParams, opts ...option.RequestOption) (res *pagination.Page[shared.Invoice], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "invoices"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -115,7 +116,7 @@ func (r *InvoiceService) ListAutoPaging(ctx context.Context, query InvoiceListPa
 // This endpoint is used to fetch an [`Invoice`](/core-concepts#invoice) given an
 // identifier.
 func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *shared.Invoice, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return
@@ -129,7 +130,7 @@ func (r *InvoiceService) Fetch(ctx context.Context, invoiceID string, opts ...op
 // [invoice](/core-concepts#invoice) for the current billing period given a
 // subscription.
 func (r *InvoiceService) FetchUpcoming(ctx context.Context, query InvoiceFetchUpcomingParams, opts ...option.RequestOption) (res *InvoiceFetchUpcomingResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "invoices/upcoming"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
@@ -142,7 +143,7 @@ func (r *InvoiceService) FetchUpcoming(ctx context.Context, query InvoiceFetchUp
 // sending emails, auto-collecting payment, syncing the invoice to external
 // providers, etc).
 func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, body InvoiceIssueParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return
@@ -155,7 +156,7 @@ func (r *InvoiceService) Issue(ctx context.Context, invoiceID string, body Invoi
 // This endpoint allows an invoice's status to be set to the `paid` status. This
 // can only be done to invoices that are in the `issued` or `synced` status.
 func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body InvoiceMarkPaidParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return
@@ -168,7 +169,7 @@ func (r *InvoiceService) MarkPaid(ctx context.Context, invoiceID string, body In
 // This endpoint collects payment for an invoice using the customer's default
 // payment method. This action can only be taken on invoices with status "issued".
 func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *shared.Invoice, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return
@@ -190,7 +191,7 @@ func (r *InvoiceService) Pay(ctx context.Context, invoiceID string, opts ...opti
 // paid, the credit block will be voided. If the invoice was created due to a
 // top-up, the top-up will be disabled.
 func (r *InvoiceService) Void(ctx context.Context, invoiceID string, opts ...option.RequestOption) (res *shared.Invoice, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
 		err = errors.New("missing required invoice_id parameter")
 		return

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -44,7 +45,7 @@ func NewBetaService(opts ...option.RequestOption) (r *BetaService) {
 //
 // This endpoint allows the creation of a new plan version for an existing plan.
 func (r *BetaService) NewPlanVersion(ctx context.Context, planID string, body BetaNewPlanVersionParams, opts ...option.RequestOption) (res *PlanVersion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
 		return
@@ -60,7 +61,7 @@ func (r *BetaService) NewPlanVersion(ctx context.Context, planID string, body Be
 // This endpoint is used to fetch a plan version. It returns the phases, prices,
 // and adjustments present on this version of the plan.
 func (r *BetaService) FetchPlanVersion(ctx context.Context, planID string, version string, opts ...option.RequestOption) (res *PlanVersion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
 		return
@@ -79,7 +80,7 @@ func (r *BetaService) FetchPlanVersion(ctx context.Context, planID string, versi
 //
 // This endpoint allows setting the default version of a plan.
 func (r *BetaService) SetDefaultPlanVersion(ctx context.Context, planID string, body BetaSetDefaultPlanVersionParams, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if planID == "" {
 		err = errors.New("missing required plan_id parameter")
 		return

@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -45,7 +46,7 @@ func NewCouponService(opts ...option.RequestOption) (r *CouponService) {
 // This endpoint allows the creation of coupons, which can then be redeemed at
 // subscription creation or plan change.
 func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...option.RequestOption) (res *Coupon, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "coupons"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -59,7 +60,7 @@ func (r *CouponService) New(ctx context.Context, body CouponNewParams, opts ...o
 // found in the Pagination-metadata schema.
 func (r *CouponService) List(ctx context.Context, query CouponListParams, opts ...option.RequestOption) (res *pagination.Page[Coupon], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "coupons"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -88,7 +89,7 @@ func (r *CouponService) ListAutoPaging(ctx context.Context, query CouponListPara
 // redeemed, and will be hidden from lists of active coupons. Additionally, once a
 // coupon is archived, its redemption code can be reused for a different coupon.
 func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...option.RequestOption) (res *Coupon, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
 		return
@@ -102,7 +103,7 @@ func (r *CouponService) Archive(ctx context.Context, couponID string, opts ...op
 // code, use the [List coupons](list-coupons) endpoint with the redemption_code
 // parameter.
 func (r *CouponService) Fetch(ctx context.Context, couponID string, opts ...option.RequestOption) (res *Coupon, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
 		return

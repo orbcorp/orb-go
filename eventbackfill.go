@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -75,7 +76,7 @@ func NewEventBackfillService(opts ...option.RequestOption) (r *EventBackfillServ
 // expressiveness of computed properties allows you to deprecate existing events
 // based on both a period of time and specific property values.
 func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewParams, opts ...option.RequestOption) (res *EventBackfillNewResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "events/backfills"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -90,7 +91,7 @@ func (r *EventBackfillService) New(ctx context.Context, body EventBackfillNewPar
 // pagination can be found in the [Pagination-metadata schema](pagination).
 func (r *EventBackfillService) List(ctx context.Context, query EventBackfillListParams, opts ...option.RequestOption) (res *pagination.Page[EventBackfillListResponse], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "events/backfills"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -121,7 +122,7 @@ func (r *EventBackfillService) ListAutoPaging(ctx context.Context, query EventBa
 // and usage graphs. Once all of the updates are complete, the backfill's status
 // will transition to `reflected`.
 func (r *EventBackfillService) Close(ctx context.Context, backfillID string, opts ...option.RequestOption) (res *EventBackfillCloseResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if backfillID == "" {
 		err = errors.New("missing required backfill_id parameter")
 		return
@@ -133,7 +134,7 @@ func (r *EventBackfillService) Close(ctx context.Context, backfillID string, opt
 
 // This endpoint is used to fetch a backfill given an identifier.
 func (r *EventBackfillService) Fetch(ctx context.Context, backfillID string, opts ...option.RequestOption) (res *EventBackfillFetchResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if backfillID == "" {
 		err = errors.New("missing required backfill_id parameter")
 		return
@@ -151,7 +152,7 @@ func (r *EventBackfillService) Fetch(ctx context.Context, backfillID string, opt
 // If a backfill is reverted before its closed, no usage will be updated as a
 // result of the backfill and it will immediately transition to `reverted`.
 func (r *EventBackfillService) Revert(ctx context.Context, backfillID string, opts ...option.RequestOption) (res *EventBackfillRevertResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if backfillID == "" {
 		err = errors.New("missing required backfill_id parameter")
 		return
