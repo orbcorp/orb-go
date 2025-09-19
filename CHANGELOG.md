@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.19.1 (2025-09-19)
+
+Full Changelog: [v1.19.0...v1.19.1](https://github.com/orbcorp/orb-go/compare/v1.19.0...v1.19.1)
+
+### Bug Fixes
+
+* use slices.Concat instead of sometimes modifying r.Options ([c56adb0](https://github.com/orbcorp/orb-go/commit/c56adb0f7422a1a0962ebee5fea2d556eba0e2c5))
+
+
+### Chores
+
+* bump minimum go version to 1.22 ([c297bc1](https://github.com/orbcorp/orb-go/commit/c297bc195504756e553894a5352ff3db4dfdb63e))
+* update more docs for 1.22 ([abed428](https://github.com/orbcorp/orb-go/commit/abed428c4f4bdbe76221a12584efbf8da819a3a5))
+
 ## 1.19.0 (2025-09-16)
 
 Full Changelog: [v1.18.0...v1.19.0](https://github.com/orbcorp/orb-go/compare/v1.18.0...v1.19.0)
