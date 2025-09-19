@@ -35,9 +35,6 @@ func NewBetaExternalPlanIDService(opts ...option.RequestOption) (r *BetaExternal
 	return
 }
 
-// This API endpoint is in beta and its interface may change. It is recommended for
-// use only in test mode.
-//
 // This endpoint allows the creation of a new plan version for an existing plan.
 func (r *BetaExternalPlanIDService) NewPlanVersion(ctx context.Context, externalPlanID string, body BetaExternalPlanIDNewPlanVersionParams, opts ...option.RequestOption) (res *PlanVersion, err error) {
 	opts = slices.Concat(r.Options, opts)
