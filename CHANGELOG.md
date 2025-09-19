@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.20.0 (2025-09-19)
+
+Full Changelog: [v1.19.1...v1.20.0](https://github.com/orbcorp/orb-go/compare/v1.19.1...v1.20.0)
+
+### Features
+
+* **api:** api update ([294284e](https://github.com/orbcorp/orb-go/commit/294284e6f4ed72921140120f862c04e278134fab))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([adf535e](https://github.com/orbcorp/orb-go/commit/adf535e94d0814cc1a3b38e0b77cd920a6cb3be8))
+
 ## 1.19.1 (2025-09-19)
 
 Full Changelog: [v1.19.0...v1.19.1](https://github.com/orbcorp/orb-go/compare/v1.19.0...v1.19.1)
