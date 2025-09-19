@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
 	"github.com/orbcorp/orb-go/internal/param"
@@ -39,7 +40,7 @@ func NewBetaExternalPlanIDService(opts ...option.RequestOption) (r *BetaExternal
 //
 // This endpoint allows the creation of a new plan version for an existing plan.
 func (r *BetaExternalPlanIDService) NewPlanVersion(ctx context.Context, externalPlanID string, body BetaExternalPlanIDNewPlanVersionParams, opts ...option.RequestOption) (res *PlanVersion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
 		return
@@ -55,7 +56,7 @@ func (r *BetaExternalPlanIDService) NewPlanVersion(ctx context.Context, external
 // This endpoint is used to fetch a plan version. It returns the phases, prices,
 // and adjustments present on this version of the plan.
 func (r *BetaExternalPlanIDService) FetchPlanVersion(ctx context.Context, externalPlanID string, version string, opts ...option.RequestOption) (res *PlanVersion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
 		return
@@ -74,7 +75,7 @@ func (r *BetaExternalPlanIDService) FetchPlanVersion(ctx context.Context, extern
 //
 // This endpoint allows setting the default version of a plan.
 func (r *BetaExternalPlanIDService) SetDefaultPlanVersion(ctx context.Context, externalPlanID string, body BetaExternalPlanIDSetDefaultPlanVersionParams, opts ...option.RequestOption) (res *Plan, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalPlanID == "" {
 		err = errors.New("missing required external_plan_id parameter")
 		return

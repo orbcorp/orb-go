@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -53,7 +54,7 @@ func NewPriceService(opts ...option.RequestOption) (r *PriceService) {
 // See the [Price resource](/product-catalog/price-configuration) for the
 // specification of different price model configurations possible in this endpoint.
 func (r *PriceService) New(ctx context.Context, body PriceNewParams, opts ...option.RequestOption) (res *shared.Price, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "prices"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -63,7 +64,7 @@ func (r *PriceService) New(ctx context.Context, body PriceNewParams, opts ...opt
 // pass null for the metadata value, it will clear any existing metadata for that
 // price.
 func (r *PriceService) Update(ctx context.Context, priceID string, body PriceUpdateParams, opts ...option.RequestOption) (res *shared.Price, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if priceID == "" {
 		err = errors.New("missing required price_id parameter")
 		return
@@ -77,7 +78,7 @@ func (r *PriceService) Update(ctx context.Context, priceID string, body PriceUpd
 // [price creation endpoint](/api-reference/price/create-price).
 func (r *PriceService) List(ctx context.Context, query PriceListParams, opts ...option.RequestOption) (res *pagination.Page[shared.Price], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "prices"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -124,7 +125,7 @@ func (r *PriceService) ListAutoPaging(ctx context.Context, query PriceListParams
 // endpoint rather than a GET endpoint because it employs a JSON body rather than
 // query parameters.
 func (r *PriceService) Evaluate(ctx context.Context, priceID string, body PriceEvaluateParams, opts ...option.RequestOption) (res *PriceEvaluateResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if priceID == "" {
 		err = errors.New("missing required price_id parameter")
 		return
@@ -164,7 +165,7 @@ func (r *PriceService) Evaluate(ctx context.Context, priceID string, body PriceE
 // Note that this is a POST endpoint rather than a GET endpoint because it employs
 // a JSON body rather than query parameters.
 func (r *PriceService) EvaluateMultiple(ctx context.Context, body PriceEvaluateMultipleParams, opts ...option.RequestOption) (res *PriceEvaluateMultipleResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "prices/evaluate"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -189,7 +190,7 @@ func (r *PriceService) EvaluateMultiple(ctx context.Context, body PriceEvaluateM
 // Note that this is a POST endpoint rather than a GET endpoint because it employs
 // a JSON body rather than query parameters.
 func (r *PriceService) EvaluatePreviewEvents(ctx context.Context, body PriceEvaluatePreviewEventsParams, opts ...option.RequestOption) (res *PriceEvaluatePreviewEventsResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "prices/evaluate_preview_events"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -197,7 +198,7 @@ func (r *PriceService) EvaluatePreviewEvents(ctx context.Context, body PriceEval
 
 // This endpoint returns a price given an identifier.
 func (r *PriceService) Fetch(ctx context.Context, priceID string, opts ...option.RequestOption) (res *shared.Price, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if priceID == "" {
 		err = errors.New("missing required price_id parameter")
 		return

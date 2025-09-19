@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -86,7 +87,7 @@ func NewEventService(opts ...option.RequestOption) (r *EventService) {
 //     100 day period. For higher volume updates, consider using the
 //     [event backfill](create-backfill) endpoint.
 func (r *EventService) Update(ctx context.Context, eventID string, body EventUpdateParams, opts ...option.RequestOption) (res *EventUpdateResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if eventID == "" {
 		err = errors.New("missing required event_id parameter")
 		return
@@ -137,7 +138,7 @@ func (r *EventService) Update(ctx context.Context, eventID string, body EventUpd
 //     a 100 day period. For higher volume updates, consider using the
 //     [event backfill](create-backfill) endpoint.
 func (r *EventService) Deprecate(ctx context.Context, eventID string, opts ...option.RequestOption) (res *EventDeprecateResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if eventID == "" {
 		err = errors.New("missing required event_id parameter")
 		return
@@ -358,7 +359,7 @@ func (r *EventService) Deprecate(ctx context.Context, eventID string, opts ...op
 //
 // ```
 func (r *EventService) Ingest(ctx context.Context, params EventIngestParams, opts ...option.RequestOption) (res *EventIngestResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "ingest"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return
@@ -380,7 +381,7 @@ func (r *EventService) Ingest(ctx context.Context, params EventIngestParams, opt
 // By default, Orb will not throw a `404` if no events matched, Orb will return an
 // empty array for `data` instead.
 func (r *EventService) Search(ctx context.Context, body EventSearchParams, opts ...option.RequestOption) (res *EventSearchResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "events/search"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return

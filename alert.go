@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -40,7 +41,7 @@ func NewAlertService(opts ...option.RequestOption) (r *AlertService) {
 
 // This endpoint retrieves an alert by its ID.
 func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if alertID == "" {
 		err = errors.New("missing required alert_id parameter")
 		return
@@ -52,7 +53,7 @@ func (r *AlertService) Get(ctx context.Context, alertID string, opts ...option.R
 
 // This endpoint updates the thresholds of an alert.
 func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, body AlertUpdateParams, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
 		return
@@ -75,7 +76,7 @@ func (r *AlertService) Update(ctx context.Context, alertConfigurationID string, 
 // [standardized pagination format](/api-reference/pagination).
 func (r *AlertService) List(ctx context.Context, query AlertListParams, opts ...option.RequestOption) (res *pagination.Page[Alert], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "alerts"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -114,7 +115,7 @@ func (r *AlertService) ListAutoPaging(ctx context.Context, query AlertListParams
 // while `credit_balance_depleted` and `credit_balance_recovered` alerts do not
 // require thresholds.
 func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, body AlertNewForCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -133,7 +134,7 @@ func (r *AlertService) NewForCustomer(ctx context.Context, customerID string, bo
 // while `credit_balance_depleted` and `credit_balance_recovered` alerts do not
 // require thresholds.
 func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCustomerID string, body AlertNewForExternalCustomerParams, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
 		return
@@ -155,7 +156,7 @@ func (r *AlertService) NewForExternalCustomer(ctx context.Context, externalCusto
 // per metric that is a part of the subscription. Alerts are triggered based on
 // usage or cost conditions met during the current billing cycle.
 func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID string, body AlertNewForSubscriptionParams, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if subscriptionID == "" {
 		err = errors.New("missing required subscription_id parameter")
 		return
@@ -169,7 +170,7 @@ func (r *AlertService) NewForSubscription(ctx context.Context, subscriptionID st
 // a specific subscription, you must include the `subscription_id`. The
 // `subscription_id` is not required for customer or subscription level alerts.
 func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string, body AlertDisableParams, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
 		return
@@ -183,7 +184,7 @@ func (r *AlertService) Disable(ctx context.Context, alertConfigurationID string,
 // specific subscription, you must include the `subscription_id`. The
 // `subscription_id` is not required for customer or subscription level alerts.
 func (r *AlertService) Enable(ctx context.Context, alertConfigurationID string, body AlertEnableParams, opts ...option.RequestOption) (res *Alert, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if alertConfigurationID == "" {
 		err = errors.New("missing required alert_configuration_id parameter")
 		return

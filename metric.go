@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/orbcorp/orb-go/internal/apijson"
@@ -41,7 +42,7 @@ func NewMetricService(opts ...option.RequestOption) (r *MetricService) {
 // string. See [SQL support](/extensibility/advanced-metrics#sql-support) for a
 // description of constructing SQL queries with examples.
 func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "metrics"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -51,7 +52,7 @@ func (r *MetricService) New(ctx context.Context, body MetricNewParams, opts ...o
 // pass `null` for the metadata value, it will clear any existing metadata for that
 // invoice.
 func (r *MetricService) Update(ctx context.Context, metricID string, body MetricUpdateParams, opts ...option.RequestOption) (res *BillableMetric, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if metricID == "" {
 		err = errors.New("missing required metric_id parameter")
 		return
@@ -66,7 +67,7 @@ func (r *MetricService) Update(ctx context.Context, metricID string, body Metric
 // description, and item.
 func (r *MetricService) List(ctx context.Context, query MetricListParams, opts ...option.RequestOption) (res *pagination.Page[BillableMetric], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "metrics"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -91,7 +92,7 @@ func (r *MetricService) ListAutoPaging(ctx context.Context, query MetricListPara
 // This endpoint is used to list [metrics](/core-concepts#metric). It returns
 // information about the metrics including its name, description, and item.
 func (r *MetricService) Fetch(ctx context.Context, metricID string, opts ...option.RequestOption) (res *BillableMetric, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if metricID == "" {
 		err = errors.New("missing required metric_id parameter")
 		return

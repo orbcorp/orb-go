@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 
 	"github.com/orbcorp/orb-go/internal/apiquery"
 	"github.com/orbcorp/orb-go/internal/param"
@@ -41,7 +42,7 @@ func NewCouponSubscriptionService(opts ...option.RequestOption) (r *CouponSubscr
 // subscription resource, see [Subscription](/core-concepts#subscription).
 func (r *CouponSubscriptionService) List(ctx context.Context, couponID string, query CouponSubscriptionListParams, opts ...option.RequestOption) (res *pagination.Page[Subscription], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if couponID == "" {
 		err = errors.New("missing required coupon_id parameter")
