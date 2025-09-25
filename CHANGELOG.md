@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.20.1 (2025-09-25)
+
+Full Changelog: [v1.20.0...v1.20.1](https://github.com/orbcorp/orb-go/compare/v1.20.0...v1.20.1)
+
+### Bug Fixes
+
+* fix deserialization of subscription usage ([8921186](https://github.com/orbcorp/orb-go/commit/89211867acf78b9dabbffde5af046f4e5690bc8d))
+
 ## 1.20.0 (2025-09-19)
 
 Full Changelog: [v1.19.1...v1.20.0](https://github.com/orbcorp/orb-go/compare/v1.19.1...v1.20.0)
