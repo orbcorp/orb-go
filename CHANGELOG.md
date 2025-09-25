@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.20.2 (2025-09-25)
+
+Full Changelog: [v1.20.1...v1.20.2](https://github.com/orbcorp/orb-go/compare/v1.20.1...v1.20.2)
+
+### Bug Fixes
+
+* bugfix for setting JSON keys with special characters ([4f2a135](https://github.com/orbcorp/orb-go/commit/4f2a1352fd2f676d718bf24e55052f379df24f3b))
+
 ## 1.20.1 (2025-09-25)
 
 Full Changelog: [v1.20.0...v1.20.1](https://github.com/orbcorp/orb-go/compare/v1.20.0...v1.20.1)
