@@ -5250,9 +5250,21 @@ func (r subscriptionUsageJSON) RawJSON() string {
 
 func (r *SubscriptionUsage) UnmarshalJSON(data []byte) (err error) {
 	*r = SubscriptionUsage{}
-	err = apijson.UnmarshalRoot(data, &r.union)
-	if err != nil {
-		return err
+	result := gjson.GetBytes(data, "data.0.metric_group")
+	if result.Exists() {
+		usage := SubscriptionUsageGroupedSubscriptionUsage{}
+		err := usage.UnmarshalJSON(data)
+		r.union = usage
+		if err != nil {
+			return err
+		}
+	} else {
+		usage := SubscriptionUsageUngroupedSubscriptionUsage{}
+		err := usage.UnmarshalJSON(data)
+		r.union = usage
+		if err != nil {
+			return err
+		}
 	}
 	return apijson.Port(r.union, &r)
 }
