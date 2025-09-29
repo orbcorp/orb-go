@@ -52,6 +52,7 @@ func TestSubscriptionChangeApplyWithOptionalParams(t *testing.T) {
 		"subscription_change_id",
 		orb.SubscriptionChangeApplyParams{
 			Description:               orb.F("description"),
+			MarkAsPaid:                orb.F(true),
 			PreviouslyCollectedAmount: orb.F("previously_collected_amount"),
 		},
 	)
