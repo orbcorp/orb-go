@@ -514,7 +514,11 @@ func (r SubscriptionChangeCancelResponseStatus) IsKnown() bool {
 type SubscriptionChangeApplyParams struct {
 	// Description to apply to the balance transaction representing this credit.
 	Description param.Field[string] `json:"description"`
-	// Amount already collected to apply to the customer's balance.
+	// Mark all pending invoices that are payable as paid. If amount is also provided,
+	// mark as paid and credit the difference to the customer's balance.
+	MarkAsPaid param.Field[bool] `json:"mark_as_paid"`
+	// Amount already collected to apply to the customer's balance. If mark_as_paid is
+	// also provided, credit the difference to the customer's balance.
 	PreviouslyCollectedAmount param.Field[string] `json:"previously_collected_amount"`
 }
 
