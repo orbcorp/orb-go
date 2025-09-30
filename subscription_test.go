@@ -299,7 +299,9 @@ func TestSubscriptionListWithOptionalParams(t *testing.T) {
 		Cursor:             orb.F("cursor"),
 		CustomerID:         orb.F([]string{"string"}),
 		ExternalCustomerID: orb.F([]string{"string"}),
+		ExternalPlanID:     orb.F("external_plan_id"),
 		Limit:              orb.F(int64(1)),
+		PlanID:             orb.F("plan_id"),
 		Status:             orb.F(orb.SubscriptionListParamsStatusActive),
 	})
 	if err != nil {
