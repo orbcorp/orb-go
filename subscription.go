@@ -7036,8 +7036,10 @@ type SubscriptionListParams struct {
 	Cursor             param.Field[string]   `query:"cursor"`
 	CustomerID         param.Field[[]string] `query:"customer_id"`
 	ExternalCustomerID param.Field[[]string] `query:"external_customer_id"`
+	ExternalPlanID     param.Field[string]   `query:"external_plan_id"`
 	// The number of items to fetch. Defaults to 20.
 	Limit  param.Field[int64]                        `query:"limit"`
+	PlanID param.Field[string]                       `query:"plan_id"`
 	Status param.Field[SubscriptionListParamsStatus] `query:"status"`
 }
 
