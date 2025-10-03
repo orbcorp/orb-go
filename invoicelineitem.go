@@ -307,6 +307,8 @@ type InvoiceLineItemNewResponseSubLineItem struct {
 	Quantity     float64                                    `json:"quantity,required"`
 	Type         InvoiceLineItemNewResponseSubLineItemsType `json:"type,required"`
 	MatrixConfig shared.SubLineItemMatrixConfig             `json:"matrix_config"`
+	// The scaled quantity for this line item for specific pricing structures
+	ScaledQuantity float64 `json:"scaled_quantity,nullable"`
 	// This field can have the runtime type of [shared.TierSubLineItemTierConfig].
 	TierConfig interface{}                               `json:"tier_config"`
 	JSON       invoiceLineItemNewResponseSubLineItemJSON `json:"-"`
@@ -316,15 +318,16 @@ type InvoiceLineItemNewResponseSubLineItem struct {
 // invoiceLineItemNewResponseSubLineItemJSON contains the JSON metadata for the
 // struct [InvoiceLineItemNewResponseSubLineItem]
 type invoiceLineItemNewResponseSubLineItemJSON struct {
-	Amount       apijson.Field
-	Grouping     apijson.Field
-	Name         apijson.Field
-	Quantity     apijson.Field
-	Type         apijson.Field
-	MatrixConfig apijson.Field
-	TierConfig   apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
+	Amount         apijson.Field
+	Grouping       apijson.Field
+	Name           apijson.Field
+	Quantity       apijson.Field
+	Type           apijson.Field
+	MatrixConfig   apijson.Field
+	ScaledQuantity apijson.Field
+	TierConfig     apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
 }
 
 func (r invoiceLineItemNewResponseSubLineItemJSON) RawJSON() string {
