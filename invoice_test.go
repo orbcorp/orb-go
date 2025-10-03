@@ -38,8 +38,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			Quantity:  orb.F(1.000000),
 			StartDate: orb.F(time.Now()),
 			UnitConfig: orb.F(shared.UnitConfigParam{
-				UnitAmount:    orb.F("unit_amount"),
-				ScalingFactor: orb.F(0.000000),
+				UnitAmount: orb.F("unit_amount"),
 			}),
 		}}),
 		CustomerID: orb.F("4khy3nwzktxv7"),

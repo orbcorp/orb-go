@@ -22247,18 +22247,15 @@ func (r TrialDiscountParam) ImplementsDiscountUnionParam() {}
 // Configuration for unit pricing
 type UnitConfig struct {
 	// Rate per unit of usage
-	UnitAmount string `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor float64        `json:"scaling_factor,nullable"`
-	JSON          unitConfigJSON `json:"-"`
+	UnitAmount string         `json:"unit_amount,required"`
+	JSON       unitConfigJSON `json:"-"`
 }
 
 // unitConfigJSON contains the JSON metadata for the struct [UnitConfig]
 type unitConfigJSON struct {
-	UnitAmount    apijson.Field
-	ScalingFactor apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
+	UnitAmount  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
 }
 
 func (r *UnitConfig) UnmarshalJSON(data []byte) (err error) {
@@ -22273,8 +22270,6 @@ func (r unitConfigJSON) RawJSON() string {
 type UnitConfigParam struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
-	// Multiplier to scale rated quantity by
-	ScalingFactor param.Field[float64] `json:"scaling_factor"`
 }
 
 func (r UnitConfigParam) MarshalJSON() (data []byte, err error) {
