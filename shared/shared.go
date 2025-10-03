@@ -1374,6 +1374,8 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem struct {
 	Quantity     float64                                                              `json:"quantity,required"`
 	Type         ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemsType `json:"type,required"`
 	MatrixConfig SubLineItemMatrixConfig                                              `json:"matrix_config"`
+	// The scaled quantity for this line item for specific pricing structures
+	ScaledQuantity float64 `json:"scaled_quantity,nullable"`
 	// This field can have the runtime type of [TierSubLineItemTierConfig].
 	TierConfig interface{}                                                         `json:"tier_config"`
 	JSON       changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON `json:"-"`
@@ -1384,15 +1386,16 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem struct {
 // JSON metadata for the struct
 // [ChangedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItem]
 type changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON struct {
-	Amount       apijson.Field
-	Grouping     apijson.Field
-	Name         apijson.Field
-	Quantity     apijson.Field
-	Type         apijson.Field
-	MatrixConfig apijson.Field
-	TierConfig   apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
+	Amount         apijson.Field
+	Grouping       apijson.Field
+	Name           apijson.Field
+	Quantity       apijson.Field
+	Type           apijson.Field
+	MatrixConfig   apijson.Field
+	ScaledQuantity apijson.Field
+	TierConfig     apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
 }
 
 func (r changedSubscriptionResourcesCreatedInvoicesLineItemsSubLineItemJSON) RawJSON() string {
@@ -3601,6 +3604,8 @@ type InvoiceLineItemsSubLineItem struct {
 	Quantity     float64                          `json:"quantity,required"`
 	Type         InvoiceLineItemsSubLineItemsType `json:"type,required"`
 	MatrixConfig SubLineItemMatrixConfig          `json:"matrix_config"`
+	// The scaled quantity for this line item for specific pricing structures
+	ScaledQuantity float64 `json:"scaled_quantity,nullable"`
 	// This field can have the runtime type of [TierSubLineItemTierConfig].
 	TierConfig interface{}                     `json:"tier_config"`
 	JSON       invoiceLineItemsSubLineItemJSON `json:"-"`
@@ -3610,15 +3615,16 @@ type InvoiceLineItemsSubLineItem struct {
 // invoiceLineItemsSubLineItemJSON contains the JSON metadata for the struct
 // [InvoiceLineItemsSubLineItem]
 type invoiceLineItemsSubLineItemJSON struct {
-	Amount       apijson.Field
-	Grouping     apijson.Field
-	Name         apijson.Field
-	Quantity     apijson.Field
-	Type         apijson.Field
-	MatrixConfig apijson.Field
-	TierConfig   apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
+	Amount         apijson.Field
+	Grouping       apijson.Field
+	Name           apijson.Field
+	Quantity       apijson.Field
+	Type           apijson.Field
+	MatrixConfig   apijson.Field
+	ScaledQuantity apijson.Field
+	TierConfig     apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
 }
 
 func (r invoiceLineItemsSubLineItemJSON) RawJSON() string {
@@ -3953,20 +3959,23 @@ type MatrixSubLineItem struct {
 	Name         string                  `json:"name,required"`
 	Quantity     float64                 `json:"quantity,required"`
 	Type         MatrixSubLineItemType   `json:"type,required"`
-	JSON         matrixSubLineItemJSON   `json:"-"`
+	// The scaled quantity for this line item for specific pricing structures
+	ScaledQuantity float64               `json:"scaled_quantity,nullable"`
+	JSON           matrixSubLineItemJSON `json:"-"`
 }
 
 // matrixSubLineItemJSON contains the JSON metadata for the struct
 // [MatrixSubLineItem]
 type matrixSubLineItemJSON struct {
-	Amount       apijson.Field
-	Grouping     apijson.Field
-	MatrixConfig apijson.Field
-	Name         apijson.Field
-	Quantity     apijson.Field
-	Type         apijson.Field
-	raw          string
-	ExtraFields  map[string]apijson.Field
+	Amount         apijson.Field
+	Grouping       apijson.Field
+	MatrixConfig   apijson.Field
+	Name           apijson.Field
+	Quantity       apijson.Field
+	Type           apijson.Field
+	ScaledQuantity apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
 }
 
 func (r *MatrixSubLineItem) UnmarshalJSON(data []byte) (err error) {
