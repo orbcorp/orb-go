@@ -1543,6 +1543,9 @@ const InvoiceLevelDiscountDiscountTypeTrial = shared.InvoiceLevelDiscountDiscoun
 // This is an alias to an internal type.
 type InvoiceTiny = shared.InvoiceTiny
 
+// A minimal representation of an Item containing only the essential identifying
+// information.
+//
 // This is an alias to an internal type.
 type ItemSlim = shared.ItemSlim
 
@@ -6619,6 +6622,76 @@ const PriceMinimumCompositePricePriceTypeFixedPrice = shared.PriceMinimumComposi
 const PriceMinimumCompositePricePriceTypeCompositePrice = shared.PriceMinimumCompositePricePriceTypeCompositePrice
 
 // This is an alias to an internal type.
+type PriceEventOutputPrice = shared.PriceEventOutputPrice
+
+// This is an alias to an internal type.
+type PriceEventOutputPriceBillingMode = shared.PriceEventOutputPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceBillingModeInAdvance = shared.PriceEventOutputPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceBillingModeInArrear = shared.PriceEventOutputPriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PriceEventOutputPriceCadence = shared.PriceEventOutputPriceCadence
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCadenceOneTime = shared.PriceEventOutputPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCadenceMonthly = shared.PriceEventOutputPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCadenceQuarterly = shared.PriceEventOutputPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCadenceSemiAnnual = shared.PriceEventOutputPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCadenceAnnual = shared.PriceEventOutputPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCadenceCustom = shared.PriceEventOutputPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceEventOutputPriceConversionRateConfig = shared.PriceEventOutputPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceEventOutputPriceConversionRateConfigConversionRateType = shared.PriceEventOutputPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceConversionRateConfigConversionRateTypeUnit = shared.PriceEventOutputPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceConversionRateConfigConversionRateTypeTiered = shared.PriceEventOutputPriceConversionRateConfigConversionRateTypeTiered
+
+// Configuration for event_output pricing
+//
+// This is an alias to an internal type.
+type PriceEventOutputPriceEventOutputConfig = shared.PriceEventOutputPriceEventOutputConfig
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceEventOutputPriceModelType = shared.PriceEventOutputPriceModelType
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceModelTypeEventOutput = shared.PriceEventOutputPriceModelTypeEventOutput
+
+// This is an alias to an internal type.
+type PriceEventOutputPricePriceType = shared.PriceEventOutputPricePriceType
+
+// This is an alias to an internal value.
+const PriceEventOutputPricePriceTypeUsagePrice = shared.PriceEventOutputPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceEventOutputPricePriceTypeFixedPrice = shared.PriceEventOutputPricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceEventOutputPricePriceTypeCompositePrice = shared.PriceEventOutputPricePriceTypeCompositePrice
+
+// This is an alias to an internal type.
 type PriceBillingMode = shared.PriceBillingMode
 
 // This is an alias to an internal value.
@@ -6733,6 +6806,9 @@ const PriceModelTypeCumulativeGroupedBulk = shared.PriceModelTypeCumulativeGroup
 
 // This is an alias to an internal value.
 const PriceModelTypeMinimum = shared.PriceModelTypeMinimum
+
+// This is an alias to an internal value.
+const PriceModelTypeEventOutput = shared.PriceModelTypeEventOutput
 
 // This is an alias to an internal type.
 type PricePriceType = shared.PricePriceType

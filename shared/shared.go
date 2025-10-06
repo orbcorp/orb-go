@@ -3887,8 +3887,12 @@ func (r invoiceTinyJSON) RawJSON() string {
 	return r.raw
 }
 
+// A minimal representation of an Item containing only the essential identifying
+// information.
 type ItemSlim struct {
-	ID   string       `json:"id,required"`
+	// The Orb-assigned unique identifier for the item.
+	ID string `json:"id,required"`
+	// The name of the item.
 	Name string       `json:"name,required"`
 	JSON itemSlimJSON `json:"-"`
 }
@@ -13478,7 +13482,8 @@ type Price struct {
 	// [PriceScalableMatrixWithUnitPricingPriceConversionRateConfig],
 	// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfig],
 	// [PriceCumulativeGroupedBulkPriceConversionRateConfig],
-	// [PriceMinimumCompositePriceConversionRateConfig].
+	// [PriceMinimumCompositePriceConversionRateConfig],
+	// [PriceEventOutputPriceConversionRateConfig].
 	ConversionRateConfig interface{} `json:"conversion_rate_config,required"`
 	CreatedAt            time.Time   `json:"created_at,required" format:"date-time"`
 	CreditAllocation     Allocation  `json:"credit_allocation,required,nullable"`
@@ -13488,7 +13493,9 @@ type Price struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -13516,6 +13523,9 @@ type Price struct {
 	// [PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig].
 	CumulativeGroupedBulkConfig   interface{}                   `json:"cumulative_grouped_bulk_config"`
 	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	// This field can have the runtime type of
+	// [PriceEventOutputPriceEventOutputConfig].
+	EventOutputConfig interface{} `json:"event_output_config"`
 	// This field can have the runtime type of
 	// [PriceGroupedAllocationPriceGroupedAllocationConfig].
 	GroupedAllocationConfig interface{} `json:"grouped_allocation_config"`
@@ -13619,6 +13629,7 @@ type priceJSON struct {
 	BulkWithProrationConfig               apijson.Field
 	CumulativeGroupedBulkConfig           apijson.Field
 	DimensionalPriceConfiguration         apijson.Field
+	EventOutputConfig                     apijson.Field
 	GroupedAllocationConfig               apijson.Field
 	GroupedTieredConfig                   apijson.Field
 	GroupedTieredPackageConfig            apijson.Field
@@ -13676,7 +13687,7 @@ func (r *Price) UnmarshalJSON(data []byte) (err error) {
 // [PriceGroupedTieredPackagePrice], [PriceMaxGroupTieredPackagePrice],
 // [PriceScalableMatrixWithUnitPricingPrice],
 // [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
-// [PriceMinimumCompositePrice].
+// [PriceMinimumCompositePrice], [PriceEventOutputPrice].
 func (r Price) AsUnion() PriceUnion {
 	return r.union
 }
@@ -13703,8 +13714,8 @@ func (r Price) AsUnion() PriceUnion {
 // [PriceGroupedWithMeteredMinimumPrice], [PriceGroupedWithMinMaxThresholdsPrice],
 // [PriceMatrixWithDisplayNamePrice], [PriceGroupedTieredPackagePrice],
 // [PriceMaxGroupTieredPackagePrice], [PriceScalableMatrixWithUnitPricingPrice],
-// [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice]
-// or [PriceMinimumCompositePrice].
+// [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
+// [PriceMinimumCompositePrice] or [PriceEventOutputPrice].
 type PriceUnion interface {
 	implementsPrice()
 }
@@ -13848,6 +13859,11 @@ func init() {
 			Type:               reflect.TypeOf(PriceMinimumCompositePrice{}),
 			DiscriminatorValue: "minimum",
 		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PriceEventOutputPrice{}),
+			DiscriminatorValue: "event_output",
+		},
 	)
 }
 
@@ -13868,7 +13884,9 @@ type PriceUnitPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -14099,7 +14117,9 @@ type PriceTieredPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -14333,7 +14353,9 @@ type PriceBulkPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -14562,7 +14584,9 @@ type PricePackagePrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -14794,7 +14818,9 @@ type PriceMatrixPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Configuration for matrix pricing
 	MatrixConfig MatrixConfig `json:"matrix_config,required"`
 	// Deprecated: deprecated
@@ -15026,7 +15052,9 @@ type PriceThresholdTotalAmountPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -15313,7 +15341,9 @@ type PriceTieredPackagePrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -15600,7 +15630,9 @@ type PriceTieredWithMinimumPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -15893,7 +15925,9 @@ type PriceGroupedTieredPrice struct {
 	// Configuration for grouped_tiered pricing
 	GroupedTieredConfig         PriceGroupedTieredPriceGroupedTieredConfig `json:"grouped_tiered_config,required"`
 	InvoicingCycleConfiguration BillingCycleConfiguration                  `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                                   `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -16176,7 +16210,9 @@ type PriceTieredPackageWithMinimumPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -16466,7 +16502,9 @@ type PricePackageWithAllocationPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -16728,7 +16766,9 @@ type PriceUnitWithPercentPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -16986,7 +17026,9 @@ type PriceMatrixWithAllocationPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Configuration for matrix_with_allocation pricing
 	MatrixWithAllocationConfig MatrixWithAllocationConfig `json:"matrix_with_allocation_config,required"`
 	// Deprecated: deprecated
@@ -17218,7 +17260,9 @@ type PriceTieredWithProrationPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -17501,7 +17545,9 @@ type PriceUnitWithProrationPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -17758,7 +17804,9 @@ type PriceGroupedAllocationPrice struct {
 	// Configuration for grouped_allocation pricing
 	GroupedAllocationConfig     PriceGroupedAllocationPriceGroupedAllocationConfig `json:"grouped_allocation_config,required"`
 	InvoicingCycleConfiguration BillingCycleConfiguration                          `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                                           `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -18019,7 +18067,9 @@ type PriceBulkWithProrationPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -18300,7 +18350,9 @@ type PriceGroupedWithProratedMinimumPrice struct {
 	// Configuration for grouped_with_prorated_minimum pricing
 	GroupedWithProratedMinimumConfig PriceGroupedWithProratedMinimumPriceGroupedWithProratedMinimumConfig `json:"grouped_with_prorated_minimum_config,required"`
 	InvoicingCycleConfiguration      BillingCycleConfiguration                                            `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                             ItemSlim                                                             `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -18564,7 +18616,9 @@ type PriceGroupedWithMeteredMinimumPrice struct {
 	// Configuration for grouped_with_metered_minimum pricing
 	GroupedWithMeteredMinimumConfig PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig `json:"grouped_with_metered_minimum_config,required"`
 	InvoicingCycleConfiguration     BillingCycleConfiguration                                          `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                            ItemSlim                                                           `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -18892,7 +18946,9 @@ type PriceGroupedWithMinMaxThresholdsPrice struct {
 	// Configuration for grouped_with_min_max_thresholds pricing
 	GroupedWithMinMaxThresholdsConfig PriceGroupedWithMinMaxThresholdsPriceGroupedWithMinMaxThresholdsConfig `json:"grouped_with_min_max_thresholds_config,required"`
 	InvoicingCycleConfiguration       BillingCycleConfiguration                                              `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                              ItemSlim                                                               `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -19157,7 +19213,9 @@ type PriceMatrixWithDisplayNamePrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Configuration for matrix_with_display_name pricing
 	MatrixWithDisplayNameConfig PriceMatrixWithDisplayNamePriceMatrixWithDisplayNameConfig `json:"matrix_with_display_name_config,required"`
 	// Deprecated: deprecated
@@ -19448,7 +19506,9 @@ type PriceGroupedTieredPackagePrice struct {
 	// Configuration for grouped_tiered_package pricing
 	GroupedTieredPackageConfig  PriceGroupedTieredPackagePriceGroupedTieredPackageConfig `json:"grouped_tiered_package_config,required"`
 	InvoicingCycleConfiguration BillingCycleConfiguration                                `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                                                 `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -19736,7 +19796,9 @@ type PriceMaxGroupTieredPackagePrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Configuration for max_group_tiered_package pricing
 	MaxGroupTieredPackageConfig PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig `json:"max_group_tiered_package_config,required"`
 	// Deprecated: deprecated
@@ -20025,7 +20087,9 @@ type PriceScalableMatrixWithUnitPricingPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -20325,7 +20389,9 @@ type PriceScalableMatrixWithTieredPricingPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -20651,7 +20717,9 @@ type PriceCumulativeGroupedBulkPrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -20938,7 +21006,9 @@ type PriceMinimumCompositePrice struct {
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
 	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
 	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
-	Item                        ItemSlim                  `json:"item,required"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
 	// Deprecated: deprecated
 	Maximum Maximum `json:"maximum,required,nullable"`
 	// Deprecated: deprecated
@@ -21179,6 +21249,267 @@ func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
 	return false
 }
 
+type PriceEventOutputPrice struct {
+	ID                        string                                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny                        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                 `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceEventOutputPriceBillingMode          `json:"billing_mode,required"`
+	Cadence                   PriceEventOutputPriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                    `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                   `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceEventOutputPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                `json:"credit_allocation,required,nullable"`
+	Currency                  string                                    `json:"currency,required"`
+	// Deprecated: deprecated
+	Discount Discount `json:"discount,required,nullable"`
+	// Configuration for event_output pricing
+	EventOutputConfig           PriceEventOutputPriceEventOutputConfig `json:"event_output_config,required"`
+	ExternalPriceID             string                                 `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity          float64                                `json:"fixed_price_quantity,required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration              `json:"invoicing_cycle_configuration,required,nullable"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
+	// Deprecated: deprecated
+	Maximum Maximum `json:"maximum,required,nullable"`
+	// Deprecated: deprecated
+	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// Deprecated: deprecated
+	Minimum Minimum `json:"minimum,required,nullable"`
+	// Deprecated: deprecated
+	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	// The pricing model type
+	ModelType      PriceEventOutputPriceModelType `json:"model_type,required"`
+	Name           string                         `json:"name,required"`
+	PlanPhaseOrder int64                          `json:"plan_phase_order,required,nullable"`
+	PriceType      PriceEventOutputPricePriceType `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                        `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration `json:"dimensional_price_configuration,nullable"`
+	JSON                          priceEventOutputPriceJSON     `json:"-"`
+}
+
+// priceEventOutputPriceJSON contains the JSON metadata for the struct
+// [PriceEventOutputPrice]
+type priceEventOutputPriceJSON struct {
+	ID                            apijson.Field
+	BillableMetric                apijson.Field
+	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
+	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
+	ConversionRate                apijson.Field
+	ConversionRateConfig          apijson.Field
+	CreatedAt                     apijson.Field
+	CreditAllocation              apijson.Field
+	Currency                      apijson.Field
+	Discount                      apijson.Field
+	EventOutputConfig             apijson.Field
+	ExternalPriceID               apijson.Field
+	FixedPriceQuantity            apijson.Field
+	InvoicingCycleConfiguration   apijson.Field
+	Item                          apijson.Field
+	Maximum                       apijson.Field
+	MaximumAmount                 apijson.Field
+	Metadata                      apijson.Field
+	Minimum                       apijson.Field
+	MinimumAmount                 apijson.Field
+	ModelType                     apijson.Field
+	Name                          apijson.Field
+	PlanPhaseOrder                apijson.Field
+	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
+	DimensionalPriceConfiguration apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *PriceEventOutputPrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceEventOutputPriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PriceEventOutputPrice) implementsPrice() {}
+
+type PriceEventOutputPriceBillingMode string
+
+const (
+	PriceEventOutputPriceBillingModeInAdvance PriceEventOutputPriceBillingMode = "in_advance"
+	PriceEventOutputPriceBillingModeInArrear  PriceEventOutputPriceBillingMode = "in_arrear"
+)
+
+func (r PriceEventOutputPriceBillingMode) IsKnown() bool {
+	switch r {
+	case PriceEventOutputPriceBillingModeInAdvance, PriceEventOutputPriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
+
+type PriceEventOutputPriceCadence string
+
+const (
+	PriceEventOutputPriceCadenceOneTime    PriceEventOutputPriceCadence = "one_time"
+	PriceEventOutputPriceCadenceMonthly    PriceEventOutputPriceCadence = "monthly"
+	PriceEventOutputPriceCadenceQuarterly  PriceEventOutputPriceCadence = "quarterly"
+	PriceEventOutputPriceCadenceSemiAnnual PriceEventOutputPriceCadence = "semi_annual"
+	PriceEventOutputPriceCadenceAnnual     PriceEventOutputPriceCadence = "annual"
+	PriceEventOutputPriceCadenceCustom     PriceEventOutputPriceCadence = "custom"
+)
+
+func (r PriceEventOutputPriceCadence) IsKnown() bool {
+	switch r {
+	case PriceEventOutputPriceCadenceOneTime, PriceEventOutputPriceCadenceMonthly, PriceEventOutputPriceCadenceQuarterly, PriceEventOutputPriceCadenceSemiAnnual, PriceEventOutputPriceCadenceAnnual, PriceEventOutputPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceEventOutputPriceConversionRateConfig struct {
+	ConversionRateType PriceEventOutputPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	TieredConfig       ConversionRateTieredConfig                                  `json:"tiered_config"`
+	UnitConfig         ConversionRateUnitConfig                                    `json:"unit_config"`
+	JSON               priceEventOutputPriceConversionRateConfigJSON               `json:"-"`
+	union              PriceEventOutputPriceConversionRateConfigUnion
+}
+
+// priceEventOutputPriceConversionRateConfigJSON contains the JSON metadata for the
+// struct [PriceEventOutputPriceConversionRateConfig]
+type priceEventOutputPriceConversionRateConfigJSON struct {
+	ConversionRateType apijson.Field
+	TieredConfig       apijson.Field
+	UnitConfig         apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r priceEventOutputPriceConversionRateConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *PriceEventOutputPriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
+	*r = PriceEventOutputPriceConversionRateConfig{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [PriceEventOutputPriceConversionRateConfigUnion] interface
+// which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are [UnitConversionRateConfig],
+// [TieredConversionRateConfig].
+func (r PriceEventOutputPriceConversionRateConfig) AsUnion() PriceEventOutputPriceConversionRateConfigUnion {
+	return r.union
+}
+
+// Union satisfied by [UnitConversionRateConfig] or [TieredConversionRateConfig].
+type PriceEventOutputPriceConversionRateConfigUnion interface {
+	ImplementsPriceEventOutputPriceConversionRateConfig()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*PriceEventOutputPriceConversionRateConfigUnion)(nil)).Elem(),
+		"conversion_rate_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(UnitConversionRateConfig{}),
+			DiscriminatorValue: "unit",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(TieredConversionRateConfig{}),
+			DiscriminatorValue: "tiered",
+		},
+	)
+}
+
+type PriceEventOutputPriceConversionRateConfigConversionRateType string
+
+const (
+	PriceEventOutputPriceConversionRateConfigConversionRateTypeUnit   PriceEventOutputPriceConversionRateConfigConversionRateType = "unit"
+	PriceEventOutputPriceConversionRateConfigConversionRateTypeTiered PriceEventOutputPriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PriceEventOutputPriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PriceEventOutputPriceConversionRateConfigConversionRateTypeUnit, PriceEventOutputPriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+// Configuration for event_output pricing
+type PriceEventOutputPriceEventOutputConfig struct {
+	// The key in the event data to extract the unit rate from.
+	UnitRatingKey string `json:"unit_rating_key,required"`
+	// An optional key in the event data to group by (e.g., event ID). All events will
+	// also be grouped by their unit rate.
+	GroupingKey string                                     `json:"grouping_key,nullable"`
+	JSON        priceEventOutputPriceEventOutputConfigJSON `json:"-"`
+}
+
+// priceEventOutputPriceEventOutputConfigJSON contains the JSON metadata for the
+// struct [PriceEventOutputPriceEventOutputConfig]
+type priceEventOutputPriceEventOutputConfigJSON struct {
+	UnitRatingKey apijson.Field
+	GroupingKey   apijson.Field
+	raw           string
+	ExtraFields   map[string]apijson.Field
+}
+
+func (r *PriceEventOutputPriceEventOutputConfig) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceEventOutputPriceEventOutputConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+// The pricing model type
+type PriceEventOutputPriceModelType string
+
+const (
+	PriceEventOutputPriceModelTypeEventOutput PriceEventOutputPriceModelType = "event_output"
+)
+
+func (r PriceEventOutputPriceModelType) IsKnown() bool {
+	switch r {
+	case PriceEventOutputPriceModelTypeEventOutput:
+		return true
+	}
+	return false
+}
+
+type PriceEventOutputPricePriceType string
+
+const (
+	PriceEventOutputPricePriceTypeUsagePrice     PriceEventOutputPricePriceType = "usage_price"
+	PriceEventOutputPricePriceTypeFixedPrice     PriceEventOutputPricePriceType = "fixed_price"
+	PriceEventOutputPricePriceTypeCompositePrice PriceEventOutputPricePriceType = "composite_price"
+)
+
+func (r PriceEventOutputPricePriceType) IsKnown() bool {
+	switch r {
+	case PriceEventOutputPricePriceTypeUsagePrice, PriceEventOutputPricePriceTypeFixedPrice, PriceEventOutputPricePriceTypeCompositePrice:
+		return true
+	}
+	return false
+}
+
 type PriceBillingMode string
 
 const (
@@ -21244,11 +21575,12 @@ const (
 	PriceModelTypeScalableMatrixWithTieredPricing PriceModelType = "scalable_matrix_with_tiered_pricing"
 	PriceModelTypeCumulativeGroupedBulk           PriceModelType = "cumulative_grouped_bulk"
 	PriceModelTypeMinimum                         PriceModelType = "minimum"
+	PriceModelTypeEventOutput                     PriceModelType = "event_output"
 )
 
 func (r PriceModelType) IsKnown() bool {
 	switch r {
-	case PriceModelTypeUnit, PriceModelTypeTiered, PriceModelTypeBulk, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeTieredWithMinimum, PriceModelTypeGroupedTiered, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeBulkWithProration, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeGroupedWithMinMaxThresholds, PriceModelTypeMatrixWithDisplayName, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeMinimum:
+	case PriceModelTypeUnit, PriceModelTypeTiered, PriceModelTypeBulk, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeTieredWithMinimum, PriceModelTypeGroupedTiered, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeBulkWithProration, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeGroupedWithMinMaxThresholds, PriceModelTypeMatrixWithDisplayName, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeMinimum, PriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -21711,6 +22043,8 @@ func (r TieredConversionRateConfig) ImplementsPriceCumulativeGroupedBulkPriceCon
 
 func (r TieredConversionRateConfig) ImplementsPriceMinimumCompositePriceConversionRateConfig() {}
 
+func (r TieredConversionRateConfig) ImplementsPriceEventOutputPriceConversionRateConfig() {}
+
 type TieredConversionRateConfigConversionRateType string
 
 const (
@@ -21891,10 +22225,16 @@ func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPr
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
@@ -21903,16 +22243,25 @@ func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVers
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnitPriceConversionRateConfigUnion() {
@@ -21996,10 +22345,19 @@ func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingCumu
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsNewSubscriptionBulkPriceConversionRateConfigUnionParam() {
@@ -22083,13 +22441,22 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPrice
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
@@ -22098,10 +22465,16 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChang
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
 type TransformPriceFilter struct {
@@ -22368,6 +22741,8 @@ func (r UnitConversionRateConfig) ImplementsPriceCumulativeGroupedBulkPriceConve
 
 func (r UnitConversionRateConfig) ImplementsPriceMinimumCompositePriceConversionRateConfig() {}
 
+func (r UnitConversionRateConfig) ImplementsPriceEventOutputPriceConversionRateConfig() {}
+
 type UnitConversionRateConfigConversionRateType string
 
 const (
@@ -22546,10 +22921,16 @@ func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPric
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
@@ -22558,16 +22939,25 @@ func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersio
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingUnitPriceConversionRateConfigUnion() {
@@ -22651,10 +23041,19 @@ func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingCumula
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsNewSubscriptionBulkPriceConversionRateConfigUnionParam() {
@@ -22738,13 +23137,22 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesP
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
@@ -22753,10 +23161,16 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeP
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionTieredWithProrationPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
 type UsageDiscount struct {

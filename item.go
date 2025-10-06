@@ -111,16 +111,23 @@ func (r *ItemService) Fetch(ctx context.Context, itemID string, opts ...option.R
 // with all line items, billable metrics, and prices and are used for defining
 // external sync behavior for invoices and tax calculation purposes.
 type Item struct {
-	ID                  string                   `json:"id,required"`
-	CreatedAt           time.Time                `json:"created_at,required" format:"date-time"`
+	// The Orb-assigned unique identifier for the item.
+	ID string `json:"id,required"`
+	// The time at which the item was created.
+	CreatedAt time.Time `json:"created_at,required" format:"date-time"`
+	// A list of external connections for this item, used to sync with external
+	// invoicing and tax systems.
 	ExternalConnections []ItemExternalConnection `json:"external_connections,required"`
 	// User specified key-value pairs for the resource. If not present, this defaults
 	// to an empty dictionary. Individual keys can be removed by setting the value to
 	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
 	// `null`.
 	Metadata map[string]string `json:"metadata,required"`
-	Name     string            `json:"name,required"`
-	JSON     itemJSON          `json:"-"`
+	// The name of the item.
+	Name string `json:"name,required"`
+	// The time at which the item was archived. If null, the item is not archived.
+	ArchivedAt time.Time `json:"archived_at,nullable" format:"date-time"`
+	JSON       itemJSON  `json:"-"`
 }
 
 // itemJSON contains the JSON metadata for the struct [Item]
@@ -130,6 +137,7 @@ type itemJSON struct {
 	ExternalConnections apijson.Field
 	Metadata            apijson.Field
 	Name                apijson.Field
+	ArchivedAt          apijson.Field
 	raw                 string
 	ExtraFields         map[string]apijson.Field
 }
@@ -142,10 +150,14 @@ func (r itemJSON) RawJSON() string {
 	return r.raw
 }
 
+// Represents a connection between an Item and an external system for invoicing or
+// tax calculation purposes.
 type ItemExternalConnection struct {
+	// The name of the external system this item is connected to.
 	ExternalConnectionName ItemExternalConnectionsExternalConnectionName `json:"external_connection_name,required"`
-	ExternalEntityID       string                                        `json:"external_entity_id,required"`
-	JSON                   itemExternalConnectionJSON                    `json:"-"`
+	// The identifier of this item in the external system.
+	ExternalEntityID string                     `json:"external_entity_id,required"`
+	JSON             itemExternalConnectionJSON `json:"-"`
 }
 
 // itemExternalConnectionJSON contains the JSON metadata for the struct
@@ -165,6 +177,7 @@ func (r itemExternalConnectionJSON) RawJSON() string {
 	return r.raw
 }
 
+// The name of the external system this item is connected to.
 type ItemExternalConnectionsExternalConnectionName string
 
 const (
@@ -212,15 +225,20 @@ func (r ItemUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
+// Represents a connection between an Item and an external system for invoicing or
+// tax calculation purposes.
 type ItemUpdateParamsExternalConnection struct {
+	// The name of the external system this item is connected to.
 	ExternalConnectionName param.Field[ItemUpdateParamsExternalConnectionsExternalConnectionName] `json:"external_connection_name,required"`
-	ExternalEntityID       param.Field[string]                                                    `json:"external_entity_id,required"`
+	// The identifier of this item in the external system.
+	ExternalEntityID param.Field[string] `json:"external_entity_id,required"`
 }
 
 func (r ItemUpdateParamsExternalConnection) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
+// The name of the external system this item is connected to.
 type ItemUpdateParamsExternalConnectionsExternalConnectionName string
 
 const (
