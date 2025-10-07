@@ -6622,6 +6622,76 @@ const PriceMinimumCompositePricePriceTypeFixedPrice = shared.PriceMinimumComposi
 const PriceMinimumCompositePricePriceTypeCompositePrice = shared.PriceMinimumCompositePricePriceTypeCompositePrice
 
 // This is an alias to an internal type.
+type PricePercentCompositePrice = shared.PricePercentCompositePrice
+
+// This is an alias to an internal type.
+type PricePercentCompositePriceBillingMode = shared.PricePercentCompositePriceBillingMode
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceBillingModeInAdvance = shared.PricePercentCompositePriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceBillingModeInArrear = shared.PricePercentCompositePriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PricePercentCompositePriceCadence = shared.PricePercentCompositePriceCadence
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCadenceOneTime = shared.PricePercentCompositePriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCadenceMonthly = shared.PricePercentCompositePriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCadenceQuarterly = shared.PricePercentCompositePriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCadenceSemiAnnual = shared.PricePercentCompositePriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCadenceAnnual = shared.PricePercentCompositePriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCadenceCustom = shared.PricePercentCompositePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PricePercentCompositePriceConversionRateConfig = shared.PricePercentCompositePriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PricePercentCompositePriceConversionRateConfigConversionRateType = shared.PricePercentCompositePriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceConversionRateConfigConversionRateTypeUnit = shared.PricePercentCompositePriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceConversionRateConfigConversionRateTypeTiered = shared.PricePercentCompositePriceConversionRateConfigConversionRateTypeTiered
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PricePercentCompositePriceModelType = shared.PricePercentCompositePriceModelType
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceModelTypePercent = shared.PricePercentCompositePriceModelTypePercent
+
+// Configuration for percent pricing
+//
+// This is an alias to an internal type.
+type PricePercentCompositePricePercentConfig = shared.PricePercentCompositePricePercentConfig
+
+// This is an alias to an internal type.
+type PricePercentCompositePricePriceType = shared.PricePercentCompositePricePriceType
+
+// This is an alias to an internal value.
+const PricePercentCompositePricePriceTypeUsagePrice = shared.PricePercentCompositePricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PricePercentCompositePricePriceTypeFixedPrice = shared.PricePercentCompositePricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PricePercentCompositePricePriceTypeCompositePrice = shared.PricePercentCompositePricePriceTypeCompositePrice
+
+// This is an alias to an internal type.
 type PriceEventOutputPrice = shared.PriceEventOutputPrice
 
 // This is an alias to an internal type.
@@ -6806,6 +6876,9 @@ const PriceModelTypeCumulativeGroupedBulk = shared.PriceModelTypeCumulativeGroup
 
 // This is an alias to an internal value.
 const PriceModelTypeMinimum = shared.PriceModelTypeMinimum
+
+// This is an alias to an internal value.
+const PriceModelTypePercent = shared.PriceModelTypePercent
 
 // This is an alias to an internal value.
 const PriceModelTypeEventOutput = shared.PriceModelTypeEventOutput
