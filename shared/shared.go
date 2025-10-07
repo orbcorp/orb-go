@@ -13483,6 +13483,7 @@ type Price struct {
 	// [PriceScalableMatrixWithTieredPricingPriceConversionRateConfig],
 	// [PriceCumulativeGroupedBulkPriceConversionRateConfig],
 	// [PriceMinimumCompositePriceConversionRateConfig],
+	// [PricePercentCompositePriceConversionRateConfig],
 	// [PriceEventOutputPriceConversionRateConfig].
 	ConversionRateConfig interface{} `json:"conversion_rate_config,required"`
 	CreatedAt            time.Time   `json:"created_at,required" format:"date-time"`
@@ -13562,6 +13563,9 @@ type Price struct {
 	// This field can have the runtime type of
 	// [PricePackageWithAllocationPricePackageWithAllocationConfig].
 	PackageWithAllocationConfig interface{} `json:"package_with_allocation_config"`
+	// This field can have the runtime type of
+	// [PricePercentCompositePricePercentConfig].
+	PercentConfig interface{} `json:"percent_config"`
 	// This field can have the runtime type of
 	// [PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfig].
 	ScalableMatrixWithTieredPricingConfig interface{} `json:"scalable_matrix_with_tiered_pricing_config"`
@@ -13643,6 +13647,7 @@ type priceJSON struct {
 	MinimumConfig                         apijson.Field
 	PackageConfig                         apijson.Field
 	PackageWithAllocationConfig           apijson.Field
+	PercentConfig                         apijson.Field
 	ScalableMatrixWithTieredPricingConfig apijson.Field
 	ScalableMatrixWithUnitPricingConfig   apijson.Field
 	ThresholdTotalAmountConfig            apijson.Field
@@ -13687,7 +13692,8 @@ func (r *Price) UnmarshalJSON(data []byte) (err error) {
 // [PriceGroupedTieredPackagePrice], [PriceMaxGroupTieredPackagePrice],
 // [PriceScalableMatrixWithUnitPricingPrice],
 // [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
-// [PriceMinimumCompositePrice], [PriceEventOutputPrice].
+// [PriceMinimumCompositePrice], [PricePercentCompositePrice],
+// [PriceEventOutputPrice].
 func (r Price) AsUnion() PriceUnion {
 	return r.union
 }
@@ -13715,7 +13721,8 @@ func (r Price) AsUnion() PriceUnion {
 // [PriceMatrixWithDisplayNamePrice], [PriceGroupedTieredPackagePrice],
 // [PriceMaxGroupTieredPackagePrice], [PriceScalableMatrixWithUnitPricingPrice],
 // [PriceScalableMatrixWithTieredPricingPrice], [PriceCumulativeGroupedBulkPrice],
-// [PriceMinimumCompositePrice] or [PriceEventOutputPrice].
+// [PriceMinimumCompositePrice], [PricePercentCompositePrice] or
+// [PriceEventOutputPrice].
 type PriceUnion interface {
 	implementsPrice()
 }
@@ -13858,6 +13865,11 @@ func init() {
 			TypeFilter:         gjson.JSON,
 			Type:               reflect.TypeOf(PriceMinimumCompositePrice{}),
 			DiscriminatorValue: "minimum",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(PricePercentCompositePrice{}),
+			DiscriminatorValue: "percent",
 		},
 		apijson.UnionVariant{
 			TypeFilter:         gjson.JSON,
@@ -21249,6 +21261,263 @@ func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
 	return false
 }
 
+type PricePercentCompositePrice struct {
+	ID                        string                                         `json:"id,required"`
+	BillableMetric            BillableMetricTiny                             `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                      `json:"billing_cycle_configuration,required"`
+	BillingMode               PricePercentCompositePriceBillingMode          `json:"billing_mode,required"`
+	Cadence                   PricePercentCompositePriceCadence              `json:"cadence,required"`
+	CompositePriceFilters     []TransformPriceFilter                         `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                        `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PricePercentCompositePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                      `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                     `json:"credit_allocation,required,nullable"`
+	Currency                  string                                         `json:"currency,required"`
+	// Deprecated: deprecated
+	Discount                    Discount                  `json:"discount,required,nullable"`
+	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
+	FixedPriceQuantity          float64                   `json:"fixed_price_quantity,required,nullable"`
+	InvoicingCycleConfiguration BillingCycleConfiguration `json:"invoicing_cycle_configuration,required,nullable"`
+	// A minimal representation of an Item containing only the essential identifying
+	// information.
+	Item ItemSlim `json:"item,required"`
+	// Deprecated: deprecated
+	Maximum Maximum `json:"maximum,required,nullable"`
+	// Deprecated: deprecated
+	MaximumAmount string `json:"maximum_amount,required,nullable"`
+	// User specified key-value pairs for the resource. If not present, this defaults
+	// to an empty dictionary. Individual keys can be removed by setting the value to
+	// `null`, and the entire metadata mapping can be cleared by setting `metadata` to
+	// `null`.
+	Metadata map[string]string `json:"metadata,required"`
+	// Deprecated: deprecated
+	Minimum Minimum `json:"minimum,required,nullable"`
+	// Deprecated: deprecated
+	MinimumAmount string `json:"minimum_amount,required,nullable"`
+	// The pricing model type
+	ModelType PricePercentCompositePriceModelType `json:"model_type,required"`
+	Name      string                              `json:"name,required"`
+	// Configuration for percent pricing
+	PercentConfig  PricePercentCompositePricePercentConfig `json:"percent_config,required"`
+	PlanPhaseOrder int64                                   `json:"plan_phase_order,required,nullable"`
+	PriceType      PricePercentCompositePricePriceType     `json:"price_type,required"`
+	// The price id this price replaces. This price will take the place of the replaced
+	// price in plan version migrations.
+	ReplacesPriceID               string                         `json:"replaces_price_id,required,nullable"`
+	DimensionalPriceConfiguration DimensionalPriceConfiguration  `json:"dimensional_price_configuration,nullable"`
+	JSON                          pricePercentCompositePriceJSON `json:"-"`
+}
+
+// pricePercentCompositePriceJSON contains the JSON metadata for the struct
+// [PricePercentCompositePrice]
+type pricePercentCompositePriceJSON struct {
+	ID                            apijson.Field
+	BillableMetric                apijson.Field
+	BillingCycleConfiguration     apijson.Field
+	BillingMode                   apijson.Field
+	Cadence                       apijson.Field
+	CompositePriceFilters         apijson.Field
+	ConversionRate                apijson.Field
+	ConversionRateConfig          apijson.Field
+	CreatedAt                     apijson.Field
+	CreditAllocation              apijson.Field
+	Currency                      apijson.Field
+	Discount                      apijson.Field
+	ExternalPriceID               apijson.Field
+	FixedPriceQuantity            apijson.Field
+	InvoicingCycleConfiguration   apijson.Field
+	Item                          apijson.Field
+	Maximum                       apijson.Field
+	MaximumAmount                 apijson.Field
+	Metadata                      apijson.Field
+	Minimum                       apijson.Field
+	MinimumAmount                 apijson.Field
+	ModelType                     apijson.Field
+	Name                          apijson.Field
+	PercentConfig                 apijson.Field
+	PlanPhaseOrder                apijson.Field
+	PriceType                     apijson.Field
+	ReplacesPriceID               apijson.Field
+	DimensionalPriceConfiguration apijson.Field
+	raw                           string
+	ExtraFields                   map[string]apijson.Field
+}
+
+func (r *PricePercentCompositePrice) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePercentCompositePriceJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r PricePercentCompositePrice) implementsPrice() {}
+
+type PricePercentCompositePriceBillingMode string
+
+const (
+	PricePercentCompositePriceBillingModeInAdvance PricePercentCompositePriceBillingMode = "in_advance"
+	PricePercentCompositePriceBillingModeInArrear  PricePercentCompositePriceBillingMode = "in_arrear"
+)
+
+func (r PricePercentCompositePriceBillingMode) IsKnown() bool {
+	switch r {
+	case PricePercentCompositePriceBillingModeInAdvance, PricePercentCompositePriceBillingModeInArrear:
+		return true
+	}
+	return false
+}
+
+type PricePercentCompositePriceCadence string
+
+const (
+	PricePercentCompositePriceCadenceOneTime    PricePercentCompositePriceCadence = "one_time"
+	PricePercentCompositePriceCadenceMonthly    PricePercentCompositePriceCadence = "monthly"
+	PricePercentCompositePriceCadenceQuarterly  PricePercentCompositePriceCadence = "quarterly"
+	PricePercentCompositePriceCadenceSemiAnnual PricePercentCompositePriceCadence = "semi_annual"
+	PricePercentCompositePriceCadenceAnnual     PricePercentCompositePriceCadence = "annual"
+	PricePercentCompositePriceCadenceCustom     PricePercentCompositePriceCadence = "custom"
+)
+
+func (r PricePercentCompositePriceCadence) IsKnown() bool {
+	switch r {
+	case PricePercentCompositePriceCadenceOneTime, PricePercentCompositePriceCadenceMonthly, PricePercentCompositePriceCadenceQuarterly, PricePercentCompositePriceCadenceSemiAnnual, PricePercentCompositePriceCadenceAnnual, PricePercentCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PricePercentCompositePriceConversionRateConfig struct {
+	ConversionRateType PricePercentCompositePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
+	TieredConfig       ConversionRateTieredConfig                                       `json:"tiered_config"`
+	UnitConfig         ConversionRateUnitConfig                                         `json:"unit_config"`
+	JSON               pricePercentCompositePriceConversionRateConfigJSON               `json:"-"`
+	union              PricePercentCompositePriceConversionRateConfigUnion
+}
+
+// pricePercentCompositePriceConversionRateConfigJSON contains the JSON metadata
+// for the struct [PricePercentCompositePriceConversionRateConfig]
+type pricePercentCompositePriceConversionRateConfigJSON struct {
+	ConversionRateType apijson.Field
+	TieredConfig       apijson.Field
+	UnitConfig         apijson.Field
+	raw                string
+	ExtraFields        map[string]apijson.Field
+}
+
+func (r pricePercentCompositePriceConversionRateConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+func (r *PricePercentCompositePriceConversionRateConfig) UnmarshalJSON(data []byte) (err error) {
+	*r = PricePercentCompositePriceConversionRateConfig{}
+	err = apijson.UnmarshalRoot(data, &r.union)
+	if err != nil {
+		return err
+	}
+	return apijson.Port(r.union, &r)
+}
+
+// AsUnion returns a [PricePercentCompositePriceConversionRateConfigUnion]
+// interface which you can cast to the specific types for more type safety.
+//
+// Possible runtime types of the union are [UnitConversionRateConfig],
+// [TieredConversionRateConfig].
+func (r PricePercentCompositePriceConversionRateConfig) AsUnion() PricePercentCompositePriceConversionRateConfigUnion {
+	return r.union
+}
+
+// Union satisfied by [UnitConversionRateConfig] or [TieredConversionRateConfig].
+type PricePercentCompositePriceConversionRateConfigUnion interface {
+	ImplementsPricePercentCompositePriceConversionRateConfig()
+}
+
+func init() {
+	apijson.RegisterUnion(
+		reflect.TypeOf((*PricePercentCompositePriceConversionRateConfigUnion)(nil)).Elem(),
+		"conversion_rate_type",
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(UnitConversionRateConfig{}),
+			DiscriminatorValue: "unit",
+		},
+		apijson.UnionVariant{
+			TypeFilter:         gjson.JSON,
+			Type:               reflect.TypeOf(TieredConversionRateConfig{}),
+			DiscriminatorValue: "tiered",
+		},
+	)
+}
+
+type PricePercentCompositePriceConversionRateConfigConversionRateType string
+
+const (
+	PricePercentCompositePriceConversionRateConfigConversionRateTypeUnit   PricePercentCompositePriceConversionRateConfigConversionRateType = "unit"
+	PricePercentCompositePriceConversionRateConfigConversionRateTypeTiered PricePercentCompositePriceConversionRateConfigConversionRateType = "tiered"
+)
+
+func (r PricePercentCompositePriceConversionRateConfigConversionRateType) IsKnown() bool {
+	switch r {
+	case PricePercentCompositePriceConversionRateConfigConversionRateTypeUnit, PricePercentCompositePriceConversionRateConfigConversionRateTypeTiered:
+		return true
+	}
+	return false
+}
+
+// The pricing model type
+type PricePercentCompositePriceModelType string
+
+const (
+	PricePercentCompositePriceModelTypePercent PricePercentCompositePriceModelType = "percent"
+)
+
+func (r PricePercentCompositePriceModelType) IsKnown() bool {
+	switch r {
+	case PricePercentCompositePriceModelTypePercent:
+		return true
+	}
+	return false
+}
+
+// Configuration for percent pricing
+type PricePercentCompositePricePercentConfig struct {
+	// What percent of the component subtotals to charge
+	Percent float64                                     `json:"percent,required"`
+	JSON    pricePercentCompositePricePercentConfigJSON `json:"-"`
+}
+
+// pricePercentCompositePricePercentConfigJSON contains the JSON metadata for the
+// struct [PricePercentCompositePricePercentConfig]
+type pricePercentCompositePricePercentConfigJSON struct {
+	Percent     apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PricePercentCompositePricePercentConfig) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePercentCompositePricePercentConfigJSON) RawJSON() string {
+	return r.raw
+}
+
+type PricePercentCompositePricePriceType string
+
+const (
+	PricePercentCompositePricePriceTypeUsagePrice     PricePercentCompositePricePriceType = "usage_price"
+	PricePercentCompositePricePriceTypeFixedPrice     PricePercentCompositePricePriceType = "fixed_price"
+	PricePercentCompositePricePriceTypeCompositePrice PricePercentCompositePricePriceType = "composite_price"
+)
+
+func (r PricePercentCompositePricePriceType) IsKnown() bool {
+	switch r {
+	case PricePercentCompositePricePriceTypeUsagePrice, PricePercentCompositePricePriceTypeFixedPrice, PricePercentCompositePricePriceTypeCompositePrice:
+		return true
+	}
+	return false
+}
+
 type PriceEventOutputPrice struct {
 	ID                        string                                    `json:"id,required"`
 	BillableMetric            BillableMetricTiny                        `json:"billable_metric,required,nullable"`
@@ -21575,12 +21844,13 @@ const (
 	PriceModelTypeScalableMatrixWithTieredPricing PriceModelType = "scalable_matrix_with_tiered_pricing"
 	PriceModelTypeCumulativeGroupedBulk           PriceModelType = "cumulative_grouped_bulk"
 	PriceModelTypeMinimum                         PriceModelType = "minimum"
+	PriceModelTypePercent                         PriceModelType = "percent"
 	PriceModelTypeEventOutput                     PriceModelType = "event_output"
 )
 
 func (r PriceModelType) IsKnown() bool {
 	switch r {
-	case PriceModelTypeUnit, PriceModelTypeTiered, PriceModelTypeBulk, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeTieredWithMinimum, PriceModelTypeGroupedTiered, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeBulkWithProration, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeGroupedWithMinMaxThresholds, PriceModelTypeMatrixWithDisplayName, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeMinimum, PriceModelTypeEventOutput:
+	case PriceModelTypeUnit, PriceModelTypeTiered, PriceModelTypeBulk, PriceModelTypePackage, PriceModelTypeMatrix, PriceModelTypeThresholdTotalAmount, PriceModelTypeTieredPackage, PriceModelTypeTieredWithMinimum, PriceModelTypeGroupedTiered, PriceModelTypeTieredPackageWithMinimum, PriceModelTypePackageWithAllocation, PriceModelTypeUnitWithPercent, PriceModelTypeMatrixWithAllocation, PriceModelTypeTieredWithProration, PriceModelTypeUnitWithProration, PriceModelTypeGroupedAllocation, PriceModelTypeBulkWithProration, PriceModelTypeGroupedWithProratedMinimum, PriceModelTypeGroupedWithMeteredMinimum, PriceModelTypeGroupedWithMinMaxThresholds, PriceModelTypeMatrixWithDisplayName, PriceModelTypeGroupedTieredPackage, PriceModelTypeMaxGroupTieredPackage, PriceModelTypeScalableMatrixWithUnitPricing, PriceModelTypeScalableMatrixWithTieredPricing, PriceModelTypeCumulativeGroupedBulk, PriceModelTypeMinimum, PriceModelTypePercent, PriceModelTypeEventOutput:
 		return true
 	}
 	return false
@@ -22043,6 +22313,8 @@ func (r TieredConversionRateConfig) ImplementsPriceCumulativeGroupedBulkPriceCon
 
 func (r TieredConversionRateConfig) ImplementsPriceMinimumCompositePriceConversionRateConfig() {}
 
+func (r TieredConversionRateConfig) ImplementsPricePercentCompositePriceConversionRateConfig() {}
+
 func (r TieredConversionRateConfig) ImplementsPriceEventOutputPriceConversionRateConfig() {}
 
 type TieredConversionRateConfigConversionRateType string
@@ -22225,6 +22497,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPr
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22232,6 +22507,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsRepla
 }
 
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
@@ -22243,6 +22521,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVers
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22252,6 +22533,9 @@ func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVers
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22259,6 +22543,9 @@ func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPl
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
@@ -22345,16 +22632,25 @@ func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingCumu
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
@@ -22441,6 +22737,9 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPrice
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22450,10 +22749,16 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplaceP
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
@@ -22465,6 +22770,9 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChang
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22472,6 +22780,9 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChang
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
@@ -22741,6 +23052,8 @@ func (r UnitConversionRateConfig) ImplementsPriceCumulativeGroupedBulkPriceConve
 
 func (r UnitConversionRateConfig) ImplementsPriceMinimumCompositePriceConversionRateConfig() {}
 
+func (r UnitConversionRateConfig) ImplementsPricePercentCompositePriceConversionRateConfig() {}
+
 func (r UnitConversionRateConfig) ImplementsPriceEventOutputPriceConversionRateConfig() {}
 
 type UnitConversionRateConfigConversionRateType string
@@ -22921,6 +23234,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPric
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22928,6 +23244,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplace
 }
 
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsBetaNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
@@ -22939,6 +23258,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersio
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsAddPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22948,6 +23270,9 @@ func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersio
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsBetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -22955,6 +23280,9 @@ func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlan
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPlanNewParamsPricesPriceNewPlanEventOutputPriceConversionRateConfigUnion() {
@@ -23041,16 +23369,25 @@ func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingCumula
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingMinimumCompositePriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPriceNewParamsNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsPriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
@@ -23137,6 +23474,9 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesP
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -23146,10 +23486,16 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePri
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceConversionRateConfigUnion() {
@@ -23161,6 +23507,9 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeP
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
 }
 
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
+}
+
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
@@ -23168,6 +23517,9 @@ func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeP
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionGroupedWithMinMaxThresholdsPriceConversionRateConfigUnion() {
+}
+
+func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionPercentCompositePriceConversionRateConfigUnion() {
 }
 
 func (r UnitConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
