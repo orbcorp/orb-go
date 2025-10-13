@@ -4877,6 +4877,86 @@ const PriceBulkPricePriceTypeFixedPrice = shared.PriceBulkPricePriceTypeFixedPri
 const PriceBulkPricePriceTypeCompositePrice = shared.PriceBulkPricePriceTypeCompositePrice
 
 // This is an alias to an internal type.
+type PriceBulkWithFiltersPrice = shared.PriceBulkWithFiltersPrice
+
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceBillingMode = shared.PriceBulkWithFiltersPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceBillingModeInAdvance = shared.PriceBulkWithFiltersPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceBillingModeInArrear = shared.PriceBulkWithFiltersPriceBillingModeInArrear
+
+// Configuration for bulk_with_filters pricing
+//
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceBulkWithFiltersConfig = shared.PriceBulkWithFiltersPriceBulkWithFiltersConfig
+
+// Configuration for a single property filter
+//
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceBulkWithFiltersConfigFilter = shared.PriceBulkWithFiltersPriceBulkWithFiltersConfigFilter
+
+// Configuration for a single bulk pricing tier
+//
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceBulkWithFiltersConfigTier = shared.PriceBulkWithFiltersPriceBulkWithFiltersConfigTier
+
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceCadence = shared.PriceBulkWithFiltersPriceCadence
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCadenceOneTime = shared.PriceBulkWithFiltersPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCadenceMonthly = shared.PriceBulkWithFiltersPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCadenceQuarterly = shared.PriceBulkWithFiltersPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCadenceSemiAnnual = shared.PriceBulkWithFiltersPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCadenceAnnual = shared.PriceBulkWithFiltersPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCadenceCustom = shared.PriceBulkWithFiltersPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceConversionRateConfig = shared.PriceBulkWithFiltersPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceConversionRateConfigConversionRateType = shared.PriceBulkWithFiltersPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceConversionRateConfigConversionRateTypeUnit = shared.PriceBulkWithFiltersPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceConversionRateConfigConversionRateTypeTiered = shared.PriceBulkWithFiltersPriceConversionRateConfigConversionRateTypeTiered
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceModelType = shared.PriceBulkWithFiltersPriceModelType
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceModelTypeBulkWithFilters = shared.PriceBulkWithFiltersPriceModelTypeBulkWithFilters
+
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPricePriceType = shared.PriceBulkWithFiltersPricePriceType
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPricePriceTypeUsagePrice = shared.PriceBulkWithFiltersPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPricePriceTypeFixedPrice = shared.PriceBulkWithFiltersPricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPricePriceTypeCompositePrice = shared.PriceBulkWithFiltersPricePriceTypeCompositePrice
+
+// This is an alias to an internal type.
 type PricePackagePrice = shared.PricePackagePrice
 
 // This is an alias to an internal type.
@@ -6804,6 +6884,9 @@ const PriceModelTypeTiered = shared.PriceModelTypeTiered
 
 // This is an alias to an internal value.
 const PriceModelTypeBulk = shared.PriceModelTypeBulk
+
+// This is an alias to an internal value.
+const PriceModelTypeBulkWithFilters = shared.PriceModelTypeBulkWithFilters
 
 // This is an alias to an internal value.
 const PriceModelTypePackage = shared.PriceModelTypePackage
