@@ -2128,6 +2128,9 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// customer's timezone. If not provided, the invoice date will default to the
 	// credit block's effective date.
 	InvoiceDate param.Field[time.Time] `json:"invoice_date" format:"date-time"`
+	// The ID of the Item to be used for the invoice line item. If not provided, a
+	// default 'Credits' item will be used.
+	ItemID param.Field[string] `json:"item_id"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
 	// If true, the new credit block will require that the corresponding invoice is
@@ -2413,6 +2416,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// customer's timezone. If not provided, the invoice date will default to the
 	// credit block's effective date.
 	InvoiceDate param.Field[time.Time] `json:"invoice_date" format:"date-time"`
+	// The ID of the Item to be used for the invoice line item. If not provided, a
+	// default 'Credits' item will be used.
+	ItemID param.Field[string] `json:"item_id"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
 	// If true, the new credit block will require that the corresponding invoice is
