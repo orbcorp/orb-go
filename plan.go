@@ -231,7 +231,12 @@ type PlanAdjustment struct {
 	AdjustmentType PlanAdjustmentsAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
-	// This field can have the runtime type of [[]shared.TransformPriceFilter].
+	// This field can have the runtime type of
+	// [[]shared.PlanPhaseUsageDiscountAdjustmentFilter],
+	// [[]shared.PlanPhaseAmountDiscountAdjustmentFilter],
+	// [[]shared.PlanPhasePercentageDiscountAdjustmentFilter],
+	// [[]shared.PlanPhaseMinimumAdjustmentFilter],
+	// [[]shared.PlanPhaseMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
@@ -1360,6 +1365,10 @@ func (r PlanNewParamsPricesPriceNewPlanEventOutputPriceCadence) IsKnown() bool {
 type PlanNewParamsPricesPriceNewPlanEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`

@@ -46,9 +46,9 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			DiscountType:       orb.F(shared.PercentageDiscountDiscountTypePercentage),
 			PercentageDiscount: orb.F(0.150000),
 			AppliesToPriceIDs:  orb.F([]string{"h74gfhdjvn7ujokd", "7hfgtgjnbvc3ujkl"}),
-			Filters: orb.F([]shared.TransformPriceFilterParam{{
-				Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
-				Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
+			Filters: orb.F([]shared.PercentageDiscountFilterParam{{
+				Field:    orb.F(shared.PercentageDiscountFiltersFieldPriceID),
+				Operator: orb.F(shared.PercentageDiscountFiltersOperatorIncludes),
 				Values:   orb.F([]string{"string"}),
 			}}),
 			Reason: orb.F("reason"),
