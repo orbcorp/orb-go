@@ -4584,6 +4584,10 @@ func (r PriceNewParamsNewFloatingEventOutputPriceCadence) IsKnown() bool {
 type PriceNewParamsNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`
@@ -5348,6 +5352,10 @@ func (r PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPr
 type PriceEvaluateMultipleParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`
@@ -6149,6 +6157,10 @@ func (r PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOut
 type PriceEvaluatePreviewEventsParamsPriceEvaluationsPriceNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`

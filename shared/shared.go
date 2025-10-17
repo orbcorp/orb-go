@@ -78,7 +78,11 @@ type AdjustmentIntervalAdjustment struct {
 	AdjustmentType AdjustmentIntervalAdjustmentAdjustmentType `json:"adjustment_type,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
-	// This field can have the runtime type of [[]TransformPriceFilter].
+	// This field can have the runtime type of
+	// [[]PlanPhaseUsageDiscountAdjustmentFilter],
+	// [[]PlanPhaseAmountDiscountAdjustmentFilter],
+	// [[]PlanPhasePercentageDiscountAdjustmentFilter],
+	// [[]PlanPhaseMinimumAdjustmentFilter], [[]PlanPhaseMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
@@ -274,7 +278,7 @@ type AmountDiscount struct {
 	// this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []TransformPriceFilter `json:"filters,nullable"`
+	Filters []AmountDiscountFilter `json:"filters,nullable"`
 	Reason  string                 `json:"reason,nullable"`
 	JSON    amountDiscountJSON     `json:"-"`
 }
@@ -318,6 +322,69 @@ func (r AmountDiscountDiscountType) IsKnown() bool {
 	return false
 }
 
+type AmountDiscountFilter struct {
+	// The property of the price to filter on.
+	Field AmountDiscountFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator AmountDiscountFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                 `json:"values,required"`
+	JSON   amountDiscountFilterJSON `json:"-"`
+}
+
+// amountDiscountFilterJSON contains the JSON metadata for the struct
+// [AmountDiscountFilter]
+type amountDiscountFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AmountDiscountFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r amountDiscountFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type AmountDiscountFiltersField string
+
+const (
+	AmountDiscountFiltersFieldPriceID       AmountDiscountFiltersField = "price_id"
+	AmountDiscountFiltersFieldItemID        AmountDiscountFiltersField = "item_id"
+	AmountDiscountFiltersFieldPriceType     AmountDiscountFiltersField = "price_type"
+	AmountDiscountFiltersFieldCurrency      AmountDiscountFiltersField = "currency"
+	AmountDiscountFiltersFieldPricingUnitID AmountDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r AmountDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case AmountDiscountFiltersFieldPriceID, AmountDiscountFiltersFieldItemID, AmountDiscountFiltersFieldPriceType, AmountDiscountFiltersFieldCurrency, AmountDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type AmountDiscountFiltersOperator string
+
+const (
+	AmountDiscountFiltersOperatorIncludes AmountDiscountFiltersOperator = "includes"
+	AmountDiscountFiltersOperatorExcludes AmountDiscountFiltersOperator = "excludes"
+)
+
+func (r AmountDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case AmountDiscountFiltersOperatorIncludes, AmountDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type AmountDiscountParam struct {
 	// Only available if discount_type is `amount`.
 	AmountDiscount param.Field[string]                     `json:"amount_discount,required"`
@@ -326,7 +393,7 @@ type AmountDiscountParam struct {
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// The filters that determine which prices to apply this discount to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
+	Filters param.Field[[]AmountDiscountFilterParam] `json:"filters"`
 	Reason  param.Field[string]                      `json:"reason"`
 }
 
@@ -335,6 +402,19 @@ func (r AmountDiscountParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r AmountDiscountParam) ImplementsDiscountUnionParam() {}
+
+type AmountDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[AmountDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[AmountDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r AmountDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
 
 type AmountDiscountInterval struct {
 	// Only available if discount_type is `amount`.
@@ -345,7 +425,7 @@ type AmountDiscountInterval struct {
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The filters that determine which prices this discount interval applies to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []AmountDiscountIntervalFilter `json:"filters,required"`
 	// The start date of the discount interval.
 	StartDate time.Time                  `json:"start_date,required" format:"date-time"`
 	JSON      amountDiscountIntervalJSON `json:"-"`
@@ -385,6 +465,69 @@ const (
 func (r AmountDiscountIntervalDiscountType) IsKnown() bool {
 	switch r {
 	case AmountDiscountIntervalDiscountTypeAmount:
+		return true
+	}
+	return false
+}
+
+type AmountDiscountIntervalFilter struct {
+	// The property of the price to filter on.
+	Field AmountDiscountIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator AmountDiscountIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                         `json:"values,required"`
+	JSON   amountDiscountIntervalFilterJSON `json:"-"`
+}
+
+// amountDiscountIntervalFilterJSON contains the JSON metadata for the struct
+// [AmountDiscountIntervalFilter]
+type amountDiscountIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AmountDiscountIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r amountDiscountIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type AmountDiscountIntervalFiltersField string
+
+const (
+	AmountDiscountIntervalFiltersFieldPriceID       AmountDiscountIntervalFiltersField = "price_id"
+	AmountDiscountIntervalFiltersFieldItemID        AmountDiscountIntervalFiltersField = "item_id"
+	AmountDiscountIntervalFiltersFieldPriceType     AmountDiscountIntervalFiltersField = "price_type"
+	AmountDiscountIntervalFiltersFieldCurrency      AmountDiscountIntervalFiltersField = "currency"
+	AmountDiscountIntervalFiltersFieldPricingUnitID AmountDiscountIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r AmountDiscountIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case AmountDiscountIntervalFiltersFieldPriceID, AmountDiscountIntervalFiltersFieldItemID, AmountDiscountIntervalFiltersFieldPriceType, AmountDiscountIntervalFiltersFieldCurrency, AmountDiscountIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type AmountDiscountIntervalFiltersOperator string
+
+const (
+	AmountDiscountIntervalFiltersOperatorIncludes AmountDiscountIntervalFiltersOperator = "includes"
+	AmountDiscountIntervalFiltersOperatorExcludes AmountDiscountIntervalFiltersOperator = "excludes"
+)
+
+func (r AmountDiscountIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case AmountDiscountIntervalFiltersOperatorIncludes, AmountDiscountIntervalFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -1232,7 +1375,11 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItemsAdjustment struct {
 	Amount string `json:"amount,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
-	// This field can have the runtime type of [[]TransformPriceFilter].
+	// This field can have the runtime type of
+	// [[]MonetaryUsageDiscountAdjustmentFilter],
+	// [[]MonetaryAmountDiscountAdjustmentFilter],
+	// [[]MonetaryPercentageDiscountAdjustmentFilter],
+	// [[]MonetaryMinimumAdjustmentFilter], [[]MonetaryMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
@@ -2684,7 +2831,8 @@ type Discount struct {
 	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]TransformPriceFilter].
+	// This field can have the runtime type of [[]PercentageDiscountFilter],
+	// [[]TrialDiscountFilter], [[]UsageDiscountFilter], [[]AmountDiscountFilter].
 	Filters interface{} `json:"filters"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
@@ -3464,7 +3612,11 @@ type InvoiceLineItemsAdjustment struct {
 	Amount string `json:"amount,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
-	// This field can have the runtime type of [[]TransformPriceFilter].
+	// This field can have the runtime type of
+	// [[]MonetaryUsageDiscountAdjustmentFilter],
+	// [[]MonetaryAmountDiscountAdjustmentFilter],
+	// [[]MonetaryPercentageDiscountAdjustmentFilter],
+	// [[]MonetaryMinimumAdjustmentFilter], [[]MonetaryMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
@@ -3772,7 +3924,8 @@ type InvoiceLevelDiscount struct {
 	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]TransformPriceFilter].
+	// This field can have the runtime type of [[]PercentageDiscountFilter],
+	// [[]AmountDiscountFilter], [[]TrialDiscountFilter].
 	Filters interface{} `json:"filters"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.
@@ -4147,7 +4300,7 @@ type Maximum struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this maximum to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MaximumFilter `json:"filters,required"`
 	// Maximum amount applied
 	MaximumAmount string      `json:"maximum_amount,required"`
 	JSON          maximumJSON `json:"-"`
@@ -4170,13 +4323,75 @@ func (r maximumJSON) RawJSON() string {
 	return r.raw
 }
 
+type MaximumFilter struct {
+	// The property of the price to filter on.
+	Field MaximumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MaximumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string          `json:"values,required"`
+	JSON   maximumFilterJSON `json:"-"`
+}
+
+// maximumFilterJSON contains the JSON metadata for the struct [MaximumFilter]
+type maximumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MaximumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r maximumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MaximumFiltersField string
+
+const (
+	MaximumFiltersFieldPriceID       MaximumFiltersField = "price_id"
+	MaximumFiltersFieldItemID        MaximumFiltersField = "item_id"
+	MaximumFiltersFieldPriceType     MaximumFiltersField = "price_type"
+	MaximumFiltersFieldCurrency      MaximumFiltersField = "currency"
+	MaximumFiltersFieldPricingUnitID MaximumFiltersField = "pricing_unit_id"
+)
+
+func (r MaximumFiltersField) IsKnown() bool {
+	switch r {
+	case MaximumFiltersFieldPriceID, MaximumFiltersFieldItemID, MaximumFiltersFieldPriceType, MaximumFiltersFieldCurrency, MaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MaximumFiltersOperator string
+
+const (
+	MaximumFiltersOperatorIncludes MaximumFiltersOperator = "includes"
+	MaximumFiltersOperatorExcludes MaximumFiltersOperator = "excludes"
+)
+
+func (r MaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case MaximumFiltersOperatorIncludes, MaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type MaximumInterval struct {
 	// The price interval ids that this maximum interval applies to.
 	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
 	// The end date of the maximum interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The filters that determine which prices this maximum interval applies to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MaximumIntervalFilter `json:"filters,required"`
 	// The maximum amount to charge in a given billing period for the price intervals
 	// this transform applies to.
 	MaximumAmount string `json:"maximum_amount,required"`
@@ -4204,6 +4419,69 @@ func (r maximumIntervalJSON) RawJSON() string {
 	return r.raw
 }
 
+type MaximumIntervalFilter struct {
+	// The property of the price to filter on.
+	Field MaximumIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MaximumIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                  `json:"values,required"`
+	JSON   maximumIntervalFilterJSON `json:"-"`
+}
+
+// maximumIntervalFilterJSON contains the JSON metadata for the struct
+// [MaximumIntervalFilter]
+type maximumIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MaximumIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r maximumIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MaximumIntervalFiltersField string
+
+const (
+	MaximumIntervalFiltersFieldPriceID       MaximumIntervalFiltersField = "price_id"
+	MaximumIntervalFiltersFieldItemID        MaximumIntervalFiltersField = "item_id"
+	MaximumIntervalFiltersFieldPriceType     MaximumIntervalFiltersField = "price_type"
+	MaximumIntervalFiltersFieldCurrency      MaximumIntervalFiltersField = "currency"
+	MaximumIntervalFiltersFieldPricingUnitID MaximumIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r MaximumIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case MaximumIntervalFiltersFieldPriceID, MaximumIntervalFiltersFieldItemID, MaximumIntervalFiltersFieldPriceType, MaximumIntervalFiltersFieldCurrency, MaximumIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MaximumIntervalFiltersOperator string
+
+const (
+	MaximumIntervalFiltersOperatorIncludes MaximumIntervalFiltersOperator = "includes"
+	MaximumIntervalFiltersOperatorExcludes MaximumIntervalFiltersOperator = "excludes"
+)
+
+func (r MaximumIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case MaximumIntervalFiltersOperatorIncludes, MaximumIntervalFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type Minimum struct {
 	// List of price_ids that this minimum amount applies to. For plan/plan phase
 	// minimums, this can be a subset of prices.
@@ -4211,7 +4489,7 @@ type Minimum struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this minimum to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MinimumFilter `json:"filters,required"`
 	// Minimum amount applied
 	MinimumAmount string      `json:"minimum_amount,required"`
 	JSON          minimumJSON `json:"-"`
@@ -4234,13 +4512,75 @@ func (r minimumJSON) RawJSON() string {
 	return r.raw
 }
 
+type MinimumFilter struct {
+	// The property of the price to filter on.
+	Field MinimumFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MinimumFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string          `json:"values,required"`
+	JSON   minimumFilterJSON `json:"-"`
+}
+
+// minimumFilterJSON contains the JSON metadata for the struct [MinimumFilter]
+type minimumFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MinimumFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r minimumFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MinimumFiltersField string
+
+const (
+	MinimumFiltersFieldPriceID       MinimumFiltersField = "price_id"
+	MinimumFiltersFieldItemID        MinimumFiltersField = "item_id"
+	MinimumFiltersFieldPriceType     MinimumFiltersField = "price_type"
+	MinimumFiltersFieldCurrency      MinimumFiltersField = "currency"
+	MinimumFiltersFieldPricingUnitID MinimumFiltersField = "pricing_unit_id"
+)
+
+func (r MinimumFiltersField) IsKnown() bool {
+	switch r {
+	case MinimumFiltersFieldPriceID, MinimumFiltersFieldItemID, MinimumFiltersFieldPriceType, MinimumFiltersFieldCurrency, MinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MinimumFiltersOperator string
+
+const (
+	MinimumFiltersOperatorIncludes MinimumFiltersOperator = "includes"
+	MinimumFiltersOperatorExcludes MinimumFiltersOperator = "excludes"
+)
+
+func (r MinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case MinimumFiltersOperatorIncludes, MinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type MinimumInterval struct {
 	// The price interval ids that this minimum interval applies to.
 	AppliesToPriceIntervalIDs []string `json:"applies_to_price_interval_ids,required"`
 	// The end date of the minimum interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The filters that determine which prices this minimum interval applies to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MinimumIntervalFilter `json:"filters,required"`
 	// The minimum amount to charge in a given billing period for the price intervals
 	// this minimum applies to.
 	MinimumAmount string `json:"minimum_amount,required"`
@@ -4268,6 +4608,69 @@ func (r minimumIntervalJSON) RawJSON() string {
 	return r.raw
 }
 
+type MinimumIntervalFilter struct {
+	// The property of the price to filter on.
+	Field MinimumIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MinimumIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                  `json:"values,required"`
+	JSON   minimumIntervalFilterJSON `json:"-"`
+}
+
+// minimumIntervalFilterJSON contains the JSON metadata for the struct
+// [MinimumIntervalFilter]
+type minimumIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MinimumIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r minimumIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MinimumIntervalFiltersField string
+
+const (
+	MinimumIntervalFiltersFieldPriceID       MinimumIntervalFiltersField = "price_id"
+	MinimumIntervalFiltersFieldItemID        MinimumIntervalFiltersField = "item_id"
+	MinimumIntervalFiltersFieldPriceType     MinimumIntervalFiltersField = "price_type"
+	MinimumIntervalFiltersFieldCurrency      MinimumIntervalFiltersField = "currency"
+	MinimumIntervalFiltersFieldPricingUnitID MinimumIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r MinimumIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case MinimumIntervalFiltersFieldPriceID, MinimumIntervalFiltersFieldItemID, MinimumIntervalFiltersFieldPriceType, MinimumIntervalFiltersFieldCurrency, MinimumIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MinimumIntervalFiltersOperator string
+
+const (
+	MinimumIntervalFiltersOperatorIncludes MinimumIntervalFiltersOperator = "includes"
+	MinimumIntervalFiltersOperatorExcludes MinimumIntervalFiltersOperator = "excludes"
+)
+
+func (r MinimumIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case MinimumIntervalFiltersOperatorIncludes, MinimumIntervalFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type MonetaryAmountDiscountAdjustment struct {
 	ID             string                                         `json:"id,required"`
 	AdjustmentType MonetaryAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -4281,7 +4684,7 @@ type MonetaryAmountDiscountAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MonetaryAmountDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -4341,6 +4744,69 @@ func (r MonetaryAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type MonetaryAmountDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field MonetaryAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MonetaryAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                   `json:"values,required"`
+	JSON   monetaryAmountDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// monetaryAmountDiscountAdjustmentFilterJSON contains the JSON metadata for the
+// struct [MonetaryAmountDiscountAdjustmentFilter]
+type monetaryAmountDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MonetaryAmountDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r monetaryAmountDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MonetaryAmountDiscountAdjustmentFiltersField string
+
+const (
+	MonetaryAmountDiscountAdjustmentFiltersFieldPriceID       MonetaryAmountDiscountAdjustmentFiltersField = "price_id"
+	MonetaryAmountDiscountAdjustmentFiltersFieldItemID        MonetaryAmountDiscountAdjustmentFiltersField = "item_id"
+	MonetaryAmountDiscountAdjustmentFiltersFieldPriceType     MonetaryAmountDiscountAdjustmentFiltersField = "price_type"
+	MonetaryAmountDiscountAdjustmentFiltersFieldCurrency      MonetaryAmountDiscountAdjustmentFiltersField = "currency"
+	MonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID MonetaryAmountDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r MonetaryAmountDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case MonetaryAmountDiscountAdjustmentFiltersFieldPriceID, MonetaryAmountDiscountAdjustmentFiltersFieldItemID, MonetaryAmountDiscountAdjustmentFiltersFieldPriceType, MonetaryAmountDiscountAdjustmentFiltersFieldCurrency, MonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MonetaryAmountDiscountAdjustmentFiltersOperator string
+
+const (
+	MonetaryAmountDiscountAdjustmentFiltersOperatorIncludes MonetaryAmountDiscountAdjustmentFiltersOperator = "includes"
+	MonetaryAmountDiscountAdjustmentFiltersOperatorExcludes MonetaryAmountDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r MonetaryAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case MonetaryAmountDiscountAdjustmentFiltersOperatorIncludes, MonetaryAmountDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type MonetaryMaximumAdjustment struct {
 	ID             string                                  `json:"id,required"`
 	AdjustmentType MonetaryMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -4351,7 +4817,7 @@ type MonetaryMaximumAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MonetaryMaximumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -4413,6 +4879,69 @@ func (r MonetaryMaximumAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type MonetaryMaximumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field MonetaryMaximumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MonetaryMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                            `json:"values,required"`
+	JSON   monetaryMaximumAdjustmentFilterJSON `json:"-"`
+}
+
+// monetaryMaximumAdjustmentFilterJSON contains the JSON metadata for the struct
+// [MonetaryMaximumAdjustmentFilter]
+type monetaryMaximumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MonetaryMaximumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r monetaryMaximumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MonetaryMaximumAdjustmentFiltersField string
+
+const (
+	MonetaryMaximumAdjustmentFiltersFieldPriceID       MonetaryMaximumAdjustmentFiltersField = "price_id"
+	MonetaryMaximumAdjustmentFiltersFieldItemID        MonetaryMaximumAdjustmentFiltersField = "item_id"
+	MonetaryMaximumAdjustmentFiltersFieldPriceType     MonetaryMaximumAdjustmentFiltersField = "price_type"
+	MonetaryMaximumAdjustmentFiltersFieldCurrency      MonetaryMaximumAdjustmentFiltersField = "currency"
+	MonetaryMaximumAdjustmentFiltersFieldPricingUnitID MonetaryMaximumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r MonetaryMaximumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case MonetaryMaximumAdjustmentFiltersFieldPriceID, MonetaryMaximumAdjustmentFiltersFieldItemID, MonetaryMaximumAdjustmentFiltersFieldPriceType, MonetaryMaximumAdjustmentFiltersFieldCurrency, MonetaryMaximumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MonetaryMaximumAdjustmentFiltersOperator string
+
+const (
+	MonetaryMaximumAdjustmentFiltersOperatorIncludes MonetaryMaximumAdjustmentFiltersOperator = "includes"
+	MonetaryMaximumAdjustmentFiltersOperatorExcludes MonetaryMaximumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r MonetaryMaximumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case MonetaryMaximumAdjustmentFiltersOperatorIncludes, MonetaryMaximumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type MonetaryMinimumAdjustment struct {
 	ID             string                                  `json:"id,required"`
 	AdjustmentType MonetaryMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -4423,7 +4952,7 @@ type MonetaryMinimumAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MonetaryMinimumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -4488,6 +5017,69 @@ func (r MonetaryMinimumAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type MonetaryMinimumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field MonetaryMinimumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MonetaryMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                            `json:"values,required"`
+	JSON   monetaryMinimumAdjustmentFilterJSON `json:"-"`
+}
+
+// monetaryMinimumAdjustmentFilterJSON contains the JSON metadata for the struct
+// [MonetaryMinimumAdjustmentFilter]
+type monetaryMinimumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MonetaryMinimumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r monetaryMinimumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MonetaryMinimumAdjustmentFiltersField string
+
+const (
+	MonetaryMinimumAdjustmentFiltersFieldPriceID       MonetaryMinimumAdjustmentFiltersField = "price_id"
+	MonetaryMinimumAdjustmentFiltersFieldItemID        MonetaryMinimumAdjustmentFiltersField = "item_id"
+	MonetaryMinimumAdjustmentFiltersFieldPriceType     MonetaryMinimumAdjustmentFiltersField = "price_type"
+	MonetaryMinimumAdjustmentFiltersFieldCurrency      MonetaryMinimumAdjustmentFiltersField = "currency"
+	MonetaryMinimumAdjustmentFiltersFieldPricingUnitID MonetaryMinimumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r MonetaryMinimumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case MonetaryMinimumAdjustmentFiltersFieldPriceID, MonetaryMinimumAdjustmentFiltersFieldItemID, MonetaryMinimumAdjustmentFiltersFieldPriceType, MonetaryMinimumAdjustmentFiltersFieldCurrency, MonetaryMinimumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MonetaryMinimumAdjustmentFiltersOperator string
+
+const (
+	MonetaryMinimumAdjustmentFiltersOperatorIncludes MonetaryMinimumAdjustmentFiltersOperator = "includes"
+	MonetaryMinimumAdjustmentFiltersOperatorExcludes MonetaryMinimumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r MonetaryMinimumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case MonetaryMinimumAdjustmentFiltersOperatorIncludes, MonetaryMinimumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type MonetaryPercentageDiscountAdjustment struct {
 	ID             string                                             `json:"id,required"`
 	AdjustmentType MonetaryPercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -4498,7 +5090,7 @@ type MonetaryPercentageDiscountAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MonetaryPercentageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -4561,6 +5153,69 @@ func (r MonetaryPercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type MonetaryPercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field MonetaryPercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MonetaryPercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                       `json:"values,required"`
+	JSON   monetaryPercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// monetaryPercentageDiscountAdjustmentFilterJSON contains the JSON metadata for
+// the struct [MonetaryPercentageDiscountAdjustmentFilter]
+type monetaryPercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MonetaryPercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r monetaryPercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MonetaryPercentageDiscountAdjustmentFiltersField string
+
+const (
+	MonetaryPercentageDiscountAdjustmentFiltersFieldPriceID       MonetaryPercentageDiscountAdjustmentFiltersField = "price_id"
+	MonetaryPercentageDiscountAdjustmentFiltersFieldItemID        MonetaryPercentageDiscountAdjustmentFiltersField = "item_id"
+	MonetaryPercentageDiscountAdjustmentFiltersFieldPriceType     MonetaryPercentageDiscountAdjustmentFiltersField = "price_type"
+	MonetaryPercentageDiscountAdjustmentFiltersFieldCurrency      MonetaryPercentageDiscountAdjustmentFiltersField = "currency"
+	MonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID MonetaryPercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r MonetaryPercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case MonetaryPercentageDiscountAdjustmentFiltersFieldPriceID, MonetaryPercentageDiscountAdjustmentFiltersFieldItemID, MonetaryPercentageDiscountAdjustmentFiltersFieldPriceType, MonetaryPercentageDiscountAdjustmentFiltersFieldCurrency, MonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MonetaryPercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	MonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes MonetaryPercentageDiscountAdjustmentFiltersOperator = "includes"
+	MonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes MonetaryPercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r MonetaryPercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case MonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes, MonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type MonetaryUsageDiscountAdjustment struct {
 	ID             string                                        `json:"id,required"`
 	AdjustmentType MonetaryUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -4571,7 +5226,7 @@ type MonetaryUsageDiscountAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []MonetaryUsageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -4634,6 +5289,69 @@ func (r MonetaryUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type MonetaryUsageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field MonetaryUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator MonetaryUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                  `json:"values,required"`
+	JSON   monetaryUsageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// monetaryUsageDiscountAdjustmentFilterJSON contains the JSON metadata for the
+// struct [MonetaryUsageDiscountAdjustmentFilter]
+type monetaryUsageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *MonetaryUsageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r monetaryUsageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type MonetaryUsageDiscountAdjustmentFiltersField string
+
+const (
+	MonetaryUsageDiscountAdjustmentFiltersFieldPriceID       MonetaryUsageDiscountAdjustmentFiltersField = "price_id"
+	MonetaryUsageDiscountAdjustmentFiltersFieldItemID        MonetaryUsageDiscountAdjustmentFiltersField = "item_id"
+	MonetaryUsageDiscountAdjustmentFiltersFieldPriceType     MonetaryUsageDiscountAdjustmentFiltersField = "price_type"
+	MonetaryUsageDiscountAdjustmentFiltersFieldCurrency      MonetaryUsageDiscountAdjustmentFiltersField = "currency"
+	MonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID MonetaryUsageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r MonetaryUsageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case MonetaryUsageDiscountAdjustmentFiltersFieldPriceID, MonetaryUsageDiscountAdjustmentFiltersFieldItemID, MonetaryUsageDiscountAdjustmentFiltersFieldPriceType, MonetaryUsageDiscountAdjustmentFiltersFieldCurrency, MonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type MonetaryUsageDiscountAdjustmentFiltersOperator string
+
+const (
+	MonetaryUsageDiscountAdjustmentFiltersOperatorIncludes MonetaryUsageDiscountAdjustmentFiltersOperator = "includes"
+	MonetaryUsageDiscountAdjustmentFiltersOperatorExcludes MonetaryUsageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r MonetaryUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case MonetaryUsageDiscountAdjustmentFiltersOperatorIncludes, MonetaryUsageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type NewAllocationPriceParam struct {
 	// An amount of the currency to allocate to the customer at the specified cadence.
 	Amount param.Field[string] `json:"amount,required"`
@@ -4684,7 +5402,7 @@ type NewAmountDiscountParam struct {
 	// If set, only prices in the specified currency will have the adjustment applied.
 	Currency param.Field[string] `json:"currency"`
 	// A list of filters that determine which prices this adjustment will apply to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
+	Filters param.Field[[]NewAmountDiscountFilterParam] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
@@ -4746,6 +5464,54 @@ const (
 func (r NewAmountDiscountAppliesToAll) IsKnown() bool {
 	switch r {
 	case NewAmountDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type NewAmountDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[NewAmountDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[NewAmountDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r NewAmountDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type NewAmountDiscountFiltersField string
+
+const (
+	NewAmountDiscountFiltersFieldPriceID       NewAmountDiscountFiltersField = "price_id"
+	NewAmountDiscountFiltersFieldItemID        NewAmountDiscountFiltersField = "item_id"
+	NewAmountDiscountFiltersFieldPriceType     NewAmountDiscountFiltersField = "price_type"
+	NewAmountDiscountFiltersFieldCurrency      NewAmountDiscountFiltersField = "currency"
+	NewAmountDiscountFiltersFieldPricingUnitID NewAmountDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r NewAmountDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case NewAmountDiscountFiltersFieldPriceID, NewAmountDiscountFiltersFieldItemID, NewAmountDiscountFiltersFieldPriceType, NewAmountDiscountFiltersFieldCurrency, NewAmountDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type NewAmountDiscountFiltersOperator string
+
+const (
+	NewAmountDiscountFiltersOperatorIncludes NewAmountDiscountFiltersOperator = "includes"
+	NewAmountDiscountFiltersOperatorExcludes NewAmountDiscountFiltersOperator = "excludes"
+)
+
+func (r NewAmountDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case NewAmountDiscountFiltersOperatorIncludes, NewAmountDiscountFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -8599,7 +9365,7 @@ type NewMaximumParam struct {
 	// If set, only prices in the specified currency will have the adjustment applied.
 	Currency param.Field[string] `json:"currency"`
 	// A list of filters that determine which prices this adjustment will apply to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
+	Filters param.Field[[]NewMaximumFilterParam] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
@@ -8664,6 +9430,54 @@ func (r NewMaximumAppliesToAll) IsKnown() bool {
 	return false
 }
 
+type NewMaximumFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[NewMaximumFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[NewMaximumFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r NewMaximumFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type NewMaximumFiltersField string
+
+const (
+	NewMaximumFiltersFieldPriceID       NewMaximumFiltersField = "price_id"
+	NewMaximumFiltersFieldItemID        NewMaximumFiltersField = "item_id"
+	NewMaximumFiltersFieldPriceType     NewMaximumFiltersField = "price_type"
+	NewMaximumFiltersFieldCurrency      NewMaximumFiltersField = "currency"
+	NewMaximumFiltersFieldPricingUnitID NewMaximumFiltersField = "pricing_unit_id"
+)
+
+func (r NewMaximumFiltersField) IsKnown() bool {
+	switch r {
+	case NewMaximumFiltersFieldPriceID, NewMaximumFiltersFieldItemID, NewMaximumFiltersFieldPriceType, NewMaximumFiltersFieldCurrency, NewMaximumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type NewMaximumFiltersOperator string
+
+const (
+	NewMaximumFiltersOperatorIncludes NewMaximumFiltersOperator = "includes"
+	NewMaximumFiltersOperatorExcludes NewMaximumFiltersOperator = "excludes"
+)
+
+func (r NewMaximumFiltersOperator) IsKnown() bool {
+	switch r {
+	case NewMaximumFiltersOperatorIncludes, NewMaximumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 // If set, only prices of the specified type will have the adjustment applied.
 type NewMaximumPriceType string
 
@@ -8697,7 +9511,7 @@ type NewMinimumParam struct {
 	// If set, only prices in the specified currency will have the adjustment applied.
 	Currency param.Field[string] `json:"currency"`
 	// A list of filters that determine which prices this adjustment will apply to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
+	Filters param.Field[[]NewMinimumFilterParam] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
@@ -8762,6 +9576,54 @@ func (r NewMinimumAppliesToAll) IsKnown() bool {
 	return false
 }
 
+type NewMinimumFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[NewMinimumFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[NewMinimumFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r NewMinimumFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type NewMinimumFiltersField string
+
+const (
+	NewMinimumFiltersFieldPriceID       NewMinimumFiltersField = "price_id"
+	NewMinimumFiltersFieldItemID        NewMinimumFiltersField = "item_id"
+	NewMinimumFiltersFieldPriceType     NewMinimumFiltersField = "price_type"
+	NewMinimumFiltersFieldCurrency      NewMinimumFiltersField = "currency"
+	NewMinimumFiltersFieldPricingUnitID NewMinimumFiltersField = "pricing_unit_id"
+)
+
+func (r NewMinimumFiltersField) IsKnown() bool {
+	switch r {
+	case NewMinimumFiltersFieldPriceID, NewMinimumFiltersFieldItemID, NewMinimumFiltersFieldPriceType, NewMinimumFiltersFieldCurrency, NewMinimumFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type NewMinimumFiltersOperator string
+
+const (
+	NewMinimumFiltersOperatorIncludes NewMinimumFiltersOperator = "includes"
+	NewMinimumFiltersOperatorExcludes NewMinimumFiltersOperator = "excludes"
+)
+
+func (r NewMinimumFiltersOperator) IsKnown() bool {
+	switch r {
+	case NewMinimumFiltersOperatorIncludes, NewMinimumFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 // If set, only prices of the specified type will have the adjustment applied.
 type NewMinimumPriceType string
 
@@ -8793,7 +9655,7 @@ type NewPercentageDiscountParam struct {
 	// If set, only prices in the specified currency will have the adjustment applied.
 	Currency param.Field[string] `json:"currency"`
 	// A list of filters that determine which prices this adjustment will apply to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
+	Filters param.Field[[]NewPercentageDiscountFilterParam] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
@@ -8857,6 +9719,54 @@ const (
 func (r NewPercentageDiscountAppliesToAll) IsKnown() bool {
 	switch r {
 	case NewPercentageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type NewPercentageDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[NewPercentageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[NewPercentageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r NewPercentageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type NewPercentageDiscountFiltersField string
+
+const (
+	NewPercentageDiscountFiltersFieldPriceID       NewPercentageDiscountFiltersField = "price_id"
+	NewPercentageDiscountFiltersFieldItemID        NewPercentageDiscountFiltersField = "item_id"
+	NewPercentageDiscountFiltersFieldPriceType     NewPercentageDiscountFiltersField = "price_type"
+	NewPercentageDiscountFiltersFieldCurrency      NewPercentageDiscountFiltersField = "currency"
+	NewPercentageDiscountFiltersFieldPricingUnitID NewPercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r NewPercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case NewPercentageDiscountFiltersFieldPriceID, NewPercentageDiscountFiltersFieldItemID, NewPercentageDiscountFiltersFieldPriceType, NewPercentageDiscountFiltersFieldCurrency, NewPercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type NewPercentageDiscountFiltersOperator string
+
+const (
+	NewPercentageDiscountFiltersOperatorIncludes NewPercentageDiscountFiltersOperator = "includes"
+	NewPercentageDiscountFiltersOperatorExcludes NewPercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r NewPercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case NewPercentageDiscountFiltersOperatorIncludes, NewPercentageDiscountFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -12729,7 +13639,7 @@ type NewUsageDiscountParam struct {
 	// If set, only prices in the specified currency will have the adjustment applied.
 	Currency param.Field[string] `json:"currency"`
 	// A list of filters that determine which prices this adjustment will apply to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
+	Filters param.Field[[]NewUsageDiscountFilterParam] `json:"filters"`
 	// When false, this adjustment will be applied to a single price. Otherwise, it
 	// will be applied at the invoice level, possibly to multiple prices.
 	IsInvoiceLevel param.Field[bool] `json:"is_invoice_level"`
@@ -12791,6 +13701,54 @@ const (
 func (r NewUsageDiscountAppliesToAll) IsKnown() bool {
 	switch r {
 	case NewUsageDiscountAppliesToAllTrue:
+		return true
+	}
+	return false
+}
+
+type NewUsageDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[NewUsageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[NewUsageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r NewUsageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price to filter on.
+type NewUsageDiscountFiltersField string
+
+const (
+	NewUsageDiscountFiltersFieldPriceID       NewUsageDiscountFiltersField = "price_id"
+	NewUsageDiscountFiltersFieldItemID        NewUsageDiscountFiltersField = "item_id"
+	NewUsageDiscountFiltersFieldPriceType     NewUsageDiscountFiltersField = "price_type"
+	NewUsageDiscountFiltersFieldCurrency      NewUsageDiscountFiltersField = "currency"
+	NewUsageDiscountFiltersFieldPricingUnitID NewUsageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r NewUsageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case NewUsageDiscountFiltersFieldPriceID, NewUsageDiscountFiltersFieldItemID, NewUsageDiscountFiltersFieldPriceType, NewUsageDiscountFiltersFieldCurrency, NewUsageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type NewUsageDiscountFiltersOperator string
+
+const (
+	NewUsageDiscountFiltersOperatorIncludes NewUsageDiscountFiltersOperator = "includes"
+	NewUsageDiscountFiltersOperatorExcludes NewUsageDiscountFiltersOperator = "excludes"
+)
+
+func (r NewUsageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case NewUsageDiscountFiltersOperatorIncludes, NewUsageDiscountFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -12972,9 +13930,9 @@ type PercentageDiscount struct {
 	// this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []TransformPriceFilter `json:"filters,nullable"`
-	Reason  string                 `json:"reason,nullable"`
-	JSON    percentageDiscountJSON `json:"-"`
+	Filters []PercentageDiscountFilter `json:"filters,nullable"`
+	Reason  string                     `json:"reason,nullable"`
+	JSON    percentageDiscountJSON     `json:"-"`
 }
 
 // percentageDiscountJSON contains the JSON metadata for the struct
@@ -13017,6 +13975,69 @@ func (r PercentageDiscountDiscountType) IsKnown() bool {
 	return false
 }
 
+type PercentageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field PercentageDiscountFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PercentageDiscountFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                     `json:"values,required"`
+	JSON   percentageDiscountFilterJSON `json:"-"`
+}
+
+// percentageDiscountFilterJSON contains the JSON metadata for the struct
+// [PercentageDiscountFilter]
+type percentageDiscountFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PercentageDiscountFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r percentageDiscountFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PercentageDiscountFiltersField string
+
+const (
+	PercentageDiscountFiltersFieldPriceID       PercentageDiscountFiltersField = "price_id"
+	PercentageDiscountFiltersFieldItemID        PercentageDiscountFiltersField = "item_id"
+	PercentageDiscountFiltersFieldPriceType     PercentageDiscountFiltersField = "price_type"
+	PercentageDiscountFiltersFieldCurrency      PercentageDiscountFiltersField = "currency"
+	PercentageDiscountFiltersFieldPricingUnitID PercentageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r PercentageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case PercentageDiscountFiltersFieldPriceID, PercentageDiscountFiltersFieldItemID, PercentageDiscountFiltersFieldPriceType, PercentageDiscountFiltersFieldCurrency, PercentageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PercentageDiscountFiltersOperator string
+
+const (
+	PercentageDiscountFiltersOperatorIncludes PercentageDiscountFiltersOperator = "includes"
+	PercentageDiscountFiltersOperatorExcludes PercentageDiscountFiltersOperator = "excludes"
+)
+
+func (r PercentageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case PercentageDiscountFiltersOperatorIncludes, PercentageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PercentageDiscountParam struct {
 	DiscountType param.Field[PercentageDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `percentage`. This is a number between 0
@@ -13026,8 +14047,8 @@ type PercentageDiscountParam struct {
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// The filters that determine which prices to apply this discount to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
-	Reason  param.Field[string]                      `json:"reason"`
+	Filters param.Field[[]PercentageDiscountFilterParam] `json:"filters"`
+	Reason  param.Field[string]                          `json:"reason"`
 }
 
 func (r PercentageDiscountParam) MarshalJSON() (data []byte, err error) {
@@ -13036,6 +14057,19 @@ func (r PercentageDiscountParam) MarshalJSON() (data []byte, err error) {
 
 func (r PercentageDiscountParam) ImplementsDiscountUnionParam() {}
 
+type PercentageDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[PercentageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[PercentageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r PercentageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 type PercentageDiscountInterval struct {
 	// The price interval ids that this discount interval applies to.
 	AppliesToPriceIntervalIDs []string                               `json:"applies_to_price_interval_ids,required"`
@@ -13043,7 +14077,7 @@ type PercentageDiscountInterval struct {
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The filters that determine which prices this discount interval applies to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []PercentageDiscountIntervalFilter `json:"filters,required"`
 	// Only available if discount_type is `percentage`.This is a number between 0
 	// and 1.
 	PercentageDiscount float64 `json:"percentage_discount,required"`
@@ -13091,6 +14125,69 @@ func (r PercentageDiscountIntervalDiscountType) IsKnown() bool {
 	return false
 }
 
+type PercentageDiscountIntervalFilter struct {
+	// The property of the price to filter on.
+	Field PercentageDiscountIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PercentageDiscountIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                             `json:"values,required"`
+	JSON   percentageDiscountIntervalFilterJSON `json:"-"`
+}
+
+// percentageDiscountIntervalFilterJSON contains the JSON metadata for the struct
+// [PercentageDiscountIntervalFilter]
+type percentageDiscountIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PercentageDiscountIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r percentageDiscountIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PercentageDiscountIntervalFiltersField string
+
+const (
+	PercentageDiscountIntervalFiltersFieldPriceID       PercentageDiscountIntervalFiltersField = "price_id"
+	PercentageDiscountIntervalFiltersFieldItemID        PercentageDiscountIntervalFiltersField = "item_id"
+	PercentageDiscountIntervalFiltersFieldPriceType     PercentageDiscountIntervalFiltersField = "price_type"
+	PercentageDiscountIntervalFiltersFieldCurrency      PercentageDiscountIntervalFiltersField = "currency"
+	PercentageDiscountIntervalFiltersFieldPricingUnitID PercentageDiscountIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r PercentageDiscountIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case PercentageDiscountIntervalFiltersFieldPriceID, PercentageDiscountIntervalFiltersFieldItemID, PercentageDiscountIntervalFiltersFieldPriceType, PercentageDiscountIntervalFiltersFieldCurrency, PercentageDiscountIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PercentageDiscountIntervalFiltersOperator string
+
+const (
+	PercentageDiscountIntervalFiltersOperatorIncludes PercentageDiscountIntervalFiltersOperator = "includes"
+	PercentageDiscountIntervalFiltersOperatorExcludes PercentageDiscountIntervalFiltersOperator = "excludes"
+)
+
+func (r PercentageDiscountIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case PercentageDiscountIntervalFiltersOperatorIncludes, PercentageDiscountIntervalFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanPhaseAmountDiscountAdjustment struct {
 	ID             string                                          `json:"id,required"`
 	AdjustmentType PlanPhaseAmountDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -13102,7 +14199,7 @@ type PlanPhaseAmountDiscountAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []PlanPhaseAmountDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -13160,6 +14257,69 @@ func (r PlanPhaseAmountDiscountAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type PlanPhaseAmountDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanPhaseAmountDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanPhaseAmountDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                    `json:"values,required"`
+	JSON   planPhaseAmountDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// planPhaseAmountDiscountAdjustmentFilterJSON contains the JSON metadata for the
+// struct [PlanPhaseAmountDiscountAdjustmentFilter]
+type planPhaseAmountDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanPhaseAmountDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planPhaseAmountDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanPhaseAmountDiscountAdjustmentFiltersField string
+
+const (
+	PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID       PlanPhaseAmountDiscountAdjustmentFiltersField = "price_id"
+	PlanPhaseAmountDiscountAdjustmentFiltersFieldItemID        PlanPhaseAmountDiscountAdjustmentFiltersField = "item_id"
+	PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType     PlanPhaseAmountDiscountAdjustmentFiltersField = "price_type"
+	PlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency      PlanPhaseAmountDiscountAdjustmentFiltersField = "currency"
+	PlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID PlanPhaseAmountDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanPhaseAmountDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID, PlanPhaseAmountDiscountAdjustmentFiltersFieldItemID, PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType, PlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency, PlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanPhaseAmountDiscountAdjustmentFiltersOperator string
+
+const (
+	PlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes PlanPhaseAmountDiscountAdjustmentFiltersOperator = "includes"
+	PlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes PlanPhaseAmountDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanPhaseAmountDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes, PlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanPhaseMaximumAdjustment struct {
 	ID             string                                   `json:"id,required"`
 	AdjustmentType PlanPhaseMaximumAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -13168,7 +14328,7 @@ type PlanPhaseMaximumAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []PlanPhaseMaximumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -13229,6 +14389,69 @@ func (r PlanPhaseMaximumAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type PlanPhaseMaximumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanPhaseMaximumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanPhaseMaximumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                             `json:"values,required"`
+	JSON   planPhaseMaximumAdjustmentFilterJSON `json:"-"`
+}
+
+// planPhaseMaximumAdjustmentFilterJSON contains the JSON metadata for the struct
+// [PlanPhaseMaximumAdjustmentFilter]
+type planPhaseMaximumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanPhaseMaximumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planPhaseMaximumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanPhaseMaximumAdjustmentFiltersField string
+
+const (
+	PlanPhaseMaximumAdjustmentFiltersFieldPriceID       PlanPhaseMaximumAdjustmentFiltersField = "price_id"
+	PlanPhaseMaximumAdjustmentFiltersFieldItemID        PlanPhaseMaximumAdjustmentFiltersField = "item_id"
+	PlanPhaseMaximumAdjustmentFiltersFieldPriceType     PlanPhaseMaximumAdjustmentFiltersField = "price_type"
+	PlanPhaseMaximumAdjustmentFiltersFieldCurrency      PlanPhaseMaximumAdjustmentFiltersField = "currency"
+	PlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID PlanPhaseMaximumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanPhaseMaximumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanPhaseMaximumAdjustmentFiltersFieldPriceID, PlanPhaseMaximumAdjustmentFiltersFieldItemID, PlanPhaseMaximumAdjustmentFiltersFieldPriceType, PlanPhaseMaximumAdjustmentFiltersFieldCurrency, PlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanPhaseMaximumAdjustmentFiltersOperator string
+
+const (
+	PlanPhaseMaximumAdjustmentFiltersOperatorIncludes PlanPhaseMaximumAdjustmentFiltersOperator = "includes"
+	PlanPhaseMaximumAdjustmentFiltersOperatorExcludes PlanPhaseMaximumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanPhaseMaximumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanPhaseMaximumAdjustmentFiltersOperatorIncludes, PlanPhaseMaximumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanPhaseMinimumAdjustment struct {
 	ID             string                                   `json:"id,required"`
 	AdjustmentType PlanPhaseMinimumAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -13237,7 +14460,7 @@ type PlanPhaseMinimumAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []PlanPhaseMinimumAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -13301,6 +14524,69 @@ func (r PlanPhaseMinimumAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type PlanPhaseMinimumAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanPhaseMinimumAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanPhaseMinimumAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                             `json:"values,required"`
+	JSON   planPhaseMinimumAdjustmentFilterJSON `json:"-"`
+}
+
+// planPhaseMinimumAdjustmentFilterJSON contains the JSON metadata for the struct
+// [PlanPhaseMinimumAdjustmentFilter]
+type planPhaseMinimumAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanPhaseMinimumAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planPhaseMinimumAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanPhaseMinimumAdjustmentFiltersField string
+
+const (
+	PlanPhaseMinimumAdjustmentFiltersFieldPriceID       PlanPhaseMinimumAdjustmentFiltersField = "price_id"
+	PlanPhaseMinimumAdjustmentFiltersFieldItemID        PlanPhaseMinimumAdjustmentFiltersField = "item_id"
+	PlanPhaseMinimumAdjustmentFiltersFieldPriceType     PlanPhaseMinimumAdjustmentFiltersField = "price_type"
+	PlanPhaseMinimumAdjustmentFiltersFieldCurrency      PlanPhaseMinimumAdjustmentFiltersField = "currency"
+	PlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID PlanPhaseMinimumAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanPhaseMinimumAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanPhaseMinimumAdjustmentFiltersFieldPriceID, PlanPhaseMinimumAdjustmentFiltersFieldItemID, PlanPhaseMinimumAdjustmentFiltersFieldPriceType, PlanPhaseMinimumAdjustmentFiltersFieldCurrency, PlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanPhaseMinimumAdjustmentFiltersOperator string
+
+const (
+	PlanPhaseMinimumAdjustmentFiltersOperatorIncludes PlanPhaseMinimumAdjustmentFiltersOperator = "includes"
+	PlanPhaseMinimumAdjustmentFiltersOperatorExcludes PlanPhaseMinimumAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanPhaseMinimumAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanPhaseMinimumAdjustmentFiltersOperatorIncludes, PlanPhaseMinimumAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanPhasePercentageDiscountAdjustment struct {
 	ID             string                                              `json:"id,required"`
 	AdjustmentType PlanPhasePercentageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -13309,7 +14595,7 @@ type PlanPhasePercentageDiscountAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []PlanPhasePercentageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -13370,6 +14656,69 @@ func (r PlanPhasePercentageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type PlanPhasePercentageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanPhasePercentageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanPhasePercentageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                        `json:"values,required"`
+	JSON   planPhasePercentageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// planPhasePercentageDiscountAdjustmentFilterJSON contains the JSON metadata for
+// the struct [PlanPhasePercentageDiscountAdjustmentFilter]
+type planPhasePercentageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanPhasePercentageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planPhasePercentageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanPhasePercentageDiscountAdjustmentFiltersField string
+
+const (
+	PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID       PlanPhasePercentageDiscountAdjustmentFiltersField = "price_id"
+	PlanPhasePercentageDiscountAdjustmentFiltersFieldItemID        PlanPhasePercentageDiscountAdjustmentFiltersField = "item_id"
+	PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType     PlanPhasePercentageDiscountAdjustmentFiltersField = "price_type"
+	PlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency      PlanPhasePercentageDiscountAdjustmentFiltersField = "currency"
+	PlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID PlanPhasePercentageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanPhasePercentageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID, PlanPhasePercentageDiscountAdjustmentFiltersFieldItemID, PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType, PlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency, PlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanPhasePercentageDiscountAdjustmentFiltersOperator string
+
+const (
+	PlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes PlanPhasePercentageDiscountAdjustmentFiltersOperator = "includes"
+	PlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes PlanPhasePercentageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanPhasePercentageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes, PlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PlanPhaseUsageDiscountAdjustment struct {
 	ID             string                                         `json:"id,required"`
 	AdjustmentType PlanPhaseUsageDiscountAdjustmentAdjustmentType `json:"adjustment_type,required"`
@@ -13378,7 +14727,7 @@ type PlanPhaseUsageDiscountAdjustment struct {
 	// Deprecated: deprecated
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,required"`
 	// The filters that determine which prices to apply this adjustment to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []PlanPhaseUsageDiscountAdjustmentFilter `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.
 	IsInvoiceLevel bool `json:"is_invoice_level,required"`
@@ -13439,6 +14788,69 @@ func (r PlanPhaseUsageDiscountAdjustmentAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type PlanPhaseUsageDiscountAdjustmentFilter struct {
+	// The property of the price to filter on.
+	Field PlanPhaseUsageDiscountAdjustmentFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PlanPhaseUsageDiscountAdjustmentFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                   `json:"values,required"`
+	JSON   planPhaseUsageDiscountAdjustmentFilterJSON `json:"-"`
+}
+
+// planPhaseUsageDiscountAdjustmentFilterJSON contains the JSON metadata for the
+// struct [PlanPhaseUsageDiscountAdjustmentFilter]
+type planPhaseUsageDiscountAdjustmentFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PlanPhaseUsageDiscountAdjustmentFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planPhaseUsageDiscountAdjustmentFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PlanPhaseUsageDiscountAdjustmentFiltersField string
+
+const (
+	PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID       PlanPhaseUsageDiscountAdjustmentFiltersField = "price_id"
+	PlanPhaseUsageDiscountAdjustmentFiltersFieldItemID        PlanPhaseUsageDiscountAdjustmentFiltersField = "item_id"
+	PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType     PlanPhaseUsageDiscountAdjustmentFiltersField = "price_type"
+	PlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency      PlanPhaseUsageDiscountAdjustmentFiltersField = "currency"
+	PlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID PlanPhaseUsageDiscountAdjustmentFiltersField = "pricing_unit_id"
+)
+
+func (r PlanPhaseUsageDiscountAdjustmentFiltersField) IsKnown() bool {
+	switch r {
+	case PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID, PlanPhaseUsageDiscountAdjustmentFiltersFieldItemID, PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType, PlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency, PlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PlanPhaseUsageDiscountAdjustmentFiltersOperator string
+
+const (
+	PlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes PlanPhaseUsageDiscountAdjustmentFiltersOperator = "includes"
+	PlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes PlanPhaseUsageDiscountAdjustmentFiltersOperator = "excludes"
+)
+
+func (r PlanPhaseUsageDiscountAdjustmentFiltersOperator) IsKnown() bool {
+	switch r {
+	case PlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes, PlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 // The Price resource represents a price that can be billed on a subscription,
 // resulting in a charge on an invoice in the form of an invoice line item. Prices
 // take a quantity and determine an amount to bill.
@@ -13455,7 +14867,36 @@ type Price struct {
 	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
 	BillingMode               PriceBillingMode          `json:"billing_mode,required"`
 	Cadence                   PriceCadence              `json:"cadence,required"`
-	// This field can have the runtime type of [[]TransformPriceFilter].
+	// This field can have the runtime type of [[]PriceUnitPriceCompositePriceFilter],
+	// [[]PriceTieredPriceCompositePriceFilter],
+	// [[]PriceBulkPriceCompositePriceFilter],
+	// [[]PriceBulkWithFiltersPriceCompositePriceFilter],
+	// [[]PricePackagePriceCompositePriceFilter],
+	// [[]PriceMatrixPriceCompositePriceFilter],
+	// [[]PriceThresholdTotalAmountPriceCompositePriceFilter],
+	// [[]PriceTieredPackagePriceCompositePriceFilter],
+	// [[]PriceTieredWithMinimumPriceCompositePriceFilter],
+	// [[]PriceGroupedTieredPriceCompositePriceFilter],
+	// [[]PriceTieredPackageWithMinimumPriceCompositePriceFilter],
+	// [[]PricePackageWithAllocationPriceCompositePriceFilter],
+	// [[]PriceUnitWithPercentPriceCompositePriceFilter],
+	// [[]PriceMatrixWithAllocationPriceCompositePriceFilter],
+	// [[]PriceTieredWithProrationPriceCompositePriceFilter],
+	// [[]PriceUnitWithProrationPriceCompositePriceFilter],
+	// [[]PriceGroupedAllocationPriceCompositePriceFilter],
+	// [[]PriceBulkWithProrationPriceCompositePriceFilter],
+	// [[]PriceGroupedWithProratedMinimumPriceCompositePriceFilter],
+	// [[]PriceGroupedWithMeteredMinimumPriceCompositePriceFilter],
+	// [[]PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter],
+	// [[]PriceMatrixWithDisplayNamePriceCompositePriceFilter],
+	// [[]PriceGroupedTieredPackagePriceCompositePriceFilter],
+	// [[]PriceMaxGroupTieredPackagePriceCompositePriceFilter],
+	// [[]PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter],
+	// [[]PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter],
+	// [[]PriceCumulativeGroupedBulkPriceCompositePriceFilter],
+	// [[]PriceMinimumCompositePriceCompositePriceFilter],
+	// [[]PricePercentCompositePriceCompositePriceFilter],
+	// [[]PriceEventOutputPriceCompositePriceFilter].
 	CompositePriceFilters interface{} `json:"composite_price_filters,required"`
 	ConversionRate        float64     `json:"conversion_rate,required,nullable"`
 	// This field can have the runtime type of [PriceUnitPriceConversionRateConfig],
@@ -13891,17 +15332,17 @@ func init() {
 }
 
 type PriceUnitPrice struct {
-	ID                        string                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration          `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceUnitPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceUnitPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter             `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                             `json:"currency,required"`
+	ID                        string                               `json:"id,required"`
+	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceUnitPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceUnitPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceUnitPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceUnitPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                           `json:"credit_allocation,required,nullable"`
+	Currency                  string                               `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -14010,6 +15451,69 @@ const (
 func (r PriceUnitPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceUnitPriceCadenceOneTime, PriceUnitPriceCadenceMonthly, PriceUnitPriceCadenceQuarterly, PriceUnitPriceCadenceSemiAnnual, PriceUnitPriceCadenceAnnual, PriceUnitPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceUnitPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceUnitPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceUnitPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                               `json:"values,required"`
+	JSON   priceUnitPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceUnitPriceCompositePriceFilterJSON contains the JSON metadata for the struct
+// [PriceUnitPriceCompositePriceFilter]
+type priceUnitPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceUnitPriceCompositePriceFiltersField string
+
+const (
+	PriceUnitPriceCompositePriceFiltersFieldPriceID       PriceUnitPriceCompositePriceFiltersField = "price_id"
+	PriceUnitPriceCompositePriceFiltersFieldItemID        PriceUnitPriceCompositePriceFiltersField = "item_id"
+	PriceUnitPriceCompositePriceFiltersFieldPriceType     PriceUnitPriceCompositePriceFiltersField = "price_type"
+	PriceUnitPriceCompositePriceFiltersFieldCurrency      PriceUnitPriceCompositePriceFiltersField = "currency"
+	PriceUnitPriceCompositePriceFiltersFieldPricingUnitID PriceUnitPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceUnitPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceUnitPriceCompositePriceFiltersFieldPriceID, PriceUnitPriceCompositePriceFiltersFieldItemID, PriceUnitPriceCompositePriceFiltersFieldPriceType, PriceUnitPriceCompositePriceFiltersFieldCurrency, PriceUnitPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceUnitPriceCompositePriceFiltersOperator string
+
+const (
+	PriceUnitPriceCompositePriceFiltersOperatorIncludes PriceUnitPriceCompositePriceFiltersOperator = "includes"
+	PriceUnitPriceCompositePriceFiltersOperatorExcludes PriceUnitPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceUnitPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceUnitPriceCompositePriceFiltersOperatorIncludes, PriceUnitPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -14124,17 +15628,17 @@ func (r PriceUnitPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPrice struct {
-	ID                        string                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceTieredPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter               `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                               `json:"currency,required"`
+	ID                        string                                 `json:"id,required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceTieredPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceTieredPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceTieredPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                             `json:"credit_allocation,required,nullable"`
+	Currency                  string                                 `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -14244,6 +15748,69 @@ const (
 func (r PriceTieredPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceTieredPriceCadenceOneTime, PriceTieredPriceCadenceMonthly, PriceTieredPriceCadenceQuarterly, PriceTieredPriceCadenceSemiAnnual, PriceTieredPriceCadenceAnnual, PriceTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceTieredPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceTieredPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceTieredPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                 `json:"values,required"`
+	JSON   priceTieredPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceTieredPriceCompositePriceFilterJSON contains the JSON metadata for the
+// struct [PriceTieredPriceCompositePriceFilter]
+type priceTieredPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceTieredPriceCompositePriceFiltersField string
+
+const (
+	PriceTieredPriceCompositePriceFiltersFieldPriceID       PriceTieredPriceCompositePriceFiltersField = "price_id"
+	PriceTieredPriceCompositePriceFiltersFieldItemID        PriceTieredPriceCompositePriceFiltersField = "item_id"
+	PriceTieredPriceCompositePriceFiltersFieldPriceType     PriceTieredPriceCompositePriceFiltersField = "price_type"
+	PriceTieredPriceCompositePriceFiltersFieldCurrency      PriceTieredPriceCompositePriceFiltersField = "currency"
+	PriceTieredPriceCompositePriceFiltersFieldPricingUnitID PriceTieredPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceTieredPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceTieredPriceCompositePriceFiltersFieldPriceID, PriceTieredPriceCompositePriceFiltersFieldItemID, PriceTieredPriceCompositePriceFiltersFieldPriceType, PriceTieredPriceCompositePriceFiltersFieldCurrency, PriceTieredPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceTieredPriceCompositePriceFiltersOperator string
+
+const (
+	PriceTieredPriceCompositePriceFiltersOperatorIncludes PriceTieredPriceCompositePriceFiltersOperator = "includes"
+	PriceTieredPriceCompositePriceFiltersOperatorExcludes PriceTieredPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceTieredPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceTieredPriceCompositePriceFiltersOperatorIncludes, PriceTieredPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -14363,14 +15930,14 @@ type PriceBulkPrice struct {
 	BillingCycleConfiguration BillingCycleConfiguration `json:"billing_cycle_configuration,required"`
 	BillingMode               PriceBulkPriceBillingMode `json:"billing_mode,required"`
 	// Configuration for bulk pricing
-	BulkConfig            BulkConfig                         `json:"bulk_config,required"`
-	Cadence               PriceBulkPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters []TransformPriceFilter             `json:"composite_price_filters,required,nullable"`
-	ConversionRate        float64                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig  PriceBulkPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt             time.Time                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation      Allocation                         `json:"credit_allocation,required,nullable"`
-	Currency              string                             `json:"currency,required"`
+	BulkConfig            BulkConfig                           `json:"bulk_config,required"`
+	Cadence               PriceBulkPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters []PriceBulkPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate        float64                              `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig  PriceBulkPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt             time.Time                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation      Allocation                           `json:"credit_allocation,required,nullable"`
+	Currency              string                               `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -14477,6 +16044,69 @@ const (
 func (r PriceBulkPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceBulkPriceCadenceOneTime, PriceBulkPriceCadenceMonthly, PriceBulkPriceCadenceQuarterly, PriceBulkPriceCadenceSemiAnnual, PriceBulkPriceCadenceAnnual, PriceBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceBulkPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceBulkPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceBulkPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                               `json:"values,required"`
+	JSON   priceBulkPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceBulkPriceCompositePriceFilterJSON contains the JSON metadata for the struct
+// [PriceBulkPriceCompositePriceFilter]
+type priceBulkPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceBulkPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceBulkPriceCompositePriceFiltersField string
+
+const (
+	PriceBulkPriceCompositePriceFiltersFieldPriceID       PriceBulkPriceCompositePriceFiltersField = "price_id"
+	PriceBulkPriceCompositePriceFiltersFieldItemID        PriceBulkPriceCompositePriceFiltersField = "item_id"
+	PriceBulkPriceCompositePriceFiltersFieldPriceType     PriceBulkPriceCompositePriceFiltersField = "price_type"
+	PriceBulkPriceCompositePriceFiltersFieldCurrency      PriceBulkPriceCompositePriceFiltersField = "currency"
+	PriceBulkPriceCompositePriceFiltersFieldPricingUnitID PriceBulkPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceBulkPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceBulkPriceCompositePriceFiltersFieldPriceID, PriceBulkPriceCompositePriceFiltersFieldItemID, PriceBulkPriceCompositePriceFiltersFieldPriceType, PriceBulkPriceCompositePriceFiltersFieldCurrency, PriceBulkPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceBulkPriceCompositePriceFiltersOperator string
+
+const (
+	PriceBulkPriceCompositePriceFiltersOperatorIncludes PriceBulkPriceCompositePriceFiltersOperator = "includes"
+	PriceBulkPriceCompositePriceFiltersOperatorExcludes PriceBulkPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceBulkPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceBulkPriceCompositePriceFiltersOperatorIncludes, PriceBulkPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -14596,14 +16226,14 @@ type PriceBulkWithFiltersPrice struct {
 	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
 	BillingMode               PriceBulkWithFiltersPriceBillingMode `json:"billing_mode,required"`
 	// Configuration for bulk_with_filters pricing
-	BulkWithFiltersConfig PriceBulkWithFiltersPriceBulkWithFiltersConfig `json:"bulk_with_filters_config,required"`
-	Cadence               PriceBulkWithFiltersPriceCadence               `json:"cadence,required"`
-	CompositePriceFilters []TransformPriceFilter                         `json:"composite_price_filters,required,nullable"`
-	ConversionRate        float64                                        `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig  PriceBulkWithFiltersPriceConversionRateConfig  `json:"conversion_rate_config,required,nullable"`
-	CreatedAt             time.Time                                      `json:"created_at,required" format:"date-time"`
-	CreditAllocation      Allocation                                     `json:"credit_allocation,required,nullable"`
-	Currency              string                                         `json:"currency,required"`
+	BulkWithFiltersConfig PriceBulkWithFiltersPriceBulkWithFiltersConfig  `json:"bulk_with_filters_config,required"`
+	Cadence               PriceBulkWithFiltersPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters []PriceBulkWithFiltersPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate        float64                                         `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig  PriceBulkWithFiltersPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt             time.Time                                       `json:"created_at,required" format:"date-time"`
+	CreditAllocation      Allocation                                      `json:"credit_allocation,required,nullable"`
+	Currency              string                                          `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -14794,6 +16424,69 @@ func (r PriceBulkWithFiltersPriceCadence) IsKnown() bool {
 	return false
 }
 
+type PriceBulkWithFiltersPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceBulkWithFiltersPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceBulkWithFiltersPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                          `json:"values,required"`
+	JSON   priceBulkWithFiltersPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceBulkWithFiltersPriceCompositePriceFilterJSON contains the JSON metadata for
+// the struct [PriceBulkWithFiltersPriceCompositePriceFilter]
+type priceBulkWithFiltersPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceBulkWithFiltersPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkWithFiltersPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceBulkWithFiltersPriceCompositePriceFiltersField string
+
+const (
+	PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceID       PriceBulkWithFiltersPriceCompositePriceFiltersField = "price_id"
+	PriceBulkWithFiltersPriceCompositePriceFiltersFieldItemID        PriceBulkWithFiltersPriceCompositePriceFiltersField = "item_id"
+	PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceType     PriceBulkWithFiltersPriceCompositePriceFiltersField = "price_type"
+	PriceBulkWithFiltersPriceCompositePriceFiltersFieldCurrency      PriceBulkWithFiltersPriceCompositePriceFiltersField = "currency"
+	PriceBulkWithFiltersPriceCompositePriceFiltersFieldPricingUnitID PriceBulkWithFiltersPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceBulkWithFiltersPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceID, PriceBulkWithFiltersPriceCompositePriceFiltersFieldItemID, PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceType, PriceBulkWithFiltersPriceCompositePriceFiltersFieldCurrency, PriceBulkWithFiltersPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceBulkWithFiltersPriceCompositePriceFiltersOperator string
+
+const (
+	PriceBulkWithFiltersPriceCompositePriceFiltersOperatorIncludes PriceBulkWithFiltersPriceCompositePriceFiltersOperator = "includes"
+	PriceBulkWithFiltersPriceCompositePriceFiltersOperatorExcludes PriceBulkWithFiltersPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceBulkWithFiltersPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceBulkWithFiltersPriceCompositePriceFiltersOperatorIncludes, PriceBulkWithFiltersPriceCompositePriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PriceBulkWithFiltersPriceConversionRateConfig struct {
 	ConversionRateType PriceBulkWithFiltersPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
 	TieredConfig       ConversionRateTieredConfig                                      `json:"tiered_config"`
@@ -14903,17 +16596,17 @@ func (r PriceBulkWithFiltersPricePriceType) IsKnown() bool {
 }
 
 type PricePackagePrice struct {
-	ID                        string                                `json:"id,required"`
-	BillableMetric            BillableMetricTiny                    `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration             `json:"billing_cycle_configuration,required"`
-	BillingMode               PricePackagePriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PricePackagePriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                               `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                             `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                            `json:"credit_allocation,required,nullable"`
-	Currency                  string                                `json:"currency,required"`
+	ID                        string                                  `json:"id,required"`
+	BillableMetric            BillableMetricTiny                      `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration               `json:"billing_cycle_configuration,required"`
+	BillingMode               PricePackagePriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PricePackagePriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PricePackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                 `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PricePackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                               `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                              `json:"credit_allocation,required,nullable"`
+	Currency                  string                                  `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -15028,6 +16721,69 @@ func (r PricePackagePriceCadence) IsKnown() bool {
 	return false
 }
 
+type PricePackagePriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PricePackagePriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PricePackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                  `json:"values,required"`
+	JSON   pricePackagePriceCompositePriceFilterJSON `json:"-"`
+}
+
+// pricePackagePriceCompositePriceFilterJSON contains the JSON metadata for the
+// struct [PricePackagePriceCompositePriceFilter]
+type pricePackagePriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PricePackagePriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackagePriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PricePackagePriceCompositePriceFiltersField string
+
+const (
+	PricePackagePriceCompositePriceFiltersFieldPriceID       PricePackagePriceCompositePriceFiltersField = "price_id"
+	PricePackagePriceCompositePriceFiltersFieldItemID        PricePackagePriceCompositePriceFiltersField = "item_id"
+	PricePackagePriceCompositePriceFiltersFieldPriceType     PricePackagePriceCompositePriceFiltersField = "price_type"
+	PricePackagePriceCompositePriceFiltersFieldCurrency      PricePackagePriceCompositePriceFiltersField = "currency"
+	PricePackagePriceCompositePriceFiltersFieldPricingUnitID PricePackagePriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PricePackagePriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PricePackagePriceCompositePriceFiltersFieldPriceID, PricePackagePriceCompositePriceFiltersFieldItemID, PricePackagePriceCompositePriceFiltersFieldPriceType, PricePackagePriceCompositePriceFiltersFieldCurrency, PricePackagePriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PricePackagePriceCompositePriceFiltersOperator string
+
+const (
+	PricePackagePriceCompositePriceFiltersOperatorIncludes PricePackagePriceCompositePriceFiltersOperator = "includes"
+	PricePackagePriceCompositePriceFiltersOperatorExcludes PricePackagePriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PricePackagePriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PricePackagePriceCompositePriceFiltersOperatorIncludes, PricePackagePriceCompositePriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PricePackagePriceConversionRateConfig struct {
 	ConversionRateType PricePackagePriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
 	TieredConfig       ConversionRateTieredConfig                              `json:"tiered_config"`
@@ -15137,17 +16893,17 @@ func (r PricePackagePricePriceType) IsKnown() bool {
 }
 
 type PriceMatrixPrice struct {
-	ID                        string                               `json:"id,required"`
-	BillableMetric            BillableMetricTiny                   `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration            `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMatrixPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceMatrixPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter               `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                              `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                            `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                           `json:"credit_allocation,required,nullable"`
-	Currency                  string                               `json:"currency,required"`
+	ID                        string                                 `json:"id,required"`
+	BillableMetric            BillableMetricTiny                     `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration              `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMatrixPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceMatrixPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceMatrixPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceMatrixPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                              `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                             `json:"credit_allocation,required,nullable"`
+	Currency                  string                                 `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -15262,6 +17018,69 @@ func (r PriceMatrixPriceCadence) IsKnown() bool {
 	return false
 }
 
+type PriceMatrixPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceMatrixPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceMatrixPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                 `json:"values,required"`
+	JSON   priceMatrixPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceMatrixPriceCompositePriceFilterJSON contains the JSON metadata for the
+// struct [PriceMatrixPriceCompositePriceFilter]
+type priceMatrixPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceMatrixPriceCompositePriceFiltersField string
+
+const (
+	PriceMatrixPriceCompositePriceFiltersFieldPriceID       PriceMatrixPriceCompositePriceFiltersField = "price_id"
+	PriceMatrixPriceCompositePriceFiltersFieldItemID        PriceMatrixPriceCompositePriceFiltersField = "item_id"
+	PriceMatrixPriceCompositePriceFiltersFieldPriceType     PriceMatrixPriceCompositePriceFiltersField = "price_type"
+	PriceMatrixPriceCompositePriceFiltersFieldCurrency      PriceMatrixPriceCompositePriceFiltersField = "currency"
+	PriceMatrixPriceCompositePriceFiltersFieldPricingUnitID PriceMatrixPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceMatrixPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceMatrixPriceCompositePriceFiltersFieldPriceID, PriceMatrixPriceCompositePriceFiltersFieldItemID, PriceMatrixPriceCompositePriceFiltersFieldPriceType, PriceMatrixPriceCompositePriceFiltersFieldCurrency, PriceMatrixPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceMatrixPriceCompositePriceFiltersOperator string
+
+const (
+	PriceMatrixPriceCompositePriceFiltersOperatorIncludes PriceMatrixPriceCompositePriceFiltersOperator = "includes"
+	PriceMatrixPriceCompositePriceFiltersOperatorExcludes PriceMatrixPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceMatrixPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceMatrixPriceCompositePriceFiltersOperatorIncludes, PriceMatrixPriceCompositePriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PriceMatrixPriceConversionRateConfig struct {
 	ConversionRateType PriceMatrixPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
 	TieredConfig       ConversionRateTieredConfig                             `json:"tiered_config"`
@@ -15371,17 +17190,17 @@ func (r PriceMatrixPricePriceType) IsKnown() bool {
 }
 
 type PriceThresholdTotalAmountPrice struct {
-	ID                        string                                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceThresholdTotalAmountPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceThresholdTotalAmountPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceThresholdTotalAmountPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                                             `json:"currency,required"`
+	ID                        string                                               `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceThresholdTotalAmountPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceThresholdTotalAmountPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceThresholdTotalAmountPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceThresholdTotalAmountPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                           `json:"credit_allocation,required,nullable"`
+	Currency                  string                                               `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -15491,6 +17310,69 @@ const (
 func (r PriceThresholdTotalAmountPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceThresholdTotalAmountPriceCadenceOneTime, PriceThresholdTotalAmountPriceCadenceMonthly, PriceThresholdTotalAmountPriceCadenceQuarterly, PriceThresholdTotalAmountPriceCadenceSemiAnnual, PriceThresholdTotalAmountPriceCadenceAnnual, PriceThresholdTotalAmountPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceThresholdTotalAmountPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceThresholdTotalAmountPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceThresholdTotalAmountPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                               `json:"values,required"`
+	JSON   priceThresholdTotalAmountPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceThresholdTotalAmountPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PriceThresholdTotalAmountPriceCompositePriceFilter]
+type priceThresholdTotalAmountPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceThresholdTotalAmountPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceThresholdTotalAmountPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceThresholdTotalAmountPriceCompositePriceFiltersField string
+
+const (
+	PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceID       PriceThresholdTotalAmountPriceCompositePriceFiltersField = "price_id"
+	PriceThresholdTotalAmountPriceCompositePriceFiltersFieldItemID        PriceThresholdTotalAmountPriceCompositePriceFiltersField = "item_id"
+	PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceType     PriceThresholdTotalAmountPriceCompositePriceFiltersField = "price_type"
+	PriceThresholdTotalAmountPriceCompositePriceFiltersFieldCurrency      PriceThresholdTotalAmountPriceCompositePriceFiltersField = "currency"
+	PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPricingUnitID PriceThresholdTotalAmountPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceThresholdTotalAmountPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceID, PriceThresholdTotalAmountPriceCompositePriceFiltersFieldItemID, PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceType, PriceThresholdTotalAmountPriceCompositePriceFiltersFieldCurrency, PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceThresholdTotalAmountPriceCompositePriceFiltersOperator string
+
+const (
+	PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorIncludes PriceThresholdTotalAmountPriceCompositePriceFiltersOperator = "includes"
+	PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorExcludes PriceThresholdTotalAmountPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceThresholdTotalAmountPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorIncludes, PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -15660,17 +17542,17 @@ func (r priceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable
 }
 
 type PriceTieredPackagePrice struct {
-	ID                        string                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredPackagePriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceTieredPackagePriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                      `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                      `json:"currency,required"`
+	ID                        string                                        `json:"id,required"`
+	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredPackagePriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceTieredPackagePriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceTieredPackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                     `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                    `json:"credit_allocation,required,nullable"`
+	Currency                  string                                        `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -15780,6 +17662,69 @@ const (
 func (r PriceTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
 	case PriceTieredPackagePriceCadenceOneTime, PriceTieredPackagePriceCadenceMonthly, PriceTieredPackagePriceCadenceQuarterly, PriceTieredPackagePriceCadenceSemiAnnual, PriceTieredPackagePriceCadenceAnnual, PriceTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceTieredPackagePriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceTieredPackagePriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceTieredPackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                        `json:"values,required"`
+	JSON   priceTieredPackagePriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceTieredPackagePriceCompositePriceFilterJSON contains the JSON metadata for
+// the struct [PriceTieredPackagePriceCompositePriceFilter]
+type priceTieredPackagePriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPackagePriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackagePriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceTieredPackagePriceCompositePriceFiltersField string
+
+const (
+	PriceTieredPackagePriceCompositePriceFiltersFieldPriceID       PriceTieredPackagePriceCompositePriceFiltersField = "price_id"
+	PriceTieredPackagePriceCompositePriceFiltersFieldItemID        PriceTieredPackagePriceCompositePriceFiltersField = "item_id"
+	PriceTieredPackagePriceCompositePriceFiltersFieldPriceType     PriceTieredPackagePriceCompositePriceFiltersField = "price_type"
+	PriceTieredPackagePriceCompositePriceFiltersFieldCurrency      PriceTieredPackagePriceCompositePriceFiltersField = "currency"
+	PriceTieredPackagePriceCompositePriceFiltersFieldPricingUnitID PriceTieredPackagePriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceTieredPackagePriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePriceCompositePriceFiltersFieldPriceID, PriceTieredPackagePriceCompositePriceFiltersFieldItemID, PriceTieredPackagePriceCompositePriceFiltersFieldPriceType, PriceTieredPackagePriceCompositePriceFiltersFieldCurrency, PriceTieredPackagePriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceTieredPackagePriceCompositePriceFiltersOperator string
+
+const (
+	PriceTieredPackagePriceCompositePriceFiltersOperatorIncludes PriceTieredPackagePriceCompositePriceFiltersOperator = "includes"
+	PriceTieredPackagePriceCompositePriceFiltersOperatorExcludes PriceTieredPackagePriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceTieredPackagePriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceTieredPackagePriceCompositePriceFiltersOperatorIncludes, PriceTieredPackagePriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -15949,17 +17894,17 @@ func (r priceTieredPackagePriceTieredPackageConfigTierJSON) RawJSON() string {
 }
 
 type PriceTieredWithMinimumPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredWithMinimumPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceTieredWithMinimumPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredWithMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                                            `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredWithMinimumPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceTieredWithMinimumPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceTieredWithMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceTieredWithMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
+	Currency                  string                                            `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -16069,6 +18014,69 @@ const (
 func (r PriceTieredWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceTieredWithMinimumPriceCadenceOneTime, PriceTieredWithMinimumPriceCadenceMonthly, PriceTieredWithMinimumPriceCadenceQuarterly, PriceTieredWithMinimumPriceCadenceSemiAnnual, PriceTieredWithMinimumPriceCadenceAnnual, PriceTieredWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceTieredWithMinimumPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceTieredWithMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceTieredWithMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                            `json:"values,required"`
+	JSON   priceTieredWithMinimumPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceTieredWithMinimumPriceCompositePriceFilterJSON contains the JSON metadata
+// for the struct [PriceTieredWithMinimumPriceCompositePriceFilter]
+type priceTieredWithMinimumPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredWithMinimumPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithMinimumPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceTieredWithMinimumPriceCompositePriceFiltersField string
+
+const (
+	PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceID       PriceTieredWithMinimumPriceCompositePriceFiltersField = "price_id"
+	PriceTieredWithMinimumPriceCompositePriceFiltersFieldItemID        PriceTieredWithMinimumPriceCompositePriceFiltersField = "item_id"
+	PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceType     PriceTieredWithMinimumPriceCompositePriceFiltersField = "price_type"
+	PriceTieredWithMinimumPriceCompositePriceFiltersFieldCurrency      PriceTieredWithMinimumPriceCompositePriceFiltersField = "currency"
+	PriceTieredWithMinimumPriceCompositePriceFiltersFieldPricingUnitID PriceTieredWithMinimumPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceTieredWithMinimumPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceID, PriceTieredWithMinimumPriceCompositePriceFiltersFieldItemID, PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceType, PriceTieredWithMinimumPriceCompositePriceFiltersFieldCurrency, PriceTieredWithMinimumPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceTieredWithMinimumPriceCompositePriceFiltersOperator string
+
+const (
+	PriceTieredWithMinimumPriceCompositePriceFiltersOperatorIncludes PriceTieredWithMinimumPriceCompositePriceFiltersOperator = "includes"
+	PriceTieredWithMinimumPriceCompositePriceFiltersOperatorExcludes PriceTieredWithMinimumPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceTieredWithMinimumPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceTieredWithMinimumPriceCompositePriceFiltersOperatorIncludes, PriceTieredWithMinimumPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -16242,17 +18250,17 @@ func (r priceTieredWithMinimumPriceTieredWithMinimumConfigTierJSON) RawJSON() st
 }
 
 type PriceGroupedTieredPrice struct {
-	ID                        string                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedTieredPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceGroupedTieredPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                      `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedTieredPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                      `json:"currency,required"`
+	ID                        string                                        `json:"id,required"`
+	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedTieredPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceGroupedTieredPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceGroupedTieredPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceGroupedTieredPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                     `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                    `json:"credit_allocation,required,nullable"`
+	Currency                  string                                        `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount           Discount `json:"discount,required,nullable"`
 	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
@@ -16362,6 +18370,69 @@ const (
 func (r PriceGroupedTieredPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceGroupedTieredPriceCadenceOneTime, PriceGroupedTieredPriceCadenceMonthly, PriceGroupedTieredPriceCadenceQuarterly, PriceGroupedTieredPriceCadenceSemiAnnual, PriceGroupedTieredPriceCadenceAnnual, PriceGroupedTieredPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedTieredPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceGroupedTieredPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceGroupedTieredPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                        `json:"values,required"`
+	JSON   priceGroupedTieredPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceGroupedTieredPriceCompositePriceFilterJSON contains the JSON metadata for
+// the struct [PriceGroupedTieredPriceCompositePriceFilter]
+type priceGroupedTieredPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceGroupedTieredPriceCompositePriceFiltersField string
+
+const (
+	PriceGroupedTieredPriceCompositePriceFiltersFieldPriceID       PriceGroupedTieredPriceCompositePriceFiltersField = "price_id"
+	PriceGroupedTieredPriceCompositePriceFiltersFieldItemID        PriceGroupedTieredPriceCompositePriceFiltersField = "item_id"
+	PriceGroupedTieredPriceCompositePriceFiltersFieldPriceType     PriceGroupedTieredPriceCompositePriceFiltersField = "price_type"
+	PriceGroupedTieredPriceCompositePriceFiltersFieldCurrency      PriceGroupedTieredPriceCompositePriceFiltersField = "currency"
+	PriceGroupedTieredPriceCompositePriceFiltersFieldPricingUnitID PriceGroupedTieredPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceGroupedTieredPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPriceCompositePriceFiltersFieldPriceID, PriceGroupedTieredPriceCompositePriceFiltersFieldItemID, PriceGroupedTieredPriceCompositePriceFiltersFieldPriceType, PriceGroupedTieredPriceCompositePriceFiltersFieldCurrency, PriceGroupedTieredPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceGroupedTieredPriceCompositePriceFiltersOperator string
+
+const (
+	PriceGroupedTieredPriceCompositePriceFiltersOperatorIncludes PriceGroupedTieredPriceCompositePriceFiltersOperator = "includes"
+	PriceGroupedTieredPriceCompositePriceFiltersOperatorExcludes PriceGroupedTieredPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceGroupedTieredPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPriceCompositePriceFiltersOperatorIncludes, PriceGroupedTieredPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -16529,17 +18600,17 @@ func (r PriceGroupedTieredPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredPackageWithMinimumPrice struct {
-	ID                        string                                                 `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                     `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                              `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredPackageWithMinimumPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceTieredPackageWithMinimumPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                                 `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredPackageWithMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                              `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                             `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                 `json:"currency,required"`
+	ID                        string                                                   `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                       `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredPackageWithMinimumPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceTieredPackageWithMinimumPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceTieredPackageWithMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                                  `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceTieredPackageWithMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                                `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                               `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                   `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -16649,6 +18720,69 @@ const (
 func (r PriceTieredPackageWithMinimumPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceTieredPackageWithMinimumPriceCadenceOneTime, PriceTieredPackageWithMinimumPriceCadenceMonthly, PriceTieredPackageWithMinimumPriceCadenceQuarterly, PriceTieredPackageWithMinimumPriceCadenceSemiAnnual, PriceTieredPackageWithMinimumPriceCadenceAnnual, PriceTieredPackageWithMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceTieredPackageWithMinimumPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceTieredPackageWithMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                   `json:"values,required"`
+	JSON   priceTieredPackageWithMinimumPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceTieredPackageWithMinimumPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PriceTieredPackageWithMinimumPriceCompositePriceFilter]
+type priceTieredPackageWithMinimumPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredPackageWithMinimumPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredPackageWithMinimumPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceTieredPackageWithMinimumPriceCompositePriceFiltersField string
+
+const (
+	PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceID       PriceTieredPackageWithMinimumPriceCompositePriceFiltersField = "price_id"
+	PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldItemID        PriceTieredPackageWithMinimumPriceCompositePriceFiltersField = "item_id"
+	PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceType     PriceTieredPackageWithMinimumPriceCompositePriceFiltersField = "price_type"
+	PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldCurrency      PriceTieredPackageWithMinimumPriceCompositePriceFiltersField = "currency"
+	PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPricingUnitID PriceTieredPackageWithMinimumPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceTieredPackageWithMinimumPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceID, PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldItemID, PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceType, PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldCurrency, PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator string
+
+const (
+	PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorIncludes PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator = "includes"
+	PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorExcludes PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorIncludes, PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -16821,17 +18955,17 @@ func (r priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierJSON
 }
 
 type PricePackageWithAllocationPrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	BillingMode               PricePackageWithAllocationPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PricePackageWithAllocationPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePackageWithAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
-	Currency                  string                                              `json:"currency,required"`
+	ID                        string                                                `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
+	BillingMode               PricePackageWithAllocationPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PricePackageWithAllocationPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PricePackageWithAllocationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PricePackageWithAllocationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -16941,6 +19075,69 @@ const (
 func (r PricePackageWithAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case PricePackageWithAllocationPriceCadenceOneTime, PricePackageWithAllocationPriceCadenceMonthly, PricePackageWithAllocationPriceCadenceQuarterly, PricePackageWithAllocationPriceCadenceSemiAnnual, PricePackageWithAllocationPriceCadenceAnnual, PricePackageWithAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PricePackageWithAllocationPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PricePackageWithAllocationPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PricePackageWithAllocationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                `json:"values,required"`
+	JSON   pricePackageWithAllocationPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// pricePackageWithAllocationPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PricePackageWithAllocationPriceCompositePriceFilter]
+type pricePackageWithAllocationPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PricePackageWithAllocationPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePackageWithAllocationPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PricePackageWithAllocationPriceCompositePriceFiltersField string
+
+const (
+	PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceID       PricePackageWithAllocationPriceCompositePriceFiltersField = "price_id"
+	PricePackageWithAllocationPriceCompositePriceFiltersFieldItemID        PricePackageWithAllocationPriceCompositePriceFiltersField = "item_id"
+	PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceType     PricePackageWithAllocationPriceCompositePriceFiltersField = "price_type"
+	PricePackageWithAllocationPriceCompositePriceFiltersFieldCurrency      PricePackageWithAllocationPriceCompositePriceFiltersField = "currency"
+	PricePackageWithAllocationPriceCompositePriceFiltersFieldPricingUnitID PricePackageWithAllocationPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PricePackageWithAllocationPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceID, PricePackageWithAllocationPriceCompositePriceFiltersFieldItemID, PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceType, PricePackageWithAllocationPriceCompositePriceFiltersFieldCurrency, PricePackageWithAllocationPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PricePackageWithAllocationPriceCompositePriceFiltersOperator string
+
+const (
+	PricePackageWithAllocationPriceCompositePriceFiltersOperatorIncludes PricePackageWithAllocationPriceCompositePriceFiltersOperator = "includes"
+	PricePackageWithAllocationPriceCompositePriceFiltersOperatorExcludes PricePackageWithAllocationPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PricePackageWithAllocationPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PricePackageWithAllocationPriceCompositePriceFiltersOperatorIncludes, PricePackageWithAllocationPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -17085,17 +19282,17 @@ func (r PricePackageWithAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceUnitWithPercentPrice struct {
-	ID                        string                                        `json:"id,required"`
-	BillableMetric            BillableMetricTiny                            `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                     `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceUnitWithPercentPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceUnitWithPercentPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                        `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                       `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitWithPercentPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                    `json:"credit_allocation,required,nullable"`
-	Currency                  string                                        `json:"currency,required"`
+	ID                        string                                          `json:"id,required"`
+	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceUnitWithPercentPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceUnitWithPercentPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceUnitWithPercentPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceUnitWithPercentPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
+	Currency                  string                                          `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -17205,6 +19402,69 @@ const (
 func (r PriceUnitWithPercentPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceUnitWithPercentPriceCadenceOneTime, PriceUnitWithPercentPriceCadenceMonthly, PriceUnitWithPercentPriceCadenceQuarterly, PriceUnitWithPercentPriceCadenceSemiAnnual, PriceUnitWithPercentPriceCadenceAnnual, PriceUnitWithPercentPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceUnitWithPercentPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceUnitWithPercentPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceUnitWithPercentPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                          `json:"values,required"`
+	JSON   priceUnitWithPercentPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceUnitWithPercentPriceCompositePriceFilterJSON contains the JSON metadata for
+// the struct [PriceUnitWithPercentPriceCompositePriceFilter]
+type priceUnitWithPercentPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitWithPercentPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithPercentPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceUnitWithPercentPriceCompositePriceFiltersField string
+
+const (
+	PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceID       PriceUnitWithPercentPriceCompositePriceFiltersField = "price_id"
+	PriceUnitWithPercentPriceCompositePriceFiltersFieldItemID        PriceUnitWithPercentPriceCompositePriceFiltersField = "item_id"
+	PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceType     PriceUnitWithPercentPriceCompositePriceFiltersField = "price_type"
+	PriceUnitWithPercentPriceCompositePriceFiltersFieldCurrency      PriceUnitWithPercentPriceCompositePriceFiltersField = "currency"
+	PriceUnitWithPercentPriceCompositePriceFiltersFieldPricingUnitID PriceUnitWithPercentPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceUnitWithPercentPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceID, PriceUnitWithPercentPriceCompositePriceFiltersFieldItemID, PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceType, PriceUnitWithPercentPriceCompositePriceFiltersFieldCurrency, PriceUnitWithPercentPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceUnitWithPercentPriceCompositePriceFiltersOperator string
+
+const (
+	PriceUnitWithPercentPriceCompositePriceFiltersOperatorIncludes PriceUnitWithPercentPriceCompositePriceFiltersOperator = "includes"
+	PriceUnitWithPercentPriceCompositePriceFiltersOperatorExcludes PriceUnitWithPercentPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceUnitWithPercentPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceUnitWithPercentPriceCompositePriceFiltersOperatorIncludes, PriceUnitWithPercentPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -17345,17 +19605,17 @@ func (r priceUnitWithPercentPriceUnitWithPercentConfigJSON) RawJSON() string {
 }
 
 type PriceMatrixWithAllocationPrice struct {
-	ID                        string                                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMatrixWithAllocationPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceMatrixWithAllocationPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixWithAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                                             `json:"currency,required"`
+	ID                        string                                               `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMatrixWithAllocationPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceMatrixWithAllocationPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceMatrixWithAllocationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceMatrixWithAllocationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                           `json:"credit_allocation,required,nullable"`
+	Currency                  string                                               `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -17470,6 +19730,69 @@ func (r PriceMatrixWithAllocationPriceCadence) IsKnown() bool {
 	return false
 }
 
+type PriceMatrixWithAllocationPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceMatrixWithAllocationPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceMatrixWithAllocationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                               `json:"values,required"`
+	JSON   priceMatrixWithAllocationPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceMatrixWithAllocationPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PriceMatrixWithAllocationPriceCompositePriceFilter]
+type priceMatrixWithAllocationPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithAllocationPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithAllocationPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceMatrixWithAllocationPriceCompositePriceFiltersField string
+
+const (
+	PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceID       PriceMatrixWithAllocationPriceCompositePriceFiltersField = "price_id"
+	PriceMatrixWithAllocationPriceCompositePriceFiltersFieldItemID        PriceMatrixWithAllocationPriceCompositePriceFiltersField = "item_id"
+	PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceType     PriceMatrixWithAllocationPriceCompositePriceFiltersField = "price_type"
+	PriceMatrixWithAllocationPriceCompositePriceFiltersFieldCurrency      PriceMatrixWithAllocationPriceCompositePriceFiltersField = "currency"
+	PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPricingUnitID PriceMatrixWithAllocationPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceMatrixWithAllocationPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceID, PriceMatrixWithAllocationPriceCompositePriceFiltersFieldItemID, PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceType, PriceMatrixWithAllocationPriceCompositePriceFiltersFieldCurrency, PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceMatrixWithAllocationPriceCompositePriceFiltersOperator string
+
+const (
+	PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorIncludes PriceMatrixWithAllocationPriceCompositePriceFiltersOperator = "includes"
+	PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorExcludes PriceMatrixWithAllocationPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceMatrixWithAllocationPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorIncludes, PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PriceMatrixWithAllocationPriceConversionRateConfig struct {
 	ConversionRateType PriceMatrixWithAllocationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
 	TieredConfig       ConversionRateTieredConfig                                           `json:"tiered_config"`
@@ -17579,17 +19902,17 @@ func (r PriceMatrixWithAllocationPricePriceType) IsKnown() bool {
 }
 
 type PriceTieredWithProrationPrice struct {
-	ID                        string                                            `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceTieredWithProrationPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceTieredWithProrationPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                            `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceTieredWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
-	Currency                  string                                            `json:"currency,required"`
+	ID                        string                                              `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceTieredWithProrationPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceTieredWithProrationPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceTieredWithProrationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceTieredWithProrationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
+	Currency                  string                                              `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -17699,6 +20022,69 @@ const (
 func (r PriceTieredWithProrationPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceTieredWithProrationPriceCadenceOneTime, PriceTieredWithProrationPriceCadenceMonthly, PriceTieredWithProrationPriceCadenceQuarterly, PriceTieredWithProrationPriceCadenceSemiAnnual, PriceTieredWithProrationPriceCadenceAnnual, PriceTieredWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceTieredWithProrationPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceTieredWithProrationPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceTieredWithProrationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                              `json:"values,required"`
+	JSON   priceTieredWithProrationPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceTieredWithProrationPriceCompositePriceFilterJSON contains the JSON metadata
+// for the struct [PriceTieredWithProrationPriceCompositePriceFilter]
+type priceTieredWithProrationPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceTieredWithProrationPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceTieredWithProrationPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceTieredWithProrationPriceCompositePriceFiltersField string
+
+const (
+	PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceID       PriceTieredWithProrationPriceCompositePriceFiltersField = "price_id"
+	PriceTieredWithProrationPriceCompositePriceFiltersFieldItemID        PriceTieredWithProrationPriceCompositePriceFiltersField = "item_id"
+	PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceType     PriceTieredWithProrationPriceCompositePriceFiltersField = "price_type"
+	PriceTieredWithProrationPriceCompositePriceFiltersFieldCurrency      PriceTieredWithProrationPriceCompositePriceFiltersField = "currency"
+	PriceTieredWithProrationPriceCompositePriceFiltersFieldPricingUnitID PriceTieredWithProrationPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceTieredWithProrationPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceID, PriceTieredWithProrationPriceCompositePriceFiltersFieldItemID, PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceType, PriceTieredWithProrationPriceCompositePriceFiltersFieldCurrency, PriceTieredWithProrationPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceTieredWithProrationPriceCompositePriceFiltersOperator string
+
+const (
+	PriceTieredWithProrationPriceCompositePriceFiltersOperatorIncludes PriceTieredWithProrationPriceCompositePriceFiltersOperator = "includes"
+	PriceTieredWithProrationPriceCompositePriceFiltersOperatorExcludes PriceTieredWithProrationPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceTieredWithProrationPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceTieredWithProrationPriceCompositePriceFiltersOperatorIncludes, PriceTieredWithProrationPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -17864,17 +20250,17 @@ func (r priceTieredWithProrationPriceTieredWithProrationConfigTierJSON) RawJSON(
 }
 
 type PriceUnitWithProrationPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceUnitWithProrationPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceUnitWithProrationPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceUnitWithProrationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                                            `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceUnitWithProrationPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceUnitWithProrationPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceUnitWithProrationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceUnitWithProrationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
+	Currency                  string                                            `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -17984,6 +20370,69 @@ const (
 func (r PriceUnitWithProrationPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceUnitWithProrationPriceCadenceOneTime, PriceUnitWithProrationPriceCadenceMonthly, PriceUnitWithProrationPriceCadenceQuarterly, PriceUnitWithProrationPriceCadenceSemiAnnual, PriceUnitWithProrationPriceCadenceAnnual, PriceUnitWithProrationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceUnitWithProrationPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceUnitWithProrationPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceUnitWithProrationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                            `json:"values,required"`
+	JSON   priceUnitWithProrationPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceUnitWithProrationPriceCompositePriceFilterJSON contains the JSON metadata
+// for the struct [PriceUnitWithProrationPriceCompositePriceFilter]
+type priceUnitWithProrationPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceUnitWithProrationPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceUnitWithProrationPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceUnitWithProrationPriceCompositePriceFiltersField string
+
+const (
+	PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceID       PriceUnitWithProrationPriceCompositePriceFiltersField = "price_id"
+	PriceUnitWithProrationPriceCompositePriceFiltersFieldItemID        PriceUnitWithProrationPriceCompositePriceFiltersField = "item_id"
+	PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceType     PriceUnitWithProrationPriceCompositePriceFiltersField = "price_type"
+	PriceUnitWithProrationPriceCompositePriceFiltersFieldCurrency      PriceUnitWithProrationPriceCompositePriceFiltersField = "currency"
+	PriceUnitWithProrationPriceCompositePriceFiltersFieldPricingUnitID PriceUnitWithProrationPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceUnitWithProrationPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceID, PriceUnitWithProrationPriceCompositePriceFiltersFieldItemID, PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceType, PriceUnitWithProrationPriceCompositePriceFiltersFieldCurrency, PriceUnitWithProrationPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceUnitWithProrationPriceCompositePriceFiltersOperator string
+
+const (
+	PriceUnitWithProrationPriceCompositePriceFiltersOperatorIncludes PriceUnitWithProrationPriceCompositePriceFiltersOperator = "includes"
+	PriceUnitWithProrationPriceCompositePriceFiltersOperatorExcludes PriceUnitWithProrationPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceUnitWithProrationPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceUnitWithProrationPriceCompositePriceFiltersOperatorIncludes, PriceUnitWithProrationPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -18121,17 +20570,17 @@ func (r priceUnitWithProrationPriceUnitWithProrationConfigJSON) RawJSON() string
 }
 
 type PriceGroupedAllocationPrice struct {
-	ID                        string                                          `json:"id,required"`
-	BillableMetric            BillableMetricTiny                              `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                       `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedAllocationPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceGroupedAllocationPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                          `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                         `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedAllocationPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                       `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                      `json:"credit_allocation,required,nullable"`
-	Currency                  string                                          `json:"currency,required"`
+	ID                        string                                            `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                         `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedAllocationPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceGroupedAllocationPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceGroupedAllocationPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                           `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceGroupedAllocationPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                         `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                        `json:"credit_allocation,required,nullable"`
+	Currency                  string                                            `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount           Discount `json:"discount,required,nullable"`
 	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
@@ -18241,6 +20690,69 @@ const (
 func (r PriceGroupedAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceGroupedAllocationPriceCadenceOneTime, PriceGroupedAllocationPriceCadenceMonthly, PriceGroupedAllocationPriceCadenceQuarterly, PriceGroupedAllocationPriceCadenceSemiAnnual, PriceGroupedAllocationPriceCadenceAnnual, PriceGroupedAllocationPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedAllocationPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceGroupedAllocationPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceGroupedAllocationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                            `json:"values,required"`
+	JSON   priceGroupedAllocationPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceGroupedAllocationPriceCompositePriceFilterJSON contains the JSON metadata
+// for the struct [PriceGroupedAllocationPriceCompositePriceFilter]
+type priceGroupedAllocationPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedAllocationPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedAllocationPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceGroupedAllocationPriceCompositePriceFiltersField string
+
+const (
+	PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceID       PriceGroupedAllocationPriceCompositePriceFiltersField = "price_id"
+	PriceGroupedAllocationPriceCompositePriceFiltersFieldItemID        PriceGroupedAllocationPriceCompositePriceFiltersField = "item_id"
+	PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceType     PriceGroupedAllocationPriceCompositePriceFiltersField = "price_type"
+	PriceGroupedAllocationPriceCompositePriceFiltersFieldCurrency      PriceGroupedAllocationPriceCompositePriceFiltersField = "currency"
+	PriceGroupedAllocationPriceCompositePriceFiltersFieldPricingUnitID PriceGroupedAllocationPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceGroupedAllocationPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceID, PriceGroupedAllocationPriceCompositePriceFiltersFieldItemID, PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceType, PriceGroupedAllocationPriceCompositePriceFiltersFieldCurrency, PriceGroupedAllocationPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceGroupedAllocationPriceCompositePriceFiltersOperator string
+
+const (
+	PriceGroupedAllocationPriceCompositePriceFiltersOperatorIncludes PriceGroupedAllocationPriceCompositePriceFiltersOperator = "includes"
+	PriceGroupedAllocationPriceCompositePriceFiltersOperatorExcludes PriceGroupedAllocationPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceGroupedAllocationPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceGroupedAllocationPriceCompositePriceFiltersOperatorIncludes, PriceGroupedAllocationPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -18391,7 +20903,7 @@ type PriceBulkWithProrationPrice struct {
 	// Configuration for bulk_with_proration pricing
 	BulkWithProrationConfig PriceBulkWithProrationPriceBulkWithProrationConfig `json:"bulk_with_proration_config,required"`
 	Cadence                 PriceBulkWithProrationPriceCadence                 `json:"cadence,required"`
-	CompositePriceFilters   []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
+	CompositePriceFilters   []PriceBulkWithProrationPriceCompositePriceFilter  `json:"composite_price_filters,required,nullable"`
 	ConversionRate          float64                                            `json:"conversion_rate,required,nullable"`
 	ConversionRateConfig    PriceBulkWithProrationPriceConversionRateConfig    `json:"conversion_rate_config,required,nullable"`
 	CreatedAt               time.Time                                          `json:"created_at,required" format:"date-time"`
@@ -18558,6 +21070,69 @@ func (r PriceBulkWithProrationPriceCadence) IsKnown() bool {
 	return false
 }
 
+type PriceBulkWithProrationPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceBulkWithProrationPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceBulkWithProrationPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                            `json:"values,required"`
+	JSON   priceBulkWithProrationPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceBulkWithProrationPriceCompositePriceFilterJSON contains the JSON metadata
+// for the struct [PriceBulkWithProrationPriceCompositePriceFilter]
+type priceBulkWithProrationPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceBulkWithProrationPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceBulkWithProrationPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceBulkWithProrationPriceCompositePriceFiltersField string
+
+const (
+	PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceID       PriceBulkWithProrationPriceCompositePriceFiltersField = "price_id"
+	PriceBulkWithProrationPriceCompositePriceFiltersFieldItemID        PriceBulkWithProrationPriceCompositePriceFiltersField = "item_id"
+	PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceType     PriceBulkWithProrationPriceCompositePriceFiltersField = "price_type"
+	PriceBulkWithProrationPriceCompositePriceFiltersFieldCurrency      PriceBulkWithProrationPriceCompositePriceFiltersField = "currency"
+	PriceBulkWithProrationPriceCompositePriceFiltersFieldPricingUnitID PriceBulkWithProrationPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceBulkWithProrationPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceID, PriceBulkWithProrationPriceCompositePriceFiltersFieldItemID, PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceType, PriceBulkWithProrationPriceCompositePriceFiltersFieldCurrency, PriceBulkWithProrationPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceBulkWithProrationPriceCompositePriceFiltersOperator string
+
+const (
+	PriceBulkWithProrationPriceCompositePriceFiltersOperatorIncludes PriceBulkWithProrationPriceCompositePriceFiltersOperator = "includes"
+	PriceBulkWithProrationPriceCompositePriceFiltersOperatorExcludes PriceBulkWithProrationPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceBulkWithProrationPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceBulkWithProrationPriceCompositePriceFiltersOperatorIncludes, PriceBulkWithProrationPriceCompositePriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PriceBulkWithProrationPriceConversionRateConfig struct {
 	ConversionRateType PriceBulkWithProrationPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
 	TieredConfig       ConversionRateTieredConfig                                        `json:"tiered_config"`
@@ -18667,17 +21242,17 @@ func (r PriceBulkWithProrationPricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedWithProratedMinimumPrice struct {
-	ID                        string                                                   `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                       `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedWithProratedMinimumPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceGroupedWithProratedMinimumPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                                   `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                  `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithProratedMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                               `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                   `json:"currency,required"`
+	ID                        string                                                     `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                         `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                  `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedWithProratedMinimumPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceGroupedWithProratedMinimumPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceGroupedWithProratedMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                                    `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceGroupedWithProratedMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                                  `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                                 `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                     `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount           Discount `json:"discount,required,nullable"`
 	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
@@ -18787,6 +21362,70 @@ const (
 func (r PriceGroupedWithProratedMinimumPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceGroupedWithProratedMinimumPriceCadenceOneTime, PriceGroupedWithProratedMinimumPriceCadenceMonthly, PriceGroupedWithProratedMinimumPriceCadenceQuarterly, PriceGroupedWithProratedMinimumPriceCadenceSemiAnnual, PriceGroupedWithProratedMinimumPriceCadenceAnnual, PriceGroupedWithProratedMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedWithProratedMinimumPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                     `json:"values,required"`
+	JSON   priceGroupedWithProratedMinimumPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceGroupedWithProratedMinimumPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct
+// [PriceGroupedWithProratedMinimumPriceCompositePriceFilter]
+type priceGroupedWithProratedMinimumPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithProratedMinimumPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithProratedMinimumPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField string
+
+const (
+	PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceID       PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField = "price_id"
+	PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldItemID        PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField = "item_id"
+	PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceType     PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField = "price_type"
+	PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldCurrency      PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField = "currency"
+	PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPricingUnitID PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceID, PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldItemID, PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceType, PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldCurrency, PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator string
+
+const (
+	PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorIncludes PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator = "includes"
+	PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorExcludes PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorIncludes, PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -18933,17 +21572,17 @@ func (r PriceGroupedWithProratedMinimumPricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedWithMeteredMinimumPrice struct {
-	ID                        string                                                  `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                      `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                               `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedWithMeteredMinimumPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                                  `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                 `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithMeteredMinimumPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                               `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                              `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                  `json:"currency,required"`
+	ID                        string                                                    `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                        `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                 `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedWithMeteredMinimumPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceGroupedWithMeteredMinimumPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceGroupedWithMeteredMinimumPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                                   `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceGroupedWithMeteredMinimumPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                                 `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                                `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                    `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount           Discount `json:"discount,required,nullable"`
 	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
@@ -19053,6 +21692,70 @@ const (
 func (r PriceGroupedWithMeteredMinimumPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceGroupedWithMeteredMinimumPriceCadenceOneTime, PriceGroupedWithMeteredMinimumPriceCadenceMonthly, PriceGroupedWithMeteredMinimumPriceCadenceQuarterly, PriceGroupedWithMeteredMinimumPriceCadenceSemiAnnual, PriceGroupedWithMeteredMinimumPriceCadenceAnnual, PriceGroupedWithMeteredMinimumPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedWithMeteredMinimumPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                    `json:"values,required"`
+	JSON   priceGroupedWithMeteredMinimumPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceGroupedWithMeteredMinimumPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct
+// [PriceGroupedWithMeteredMinimumPriceCompositePriceFilter]
+type priceGroupedWithMeteredMinimumPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithMeteredMinimumPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithMeteredMinimumPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField string
+
+const (
+	PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceID       PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField = "price_id"
+	PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldItemID        PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField = "item_id"
+	PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceType     PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField = "price_type"
+	PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldCurrency      PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField = "currency"
+	PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPricingUnitID PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceID, PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldItemID, PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceType, PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldCurrency, PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator string
+
+const (
+	PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorIncludes PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator = "includes"
+	PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorExcludes PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorIncludes, PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -19263,17 +21966,17 @@ func (r PriceGroupedWithMeteredMinimumPricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedWithMinMaxThresholdsPrice struct {
-	ID                        string                                                    `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                        `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                 `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedWithMinMaxThresholdsPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceGroupedWithMinMaxThresholdsPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                                    `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                   `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                 `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                    `json:"currency,required"`
+	ID                        string                                                      `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedWithMinMaxThresholdsPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceGroupedWithMinMaxThresholdsPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                                   `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                                  `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                      `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount           Discount `json:"discount,required,nullable"`
 	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
@@ -19383,6 +22086,70 @@ const (
 func (r PriceGroupedWithMinMaxThresholdsPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceGroupedWithMinMaxThresholdsPriceCadenceOneTime, PriceGroupedWithMinMaxThresholdsPriceCadenceMonthly, PriceGroupedWithMinMaxThresholdsPriceCadenceQuarterly, PriceGroupedWithMinMaxThresholdsPriceCadenceSemiAnnual, PriceGroupedWithMinMaxThresholdsPriceCadenceAnnual, PriceGroupedWithMinMaxThresholdsPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                      `json:"values,required"`
+	JSON   priceGroupedWithMinMaxThresholdsPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceGroupedWithMinMaxThresholdsPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct
+// [PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter]
+type priceGroupedWithMinMaxThresholdsPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedWithMinMaxThresholdsPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField string
+
+const (
+	PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceID       PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField = "price_id"
+	PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldItemID        PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField = "item_id"
+	PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceType     PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField = "price_type"
+	PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldCurrency      PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField = "currency"
+	PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPricingUnitID PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceID, PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldItemID, PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceType, PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldCurrency, PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator string
+
+const (
+	PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorIncludes PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator = "includes"
+	PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorExcludes PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorIncludes, PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -19532,17 +22299,17 @@ func (r PriceGroupedWithMinMaxThresholdsPricePriceType) IsKnown() bool {
 }
 
 type PriceMatrixWithDisplayNamePrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMatrixWithDisplayNamePriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceMatrixWithDisplayNamePriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMatrixWithDisplayNamePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
-	Currency                  string                                              `json:"currency,required"`
+	ID                        string                                                `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMatrixWithDisplayNamePriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceMatrixWithDisplayNamePriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceMatrixWithDisplayNamePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceMatrixWithDisplayNamePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -19652,6 +22419,69 @@ const (
 func (r PriceMatrixWithDisplayNamePriceCadence) IsKnown() bool {
 	switch r {
 	case PriceMatrixWithDisplayNamePriceCadenceOneTime, PriceMatrixWithDisplayNamePriceCadenceMonthly, PriceMatrixWithDisplayNamePriceCadenceQuarterly, PriceMatrixWithDisplayNamePriceCadenceSemiAnnual, PriceMatrixWithDisplayNamePriceCadenceAnnual, PriceMatrixWithDisplayNamePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceMatrixWithDisplayNamePriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceMatrixWithDisplayNamePriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                `json:"values,required"`
+	JSON   priceMatrixWithDisplayNamePriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceMatrixWithDisplayNamePriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PriceMatrixWithDisplayNamePriceCompositePriceFilter]
+type priceMatrixWithDisplayNamePriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMatrixWithDisplayNamePriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMatrixWithDisplayNamePriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceMatrixWithDisplayNamePriceCompositePriceFiltersField string
+
+const (
+	PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceID       PriceMatrixWithDisplayNamePriceCompositePriceFiltersField = "price_id"
+	PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldItemID        PriceMatrixWithDisplayNamePriceCompositePriceFiltersField = "item_id"
+	PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceType     PriceMatrixWithDisplayNamePriceCompositePriceFiltersField = "price_type"
+	PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldCurrency      PriceMatrixWithDisplayNamePriceCompositePriceFiltersField = "currency"
+	PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPricingUnitID PriceMatrixWithDisplayNamePriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceMatrixWithDisplayNamePriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceID, PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldItemID, PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceType, PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldCurrency, PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator string
+
+const (
+	PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorIncludes PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator = "includes"
+	PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorExcludes PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorIncludes, PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -19823,17 +22653,17 @@ func (r PriceMatrixWithDisplayNamePricePriceType) IsKnown() bool {
 }
 
 type PriceGroupedTieredPackagePrice struct {
-	ID                        string                                             `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                 `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                          `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceGroupedTieredPackagePriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceGroupedTieredPackagePriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                             `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                            `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceGroupedTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                          `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                         `json:"credit_allocation,required,nullable"`
-	Currency                  string                                             `json:"currency,required"`
+	ID                        string                                               `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                   `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                            `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceGroupedTieredPackagePriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceGroupedTieredPackagePriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceGroupedTieredPackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                              `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceGroupedTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                            `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                           `json:"credit_allocation,required,nullable"`
+	Currency                  string                                               `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount           Discount `json:"discount,required,nullable"`
 	ExternalPriceID    string   `json:"external_price_id,required,nullable"`
@@ -19943,6 +22773,69 @@ const (
 func (r PriceGroupedTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
 	case PriceGroupedTieredPackagePriceCadenceOneTime, PriceGroupedTieredPackagePriceCadenceMonthly, PriceGroupedTieredPackagePriceCadenceQuarterly, PriceGroupedTieredPackagePriceCadenceSemiAnnual, PriceGroupedTieredPackagePriceCadenceAnnual, PriceGroupedTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceGroupedTieredPackagePriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceGroupedTieredPackagePriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceGroupedTieredPackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                               `json:"values,required"`
+	JSON   priceGroupedTieredPackagePriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceGroupedTieredPackagePriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PriceGroupedTieredPackagePriceCompositePriceFilter]
+type priceGroupedTieredPackagePriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceGroupedTieredPackagePriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceGroupedTieredPackagePriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceGroupedTieredPackagePriceCompositePriceFiltersField string
+
+const (
+	PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceID       PriceGroupedTieredPackagePriceCompositePriceFiltersField = "price_id"
+	PriceGroupedTieredPackagePriceCompositePriceFiltersFieldItemID        PriceGroupedTieredPackagePriceCompositePriceFiltersField = "item_id"
+	PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceType     PriceGroupedTieredPackagePriceCompositePriceFiltersField = "price_type"
+	PriceGroupedTieredPackagePriceCompositePriceFiltersFieldCurrency      PriceGroupedTieredPackagePriceCompositePriceFiltersField = "currency"
+	PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPricingUnitID PriceGroupedTieredPackagePriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceGroupedTieredPackagePriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceID, PriceGroupedTieredPackagePriceCompositePriceFiltersFieldItemID, PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceType, PriceGroupedTieredPackagePriceCompositePriceFiltersFieldCurrency, PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceGroupedTieredPackagePriceCompositePriceFiltersOperator string
+
+const (
+	PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorIncludes PriceGroupedTieredPackagePriceCompositePriceFiltersOperator = "includes"
+	PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorExcludes PriceGroupedTieredPackagePriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceGroupedTieredPackagePriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorIncludes, PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -20115,17 +23008,17 @@ func (r PriceGroupedTieredPackagePricePriceType) IsKnown() bool {
 }
 
 type PriceMaxGroupTieredPackagePrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMaxGroupTieredPackagePriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceMaxGroupTieredPackagePriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMaxGroupTieredPackagePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
-	Currency                  string                                              `json:"currency,required"`
+	ID                        string                                                `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMaxGroupTieredPackagePriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceMaxGroupTieredPackagePriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceMaxGroupTieredPackagePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceMaxGroupTieredPackagePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -20235,6 +23128,69 @@ const (
 func (r PriceMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 	switch r {
 	case PriceMaxGroupTieredPackagePriceCadenceOneTime, PriceMaxGroupTieredPackagePriceCadenceMonthly, PriceMaxGroupTieredPackagePriceCadenceQuarterly, PriceMaxGroupTieredPackagePriceCadenceSemiAnnual, PriceMaxGroupTieredPackagePriceCadenceAnnual, PriceMaxGroupTieredPackagePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceMaxGroupTieredPackagePriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceMaxGroupTieredPackagePriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                `json:"values,required"`
+	JSON   priceMaxGroupTieredPackagePriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceMaxGroupTieredPackagePriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PriceMaxGroupTieredPackagePriceCompositePriceFilter]
+type priceMaxGroupTieredPackagePriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMaxGroupTieredPackagePriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMaxGroupTieredPackagePriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceMaxGroupTieredPackagePriceCompositePriceFiltersField string
+
+const (
+	PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceID       PriceMaxGroupTieredPackagePriceCompositePriceFiltersField = "price_id"
+	PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldItemID        PriceMaxGroupTieredPackagePriceCompositePriceFiltersField = "item_id"
+	PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceType     PriceMaxGroupTieredPackagePriceCompositePriceFiltersField = "price_type"
+	PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldCurrency      PriceMaxGroupTieredPackagePriceCompositePriceFiltersField = "currency"
+	PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPricingUnitID PriceMaxGroupTieredPackagePriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceMaxGroupTieredPackagePriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceID, PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldItemID, PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceType, PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldCurrency, PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator string
+
+const (
+	PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorIncludes PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator = "includes"
+	PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorExcludes PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorIncludes, PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -20406,17 +23362,17 @@ func (r PriceMaxGroupTieredPackagePricePriceType) IsKnown() bool {
 }
 
 type PriceScalableMatrixWithUnitPricingPrice struct {
-	ID                        string                                                      `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                          `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                   `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceScalableMatrixWithUnitPricingPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                                      `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                     `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceScalableMatrixWithUnitPricingPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                   `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                  `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                      `json:"currency,required"`
+	ID                        string                                                        `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                            `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                     `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceScalableMatrixWithUnitPricingPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceScalableMatrixWithUnitPricingPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                                       `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceScalableMatrixWithUnitPricingPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                                     `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                                    `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                        `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -20526,6 +23482,70 @@ const (
 func (r PriceScalableMatrixWithUnitPricingPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceScalableMatrixWithUnitPricingPriceCadenceOneTime, PriceScalableMatrixWithUnitPricingPriceCadenceMonthly, PriceScalableMatrixWithUnitPricingPriceCadenceQuarterly, PriceScalableMatrixWithUnitPricingPriceCadenceSemiAnnual, PriceScalableMatrixWithUnitPricingPriceCadenceAnnual, PriceScalableMatrixWithUnitPricingPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                        `json:"values,required"`
+	JSON   priceScalableMatrixWithUnitPricingPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceScalableMatrixWithUnitPricingPriceCompositePriceFilterJSON contains the
+// JSON metadata for the struct
+// [PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter]
+type priceScalableMatrixWithUnitPricingPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceScalableMatrixWithUnitPricingPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField string
+
+const (
+	PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceID       PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField = "price_id"
+	PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldItemID        PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField = "item_id"
+	PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceType     PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField = "price_type"
+	PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldCurrency      PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField = "currency"
+	PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPricingUnitID PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceID, PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldItemID, PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceType, PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldCurrency, PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator string
+
+const (
+	PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorIncludes PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator = "includes"
+	PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorExcludes PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorIncludes, PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -20708,17 +23728,17 @@ func (r priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConf
 }
 
 type PriceScalableMatrixWithTieredPricingPrice struct {
-	ID                        string                                                        `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                            `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                                     `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceScalableMatrixWithTieredPricingPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                                        `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                                       `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceScalableMatrixWithTieredPricingPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                                     `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                                    `json:"credit_allocation,required,nullable"`
-	Currency                  string                                                        `json:"currency,required"`
+	ID                        string                                                          `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                              `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                                       `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceScalableMatrixWithTieredPricingPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceScalableMatrixWithTieredPricingPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                                         `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceScalableMatrixWithTieredPricingPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                                       `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                                      `json:"credit_allocation,required,nullable"`
+	Currency                  string                                                          `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -20828,6 +23848,70 @@ const (
 func (r PriceScalableMatrixWithTieredPricingPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceScalableMatrixWithTieredPricingPriceCadenceOneTime, PriceScalableMatrixWithTieredPricingPriceCadenceMonthly, PriceScalableMatrixWithTieredPricingPriceCadenceQuarterly, PriceScalableMatrixWithTieredPricingPriceCadenceSemiAnnual, PriceScalableMatrixWithTieredPricingPriceCadenceAnnual, PriceScalableMatrixWithTieredPricingPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                          `json:"values,required"`
+	JSON   priceScalableMatrixWithTieredPricingPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceScalableMatrixWithTieredPricingPriceCompositePriceFilterJSON contains the
+// JSON metadata for the struct
+// [PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter]
+type priceScalableMatrixWithTieredPricingPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceScalableMatrixWithTieredPricingPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField string
+
+const (
+	PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceID       PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField = "price_id"
+	PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldItemID        PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField = "item_id"
+	PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceType     PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField = "price_type"
+	PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldCurrency      PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField = "currency"
+	PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPricingUnitID PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceID, PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldItemID, PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceType, PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldCurrency, PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator string
+
+const (
+	PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorIncludes PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator = "includes"
+	PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorExcludes PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorIncludes, PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -21034,16 +24118,16 @@ func (r priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricing
 }
 
 type PriceCumulativeGroupedBulkPrice struct {
-	ID                        string                                              `json:"id,required"`
-	BillableMetric            BillableMetricTiny                                  `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                           `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceCumulativeGroupedBulkPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceCumulativeGroupedBulkPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                              `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                             `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceCumulativeGroupedBulkPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                           `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                          `json:"credit_allocation,required,nullable"`
+	ID                        string                                                `json:"id,required"`
+	BillableMetric            BillableMetricTiny                                    `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                             `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceCumulativeGroupedBulkPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceCumulativeGroupedBulkPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceCumulativeGroupedBulkPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                               `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceCumulativeGroupedBulkPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                             `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                            `json:"credit_allocation,required,nullable"`
 	// Configuration for cumulative_grouped_bulk pricing
 	CumulativeGroupedBulkConfig PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig `json:"cumulative_grouped_bulk_config,required"`
 	Currency                    string                                                     `json:"currency,required"`
@@ -21154,6 +24238,69 @@ const (
 func (r PriceCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 	switch r {
 	case PriceCumulativeGroupedBulkPriceCadenceOneTime, PriceCumulativeGroupedBulkPriceCadenceMonthly, PriceCumulativeGroupedBulkPriceCadenceQuarterly, PriceCumulativeGroupedBulkPriceCadenceSemiAnnual, PriceCumulativeGroupedBulkPriceCadenceAnnual, PriceCumulativeGroupedBulkPriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceCumulativeGroupedBulkPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceCumulativeGroupedBulkPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                                `json:"values,required"`
+	JSON   priceCumulativeGroupedBulkPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceCumulativeGroupedBulkPriceCompositePriceFilterJSON contains the JSON
+// metadata for the struct [PriceCumulativeGroupedBulkPriceCompositePriceFilter]
+type priceCumulativeGroupedBulkPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceCumulativeGroupedBulkPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceCumulativeGroupedBulkPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceCumulativeGroupedBulkPriceCompositePriceFiltersField string
+
+const (
+	PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceID       PriceCumulativeGroupedBulkPriceCompositePriceFiltersField = "price_id"
+	PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldItemID        PriceCumulativeGroupedBulkPriceCompositePriceFiltersField = "item_id"
+	PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceType     PriceCumulativeGroupedBulkPriceCompositePriceFiltersField = "price_type"
+	PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldCurrency      PriceCumulativeGroupedBulkPriceCompositePriceFiltersField = "currency"
+	PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPricingUnitID PriceCumulativeGroupedBulkPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceCumulativeGroupedBulkPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceID, PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldItemID, PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceType, PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldCurrency, PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator string
+
+const (
+	PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorIncludes PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator = "includes"
+	PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorExcludes PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorIncludes, PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -21325,17 +24472,17 @@ func (r PriceCumulativeGroupedBulkPricePriceType) IsKnown() bool {
 }
 
 type PriceMinimumCompositePrice struct {
-	ID                        string                                         `json:"id,required"`
-	BillableMetric            BillableMetricTiny                             `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                      `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceMinimumCompositePriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceMinimumCompositePriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                         `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                        `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceMinimumCompositePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                      `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                     `json:"credit_allocation,required,nullable"`
-	Currency                  string                                         `json:"currency,required"`
+	ID                        string                                           `json:"id,required"`
+	BillableMetric            BillableMetricTiny                               `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                        `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceMinimumCompositePriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceMinimumCompositePriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceMinimumCompositePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                          `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceMinimumCompositePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                        `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                       `json:"credit_allocation,required,nullable"`
+	Currency                  string                                           `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -21445,6 +24592,69 @@ const (
 func (r PriceMinimumCompositePriceCadence) IsKnown() bool {
 	switch r {
 	case PriceMinimumCompositePriceCadenceOneTime, PriceMinimumCompositePriceCadenceMonthly, PriceMinimumCompositePriceCadenceQuarterly, PriceMinimumCompositePriceCadenceSemiAnnual, PriceMinimumCompositePriceCadenceAnnual, PriceMinimumCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PriceMinimumCompositePriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceMinimumCompositePriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceMinimumCompositePriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                           `json:"values,required"`
+	JSON   priceMinimumCompositePriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceMinimumCompositePriceCompositePriceFilterJSON contains the JSON metadata
+// for the struct [PriceMinimumCompositePriceCompositePriceFilter]
+type priceMinimumCompositePriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceMinimumCompositePriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceMinimumCompositePriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceMinimumCompositePriceCompositePriceFiltersField string
+
+const (
+	PriceMinimumCompositePriceCompositePriceFiltersFieldPriceID       PriceMinimumCompositePriceCompositePriceFiltersField = "price_id"
+	PriceMinimumCompositePriceCompositePriceFiltersFieldItemID        PriceMinimumCompositePriceCompositePriceFiltersField = "item_id"
+	PriceMinimumCompositePriceCompositePriceFiltersFieldPriceType     PriceMinimumCompositePriceCompositePriceFiltersField = "price_type"
+	PriceMinimumCompositePriceCompositePriceFiltersFieldCurrency      PriceMinimumCompositePriceCompositePriceFiltersField = "currency"
+	PriceMinimumCompositePriceCompositePriceFiltersFieldPricingUnitID PriceMinimumCompositePriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceMinimumCompositePriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceMinimumCompositePriceCompositePriceFiltersFieldPriceID, PriceMinimumCompositePriceCompositePriceFiltersFieldItemID, PriceMinimumCompositePriceCompositePriceFiltersFieldPriceType, PriceMinimumCompositePriceCompositePriceFiltersFieldCurrency, PriceMinimumCompositePriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceMinimumCompositePriceCompositePriceFiltersOperator string
+
+const (
+	PriceMinimumCompositePriceCompositePriceFiltersOperatorIncludes PriceMinimumCompositePriceCompositePriceFiltersOperator = "includes"
+	PriceMinimumCompositePriceCompositePriceFiltersOperatorExcludes PriceMinimumCompositePriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceMinimumCompositePriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceMinimumCompositePriceCompositePriceFiltersOperatorIncludes, PriceMinimumCompositePriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -21585,17 +24795,17 @@ func (r PriceMinimumCompositePricePriceType) IsKnown() bool {
 }
 
 type PricePercentCompositePrice struct {
-	ID                        string                                         `json:"id,required"`
-	BillableMetric            BillableMetricTiny                             `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                      `json:"billing_cycle_configuration,required"`
-	BillingMode               PricePercentCompositePriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PricePercentCompositePriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                         `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                        `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PricePercentCompositePriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                      `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                     `json:"credit_allocation,required,nullable"`
-	Currency                  string                                         `json:"currency,required"`
+	ID                        string                                           `json:"id,required"`
+	BillableMetric            BillableMetricTiny                               `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                        `json:"billing_cycle_configuration,required"`
+	BillingMode               PricePercentCompositePriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PricePercentCompositePriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PricePercentCompositePriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                          `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PricePercentCompositePriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                        `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                       `json:"credit_allocation,required,nullable"`
+	Currency                  string                                           `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount                    Discount                  `json:"discount,required,nullable"`
 	ExternalPriceID             string                    `json:"external_price_id,required,nullable"`
@@ -21705,6 +24915,69 @@ const (
 func (r PricePercentCompositePriceCadence) IsKnown() bool {
 	switch r {
 	case PricePercentCompositePriceCadenceOneTime, PricePercentCompositePriceCadenceMonthly, PricePercentCompositePriceCadenceQuarterly, PricePercentCompositePriceCadenceSemiAnnual, PricePercentCompositePriceCadenceAnnual, PricePercentCompositePriceCadenceCustom:
+		return true
+	}
+	return false
+}
+
+type PricePercentCompositePriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PricePercentCompositePriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PricePercentCompositePriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                           `json:"values,required"`
+	JSON   pricePercentCompositePriceCompositePriceFilterJSON `json:"-"`
+}
+
+// pricePercentCompositePriceCompositePriceFilterJSON contains the JSON metadata
+// for the struct [PricePercentCompositePriceCompositePriceFilter]
+type pricePercentCompositePriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PricePercentCompositePriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r pricePercentCompositePriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PricePercentCompositePriceCompositePriceFiltersField string
+
+const (
+	PricePercentCompositePriceCompositePriceFiltersFieldPriceID       PricePercentCompositePriceCompositePriceFiltersField = "price_id"
+	PricePercentCompositePriceCompositePriceFiltersFieldItemID        PricePercentCompositePriceCompositePriceFiltersField = "item_id"
+	PricePercentCompositePriceCompositePriceFiltersFieldPriceType     PricePercentCompositePriceCompositePriceFiltersField = "price_type"
+	PricePercentCompositePriceCompositePriceFiltersFieldCurrency      PricePercentCompositePriceCompositePriceFiltersField = "currency"
+	PricePercentCompositePriceCompositePriceFiltersFieldPricingUnitID PricePercentCompositePriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PricePercentCompositePriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PricePercentCompositePriceCompositePriceFiltersFieldPriceID, PricePercentCompositePriceCompositePriceFiltersFieldItemID, PricePercentCompositePriceCompositePriceFiltersFieldPriceType, PricePercentCompositePriceCompositePriceFiltersFieldCurrency, PricePercentCompositePriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PricePercentCompositePriceCompositePriceFiltersOperator string
+
+const (
+	PricePercentCompositePriceCompositePriceFiltersOperatorIncludes PricePercentCompositePriceCompositePriceFiltersOperator = "includes"
+	PricePercentCompositePriceCompositePriceFiltersOperatorExcludes PricePercentCompositePriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PricePercentCompositePriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PricePercentCompositePriceCompositePriceFiltersOperatorIncludes, PricePercentCompositePriceCompositePriceFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -21842,17 +25115,17 @@ func (r PricePercentCompositePricePriceType) IsKnown() bool {
 }
 
 type PriceEventOutputPrice struct {
-	ID                        string                                    `json:"id,required"`
-	BillableMetric            BillableMetricTiny                        `json:"billable_metric,required,nullable"`
-	BillingCycleConfiguration BillingCycleConfiguration                 `json:"billing_cycle_configuration,required"`
-	BillingMode               PriceEventOutputPriceBillingMode          `json:"billing_mode,required"`
-	Cadence                   PriceEventOutputPriceCadence              `json:"cadence,required"`
-	CompositePriceFilters     []TransformPriceFilter                    `json:"composite_price_filters,required,nullable"`
-	ConversionRate            float64                                   `json:"conversion_rate,required,nullable"`
-	ConversionRateConfig      PriceEventOutputPriceConversionRateConfig `json:"conversion_rate_config,required,nullable"`
-	CreatedAt                 time.Time                                 `json:"created_at,required" format:"date-time"`
-	CreditAllocation          Allocation                                `json:"credit_allocation,required,nullable"`
-	Currency                  string                                    `json:"currency,required"`
+	ID                        string                                      `json:"id,required"`
+	BillableMetric            BillableMetricTiny                          `json:"billable_metric,required,nullable"`
+	BillingCycleConfiguration BillingCycleConfiguration                   `json:"billing_cycle_configuration,required"`
+	BillingMode               PriceEventOutputPriceBillingMode            `json:"billing_mode,required"`
+	Cadence                   PriceEventOutputPriceCadence                `json:"cadence,required"`
+	CompositePriceFilters     []PriceEventOutputPriceCompositePriceFilter `json:"composite_price_filters,required,nullable"`
+	ConversionRate            float64                                     `json:"conversion_rate,required,nullable"`
+	ConversionRateConfig      PriceEventOutputPriceConversionRateConfig   `json:"conversion_rate_config,required,nullable"`
+	CreatedAt                 time.Time                                   `json:"created_at,required" format:"date-time"`
+	CreditAllocation          Allocation                                  `json:"credit_allocation,required,nullable"`
+	Currency                  string                                      `json:"currency,required"`
 	// Deprecated: deprecated
 	Discount Discount `json:"discount,required,nullable"`
 	// Configuration for event_output pricing
@@ -21967,6 +25240,69 @@ func (r PriceEventOutputPriceCadence) IsKnown() bool {
 	return false
 }
 
+type PriceEventOutputPriceCompositePriceFilter struct {
+	// The property of the price to filter on.
+	Field PriceEventOutputPriceCompositePriceFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator PriceEventOutputPriceCompositePriceFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                      `json:"values,required"`
+	JSON   priceEventOutputPriceCompositePriceFilterJSON `json:"-"`
+}
+
+// priceEventOutputPriceCompositePriceFilterJSON contains the JSON metadata for the
+// struct [PriceEventOutputPriceCompositePriceFilter]
+type priceEventOutputPriceCompositePriceFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PriceEventOutputPriceCompositePriceFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r priceEventOutputPriceCompositePriceFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type PriceEventOutputPriceCompositePriceFiltersField string
+
+const (
+	PriceEventOutputPriceCompositePriceFiltersFieldPriceID       PriceEventOutputPriceCompositePriceFiltersField = "price_id"
+	PriceEventOutputPriceCompositePriceFiltersFieldItemID        PriceEventOutputPriceCompositePriceFiltersField = "item_id"
+	PriceEventOutputPriceCompositePriceFiltersFieldPriceType     PriceEventOutputPriceCompositePriceFiltersField = "price_type"
+	PriceEventOutputPriceCompositePriceFiltersFieldCurrency      PriceEventOutputPriceCompositePriceFiltersField = "currency"
+	PriceEventOutputPriceCompositePriceFiltersFieldPricingUnitID PriceEventOutputPriceCompositePriceFiltersField = "pricing_unit_id"
+)
+
+func (r PriceEventOutputPriceCompositePriceFiltersField) IsKnown() bool {
+	switch r {
+	case PriceEventOutputPriceCompositePriceFiltersFieldPriceID, PriceEventOutputPriceCompositePriceFiltersFieldItemID, PriceEventOutputPriceCompositePriceFiltersFieldPriceType, PriceEventOutputPriceCompositePriceFiltersFieldCurrency, PriceEventOutputPriceCompositePriceFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type PriceEventOutputPriceCompositePriceFiltersOperator string
+
+const (
+	PriceEventOutputPriceCompositePriceFiltersOperatorIncludes PriceEventOutputPriceCompositePriceFiltersOperator = "includes"
+	PriceEventOutputPriceCompositePriceFiltersOperatorExcludes PriceEventOutputPriceCompositePriceFiltersOperator = "excludes"
+)
+
+func (r PriceEventOutputPriceCompositePriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case PriceEventOutputPriceCompositePriceFiltersOperatorIncludes, PriceEventOutputPriceCompositePriceFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type PriceEventOutputPriceConversionRateConfig struct {
 	ConversionRateType PriceEventOutputPriceConversionRateConfigConversionRateType `json:"conversion_rate_type,required"`
 	TieredConfig       ConversionRateTieredConfig                                  `json:"tiered_config"`
@@ -22048,6 +25384,10 @@ func (r PriceEventOutputPriceConversionRateConfigConversionRateType) IsKnown() b
 type PriceEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey string `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate string `json:"default_unit_rate,nullable"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey string                                     `json:"grouping_key,nullable"`
@@ -22057,10 +25397,11 @@ type PriceEventOutputPriceEventOutputConfig struct {
 // priceEventOutputPriceEventOutputConfigJSON contains the JSON metadata for the
 // struct [PriceEventOutputPriceEventOutputConfig]
 type priceEventOutputPriceEventOutputConfigJSON struct {
-	UnitRatingKey apijson.Field
-	GroupingKey   apijson.Field
-	raw           string
-	ExtraFields   map[string]apijson.Field
+	UnitRatingKey   apijson.Field
+	DefaultUnitRate apijson.Field
+	GroupingKey     apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PriceEventOutputPriceEventOutputConfig) UnmarshalJSON(data []byte) (err error) {
@@ -23153,90 +26494,14 @@ func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChang
 func (r TieredConversionRateConfigParam) ImplementsSubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceConversionRateConfigUnion() {
 }
 
-type TransformPriceFilter struct {
-	// The property of the price to filter on.
-	Field TransformPriceFilterField `json:"field,required"`
-	// Should prices that match the filter be included or excluded.
-	Operator TransformPriceFilterOperator `json:"operator,required"`
-	// The IDs or values that match this filter.
-	Values []string                 `json:"values,required"`
-	JSON   transformPriceFilterJSON `json:"-"`
-}
-
-// transformPriceFilterJSON contains the JSON metadata for the struct
-// [TransformPriceFilter]
-type transformPriceFilterJSON struct {
-	Field       apijson.Field
-	Operator    apijson.Field
-	Values      apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *TransformPriceFilter) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r transformPriceFilterJSON) RawJSON() string {
-	return r.raw
-}
-
-// The property of the price to filter on.
-type TransformPriceFilterField string
-
-const (
-	TransformPriceFilterFieldPriceID       TransformPriceFilterField = "price_id"
-	TransformPriceFilterFieldItemID        TransformPriceFilterField = "item_id"
-	TransformPriceFilterFieldPriceType     TransformPriceFilterField = "price_type"
-	TransformPriceFilterFieldCurrency      TransformPriceFilterField = "currency"
-	TransformPriceFilterFieldPricingUnitID TransformPriceFilterField = "pricing_unit_id"
-)
-
-func (r TransformPriceFilterField) IsKnown() bool {
-	switch r {
-	case TransformPriceFilterFieldPriceID, TransformPriceFilterFieldItemID, TransformPriceFilterFieldPriceType, TransformPriceFilterFieldCurrency, TransformPriceFilterFieldPricingUnitID:
-		return true
-	}
-	return false
-}
-
-// Should prices that match the filter be included or excluded.
-type TransformPriceFilterOperator string
-
-const (
-	TransformPriceFilterOperatorIncludes TransformPriceFilterOperator = "includes"
-	TransformPriceFilterOperatorExcludes TransformPriceFilterOperator = "excludes"
-)
-
-func (r TransformPriceFilterOperator) IsKnown() bool {
-	switch r {
-	case TransformPriceFilterOperatorIncludes, TransformPriceFilterOperatorExcludes:
-		return true
-	}
-	return false
-}
-
-type TransformPriceFilterParam struct {
-	// The property of the price to filter on.
-	Field param.Field[TransformPriceFilterField] `json:"field,required"`
-	// Should prices that match the filter be included or excluded.
-	Operator param.Field[TransformPriceFilterOperator] `json:"operator,required"`
-	// The IDs or values that match this filter.
-	Values param.Field[[]string] `json:"values,required"`
-}
-
-func (r TransformPriceFilterParam) MarshalJSON() (data []byte, err error) {
-	return apijson.MarshalRoot(r)
-}
-
 type TrialDiscount struct {
 	DiscountType TrialDiscountDiscountType `json:"discount_type,required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []TransformPriceFilter `json:"filters,nullable"`
-	Reason  string                 `json:"reason,nullable"`
+	Filters []TrialDiscountFilter `json:"filters,nullable"`
+	Reason  string                `json:"reason,nullable"`
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount string `json:"trial_amount_discount,nullable"`
 	// Only available if discount_type is `trial`
@@ -23282,14 +26547,77 @@ func (r TrialDiscountDiscountType) IsKnown() bool {
 	return false
 }
 
+type TrialDiscountFilter struct {
+	// The property of the price to filter on.
+	Field TrialDiscountFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator TrialDiscountFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                `json:"values,required"`
+	JSON   trialDiscountFilterJSON `json:"-"`
+}
+
+// trialDiscountFilterJSON contains the JSON metadata for the struct
+// [TrialDiscountFilter]
+type trialDiscountFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *TrialDiscountFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r trialDiscountFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type TrialDiscountFiltersField string
+
+const (
+	TrialDiscountFiltersFieldPriceID       TrialDiscountFiltersField = "price_id"
+	TrialDiscountFiltersFieldItemID        TrialDiscountFiltersField = "item_id"
+	TrialDiscountFiltersFieldPriceType     TrialDiscountFiltersField = "price_type"
+	TrialDiscountFiltersFieldCurrency      TrialDiscountFiltersField = "currency"
+	TrialDiscountFiltersFieldPricingUnitID TrialDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r TrialDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case TrialDiscountFiltersFieldPriceID, TrialDiscountFiltersFieldItemID, TrialDiscountFiltersFieldPriceType, TrialDiscountFiltersFieldCurrency, TrialDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type TrialDiscountFiltersOperator string
+
+const (
+	TrialDiscountFiltersOperatorIncludes TrialDiscountFiltersOperator = "includes"
+	TrialDiscountFiltersOperatorExcludes TrialDiscountFiltersOperator = "excludes"
+)
+
+func (r TrialDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case TrialDiscountFiltersOperatorIncludes, TrialDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type TrialDiscountParam struct {
 	DiscountType param.Field[TrialDiscountDiscountType] `json:"discount_type,required"`
 	// List of price_ids that this discount applies to. For plan/plan phase discounts,
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// The filters that determine which prices to apply this discount to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
-	Reason  param.Field[string]                      `json:"reason"`
+	Filters param.Field[[]TrialDiscountFilterParam] `json:"filters"`
+	Reason  param.Field[string]                     `json:"reason"`
 	// Only available if discount_type is `trial`
 	TrialAmountDiscount param.Field[string] `json:"trial_amount_discount"`
 	// Only available if discount_type is `trial`
@@ -23301,6 +26629,19 @@ func (r TrialDiscountParam) MarshalJSON() (data []byte, err error) {
 }
 
 func (r TrialDiscountParam) ImplementsDiscountUnionParam() {}
+
+type TrialDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[TrialDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[TrialDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r TrialDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
 
 // Configuration for unit pricing
 type UnitConfig struct {
@@ -23940,9 +27281,9 @@ type UsageDiscount struct {
 	// this can be a subset of prices.
 	AppliesToPriceIDs []string `json:"applies_to_price_ids,nullable"`
 	// The filters that determine which prices to apply this discount to.
-	Filters []TransformPriceFilter `json:"filters,nullable"`
-	Reason  string                 `json:"reason,nullable"`
-	JSON    usageDiscountJSON      `json:"-"`
+	Filters []UsageDiscountFilter `json:"filters,nullable"`
+	Reason  string                `json:"reason,nullable"`
+	JSON    usageDiscountJSON     `json:"-"`
 }
 
 // usageDiscountJSON contains the JSON metadata for the struct [UsageDiscount]
@@ -23980,6 +27321,69 @@ func (r UsageDiscountDiscountType) IsKnown() bool {
 	return false
 }
 
+type UsageDiscountFilter struct {
+	// The property of the price to filter on.
+	Field UsageDiscountFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator UsageDiscountFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                `json:"values,required"`
+	JSON   usageDiscountFilterJSON `json:"-"`
+}
+
+// usageDiscountFilterJSON contains the JSON metadata for the struct
+// [UsageDiscountFilter]
+type usageDiscountFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *UsageDiscountFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r usageDiscountFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type UsageDiscountFiltersField string
+
+const (
+	UsageDiscountFiltersFieldPriceID       UsageDiscountFiltersField = "price_id"
+	UsageDiscountFiltersFieldItemID        UsageDiscountFiltersField = "item_id"
+	UsageDiscountFiltersFieldPriceType     UsageDiscountFiltersField = "price_type"
+	UsageDiscountFiltersFieldCurrency      UsageDiscountFiltersField = "currency"
+	UsageDiscountFiltersFieldPricingUnitID UsageDiscountFiltersField = "pricing_unit_id"
+)
+
+func (r UsageDiscountFiltersField) IsKnown() bool {
+	switch r {
+	case UsageDiscountFiltersFieldPriceID, UsageDiscountFiltersFieldItemID, UsageDiscountFiltersFieldPriceType, UsageDiscountFiltersFieldCurrency, UsageDiscountFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type UsageDiscountFiltersOperator string
+
+const (
+	UsageDiscountFiltersOperatorIncludes UsageDiscountFiltersOperator = "includes"
+	UsageDiscountFiltersOperatorExcludes UsageDiscountFiltersOperator = "excludes"
+)
+
+func (r UsageDiscountFiltersOperator) IsKnown() bool {
+	switch r {
+	case UsageDiscountFiltersOperatorIncludes, UsageDiscountFiltersOperatorExcludes:
+		return true
+	}
+	return false
+}
+
 type UsageDiscountParam struct {
 	DiscountType param.Field[UsageDiscountDiscountType] `json:"discount_type,required"`
 	// Only available if discount_type is `usage`. Number of usage units that this
@@ -23989,8 +27393,8 @@ type UsageDiscountParam struct {
 	// this can be a subset of prices.
 	AppliesToPriceIDs param.Field[[]string] `json:"applies_to_price_ids"`
 	// The filters that determine which prices to apply this discount to.
-	Filters param.Field[[]TransformPriceFilterParam] `json:"filters"`
-	Reason  param.Field[string]                      `json:"reason"`
+	Filters param.Field[[]UsageDiscountFilterParam] `json:"filters"`
+	Reason  param.Field[string]                     `json:"reason"`
 }
 
 func (r UsageDiscountParam) MarshalJSON() (data []byte, err error) {
@@ -23999,6 +27403,19 @@ func (r UsageDiscountParam) MarshalJSON() (data []byte, err error) {
 
 func (r UsageDiscountParam) ImplementsDiscountUnionParam() {}
 
+type UsageDiscountFilterParam struct {
+	// The property of the price to filter on.
+	Field param.Field[UsageDiscountFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[UsageDiscountFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r UsageDiscountFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
 type UsageDiscountInterval struct {
 	// The price interval ids that this discount interval applies to.
 	AppliesToPriceIntervalIDs []string                          `json:"applies_to_price_interval_ids,required"`
@@ -24006,7 +27423,7 @@ type UsageDiscountInterval struct {
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
 	// The filters that determine which prices this discount interval applies to.
-	Filters []TransformPriceFilter `json:"filters,required"`
+	Filters []UsageDiscountIntervalFilter `json:"filters,required"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
 	// Only available if discount_type is `usage`. Number of usage units that this
@@ -24049,6 +27466,69 @@ const (
 func (r UsageDiscountIntervalDiscountType) IsKnown() bool {
 	switch r {
 	case UsageDiscountIntervalDiscountTypeUsage:
+		return true
+	}
+	return false
+}
+
+type UsageDiscountIntervalFilter struct {
+	// The property of the price to filter on.
+	Field UsageDiscountIntervalFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator UsageDiscountIntervalFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                        `json:"values,required"`
+	JSON   usageDiscountIntervalFilterJSON `json:"-"`
+}
+
+// usageDiscountIntervalFilterJSON contains the JSON metadata for the struct
+// [UsageDiscountIntervalFilter]
+type usageDiscountIntervalFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *UsageDiscountIntervalFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r usageDiscountIntervalFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type UsageDiscountIntervalFiltersField string
+
+const (
+	UsageDiscountIntervalFiltersFieldPriceID       UsageDiscountIntervalFiltersField = "price_id"
+	UsageDiscountIntervalFiltersFieldItemID        UsageDiscountIntervalFiltersField = "item_id"
+	UsageDiscountIntervalFiltersFieldPriceType     UsageDiscountIntervalFiltersField = "price_type"
+	UsageDiscountIntervalFiltersFieldCurrency      UsageDiscountIntervalFiltersField = "currency"
+	UsageDiscountIntervalFiltersFieldPricingUnitID UsageDiscountIntervalFiltersField = "pricing_unit_id"
+)
+
+func (r UsageDiscountIntervalFiltersField) IsKnown() bool {
+	switch r {
+	case UsageDiscountIntervalFiltersFieldPriceID, UsageDiscountIntervalFiltersFieldItemID, UsageDiscountIntervalFiltersFieldPriceType, UsageDiscountIntervalFiltersFieldCurrency, UsageDiscountIntervalFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type UsageDiscountIntervalFiltersOperator string
+
+const (
+	UsageDiscountIntervalFiltersOperatorIncludes UsageDiscountIntervalFiltersOperator = "includes"
+	UsageDiscountIntervalFiltersOperatorExcludes UsageDiscountIntervalFiltersOperator = "excludes"
+)
+
+func (r UsageDiscountIntervalFiltersOperator) IsKnown() bool {
+	switch r {
+	case UsageDiscountIntervalFiltersOperatorIncludes, UsageDiscountIntervalFiltersOperatorExcludes:
 		return true
 	}
 	return false

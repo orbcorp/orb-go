@@ -76,7 +76,44 @@ type AmountDiscountDiscountType = shared.AmountDiscountDiscountType
 const AmountDiscountDiscountTypeAmount = shared.AmountDiscountDiscountTypeAmount
 
 // This is an alias to an internal type.
+type AmountDiscountFilter = shared.AmountDiscountFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type AmountDiscountFiltersField = shared.AmountDiscountFiltersField
+
+// This is an alias to an internal value.
+const AmountDiscountFiltersFieldPriceID = shared.AmountDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const AmountDiscountFiltersFieldItemID = shared.AmountDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const AmountDiscountFiltersFieldPriceType = shared.AmountDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const AmountDiscountFiltersFieldCurrency = shared.AmountDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const AmountDiscountFiltersFieldPricingUnitID = shared.AmountDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type AmountDiscountFiltersOperator = shared.AmountDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const AmountDiscountFiltersOperatorIncludes = shared.AmountDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const AmountDiscountFiltersOperatorExcludes = shared.AmountDiscountFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type AmountDiscountParam = shared.AmountDiscountParam
+
+// This is an alias to an internal type.
+type AmountDiscountFilterParam = shared.AmountDiscountFilterParam
 
 // This is an alias to an internal type.
 type AmountDiscountInterval = shared.AmountDiscountInterval
@@ -86,6 +123,40 @@ type AmountDiscountIntervalDiscountType = shared.AmountDiscountIntervalDiscountT
 
 // This is an alias to an internal value.
 const AmountDiscountIntervalDiscountTypeAmount = shared.AmountDiscountIntervalDiscountTypeAmount
+
+// This is an alias to an internal type.
+type AmountDiscountIntervalFilter = shared.AmountDiscountIntervalFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type AmountDiscountIntervalFiltersField = shared.AmountDiscountIntervalFiltersField
+
+// This is an alias to an internal value.
+const AmountDiscountIntervalFiltersFieldPriceID = shared.AmountDiscountIntervalFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const AmountDiscountIntervalFiltersFieldItemID = shared.AmountDiscountIntervalFiltersFieldItemID
+
+// This is an alias to an internal value.
+const AmountDiscountIntervalFiltersFieldPriceType = shared.AmountDiscountIntervalFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const AmountDiscountIntervalFiltersFieldCurrency = shared.AmountDiscountIntervalFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const AmountDiscountIntervalFiltersFieldPricingUnitID = shared.AmountDiscountIntervalFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type AmountDiscountIntervalFiltersOperator = shared.AmountDiscountIntervalFiltersOperator
+
+// This is an alias to an internal value.
+const AmountDiscountIntervalFiltersOperatorIncludes = shared.AmountDiscountIntervalFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const AmountDiscountIntervalFiltersOperatorExcludes = shared.AmountDiscountIntervalFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type BillableMetricTiny = shared.BillableMetricTiny
@@ -1602,13 +1673,149 @@ type MatrixWithAllocationConfigMatrixValueParam = shared.MatrixWithAllocationCon
 type Maximum = shared.Maximum
 
 // This is an alias to an internal type.
+type MaximumFilter = shared.MaximumFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MaximumFiltersField = shared.MaximumFiltersField
+
+// This is an alias to an internal value.
+const MaximumFiltersFieldPriceID = shared.MaximumFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MaximumFiltersFieldItemID = shared.MaximumFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MaximumFiltersFieldPriceType = shared.MaximumFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MaximumFiltersFieldCurrency = shared.MaximumFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MaximumFiltersFieldPricingUnitID = shared.MaximumFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MaximumFiltersOperator = shared.MaximumFiltersOperator
+
+// This is an alias to an internal value.
+const MaximumFiltersOperatorIncludes = shared.MaximumFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MaximumFiltersOperatorExcludes = shared.MaximumFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type MaximumInterval = shared.MaximumInterval
+
+// This is an alias to an internal type.
+type MaximumIntervalFilter = shared.MaximumIntervalFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MaximumIntervalFiltersField = shared.MaximumIntervalFiltersField
+
+// This is an alias to an internal value.
+const MaximumIntervalFiltersFieldPriceID = shared.MaximumIntervalFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MaximumIntervalFiltersFieldItemID = shared.MaximumIntervalFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MaximumIntervalFiltersFieldPriceType = shared.MaximumIntervalFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MaximumIntervalFiltersFieldCurrency = shared.MaximumIntervalFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MaximumIntervalFiltersFieldPricingUnitID = shared.MaximumIntervalFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MaximumIntervalFiltersOperator = shared.MaximumIntervalFiltersOperator
+
+// This is an alias to an internal value.
+const MaximumIntervalFiltersOperatorIncludes = shared.MaximumIntervalFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MaximumIntervalFiltersOperatorExcludes = shared.MaximumIntervalFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type Minimum = shared.Minimum
 
 // This is an alias to an internal type.
+type MinimumFilter = shared.MinimumFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MinimumFiltersField = shared.MinimumFiltersField
+
+// This is an alias to an internal value.
+const MinimumFiltersFieldPriceID = shared.MinimumFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MinimumFiltersFieldItemID = shared.MinimumFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MinimumFiltersFieldPriceType = shared.MinimumFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MinimumFiltersFieldCurrency = shared.MinimumFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MinimumFiltersFieldPricingUnitID = shared.MinimumFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MinimumFiltersOperator = shared.MinimumFiltersOperator
+
+// This is an alias to an internal value.
+const MinimumFiltersOperatorIncludes = shared.MinimumFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MinimumFiltersOperatorExcludes = shared.MinimumFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type MinimumInterval = shared.MinimumInterval
+
+// This is an alias to an internal type.
+type MinimumIntervalFilter = shared.MinimumIntervalFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MinimumIntervalFiltersField = shared.MinimumIntervalFiltersField
+
+// This is an alias to an internal value.
+const MinimumIntervalFiltersFieldPriceID = shared.MinimumIntervalFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MinimumIntervalFiltersFieldItemID = shared.MinimumIntervalFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MinimumIntervalFiltersFieldPriceType = shared.MinimumIntervalFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MinimumIntervalFiltersFieldCurrency = shared.MinimumIntervalFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MinimumIntervalFiltersFieldPricingUnitID = shared.MinimumIntervalFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MinimumIntervalFiltersOperator = shared.MinimumIntervalFiltersOperator
+
+// This is an alias to an internal value.
+const MinimumIntervalFiltersOperatorIncludes = shared.MinimumIntervalFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MinimumIntervalFiltersOperatorExcludes = shared.MinimumIntervalFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type MonetaryAmountDiscountAdjustment = shared.MonetaryAmountDiscountAdjustment
@@ -1620,6 +1827,40 @@ type MonetaryAmountDiscountAdjustmentAdjustmentType = shared.MonetaryAmountDisco
 const MonetaryAmountDiscountAdjustmentAdjustmentTypeAmountDiscount = shared.MonetaryAmountDiscountAdjustmentAdjustmentTypeAmountDiscount
 
 // This is an alias to an internal type.
+type MonetaryAmountDiscountAdjustmentFilter = shared.MonetaryAmountDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MonetaryAmountDiscountAdjustmentFiltersField = shared.MonetaryAmountDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const MonetaryAmountDiscountAdjustmentFiltersFieldPriceID = shared.MonetaryAmountDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MonetaryAmountDiscountAdjustmentFiltersFieldItemID = shared.MonetaryAmountDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MonetaryAmountDiscountAdjustmentFiltersFieldPriceType = shared.MonetaryAmountDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MonetaryAmountDiscountAdjustmentFiltersFieldCurrency = shared.MonetaryAmountDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID = shared.MonetaryAmountDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MonetaryAmountDiscountAdjustmentFiltersOperator = shared.MonetaryAmountDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const MonetaryAmountDiscountAdjustmentFiltersOperatorIncludes = shared.MonetaryAmountDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MonetaryAmountDiscountAdjustmentFiltersOperatorExcludes = shared.MonetaryAmountDiscountAdjustmentFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type MonetaryMaximumAdjustment = shared.MonetaryMaximumAdjustment
 
 // This is an alias to an internal type.
@@ -1627,6 +1868,40 @@ type MonetaryMaximumAdjustmentAdjustmentType = shared.MonetaryMaximumAdjustmentA
 
 // This is an alias to an internal value.
 const MonetaryMaximumAdjustmentAdjustmentTypeMaximum = shared.MonetaryMaximumAdjustmentAdjustmentTypeMaximum
+
+// This is an alias to an internal type.
+type MonetaryMaximumAdjustmentFilter = shared.MonetaryMaximumAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MonetaryMaximumAdjustmentFiltersField = shared.MonetaryMaximumAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const MonetaryMaximumAdjustmentFiltersFieldPriceID = shared.MonetaryMaximumAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MonetaryMaximumAdjustmentFiltersFieldItemID = shared.MonetaryMaximumAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MonetaryMaximumAdjustmentFiltersFieldPriceType = shared.MonetaryMaximumAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MonetaryMaximumAdjustmentFiltersFieldCurrency = shared.MonetaryMaximumAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MonetaryMaximumAdjustmentFiltersFieldPricingUnitID = shared.MonetaryMaximumAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MonetaryMaximumAdjustmentFiltersOperator = shared.MonetaryMaximumAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const MonetaryMaximumAdjustmentFiltersOperatorIncludes = shared.MonetaryMaximumAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MonetaryMaximumAdjustmentFiltersOperatorExcludes = shared.MonetaryMaximumAdjustmentFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type MonetaryMinimumAdjustment = shared.MonetaryMinimumAdjustment
@@ -1638,6 +1913,40 @@ type MonetaryMinimumAdjustmentAdjustmentType = shared.MonetaryMinimumAdjustmentA
 const MonetaryMinimumAdjustmentAdjustmentTypeMinimum = shared.MonetaryMinimumAdjustmentAdjustmentTypeMinimum
 
 // This is an alias to an internal type.
+type MonetaryMinimumAdjustmentFilter = shared.MonetaryMinimumAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MonetaryMinimumAdjustmentFiltersField = shared.MonetaryMinimumAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const MonetaryMinimumAdjustmentFiltersFieldPriceID = shared.MonetaryMinimumAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MonetaryMinimumAdjustmentFiltersFieldItemID = shared.MonetaryMinimumAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MonetaryMinimumAdjustmentFiltersFieldPriceType = shared.MonetaryMinimumAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MonetaryMinimumAdjustmentFiltersFieldCurrency = shared.MonetaryMinimumAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MonetaryMinimumAdjustmentFiltersFieldPricingUnitID = shared.MonetaryMinimumAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MonetaryMinimumAdjustmentFiltersOperator = shared.MonetaryMinimumAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const MonetaryMinimumAdjustmentFiltersOperatorIncludes = shared.MonetaryMinimumAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MonetaryMinimumAdjustmentFiltersOperatorExcludes = shared.MonetaryMinimumAdjustmentFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type MonetaryPercentageDiscountAdjustment = shared.MonetaryPercentageDiscountAdjustment
 
 // This is an alias to an internal type.
@@ -1647,6 +1956,40 @@ type MonetaryPercentageDiscountAdjustmentAdjustmentType = shared.MonetaryPercent
 const MonetaryPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount = shared.MonetaryPercentageDiscountAdjustmentAdjustmentTypePercentageDiscount
 
 // This is an alias to an internal type.
+type MonetaryPercentageDiscountAdjustmentFilter = shared.MonetaryPercentageDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MonetaryPercentageDiscountAdjustmentFiltersField = shared.MonetaryPercentageDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const MonetaryPercentageDiscountAdjustmentFiltersFieldPriceID = shared.MonetaryPercentageDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MonetaryPercentageDiscountAdjustmentFiltersFieldItemID = shared.MonetaryPercentageDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MonetaryPercentageDiscountAdjustmentFiltersFieldPriceType = shared.MonetaryPercentageDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MonetaryPercentageDiscountAdjustmentFiltersFieldCurrency = shared.MonetaryPercentageDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID = shared.MonetaryPercentageDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MonetaryPercentageDiscountAdjustmentFiltersOperator = shared.MonetaryPercentageDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const MonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes = shared.MonetaryPercentageDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes = shared.MonetaryPercentageDiscountAdjustmentFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type MonetaryUsageDiscountAdjustment = shared.MonetaryUsageDiscountAdjustment
 
 // This is an alias to an internal type.
@@ -1654,6 +1997,40 @@ type MonetaryUsageDiscountAdjustmentAdjustmentType = shared.MonetaryUsageDiscoun
 
 // This is an alias to an internal value.
 const MonetaryUsageDiscountAdjustmentAdjustmentTypeUsageDiscount = shared.MonetaryUsageDiscountAdjustmentAdjustmentTypeUsageDiscount
+
+// This is an alias to an internal type.
+type MonetaryUsageDiscountAdjustmentFilter = shared.MonetaryUsageDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type MonetaryUsageDiscountAdjustmentFiltersField = shared.MonetaryUsageDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const MonetaryUsageDiscountAdjustmentFiltersFieldPriceID = shared.MonetaryUsageDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const MonetaryUsageDiscountAdjustmentFiltersFieldItemID = shared.MonetaryUsageDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const MonetaryUsageDiscountAdjustmentFiltersFieldPriceType = shared.MonetaryUsageDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const MonetaryUsageDiscountAdjustmentFiltersFieldCurrency = shared.MonetaryUsageDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const MonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID = shared.MonetaryUsageDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type MonetaryUsageDiscountAdjustmentFiltersOperator = shared.MonetaryUsageDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const MonetaryUsageDiscountAdjustmentFiltersOperatorIncludes = shared.MonetaryUsageDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const MonetaryUsageDiscountAdjustmentFiltersOperatorExcludes = shared.MonetaryUsageDiscountAdjustmentFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type NewAllocationPriceParam = shared.NewAllocationPriceParam
@@ -1694,6 +2071,40 @@ type NewAmountDiscountAppliesToAll = shared.NewAmountDiscountAppliesToAll
 
 // This is an alias to an internal value.
 const NewAmountDiscountAppliesToAllTrue = shared.NewAmountDiscountAppliesToAllTrue
+
+// This is an alias to an internal type.
+type NewAmountDiscountFilterParam = shared.NewAmountDiscountFilterParam
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type NewAmountDiscountFiltersField = shared.NewAmountDiscountFiltersField
+
+// This is an alias to an internal value.
+const NewAmountDiscountFiltersFieldPriceID = shared.NewAmountDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const NewAmountDiscountFiltersFieldItemID = shared.NewAmountDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const NewAmountDiscountFiltersFieldPriceType = shared.NewAmountDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const NewAmountDiscountFiltersFieldCurrency = shared.NewAmountDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const NewAmountDiscountFiltersFieldPricingUnitID = shared.NewAmountDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type NewAmountDiscountFiltersOperator = shared.NewAmountDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const NewAmountDiscountFiltersOperatorIncludes = shared.NewAmountDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const NewAmountDiscountFiltersOperatorExcludes = shared.NewAmountDiscountFiltersOperatorExcludes
 
 // If set, only prices of the specified type will have the adjustment applied.
 //
@@ -3125,6 +3536,40 @@ type NewMaximumAppliesToAll = shared.NewMaximumAppliesToAll
 // This is an alias to an internal value.
 const NewMaximumAppliesToAllTrue = shared.NewMaximumAppliesToAllTrue
 
+// This is an alias to an internal type.
+type NewMaximumFilterParam = shared.NewMaximumFilterParam
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type NewMaximumFiltersField = shared.NewMaximumFiltersField
+
+// This is an alias to an internal value.
+const NewMaximumFiltersFieldPriceID = shared.NewMaximumFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const NewMaximumFiltersFieldItemID = shared.NewMaximumFiltersFieldItemID
+
+// This is an alias to an internal value.
+const NewMaximumFiltersFieldPriceType = shared.NewMaximumFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const NewMaximumFiltersFieldCurrency = shared.NewMaximumFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const NewMaximumFiltersFieldPricingUnitID = shared.NewMaximumFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type NewMaximumFiltersOperator = shared.NewMaximumFiltersOperator
+
+// This is an alias to an internal value.
+const NewMaximumFiltersOperatorIncludes = shared.NewMaximumFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const NewMaximumFiltersOperatorExcludes = shared.NewMaximumFiltersOperatorExcludes
+
 // If set, only prices of the specified type will have the adjustment applied.
 //
 // This is an alias to an internal type.
@@ -3162,6 +3607,40 @@ type NewMinimumAppliesToAll = shared.NewMinimumAppliesToAll
 // This is an alias to an internal value.
 const NewMinimumAppliesToAllTrue = shared.NewMinimumAppliesToAllTrue
 
+// This is an alias to an internal type.
+type NewMinimumFilterParam = shared.NewMinimumFilterParam
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type NewMinimumFiltersField = shared.NewMinimumFiltersField
+
+// This is an alias to an internal value.
+const NewMinimumFiltersFieldPriceID = shared.NewMinimumFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const NewMinimumFiltersFieldItemID = shared.NewMinimumFiltersFieldItemID
+
+// This is an alias to an internal value.
+const NewMinimumFiltersFieldPriceType = shared.NewMinimumFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const NewMinimumFiltersFieldCurrency = shared.NewMinimumFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const NewMinimumFiltersFieldPricingUnitID = shared.NewMinimumFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type NewMinimumFiltersOperator = shared.NewMinimumFiltersOperator
+
+// This is an alias to an internal value.
+const NewMinimumFiltersOperatorIncludes = shared.NewMinimumFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const NewMinimumFiltersOperatorExcludes = shared.NewMinimumFiltersOperatorExcludes
+
 // If set, only prices of the specified type will have the adjustment applied.
 //
 // This is an alias to an internal type.
@@ -3198,6 +3677,40 @@ type NewPercentageDiscountAppliesToAll = shared.NewPercentageDiscountAppliesToAl
 
 // This is an alias to an internal value.
 const NewPercentageDiscountAppliesToAllTrue = shared.NewPercentageDiscountAppliesToAllTrue
+
+// This is an alias to an internal type.
+type NewPercentageDiscountFilterParam = shared.NewPercentageDiscountFilterParam
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type NewPercentageDiscountFiltersField = shared.NewPercentageDiscountFiltersField
+
+// This is an alias to an internal value.
+const NewPercentageDiscountFiltersFieldPriceID = shared.NewPercentageDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const NewPercentageDiscountFiltersFieldItemID = shared.NewPercentageDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const NewPercentageDiscountFiltersFieldPriceType = shared.NewPercentageDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const NewPercentageDiscountFiltersFieldCurrency = shared.NewPercentageDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const NewPercentageDiscountFiltersFieldPricingUnitID = shared.NewPercentageDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type NewPercentageDiscountFiltersOperator = shared.NewPercentageDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const NewPercentageDiscountFiltersOperatorIncludes = shared.NewPercentageDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const NewPercentageDiscountFiltersOperatorExcludes = shared.NewPercentageDiscountFiltersOperatorExcludes
 
 // If set, only prices of the specified type will have the adjustment applied.
 //
@@ -4556,6 +5069,40 @@ type NewUsageDiscountAppliesToAll = shared.NewUsageDiscountAppliesToAll
 // This is an alias to an internal value.
 const NewUsageDiscountAppliesToAllTrue = shared.NewUsageDiscountAppliesToAllTrue
 
+// This is an alias to an internal type.
+type NewUsageDiscountFilterParam = shared.NewUsageDiscountFilterParam
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type NewUsageDiscountFiltersField = shared.NewUsageDiscountFiltersField
+
+// This is an alias to an internal value.
+const NewUsageDiscountFiltersFieldPriceID = shared.NewUsageDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const NewUsageDiscountFiltersFieldItemID = shared.NewUsageDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const NewUsageDiscountFiltersFieldPriceType = shared.NewUsageDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const NewUsageDiscountFiltersFieldCurrency = shared.NewUsageDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const NewUsageDiscountFiltersFieldPricingUnitID = shared.NewUsageDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type NewUsageDiscountFiltersOperator = shared.NewUsageDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const NewUsageDiscountFiltersOperatorIncludes = shared.NewUsageDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const NewUsageDiscountFiltersOperatorExcludes = shared.NewUsageDiscountFiltersOperatorExcludes
+
 // If set, only prices of the specified type will have the adjustment applied.
 //
 // This is an alias to an internal type.
@@ -4611,7 +5158,44 @@ type PercentageDiscountDiscountType = shared.PercentageDiscountDiscountType
 const PercentageDiscountDiscountTypePercentage = shared.PercentageDiscountDiscountTypePercentage
 
 // This is an alias to an internal type.
+type PercentageDiscountFilter = shared.PercentageDiscountFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PercentageDiscountFiltersField = shared.PercentageDiscountFiltersField
+
+// This is an alias to an internal value.
+const PercentageDiscountFiltersFieldPriceID = shared.PercentageDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PercentageDiscountFiltersFieldItemID = shared.PercentageDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PercentageDiscountFiltersFieldPriceType = shared.PercentageDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PercentageDiscountFiltersFieldCurrency = shared.PercentageDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PercentageDiscountFiltersFieldPricingUnitID = shared.PercentageDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PercentageDiscountFiltersOperator = shared.PercentageDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const PercentageDiscountFiltersOperatorIncludes = shared.PercentageDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PercentageDiscountFiltersOperatorExcludes = shared.PercentageDiscountFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PercentageDiscountParam = shared.PercentageDiscountParam
+
+// This is an alias to an internal type.
+type PercentageDiscountFilterParam = shared.PercentageDiscountFilterParam
 
 // This is an alias to an internal type.
 type PercentageDiscountInterval = shared.PercentageDiscountInterval
@@ -4623,6 +5207,40 @@ type PercentageDiscountIntervalDiscountType = shared.PercentageDiscountIntervalD
 const PercentageDiscountIntervalDiscountTypePercentage = shared.PercentageDiscountIntervalDiscountTypePercentage
 
 // This is an alias to an internal type.
+type PercentageDiscountIntervalFilter = shared.PercentageDiscountIntervalFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PercentageDiscountIntervalFiltersField = shared.PercentageDiscountIntervalFiltersField
+
+// This is an alias to an internal value.
+const PercentageDiscountIntervalFiltersFieldPriceID = shared.PercentageDiscountIntervalFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PercentageDiscountIntervalFiltersFieldItemID = shared.PercentageDiscountIntervalFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PercentageDiscountIntervalFiltersFieldPriceType = shared.PercentageDiscountIntervalFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PercentageDiscountIntervalFiltersFieldCurrency = shared.PercentageDiscountIntervalFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PercentageDiscountIntervalFiltersFieldPricingUnitID = shared.PercentageDiscountIntervalFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PercentageDiscountIntervalFiltersOperator = shared.PercentageDiscountIntervalFiltersOperator
+
+// This is an alias to an internal value.
+const PercentageDiscountIntervalFiltersOperatorIncludes = shared.PercentageDiscountIntervalFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PercentageDiscountIntervalFiltersOperatorExcludes = shared.PercentageDiscountIntervalFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PlanPhaseAmountDiscountAdjustment = shared.PlanPhaseAmountDiscountAdjustment
 
 // This is an alias to an internal type.
@@ -4630,6 +5248,40 @@ type PlanPhaseAmountDiscountAdjustmentAdjustmentType = shared.PlanPhaseAmountDis
 
 // This is an alias to an internal value.
 const PlanPhaseAmountDiscountAdjustmentAdjustmentTypeAmountDiscount = shared.PlanPhaseAmountDiscountAdjustmentAdjustmentTypeAmountDiscount
+
+// This is an alias to an internal type.
+type PlanPhaseAmountDiscountAdjustmentFilter = shared.PlanPhaseAmountDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PlanPhaseAmountDiscountAdjustmentFiltersField = shared.PlanPhaseAmountDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID = shared.PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PlanPhaseAmountDiscountAdjustmentFiltersFieldItemID = shared.PlanPhaseAmountDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType = shared.PlanPhaseAmountDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency = shared.PlanPhaseAmountDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID = shared.PlanPhaseAmountDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PlanPhaseAmountDiscountAdjustmentFiltersOperator = shared.PlanPhaseAmountDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const PlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes = shared.PlanPhaseAmountDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes = shared.PlanPhaseAmountDiscountAdjustmentFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PlanPhaseMaximumAdjustment = shared.PlanPhaseMaximumAdjustment
@@ -4641,6 +5293,40 @@ type PlanPhaseMaximumAdjustmentAdjustmentType = shared.PlanPhaseMaximumAdjustmen
 const PlanPhaseMaximumAdjustmentAdjustmentTypeMaximum = shared.PlanPhaseMaximumAdjustmentAdjustmentTypeMaximum
 
 // This is an alias to an internal type.
+type PlanPhaseMaximumAdjustmentFilter = shared.PlanPhaseMaximumAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PlanPhaseMaximumAdjustmentFiltersField = shared.PlanPhaseMaximumAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const PlanPhaseMaximumAdjustmentFiltersFieldPriceID = shared.PlanPhaseMaximumAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PlanPhaseMaximumAdjustmentFiltersFieldItemID = shared.PlanPhaseMaximumAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PlanPhaseMaximumAdjustmentFiltersFieldPriceType = shared.PlanPhaseMaximumAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PlanPhaseMaximumAdjustmentFiltersFieldCurrency = shared.PlanPhaseMaximumAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID = shared.PlanPhaseMaximumAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PlanPhaseMaximumAdjustmentFiltersOperator = shared.PlanPhaseMaximumAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const PlanPhaseMaximumAdjustmentFiltersOperatorIncludes = shared.PlanPhaseMaximumAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PlanPhaseMaximumAdjustmentFiltersOperatorExcludes = shared.PlanPhaseMaximumAdjustmentFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PlanPhaseMinimumAdjustment = shared.PlanPhaseMinimumAdjustment
 
 // This is an alias to an internal type.
@@ -4648,6 +5334,40 @@ type PlanPhaseMinimumAdjustmentAdjustmentType = shared.PlanPhaseMinimumAdjustmen
 
 // This is an alias to an internal value.
 const PlanPhaseMinimumAdjustmentAdjustmentTypeMinimum = shared.PlanPhaseMinimumAdjustmentAdjustmentTypeMinimum
+
+// This is an alias to an internal type.
+type PlanPhaseMinimumAdjustmentFilter = shared.PlanPhaseMinimumAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PlanPhaseMinimumAdjustmentFiltersField = shared.PlanPhaseMinimumAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const PlanPhaseMinimumAdjustmentFiltersFieldPriceID = shared.PlanPhaseMinimumAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PlanPhaseMinimumAdjustmentFiltersFieldItemID = shared.PlanPhaseMinimumAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PlanPhaseMinimumAdjustmentFiltersFieldPriceType = shared.PlanPhaseMinimumAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PlanPhaseMinimumAdjustmentFiltersFieldCurrency = shared.PlanPhaseMinimumAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID = shared.PlanPhaseMinimumAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PlanPhaseMinimumAdjustmentFiltersOperator = shared.PlanPhaseMinimumAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const PlanPhaseMinimumAdjustmentFiltersOperatorIncludes = shared.PlanPhaseMinimumAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PlanPhaseMinimumAdjustmentFiltersOperatorExcludes = shared.PlanPhaseMinimumAdjustmentFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PlanPhasePercentageDiscountAdjustment = shared.PlanPhasePercentageDiscountAdjustment
@@ -4659,6 +5379,40 @@ type PlanPhasePercentageDiscountAdjustmentAdjustmentType = shared.PlanPhasePerce
 const PlanPhasePercentageDiscountAdjustmentAdjustmentTypePercentageDiscount = shared.PlanPhasePercentageDiscountAdjustmentAdjustmentTypePercentageDiscount
 
 // This is an alias to an internal type.
+type PlanPhasePercentageDiscountAdjustmentFilter = shared.PlanPhasePercentageDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PlanPhasePercentageDiscountAdjustmentFiltersField = shared.PlanPhasePercentageDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID = shared.PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PlanPhasePercentageDiscountAdjustmentFiltersFieldItemID = shared.PlanPhasePercentageDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType = shared.PlanPhasePercentageDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency = shared.PlanPhasePercentageDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID = shared.PlanPhasePercentageDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PlanPhasePercentageDiscountAdjustmentFiltersOperator = shared.PlanPhasePercentageDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const PlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes = shared.PlanPhasePercentageDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes = shared.PlanPhasePercentageDiscountAdjustmentFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PlanPhaseUsageDiscountAdjustment = shared.PlanPhaseUsageDiscountAdjustment
 
 // This is an alias to an internal type.
@@ -4666,6 +5420,40 @@ type PlanPhaseUsageDiscountAdjustmentAdjustmentType = shared.PlanPhaseUsageDisco
 
 // This is an alias to an internal value.
 const PlanPhaseUsageDiscountAdjustmentAdjustmentTypeUsageDiscount = shared.PlanPhaseUsageDiscountAdjustmentAdjustmentTypeUsageDiscount
+
+// This is an alias to an internal type.
+type PlanPhaseUsageDiscountAdjustmentFilter = shared.PlanPhaseUsageDiscountAdjustmentFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PlanPhaseUsageDiscountAdjustmentFiltersField = shared.PlanPhaseUsageDiscountAdjustmentFiltersField
+
+// This is an alias to an internal value.
+const PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID = shared.PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PlanPhaseUsageDiscountAdjustmentFiltersFieldItemID = shared.PlanPhaseUsageDiscountAdjustmentFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType = shared.PlanPhaseUsageDiscountAdjustmentFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency = shared.PlanPhaseUsageDiscountAdjustmentFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID = shared.PlanPhaseUsageDiscountAdjustmentFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PlanPhaseUsageDiscountAdjustmentFiltersOperator = shared.PlanPhaseUsageDiscountAdjustmentFiltersOperator
+
+// This is an alias to an internal value.
+const PlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes = shared.PlanPhaseUsageDiscountAdjustmentFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes = shared.PlanPhaseUsageDiscountAdjustmentFiltersOperatorExcludes
 
 // The Price resource represents a price that can be billed on a subscription,
 // resulting in a charge on an invoice in the form of an invoice line item. Prices
@@ -4713,6 +5501,40 @@ const PriceUnitPriceCadenceAnnual = shared.PriceUnitPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const PriceUnitPriceCadenceCustom = shared.PriceUnitPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceUnitPriceCompositePriceFilter = shared.PriceUnitPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceUnitPriceCompositePriceFiltersField = shared.PriceUnitPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceUnitPriceCompositePriceFiltersFieldPriceID = shared.PriceUnitPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceUnitPriceCompositePriceFiltersFieldItemID = shared.PriceUnitPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceUnitPriceCompositePriceFiltersFieldPriceType = shared.PriceUnitPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceUnitPriceCompositePriceFiltersFieldCurrency = shared.PriceUnitPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceUnitPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceUnitPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceUnitPriceCompositePriceFiltersOperator = shared.PriceUnitPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceUnitPriceCompositePriceFiltersOperatorIncludes = shared.PriceUnitPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceUnitPriceCompositePriceFiltersOperatorExcludes = shared.PriceUnitPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceUnitPriceConversionRateConfig = shared.PriceUnitPriceConversionRateConfig
@@ -4780,6 +5602,40 @@ const PriceTieredPriceCadenceAnnual = shared.PriceTieredPriceCadenceAnnual
 const PriceTieredPriceCadenceCustom = shared.PriceTieredPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceTieredPriceCompositePriceFilter = shared.PriceTieredPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceTieredPriceCompositePriceFiltersField = shared.PriceTieredPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceTieredPriceCompositePriceFiltersFieldPriceID = shared.PriceTieredPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceTieredPriceCompositePriceFiltersFieldItemID = shared.PriceTieredPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceTieredPriceCompositePriceFiltersFieldPriceType = shared.PriceTieredPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceTieredPriceCompositePriceFiltersFieldCurrency = shared.PriceTieredPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceTieredPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceTieredPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceTieredPriceCompositePriceFiltersOperator = shared.PriceTieredPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceTieredPriceCompositePriceFiltersOperatorIncludes = shared.PriceTieredPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceTieredPriceCompositePriceFiltersOperatorExcludes = shared.PriceTieredPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceTieredPriceConversionRateConfig = shared.PriceTieredPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -4843,6 +5699,40 @@ const PriceBulkPriceCadenceAnnual = shared.PriceBulkPriceCadenceAnnual
 
 // This is an alias to an internal value.
 const PriceBulkPriceCadenceCustom = shared.PriceBulkPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceBulkPriceCompositePriceFilter = shared.PriceBulkPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceBulkPriceCompositePriceFiltersField = shared.PriceBulkPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceBulkPriceCompositePriceFiltersFieldPriceID = shared.PriceBulkPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceBulkPriceCompositePriceFiltersFieldItemID = shared.PriceBulkPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceBulkPriceCompositePriceFiltersFieldPriceType = shared.PriceBulkPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceBulkPriceCompositePriceFiltersFieldCurrency = shared.PriceBulkPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceBulkPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceBulkPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceBulkPriceCompositePriceFiltersOperator = shared.PriceBulkPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceBulkPriceCompositePriceFiltersOperatorIncludes = shared.PriceBulkPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceBulkPriceCompositePriceFiltersOperatorExcludes = shared.PriceBulkPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceBulkPriceConversionRateConfig = shared.PriceBulkPriceConversionRateConfig
@@ -4925,6 +5815,40 @@ const PriceBulkWithFiltersPriceCadenceAnnual = shared.PriceBulkWithFiltersPriceC
 const PriceBulkWithFiltersPriceCadenceCustom = shared.PriceBulkWithFiltersPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceBulkWithFiltersPriceCompositePriceFilter = shared.PriceBulkWithFiltersPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceCompositePriceFiltersField = shared.PriceBulkWithFiltersPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceID = shared.PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCompositePriceFiltersFieldItemID = shared.PriceBulkWithFiltersPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceType = shared.PriceBulkWithFiltersPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCompositePriceFiltersFieldCurrency = shared.PriceBulkWithFiltersPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceBulkWithFiltersPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceBulkWithFiltersPriceCompositePriceFiltersOperator = shared.PriceBulkWithFiltersPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCompositePriceFiltersOperatorIncludes = shared.PriceBulkWithFiltersPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceBulkWithFiltersPriceCompositePriceFiltersOperatorExcludes = shared.PriceBulkWithFiltersPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceBulkWithFiltersPriceConversionRateConfig = shared.PriceBulkWithFiltersPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -4988,6 +5912,40 @@ const PricePackagePriceCadenceAnnual = shared.PricePackagePriceCadenceAnnual
 
 // This is an alias to an internal value.
 const PricePackagePriceCadenceCustom = shared.PricePackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PricePackagePriceCompositePriceFilter = shared.PricePackagePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PricePackagePriceCompositePriceFiltersField = shared.PricePackagePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PricePackagePriceCompositePriceFiltersFieldPriceID = shared.PricePackagePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PricePackagePriceCompositePriceFiltersFieldItemID = shared.PricePackagePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PricePackagePriceCompositePriceFiltersFieldPriceType = shared.PricePackagePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PricePackagePriceCompositePriceFiltersFieldCurrency = shared.PricePackagePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PricePackagePriceCompositePriceFiltersFieldPricingUnitID = shared.PricePackagePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PricePackagePriceCompositePriceFiltersOperator = shared.PricePackagePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PricePackagePriceCompositePriceFiltersOperatorIncludes = shared.PricePackagePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PricePackagePriceCompositePriceFiltersOperatorExcludes = shared.PricePackagePriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PricePackagePriceConversionRateConfig = shared.PricePackagePriceConversionRateConfig
@@ -5055,6 +6013,40 @@ const PriceMatrixPriceCadenceAnnual = shared.PriceMatrixPriceCadenceAnnual
 const PriceMatrixPriceCadenceCustom = shared.PriceMatrixPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceMatrixPriceCompositePriceFilter = shared.PriceMatrixPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceMatrixPriceCompositePriceFiltersField = shared.PriceMatrixPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCompositePriceFiltersFieldPriceID = shared.PriceMatrixPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCompositePriceFiltersFieldItemID = shared.PriceMatrixPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCompositePriceFiltersFieldPriceType = shared.PriceMatrixPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCompositePriceFiltersFieldCurrency = shared.PriceMatrixPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMatrixPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceMatrixPriceCompositePriceFiltersOperator = shared.PriceMatrixPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCompositePriceFiltersOperatorIncludes = shared.PriceMatrixPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceMatrixPriceCompositePriceFiltersOperatorExcludes = shared.PriceMatrixPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceMatrixPriceConversionRateConfig = shared.PriceMatrixPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -5118,6 +6110,40 @@ const PriceThresholdTotalAmountPriceCadenceAnnual = shared.PriceThresholdTotalAm
 
 // This is an alias to an internal value.
 const PriceThresholdTotalAmountPriceCadenceCustom = shared.PriceThresholdTotalAmountPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceThresholdTotalAmountPriceCompositePriceFilter = shared.PriceThresholdTotalAmountPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceThresholdTotalAmountPriceCompositePriceFiltersField = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceID = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceCompositePriceFiltersFieldItemID = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceType = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceCompositePriceFiltersFieldCurrency = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceThresholdTotalAmountPriceCompositePriceFiltersOperator = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorIncludes = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorExcludes = shared.PriceThresholdTotalAmountPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceThresholdTotalAmountPriceConversionRateConfig = shared.PriceThresholdTotalAmountPriceConversionRateConfig
@@ -5195,6 +6221,40 @@ const PriceTieredPackagePriceCadenceAnnual = shared.PriceTieredPackagePriceCaden
 const PriceTieredPackagePriceCadenceCustom = shared.PriceTieredPackagePriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceTieredPackagePriceCompositePriceFilter = shared.PriceTieredPackagePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceTieredPackagePriceCompositePriceFiltersField = shared.PriceTieredPackagePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceCompositePriceFiltersFieldPriceID = shared.PriceTieredPackagePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceCompositePriceFiltersFieldItemID = shared.PriceTieredPackagePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceCompositePriceFiltersFieldPriceType = shared.PriceTieredPackagePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceCompositePriceFiltersFieldCurrency = shared.PriceTieredPackagePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceCompositePriceFiltersFieldPricingUnitID = shared.PriceTieredPackagePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceTieredPackagePriceCompositePriceFiltersOperator = shared.PriceTieredPackagePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceCompositePriceFiltersOperatorIncludes = shared.PriceTieredPackagePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceTieredPackagePriceCompositePriceFiltersOperatorExcludes = shared.PriceTieredPackagePriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceTieredPackagePriceConversionRateConfig = shared.PriceTieredPackagePriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -5268,6 +6328,40 @@ const PriceTieredWithMinimumPriceCadenceAnnual = shared.PriceTieredWithMinimumPr
 
 // This is an alias to an internal value.
 const PriceTieredWithMinimumPriceCadenceCustom = shared.PriceTieredWithMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceTieredWithMinimumPriceCompositePriceFilter = shared.PriceTieredWithMinimumPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceTieredWithMinimumPriceCompositePriceFiltersField = shared.PriceTieredWithMinimumPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceID = shared.PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceCompositePriceFiltersFieldItemID = shared.PriceTieredWithMinimumPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceType = shared.PriceTieredWithMinimumPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceCompositePriceFiltersFieldCurrency = shared.PriceTieredWithMinimumPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceTieredWithMinimumPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceTieredWithMinimumPriceCompositePriceFiltersOperator = shared.PriceTieredWithMinimumPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceCompositePriceFiltersOperatorIncludes = shared.PriceTieredWithMinimumPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceTieredWithMinimumPriceCompositePriceFiltersOperatorExcludes = shared.PriceTieredWithMinimumPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceTieredWithMinimumPriceConversionRateConfig = shared.PriceTieredWithMinimumPriceConversionRateConfig
@@ -5345,6 +6439,40 @@ const PriceGroupedTieredPriceCadenceAnnual = shared.PriceGroupedTieredPriceCaden
 const PriceGroupedTieredPriceCadenceCustom = shared.PriceGroupedTieredPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceGroupedTieredPriceCompositePriceFilter = shared.PriceGroupedTieredPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceCompositePriceFiltersField = shared.PriceGroupedTieredPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCompositePriceFiltersFieldPriceID = shared.PriceGroupedTieredPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCompositePriceFiltersFieldItemID = shared.PriceGroupedTieredPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCompositePriceFiltersFieldPriceType = shared.PriceGroupedTieredPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCompositePriceFiltersFieldCurrency = shared.PriceGroupedTieredPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceGroupedTieredPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPriceCompositePriceFiltersOperator = shared.PriceGroupedTieredPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCompositePriceFiltersOperatorIncludes = shared.PriceGroupedTieredPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPriceCompositePriceFiltersOperatorExcludes = shared.PriceGroupedTieredPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceGroupedTieredPriceConversionRateConfig = shared.PriceGroupedTieredPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -5418,6 +6546,40 @@ const PriceTieredPackageWithMinimumPriceCadenceAnnual = shared.PriceTieredPackag
 
 // This is an alias to an internal value.
 const PriceTieredPackageWithMinimumPriceCadenceCustom = shared.PriceTieredPackageWithMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceTieredPackageWithMinimumPriceCompositePriceFilter = shared.PriceTieredPackageWithMinimumPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceTieredPackageWithMinimumPriceCompositePriceFiltersField = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceID = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldItemID = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceType = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldCurrency = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorIncludes = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorExcludes = shared.PriceTieredPackageWithMinimumPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceTieredPackageWithMinimumPriceConversionRateConfig = shared.PriceTieredPackageWithMinimumPriceConversionRateConfig
@@ -5495,6 +6657,40 @@ const PricePackageWithAllocationPriceCadenceAnnual = shared.PricePackageWithAllo
 const PricePackageWithAllocationPriceCadenceCustom = shared.PricePackageWithAllocationPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PricePackageWithAllocationPriceCompositePriceFilter = shared.PricePackageWithAllocationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PricePackageWithAllocationPriceCompositePriceFiltersField = shared.PricePackageWithAllocationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceID = shared.PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceCompositePriceFiltersFieldItemID = shared.PricePackageWithAllocationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceType = shared.PricePackageWithAllocationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceCompositePriceFiltersFieldCurrency = shared.PricePackageWithAllocationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceCompositePriceFiltersFieldPricingUnitID = shared.PricePackageWithAllocationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PricePackageWithAllocationPriceCompositePriceFiltersOperator = shared.PricePackageWithAllocationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceCompositePriceFiltersOperatorIncludes = shared.PricePackageWithAllocationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PricePackageWithAllocationPriceCompositePriceFiltersOperatorExcludes = shared.PricePackageWithAllocationPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PricePackageWithAllocationPriceConversionRateConfig = shared.PricePackageWithAllocationPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -5563,6 +6759,40 @@ const PriceUnitWithPercentPriceCadenceAnnual = shared.PriceUnitWithPercentPriceC
 
 // This is an alias to an internal value.
 const PriceUnitWithPercentPriceCadenceCustom = shared.PriceUnitWithPercentPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceUnitWithPercentPriceCompositePriceFilter = shared.PriceUnitWithPercentPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceUnitWithPercentPriceCompositePriceFiltersField = shared.PriceUnitWithPercentPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceID = shared.PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceCompositePriceFiltersFieldItemID = shared.PriceUnitWithPercentPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceType = shared.PriceUnitWithPercentPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceCompositePriceFiltersFieldCurrency = shared.PriceUnitWithPercentPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceUnitWithPercentPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceUnitWithPercentPriceCompositePriceFiltersOperator = shared.PriceUnitWithPercentPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceCompositePriceFiltersOperatorIncludes = shared.PriceUnitWithPercentPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceUnitWithPercentPriceCompositePriceFiltersOperatorExcludes = shared.PriceUnitWithPercentPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceUnitWithPercentPriceConversionRateConfig = shared.PriceUnitWithPercentPriceConversionRateConfig
@@ -5635,6 +6865,40 @@ const PriceMatrixWithAllocationPriceCadenceAnnual = shared.PriceMatrixWithAlloca
 const PriceMatrixWithAllocationPriceCadenceCustom = shared.PriceMatrixWithAllocationPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceMatrixWithAllocationPriceCompositePriceFilter = shared.PriceMatrixWithAllocationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithAllocationPriceCompositePriceFiltersField = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceID = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceCompositePriceFiltersFieldItemID = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceType = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceCompositePriceFiltersFieldCurrency = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithAllocationPriceCompositePriceFiltersOperator = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorIncludes = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorExcludes = shared.PriceMatrixWithAllocationPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceMatrixWithAllocationPriceConversionRateConfig = shared.PriceMatrixWithAllocationPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -5698,6 +6962,40 @@ const PriceTieredWithProrationPriceCadenceAnnual = shared.PriceTieredWithProrati
 
 // This is an alias to an internal value.
 const PriceTieredWithProrationPriceCadenceCustom = shared.PriceTieredWithProrationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceTieredWithProrationPriceCompositePriceFilter = shared.PriceTieredWithProrationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceTieredWithProrationPriceCompositePriceFiltersField = shared.PriceTieredWithProrationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceID = shared.PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceCompositePriceFiltersFieldItemID = shared.PriceTieredWithProrationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceType = shared.PriceTieredWithProrationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceCompositePriceFiltersFieldCurrency = shared.PriceTieredWithProrationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceTieredWithProrationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceTieredWithProrationPriceCompositePriceFiltersOperator = shared.PriceTieredWithProrationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceCompositePriceFiltersOperatorIncludes = shared.PriceTieredWithProrationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceTieredWithProrationPriceCompositePriceFiltersOperatorExcludes = shared.PriceTieredWithProrationPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceTieredWithProrationPriceConversionRateConfig = shared.PriceTieredWithProrationPriceConversionRateConfig
@@ -5775,6 +7073,40 @@ const PriceUnitWithProrationPriceCadenceAnnual = shared.PriceUnitWithProrationPr
 const PriceUnitWithProrationPriceCadenceCustom = shared.PriceUnitWithProrationPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceUnitWithProrationPriceCompositePriceFilter = shared.PriceUnitWithProrationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceUnitWithProrationPriceCompositePriceFiltersField = shared.PriceUnitWithProrationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceID = shared.PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceCompositePriceFiltersFieldItemID = shared.PriceUnitWithProrationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceType = shared.PriceUnitWithProrationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceCompositePriceFiltersFieldCurrency = shared.PriceUnitWithProrationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceUnitWithProrationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceUnitWithProrationPriceCompositePriceFiltersOperator = shared.PriceUnitWithProrationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceCompositePriceFiltersOperatorIncludes = shared.PriceUnitWithProrationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceUnitWithProrationPriceCompositePriceFiltersOperatorExcludes = shared.PriceUnitWithProrationPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceUnitWithProrationPriceConversionRateConfig = shared.PriceUnitWithProrationPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -5843,6 +7175,40 @@ const PriceGroupedAllocationPriceCadenceAnnual = shared.PriceGroupedAllocationPr
 
 // This is an alias to an internal value.
 const PriceGroupedAllocationPriceCadenceCustom = shared.PriceGroupedAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceGroupedAllocationPriceCompositePriceFilter = shared.PriceGroupedAllocationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceGroupedAllocationPriceCompositePriceFiltersField = shared.PriceGroupedAllocationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceID = shared.PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceCompositePriceFiltersFieldItemID = shared.PriceGroupedAllocationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceType = shared.PriceGroupedAllocationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceCompositePriceFiltersFieldCurrency = shared.PriceGroupedAllocationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceGroupedAllocationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceGroupedAllocationPriceCompositePriceFiltersOperator = shared.PriceGroupedAllocationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceCompositePriceFiltersOperatorIncludes = shared.PriceGroupedAllocationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceGroupedAllocationPriceCompositePriceFiltersOperatorExcludes = shared.PriceGroupedAllocationPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceGroupedAllocationPriceConversionRateConfig = shared.PriceGroupedAllocationPriceConversionRateConfig
@@ -5925,6 +7291,40 @@ const PriceBulkWithProrationPriceCadenceAnnual = shared.PriceBulkWithProrationPr
 const PriceBulkWithProrationPriceCadenceCustom = shared.PriceBulkWithProrationPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceBulkWithProrationPriceCompositePriceFilter = shared.PriceBulkWithProrationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceCompositePriceFiltersField = shared.PriceBulkWithProrationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceID = shared.PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCompositePriceFiltersFieldItemID = shared.PriceBulkWithProrationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceType = shared.PriceBulkWithProrationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCompositePriceFiltersFieldCurrency = shared.PriceBulkWithProrationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceBulkWithProrationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceBulkWithProrationPriceCompositePriceFiltersOperator = shared.PriceBulkWithProrationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCompositePriceFiltersOperatorIncludes = shared.PriceBulkWithProrationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceBulkWithProrationPriceCompositePriceFiltersOperatorExcludes = shared.PriceBulkWithProrationPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceBulkWithProrationPriceConversionRateConfig = shared.PriceBulkWithProrationPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -5988,6 +7388,40 @@ const PriceGroupedWithProratedMinimumPriceCadenceAnnual = shared.PriceGroupedWit
 
 // This is an alias to an internal value.
 const PriceGroupedWithProratedMinimumPriceCadenceCustom = shared.PriceGroupedWithProratedMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceGroupedWithProratedMinimumPriceCompositePriceFilter = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceID = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldItemID = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceType = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldCurrency = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorIncludes = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorExcludes = shared.PriceGroupedWithProratedMinimumPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceGroupedWithProratedMinimumPriceConversionRateConfig = shared.PriceGroupedWithProratedMinimumPriceConversionRateConfig
@@ -6058,6 +7492,40 @@ const PriceGroupedWithMeteredMinimumPriceCadenceAnnual = shared.PriceGroupedWith
 
 // This is an alias to an internal value.
 const PriceGroupedWithMeteredMinimumPriceCadenceCustom = shared.PriceGroupedWithMeteredMinimumPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceCompositePriceFilter = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceID = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldItemID = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceType = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldCurrency = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorIncludes = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorExcludes = shared.PriceGroupedWithMeteredMinimumPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceGroupedWithMeteredMinimumPriceConversionRateConfig = shared.PriceGroupedWithMeteredMinimumPriceConversionRateConfig
@@ -6140,6 +7608,40 @@ const PriceGroupedWithMinMaxThresholdsPriceCadenceAnnual = shared.PriceGroupedWi
 const PriceGroupedWithMinMaxThresholdsPriceCadenceCustom = shared.PriceGroupedWithMinMaxThresholdsPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceID = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldItemID = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceType = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldCurrency = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorIncludes = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorExcludes = shared.PriceGroupedWithMinMaxThresholdsPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig = shared.PriceGroupedWithMinMaxThresholdsPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -6208,6 +7710,40 @@ const PriceMatrixWithDisplayNamePriceCadenceAnnual = shared.PriceMatrixWithDispl
 
 // This is an alias to an internal value.
 const PriceMatrixWithDisplayNamePriceCadenceCustom = shared.PriceMatrixWithDisplayNamePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceMatrixWithDisplayNamePriceCompositePriceFilter = shared.PriceMatrixWithDisplayNamePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithDisplayNamePriceCompositePriceFiltersField = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceID = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldItemID = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceType = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldCurrency = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorIncludes = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorExcludes = shared.PriceMatrixWithDisplayNamePriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceMatrixWithDisplayNamePriceConversionRateConfig = shared.PriceMatrixWithDisplayNamePriceConversionRateConfig
@@ -6285,6 +7821,40 @@ const PriceGroupedTieredPackagePriceCadenceAnnual = shared.PriceGroupedTieredPac
 const PriceGroupedTieredPackagePriceCadenceCustom = shared.PriceGroupedTieredPackagePriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceGroupedTieredPackagePriceCompositePriceFilter = shared.PriceGroupedTieredPackagePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPackagePriceCompositePriceFiltersField = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceID = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceCompositePriceFiltersFieldItemID = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceType = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceCompositePriceFiltersFieldCurrency = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPricingUnitID = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceGroupedTieredPackagePriceCompositePriceFiltersOperator = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorIncludes = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorExcludes = shared.PriceGroupedTieredPackagePriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceGroupedTieredPackagePriceConversionRateConfig = shared.PriceGroupedTieredPackagePriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -6358,6 +7928,40 @@ const PriceMaxGroupTieredPackagePriceCadenceAnnual = shared.PriceMaxGroupTieredP
 
 // This is an alias to an internal value.
 const PriceMaxGroupTieredPackagePriceCadenceCustom = shared.PriceMaxGroupTieredPackagePriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceMaxGroupTieredPackagePriceCompositePriceFilter = shared.PriceMaxGroupTieredPackagePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceMaxGroupTieredPackagePriceCompositePriceFiltersField = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceID = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldItemID = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceType = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldCurrency = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorIncludes = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorExcludes = shared.PriceMaxGroupTieredPackagePriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceMaxGroupTieredPackagePriceConversionRateConfig = shared.PriceMaxGroupTieredPackagePriceConversionRateConfig
@@ -6435,6 +8039,40 @@ const PriceScalableMatrixWithUnitPricingPriceCadenceAnnual = shared.PriceScalabl
 const PriceScalableMatrixWithUnitPricingPriceCadenceCustom = shared.PriceScalableMatrixWithUnitPricingPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceID = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldItemID = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceType = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldCurrency = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorIncludes = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorExcludes = shared.PriceScalableMatrixWithUnitPricingPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceScalableMatrixWithUnitPricingPriceConversionRateConfig = shared.PriceScalableMatrixWithUnitPricingPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -6508,6 +8146,40 @@ const PriceScalableMatrixWithTieredPricingPriceCadenceAnnual = shared.PriceScala
 
 // This is an alias to an internal value.
 const PriceScalableMatrixWithTieredPricingPriceCadenceCustom = shared.PriceScalableMatrixWithTieredPricingPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceID = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldItemID = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceType = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldCurrency = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorIncludes = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorExcludes = shared.PriceScalableMatrixWithTieredPricingPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceScalableMatrixWithTieredPricingPriceConversionRateConfig = shared.PriceScalableMatrixWithTieredPricingPriceConversionRateConfig
@@ -6590,6 +8262,40 @@ const PriceCumulativeGroupedBulkPriceCadenceAnnual = shared.PriceCumulativeGroup
 const PriceCumulativeGroupedBulkPriceCadenceCustom = shared.PriceCumulativeGroupedBulkPriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceCumulativeGroupedBulkPriceCompositePriceFilter = shared.PriceCumulativeGroupedBulkPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedBulkPriceCompositePriceFiltersField = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceID = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldItemID = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceType = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldCurrency = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorIncludes = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorExcludes = shared.PriceCumulativeGroupedBulkPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceCumulativeGroupedBulkPriceConversionRateConfig = shared.PriceCumulativeGroupedBulkPriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -6665,6 +8371,40 @@ const PriceMinimumCompositePriceCadenceAnnual = shared.PriceMinimumCompositePric
 const PriceMinimumCompositePriceCadenceCustom = shared.PriceMinimumCompositePriceCadenceCustom
 
 // This is an alias to an internal type.
+type PriceMinimumCompositePriceCompositePriceFilter = shared.PriceMinimumCompositePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceMinimumCompositePriceCompositePriceFiltersField = shared.PriceMinimumCompositePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCompositePriceFiltersFieldPriceID = shared.PriceMinimumCompositePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCompositePriceFiltersFieldItemID = shared.PriceMinimumCompositePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCompositePriceFiltersFieldPriceType = shared.PriceMinimumCompositePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCompositePriceFiltersFieldCurrency = shared.PriceMinimumCompositePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCompositePriceFiltersFieldPricingUnitID = shared.PriceMinimumCompositePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceMinimumCompositePriceCompositePriceFiltersOperator = shared.PriceMinimumCompositePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCompositePriceFiltersOperatorIncludes = shared.PriceMinimumCompositePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceMinimumCompositePriceCompositePriceFiltersOperatorExcludes = shared.PriceMinimumCompositePriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PriceMinimumCompositePriceConversionRateConfig = shared.PriceMinimumCompositePriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -6735,6 +8475,40 @@ const PricePercentCompositePriceCadenceAnnual = shared.PricePercentCompositePric
 const PricePercentCompositePriceCadenceCustom = shared.PricePercentCompositePriceCadenceCustom
 
 // This is an alias to an internal type.
+type PricePercentCompositePriceCompositePriceFilter = shared.PricePercentCompositePriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PricePercentCompositePriceCompositePriceFiltersField = shared.PricePercentCompositePriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCompositePriceFiltersFieldPriceID = shared.PricePercentCompositePriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCompositePriceFiltersFieldItemID = shared.PricePercentCompositePriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCompositePriceFiltersFieldPriceType = shared.PricePercentCompositePriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCompositePriceFiltersFieldCurrency = shared.PricePercentCompositePriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCompositePriceFiltersFieldPricingUnitID = shared.PricePercentCompositePriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PricePercentCompositePriceCompositePriceFiltersOperator = shared.PricePercentCompositePriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCompositePriceFiltersOperatorIncludes = shared.PricePercentCompositePriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PricePercentCompositePriceCompositePriceFiltersOperatorExcludes = shared.PricePercentCompositePriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type PricePercentCompositePriceConversionRateConfig = shared.PricePercentCompositePriceConversionRateConfig
 
 // This is an alias to an internal type.
@@ -6803,6 +8577,40 @@ const PriceEventOutputPriceCadenceAnnual = shared.PriceEventOutputPriceCadenceAn
 
 // This is an alias to an internal value.
 const PriceEventOutputPriceCadenceCustom = shared.PriceEventOutputPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceEventOutputPriceCompositePriceFilter = shared.PriceEventOutputPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceEventOutputPriceCompositePriceFiltersField = shared.PriceEventOutputPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCompositePriceFiltersFieldPriceID = shared.PriceEventOutputPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCompositePriceFiltersFieldItemID = shared.PriceEventOutputPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCompositePriceFiltersFieldPriceType = shared.PriceEventOutputPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCompositePriceFiltersFieldCurrency = shared.PriceEventOutputPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceEventOutputPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceEventOutputPriceCompositePriceFiltersOperator = shared.PriceEventOutputPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCompositePriceFiltersOperatorIncludes = shared.PriceEventOutputPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceEventOutputPriceCompositePriceFiltersOperatorExcludes = shared.PriceEventOutputPriceCompositePriceFiltersOperatorExcludes
 
 // This is an alias to an internal type.
 type PriceEventOutputPriceConversionRateConfig = shared.PriceEventOutputPriceConversionRateConfig
@@ -7048,43 +8856,6 @@ const TieredConversionRateConfigConversionRateTypeTiered = shared.TieredConversi
 type TieredConversionRateConfigParam = shared.TieredConversionRateConfigParam
 
 // This is an alias to an internal type.
-type TransformPriceFilter = shared.TransformPriceFilter
-
-// The property of the price to filter on.
-//
-// This is an alias to an internal type.
-type TransformPriceFilterField = shared.TransformPriceFilterField
-
-// This is an alias to an internal value.
-const TransformPriceFilterFieldPriceID = shared.TransformPriceFilterFieldPriceID
-
-// This is an alias to an internal value.
-const TransformPriceFilterFieldItemID = shared.TransformPriceFilterFieldItemID
-
-// This is an alias to an internal value.
-const TransformPriceFilterFieldPriceType = shared.TransformPriceFilterFieldPriceType
-
-// This is an alias to an internal value.
-const TransformPriceFilterFieldCurrency = shared.TransformPriceFilterFieldCurrency
-
-// This is an alias to an internal value.
-const TransformPriceFilterFieldPricingUnitID = shared.TransformPriceFilterFieldPricingUnitID
-
-// Should prices that match the filter be included or excluded.
-//
-// This is an alias to an internal type.
-type TransformPriceFilterOperator = shared.TransformPriceFilterOperator
-
-// This is an alias to an internal value.
-const TransformPriceFilterOperatorIncludes = shared.TransformPriceFilterOperatorIncludes
-
-// This is an alias to an internal value.
-const TransformPriceFilterOperatorExcludes = shared.TransformPriceFilterOperatorExcludes
-
-// This is an alias to an internal type.
-type TransformPriceFilterParam = shared.TransformPriceFilterParam
-
-// This is an alias to an internal type.
 type TrialDiscount = shared.TrialDiscount
 
 // This is an alias to an internal type.
@@ -7094,7 +8865,44 @@ type TrialDiscountDiscountType = shared.TrialDiscountDiscountType
 const TrialDiscountDiscountTypeTrial = shared.TrialDiscountDiscountTypeTrial
 
 // This is an alias to an internal type.
+type TrialDiscountFilter = shared.TrialDiscountFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type TrialDiscountFiltersField = shared.TrialDiscountFiltersField
+
+// This is an alias to an internal value.
+const TrialDiscountFiltersFieldPriceID = shared.TrialDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const TrialDiscountFiltersFieldItemID = shared.TrialDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const TrialDiscountFiltersFieldPriceType = shared.TrialDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const TrialDiscountFiltersFieldCurrency = shared.TrialDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const TrialDiscountFiltersFieldPricingUnitID = shared.TrialDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type TrialDiscountFiltersOperator = shared.TrialDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const TrialDiscountFiltersOperatorIncludes = shared.TrialDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const TrialDiscountFiltersOperatorExcludes = shared.TrialDiscountFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type TrialDiscountParam = shared.TrialDiscountParam
+
+// This is an alias to an internal type.
+type TrialDiscountFilterParam = shared.TrialDiscountFilterParam
 
 // Configuration for unit pricing
 //
@@ -7128,7 +8936,44 @@ type UsageDiscountDiscountType = shared.UsageDiscountDiscountType
 const UsageDiscountDiscountTypeUsage = shared.UsageDiscountDiscountTypeUsage
 
 // This is an alias to an internal type.
+type UsageDiscountFilter = shared.UsageDiscountFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type UsageDiscountFiltersField = shared.UsageDiscountFiltersField
+
+// This is an alias to an internal value.
+const UsageDiscountFiltersFieldPriceID = shared.UsageDiscountFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const UsageDiscountFiltersFieldItemID = shared.UsageDiscountFiltersFieldItemID
+
+// This is an alias to an internal value.
+const UsageDiscountFiltersFieldPriceType = shared.UsageDiscountFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const UsageDiscountFiltersFieldCurrency = shared.UsageDiscountFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const UsageDiscountFiltersFieldPricingUnitID = shared.UsageDiscountFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type UsageDiscountFiltersOperator = shared.UsageDiscountFiltersOperator
+
+// This is an alias to an internal value.
+const UsageDiscountFiltersOperatorIncludes = shared.UsageDiscountFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const UsageDiscountFiltersOperatorExcludes = shared.UsageDiscountFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type UsageDiscountParam = shared.UsageDiscountParam
+
+// This is an alias to an internal type.
+type UsageDiscountFilterParam = shared.UsageDiscountFilterParam
 
 // This is an alias to an internal type.
 type UsageDiscountInterval = shared.UsageDiscountInterval
@@ -7138,3 +8983,37 @@ type UsageDiscountIntervalDiscountType = shared.UsageDiscountIntervalDiscountTyp
 
 // This is an alias to an internal value.
 const UsageDiscountIntervalDiscountTypeUsage = shared.UsageDiscountIntervalDiscountTypeUsage
+
+// This is an alias to an internal type.
+type UsageDiscountIntervalFilter = shared.UsageDiscountIntervalFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type UsageDiscountIntervalFiltersField = shared.UsageDiscountIntervalFiltersField
+
+// This is an alias to an internal value.
+const UsageDiscountIntervalFiltersFieldPriceID = shared.UsageDiscountIntervalFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const UsageDiscountIntervalFiltersFieldItemID = shared.UsageDiscountIntervalFiltersFieldItemID
+
+// This is an alias to an internal value.
+const UsageDiscountIntervalFiltersFieldPriceType = shared.UsageDiscountIntervalFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const UsageDiscountIntervalFiltersFieldCurrency = shared.UsageDiscountIntervalFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const UsageDiscountIntervalFiltersFieldPricingUnitID = shared.UsageDiscountIntervalFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type UsageDiscountIntervalFiltersOperator = shared.UsageDiscountIntervalFiltersOperator
+
+// This is an alias to an internal value.
+const UsageDiscountIntervalFiltersOperatorIncludes = shared.UsageDiscountIntervalFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const UsageDiscountIntervalFiltersOperatorExcludes = shared.UsageDiscountIntervalFiltersOperatorExcludes

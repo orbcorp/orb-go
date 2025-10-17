@@ -5112,7 +5112,9 @@ type SubscriptionDiscountInterval struct {
 	DiscountType              SubscriptionDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
-	// This field can have the runtime type of [[]shared.TransformPriceFilter].
+	// This field can have the runtime type of [[]shared.AmountDiscountIntervalFilter],
+	// [[]shared.PercentageDiscountIntervalFilter],
+	// [[]shared.UsageDiscountIntervalFilter].
 	Filters interface{} `json:"filters,required"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`
@@ -6668,6 +6670,10 @@ func (r SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceCadenc
 type SubscriptionNewParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`
@@ -7750,6 +7756,10 @@ func (r SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceCa
 type SubscriptionNewParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`
@@ -8937,6 +8947,10 @@ func (r SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceCaden
 type SubscriptionPriceIntervalsParamsAddPriceNewFloatingEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`
@@ -10365,6 +10379,10 @@ func (r SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOu
 type SubscriptionSchedulePlanChangeParamsAddPricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`
@@ -11450,6 +11468,10 @@ func (r SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEve
 type SubscriptionSchedulePlanChangeParamsReplacePricesPriceNewSubscriptionEventOutputPriceEventOutputConfig struct {
 	// The key in the event data to extract the unit rate from.
 	UnitRatingKey param.Field[string] `json:"unit_rating_key,required"`
+	// If provided, this amount will be used as the unit rate when an event does not
+	// have a value for the `unit_rating_key`. If not provided, events missing a unit
+	// rate will be ignored.
+	DefaultUnitRate param.Field[string] `json:"default_unit_rate"`
 	// An optional key in the event data to group by (e.g., event ID). All events will
 	// also be grouped by their unit rate.
 	GroupingKey param.Field[string] `json:"grouping_key"`
