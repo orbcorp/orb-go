@@ -791,7 +791,12 @@ type InvoiceFetchUpcomingResponseLineItemsAdjustment struct {
 	Amount string `json:"amount,required"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids,required"`
-	// This field can have the runtime type of [[]shared.TransformPriceFilter].
+	// This field can have the runtime type of
+	// [[]shared.MonetaryUsageDiscountAdjustmentFilter],
+	// [[]shared.MonetaryAmountDiscountAdjustmentFilter],
+	// [[]shared.MonetaryPercentageDiscountAdjustmentFilter],
+	// [[]shared.MonetaryMinimumAdjustmentFilter],
+	// [[]shared.MonetaryMaximumAdjustmentFilter].
 	Filters interface{} `json:"filters,required"`
 	// True for adjustments that apply to an entire invoice, false for adjustments that
 	// apply to only one price.

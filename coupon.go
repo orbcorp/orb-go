@@ -165,7 +165,8 @@ type CouponDiscount struct {
 	AmountDiscount string `json:"amount_discount"`
 	// This field can have the runtime type of [[]string].
 	AppliesToPriceIDs interface{} `json:"applies_to_price_ids"`
-	// This field can have the runtime type of [[]shared.TransformPriceFilter].
+	// This field can have the runtime type of [[]shared.PercentageDiscountFilter],
+	// [[]shared.AmountDiscountFilter].
 	Filters interface{} `json:"filters"`
 	// Only available if discount_type is `percentage`. This is a number between 0
 	// and 1.

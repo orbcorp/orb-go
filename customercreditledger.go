@@ -670,15 +670,17 @@ func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Con
 }
 
 type AffectedBlock struct {
-	ID               string            `json:"id,required"`
-	ExpiryDate       time.Time         `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string            `json:"per_unit_cost_basis,required,nullable"`
-	JSON             affectedBlockJSON `json:"-"`
+	ID               string                     `json:"id,required"`
+	BlockFilters     []AffectedBlockBlockFilter `json:"block_filters,required,nullable"`
+	ExpiryDate       time.Time                  `json:"expiry_date,required,nullable" format:"date-time"`
+	PerUnitCostBasis string                     `json:"per_unit_cost_basis,required,nullable"`
+	JSON             affectedBlockJSON          `json:"-"`
 }
 
 // affectedBlockJSON contains the JSON metadata for the struct [AffectedBlock]
 type affectedBlockJSON struct {
 	ID               apijson.Field
+	BlockFilters     apijson.Field
 	ExpiryDate       apijson.Field
 	PerUnitCostBasis apijson.Field
 	raw              string
@@ -691,6 +693,69 @@ func (r *AffectedBlock) UnmarshalJSON(data []byte) (err error) {
 
 func (r affectedBlockJSON) RawJSON() string {
 	return r.raw
+}
+
+type AffectedBlockBlockFilter struct {
+	// The property of the price to filter on.
+	Field AffectedBlockBlockFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator AffectedBlockBlockFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                     `json:"values,required"`
+	JSON   affectedBlockBlockFilterJSON `json:"-"`
+}
+
+// affectedBlockBlockFilterJSON contains the JSON metadata for the struct
+// [AffectedBlockBlockFilter]
+type affectedBlockBlockFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AffectedBlockBlockFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r affectedBlockBlockFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type AffectedBlockBlockFiltersField string
+
+const (
+	AffectedBlockBlockFiltersFieldPriceID       AffectedBlockBlockFiltersField = "price_id"
+	AffectedBlockBlockFiltersFieldItemID        AffectedBlockBlockFiltersField = "item_id"
+	AffectedBlockBlockFiltersFieldPriceType     AffectedBlockBlockFiltersField = "price_type"
+	AffectedBlockBlockFiltersFieldCurrency      AffectedBlockBlockFiltersField = "currency"
+	AffectedBlockBlockFiltersFieldPricingUnitID AffectedBlockBlockFiltersField = "pricing_unit_id"
+)
+
+func (r AffectedBlockBlockFiltersField) IsKnown() bool {
+	switch r {
+	case AffectedBlockBlockFiltersFieldPriceID, AffectedBlockBlockFiltersFieldItemID, AffectedBlockBlockFiltersFieldPriceType, AffectedBlockBlockFiltersFieldCurrency, AffectedBlockBlockFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type AffectedBlockBlockFiltersOperator string
+
+const (
+	AffectedBlockBlockFiltersOperatorIncludes AffectedBlockBlockFiltersOperator = "includes"
+	AffectedBlockBlockFiltersOperatorExcludes AffectedBlockBlockFiltersOperator = "excludes"
+)
+
+func (r AffectedBlockBlockFiltersOperator) IsKnown() bool {
+	switch r {
+	case AffectedBlockBlockFiltersOperatorIncludes, AffectedBlockBlockFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type AmendmentLedgerEntry struct {

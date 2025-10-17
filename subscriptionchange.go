@@ -236,7 +236,9 @@ type MutatedSubscriptionDiscountInterval struct {
 	DiscountType              MutatedSubscriptionDiscountIntervalsDiscountType `json:"discount_type,required"`
 	// The end date of the discount interval.
 	EndDate time.Time `json:"end_date,required,nullable" format:"date-time"`
-	// This field can have the runtime type of [[]shared.TransformPriceFilter].
+	// This field can have the runtime type of [[]shared.AmountDiscountIntervalFilter],
+	// [[]shared.PercentageDiscountIntervalFilter],
+	// [[]shared.UsageDiscountIntervalFilter].
 	Filters interface{} `json:"filters,required"`
 	// The start date of the discount interval.
 	StartDate time.Time `json:"start_date,required" format:"date-time"`

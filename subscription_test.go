@@ -36,9 +36,9 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				AppliesToItemIDs:   orb.F([]string{"item_1", "item_2"}),
 				AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 				Currency:           orb.F("currency"),
-				Filters: orb.F([]shared.TransformPriceFilterParam{{
-					Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
-					Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
+				Filters: orb.F([]shared.NewPercentageDiscountFilterParam{{
+					Field:    orb.F(shared.NewPercentageDiscountFiltersFieldPriceID),
+					Operator: orb.F(shared.NewPercentageDiscountFiltersOperatorIncludes),
 					Values:   orb.F([]string{"string"}),
 				}}),
 				IsInvoiceLevel: orb.F(true),
@@ -157,9 +157,9 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				AppliesToItemIDs:   orb.F([]string{"item_1", "item_2"}),
 				AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 				Currency:           orb.F("currency"),
-				Filters: orb.F([]shared.TransformPriceFilterParam{{
-					Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
-					Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
+				Filters: orb.F([]shared.NewPercentageDiscountFilterParam{{
+					Field:    orb.F(shared.NewPercentageDiscountFiltersFieldPriceID),
+					Operator: orb.F(shared.NewPercentageDiscountFiltersOperatorIncludes),
 					Values:   orb.F([]string{"string"}),
 				}}),
 				IsInvoiceLevel: orb.F(true),
@@ -557,9 +557,9 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					AppliesToItemIDs:   orb.F([]string{"item_1", "item_2"}),
 					AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 					Currency:           orb.F("currency"),
-					Filters: orb.F([]shared.TransformPriceFilterParam{{
-						Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
-						Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
+					Filters: orb.F([]shared.NewPercentageDiscountFilterParam{{
+						Field:    orb.F(shared.NewPercentageDiscountFiltersFieldPriceID),
+						Operator: orb.F(shared.NewPercentageDiscountFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
 					IsInvoiceLevel: orb.F(true),
@@ -654,9 +654,9 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					AppliesToItemIDs:   orb.F([]string{"item_1", "item_2"}),
 					AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 					Currency:           orb.F("currency"),
-					Filters: orb.F([]shared.TransformPriceFilterParam{{
-						Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
-						Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
+					Filters: orb.F([]shared.NewPercentageDiscountFilterParam{{
+						Field:    orb.F(shared.NewPercentageDiscountFiltersFieldPriceID),
+						Operator: orb.F(shared.NewPercentageDiscountFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
 					IsInvoiceLevel: orb.F(true),
@@ -766,9 +766,9 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					AppliesToItemIDs:   orb.F([]string{"item_1", "item_2"}),
 					AppliesToPriceIDs:  orb.F([]string{"price_1", "price_2"}),
 					Currency:           orb.F("currency"),
-					Filters: orb.F([]shared.TransformPriceFilterParam{{
-						Field:    orb.F(shared.TransformPriceFilterFieldPriceID),
-						Operator: orb.F(shared.TransformPriceFilterOperatorIncludes),
+					Filters: orb.F([]shared.NewPercentageDiscountFilterParam{{
+						Field:    orb.F(shared.NewPercentageDiscountFiltersFieldPriceID),
+						Operator: orb.F(shared.NewPercentageDiscountFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
 					IsInvoiceLevel: orb.F(true),
