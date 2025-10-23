@@ -519,6 +519,14 @@ type SubscriptionChangeApplyParams struct {
 	// Mark all pending invoices that are payable as paid. If amount is also provided,
 	// mark as paid and credit the difference to the customer's balance.
 	MarkAsPaid param.Field[bool] `json:"mark_as_paid"`
+	// An optional external ID to associate with the payment. Only applicable when
+	// mark_as_paid is true.
+	PaymentExternalID param.Field[string] `json:"payment_external_id"`
+	// Optional notes about the payment. Only applicable when mark_as_paid is true.
+	PaymentNotes param.Field[string] `json:"payment_notes"`
+	// A date string to specify the date the payment was received. Only applicable when
+	// mark_as_paid is true. If not provided, defaults to the current date.
+	PaymentReceivedDate param.Field[time.Time] `json:"payment_received_date" format:"date"`
 	// Amount already collected to apply to the customer's balance. If mark_as_paid is
 	// also provided, credit the difference to the customer's balance.
 	PreviouslyCollectedAmount param.Field[string] `json:"previously_collected_amount"`

@@ -7,6 +7,7 @@ import (
 	"errors"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/orbcorp/orb-go"
 	"github.com/orbcorp/orb-go/internal/testutil"
@@ -53,6 +54,9 @@ func TestSubscriptionChangeApplyWithOptionalParams(t *testing.T) {
 		orb.SubscriptionChangeApplyParams{
 			Description:               orb.F("description"),
 			MarkAsPaid:                orb.F(true),
+			PaymentExternalID:         orb.F("payment_external_id"),
+			PaymentNotes:              orb.F("payment_notes"),
+			PaymentReceivedDate:       orb.F(time.Now()),
 			PreviouslyCollectedAmount: orb.F("previously_collected_amount"),
 		},
 	)
