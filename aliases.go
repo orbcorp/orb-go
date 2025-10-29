@@ -67,6 +67,40 @@ type AggregatedCost = shared.AggregatedCost
 type Allocation = shared.Allocation
 
 // This is an alias to an internal type.
+type AllocationFilter = shared.AllocationFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type AllocationFiltersField = shared.AllocationFiltersField
+
+// This is an alias to an internal value.
+const AllocationFiltersFieldPriceID = shared.AllocationFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const AllocationFiltersFieldItemID = shared.AllocationFiltersFieldItemID
+
+// This is an alias to an internal value.
+const AllocationFiltersFieldPriceType = shared.AllocationFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const AllocationFiltersFieldCurrency = shared.AllocationFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const AllocationFiltersFieldPricingUnitID = shared.AllocationFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type AllocationFiltersOperator = shared.AllocationFiltersOperator
+
+// This is an alias to an internal value.
+const AllocationFiltersOperatorIncludes = shared.AllocationFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const AllocationFiltersOperatorExcludes = shared.AllocationFiltersOperatorExcludes
+
+// This is an alias to an internal type.
 type AmountDiscount = shared.AmountDiscount
 
 // This is an alias to an internal type.

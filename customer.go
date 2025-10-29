@@ -452,8 +452,11 @@ type Customer struct {
 	// This cannot be changed after customer creation.
 	Timezone                    string                              `json:"timezone,required"`
 	AccountingSyncConfiguration CustomerAccountingSyncConfiguration `json:"accounting_sync_configuration,nullable"`
-	ReportingConfiguration      CustomerReportingConfiguration      `json:"reporting_configuration,nullable"`
-	JSON                        customerJSON                        `json:"-"`
+	// Whether automatic tax calculation is enabled for this customer. This field is
+	// nullable for backwards compatibility but will always return a boolean value.
+	AutomaticTaxEnabled    bool                           `json:"automatic_tax_enabled,nullable"`
+	ReportingConfiguration CustomerReportingConfiguration `json:"reporting_configuration,nullable"`
+	JSON                   customerJSON                   `json:"-"`
 }
 
 // customerJSON contains the JSON metadata for the struct [Customer]
@@ -480,6 +483,7 @@ type customerJSON struct {
 	TaxID                       apijson.Field
 	Timezone                    apijson.Field
 	AccountingSyncConfiguration apijson.Field
+	AutomaticTaxEnabled         apijson.Field
 	ReportingConfiguration      apijson.Field
 	raw                         string
 	ExtraFields                 map[string]apijson.Field
@@ -643,9 +647,12 @@ func (r NewAccountingSyncConfigurationParam) MarshalJSON() (data []byte, err err
 }
 
 type NewAvalaraTaxConfigurationParam struct {
-	TaxExempt        param.Field[bool]                                  `json:"tax_exempt,required"`
-	TaxProvider      param.Field[NewAvalaraTaxConfigurationTaxProvider] `json:"tax_provider,required"`
-	TaxExemptionCode param.Field[string]                                `json:"tax_exemption_code"`
+	TaxExempt   param.Field[bool]                                  `json:"tax_exempt,required"`
+	TaxProvider param.Field[NewAvalaraTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
+	TaxExemptionCode    param.Field[string] `json:"tax_exemption_code"`
 }
 
 func (r NewAvalaraTaxConfigurationParam) MarshalJSON() (data []byte, err error) {
@@ -684,6 +691,9 @@ func (r NewReportingConfigurationParam) MarshalJSON() (data []byte, err error) {
 type NewSphereConfigurationParam struct {
 	TaxExempt   param.Field[bool]                              `json:"tax_exempt,required"`
 	TaxProvider param.Field[NewSphereConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
 }
 
 func (r NewSphereConfigurationParam) MarshalJSON() (data []byte, err error) {
@@ -714,6 +724,9 @@ func (r NewSphereConfigurationTaxProvider) IsKnown() bool {
 type NewTaxJarConfigurationParam struct {
 	TaxExempt   param.Field[bool]                              `json:"tax_exempt,required"`
 	TaxProvider param.Field[NewTaxJarConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
 }
 
 func (r NewTaxJarConfigurationParam) MarshalJSON() (data []byte, err error) {
@@ -964,9 +977,12 @@ func (r CustomerNewParamsPaymentProvider) IsKnown() bool {
 }
 
 type CustomerNewParamsTaxConfiguration struct {
-	TaxExempt        param.Field[bool]                                         `json:"tax_exempt,required"`
-	TaxProvider      param.Field[CustomerNewParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
-	TaxExemptionCode param.Field[string]                                       `json:"tax_exemption_code"`
+	TaxExempt   param.Field[bool]                                         `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
+	TaxExemptionCode    param.Field[string] `json:"tax_exemption_code"`
 }
 
 func (r CustomerNewParamsTaxConfiguration) MarshalJSON() (data []byte, err error) {
@@ -978,6 +994,7 @@ func (r CustomerNewParamsTaxConfiguration) implementsCustomerNewParamsTaxConfigu
 // Satisfied by [NewAvalaraTaxConfigurationParam], [NewTaxJarConfigurationParam],
 // [NewSphereConfigurationParam],
 // [CustomerNewParamsTaxConfigurationNewNumeralConfiguration],
+// [CustomerNewParamsTaxConfigurationNewAnrokConfiguration],
 // [CustomerNewParamsTaxConfiguration].
 type CustomerNewParamsTaxConfigurationUnion interface {
 	implementsCustomerNewParamsTaxConfigurationUnion()
@@ -986,6 +1003,9 @@ type CustomerNewParamsTaxConfigurationUnion interface {
 type CustomerNewParamsTaxConfigurationNewNumeralConfiguration struct {
 	TaxExempt   param.Field[bool]                                                                `json:"tax_exempt,required"`
 	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
 }
 
 func (r CustomerNewParamsTaxConfigurationNewNumeralConfiguration) MarshalJSON() (data []byte, err error) {
@@ -1009,6 +1029,35 @@ func (r CustomerNewParamsTaxConfigurationNewNumeralConfigurationTaxProvider) IsK
 	return false
 }
 
+type CustomerNewParamsTaxConfigurationNewAnrokConfiguration struct {
+	TaxExempt   param.Field[bool]                                                              `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
+}
+
+func (r CustomerNewParamsTaxConfigurationNewAnrokConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerNewParamsTaxConfigurationNewAnrokConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {
+}
+
+type CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider string
+
+const (
+	CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProviderAnrok CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider = "anrok"
+)
+
+func (r CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProviderAnrok:
+		return true
+	}
+	return false
+}
+
 type CustomerNewParamsTaxConfigurationTaxProvider string
 
 const (
@@ -1016,11 +1065,12 @@ const (
 	CustomerNewParamsTaxConfigurationTaxProviderTaxjar  CustomerNewParamsTaxConfigurationTaxProvider = "taxjar"
 	CustomerNewParamsTaxConfigurationTaxProviderSphere  CustomerNewParamsTaxConfigurationTaxProvider = "sphere"
 	CustomerNewParamsTaxConfigurationTaxProviderNumeral CustomerNewParamsTaxConfigurationTaxProvider = "numeral"
+	CustomerNewParamsTaxConfigurationTaxProviderAnrok   CustomerNewParamsTaxConfigurationTaxProvider = "anrok"
 )
 
 func (r CustomerNewParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar, CustomerNewParamsTaxConfigurationTaxProviderSphere, CustomerNewParamsTaxConfigurationTaxProviderNumeral:
+	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar, CustomerNewParamsTaxConfigurationTaxProviderSphere, CustomerNewParamsTaxConfigurationTaxProviderNumeral, CustomerNewParamsTaxConfigurationTaxProviderAnrok:
 		return true
 	}
 	return false
@@ -1040,8 +1090,12 @@ type CustomerUpdateParams struct {
 	// true, invoices will be automatically issued. If false, invoices will require
 	// manual approval.If `null` is specified, the customer's auto issuance setting
 	// will be inherited from the account-level setting.
-	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
-	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
+	AutoIssuance param.Field[bool] `json:"auto_issuance"`
+	// Whether automatic tax calculation is enabled for this customer. When null,
+	// inherits from account-level setting. When true or false, overrides the account
+	// setting.
+	AutomaticTaxEnabled param.Field[bool]              `json:"automatic_tax_enabled"`
+	BillingAddress      param.Field[AddressInputParam] `json:"billing_address"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.
 	Currency param.Field[string] `json:"currency"`
@@ -1253,9 +1307,12 @@ func (r CustomerUpdateParamsPaymentProvider) IsKnown() bool {
 }
 
 type CustomerUpdateParamsTaxConfiguration struct {
-	TaxExempt        param.Field[bool]                                            `json:"tax_exempt,required"`
-	TaxProvider      param.Field[CustomerUpdateParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
-	TaxExemptionCode param.Field[string]                                          `json:"tax_exemption_code"`
+	TaxExempt   param.Field[bool]                                            `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
+	TaxExemptionCode    param.Field[string] `json:"tax_exemption_code"`
 }
 
 func (r CustomerUpdateParamsTaxConfiguration) MarshalJSON() (data []byte, err error) {
@@ -1267,6 +1324,7 @@ func (r CustomerUpdateParamsTaxConfiguration) implementsCustomerUpdateParamsTaxC
 // Satisfied by [NewAvalaraTaxConfigurationParam], [NewTaxJarConfigurationParam],
 // [NewSphereConfigurationParam],
 // [CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration],
+// [CustomerUpdateParamsTaxConfigurationNewAnrokConfiguration],
 // [CustomerUpdateParamsTaxConfiguration].
 type CustomerUpdateParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateParamsTaxConfigurationUnion()
@@ -1275,6 +1333,9 @@ type CustomerUpdateParamsTaxConfigurationUnion interface {
 type CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration struct {
 	TaxExempt   param.Field[bool]                                                                   `json:"tax_exempt,required"`
 	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
 }
 
 func (r CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration) MarshalJSON() (data []byte, err error) {
@@ -1298,6 +1359,35 @@ func (r CustomerUpdateParamsTaxConfigurationNewNumeralConfigurationTaxProvider) 
 	return false
 }
 
+type CustomerUpdateParamsTaxConfigurationNewAnrokConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                 `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewAnrokConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewAnrokConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider string
+
+const (
+	CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProviderAnrok CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider = "anrok"
+)
+
+func (r CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProviderAnrok:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateParamsTaxConfigurationTaxProvider string
 
 const (
@@ -1305,11 +1395,12 @@ const (
 	CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateParamsTaxConfigurationTaxProvider = "taxjar"
 	CustomerUpdateParamsTaxConfigurationTaxProviderSphere  CustomerUpdateParamsTaxConfigurationTaxProvider = "sphere"
 	CustomerUpdateParamsTaxConfigurationTaxProviderNumeral CustomerUpdateParamsTaxConfigurationTaxProvider = "numeral"
+	CustomerUpdateParamsTaxConfigurationTaxProviderAnrok   CustomerUpdateParamsTaxConfigurationTaxProvider = "anrok"
 )
 
 func (r CustomerUpdateParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateParamsTaxConfigurationTaxProviderSphere, CustomerUpdateParamsTaxConfigurationTaxProviderNumeral:
+	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateParamsTaxConfigurationTaxProviderSphere, CustomerUpdateParamsTaxConfigurationTaxProviderNumeral, CustomerUpdateParamsTaxConfigurationTaxProviderAnrok:
 		return true
 	}
 	return false
@@ -1349,8 +1440,12 @@ type CustomerUpdateByExternalIDParams struct {
 	// true, invoices will be automatically issued. If false, invoices will require
 	// manual approval.If `null` is specified, the customer's auto issuance setting
 	// will be inherited from the account-level setting.
-	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
-	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
+	AutoIssuance param.Field[bool] `json:"auto_issuance"`
+	// Whether automatic tax calculation is enabled for this customer. When null,
+	// inherits from account-level setting. When true or false, overrides the account
+	// setting.
+	AutomaticTaxEnabled param.Field[bool]              `json:"automatic_tax_enabled"`
+	BillingAddress      param.Field[AddressInputParam] `json:"billing_address"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.
 	Currency param.Field[string] `json:"currency"`
@@ -1562,9 +1657,12 @@ func (r CustomerUpdateByExternalIDParamsPaymentProvider) IsKnown() bool {
 }
 
 type CustomerUpdateByExternalIDParamsTaxConfiguration struct {
-	TaxExempt        param.Field[bool]                                                        `json:"tax_exempt,required"`
-	TaxProvider      param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
-	TaxExemptionCode param.Field[string]                                                      `json:"tax_exemption_code"`
+	TaxExempt   param.Field[bool]                                                        `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool]   `json:"automatic_tax_enabled"`
+	TaxExemptionCode    param.Field[string] `json:"tax_exemption_code"`
 }
 
 func (r CustomerUpdateByExternalIDParamsTaxConfiguration) MarshalJSON() (data []byte, err error) {
@@ -1577,6 +1675,7 @@ func (r CustomerUpdateByExternalIDParamsTaxConfiguration) implementsCustomerUpda
 // Satisfied by [NewAvalaraTaxConfigurationParam], [NewTaxJarConfigurationParam],
 // [NewSphereConfigurationParam],
 // [CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration],
+// [CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfiguration],
 // [CustomerUpdateByExternalIDParamsTaxConfiguration].
 type CustomerUpdateByExternalIDParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion()
@@ -1585,6 +1684,9 @@ type CustomerUpdateByExternalIDParamsTaxConfigurationUnion interface {
 type CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration struct {
 	TaxExempt   param.Field[bool]                                                                               `json:"tax_exempt,required"`
 	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
 }
 
 func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration) MarshalJSON() (data []byte, err error) {
@@ -1608,6 +1710,35 @@ func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfigurationT
 	return false
 }
 
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                             `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfiguration) implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProvider string
+
+const (
+	CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProviderAnrok CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProvider = "anrok"
+)
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTaxProviderAnrok:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider string
 
 const (
@@ -1615,11 +1746,12 @@ const (
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "taxjar"
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "sphere"
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "numeral"
+	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAnrok   CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "anrok"
 )
 
 func (r CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral:
+	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAnrok:
 		return true
 	}
 	return false
