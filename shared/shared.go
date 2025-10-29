@@ -247,10 +247,11 @@ func (r aggregatedCostJSON) RawJSON() string {
 }
 
 type Allocation struct {
-	AllowsRollover   bool             `json:"allows_rollover,required"`
-	Currency         string           `json:"currency,required"`
-	CustomExpiration CustomExpiration `json:"custom_expiration,required,nullable"`
-	JSON             allocationJSON   `json:"-"`
+	AllowsRollover   bool               `json:"allows_rollover,required"`
+	Currency         string             `json:"currency,required"`
+	CustomExpiration CustomExpiration   `json:"custom_expiration,required,nullable"`
+	Filters          []AllocationFilter `json:"filters"`
+	JSON             allocationJSON     `json:"-"`
 }
 
 // allocationJSON contains the JSON metadata for the struct [Allocation]
@@ -258,6 +259,7 @@ type allocationJSON struct {
 	AllowsRollover   apijson.Field
 	Currency         apijson.Field
 	CustomExpiration apijson.Field
+	Filters          apijson.Field
 	raw              string
 	ExtraFields      map[string]apijson.Field
 }
@@ -268,6 +270,69 @@ func (r *Allocation) UnmarshalJSON(data []byte) (err error) {
 
 func (r allocationJSON) RawJSON() string {
 	return r.raw
+}
+
+type AllocationFilter struct {
+	// The property of the price to filter on.
+	Field AllocationFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator AllocationFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string             `json:"values,required"`
+	JSON   allocationFilterJSON `json:"-"`
+}
+
+// allocationFilterJSON contains the JSON metadata for the struct
+// [AllocationFilter]
+type allocationFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *AllocationFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r allocationFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type AllocationFiltersField string
+
+const (
+	AllocationFiltersFieldPriceID       AllocationFiltersField = "price_id"
+	AllocationFiltersFieldItemID        AllocationFiltersField = "item_id"
+	AllocationFiltersFieldPriceType     AllocationFiltersField = "price_type"
+	AllocationFiltersFieldCurrency      AllocationFiltersField = "currency"
+	AllocationFiltersFieldPricingUnitID AllocationFiltersField = "pricing_unit_id"
+)
+
+func (r AllocationFiltersField) IsKnown() bool {
+	switch r {
+	case AllocationFiltersFieldPriceID, AllocationFiltersFieldItemID, AllocationFiltersFieldPriceType, AllocationFiltersFieldCurrency, AllocationFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type AllocationFiltersOperator string
+
+const (
+	AllocationFiltersOperatorIncludes AllocationFiltersOperator = "includes"
+	AllocationFiltersOperatorExcludes AllocationFiltersOperator = "excludes"
+)
+
+func (r AllocationFiltersOperator) IsKnown() bool {
+	switch r {
+	case AllocationFiltersOperatorIncludes, AllocationFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type AmountDiscount struct {
