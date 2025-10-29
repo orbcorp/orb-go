@@ -670,18 +670,18 @@ func (r *CustomerCreditLedgerService) ListByExternalIDAutoPaging(ctx context.Con
 }
 
 type AffectedBlock struct {
-	ID               string                     `json:"id,required"`
-	BlockFilters     []AffectedBlockBlockFilter `json:"block_filters,required,nullable"`
-	ExpiryDate       time.Time                  `json:"expiry_date,required,nullable" format:"date-time"`
-	PerUnitCostBasis string                     `json:"per_unit_cost_basis,required,nullable"`
-	JSON             affectedBlockJSON          `json:"-"`
+	ID               string                `json:"id,required"`
+	ExpiryDate       time.Time             `json:"expiry_date,required,nullable" format:"date-time"`
+	Filters          []AffectedBlockFilter `json:"filters,required"`
+	PerUnitCostBasis string                `json:"per_unit_cost_basis,required,nullable"`
+	JSON             affectedBlockJSON     `json:"-"`
 }
 
 // affectedBlockJSON contains the JSON metadata for the struct [AffectedBlock]
 type affectedBlockJSON struct {
 	ID               apijson.Field
-	BlockFilters     apijson.Field
 	ExpiryDate       apijson.Field
+	Filters          apijson.Field
 	PerUnitCostBasis apijson.Field
 	raw              string
 	ExtraFields      map[string]apijson.Field
@@ -695,19 +695,19 @@ func (r affectedBlockJSON) RawJSON() string {
 	return r.raw
 }
 
-type AffectedBlockBlockFilter struct {
+type AffectedBlockFilter struct {
 	// The property of the price to filter on.
-	Field AffectedBlockBlockFiltersField `json:"field,required"`
+	Field AffectedBlockFiltersField `json:"field,required"`
 	// Should prices that match the filter be included or excluded.
-	Operator AffectedBlockBlockFiltersOperator `json:"operator,required"`
+	Operator AffectedBlockFiltersOperator `json:"operator,required"`
 	// The IDs or values that match this filter.
-	Values []string                     `json:"values,required"`
-	JSON   affectedBlockBlockFilterJSON `json:"-"`
+	Values []string                `json:"values,required"`
+	JSON   affectedBlockFilterJSON `json:"-"`
 }
 
-// affectedBlockBlockFilterJSON contains the JSON metadata for the struct
-// [AffectedBlockBlockFilter]
-type affectedBlockBlockFilterJSON struct {
+// affectedBlockFilterJSON contains the JSON metadata for the struct
+// [AffectedBlockFilter]
+type affectedBlockFilterJSON struct {
 	Field       apijson.Field
 	Operator    apijson.Field
 	Values      apijson.Field
@@ -715,44 +715,44 @@ type affectedBlockBlockFilterJSON struct {
 	ExtraFields map[string]apijson.Field
 }
 
-func (r *AffectedBlockBlockFilter) UnmarshalJSON(data []byte) (err error) {
+func (r *AffectedBlockFilter) UnmarshalJSON(data []byte) (err error) {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func (r affectedBlockBlockFilterJSON) RawJSON() string {
+func (r affectedBlockFilterJSON) RawJSON() string {
 	return r.raw
 }
 
 // The property of the price to filter on.
-type AffectedBlockBlockFiltersField string
+type AffectedBlockFiltersField string
 
 const (
-	AffectedBlockBlockFiltersFieldPriceID       AffectedBlockBlockFiltersField = "price_id"
-	AffectedBlockBlockFiltersFieldItemID        AffectedBlockBlockFiltersField = "item_id"
-	AffectedBlockBlockFiltersFieldPriceType     AffectedBlockBlockFiltersField = "price_type"
-	AffectedBlockBlockFiltersFieldCurrency      AffectedBlockBlockFiltersField = "currency"
-	AffectedBlockBlockFiltersFieldPricingUnitID AffectedBlockBlockFiltersField = "pricing_unit_id"
+	AffectedBlockFiltersFieldPriceID       AffectedBlockFiltersField = "price_id"
+	AffectedBlockFiltersFieldItemID        AffectedBlockFiltersField = "item_id"
+	AffectedBlockFiltersFieldPriceType     AffectedBlockFiltersField = "price_type"
+	AffectedBlockFiltersFieldCurrency      AffectedBlockFiltersField = "currency"
+	AffectedBlockFiltersFieldPricingUnitID AffectedBlockFiltersField = "pricing_unit_id"
 )
 
-func (r AffectedBlockBlockFiltersField) IsKnown() bool {
+func (r AffectedBlockFiltersField) IsKnown() bool {
 	switch r {
-	case AffectedBlockBlockFiltersFieldPriceID, AffectedBlockBlockFiltersFieldItemID, AffectedBlockBlockFiltersFieldPriceType, AffectedBlockBlockFiltersFieldCurrency, AffectedBlockBlockFiltersFieldPricingUnitID:
+	case AffectedBlockFiltersFieldPriceID, AffectedBlockFiltersFieldItemID, AffectedBlockFiltersFieldPriceType, AffectedBlockFiltersFieldCurrency, AffectedBlockFiltersFieldPricingUnitID:
 		return true
 	}
 	return false
 }
 
 // Should prices that match the filter be included or excluded.
-type AffectedBlockBlockFiltersOperator string
+type AffectedBlockFiltersOperator string
 
 const (
-	AffectedBlockBlockFiltersOperatorIncludes AffectedBlockBlockFiltersOperator = "includes"
-	AffectedBlockBlockFiltersOperatorExcludes AffectedBlockBlockFiltersOperator = "excludes"
+	AffectedBlockFiltersOperatorIncludes AffectedBlockFiltersOperator = "includes"
+	AffectedBlockFiltersOperatorExcludes AffectedBlockFiltersOperator = "excludes"
 )
 
-func (r AffectedBlockBlockFiltersOperator) IsKnown() bool {
+func (r AffectedBlockFiltersOperator) IsKnown() bool {
 	switch r {
-	case AffectedBlockBlockFiltersOperatorIncludes, AffectedBlockBlockFiltersOperatorExcludes:
+	case AffectedBlockFiltersOperatorIncludes, AffectedBlockFiltersOperatorExcludes:
 		return true
 	}
 	return false
