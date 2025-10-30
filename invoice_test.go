@@ -87,7 +87,8 @@ func TestInvoiceUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"invoice_id",
 		orb.InvoiceUpdateParams{
-			DueDate: orb.F(time.Now()),
+			DueDate:     orb.F(time.Now()),
+			InvoiceDate: orb.F(time.Now()),
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),

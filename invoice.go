@@ -49,12 +49,13 @@ func (r *InvoiceService) New(ctx context.Context, body InvoiceNewParams, opts ..
 	return
 }
 
-// This endpoint allows you to update the `metadata`, `net_terms`, and `due_date`
-// properties on an invoice. If you pass null for the metadata value, it will clear
-// any existing metadata for that invoice.
+// This endpoint allows you to update the `metadata`, `net_terms`, `due_date`, and
+// `invoice_date` properties on an invoice. If you pass null for the metadata
+// value, it will clear any existing metadata for that invoice.
 //
-// `metadata` can be modified regardless of invoice state. `net_terms` and
-// `due_date` can only be modified if the invoice is in a `draft` state.
+// `metadata` can be modified regardless of invoice state. `net_terms`, `due_date`,
+// and `invoice_date` can only be modified if the invoice is in a `draft` state.
+// `invoice_date` can only be modified for non-subscription invoices.
 func (r *InvoiceService) Update(ctx context.Context, invoiceID string, body InvoiceUpdateParams, opts ...option.RequestOption) (res *shared.Invoice, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if invoiceID == "" {
@@ -1181,6 +1182,8 @@ type InvoiceUpdateParams struct {
 	// An optional custom due date for the invoice. If not set, the due date will be
 	// calculated based on the `net_terms` value.
 	DueDate param.Field[time.Time] `json:"due_date" format:"date-time"`
+	// The date of the invoice. Can only be modified for one-off draft invoices.
+	InvoiceDate param.Field[time.Time] `json:"invoice_date" format:"date-time"`
 	// User-specified key/value pairs for the resource. Individual keys can be removed
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
