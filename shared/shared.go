@@ -5430,6 +5430,8 @@ type NewAllocationPriceParam struct {
 	// Whether the allocated amount should expire at the end of the cadence or roll
 	// over to the next period. Set to null if using custom_expiration.
 	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
+	// The filters that determine which items the allocation applies to.
+	Filters param.Field[[]NewAllocationPriceFilterParam] `json:"filters"`
 }
 
 func (r NewAllocationPriceParam) MarshalJSON() (data []byte, err error) {
@@ -5450,6 +5452,51 @@ const (
 func (r NewAllocationPriceCadence) IsKnown() bool {
 	switch r {
 	case NewAllocationPriceCadenceOneTime, NewAllocationPriceCadenceMonthly, NewAllocationPriceCadenceQuarterly, NewAllocationPriceCadenceSemiAnnual, NewAllocationPriceCadenceAnnual:
+		return true
+	}
+	return false
+}
+
+// A PriceFilter that only allows item_id field for block filters.
+type NewAllocationPriceFilterParam struct {
+	// The property of the price the block applies to. Only item_id is supported.
+	Field param.Field[NewAllocationPriceFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[NewAllocationPriceFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r NewAllocationPriceFilterParam) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price the block applies to. Only item_id is supported.
+type NewAllocationPriceFiltersField string
+
+const (
+	NewAllocationPriceFiltersFieldItemID NewAllocationPriceFiltersField = "item_id"
+)
+
+func (r NewAllocationPriceFiltersField) IsKnown() bool {
+	switch r {
+	case NewAllocationPriceFiltersFieldItemID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type NewAllocationPriceFiltersOperator string
+
+const (
+	NewAllocationPriceFiltersOperatorIncludes NewAllocationPriceFiltersOperator = "includes"
+	NewAllocationPriceFiltersOperatorExcludes NewAllocationPriceFiltersOperator = "excludes"
+)
+
+func (r NewAllocationPriceFiltersOperator) IsKnown() bool {
+	switch r {
+	case NewAllocationPriceFiltersOperatorIncludes, NewAllocationPriceFiltersOperatorExcludes:
 		return true
 	}
 	return false

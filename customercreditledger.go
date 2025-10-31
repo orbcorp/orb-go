@@ -2136,6 +2136,9 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	EffectiveDate param.Field[time.Time] `json:"effective_date" format:"date-time"`
 	// An ISO 8601 format date that denotes when this credit balance should expire.
 	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date-time"`
+	// Optional filter to specify which items this credit block applies to. If not
+	// specified, the block will apply to all items for the pricing unit.
+	Filters param.Field[[]CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFilter] `json:"filters"`
 	// Passing `invoice_settings` automatically generates an invoice for the newly
 	// added credits. If `invoice_settings` is passed, you must specify
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
@@ -2167,6 +2170,51 @@ const (
 func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
 	switch r {
 	case CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement:
+		return true
+	}
+	return false
+}
+
+// A PriceFilter that only allows item_id field for block filters.
+type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFilter struct {
+	// The property of the price the block applies to. Only item_id is supported.
+	Field param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price the block applies to. Only item_id is supported.
+type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField string
+
+const (
+	CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersFieldItemID CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField = "item_id"
+)
+
+func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersFieldItemID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator string
+
+const (
+	CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorIncludes CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator = "includes"
+	CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorExcludes CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator = "excludes"
+)
+
+func (r CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorIncludes, CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorExcludes:
 		return true
 	}
 	return false
@@ -2424,6 +2472,9 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	EffectiveDate param.Field[time.Time] `json:"effective_date" format:"date-time"`
 	// An ISO 8601 format date that denotes when this credit balance should expire.
 	ExpiryDate param.Field[time.Time] `json:"expiry_date" format:"date-time"`
+	// Optional filter to specify which items this credit block applies to. If not
+	// specified, the block will apply to all items for the pricing unit.
+	Filters param.Field[[]CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFilter] `json:"filters"`
 	// Passing `invoice_settings` automatically generates an invoice for the newly
 	// added credits. If `invoice_settings` is passed, you must specify
 	// per_unit_cost_basis, as the calculation of the invoice total is done on that
@@ -2455,6 +2506,51 @@ const (
 func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryType) IsKnown() bool {
 	switch r {
 	case CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsEntryTypeIncrement:
+		return true
+	}
+	return false
+}
+
+// A PriceFilter that only allows item_id field for block filters.
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFilter struct {
+	// The property of the price the block applies to. Only item_id is supported.
+	Field param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField] `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator param.Field[CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator] `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values param.Field[[]string] `json:"values,required"`
+}
+
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The property of the price the block applies to. Only item_id is supported.
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField string
+
+const (
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersFieldItemID CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField = "item_id"
+)
+
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersField) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersFieldItemID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator string
+
+const (
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorIncludes CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator = "includes"
+	CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorExcludes CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator = "excludes"
+)
+
+func (r CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperator) IsKnown() bool {
+	switch r {
+	case CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorIncludes, CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorExcludes:
 		return true
 	}
 	return false
