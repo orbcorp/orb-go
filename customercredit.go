@@ -121,14 +121,15 @@ func (r *CustomerCreditService) ListByExternalIDAutoPaging(ctx context.Context, 
 }
 
 type CustomerCreditListResponse struct {
-	ID                    string                           `json:"id,required"`
-	Balance               float64                          `json:"balance,required"`
-	EffectiveDate         time.Time                        `json:"effective_date,required,nullable" format:"date-time"`
-	ExpiryDate            time.Time                        `json:"expiry_date,required,nullable" format:"date-time"`
-	MaximumInitialBalance float64                          `json:"maximum_initial_balance,required,nullable"`
-	PerUnitCostBasis      string                           `json:"per_unit_cost_basis,required,nullable"`
-	Status                CustomerCreditListResponseStatus `json:"status,required"`
-	JSON                  customerCreditListResponseJSON   `json:"-"`
+	ID                    string                             `json:"id,required"`
+	Balance               float64                            `json:"balance,required"`
+	EffectiveDate         time.Time                          `json:"effective_date,required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                          `json:"expiry_date,required,nullable" format:"date-time"`
+	Filters               []CustomerCreditListResponseFilter `json:"filters,required"`
+	MaximumInitialBalance float64                            `json:"maximum_initial_balance,required,nullable"`
+	PerUnitCostBasis      string                             `json:"per_unit_cost_basis,required,nullable"`
+	Status                CustomerCreditListResponseStatus   `json:"status,required"`
+	JSON                  customerCreditListResponseJSON     `json:"-"`
 }
 
 // customerCreditListResponseJSON contains the JSON metadata for the struct
@@ -138,6 +139,7 @@ type customerCreditListResponseJSON struct {
 	Balance               apijson.Field
 	EffectiveDate         apijson.Field
 	ExpiryDate            apijson.Field
+	Filters               apijson.Field
 	MaximumInitialBalance apijson.Field
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
@@ -151,6 +153,69 @@ func (r *CustomerCreditListResponse) UnmarshalJSON(data []byte) (err error) {
 
 func (r customerCreditListResponseJSON) RawJSON() string {
 	return r.raw
+}
+
+type CustomerCreditListResponseFilter struct {
+	// The property of the price to filter on.
+	Field CustomerCreditListResponseFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator CustomerCreditListResponseFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                             `json:"values,required"`
+	JSON   customerCreditListResponseFilterJSON `json:"-"`
+}
+
+// customerCreditListResponseFilterJSON contains the JSON metadata for the struct
+// [CustomerCreditListResponseFilter]
+type customerCreditListResponseFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCreditListResponseFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListResponseFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type CustomerCreditListResponseFiltersField string
+
+const (
+	CustomerCreditListResponseFiltersFieldPriceID       CustomerCreditListResponseFiltersField = "price_id"
+	CustomerCreditListResponseFiltersFieldItemID        CustomerCreditListResponseFiltersField = "item_id"
+	CustomerCreditListResponseFiltersFieldPriceType     CustomerCreditListResponseFiltersField = "price_type"
+	CustomerCreditListResponseFiltersFieldCurrency      CustomerCreditListResponseFiltersField = "currency"
+	CustomerCreditListResponseFiltersFieldPricingUnitID CustomerCreditListResponseFiltersField = "pricing_unit_id"
+)
+
+func (r CustomerCreditListResponseFiltersField) IsKnown() bool {
+	switch r {
+	case CustomerCreditListResponseFiltersFieldPriceID, CustomerCreditListResponseFiltersFieldItemID, CustomerCreditListResponseFiltersFieldPriceType, CustomerCreditListResponseFiltersFieldCurrency, CustomerCreditListResponseFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CustomerCreditListResponseFiltersOperator string
+
+const (
+	CustomerCreditListResponseFiltersOperatorIncludes CustomerCreditListResponseFiltersOperator = "includes"
+	CustomerCreditListResponseFiltersOperatorExcludes CustomerCreditListResponseFiltersOperator = "excludes"
+)
+
+func (r CustomerCreditListResponseFiltersOperator) IsKnown() bool {
+	switch r {
+	case CustomerCreditListResponseFiltersOperatorIncludes, CustomerCreditListResponseFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type CustomerCreditListResponseStatus string
@@ -169,14 +234,15 @@ func (r CustomerCreditListResponseStatus) IsKnown() bool {
 }
 
 type CustomerCreditListByExternalIDResponse struct {
-	ID                    string                                       `json:"id,required"`
-	Balance               float64                                      `json:"balance,required"`
-	EffectiveDate         time.Time                                    `json:"effective_date,required,nullable" format:"date-time"`
-	ExpiryDate            time.Time                                    `json:"expiry_date,required,nullable" format:"date-time"`
-	MaximumInitialBalance float64                                      `json:"maximum_initial_balance,required,nullable"`
-	PerUnitCostBasis      string                                       `json:"per_unit_cost_basis,required,nullable"`
-	Status                CustomerCreditListByExternalIDResponseStatus `json:"status,required"`
-	JSON                  customerCreditListByExternalIDResponseJSON   `json:"-"`
+	ID                    string                                         `json:"id,required"`
+	Balance               float64                                        `json:"balance,required"`
+	EffectiveDate         time.Time                                      `json:"effective_date,required,nullable" format:"date-time"`
+	ExpiryDate            time.Time                                      `json:"expiry_date,required,nullable" format:"date-time"`
+	Filters               []CustomerCreditListByExternalIDResponseFilter `json:"filters,required"`
+	MaximumInitialBalance float64                                        `json:"maximum_initial_balance,required,nullable"`
+	PerUnitCostBasis      string                                         `json:"per_unit_cost_basis,required,nullable"`
+	Status                CustomerCreditListByExternalIDResponseStatus   `json:"status,required"`
+	JSON                  customerCreditListByExternalIDResponseJSON     `json:"-"`
 }
 
 // customerCreditListByExternalIDResponseJSON contains the JSON metadata for the
@@ -186,6 +252,7 @@ type customerCreditListByExternalIDResponseJSON struct {
 	Balance               apijson.Field
 	EffectiveDate         apijson.Field
 	ExpiryDate            apijson.Field
+	Filters               apijson.Field
 	MaximumInitialBalance apijson.Field
 	PerUnitCostBasis      apijson.Field
 	Status                apijson.Field
@@ -199,6 +266,69 @@ func (r *CustomerCreditListByExternalIDResponse) UnmarshalJSON(data []byte) (err
 
 func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
 	return r.raw
+}
+
+type CustomerCreditListByExternalIDResponseFilter struct {
+	// The property of the price to filter on.
+	Field CustomerCreditListByExternalIDResponseFiltersField `json:"field,required"`
+	// Should prices that match the filter be included or excluded.
+	Operator CustomerCreditListByExternalIDResponseFiltersOperator `json:"operator,required"`
+	// The IDs or values that match this filter.
+	Values []string                                         `json:"values,required"`
+	JSON   customerCreditListByExternalIDResponseFilterJSON `json:"-"`
+}
+
+// customerCreditListByExternalIDResponseFilterJSON contains the JSON metadata for
+// the struct [CustomerCreditListByExternalIDResponseFilter]
+type customerCreditListByExternalIDResponseFilterJSON struct {
+	Field       apijson.Field
+	Operator    apijson.Field
+	Values      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *CustomerCreditListByExternalIDResponseFilter) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerCreditListByExternalIDResponseFilterJSON) RawJSON() string {
+	return r.raw
+}
+
+// The property of the price to filter on.
+type CustomerCreditListByExternalIDResponseFiltersField string
+
+const (
+	CustomerCreditListByExternalIDResponseFiltersFieldPriceID       CustomerCreditListByExternalIDResponseFiltersField = "price_id"
+	CustomerCreditListByExternalIDResponseFiltersFieldItemID        CustomerCreditListByExternalIDResponseFiltersField = "item_id"
+	CustomerCreditListByExternalIDResponseFiltersFieldPriceType     CustomerCreditListByExternalIDResponseFiltersField = "price_type"
+	CustomerCreditListByExternalIDResponseFiltersFieldCurrency      CustomerCreditListByExternalIDResponseFiltersField = "currency"
+	CustomerCreditListByExternalIDResponseFiltersFieldPricingUnitID CustomerCreditListByExternalIDResponseFiltersField = "pricing_unit_id"
+)
+
+func (r CustomerCreditListByExternalIDResponseFiltersField) IsKnown() bool {
+	switch r {
+	case CustomerCreditListByExternalIDResponseFiltersFieldPriceID, CustomerCreditListByExternalIDResponseFiltersFieldItemID, CustomerCreditListByExternalIDResponseFiltersFieldPriceType, CustomerCreditListByExternalIDResponseFiltersFieldCurrency, CustomerCreditListByExternalIDResponseFiltersFieldPricingUnitID:
+		return true
+	}
+	return false
+}
+
+// Should prices that match the filter be included or excluded.
+type CustomerCreditListByExternalIDResponseFiltersOperator string
+
+const (
+	CustomerCreditListByExternalIDResponseFiltersOperatorIncludes CustomerCreditListByExternalIDResponseFiltersOperator = "includes"
+	CustomerCreditListByExternalIDResponseFiltersOperatorExcludes CustomerCreditListByExternalIDResponseFiltersOperator = "excludes"
+)
+
+func (r CustomerCreditListByExternalIDResponseFiltersOperator) IsKnown() bool {
+	switch r {
+	case CustomerCreditListByExternalIDResponseFiltersOperatorIncludes, CustomerCreditListByExternalIDResponseFiltersOperatorExcludes:
+		return true
+	}
+	return false
 }
 
 type CustomerCreditListByExternalIDResponseStatus string
