@@ -2089,6 +2089,30 @@ const NewAllocationPriceCadenceSemiAnnual = shared.NewAllocationPriceCadenceSemi
 // This is an alias to an internal value.
 const NewAllocationPriceCadenceAnnual = shared.NewAllocationPriceCadenceAnnual
 
+// A PriceFilter that only allows item_id field for block filters.
+//
+// This is an alias to an internal type.
+type NewAllocationPriceFilterParam = shared.NewAllocationPriceFilterParam
+
+// The property of the price the block applies to. Only item_id is supported.
+//
+// This is an alias to an internal type.
+type NewAllocationPriceFiltersField = shared.NewAllocationPriceFiltersField
+
+// This is an alias to an internal value.
+const NewAllocationPriceFiltersFieldItemID = shared.NewAllocationPriceFiltersFieldItemID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type NewAllocationPriceFiltersOperator = shared.NewAllocationPriceFiltersOperator
+
+// This is an alias to an internal value.
+const NewAllocationPriceFiltersOperatorIncludes = shared.NewAllocationPriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const NewAllocationPriceFiltersOperatorExcludes = shared.NewAllocationPriceFiltersOperatorExcludes
+
 // This is an alias to an internal type.
 type NewAmountDiscountParam = shared.NewAmountDiscountParam
 

@@ -59,6 +59,11 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 					}),
 					ExpiresAtEndOfCadence: orb.F(true),
+					Filters: orb.F([]shared.NewAllocationPriceFilterParam{{
+						Field:    orb.F(shared.NewAllocationPriceFiltersFieldItemID),
+						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
+						Values:   orb.F([]string{"string"}),
+					}}),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion](shared.NewPlanUnitPriceParam{
@@ -139,6 +144,11 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 					}),
 					ExpiresAtEndOfCadence: orb.F(true),
+					Filters: orb.F([]shared.NewAllocationPriceFilterParam{{
+						Field:    orb.F(shared.NewAllocationPriceFiltersFieldItemID),
+						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
+						Values:   orb.F([]string{"string"}),
+					}}),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion](shared.NewPlanUnitPriceParam{
