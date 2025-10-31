@@ -58,6 +58,11 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 				}),
 				ExpiresAtEndOfCadence: orb.F(true),
+				Filters: orb.F([]shared.NewAllocationPriceFilterParam{{
+					Field:    orb.F(shared.NewAllocationPriceFiltersFieldItemID),
+					Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
+					Values:   orb.F([]string{"string"}),
+				}}),
 			}),
 			Discounts: orb.F([]orb.DiscountOverrideParam{{
 				DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),
@@ -178,6 +183,11 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 				}),
 				ExpiresAtEndOfCadence: orb.F(true),
+				Filters: orb.F([]shared.NewAllocationPriceFilterParam{{
+					Field:    orb.F(shared.NewAllocationPriceFiltersFieldItemID),
+					Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
+					Values:   orb.F([]string{"string"}),
+				}}),
 			}),
 			Discounts: orb.F([]orb.DiscountOverrideParam{{
 				DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),
@@ -493,6 +503,11 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 					}),
 					ExpiresAtEndOfCadence: orb.F(true),
+					Filters: orb.F([]shared.NewAllocationPriceFilterParam{{
+						Field:    orb.F(shared.NewAllocationPriceFiltersFieldItemID),
+						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
+						Values:   orb.F([]string{"string"}),
+					}}),
 				}),
 				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscountUnion{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					AmountDiscount: orb.F(0.000000),
@@ -676,6 +691,11 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 					}),
 					ExpiresAtEndOfCadence: orb.F(true),
+					Filters: orb.F([]shared.NewAllocationPriceFilterParam{{
+						Field:    orb.F(shared.NewAllocationPriceFiltersFieldItemID),
+						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
+						Values:   orb.F([]string{"string"}),
+					}}),
 				}),
 				Discounts: orb.F([]orb.DiscountOverrideParam{{
 					DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),
@@ -787,6 +807,11 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						DurationUnit: orb.F(shared.CustomExpirationDurationUnitDay),
 					}),
 					ExpiresAtEndOfCadence: orb.F(true),
+					Filters: orb.F([]shared.NewAllocationPriceFilterParam{{
+						Field:    orb.F(shared.NewAllocationPriceFiltersFieldItemID),
+						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
+						Values:   orb.F([]string{"string"}),
+					}}),
 				}),
 				Discounts: orb.F([]orb.DiscountOverrideParam{{
 					DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),

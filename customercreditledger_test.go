@@ -73,6 +73,11 @@ func TestCustomerCreditLedgerNewEntryWithOptionalParams(t *testing.T) {
 			Description:   orb.F("description"),
 			EffectiveDate: orb.F(time.Now()),
 			ExpiryDate:    orb.F(time.Now()),
+			Filters: orb.F([]orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFilter{{
+				Field:    orb.F(orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersFieldItemID),
+				Operator: orb.F(orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorIncludes),
+				Values:   orb.F([]string{"string"}),
+			}}),
 			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
 				AutoCollection:           orb.F(true),
 				NetTerms:                 orb.F(int64(0)),
@@ -119,6 +124,11 @@ func TestCustomerCreditLedgerNewEntryByExternalIDWithOptionalParams(t *testing.T
 			Description:   orb.F("description"),
 			EffectiveDate: orb.F(time.Now()),
 			ExpiryDate:    orb.F(time.Now()),
+			Filters: orb.F([]orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFilter{{
+				Field:    orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersFieldItemID),
+				Operator: orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsFiltersOperatorIncludes),
+				Values:   orb.F([]string{"string"}),
+			}}),
 			InvoiceSettings: orb.F(orb.CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntryRequestParamsInvoiceSettings{
 				AutoCollection:           orb.F(true),
 				NetTerms:                 orb.F(int64(0)),
