@@ -47,9 +47,6 @@ func (r *BetaExternalPlanIDService) NewPlanVersion(ctx context.Context, external
 	return
 }
 
-// This API endpoint is in beta and its interface may change. It is recommended for
-// use only in test mode.
-//
 // This endpoint is used to fetch a plan version. It returns the phases, prices,
 // and adjustments present on this version of the plan.
 func (r *BetaExternalPlanIDService) FetchPlanVersion(ctx context.Context, externalPlanID string, version string, opts ...option.RequestOption) (res *PlanVersion, err error) {
@@ -67,9 +64,6 @@ func (r *BetaExternalPlanIDService) FetchPlanVersion(ctx context.Context, extern
 	return
 }
 
-// This API endpoint is in beta and its interface may change. It is recommended for
-// use only in test mode.
-//
 // This endpoint allows setting the default version of a plan.
 func (r *BetaExternalPlanIDService) SetDefaultPlanVersion(ctx context.Context, externalPlanID string, body BetaExternalPlanIDSetDefaultPlanVersionParams, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = slices.Concat(r.Options, opts)

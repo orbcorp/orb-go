@@ -2228,12 +2228,6 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
 	AutoCollection param.Field[bool] `json:"auto_collection,required"`
-	// The net terms determines the due date of the invoice. Due date is calculated
-	// based on the invoice or issuance date, depending on the account's configured due
-	// date calculation method. A value of '0' here represents that the invoice is due
-	// on issue, whereas a value of '30' represents that the customer has 30 days to
-	// pay the invoice. Do not set this field if you want to set a custom due date.
-	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional custom due date for the invoice. If not set, the due date will be
 	// calculated based on the `net_terms` value.
 	CustomDueDate param.Field[time.Time] `json:"custom_due_date" format:"date-time"`
@@ -2246,6 +2240,12 @@ type CustomerCreditLedgerNewEntryParamsAddIncrementCreditLedgerEntryRequestParam
 	ItemID param.Field[string] `json:"item_id"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
+	// The net terms determines the due date of the invoice. Due date is calculated
+	// based on the invoice or issuance date, depending on the account's configured due
+	// date calculation method. A value of '0' here represents that the invoice is due
+	// on issue, whereas a value of '30' represents that the customer has 30 days to
+	// pay the invoice. Do not set this field if you want to set a custom due date.
+	NetTerms param.Field[int64] `json:"net_terms"`
 	// If true, the new credit block will require that the corresponding invoice is
 	// paid before it can be drawn down from.
 	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
@@ -2564,12 +2564,6 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	// Whether the credits purchase invoice should auto collect with the customer's
 	// saved payment method.
 	AutoCollection param.Field[bool] `json:"auto_collection,required"`
-	// The net terms determines the due date of the invoice. Due date is calculated
-	// based on the invoice or issuance date, depending on the account's configured due
-	// date calculation method. A value of '0' here represents that the invoice is due
-	// on issue, whereas a value of '30' represents that the customer has 30 days to
-	// pay the invoice. Do not set this field if you want to set a custom due date.
-	NetTerms param.Field[int64] `json:"net_terms,required"`
 	// An optional custom due date for the invoice. If not set, the due date will be
 	// calculated based on the `net_terms` value.
 	CustomDueDate param.Field[time.Time] `json:"custom_due_date" format:"date-time"`
@@ -2582,6 +2576,12 @@ type CustomerCreditLedgerNewEntryByExternalIDParamsAddIncrementCreditLedgerEntry
 	ItemID param.Field[string] `json:"item_id"`
 	// An optional memo to display on the invoice.
 	Memo param.Field[string] `json:"memo"`
+	// The net terms determines the due date of the invoice. Due date is calculated
+	// based on the invoice or issuance date, depending on the account's configured due
+	// date calculation method. A value of '0' here represents that the invoice is due
+	// on issue, whereas a value of '30' represents that the customer has 30 days to
+	// pay the invoice. Do not set this field if you want to set a custom due date.
+	NetTerms param.Field[int64] `json:"net_terms"`
 	// If true, the new credit block will require that the corresponding invoice is
 	// paid before it can be drawn down from.
 	RequireSuccessfulPayment param.Field[bool] `json:"require_successful_payment"`
