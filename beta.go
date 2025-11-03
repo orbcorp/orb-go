@@ -52,9 +52,6 @@ func (r *BetaService) NewPlanVersion(ctx context.Context, planID string, body Be
 	return
 }
 
-// This API endpoint is in beta and its interface may change. It is recommended for
-// use only in test mode.
-//
 // This endpoint is used to fetch a plan version. It returns the phases, prices,
 // and adjustments present on this version of the plan.
 func (r *BetaService) FetchPlanVersion(ctx context.Context, planID string, version string, opts ...option.RequestOption) (res *PlanVersion, err error) {
@@ -72,9 +69,6 @@ func (r *BetaService) FetchPlanVersion(ctx context.Context, planID string, versi
 	return
 }
 
-// This API endpoint is in beta and its interface may change. It is recommended for
-// use only in test mode.
-//
 // This endpoint allows setting the default version of a plan.
 func (r *BetaService) SetDefaultPlanVersion(ctx context.Context, planID string, body BetaSetDefaultPlanVersionParams, opts ...option.RequestOption) (res *Plan, err error) {
 	opts = slices.Concat(r.Options, opts)
