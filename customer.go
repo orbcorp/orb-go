@@ -1090,12 +1090,8 @@ type CustomerUpdateParams struct {
 	// true, invoices will be automatically issued. If false, invoices will require
 	// manual approval.If `null` is specified, the customer's auto issuance setting
 	// will be inherited from the account-level setting.
-	AutoIssuance param.Field[bool] `json:"auto_issuance"`
-	// Whether automatic tax calculation is enabled for this customer. When null,
-	// inherits from account-level setting. When true or false, overrides the account
-	// setting.
-	AutomaticTaxEnabled param.Field[bool]              `json:"automatic_tax_enabled"`
-	BillingAddress      param.Field[AddressInputParam] `json:"billing_address"`
+	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
+	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.
 	Currency param.Field[string] `json:"currency"`
@@ -1440,12 +1436,8 @@ type CustomerUpdateByExternalIDParams struct {
 	// true, invoices will be automatically issued. If false, invoices will require
 	// manual approval.If `null` is specified, the customer's auto issuance setting
 	// will be inherited from the account-level setting.
-	AutoIssuance param.Field[bool] `json:"auto_issuance"`
-	// Whether automatic tax calculation is enabled for this customer. When null,
-	// inherits from account-level setting. When true or false, overrides the account
-	// setting.
-	AutomaticTaxEnabled param.Field[bool]              `json:"automatic_tax_enabled"`
-	BillingAddress      param.Field[AddressInputParam] `json:"billing_address"`
+	AutoIssuance   param.Field[bool]              `json:"auto_issuance"`
+	BillingAddress param.Field[AddressInputParam] `json:"billing_address"`
 	// An ISO 4217 currency string used for the customer's invoices and balance. If not
 	// set at creation time, will be set at subscription creation time.
 	Currency param.Field[string] `json:"currency"`
