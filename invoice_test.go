@@ -39,6 +39,7 @@ func TestInvoiceNewWithOptionalParams(t *testing.T) {
 			StartDate: orb.F(time.Now()),
 			UnitConfig: orb.F(shared.UnitConfigParam{
 				UnitAmount: orb.F("unit_amount"),
+				Prorated:   orb.F(true),
 			}),
 		}}),
 		CustomerID: orb.F("4khy3nwzktxv7"),

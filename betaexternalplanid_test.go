@@ -73,6 +73,7 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					Name:      orb.F("Annual fee"),
 					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
+						Prorated:   orb.F(true),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
@@ -158,6 +159,7 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 					Name:      orb.F("Annual fee"),
 					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
+						Prorated:   orb.F(true),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),

@@ -82,6 +82,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Name:      orb.F("Annual fee"),
 				UnitConfig: orb.F(shared.UnitConfigParam{
 					UnitAmount: orb.F("unit_amount"),
+					Prorated:   orb.F(true),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
@@ -206,6 +207,7 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 				Name:      orb.F("Annual fee"),
 				UnitConfig: orb.F(shared.UnitConfigParam{
 					UnitAmount: orb.F("unit_amount"),
+					Prorated:   orb.F(true),
 				}),
 				BillableMetricID: orb.F("billable_metric_id"),
 				BilledInAdvance:  orb.F(true),
@@ -530,6 +532,7 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 					Name:      orb.F("Annual fee"),
 					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
+						Prorated:   orb.F(true),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
@@ -584,9 +587,11 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 				EndDate:      orb.F[orb.SubscriptionPriceIntervalsParamsAddAdjustmentsEndDateUnion](shared.UnionTime(time.Now())),
 			}}),
 			AllowInvoiceCreditOrVoid: orb.F(true),
+			CanDeferBilling:          orb.F(true),
 			Edit: orb.F([]orb.SubscriptionPriceIntervalsParamsEdit{{
 				PriceIntervalID: orb.F("sdfs6wdjvn7ujokd"),
 				BillingCycleDay: orb.F(int64(0)),
+				CanDeferBilling: orb.F(true),
 				EndDate:         orb.F[orb.SubscriptionPriceIntervalsParamsEditEndDateUnion](shared.UnionTime(time.Now())),
 				Filter:          orb.F("my_property > 100 AND my_other_property = 'bar'"),
 				FixedFeeQuantityTransitions: orb.F([]orb.SubscriptionPriceIntervalsParamsEditFixedFeeQuantityTransition{{
@@ -715,6 +720,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Name:      orb.F("Annual fee"),
 					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
+						Prorated:   orb.F(true),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
@@ -830,6 +836,7 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 					Name:      orb.F("Annual fee"),
 					UnitConfig: orb.F(shared.UnitConfigParam{
 						UnitAmount: orb.F("unit_amount"),
+						Prorated:   orb.F(true),
 					}),
 					BillableMetricID: orb.F("billable_metric_id"),
 					BilledInAdvance:  orb.F(true),
