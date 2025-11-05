@@ -25656,6 +25656,10 @@ type PriceInterval struct {
 	ID string `json:"id,required"`
 	// The day of the month that Orb bills for this price
 	BillingCycleDay int64 `json:"billing_cycle_day,required"`
+	// For in-arrears prices. If true, and the price interval ends mid-cycle, the final
+	// line item will be deferred to the next scheduled invoice instead of being billed
+	// mid-cycle.
+	CanDeferBilling bool `json:"can_defer_billing,required"`
 	// The end of the current billing period. This is an exclusive timestamp, such that
 	// the instant returned is exactly the end of the billing period. Set to null if
 	// this price interval is not currently active.
@@ -25696,6 +25700,7 @@ type PriceInterval struct {
 type priceIntervalJSON struct {
 	ID                            apijson.Field
 	BillingCycleDay               apijson.Field
+	CanDeferBilling               apijson.Field
 	CurrentBillingPeriodEndDate   apijson.Field
 	CurrentBillingPeriodStartDate apijson.Field
 	EndDate                       apijson.Field
@@ -25978,13 +25983,16 @@ func (r TierSubLineItemType) IsKnown() bool {
 // Configuration for tiered pricing
 type TieredConfig struct {
 	// Tiers for rating based on total usage quantities into the specified tier
-	Tiers []Tier           `json:"tiers,required"`
-	JSON  tieredConfigJSON `json:"-"`
+	Tiers []Tier `json:"tiers,required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated bool             `json:"prorated"`
+	JSON     tieredConfigJSON `json:"-"`
 }
 
 // tieredConfigJSON contains the JSON metadata for the struct [TieredConfig]
 type tieredConfigJSON struct {
 	Tiers       apijson.Field
+	Prorated    apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -26001,6 +26009,8 @@ func (r tieredConfigJSON) RawJSON() string {
 type TieredConfigParam struct {
 	// Tiers for rating based on total usage quantities into the specified tier
 	Tiers param.Field[[]TierParam] `json:"tiers,required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated param.Field[bool] `json:"prorated"`
 }
 
 func (r TieredConfigParam) MarshalJSON() (data []byte, err error) {
@@ -26758,13 +26768,16 @@ func (r TrialDiscountFilterParam) MarshalJSON() (data []byte, err error) {
 // Configuration for unit pricing
 type UnitConfig struct {
 	// Rate per unit of usage
-	UnitAmount string         `json:"unit_amount,required"`
-	JSON       unitConfigJSON `json:"-"`
+	UnitAmount string `json:"unit_amount,required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated bool           `json:"prorated"`
+	JSON     unitConfigJSON `json:"-"`
 }
 
 // unitConfigJSON contains the JSON metadata for the struct [UnitConfig]
 type unitConfigJSON struct {
 	UnitAmount  apijson.Field
+	Prorated    apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -26781,6 +26794,8 @@ func (r unitConfigJSON) RawJSON() string {
 type UnitConfigParam struct {
 	// Rate per unit of usage
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	// If true, subtotals from this price are prorated based on the service period
+	Prorated param.Field[bool] `json:"prorated"`
 }
 
 func (r UnitConfigParam) MarshalJSON() (data []byte, err error) {
