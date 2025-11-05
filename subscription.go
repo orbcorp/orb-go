@@ -8123,6 +8123,10 @@ type SubscriptionPriceIntervalsParams struct {
 	// credit note. Consider using this as a safety mechanism if you do not expect
 	// existing invoices to be changed.
 	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
+	// If true, ending an in-arrears price interval mid-cycle will defer billing the
+	// final line itemuntil the next scheduled invoice. If false, it will be billed on
+	// its end date. If not provided, behaviorwill follow account default.
+	CanDeferBilling param.Field[bool] `json:"can_defer_billing"`
 	// A list of price intervals to edit on the subscription.
 	Edit param.Field[[]SubscriptionPriceIntervalsParamsEdit] `json:"edit"`
 	// A list of adjustments to edit on the subscription.
@@ -9217,6 +9221,10 @@ type SubscriptionPriceIntervalsParamsEdit struct {
 	// billing cycle day will not be updated. Note that overlapping price intervals
 	// must have the same billing cycle day.
 	BillingCycleDay param.Field[int64] `json:"billing_cycle_day"`
+	// If true, ending an in-arrears price interval mid-cycle will defer billing the
+	// final line itemuntil the next scheduled invoice. If false, it will be billed on
+	// its end date. If not provided, behaviorwill follow account default.
+	CanDeferBilling param.Field[bool] `json:"can_defer_billing"`
 	// The updated end date of this price interval. If not specified, the end date will
 	// not be updated.
 	EndDate param.Field[SubscriptionPriceIntervalsParamsEditEndDateUnion] `json:"end_date" format:"date-time"`
