@@ -995,6 +995,7 @@ func (r CustomerNewParamsTaxConfiguration) implementsCustomerNewParamsTaxConfigu
 // [NewSphereConfigurationParam],
 // [CustomerNewParamsTaxConfigurationNewNumeralConfiguration],
 // [CustomerNewParamsTaxConfigurationNewAnrokConfiguration],
+// [CustomerNewParamsTaxConfigurationNewStripeTaxConfiguration],
 // [CustomerNewParamsTaxConfiguration].
 type CustomerNewParamsTaxConfigurationUnion interface {
 	implementsCustomerNewParamsTaxConfigurationUnion()
@@ -1058,6 +1059,35 @@ func (r CustomerNewParamsTaxConfigurationNewAnrokConfigurationTaxProvider) IsKno
 	return false
 }
 
+type CustomerNewParamsTaxConfigurationNewStripeTaxConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                  `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
+}
+
+func (r CustomerNewParamsTaxConfigurationNewStripeTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerNewParamsTaxConfigurationNewStripeTaxConfiguration) implementsCustomerNewParamsTaxConfigurationUnion() {
+}
+
+type CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider string
+
+const (
+	CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProviderStripe CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider = "stripe"
+)
+
+func (r CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsTaxConfigurationNewStripeTaxConfigurationTaxProviderStripe:
+		return true
+	}
+	return false
+}
+
 type CustomerNewParamsTaxConfigurationTaxProvider string
 
 const (
@@ -1066,11 +1096,12 @@ const (
 	CustomerNewParamsTaxConfigurationTaxProviderSphere  CustomerNewParamsTaxConfigurationTaxProvider = "sphere"
 	CustomerNewParamsTaxConfigurationTaxProviderNumeral CustomerNewParamsTaxConfigurationTaxProvider = "numeral"
 	CustomerNewParamsTaxConfigurationTaxProviderAnrok   CustomerNewParamsTaxConfigurationTaxProvider = "anrok"
+	CustomerNewParamsTaxConfigurationTaxProviderStripe  CustomerNewParamsTaxConfigurationTaxProvider = "stripe"
 )
 
 func (r CustomerNewParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar, CustomerNewParamsTaxConfigurationTaxProviderSphere, CustomerNewParamsTaxConfigurationTaxProviderNumeral, CustomerNewParamsTaxConfigurationTaxProviderAnrok:
+	case CustomerNewParamsTaxConfigurationTaxProviderAvalara, CustomerNewParamsTaxConfigurationTaxProviderTaxjar, CustomerNewParamsTaxConfigurationTaxProviderSphere, CustomerNewParamsTaxConfigurationTaxProviderNumeral, CustomerNewParamsTaxConfigurationTaxProviderAnrok, CustomerNewParamsTaxConfigurationTaxProviderStripe:
 		return true
 	}
 	return false
@@ -1321,6 +1352,7 @@ func (r CustomerUpdateParamsTaxConfiguration) implementsCustomerUpdateParamsTaxC
 // [NewSphereConfigurationParam],
 // [CustomerUpdateParamsTaxConfigurationNewNumeralConfiguration],
 // [CustomerUpdateParamsTaxConfigurationNewAnrokConfiguration],
+// [CustomerUpdateParamsTaxConfigurationNewStripeTaxConfiguration],
 // [CustomerUpdateParamsTaxConfiguration].
 type CustomerUpdateParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateParamsTaxConfigurationUnion()
@@ -1384,6 +1416,35 @@ func (r CustomerUpdateParamsTaxConfigurationNewAnrokConfigurationTaxProvider) Is
 	return false
 }
 
+type CustomerUpdateParamsTaxConfigurationNewStripeTaxConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                     `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewStripeTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateParamsTaxConfigurationNewStripeTaxConfiguration) implementsCustomerUpdateParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider string
+
+const (
+	CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProviderStripe CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider = "stripe"
+)
+
+func (r CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsTaxConfigurationNewStripeTaxConfigurationTaxProviderStripe:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateParamsTaxConfigurationTaxProvider string
 
 const (
@@ -1392,11 +1453,12 @@ const (
 	CustomerUpdateParamsTaxConfigurationTaxProviderSphere  CustomerUpdateParamsTaxConfigurationTaxProvider = "sphere"
 	CustomerUpdateParamsTaxConfigurationTaxProviderNumeral CustomerUpdateParamsTaxConfigurationTaxProvider = "numeral"
 	CustomerUpdateParamsTaxConfigurationTaxProviderAnrok   CustomerUpdateParamsTaxConfigurationTaxProvider = "anrok"
+	CustomerUpdateParamsTaxConfigurationTaxProviderStripe  CustomerUpdateParamsTaxConfigurationTaxProvider = "stripe"
 )
 
 func (r CustomerUpdateParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateParamsTaxConfigurationTaxProviderSphere, CustomerUpdateParamsTaxConfigurationTaxProviderNumeral, CustomerUpdateParamsTaxConfigurationTaxProviderAnrok:
+	case CustomerUpdateParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateParamsTaxConfigurationTaxProviderSphere, CustomerUpdateParamsTaxConfigurationTaxProviderNumeral, CustomerUpdateParamsTaxConfigurationTaxProviderAnrok, CustomerUpdateParamsTaxConfigurationTaxProviderStripe:
 		return true
 	}
 	return false
@@ -1668,6 +1730,7 @@ func (r CustomerUpdateByExternalIDParamsTaxConfiguration) implementsCustomerUpda
 // [NewSphereConfigurationParam],
 // [CustomerUpdateByExternalIDParamsTaxConfigurationNewNumeralConfiguration],
 // [CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfiguration],
+// [CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfiguration],
 // [CustomerUpdateByExternalIDParamsTaxConfiguration].
 type CustomerUpdateByExternalIDParamsTaxConfigurationUnion interface {
 	implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion()
@@ -1731,6 +1794,35 @@ func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewAnrokConfigurationTax
 	return false
 }
 
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfiguration struct {
+	TaxExempt   param.Field[bool]                                                                                 `json:"tax_exempt,required"`
+	TaxProvider param.Field[CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider] `json:"tax_provider,required"`
+	// Whether to automatically calculate tax for this customer. When null, inherits
+	// from account-level setting. When true or false, overrides the account setting.
+	AutomaticTaxEnabled param.Field[bool] `json:"automatic_tax_enabled"`
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfiguration) implementsCustomerUpdateByExternalIDParamsTaxConfigurationUnion() {
+}
+
+type CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider string
+
+const (
+	CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProviderStripe CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider = "stripe"
+)
+
+func (r CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProvider) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsTaxConfigurationNewStripeTaxConfigurationTaxProviderStripe:
+		return true
+	}
+	return false
+}
+
 type CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider string
 
 const (
@@ -1739,11 +1831,12 @@ const (
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "sphere"
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "numeral"
 	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAnrok   CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "anrok"
+	CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderStripe  CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider = "stripe"
 )
 
 func (r CustomerUpdateByExternalIDParamsTaxConfigurationTaxProvider) IsKnown() bool {
 	switch r {
-	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAnrok:
+	case CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAvalara, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderTaxjar, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderSphere, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderNumeral, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderAnrok, CustomerUpdateByExternalIDParamsTaxConfigurationTaxProviderStripe:
 		return true
 	}
 	return false
