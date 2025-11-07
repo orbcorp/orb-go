@@ -155,8 +155,9 @@ func (r customerCreditListResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+// A PriceFilter that only allows item_id field for block filters.
 type CustomerCreditListResponseFilter struct {
-	// The property of the price to filter on.
+	// The property of the price the block applies to. Only item_id is supported.
 	Field CustomerCreditListResponseFiltersField `json:"field,required"`
 	// Should prices that match the filter be included or excluded.
 	Operator CustomerCreditListResponseFiltersOperator `json:"operator,required"`
@@ -183,20 +184,16 @@ func (r customerCreditListResponseFilterJSON) RawJSON() string {
 	return r.raw
 }
 
-// The property of the price to filter on.
+// The property of the price the block applies to. Only item_id is supported.
 type CustomerCreditListResponseFiltersField string
 
 const (
-	CustomerCreditListResponseFiltersFieldPriceID       CustomerCreditListResponseFiltersField = "price_id"
-	CustomerCreditListResponseFiltersFieldItemID        CustomerCreditListResponseFiltersField = "item_id"
-	CustomerCreditListResponseFiltersFieldPriceType     CustomerCreditListResponseFiltersField = "price_type"
-	CustomerCreditListResponseFiltersFieldCurrency      CustomerCreditListResponseFiltersField = "currency"
-	CustomerCreditListResponseFiltersFieldPricingUnitID CustomerCreditListResponseFiltersField = "pricing_unit_id"
+	CustomerCreditListResponseFiltersFieldItemID CustomerCreditListResponseFiltersField = "item_id"
 )
 
 func (r CustomerCreditListResponseFiltersField) IsKnown() bool {
 	switch r {
-	case CustomerCreditListResponseFiltersFieldPriceID, CustomerCreditListResponseFiltersFieldItemID, CustomerCreditListResponseFiltersFieldPriceType, CustomerCreditListResponseFiltersFieldCurrency, CustomerCreditListResponseFiltersFieldPricingUnitID:
+	case CustomerCreditListResponseFiltersFieldItemID:
 		return true
 	}
 	return false
@@ -268,8 +265,9 @@ func (r customerCreditListByExternalIDResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+// A PriceFilter that only allows item_id field for block filters.
 type CustomerCreditListByExternalIDResponseFilter struct {
-	// The property of the price to filter on.
+	// The property of the price the block applies to. Only item_id is supported.
 	Field CustomerCreditListByExternalIDResponseFiltersField `json:"field,required"`
 	// Should prices that match the filter be included or excluded.
 	Operator CustomerCreditListByExternalIDResponseFiltersOperator `json:"operator,required"`
@@ -296,20 +294,16 @@ func (r customerCreditListByExternalIDResponseFilterJSON) RawJSON() string {
 	return r.raw
 }
 
-// The property of the price to filter on.
+// The property of the price the block applies to. Only item_id is supported.
 type CustomerCreditListByExternalIDResponseFiltersField string
 
 const (
-	CustomerCreditListByExternalIDResponseFiltersFieldPriceID       CustomerCreditListByExternalIDResponseFiltersField = "price_id"
-	CustomerCreditListByExternalIDResponseFiltersFieldItemID        CustomerCreditListByExternalIDResponseFiltersField = "item_id"
-	CustomerCreditListByExternalIDResponseFiltersFieldPriceType     CustomerCreditListByExternalIDResponseFiltersField = "price_type"
-	CustomerCreditListByExternalIDResponseFiltersFieldCurrency      CustomerCreditListByExternalIDResponseFiltersField = "currency"
-	CustomerCreditListByExternalIDResponseFiltersFieldPricingUnitID CustomerCreditListByExternalIDResponseFiltersField = "pricing_unit_id"
+	CustomerCreditListByExternalIDResponseFiltersFieldItemID CustomerCreditListByExternalIDResponseFiltersField = "item_id"
 )
 
 func (r CustomerCreditListByExternalIDResponseFiltersField) IsKnown() bool {
 	switch r {
-	case CustomerCreditListByExternalIDResponseFiltersFieldPriceID, CustomerCreditListByExternalIDResponseFiltersFieldItemID, CustomerCreditListByExternalIDResponseFiltersFieldPriceType, CustomerCreditListByExternalIDResponseFiltersFieldCurrency, CustomerCreditListByExternalIDResponseFiltersFieldPricingUnitID:
+	case CustomerCreditListByExternalIDResponseFiltersFieldItemID:
 		return true
 	}
 	return false
