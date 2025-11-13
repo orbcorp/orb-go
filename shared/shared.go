@@ -1336,10 +1336,6 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItem struct {
 	Amount string `json:"amount,required"`
 	// The number of prepaid credits applied.
 	CreditsApplied string `json:"credits_applied,required"`
-	// This field is deprecated in favor of `adjustments`
-	//
-	// Deprecated: deprecated
-	Discount Discount `json:"discount,required,nullable"`
 	// The end date of the range of time applied for this line item's price.
 	EndDate time.Time `json:"end_date,required" format:"date-time"`
 	// An additional filter that was used to calculate the usage for this line item.
@@ -1348,22 +1344,6 @@ type ChangedSubscriptionResourcesCreatedInvoicesLineItem struct {
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
 	Grouping string `json:"grouping,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
 	// The name of the price associated with this line item.
 	Name string `json:"name,required"`
 	// Any amount applied from a partial invoice
@@ -1404,14 +1384,9 @@ type changedSubscriptionResourcesCreatedInvoicesLineItemJSON struct {
 	Adjustments             apijson.Field
 	Amount                  apijson.Field
 	CreditsApplied          apijson.Field
-	Discount                apijson.Field
 	EndDate                 apijson.Field
 	Filter                  apijson.Field
 	Grouping                apijson.Field
-	Maximum                 apijson.Field
-	MaximumAmount           apijson.Field
-	Minimum                 apijson.Field
-	MinimumAmount           apijson.Field
 	Name                    apijson.Field
 	PartiallyInvoicedAmount apijson.Field
 	Price                   apijson.Field
@@ -3574,10 +3549,6 @@ type InvoiceLineItem struct {
 	Amount string `json:"amount,required"`
 	// The number of prepaid credits applied.
 	CreditsApplied string `json:"credits_applied,required"`
-	// This field is deprecated in favor of `adjustments`
-	//
-	// Deprecated: deprecated
-	Discount Discount `json:"discount,required,nullable"`
 	// The end date of the range of time applied for this line item's price.
 	EndDate time.Time `json:"end_date,required" format:"date-time"`
 	// An additional filter that was used to calculate the usage for this line item.
@@ -3586,22 +3557,6 @@ type InvoiceLineItem struct {
 	// be populated with the key and a value. The `amount` and `subtotal` will be the
 	// values for this particular grouping.
 	Grouping string `json:"grouping,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	Maximum Maximum `json:"maximum,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	MaximumAmount string `json:"maximum_amount,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	Minimum Minimum `json:"minimum,required,nullable"`
-	// This field is deprecated in favor of `adjustments`.
-	//
-	// Deprecated: deprecated
-	MinimumAmount string `json:"minimum_amount,required,nullable"`
 	// The name of the price associated with this line item.
 	Name string `json:"name,required"`
 	// Any amount applied from a partial invoice
@@ -3641,14 +3596,9 @@ type invoiceLineItemJSON struct {
 	Adjustments             apijson.Field
 	Amount                  apijson.Field
 	CreditsApplied          apijson.Field
-	Discount                apijson.Field
 	EndDate                 apijson.Field
 	Filter                  apijson.Field
 	Grouping                apijson.Field
-	Maximum                 apijson.Field
-	MaximumAmount           apijson.Field
-	Minimum                 apijson.Field
-	MinimumAmount           apijson.Field
 	Name                    apijson.Field
 	PartiallyInvoicedAmount apijson.Field
 	Price                   apijson.Field
