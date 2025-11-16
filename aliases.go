@@ -8396,6 +8396,110 @@ const PriceCumulativeGroupedBulkPricePriceTypeFixedPrice = shared.PriceCumulativ
 const PriceCumulativeGroupedBulkPricePriceTypeCompositePrice = shared.PriceCumulativeGroupedBulkPricePriceTypeCompositePrice
 
 // This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPrice = shared.PriceCumulativeGroupedAllocationPrice
+
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceBillingMode = shared.PriceCumulativeGroupedAllocationPriceBillingMode
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceBillingModeInAdvance = shared.PriceCumulativeGroupedAllocationPriceBillingModeInAdvance
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceBillingModeInArrear = shared.PriceCumulativeGroupedAllocationPriceBillingModeInArrear
+
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceCadence = shared.PriceCumulativeGroupedAllocationPriceCadence
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCadenceOneTime = shared.PriceCumulativeGroupedAllocationPriceCadenceOneTime
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCadenceMonthly = shared.PriceCumulativeGroupedAllocationPriceCadenceMonthly
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCadenceQuarterly = shared.PriceCumulativeGroupedAllocationPriceCadenceQuarterly
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCadenceSemiAnnual = shared.PriceCumulativeGroupedAllocationPriceCadenceSemiAnnual
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCadenceAnnual = shared.PriceCumulativeGroupedAllocationPriceCadenceAnnual
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCadenceCustom = shared.PriceCumulativeGroupedAllocationPriceCadenceCustom
+
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceCompositePriceFilter = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFilter
+
+// The property of the price to filter on.
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceCompositePriceFiltersField = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersField
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldPriceID = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldPriceID
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldItemID = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldItemID
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldPriceType = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldPriceType
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldCurrency = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldCurrency
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldPricingUnitID = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersFieldPricingUnitID
+
+// Should prices that match the filter be included or excluded.
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperator = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperator
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperatorIncludes = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperatorIncludes
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperatorExcludes = shared.PriceCumulativeGroupedAllocationPriceCompositePriceFiltersOperatorExcludes
+
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceConversionRateConfig = shared.PriceCumulativeGroupedAllocationPriceConversionRateConfig
+
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType = shared.PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateType
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit = shared.PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeUnit
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered = shared.PriceCumulativeGroupedAllocationPriceConversionRateConfigConversionRateTypeTiered
+
+// Configuration for cumulative_grouped_allocation pricing
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig = shared.PriceCumulativeGroupedAllocationPriceCumulativeGroupedAllocationConfig
+
+// The pricing model type
+//
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPriceModelType = shared.PriceCumulativeGroupedAllocationPriceModelType
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPriceModelTypeCumulativeGroupedAllocation = shared.PriceCumulativeGroupedAllocationPriceModelTypeCumulativeGroupedAllocation
+
+// This is an alias to an internal type.
+type PriceCumulativeGroupedAllocationPricePriceType = shared.PriceCumulativeGroupedAllocationPricePriceType
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPricePriceTypeUsagePrice = shared.PriceCumulativeGroupedAllocationPricePriceTypeUsagePrice
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPricePriceTypeFixedPrice = shared.PriceCumulativeGroupedAllocationPricePriceTypeFixedPrice
+
+// This is an alias to an internal value.
+const PriceCumulativeGroupedAllocationPricePriceTypeCompositePrice = shared.PriceCumulativeGroupedAllocationPricePriceTypeCompositePrice
+
+// This is an alias to an internal type.
 type PriceMinimumCompositePrice = shared.PriceMinimumCompositePrice
 
 // This is an alias to an internal type.
@@ -8822,6 +8926,9 @@ const PriceModelTypeScalableMatrixWithTieredPricing = shared.PriceModelTypeScala
 
 // This is an alias to an internal value.
 const PriceModelTypeCumulativeGroupedBulk = shared.PriceModelTypeCumulativeGroupedBulk
+
+// This is an alias to an internal value.
+const PriceModelTypeCumulativeGroupedAllocation = shared.PriceModelTypeCumulativeGroupedAllocation
 
 // This is an alias to an internal value.
 const PriceModelTypeMinimum = shared.PriceModelTypeMinimum
