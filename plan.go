@@ -134,7 +134,11 @@ type Plan struct {
 	// Adjustments for this plan. If the plan has phases, this includes adjustments
 	// across all phases of the plan.
 	Adjustments []PlanAdjustment `json:"adjustments,required"`
-	CreatedAt   time.Time        `json:"created_at,required" format:"date-time"`
+	BasePlan    PlanBasePlan     `json:"base_plan,required,nullable"`
+	// The parent plan id if the given plan was created by overriding one or more of
+	// the parent's prices
+	BasePlanID string    `json:"base_plan_id,required,nullable"`
+	CreatedAt  time.Time `json:"created_at,required" format:"date-time"`
 	// An ISO 4217 currency string or custom pricing unit (`credits`) for this plan's
 	// prices.
 	//
@@ -181,17 +185,15 @@ type Plan struct {
 	Status      PlanStatus      `json:"status,required"`
 	TrialConfig PlanTrialConfig `json:"trial_config,required"`
 	Version     int64           `json:"version,required"`
-	BasePlan    PlanBasePlan    `json:"base_plan,nullable"`
-	// The parent plan id if the given plan was created by overriding one or more of
-	// the parent's prices
-	BasePlanID string   `json:"base_plan_id,nullable"`
-	JSON       planJSON `json:"-"`
+	JSON        planJSON        `json:"-"`
 }
 
 // planJSON contains the JSON metadata for the struct [Plan]
 type planJSON struct {
 	ID                 apijson.Field
 	Adjustments        apijson.Field
+	BasePlan           apijson.Field
+	BasePlanID         apijson.Field
 	CreatedAt          apijson.Field
 	Currency           apijson.Field
 	DefaultInvoiceMemo apijson.Field
@@ -212,8 +214,6 @@ type planJSON struct {
 	Status             apijson.Field
 	TrialConfig        apijson.Field
 	Version            apijson.Field
-	BasePlan           apijson.Field
-	BasePlanID         apijson.Field
 	raw                string
 	ExtraFields        map[string]apijson.Field
 }
@@ -372,6 +372,33 @@ func (r PlanAdjustmentsAdjustmentType) IsKnown() bool {
 	return false
 }
 
+type PlanBasePlan struct {
+	ID string `json:"id,required,nullable"`
+	// An optional user-defined ID for this plan resource, used throughout the system
+	// as an alias for this Plan. Use this field to identify a plan by an existing
+	// identifier in your system.
+	ExternalPlanID string           `json:"external_plan_id,required,nullable"`
+	Name           string           `json:"name,required,nullable"`
+	JSON           planBasePlanJSON `json:"-"`
+}
+
+// planBasePlanJSON contains the JSON metadata for the struct [PlanBasePlan]
+type planBasePlanJSON struct {
+	ID             apijson.Field
+	ExternalPlanID apijson.Field
+	Name           apijson.Field
+	raw            string
+	ExtraFields    map[string]apijson.Field
+}
+
+func (r *PlanBasePlan) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r planBasePlanJSON) RawJSON() string {
+	return r.raw
+}
+
 type PlanPlanPhase struct {
 	ID          string          `json:"id,required"`
 	Description string          `json:"description,required,nullable"`
@@ -507,33 +534,6 @@ func (r PlanTrialConfigTrialPeriodUnit) IsKnown() bool {
 		return true
 	}
 	return false
-}
-
-type PlanBasePlan struct {
-	ID string `json:"id,required,nullable"`
-	// An optional user-defined ID for this plan resource, used throughout the system
-	// as an alias for this Plan. Use this field to identify a plan by an existing
-	// identifier in your system.
-	ExternalPlanID string           `json:"external_plan_id,required,nullable"`
-	Name           string           `json:"name,required,nullable"`
-	JSON           planBasePlanJSON `json:"-"`
-}
-
-// planBasePlanJSON contains the JSON metadata for the struct [PlanBasePlan]
-type planBasePlanJSON struct {
-	ID             apijson.Field
-	ExternalPlanID apijson.Field
-	Name           apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
-}
-
-func (r *PlanBasePlan) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r planBasePlanJSON) RawJSON() string {
-	return r.raw
 }
 
 type PlanNewParams struct {
