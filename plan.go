@@ -134,9 +134,15 @@ type Plan struct {
 	// Adjustments for this plan. If the plan has phases, this includes adjustments
 	// across all phases of the plan.
 	Adjustments []PlanAdjustment `json:"adjustments,required"`
-	BasePlan    PlanBasePlan     `json:"base_plan,required,nullable"`
-	// The parent plan id if the given plan was created by overriding one or more of
-	// the parent's prices
+	// Legacy field representing the parent plan if the current plan is a 'child plan',
+	// overriding prices from the parent.
+	//
+	// Deprecated: deprecated
+	BasePlan PlanBasePlan `json:"base_plan,required,nullable"`
+	// Legacy field representing the parent plan ID if the current plan is a 'child
+	// plan', overriding prices from the parent.
+	//
+	// Deprecated: deprecated
 	BasePlanID string    `json:"base_plan_id,required,nullable"`
 	CreatedAt  time.Time `json:"created_at,required" format:"date-time"`
 	// An ISO 4217 currency string or custom pricing unit (`credits`) for this plan's
@@ -372,6 +378,10 @@ func (r PlanAdjustmentsAdjustmentType) IsKnown() bool {
 	return false
 }
 
+// Legacy field representing the parent plan if the current plan is a 'child plan',
+// overriding prices from the parent.
+//
+// Deprecated: deprecated
 type PlanBasePlan struct {
 	ID string `json:"id,required,nullable"`
 	// An optional user-defined ID for this plan resource, used throughout the system
