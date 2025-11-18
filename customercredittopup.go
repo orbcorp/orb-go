@@ -87,7 +87,7 @@ func (r *CustomerCreditTopUpService) ListAutoPaging(ctx context.Context, custome
 // credit blocks purchased through the top-up.
 func (r *CustomerCreditTopUpService) Delete(ctx context.Context, customerID string, topUpID string, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -123,7 +123,7 @@ func (r *CustomerCreditTopUpService) NewByExternalID(ctx context.Context, extern
 // credit blocks purchased through the top-up.
 func (r *CustomerCreditTopUpService) DeleteByExternalID(ctx context.Context, externalCustomerID string, topUpID string, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
 		return

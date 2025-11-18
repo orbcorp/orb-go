@@ -127,7 +127,7 @@ func (r *CustomerService) ListAutoPaging(ctx context.Context, query CustomerList
 // its deletion.
 func (r *CustomerService) Delete(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -178,7 +178,7 @@ func (r *CustomerService) FetchByExternalID(ctx context.Context, externalCustome
 // **Note**: This functionality is currently only available for Stripe.
 func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, customerID string, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if customerID == "" {
 		err = errors.New("missing required customer_id parameter")
 		return
@@ -196,7 +196,7 @@ func (r *CustomerService) SyncPaymentMethodsFromGateway(ctx context.Context, cus
 // **Note**: This functionality is currently only available for Stripe.
 func (r *CustomerService) SyncPaymentMethodsFromGatewayByExternalCustomerID(ctx context.Context, externalCustomerID string, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "")}, opts...)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	if externalCustomerID == "" {
 		err = errors.New("missing required external_customer_id parameter")
 		return
