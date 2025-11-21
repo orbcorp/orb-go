@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.44.1 (2025-11-21)
+
+Full Changelog: [v1.44.0...v1.44.1](https://github.com/orbcorp/orb-go/compare/v1.44.0...v1.44.1)
+
+### Bug Fixes
+
+* **client:** correctly specify Accept header with */* instead of empty ([a625cf3](https://github.com/orbcorp/orb-go/commit/a625cf3832841242591aade2a613c22bb4e6fd1d))
+
 ## 1.44.0 (2025-11-18)
 
 Full Changelog: [v1.43.0...v1.44.0](https://github.com/orbcorp/orb-go/compare/v1.43.0...v1.44.0)
