@@ -5382,6 +5382,14 @@ type NewAllocationPriceParam struct {
 	ExpiresAtEndOfCadence param.Field[bool] `json:"expires_at_end_of_cadence"`
 	// The filters that determine which items the allocation applies to.
 	Filters param.Field[[]NewAllocationPriceFilterParam] `json:"filters"`
+	// The item ID that line items representing charges for this allocation will be
+	// associated with. If not provided, the default allocation item for the currency
+	// will be used (e.g. 'Included Allocation (USD)').
+	ItemID param.Field[string] `json:"item_id"`
+	// The (per-unit) cost basis of each created block. If non-zero, a customer will be
+	// invoiced according to the quantity and per unit cost basis specified for the
+	// allocation each cadence.
+	PerUnitCostBasis param.Field[string] `json:"per_unit_cost_basis"`
 }
 
 func (r NewAllocationPriceParam) MarshalJSON() (data []byte, err error) {

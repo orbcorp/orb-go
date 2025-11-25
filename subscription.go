@@ -8423,9 +8423,8 @@ type SubscriptionPriceIntervalsParams struct {
 	// credit note. Consider using this as a safety mechanism if you do not expect
 	// existing invoices to be changed.
 	AllowInvoiceCreditOrVoid param.Field[bool] `json:"allow_invoice_credit_or_void"`
-	// If true, ending an in-arrears price interval mid-cycle will defer billing the
-	// final line itemuntil the next scheduled invoice. If false, it will be billed on
-	// its end date. If not provided, behaviorwill follow account default.
+	// If set, the default value to use for added/edited price intervals with an
+	// end_date set.
 	CanDeferBilling param.Field[bool] `json:"can_defer_billing"`
 	// A list of price intervals to edit on the subscription.
 	Edit param.Field[[]SubscriptionPriceIntervalsParamsEdit] `json:"edit"`
@@ -8443,6 +8442,10 @@ type SubscriptionPriceIntervalsParamsAdd struct {
 	StartDate param.Field[SubscriptionPriceIntervalsParamsAddStartDateUnion] `json:"start_date,required" format:"date-time"`
 	// The definition of a new allocation price to create and add to the subscription.
 	AllocationPrice param.Field[shared.NewAllocationPriceParam] `json:"allocation_price"`
+	// If true, an in-arrears price interval ending mid-cycle will defer billing the
+	// final line item until the next scheduled invoice. If false, it will be billed on
+	// its end date.
+	CanDeferBilling param.Field[bool] `json:"can_defer_billing"`
 	// A list of discounts to initialize on the price interval.
 	Discounts param.Field[[]SubscriptionPriceIntervalsParamsAddDiscountUnion] `json:"discounts"`
 	// The end date of the price interval. This is the date that the price will stop
@@ -9661,9 +9664,9 @@ type SubscriptionPriceIntervalsParamsEdit struct {
 	// billing cycle day will not be updated. Note that overlapping price intervals
 	// must have the same billing cycle day.
 	BillingCycleDay param.Field[int64] `json:"billing_cycle_day"`
-	// If true, ending an in-arrears price interval mid-cycle will defer billing the
+	// If true, an in-arrears price interval ending mid-cycle will defer billing the
 	// final line item until the next scheduled invoice. If false, it will be billed on
-	// its end date. If not provided, behavior will follow account default.
+	// its end date.
 	CanDeferBilling param.Field[bool] `json:"can_defer_billing"`
 	// The updated end date of this price interval. If not specified, the end date will
 	// not be updated.

@@ -64,6 +64,8 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
+					ItemID:           orb.F("item_id"),
+					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsAddPricesPriceUnion](shared.NewPlanUnitPriceParam{
@@ -150,6 +152,8 @@ func TestBetaExternalPlanIDNewPlanVersionWithOptionalParams(t *testing.T) {
 						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
+					ItemID:           orb.F("item_id"),
+					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				PlanPhaseOrder: orb.F(int64(0)),
 				Price: orb.F[orb.BetaExternalPlanIDNewPlanVersionParamsReplacePricesPriceUnion](shared.NewPlanUnitPriceParam{
