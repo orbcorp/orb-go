@@ -63,6 +63,8 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 					Values:   orb.F([]string{"string"}),
 				}}),
+				ItemID:           orb.F("item_id"),
+				PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			}),
 			Discounts: orb.F([]orb.DiscountOverrideParam{{
 				DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),
@@ -189,6 +191,8 @@ func TestSubscriptionNewWithOptionalParams(t *testing.T) {
 					Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 					Values:   orb.F([]string{"string"}),
 				}}),
+				ItemID:           orb.F("item_id"),
+				PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 			}),
 			Discounts: orb.F([]orb.DiscountOverrideParam{{
 				DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),
@@ -510,7 +514,10 @@ func TestSubscriptionPriceIntervalsWithOptionalParams(t *testing.T) {
 						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
+					ItemID:           orb.F("item_id"),
+					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
+				CanDeferBilling: orb.F(true),
 				Discounts: orb.F([]orb.SubscriptionPriceIntervalsParamsAddDiscountUnion{orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParams{
 					AmountDiscount: orb.F(0.000000),
 					DiscountType:   orb.F(orb.SubscriptionPriceIntervalsParamsAddDiscountsAmountDiscountCreationParamsDiscountTypeAmount),
@@ -701,6 +708,8 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
+					ItemID:           orb.F("item_id"),
+					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				Discounts: orb.F([]orb.DiscountOverrideParam{{
 					DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),
@@ -818,6 +827,8 @@ func TestSubscriptionSchedulePlanChangeWithOptionalParams(t *testing.T) {
 						Operator: orb.F(shared.NewAllocationPriceFiltersOperatorIncludes),
 						Values:   orb.F([]string{"string"}),
 					}}),
+					ItemID:           orb.F("item_id"),
+					PerUnitCostBasis: orb.F("per_unit_cost_basis"),
 				}),
 				Discounts: orb.F([]orb.DiscountOverrideParam{{
 					DiscountType:       orb.F(orb.DiscountOverrideDiscountTypePercentage),
