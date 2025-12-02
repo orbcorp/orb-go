@@ -307,6 +307,10 @@ func NewSubscriptionService(opts ...option.RequestOption) (r *SubscriptionServic
 // specified in the subscription's invoicing currency, when creating a
 // subscription. E.g. pass in `10.00` to issue an invoice when usage amounts hit
 // \$10.00 for a subscription that invoices in USD.
+//
+// ## Limits
+//
+// By default, Orb limits the number of subscriptions per customer to 100.
 func (r *SubscriptionService) New(ctx context.Context, body SubscriptionNewParams, opts ...option.RequestOption) (res *MutatedSubscription, err error) {
 	opts = slices.Concat(r.Options, opts)
 	path := "subscriptions"
