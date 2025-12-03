@@ -58,6 +58,12 @@ func TestCustomerNewWithOptionalParams(t *testing.T) {
 		Metadata: orb.F(map[string]string{
 			"foo": "string",
 		}),
+		PaymentConfiguration: orb.F(orb.CustomerNewParamsPaymentConfiguration{
+			PaymentProviders: orb.F([]orb.CustomerNewParamsPaymentConfigurationPaymentProvider{{
+				ProviderType:               orb.F(orb.CustomerNewParamsPaymentConfigurationPaymentProvidersProviderTypeStripe),
+				ExcludedPaymentMethodTypes: orb.F([]string{"string"}),
+			}}),
+		}),
 		PaymentProvider:   orb.F(orb.CustomerNewParamsPaymentProviderQuickbooks),
 		PaymentProviderID: orb.F("payment_provider_id"),
 		ReportingConfiguration: orb.F(orb.NewReportingConfigurationParam{
@@ -138,7 +144,13 @@ func TestCustomerUpdateWithOptionalParams(t *testing.T) {
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
-			Name:              orb.F("name"),
+			Name: orb.F("name"),
+			PaymentConfiguration: orb.F(orb.CustomerUpdateParamsPaymentConfiguration{
+				PaymentProviders: orb.F([]orb.CustomerUpdateParamsPaymentConfigurationPaymentProvider{{
+					ProviderType:               orb.F(orb.CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderTypeStripe),
+					ExcludedPaymentMethodTypes: orb.F([]string{"string"}),
+				}}),
+			}),
 			PaymentProvider:   orb.F(orb.CustomerUpdateParamsPaymentProviderQuickbooks),
 			PaymentProviderID: orb.F("payment_provider_id"),
 			ReportingConfiguration: orb.F(orb.NewReportingConfigurationParam{
@@ -358,7 +370,13 @@ func TestCustomerUpdateByExternalIDWithOptionalParams(t *testing.T) {
 			Metadata: orb.F(map[string]string{
 				"foo": "string",
 			}),
-			Name:              orb.F("name"),
+			Name: orb.F("name"),
+			PaymentConfiguration: orb.F(orb.CustomerUpdateByExternalIDParamsPaymentConfiguration{
+				PaymentProviders: orb.F([]orb.CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvider{{
+					ProviderType:               orb.F(orb.CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderTypeStripe),
+					ExcludedPaymentMethodTypes: orb.F([]string{"string"}),
+				}}),
+			}),
 			PaymentProvider:   orb.F(orb.CustomerUpdateByExternalIDParamsPaymentProviderQuickbooks),
 			PaymentProviderID: orb.F("payment_provider_id"),
 			ReportingConfiguration: orb.F(orb.NewReportingConfigurationParam{
