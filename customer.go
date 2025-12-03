@@ -454,7 +454,10 @@ type Customer struct {
 	AccountingSyncConfiguration CustomerAccountingSyncConfiguration `json:"accounting_sync_configuration,nullable"`
 	// Whether automatic tax calculation is enabled for this customer. This field is
 	// nullable for backwards compatibility but will always return a boolean value.
-	AutomaticTaxEnabled    bool                           `json:"automatic_tax_enabled,nullable"`
+	AutomaticTaxEnabled bool `json:"automatic_tax_enabled,nullable"`
+	// Payment configuration for the customer, applicable when using Orb Invoicing with
+	// a supported payment provider such as Stripe.
+	PaymentConfiguration   CustomerPaymentConfiguration   `json:"payment_configuration,nullable"`
 	ReportingConfiguration CustomerReportingConfiguration `json:"reporting_configuration,nullable"`
 	JSON                   customerJSON                   `json:"-"`
 }
@@ -484,6 +487,7 @@ type customerJSON struct {
 	Timezone                    apijson.Field
 	AccountingSyncConfiguration apijson.Field
 	AutomaticTaxEnabled         apijson.Field
+	PaymentConfiguration        apijson.Field
 	ReportingConfiguration      apijson.Field
 	raw                         string
 	ExtraFields                 map[string]apijson.Field
@@ -598,6 +602,74 @@ const (
 func (r CustomerAccountingSyncConfigurationAccountingProvidersProviderType) IsKnown() bool {
 	switch r {
 	case CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeQuickbooks, CustomerAccountingSyncConfigurationAccountingProvidersProviderTypeNetsuite:
+		return true
+	}
+	return false
+}
+
+// Payment configuration for the customer, applicable when using Orb Invoicing with
+// a supported payment provider such as Stripe.
+type CustomerPaymentConfiguration struct {
+	// Provider-specific payment configuration.
+	PaymentProviders []CustomerPaymentConfigurationPaymentProvider `json:"payment_providers"`
+	JSON             customerPaymentConfigurationJSON              `json:"-"`
+}
+
+// customerPaymentConfigurationJSON contains the JSON metadata for the struct
+// [CustomerPaymentConfiguration]
+type customerPaymentConfigurationJSON struct {
+	PaymentProviders apijson.Field
+	raw              string
+	ExtraFields      map[string]apijson.Field
+}
+
+func (r *CustomerPaymentConfiguration) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerPaymentConfigurationJSON) RawJSON() string {
+	return r.raw
+}
+
+type CustomerPaymentConfigurationPaymentProvider struct {
+	// The payment provider to configure.
+	ProviderType CustomerPaymentConfigurationPaymentProvidersProviderType `json:"provider_type,required"`
+	// List of Stripe payment method types to exclude for this customer. Excluded
+	// payment methods will not be available for the customer to select during payment,
+	// and will not be used for auto-collection. If a customer's default payment method
+	// becomes excluded, Orb will attempt to use the next available compatible payment
+	// method for auto-collection.
+	ExcludedPaymentMethodTypes []string                                        `json:"excluded_payment_method_types"`
+	JSON                       customerPaymentConfigurationPaymentProviderJSON `json:"-"`
+}
+
+// customerPaymentConfigurationPaymentProviderJSON contains the JSON metadata for
+// the struct [CustomerPaymentConfigurationPaymentProvider]
+type customerPaymentConfigurationPaymentProviderJSON struct {
+	ProviderType               apijson.Field
+	ExcludedPaymentMethodTypes apijson.Field
+	raw                        string
+	ExtraFields                map[string]apijson.Field
+}
+
+func (r *CustomerPaymentConfigurationPaymentProvider) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r customerPaymentConfigurationPaymentProviderJSON) RawJSON() string {
+	return r.raw
+}
+
+// The payment provider to configure.
+type CustomerPaymentConfigurationPaymentProvidersProviderType string
+
+const (
+	CustomerPaymentConfigurationPaymentProvidersProviderTypeStripe CustomerPaymentConfigurationPaymentProvidersProviderType = "stripe"
+)
+
+func (r CustomerPaymentConfigurationPaymentProvidersProviderType) IsKnown() bool {
+	switch r {
+	case CustomerPaymentConfigurationPaymentProvidersProviderTypeStripe:
 		return true
 	}
 	return false
@@ -790,6 +862,9 @@ type CustomerNewParams struct {
 	// by setting the value to `null`, and the entire metadata mapping can be cleared
 	// by setting `metadata` to `null`.
 	Metadata param.Field[map[string]string] `json:"metadata"`
+	// Payment configuration for the customer, applicable when using Orb Invoicing with
+	// a supported payment provider such as Stripe.
+	PaymentConfiguration param.Field[CustomerNewParamsPaymentConfiguration] `json:"payment_configuration"`
 	// This is used for creating charges or invoices in an external system via Orb.
 	// When not in test mode, the connection must first be configured in the Orb
 	// webapp.
@@ -953,6 +1028,47 @@ type CustomerNewParams struct {
 
 func (r CustomerNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// Payment configuration for the customer, applicable when using Orb Invoicing with
+// a supported payment provider such as Stripe.
+type CustomerNewParamsPaymentConfiguration struct {
+	// Provider-specific payment configuration.
+	PaymentProviders param.Field[[]CustomerNewParamsPaymentConfigurationPaymentProvider] `json:"payment_providers"`
+}
+
+func (r CustomerNewParamsPaymentConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type CustomerNewParamsPaymentConfigurationPaymentProvider struct {
+	// The payment provider to configure.
+	ProviderType param.Field[CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type,required"`
+	// List of Stripe payment method types to exclude for this customer. Excluded
+	// payment methods will not be available for the customer to select during payment,
+	// and will not be used for auto-collection. If a customer's default payment method
+	// becomes excluded, Orb will attempt to use the next available compatible payment
+	// method for auto-collection.
+	ExcludedPaymentMethodTypes param.Field[[]string] `json:"excluded_payment_method_types"`
+}
+
+func (r CustomerNewParamsPaymentConfigurationPaymentProvider) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The payment provider to configure.
+type CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType string
+
+const (
+	CustomerNewParamsPaymentConfigurationPaymentProvidersProviderTypeStripe CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType = "stripe"
+)
+
+func (r CustomerNewParamsPaymentConfigurationPaymentProvidersProviderType) IsKnown() bool {
+	switch r {
+	case CustomerNewParamsPaymentConfigurationPaymentProvidersProviderTypeStripe:
+		return true
+	}
+	return false
 }
 
 // This is used for creating charges or invoices in an external system via Orb.
@@ -1143,6 +1259,9 @@ type CustomerUpdateParams struct {
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The full name of the customer
 	Name param.Field[string] `json:"name"`
+	// Payment configuration for the customer, applicable when using Orb Invoicing with
+	// a supported payment provider such as Stripe.
+	PaymentConfiguration param.Field[CustomerUpdateParamsPaymentConfiguration] `json:"payment_configuration"`
 	// This is used for creating charges or invoices in an external system via Orb.
 	// When not in test mode:
 	//
@@ -1306,6 +1425,47 @@ type CustomerUpdateParams struct {
 
 func (r CustomerUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// Payment configuration for the customer, applicable when using Orb Invoicing with
+// a supported payment provider such as Stripe.
+type CustomerUpdateParamsPaymentConfiguration struct {
+	// Provider-specific payment configuration.
+	PaymentProviders param.Field[[]CustomerUpdateParamsPaymentConfigurationPaymentProvider] `json:"payment_providers"`
+}
+
+func (r CustomerUpdateParamsPaymentConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type CustomerUpdateParamsPaymentConfigurationPaymentProvider struct {
+	// The payment provider to configure.
+	ProviderType param.Field[CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type,required"`
+	// List of Stripe payment method types to exclude for this customer. Excluded
+	// payment methods will not be available for the customer to select during payment,
+	// and will not be used for auto-collection. If a customer's default payment method
+	// becomes excluded, Orb will attempt to use the next available compatible payment
+	// method for auto-collection.
+	ExcludedPaymentMethodTypes param.Field[[]string] `json:"excluded_payment_method_types"`
+}
+
+func (r CustomerUpdateParamsPaymentConfigurationPaymentProvider) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The payment provider to configure.
+type CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType string
+
+const (
+	CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderTypeStripe CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType = "stripe"
+)
+
+func (r CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderType) IsKnown() bool {
+	switch r {
+	case CustomerUpdateParamsPaymentConfigurationPaymentProvidersProviderTypeStripe:
+		return true
+	}
+	return false
 }
 
 // This is used for creating charges or invoices in an external system via Orb.
@@ -1520,6 +1680,9 @@ type CustomerUpdateByExternalIDParams struct {
 	Metadata param.Field[map[string]string] `json:"metadata"`
 	// The full name of the customer
 	Name param.Field[string] `json:"name"`
+	// Payment configuration for the customer, applicable when using Orb Invoicing with
+	// a supported payment provider such as Stripe.
+	PaymentConfiguration param.Field[CustomerUpdateByExternalIDParamsPaymentConfiguration] `json:"payment_configuration"`
 	// This is used for creating charges or invoices in an external system via Orb.
 	// When not in test mode:
 	//
@@ -1683,6 +1846,47 @@ type CustomerUpdateByExternalIDParams struct {
 
 func (r CustomerUpdateByExternalIDParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// Payment configuration for the customer, applicable when using Orb Invoicing with
+// a supported payment provider such as Stripe.
+type CustomerUpdateByExternalIDParamsPaymentConfiguration struct {
+	// Provider-specific payment configuration.
+	PaymentProviders param.Field[[]CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvider] `json:"payment_providers"`
+}
+
+func (r CustomerUpdateByExternalIDParamsPaymentConfiguration) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvider struct {
+	// The payment provider to configure.
+	ProviderType param.Field[CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderType] `json:"provider_type,required"`
+	// List of Stripe payment method types to exclude for this customer. Excluded
+	// payment methods will not be available for the customer to select during payment,
+	// and will not be used for auto-collection. If a customer's default payment method
+	// becomes excluded, Orb will attempt to use the next available compatible payment
+	// method for auto-collection.
+	ExcludedPaymentMethodTypes param.Field[[]string] `json:"excluded_payment_method_types"`
+}
+
+func (r CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvider) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+// The payment provider to configure.
+type CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderType string
+
+const (
+	CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderTypeStripe CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderType = "stripe"
+)
+
+func (r CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderType) IsKnown() bool {
+	switch r {
+	case CustomerUpdateByExternalIDParamsPaymentConfigurationPaymentProvidersProviderTypeStripe:
+		return true
+	}
+	return false
 }
 
 // This is used for creating charges or invoices in an external system via Orb.
