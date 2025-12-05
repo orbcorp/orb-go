@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.47.2 (2025-12-05)
+
+Full Changelog: [v1.47.1...v1.47.2](https://github.com/orbcorp/orb-go/compare/v1.47.1...v1.47.2)
+
+### Bug Fixes
+
+* rename param to avoid collision ([9ec1b82](https://github.com/orbcorp/orb-go/commit/9ec1b82a0efba38ab619347d7678a874a8c7f8f0))
+
 ## 1.47.1 (2025-12-05)
 
 Full Changelog: [v1.47.0...v1.47.1](https://github.com/orbcorp/orb-go/compare/v1.47.0...v1.47.1)
