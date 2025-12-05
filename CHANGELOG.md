@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.47.1 (2025-12-05)
+
+Full Changelog: [v1.47.0...v1.47.1](https://github.com/orbcorp/orb-go/compare/v1.47.0...v1.47.1)
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([91074bb](https://github.com/orbcorp/orb-go/commit/91074bb87aa83bdf0a7e2f99e68793133ee65ba7))
+
+
+### Chores
+
+* elide duplicate aliases ([773a968](https://github.com/orbcorp/orb-go/commit/773a9681b34543cbaea84d274d53c6693cd9e70c))
+* **internal:** codegen related update ([7040904](https://github.com/orbcorp/orb-go/commit/7040904c6b6001a6cd29b84eae7f688a488a71ef))
+
 ## 1.47.0 (2025-12-03)
 
 Full Changelog: [v1.46.0...v1.47.0](https://github.com/orbcorp/orb-go/compare/v1.46.0...v1.47.0)
