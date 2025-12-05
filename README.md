@@ -22,7 +22,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/orbcorp/orb-go@v1.47.1'
+go get -u 'github.com/orbcorp/orb-go@v1.47.2'
 ```
 
 <!-- x-release-please-end -->
