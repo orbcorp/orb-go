@@ -357,28 +357,44 @@ func (r MutatedSubscriptionStatus) IsKnown() bool {
 // `subscription.changed_resources`).
 type SubscriptionChangeGetResponse struct {
 	ID string `json:"id,required"`
+	// The type of change (e.g., 'schedule_plan_change', 'create_subscription').
+	ChangeType string `json:"change_type,required"`
 	// Subscription change will be cancelled at this time and can no longer be applied.
 	ExpirationTime time.Time                           `json:"expiration_time,required" format:"date-time"`
 	Status         SubscriptionChangeGetResponseStatus `json:"status,required"`
 	Subscription   MutatedSubscription                 `json:"subscription,required,nullable"`
 	// When this change was applied.
 	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	// Billing cycle alignment for plan changes.
+	BillingCycleAlignment string `json:"billing_cycle_alignment,nullable"`
 	// When this change was cancelled.
-	CancelledAt time.Time                         `json:"cancelled_at,nullable" format:"date-time"`
-	JSON        subscriptionChangeGetResponseJSON `json:"-"`
+	CancelledAt time.Time `json:"cancelled_at,nullable" format:"date-time"`
+	// How the change is scheduled (e.g., 'immediate', 'end_of_subscription_term',
+	// 'requested_date').
+	ChangeOption string `json:"change_option,nullable"`
+	// When this change will take effect.
+	EffectiveDate time.Time `json:"effective_date,nullable" format:"date-time"`
+	// The target plan ID for plan changes.
+	PlanID string                            `json:"plan_id,nullable"`
+	JSON   subscriptionChangeGetResponseJSON `json:"-"`
 }
 
 // subscriptionChangeGetResponseJSON contains the JSON metadata for the struct
 // [SubscriptionChangeGetResponse]
 type subscriptionChangeGetResponseJSON struct {
-	ID             apijson.Field
-	ExpirationTime apijson.Field
-	Status         apijson.Field
-	Subscription   apijson.Field
-	AppliedAt      apijson.Field
-	CancelledAt    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                    apijson.Field
+	ChangeType            apijson.Field
+	ExpirationTime        apijson.Field
+	Status                apijson.Field
+	Subscription          apijson.Field
+	AppliedAt             apijson.Field
+	BillingCycleAlignment apijson.Field
+	CancelledAt           apijson.Field
+	ChangeOption          apijson.Field
+	EffectiveDate         apijson.Field
+	PlanID                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *SubscriptionChangeGetResponse) UnmarshalJSON(data []byte) (err error) {
@@ -411,28 +427,44 @@ func (r SubscriptionChangeGetResponseStatus) IsKnown() bool {
 // `subscription.changed_resources`).
 type SubscriptionChangeApplyResponse struct {
 	ID string `json:"id,required"`
+	// The type of change (e.g., 'schedule_plan_change', 'create_subscription').
+	ChangeType string `json:"change_type,required"`
 	// Subscription change will be cancelled at this time and can no longer be applied.
 	ExpirationTime time.Time                             `json:"expiration_time,required" format:"date-time"`
 	Status         SubscriptionChangeApplyResponseStatus `json:"status,required"`
 	Subscription   MutatedSubscription                   `json:"subscription,required,nullable"`
 	// When this change was applied.
 	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	// Billing cycle alignment for plan changes.
+	BillingCycleAlignment string `json:"billing_cycle_alignment,nullable"`
 	// When this change was cancelled.
-	CancelledAt time.Time                           `json:"cancelled_at,nullable" format:"date-time"`
-	JSON        subscriptionChangeApplyResponseJSON `json:"-"`
+	CancelledAt time.Time `json:"cancelled_at,nullable" format:"date-time"`
+	// How the change is scheduled (e.g., 'immediate', 'end_of_subscription_term',
+	// 'requested_date').
+	ChangeOption string `json:"change_option,nullable"`
+	// When this change will take effect.
+	EffectiveDate time.Time `json:"effective_date,nullable" format:"date-time"`
+	// The target plan ID for plan changes.
+	PlanID string                              `json:"plan_id,nullable"`
+	JSON   subscriptionChangeApplyResponseJSON `json:"-"`
 }
 
 // subscriptionChangeApplyResponseJSON contains the JSON metadata for the struct
 // [SubscriptionChangeApplyResponse]
 type subscriptionChangeApplyResponseJSON struct {
-	ID             apijson.Field
-	ExpirationTime apijson.Field
-	Status         apijson.Field
-	Subscription   apijson.Field
-	AppliedAt      apijson.Field
-	CancelledAt    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                    apijson.Field
+	ChangeType            apijson.Field
+	ExpirationTime        apijson.Field
+	Status                apijson.Field
+	Subscription          apijson.Field
+	AppliedAt             apijson.Field
+	BillingCycleAlignment apijson.Field
+	CancelledAt           apijson.Field
+	ChangeOption          apijson.Field
+	EffectiveDate         apijson.Field
+	PlanID                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *SubscriptionChangeApplyResponse) UnmarshalJSON(data []byte) (err error) {
@@ -465,28 +497,44 @@ func (r SubscriptionChangeApplyResponseStatus) IsKnown() bool {
 // `subscription.changed_resources`).
 type SubscriptionChangeCancelResponse struct {
 	ID string `json:"id,required"`
+	// The type of change (e.g., 'schedule_plan_change', 'create_subscription').
+	ChangeType string `json:"change_type,required"`
 	// Subscription change will be cancelled at this time and can no longer be applied.
 	ExpirationTime time.Time                              `json:"expiration_time,required" format:"date-time"`
 	Status         SubscriptionChangeCancelResponseStatus `json:"status,required"`
 	Subscription   MutatedSubscription                    `json:"subscription,required,nullable"`
 	// When this change was applied.
 	AppliedAt time.Time `json:"applied_at,nullable" format:"date-time"`
+	// Billing cycle alignment for plan changes.
+	BillingCycleAlignment string `json:"billing_cycle_alignment,nullable"`
 	// When this change was cancelled.
-	CancelledAt time.Time                            `json:"cancelled_at,nullable" format:"date-time"`
-	JSON        subscriptionChangeCancelResponseJSON `json:"-"`
+	CancelledAt time.Time `json:"cancelled_at,nullable" format:"date-time"`
+	// How the change is scheduled (e.g., 'immediate', 'end_of_subscription_term',
+	// 'requested_date').
+	ChangeOption string `json:"change_option,nullable"`
+	// When this change will take effect.
+	EffectiveDate time.Time `json:"effective_date,nullable" format:"date-time"`
+	// The target plan ID for plan changes.
+	PlanID string                               `json:"plan_id,nullable"`
+	JSON   subscriptionChangeCancelResponseJSON `json:"-"`
 }
 
 // subscriptionChangeCancelResponseJSON contains the JSON metadata for the struct
 // [SubscriptionChangeCancelResponse]
 type subscriptionChangeCancelResponseJSON struct {
-	ID             apijson.Field
-	ExpirationTime apijson.Field
-	Status         apijson.Field
-	Subscription   apijson.Field
-	AppliedAt      apijson.Field
-	CancelledAt    apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	ID                    apijson.Field
+	ChangeType            apijson.Field
+	ExpirationTime        apijson.Field
+	Status                apijson.Field
+	Subscription          apijson.Field
+	AppliedAt             apijson.Field
+	BillingCycleAlignment apijson.Field
+	CancelledAt           apijson.Field
+	ChangeOption          apijson.Field
+	EffectiveDate         apijson.Field
+	PlanID                apijson.Field
+	raw                   string
+	ExtraFields           map[string]apijson.Field
 }
 
 func (r *SubscriptionChangeCancelResponse) UnmarshalJSON(data []byte) (err error) {
