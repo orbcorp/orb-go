@@ -6003,8 +6003,7 @@ func (r NewFloatingCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 type NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam struct {
 	// Each tier lower bound must have the same group of values.
 	DimensionValues param.Field[[]NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values,required"`
-	// Grouping key name
-	Group param.Field[string] `json:"group,required"`
+	Group           param.Field[string]                                                                                `json:"group,required"`
 }
 
 func (r NewFloatingCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) MarshalJSON() (data []byte, err error) {
@@ -6297,7 +6296,6 @@ func (r NewFloatingGroupedTieredPackagePriceCadence) IsKnown() bool {
 type NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam struct {
 	// The event property used to group before tiering
 	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
@@ -6310,9 +6308,8 @@ func (r NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigParam) Mar
 
 // Configuration for a single tier
 type NewFloatingGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam struct {
-	// Price per package
-	PerUnit param.Field[string] `json:"per_unit,required"`
-	// Tier lower bound
+	// Per package
+	PerUnit        param.Field[string] `json:"per_unit,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 }
 
@@ -6462,7 +6459,6 @@ func (r NewFloatingGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (da
 
 // Configuration for a single tier
 type NewFloatingGroupedTieredPriceGroupedTieredConfigTierParam struct {
-	// Tier lower bound
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -6623,10 +6619,8 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig
 
 // Configuration for a scaling factor
 type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam struct {
-	// Scaling factor
 	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	// Scaling value
-	ScalingValue param.Field[string] `json:"scaling_value,required"`
+	ScalingValue  param.Field[string] `json:"scaling_value,required"`
 }
 
 func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam) MarshalJSON() (data []byte, err error) {
@@ -6635,7 +6629,6 @@ func (r NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfig
 
 // Configuration for a unit amount
 type NewFloatingGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam struct {
-	// Pricing value
 	PricingValue param.Field[string] `json:"pricing_value,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -7323,7 +7316,6 @@ func (r NewFloatingMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 type NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam struct {
 	// The event property used to group before tiering the group with the highest value
 	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
 	Tiers param.Field[[]NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers,required"`
@@ -7335,7 +7327,6 @@ func (r NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) M
 
 // Configuration for a single tier
 type NewFloatingMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam struct {
-	// Tier lower bound
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -7754,12 +7745,9 @@ func (r NewFloatingPackageWithAllocationPriceModelType) IsKnown() bool {
 
 // Configuration for package_with_allocation pricing
 type NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam struct {
-	// Usage allocation
-	Allocation param.Field[string] `json:"allocation,required"`
-	// Price per package
+	Allocation    param.Field[string] `json:"allocation,required"`
 	PackageAmount param.Field[string] `json:"package_amount,required"`
-	// Package size
-	PackageSize param.Field[string] `json:"package_size,required"`
+	PackageSize   param.Field[string] `json:"package_size,required"`
 }
 
 func (r NewFloatingPackageWithAllocationPricePackageWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -7899,8 +7887,7 @@ type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPric
 	FirstDimension param.Field[string] `json:"first_dimension,required"`
 	// Apply a scaling factor to each dimension
 	MatrixScalingFactors param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
-	// Tier pricing structure
-	Tiers param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam] `json:"tiers,required"`
+	Tiers                param.Field[[]NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers,required"`
 	// Used for the scalable matrix second dimension (optional)
 	SecondDimension param.Field[string] `json:"second_dimension"`
 }
@@ -7911,11 +7898,8 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredP
 
 // Configuration for a single matrix scaling factor
 type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam struct {
-	// First dimension value
-	FirstDimensionValue param.Field[string] `json:"first_dimension_value,required"`
-	// Scaling factor
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	// Second dimension value (optional)
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -7925,10 +7909,8 @@ func (r NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredP
 
 // Configuration for a single tier entry with business logic
 type NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam struct {
-	// Tier lower bound
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
-	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount     param.Field[string] `json:"unit_amount,required"`
 }
 
 func (r NewFloatingScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -8082,11 +8064,8 @@ func (r NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPrici
 
 // Configuration for a single matrix scaling factor
 type NewFloatingScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam struct {
-	// First dimension value
-	FirstDimensionValue param.Field[string] `json:"first_dimension_value,required"`
-	// Scaling factor
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	// Second dimension value (optional)
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -8236,7 +8215,6 @@ func (r NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigParam) Mar
 
 // Configuration for a single threshold
 type NewFloatingThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam struct {
-	// Quantity threshold
 	Threshold param.Field[string] `json:"threshold,required"`
 	// Total amount for this threshold
 	TotalAmount param.Field[string] `json:"total_amount,required"`
@@ -8375,7 +8353,6 @@ func (r NewFloatingTieredPackagePriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type NewFloatingTieredPackagePriceTieredPackageConfigParam struct {
-	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
@@ -8391,8 +8368,7 @@ func (r NewFloatingTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (da
 // Configuration for a single tier with business logic
 type NewFloatingTieredPackagePriceTieredPackageConfigTierParam struct {
 	// Price per package
-	PerUnit param.Field[string] `json:"per_unit,required"`
-	// Tier lower bound
+	PerUnit        param.Field[string] `json:"per_unit,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 }
 
@@ -8529,7 +8505,6 @@ func (r NewFloatingTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package_with_minimum pricing
 type NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam struct {
-	// Package size
 	PackageSize param.Field[float64] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
@@ -8542,11 +8517,8 @@ func (r NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigPa
 
 // Configuration for a single tier
 type NewFloatingTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam struct {
-	// Minimum amount
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Price per package
-	PerUnit param.Field[string] `json:"per_unit,required"`
-	// Tier lower bound
+	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
+	PerUnit        param.Field[string] `json:"per_unit,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 }
 
@@ -8824,9 +8796,7 @@ func (r NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigParam) MarshalJS
 
 // Configuration for a single tier
 type NewFloatingTieredWithMinimumPriceTieredWithMinimumConfigTierParam struct {
-	// Minimum amount
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Tier lower bound
+	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -10242,8 +10212,7 @@ func (r NewPlanCumulativeGroupedBulkPriceCadence) IsKnown() bool {
 type NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam struct {
 	// Each tier lower bound must have the same group of values.
 	DimensionValues param.Field[[]NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValueParam] `json:"dimension_values,required"`
-	// Grouping key name
-	Group param.Field[string] `json:"group,required"`
+	Group           param.Field[string]                                                                            `json:"group,required"`
 }
 
 func (r NewPlanCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigParam) MarshalJSON() (data []byte, err error) {
@@ -10553,7 +10522,6 @@ func (r NewPlanGroupedTieredPackagePriceCadence) IsKnown() bool {
 type NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam struct {
 	// The event property used to group before tiering
 	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
@@ -10566,9 +10534,8 @@ func (r NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigParam) Marshal
 
 // Configuration for a single tier
 type NewPlanGroupedTieredPackagePriceGroupedTieredPackageConfigTierParam struct {
-	// Price per package
-	PerUnit param.Field[string] `json:"per_unit,required"`
-	// Tier lower bound
+	// Per package
+	PerUnit        param.Field[string] `json:"per_unit,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 }
 
@@ -10725,7 +10692,6 @@ func (r NewPlanGroupedTieredPriceGroupedTieredConfigParam) MarshalJSON() (data [
 
 // Configuration for a single tier
 type NewPlanGroupedTieredPriceGroupedTieredConfigTierParam struct {
-	// Tier lower bound
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -10895,10 +10861,8 @@ func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigPara
 
 // Configuration for a scaling factor
 type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam struct {
-	// Scaling factor
 	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	// Scaling value
-	ScalingValue param.Field[string] `json:"scaling_value,required"`
+	ScalingValue  param.Field[string] `json:"scaling_value,required"`
 }
 
 func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorParam) MarshalJSON() (data []byte, err error) {
@@ -10907,7 +10871,6 @@ func (r NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScal
 
 // Configuration for a unit amount
 type NewPlanGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmountParam struct {
-	// Pricing value
 	PricingValue param.Field[string] `json:"pricing_value,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -11639,7 +11602,6 @@ func (r NewPlanMaxGroupTieredPackagePriceCadence) IsKnown() bool {
 type NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam struct {
 	// The event property used to group before tiering the group with the highest value
 	GroupingKey param.Field[string] `json:"grouping_key,required"`
-	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
 	Tiers param.Field[[]NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam] `json:"tiers,required"`
@@ -11651,7 +11613,6 @@ func (r NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigParam) Marsh
 
 // Configuration for a single tier
 type NewPlanMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTierParam struct {
-	// Tier lower bound
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -12095,12 +12056,9 @@ func (r NewPlanPackageWithAllocationPriceModelType) IsKnown() bool {
 
 // Configuration for package_with_allocation pricing
 type NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam struct {
-	// Usage allocation
-	Allocation param.Field[string] `json:"allocation,required"`
-	// Price per package
+	Allocation    param.Field[string] `json:"allocation,required"`
 	PackageAmount param.Field[string] `json:"package_amount,required"`
-	// Package size
-	PackageSize param.Field[string] `json:"package_size,required"`
+	PackageSize   param.Field[string] `json:"package_size,required"`
 }
 
 func (r NewPlanPackageWithAllocationPricePackageWithAllocationConfigParam) MarshalJSON() (data []byte, err error) {
@@ -12249,8 +12207,7 @@ type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingC
 	FirstDimension param.Field[string] `json:"first_dimension,required"`
 	// Apply a scaling factor to each dimension
 	MatrixScalingFactors param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam] `json:"matrix_scaling_factors,required"`
-	// Tier pricing structure
-	Tiers param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam] `json:"tiers,required"`
+	Tiers                param.Field[[]NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam]                `json:"tiers,required"`
 	// Used for the scalable matrix second dimension (optional)
 	SecondDimension param.Field[string] `json:"second_dimension"`
 }
@@ -12261,11 +12218,8 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPrici
 
 // Configuration for a single matrix scaling factor
 type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorParam struct {
-	// First dimension value
-	FirstDimensionValue param.Field[string] `json:"first_dimension_value,required"`
-	// Scaling factor
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	// Second dimension value (optional)
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -12275,10 +12229,8 @@ func (r NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPrici
 
 // Configuration for a single tier entry with business logic
 type NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam struct {
-	// Tier lower bound
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
-	// Per unit amount
-	UnitAmount param.Field[string] `json:"unit_amount,required"`
+	UnitAmount     param.Field[string] `json:"unit_amount,required"`
 }
 
 func (r NewPlanScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierParam) MarshalJSON() (data []byte, err error) {
@@ -12441,11 +12393,8 @@ func (r NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingCo
 
 // Configuration for a single matrix scaling factor
 type NewPlanScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorParam struct {
-	// First dimension value
-	FirstDimensionValue param.Field[string] `json:"first_dimension_value,required"`
-	// Scaling factor
-	ScalingFactor param.Field[string] `json:"scaling_factor,required"`
-	// Second dimension value (optional)
+	FirstDimensionValue  param.Field[string] `json:"first_dimension_value,required"`
+	ScalingFactor        param.Field[string] `json:"scaling_factor,required"`
 	SecondDimensionValue param.Field[string] `json:"second_dimension_value"`
 }
 
@@ -12604,7 +12553,6 @@ func (r NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigParam) Marshal
 
 // Configuration for a single threshold
 type NewPlanThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTableParam struct {
-	// Quantity threshold
 	Threshold param.Field[string] `json:"threshold,required"`
 	// Total amount for this threshold
 	TotalAmount param.Field[string] `json:"total_amount,required"`
@@ -12750,7 +12698,6 @@ func (r NewPlanTieredPackagePriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type NewPlanTieredPackagePriceTieredPackageConfigParam struct {
-	// Package size
 	PackageSize param.Field[string] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
@@ -12766,8 +12713,7 @@ func (r NewPlanTieredPackagePriceTieredPackageConfigParam) MarshalJSON() (data [
 // Configuration for a single tier with business logic
 type NewPlanTieredPackagePriceTieredPackageConfigTierParam struct {
 	// Price per package
-	PerUnit param.Field[string] `json:"per_unit,required"`
-	// Tier lower bound
+	PerUnit        param.Field[string] `json:"per_unit,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 }
 
@@ -12913,7 +12859,6 @@ func (r NewPlanTieredPackageWithMinimumPriceModelType) IsKnown() bool {
 
 // Configuration for tiered_package_with_minimum pricing
 type NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam struct {
-	// Package size
 	PackageSize param.Field[float64] `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
@@ -12926,11 +12871,8 @@ func (r NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigParam)
 
 // Configuration for a single tier
 type NewPlanTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierParam struct {
-	// Minimum amount
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Price per package
-	PerUnit param.Field[string] `json:"per_unit,required"`
-	// Tier lower bound
+	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
+	PerUnit        param.Field[string] `json:"per_unit,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 }
 
@@ -13224,9 +13166,7 @@ func (r NewPlanTieredWithMinimumPriceTieredWithMinimumConfigParam) MarshalJSON()
 
 // Configuration for a single tier
 type NewPlanTieredWithMinimumPriceTieredWithMinimumConfigTierParam struct {
-	// Minimum amount
-	MinimumAmount param.Field[string] `json:"minimum_amount,required"`
-	// Tier lower bound
+	MinimumAmount  param.Field[string] `json:"minimum_amount,required"`
 	TierLowerBound param.Field[string] `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount param.Field[string] `json:"unit_amount,required"`
@@ -17597,7 +17537,6 @@ func (r priceThresholdTotalAmountPriceThresholdTotalAmountConfigJSON) RawJSON() 
 
 // Configuration for a single threshold
 type PriceThresholdTotalAmountPriceThresholdTotalAmountConfigConsumptionTable struct {
-	// Quantity threshold
 	Threshold string `json:"threshold,required"`
 	// Total amount for this threshold
 	TotalAmount string                                                                       `json:"total_amount,required"`
@@ -17921,7 +17860,6 @@ func (r PriceTieredPackagePricePriceType) IsKnown() bool {
 
 // Configuration for tiered_package pricing
 type PriceTieredPackagePriceTieredPackageConfig struct {
-	// Package size
 	PackageSize string `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds. The tier bounds are defined based on
@@ -17951,8 +17889,7 @@ func (r priceTieredPackagePriceTieredPackageConfigJSON) RawJSON() string {
 // Configuration for a single tier with business logic
 type PriceTieredPackagePriceTieredPackageConfigTier struct {
 	// Price per package
-	PerUnit string `json:"per_unit,required"`
-	// Tier lower bound
+	PerUnit        string                                             `json:"per_unit,required"`
 	TierLowerBound string                                             `json:"tier_lower_bound,required"`
 	JSON           priceTieredPackagePriceTieredPackageConfigTierJSON `json:"-"`
 }
@@ -18303,9 +18240,7 @@ func (r priceTieredWithMinimumPriceTieredWithMinimumConfigJSON) RawJSON() string
 
 // Configuration for a single tier
 type PriceTieredWithMinimumPriceTieredWithMinimumConfigTier struct {
-	// Minimum amount
-	MinimumAmount string `json:"minimum_amount,required"`
-	// Tier lower bound
+	MinimumAmount  string `json:"minimum_amount,required"`
 	TierLowerBound string `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount string                                                     `json:"unit_amount,required"`
@@ -18625,7 +18560,6 @@ func (r priceGroupedTieredPriceGroupedTieredConfigJSON) RawJSON() string {
 
 // Configuration for a single tier
 type PriceGroupedTieredPriceGroupedTieredConfigTier struct {
-	// Tier lower bound
 	TierLowerBound string `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount string                                             `json:"unit_amount,required"`
@@ -18979,7 +18913,6 @@ func (r PriceTieredPackageWithMinimumPricePriceType) IsKnown() bool {
 
 // Configuration for tiered_package_with_minimum pricing
 type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfig struct {
-	// Package size
 	PackageSize float64 `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
@@ -19007,11 +18940,8 @@ func (r priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigJSON) Ra
 
 // Configuration for a single tier
 type PriceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTier struct {
-	// Minimum amount
-	MinimumAmount string `json:"minimum_amount,required"`
-	// Price per package
-	PerUnit string `json:"per_unit,required"`
-	// Tier lower bound
+	MinimumAmount  string                                                                   `json:"minimum_amount,required"`
+	PerUnit        string                                                                   `json:"per_unit,required"`
 	TierLowerBound string                                                                   `json:"tier_lower_bound,required"`
 	JSON           priceTieredPackageWithMinimumPriceTieredPackageWithMinimumConfigTierJSON `json:"-"`
 }
@@ -19318,13 +19248,10 @@ func (r PricePackageWithAllocationPriceModelType) IsKnown() bool {
 
 // Configuration for package_with_allocation pricing
 type PricePackageWithAllocationPricePackageWithAllocationConfig struct {
-	// Usage allocation
-	Allocation string `json:"allocation,required"`
-	// Price per package
-	PackageAmount string `json:"package_amount,required"`
-	// Package size
-	PackageSize string                                                         `json:"package_size,required"`
-	JSON        pricePackageWithAllocationPricePackageWithAllocationConfigJSON `json:"-"`
+	Allocation    string                                                         `json:"allocation,required"`
+	PackageAmount string                                                         `json:"package_amount,required"`
+	PackageSize   string                                                         `json:"package_size,required"`
+	JSON          pricePackageWithAllocationPricePackageWithAllocationConfigJSON `json:"-"`
 }
 
 // pricePackageWithAllocationPricePackageWithAllocationConfigJSON contains the JSON
@@ -21963,11 +21890,9 @@ func (r priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigJSON) 
 
 // Configuration for a scaling factor
 type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactor struct {
-	// Scaling factor
-	ScalingFactor string `json:"scaling_factor,required"`
-	// Scaling value
-	ScalingValue string                                                                              `json:"scaling_value,required"`
-	JSON         priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorJSON `json:"-"`
+	ScalingFactor string                                                                              `json:"scaling_factor,required"`
+	ScalingValue  string                                                                              `json:"scaling_value,required"`
+	JSON          priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorJSON `json:"-"`
 }
 
 // priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalingFactorJSON
@@ -21990,7 +21915,6 @@ func (r priceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigScalin
 
 // Configuration for a unit amount
 type PriceGroupedWithMeteredMinimumPriceGroupedWithMeteredMinimumConfigUnitAmount struct {
-	// Pricing value
 	PricingValue string `json:"pricing_value,required"`
 	// Per unit amount
 	UnitAmount string                                                                           `json:"unit_amount,required"`
@@ -23003,7 +22927,6 @@ func (r PriceGroupedTieredPackagePriceConversionRateConfigConversionRateType) Is
 type PriceGroupedTieredPackagePriceGroupedTieredPackageConfig struct {
 	// The event property used to group before tiering
 	GroupingKey string `json:"grouping_key,required"`
-	// Package size
 	PackageSize string `json:"package_size,required"`
 	// Apply tiered pricing after rounding up the quantity to the package size. Tiers
 	// are defined using exclusive lower bounds.
@@ -23032,9 +22955,8 @@ func (r priceGroupedTieredPackagePriceGroupedTieredPackageConfigJSON) RawJSON() 
 
 // Configuration for a single tier
 type PriceGroupedTieredPackagePriceGroupedTieredPackageConfigTier struct {
-	// Price per package
-	PerUnit string `json:"per_unit,required"`
-	// Tier lower bound
+	// Per package
+	PerUnit        string                                                           `json:"per_unit,required"`
 	TierLowerBound string                                                           `json:"tier_lower_bound,required"`
 	JSON           priceGroupedTieredPackagePriceGroupedTieredPackageConfigTierJSON `json:"-"`
 }
@@ -23358,7 +23280,6 @@ func (r PriceMaxGroupTieredPackagePriceConversionRateConfigConversionRateType) I
 type PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfig struct {
 	// The event property used to group before tiering the group with the highest value
 	GroupingKey string `json:"grouping_key,required"`
-	// Package size
 	PackageSize string `json:"package_size,required"`
 	// Apply tiered pricing to the largest group after grouping with the provided key.
 	Tiers []PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier `json:"tiers,required"`
@@ -23386,7 +23307,6 @@ func (r priceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigJSON) RawJSON(
 
 // Configuration for a single tier
 type PriceMaxGroupTieredPackagePriceMaxGroupTieredPackageConfigTier struct {
-	// Tier lower bound
 	TierLowerBound string `json:"tier_lower_bound,required"`
 	// Per unit amount
 	UnitAmount string                                                             `json:"unit_amount,required"`
@@ -23780,11 +23700,8 @@ func (r priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConf
 
 // Configuration for a single matrix scaling factor
 type PriceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactor struct {
-	// First dimension value
-	FirstDimensionValue string `json:"first_dimension_value,required"`
-	// Scaling factor
-	ScalingFactor string `json:"scaling_factor,required"`
-	// Second dimension value (optional)
+	FirstDimensionValue  string                                                                                            `json:"first_dimension_value,required"`
+	ScalingFactor        string                                                                                            `json:"scaling_factor,required"`
 	SecondDimensionValue string                                                                                            `json:"second_dimension_value,nullable"`
 	JSON                 priceScalableMatrixWithUnitPricingPriceScalableMatrixWithUnitPricingConfigMatrixScalingFactorJSON `json:"-"`
 }
@@ -24114,8 +24031,7 @@ type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingCon
 	FirstDimension string `json:"first_dimension,required"`
 	// Apply a scaling factor to each dimension
 	MatrixScalingFactors []PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor `json:"matrix_scaling_factors,required"`
-	// Tier pricing structure
-	Tiers []PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier `json:"tiers,required"`
+	Tiers                []PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier                `json:"tiers,required"`
 	// Used for the scalable matrix second dimension (optional)
 	SecondDimension string                                                                             `json:"second_dimension,nullable"`
 	JSON            priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigJSON `json:"-"`
@@ -24143,11 +24059,8 @@ func (r priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricing
 
 // Configuration for a single matrix scaling factor
 type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactor struct {
-	// First dimension value
-	FirstDimensionValue string `json:"first_dimension_value,required"`
-	// Scaling factor
-	ScalingFactor string `json:"scaling_factor,required"`
-	// Second dimension value (optional)
+	FirstDimensionValue  string                                                                                                `json:"first_dimension_value,required"`
+	ScalingFactor        string                                                                                                `json:"scaling_factor,required"`
 	SecondDimensionValue string                                                                                                `json:"second_dimension_value,nullable"`
 	JSON                 priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigMatrixScalingFactorJSON `json:"-"`
 }
@@ -24173,11 +24086,9 @@ func (r priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricing
 
 // Configuration for a single tier entry with business logic
 type PriceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTier struct {
-	// Tier lower bound
-	TierLowerBound string `json:"tier_lower_bound,required"`
-	// Per unit amount
-	UnitAmount string                                                                                 `json:"unit_amount,required"`
-	JSON       priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierJSON `json:"-"`
+	TierLowerBound string                                                                                 `json:"tier_lower_bound,required"`
+	UnitAmount     string                                                                                 `json:"unit_amount,required"`
+	JSON           priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierJSON `json:"-"`
 }
 
 // priceScalableMatrixWithTieredPricingPriceScalableMatrixWithTieredPricingConfigTierJSON
@@ -24468,9 +24379,8 @@ func (r PriceCumulativeGroupedBulkPriceConversionRateConfigConversionRateType) I
 type PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfig struct {
 	// Each tier lower bound must have the same group of values.
 	DimensionValues []PriceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigDimensionValue `json:"dimension_values,required"`
-	// Grouping key name
-	Group string                                                         `json:"group,required"`
-	JSON  priceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigJSON `json:"-"`
+	Group           string                                                                     `json:"group,required"`
+	JSON            priceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigJSON             `json:"-"`
 }
 
 // priceCumulativeGroupedBulkPriceCumulativeGroupedBulkConfigJSON contains the JSON
