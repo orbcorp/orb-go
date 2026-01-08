@@ -33,6 +33,7 @@ type Client struct {
 	Alerts                 *AlertService
 	DimensionalPriceGroups *DimensionalPriceGroupService
 	SubscriptionChanges    *SubscriptionChangeService
+	CreditBlocks           *CreditBlockService
 }
 
 // DefaultClientOptions read from the environment (ORB_API_KEY, ORB_WEBHOOK_SECRET,
@@ -76,6 +77,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.Alerts = NewAlertService(opts...)
 	r.DimensionalPriceGroups = NewDimensionalPriceGroupService(opts...)
 	r.SubscriptionChanges = NewSubscriptionChangeService(opts...)
+	r.CreditBlocks = NewCreditBlockService(opts...)
 
 	return
 }

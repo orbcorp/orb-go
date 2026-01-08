@@ -8,6 +8,9 @@ import (
 
 type UnionTime time.Time
 
+func (UnionTime) ImplementsPlanMigrationGetResponseEffectiveTimeUnion()                    {}
+func (UnionTime) ImplementsPlanMigrationListResponseEffectiveTimeUnion()                   {}
+func (UnionTime) ImplementsPlanMigrationCancelResponseEffectiveTimeUnion()                 {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddStartDateUnion()             {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddEndDateUnion()               {}
 func (UnionTime) ImplementsSubscriptionPriceIntervalsParamsAddAdjustmentsStartDateUnion()  {}
